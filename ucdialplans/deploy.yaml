@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ucdialplans
+  namespace: ucdialplans
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ucdialplans
+  template:
+    metadata:
+      labels:
+        app: ucdialplans
+        name: ucdialplans
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: server-speed
+                operator: In
+                values:
+                - nuc-fast
+      containers:
+      - name: ucdialplans
+        image: registry.ucdialplans.com/ucdialplans
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 700Mi
+          limits:
+            cpu: 100m
+            memory: 800Mi
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+      automountServiceAccountToken: false

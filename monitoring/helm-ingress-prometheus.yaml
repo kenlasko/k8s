@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`prometheus.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: prometheus-operated
+      port: 9090
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

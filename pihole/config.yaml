@@ -1,0 +1,77 @@
+image:
+  repository: "pihole/pihole"
+  tag: "latest"
+  pullPolicy: Always
+
+replicaCount: 1
+strategyType: RollingUpdate
+maxSurge: 1
+maxUnavailable: 1
+
+persistentVolumeClaim:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+
+serviceDhcp:
+  enabled: false
+
+ingress:
+  enabled: true
+  hosts:
+    - pihole.ucdialplans.com
+  annotations:
+    kubernetes.io/ingress.class: traefik
+
+serviceWeb:
+  type: ClusterIP
+
+serviceDns:
+  loadBalancerIP: 192.168.1.11
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  annotations: 
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+
+podDnsConfig:
+  enabled: true
+  policy: "None"
+  nameservers:
+  - 127.0.0.1
+  - 1.1.1.1
+  - 1.0.0.1
+
+DNS1: "1.1.1.1"
+DNS2: "1.0.0.1"
+adminPassword: ***REMOVED***
+
+probes:
+  # -- probes.liveness -- Configure the healthcheck for the ingress controller
+  liveness:
+    # -- Generate a liveness probe
+    enabled: true
+    initialDelaySeconds: 60
+    failureThreshold: 10
+    timeoutSeconds: 5
+    port: http
+    scheme: HTTP
+  readiness:
+    # -- Generate a readiness probe
+    enabled: true
+    initialDelaySeconds: 60
+    failureThreshold: 3
+    timeoutSeconds: 5
+    port: http
+    scheme: HTTP
+
+customCnameEntries:
+  - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
+  - cname=ha.ucdialplans.com,k3s.ucdialplans.com
+  - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
+  - cname=pihole.ucdialplans.com,k3s.ucdialplans.com
+  - cname=portainer.ucdialplans.com,k3s.ucdialplans.com
+  - cname=prometheus.ucdialplans.com,k3s.ucdialplans.com
+  - cname=registry.ucdialplans.com,k3s.ucdialplans.com
+  - cname=traefik.ucdialplans.com,k3s.ucdialplans.com
+  - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
+  - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com

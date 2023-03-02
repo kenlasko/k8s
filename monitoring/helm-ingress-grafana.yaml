@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`grafana.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: grafana 
+      port: 80
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

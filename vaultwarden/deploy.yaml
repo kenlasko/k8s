@@ -1,0 +1,93 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+        name: vaultwarden
+    spec:
+      restartPolicy: Always
+      nodeSelector:
+        server-type: nuc
+      containers:
+      - name: vaultwarden
+        image: vaultwarden/server
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+          limits:
+            cpu: 50m
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8087
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        env:
+        - name: ADMIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: admin-token
+              key: token   
+        - name: DATABASE_URL
+          value: "mysql://vaultwarden:***REMOVED***@mariadb.mariadb.svc.cluster.local/vaultwarden"  # value: "mysql://vaultwarden:***REMOVED***@mariadb.mariadb.svc.cluster.local/vaultwarden"
+        - name: DOMAIN
+          value: "https://vaultwarden.ucdialplans.com"
+        - name: ROCKET_PORT
+          value: "8087"
+        - name: RUST_BACKTRACE
+          value: "1"
+        - name: SIGNUPS_ALLOWED
+          value: "false"
+        - name: SMTP_HOST
+          value: "smtp.sendgrid.net"
+        - name: SMTP_FROM
+          value: "bitwarden@ucdialplans.com"
+        - name: SMTP_PORT
+          value: "465"
+        - name: SMTP_SECURITY
+          value: "force_tls"
+        - name: SMTP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sendgrid
+              key: username
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sendgrid
+              key: password
+        - name: SMTP_AUTH_MECHANISM
+          value: "'Login'"
+        - name: WEBSOCKET_ENABLED
+          value: "true"
+        - name: YUBICO_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: yubico
+              key: client-id
+        - name: YUBICO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yubico
+              key: secret
+        volumeMounts:
+        - name: vaultwarden-data
+          mountPath: /data
+      volumes:
+        - name: vaultwarden-data
+          persistentVolumeClaim:
+            claimName: longhorn-vaultwarden-pvc
+      automountServiceAccountToken: false

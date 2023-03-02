@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`alertmanager.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: alertmanager-operated
+      port: 9093
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

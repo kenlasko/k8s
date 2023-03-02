@@ -1,0 +1,33 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: subdomain-regex-pathfix
+  namespace: traefik
+spec:
+  chain:
+    middlewares:
+    - name: add-trailing-slash
+    - name: strip-prefix
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: add-trailing-slash
+  namespace: traefik
+spec:
+  redirectRegex:
+    regex: ^(https?://[^/]+/[a-z0-9_]+)$
+    replacement: ${1}/
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix
+  namespace: traefik
+spec:
+  stripPrefixRegex:
+    regex: 
+      - /[a-z0-9_]+

@@ -1,0 +1,33 @@
+loki:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    size: 20Gi
+  limits:
+    cpu: 1000m
+    memory: 2048Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  nodeSelector: 
+    server-type: "nuc"
+promtail:
+  enabled: true
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 248Mi
+  initContainer:
+    - name: init
+      image: docker.io/busybox:1.33
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+        - -c
+        - sysctl -w fs.inotify.max_user_instances=512
+      securityContext:
+        privileged: true

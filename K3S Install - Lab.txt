@@ -1,0 +1,156 @@
+# Copy k3s folder to /home/ken
+
+
+# On Kube1
+sudo apt install ansible nano
+
+# Create SSH key and push to other ndes
+ssh-keygen -t rsa
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@kube2
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@kube3
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@labrpi
+
+# Copy Ansible Hosts
+sudo mkdir /etc/ansible
+sudo cp /home/ken/k3s/hosts /etc/ansible/hosts
+
+# Install Helm
+mkdir ~/k3s/helm
+cd ~/k3s/helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# Run first Ansible script
+ansible-playbook /home/ken/k3s/ansible-k3s-prep.yaml --ask-become-pass
+
+# Create first server
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+
+# Add nodes 2/3
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.15:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --kube-controller-manager-arg 'bind-address=0.0.0.0' --kube-proxy-arg 'metrics-bind-address=0.0.0.0' --kube-scheduler-arg 'bind-address=0.0.0.0'
+
+# Add worker nodes
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.15:6443 K3S_TOKEN=***REMOVED*** sh -
+
+# Run next Ansible script
+ansible-playbook /home/ken/k3s/ansible-k3s-post.yaml --ask-become-pass
+
+# Restart k3s on each node in turn
+sudo systemctl restart k3s
+
+
+# Set labels
+kubectl label nodes kube1 server-speed=nuc-fast
+kubectl label nodes kube2 server-speed=nuc-slow
+kubectl label nodes kube3 server-speed=nuc-slow
+kubectl label nodes kube1 server-type=nuc
+kubectl label nodes kube2 server-type=nuc
+kubectl label nodes kube3 server-type=nuc
+kubectl label nodes labrpi server-type=rpi
+kubectl label nodes kube1 storage=longhorn
+kubectl label nodes kube2 storage=longhorn
+kubectl label nodes kube3 storage=longhorn
+
+# install MetalLB
+kubectl create namespace metallb-system
+helm repo add metallb https://metallb.github.io/metallb 
+helm install metallb metallb/metallb -n metallb-system
+
+kubectl apply -f /home/ken/k3s/metallb/ip-pool.yaml
+kubectl apply -f /home/ken/k3s/metallb/l2-advertise.yaml
+
+# Install Traefik
+kubectl create namespace traefik
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik --namespace=traefik --values=/home/ken/k3s/traefik/config.yaml
+
+# Add wildcard cert for Traefik
+kubectl -n traefik create secret tls traefik-wildcard-cert --key=/home/ken/k3s/certs/star_ucdialplans_com.key --cert=/home/ken/k3s/certs/star_ucdialplans_com.pem
+kubectl -n traefik create secret tls traefik-ucdialplans-cert --key=/home/ken/k3s/certs/www_ucdialplans_com.key --cert=/home/ken/k3s/certs/www_ucdialplans_com.pem
+kubectl -n traefik create secret generic traefik-clientauth-ca-root --from-file="ca.crt=/home/ken/k3s/certs/kl_internal_root.pem"
+kubectl -n traefik create secret generic traefik-clientauth-ca-int --from-file="ca.crt=/home/ken/k3s/certs/kl_internal_intermediate.pem"
+kubectl apply -f /home/ken/k3s/traefik/dashboard-ingress.yaml
+kubectl apply -f /home/ken/k3s/traefik/security-middleware.yaml
+kubectl apply -f /home/ken/k3s/traefik/tls-options-clientauth.yaml
+kubectl apply -f /home/ken/k3s/traefik/tls-options-default.yaml
+kubectl apply -f /home/ken/k3s/traefik/https-redirect.yaml
+kubectl apply -f /home/ken/k3s/traefik/external-routes.yaml
+
+# Install Longhorn
+helm repo add longhorn https://charts.longhorn.io
+helm repo update
+helm install --create-namespace -n longhorn longhorn longhorn/longhorn --values /home/ken/k3s/longhorn/values.yaml
+
+# Add Longhorn dashboard access
+kubectl delete service longhorn-frontend -n longhorn
+kubectl apply -f /home/ken/k3s/longhorn/longhorn-service.yaml
+kubectl apply -f /home/ken/k3s/longhorn/dashboard-ingress.yaml
+
+# Add local-path storage class
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.23/deploy/local-path-storage.yaml
+
+# Install NFS server for Longhorn
+kubectl apply -f /home/ken/k3s/nfs-backup
+
+# In Longhorn, go to Settings - General and set the backup target to: nfs://nfs-server-svc.nfs-server:/
+
+# Add Portainer
+helm repo add portainer https://portainer.github.io/k8s/
+helm repo update
+helm install --create-namespace -n portainer portainer portainer/portainer --values /home/ken/k3s/portainer/values.yaml
+kubectl apply -f /home/ken/k3s/portainer/dashboard-ingress.yaml
+
+
+# Install local registry
+kubectl apply -f /home/ken/k3s/registry/
+docker push registry.ucdialplans.com/ucdialplans
+
+# Install Prometheus monitoring
+kubectl create namespace monitoring
+cd /home/ken/k3s/monitoring
+wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/bundle.yaml 
+sed -i 's/namespace: default/namespace: monitoring/g' /home/ken/k3s/monitoring/bundle.yaml
+kubectl apply --server-side -f /home/ken/k3s/monitoring/bundle.yaml
+kubectl apply -f /home/ken/k3s/kubelet-servicemonitor.yaml
+kubectl apply -f /home/ken/k3s/longhorn-servicemonitor.yaml
+kubectl apply -f /home/ken/k3s/traefik-servicemonitor.yaml
+kubectl apply -f /home/ken/k3s/prometheus/
+kubectl apply -f /home/ken/k3s/kube-state-metrics/
+kubectl apply -f /home/ken/k3s/node-exporter/
+
+# Install MariaDB
+helm repo add bitnami https://charts.bitnami.com/bitnami
+kubectl apply -f /home/ken/k3s/mariadb/pv.yaml
+helm install --create-namespace -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera
+kubectl apply -f /home/ken/k3s/mariadb-backup/
+
+
+# MariaDB server name from within cluster is:  mariadb.mariadb.svc.cluster.local 
+# Migrate data from Docker-based MariaDB
+# From Docker MariaDB container bash prompt:
+mysqldump -u root -p***REMOVED*** databasename > /var/lib/mysql/backup/databasename.sql
+
+# From cube1
+sudo cp /docker/mariadb/databases/backup/databasename.sql /kube-storage/mariadb/data/databasename.sql
+
+# From K3S MariaDB console
+mysql -uroot -p***REMOVED*** databasename < /bitnami/mariadb/data/databasename.sql
+
+# Copy any procedures/events via DBeaver
+# Copy user/permission from Docker MariaDB
+mysql -B -N -uroot -p***REMOVED*** -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user != 'debian-sys-maint' AND user != 'root' AND user != ''" mysql > mysql_all_users.txt
+while read line; do mysql -B -N -uroot -p***REMOVED*** -e "SHOW GRANTS FOR $line"; done < mysql_all_users.txt > mysql_all_users_sql.sql
+
+mysql -B -N -uroot -p***REMOVED*** -e "SHOW GRANTS FOR UCDialplans_Website;" > /var/lib/mysql/backup/mysql_ucdialplans_user.sql
+sed -i 's/$/;/' /var/lib/mysql/backup/mysql_ucdialplans_user.sql
+
+# From cube1
+sudo cp /docker/mariadb/databases/backup/mysql_ucdialplans_user.sql /kube-storage/mariadb/data/mysql_ucdialplans_user.sql
+
+# From K3S MariaDB console
+mysql -uroot -p***REMOVED*** < /bitnami/mariadb/data/mysql_ucdialplans_user.sql
+
+
+

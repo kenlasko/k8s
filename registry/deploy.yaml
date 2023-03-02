@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-registry
+  namespace: registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      labels:
+        app: registry
+        name: registry
+    spec:
+      restartPolicy: Always
+      nodeSelector:
+        server-type: nuc
+      containers:
+      - name: registry
+        image: registry:2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 10m
+            memory: 150Mi
+          limits:
+            cpu: 500m
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 60
+        env:
+        - name: REGISTRY_HTTP_ADDR
+          value: "0.0.0.0:5000"
+        volumeMounts:
+        - name: volv
+          mountPath: /var/lib/registry
+          subPath: registry
+      volumes:
+        - name: volv
+          persistentVolumeClaim:
+            claimName: longhorn-registry-pvc
+      automountServiceAccountToken: false

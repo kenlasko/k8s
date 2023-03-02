@@ -1,0 +1,54 @@
+esphome:
+  name: living_room_fan_light
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  power_save_mode: none
+  fast_connect: on
+  use_address: living_room_fan_light.ucdialplans.com
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+ota:
+
+web_server:
+  port: 80
+
+uart:
+  rx_pin: GPIO3
+  tx_pin: GPIO1
+  baud_rate: 115200
+  
+tuya:
+
+light:
+  - platform: "tuya"
+    name: Living Room Fan Light
+    id: living_room
+    dimmer_datapoint: 10
+    switch_datapoint: 9
+    min_value: 100
+    max_value: 1000
+
+fan:
+  - platform: "tuya"
+    name: Living Room
+    switch_datapoint: 1
+    speed_datapoint: 3
+    speed_count: 4
+    
+switch:
+  - platform: restart
+    name: Living Room Fan Light Restart 

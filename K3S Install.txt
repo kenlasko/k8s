@@ -1,0 +1,144 @@
+sudo apt update && sudo apt upgrade
+
+# Copy k3s folder to /home/ken
+
+# On Kube1
+sudo apt install ansible nano
+
+# Create SSH key and push to other ndes
+ssh-keygen -t rsa
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc2
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc3
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@rpi1
+
+# Copy Ansible Hosts
+sudo mkdir /etc/ansible
+sudo cp D:\OneDrive\k3s\hosts /etc/ansible/hosts
+
+# Run first Ansible script
+ansible-playbook D:\OneDrive\k3s\ansible-k3s-prep.yaml --ask-become-pass
+
+# Create first server
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+
+# Add nodes 2/3
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.5:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+
+# Add worker nodes
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.5:6443 K3S_TOKEN=***REMOVED*** sh -
+
+# Run next Ansible script
+ansible-playbook D:\OneDrive\k3s\ansible-k3s-post.yaml --ask-become-pass
+
+# Restart k3s on each node in turn
+systemctl restart k3s
+
+
+# Install Autocomplete
+sudo apt install -y bash-completion
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+source ~/.bashrc
+
+
+# Set labels
+kubectl label nodes nuc1 server-speed=nuc-fast
+kubectl label nodes nuc2 server-speed=nuc-slow
+kubectl label nodes nuc3 server-speed=nuc-slow
+kubectl label nodes nuc1 server-type=nuc
+kubectl label nodes nuc2 server-type=nuc
+kubectl label nodes nuc3 server-type=nuc
+kubectl label nodes rpi1 server-type=rpi
+kubectl label nodes nuc1 storage=longhorn
+kubectl label nodes nuc2 storage=longhorn
+kubectl label nodes nuc3 storage=longhorn
+
+# install MetalLB
+helm repo add metallb https://metallb.github.io/metallb 
+helm install --create-namespace -n metallb-system metallb metallb/metallb -n metallb-system
+
+kubectl apply -f D:\OneDrive\k3s\metallb/ip-pool.yaml
+kubectl apply -f D:\OneDrive\k3s\metallb/l2-advertise.yaml
+
+# Install Traefik
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install --create-namespace -n traefik traefik traefik/traefik --namespace=traefik --values=D:\OneDrive\k3s\traefik/config.yaml
+
+# Add wildcard cert for Traefik
+kubectl -n traefik create secret tls traefik-wildcard-cert --key=D:\OneDrive\k3s\certs/star_ucdialplans_com.key --cert=D:\OneDrive\k3s\certs/star_ucdialplans_com.pem
+kubectl -n traefik create secret tls traefik-ucdialplans-cert --key=D:\OneDrive\k3s\certs/www_ucdialplans_com.key --cert=D:\OneDrive\k3s\certs/www_ucdialplans_com.pem
+kubectl -n traefik create secret generic traefik-clientauth-ca-root --from-file="ca.crt=D:\OneDrive\k3s\certs/kl_internal_root.pem"
+kubectl -n traefik create secret generic traefik-clientauth-ca-int --from-file="ca.crt=D:\OneDrive\k3s\certs/kl_internal_intermediate.pem"
+kubectl apply -f D:\OneDrive\k3s\traefik/dashboard-ingress.yaml
+kubectl apply -f D:\OneDrive\k3s\traefik/security-middleware.yaml
+kubectl apply -f D:\OneDrive\k3s\traefik/tls-options-clientauth.yaml
+kubectl apply -f D:\OneDrive\k3s\traefik/tls-options-default.yaml
+kubectl apply -f D:\OneDrive\k3s\traefik/https-redirect.yaml
+kubectl apply -f D:\OneDrive\k3s\traefik/external-routes.yaml
+
+# Install Longhorn
+helm repo add longhorn https://charts.longhorn.io
+helm repo update
+helm install --create-namespace -n longhorn longhorn longhorn/longhorn --values D:\OneDrive\k3s\longhorn/values.yaml
+
+# Add Longhorn dashboard access
+kubectl delete service longhorn-frontend -n longhorn
+kubectl apply -f D:\OneDrive\k3s\longhorn/longhorn-service.yaml
+kubectl apply -f D:\OneDrive\k3s\longhorn/dashboard-ingress.yaml
+
+# Add local-path storage class
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.23/deploy/local-path-storage.yaml
+
+# Install NFS server for Longhorn
+kubectl apply -f D:\OneDrive\k3s\nfs-backup
+
+# In Longhorn, go to Settings - General and set the backup target to: nfs://nfs-server-svc.nfs-server:/
+
+# Add Portainer
+helm repo add portainer https://portainer.github.io/k8s/
+helm repo update
+helm install --create-namespace -n portainer portainer portainer/portainer --values D:\OneDrive\k3s\portainer/values.yaml
+kubectl apply -f D:\OneDrive\k3s\portainer/dashboard-ingress.yaml
+
+
+# Install local registry
+kubectl apply -f D:\OneDrive\k3s\registry/
+docker push registry.ucdialplans.com/dxp-base-image
+docker push registry.ucdialplans.com/epc-groupupdate
+docker push registry.ucdialplans.com/epc-groupupdate-jb
+docker push registry.ucdialplans.com/epc-testmonitor
+docker push registry.ucdialplans.com/epc-activecount
+docker push registry.ucdialplans.com/dxp-in-license-check
+docker push registry.ucdialplans.com/garminupload
+docker push registry.ucdialplans.com/ucdialplans
+
+# Install Prometheus/Grafana monitoring 
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install --create-namespace -n monitoring promstack prometheus-community/kube-prometheus-stack --values D:\OneDrive\k3s\monitoring\promstack-values.yaml
+kubectl apply -f D:\OneDrive\k3s\monitoring\helm-ingress-prometheus.yaml
+kubectl apply -f D:\OneDrive\k3s\monitoring\helm-ingress-alertmanager.yaml
+kubectl apply -f D:\OneDrive\k3s\monitoring\grafana\secrets.yaml
+kubectl apply -f D:\OneDrive\k3s\monitoring\grafana\ingress.yaml
+kubectl apply -f D:\OneDrive\k3s\monitoring\grafana\pvc.yaml 
+kubectl apply -f D:\OneDrive\k3s\monitoring\grafana\deploy.yaml
+
+# Install Loki
+helm repo add grafana https://grafana.github.io/helm-charts
+helm install -n monitoring loki grafana/loki-stack --values  D:\OneDrive\k3s\monitoring\loki-values.yaml
+
+# Install MariaDB
+helm repo add bitnami https://charts.bitnami.com/bitnami
+kubectl apply -f D:\OneDrive\k3s\mariadb/pv.yaml
+helm install --create-namespace -n mariadb mariadb -f D:\OneDrive\k3s\mariadb/values.yaml bitnami/mariadb-galera
+helm install --create-namespace -n mariadb-standalone mariadb-standalone -f D:\OneDrive\k3s\mariadb\values-standalone.yaml bitnami/mariadb
+kubectl apply -f D:\OneDrive\k3s\mariadb-backup/
+
+# Install ArgoCD
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+
+
+
+

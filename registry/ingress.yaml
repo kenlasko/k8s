@@ -1,0 +1,16 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`registry.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: registry-service
+      port: 5000
+  tls:
+    secretName: traefik-wildcard-cert

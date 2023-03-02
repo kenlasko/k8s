@@ -1,0 +1,53 @@
+deployment:
+  enabled: true
+  kind: DaemonSet
+
+ingressRoute:
+  dashboard:
+    enabled: false
+
+logs:
+  general:
+    level: ERROR
+  access:
+    enabled: true
+
+additionalArguments:
+ - "--api.dashboard=true"
+ - "--providers.kubernetesingress.ingressclass=traefik-cert-manager"
+ - "--providers.kubernetescrd.allowCrossNamespace=true"
+ - "--providers.kubernetesingress.allowexternalnameservices"
+ - "--providers.kubernetescrd.allowexternalnameservices"
+
+ports:
+  traefik:
+    port: 9000
+    expose: false
+    exposedPort: 9000
+    protocol: TCP
+  web:
+    port: 8000
+    expose: true
+    exposedPort: 80
+    protocol: TCP
+    tls:
+      enabled: false
+  websecure:
+    port: 8443
+    expose: true
+    exposedPort: 443
+    protocol: TCP
+    tls:
+      enabled: true
+service:
+  enabled: true
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  externalIPs:
+    - 192.168.1.10
+
+# Enable prometheus metric service
+metrics:
+  prometheus:
+    service:
+      enabled: true

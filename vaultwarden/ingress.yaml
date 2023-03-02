@@ -1,0 +1,45 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: vaultwarden-ui
+  namespace: vaultwarden
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`vaultwarden.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: vaultwarden-ui
+      port: 8087
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-default
+      namespace: traefik
+---
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: vaultwarden-ws
+  namespace: vaultwarden
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`vaultwarden.ucdialplans.com`) && Path(`/notifications/hub`)
+    kind: Rule
+    services:
+    - name: vaultwarden-ws
+      port: 3012
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-default
+      namespace: traefik

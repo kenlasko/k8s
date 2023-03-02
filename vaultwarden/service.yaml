@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: vaultwarden
+  name: vaultwarden-ui
+  namespace: vaultwarden
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8087
+    protocol: TCP
+    targetPort: 8087
+    name: web
+  selector:
+    app: vaultwarden
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: vaultwarden
+  name: vaultwarden-ws
+  namespace: vaultwarden
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3012
+    protocol: TCP
+    targetPort: 3012
+    name: web
+  selector:
+    app: vaultwarden

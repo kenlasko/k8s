@@ -1,0 +1,89 @@
+---
+- hosts: master
+  tasks:
+    - name: Create etc/ansible directory
+      ansible.builtin.file:
+        path: /etc/ansible
+        state: directory
+        mode: '0755'
+    - name: Creating Ansible hosts file
+      become: true
+      become_user: root
+      copy:
+        dest: /etc/ansible/hosts
+        content: |
+          [master]
+          nuc1  ansible_connection=local
+          [nodes]
+          nuc2  ansible_connection=ssh
+          nuc3  ansible_connection=ssh
+
+          [cube:children]
+          master
+          nodes
+    - name: Create k3s directory
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        path: /k3s
+        state: directory
+        owner: 'ken'
+    - name: Create helm directory
+      ansible.builtin.file:
+        path: /k3s/helm
+        state: directory
+    - name: Download Helm
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3  
+        dest: /k3s/helm/get_helm.sh
+        mode: '0700'
+    - name: Install Helm
+      ansible.builtin.script: /k3s/helm/get_helm.sh
+      
+- hosts: cube
+  become: true
+  become_user: root
+  tasks:
+    - name: "Update Repository cache"
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        force_apt_get: true
+    - name: Install Nano
+      ansible.builtin.apt:
+        name: nano
+        state: present
+    - name: Install IPTables
+      ansible.builtin.apt:
+        name: iptables
+        state: present
+    - name: Install Longhorn prereq - NFS Common
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+    - name: Install Longhorn prereq - Open-ISCSI
+      ansible.builtin.apt:
+        name: open-iscsi
+        state: present
+    - name: Install Longhorn prereq - Linux Utils
+      ansible.builtin.apt:
+        name: util-linux
+        state: present
+    - name: Create Longhorn storage folder
+      ansible.builtin.file:
+        path: /kube-storage
+        state: directory
+    - name: Add KUBECONFIG environment variable to all hosts
+      ansible.builtin.lineinfile:
+        path: /etc/environment
+        line: KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+    - name: Update the /etc/hosts file with node name
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{item}}"
+        state: present
+        backup: yes
+      register: etchostsupdate
+      when: hostvars[item].ansible_host is defined
+      with_items: "{{ groups.cube }}"

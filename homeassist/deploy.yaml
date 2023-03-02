@@ -1,0 +1,108 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homeassist
+  namespace: homeassist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homeassist
+  template:
+    metadata:
+      labels:
+        app: homeassist
+        name: homeassist
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - nuc1
+      containers:
+      - name: homeassist
+        image: ghcr.io/home-assistant/home-assistant:stable
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 150m
+            memory: 2Gi
+          limits:
+            cpu: 1500m
+            memory: 2Gi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8123
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 15
+          failureThreshold: 5
+        volumeMounts:
+        - name: homeassist
+          mountPath: /config
+        - mountPath: /dev/ttyUSB1
+          name: ttyusb
+        - mountPath: /var/run/docker.sock
+          name: docker-socket
+        securityContext:
+          privileged: true
+      - name: hass-configurator
+        image: causticlab/hass-configurator-docker:latest
+        imagePullPolicy: Always
+        env:
+        - name: HC_BASEPATH
+          value: "/hass-config/"
+        - name: HC_GIT
+          value: "True"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3218
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - name: haconfig
+          mountPath: /config
+        - name: homeassist
+          mountPath: /hass-config
+        - name: github-sshkey-vol
+          mountPath: /root/.ssh/
+        securityContext:
+          privileged: true
+      volumes:
+      - name: homeassist
+        persistentVolumeClaim:
+          claimName: longhorn-homeassist-pvc
+      - name: haconfig
+        persistentVolumeClaim:
+          claimName: longhorn-haconfig-pvc
+      - name: github-sshkey-vol
+        secret:
+          secretName: github-ssh-key
+          defaultMode: 256
+      - name: ttyusb
+        hostPath:
+          path: /dev/ttyUSB1
+      - name: docker-socket
+        hostPath:
+          path: /run/user/1000/docker.sock
+
+

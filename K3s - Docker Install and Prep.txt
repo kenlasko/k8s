@@ -1,0 +1,40 @@
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo usermod -aG docker $USER
+sudo reboot now
+
+sudo mkdir /docker && sudo chown ken /docker
+
+# Copy all the docker folders over
+docker compose up -d traefik
+docker compose up -d watchtower
+docker compose up -d portainer-agent
+docker compose up -d glances
+
+# Build images for local repository
+cd /docker/nectar10
+docker build -f dockerfile-dxp-base --tag dxp-base-image --tag registry.ucdialplans.com/dxp-base-image .
+docker build -f dockerfile-epc-testmonitor --tag epc-testmonitor --tag registry.ucdialplans.com/epc-testmonitor .
+docker build -f dockerfile-epc-activecount --tag epc-activecount --tag registry.ucdialplans.com/epc-activecount .
+docker build -f dockerfile-epc-groupupdate --tag epc-groupupdate --tag registry.ucdialplans.com/epc-groupupdate .
+docker build -f dockerfile-epc-groupupdate-jb --tag epc-groupupdate-jb --tag registry.ucdialplans.com/epc-groupupdate-jb .
+docker build -f dockerfile-dxp-in-license-check --tag dxp-in-license-check --tag registry.ucdialplans.com/dxp-in-license-check .
+docker build -f dockerfile-epc-testmonitor --tag epc-testmonitor --tag registry.ucdialplans.com/epc-testmonitor .
+cd ../garminupload
+docker build -f dockerfile_bikeactivity --tag garminupload --tag registry.ucdialplans.com/garminupload .
+cd ../ucdialplans
+docker build -f dockerfile --tag ucdialplans --tag registry.ucdialplans.com/ucdialplans .

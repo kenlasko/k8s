@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esphome
+  namespace: esphome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+        name: esphome
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: server-speed
+                operator: In
+                values:
+                - nuc-fast
+      containers:
+      - name: esphome
+        image: esphome/esphome
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 100Mi
+          limits:
+            cpu: 1000m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 6052
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        env:
+        - name: ESPHOME_DASHBOARD_USE_PING
+          value: "true"
+        volumeMounts:
+        - name: esphome
+          mountPath: /config
+      volumes:
+        - name: esphome
+          persistentVolumeClaim:
+            claimName: longhorn-esphome-pvc
+      automountServiceAccountToken: false

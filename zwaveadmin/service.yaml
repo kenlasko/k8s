@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: zwaveadmin-service
+  name: zwaveadmin-service
+  namespace: zwaveadmin
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+    name: zwave
+  - port: 8091
+    protocol: TCP
+    targetPort: 8091
+    name: web
+  selector:
+    app: zwaveadmin

@@ -1,0 +1,11 @@
+---
+- hosts: master
+  tasks:
+    - name: Install K3S on first host
+      ansible.builtin.command: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+
+- hosts: nuc-nodes
+  tasks:
+    - name: Install K3S on other nodes
+      ansible.builtin.command: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.5:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+      

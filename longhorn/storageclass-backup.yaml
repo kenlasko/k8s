@@ -1,0 +1,20 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: longhorn-high-value
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "30"
+  fromBackup: ""
+  recurringJobSelector: '[
+    {
+      "name":"high-value",
+      "isGroup":true
+    },
+    {
+      "name":"daily-snapshot",
+      "isGroup":true
+    }
+  ]'

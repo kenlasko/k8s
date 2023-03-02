@@ -1,0 +1,52 @@
+namespaceOverride: mariadb-standalone
+fullnameOverride: mariadb
+image:
+  tag: 10.9.4
+auth:
+  rootPassword: "***REMOVED***"
+primary:
+  nodeSelector:
+    server-type: nuc
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 192.168.1.12
+  persistence:
+    storageClass: "longhorn-high-value"
+    existingClaim: "longhorn-mariadb-pvc"
+  configuration: |-
+    [mysqld]
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mariadb
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    tmpdir=/opt/bitnami/mariadb/tmp
+    max_allowed_packet=16M
+    bind-address=0.0.0.0
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+    log-error=/opt/bitnami/mariadb/logs/mysqld.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+    slow_query_log=0
+    slow_query_log_file=/opt/bitnami/mariadb/logs/mysqld.log
+    long_query_time=10.0
+
+    ## Replication slave to Galera Cluster
+    server-id       = 02
+    relay-log-index = slave-relay-bin.index
+    relay-log       = slave-relay-bin
+    gtid_domain_id  = 99
+    log-bin         = slave-bin
+    log-bin-index   = slave-bin.index
+    binlog_format   = mixed 
+
+    [client]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    default-character-set=UTF8
+
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+  

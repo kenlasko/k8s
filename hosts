@@ -1,0 +1,32 @@
+[master]
+nuc1     ansible_connection=local
+
+[rpi-nodes]
+rpi1     ansible_connection=ssh
+rpi2     ansible_connection=ssh
+
+[rpi-nodes-k3s]
+rpi1     ansible_connection=ssh
+
+[nuc-nodes]
+nuc2     ansible_connection=ssh
+nuc3     ansible_connection=ssh
+
+[other-nodes]
+mediapc  ansible_connection=ssh
+backuppc ansible_connection=ssh
+
+[k3s_all:children]
+master
+nuc-nodes
+rpi-nodes-k3s
+
+[k3s_master:children]
+master
+nuc-nodes
+
+[everything:children]
+master
+rpi-nodes
+nuc-nodes
+other-nodes

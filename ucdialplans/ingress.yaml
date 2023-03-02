@@ -1,0 +1,36 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: ucdialplans
+  namespace: ucdialplans
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`www.ucdialplans.com`,`ucdialplans.com`,`www.skypeoptimizer.com`,`skypeoptimizer.com`) 
+    kind: Rule
+    services:
+    - name: ucdialplans-service
+      port: 80
+    middlewares:
+    - name: ucdialplans-redirect
+      namespace: ucdialplans
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-ucdialplans-cert
+    options:
+      name: tls-options-default
+      namespace: traefik
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: ucdialplans-redirect
+  namespace: ucdialplans
+spec:
+  redirectRegex:
+    regex: ^https?://((www.)?skypeoptimizer.com|ucdialplans.com)
+    replacement: https://www.ucdialplans.com
+    permanent: true

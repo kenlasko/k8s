@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: longhorn-mariadb-pvc
+  namespace: mariadb-standalone
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-high-value
+  resources:
+    requests:
+      storage: 10Gi
+
+
+
