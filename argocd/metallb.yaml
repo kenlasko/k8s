@@ -16,7 +16,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: metallb-system
   ignoreDifferences:
-    - group: apps
+    - group: metallb.io
       kind: CustomResourceDefinition
       jsonPointers:
       - /spec/conversion/webook/clientConfig/caBundle
