@@ -1,14 +1,5 @@
 image:
   pullPolicy: Always
-ingress:
-  enabled: true
-  ingressClassName: traefik
-  annotations: 
-    "nginx.ingress.kubernetes.io/backend-protocol": HTTP
-  hosts:
-    - host: portainer.ucdialplans.com
-      paths:
-        - path: "/"
 persistence:
   size: 500Mi
 service:
