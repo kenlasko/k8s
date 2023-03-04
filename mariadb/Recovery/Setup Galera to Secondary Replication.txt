@@ -1,0 +1,35 @@
+# Select a cluster member and go to command prompt:
+mariadb -u root -p***REMOVED***
+flush tables with read lock;
+show variables like 'gtid_binlog_pos';  
+
+# Take results from above and set gtid_slave_pos for last step
+
+# From another window on same cluster member:
+mysqldump -h mariadb.mariadb.svc.cluster.local -u root -p***REMOVED*** -B homeassist ucdialplans vaultwarden > /bitnami/mariadb/data/mariadb-repl-backup.sql
+
+# Once done, then unlock from first:
+unlock tables;
+
+
+# Then on mariadb-standalone:
+stop slave;
+
+drop database homeassist;
+drop database ucdialplans;
+drop database vaultwarden;
+
+mariadb -h mariadb-standalone.mariadb.svc.cluster.local -u root -p***REMOVED*** < ../mariadb-repl-backup.sql
+
+
+# Then run 
+set global gtid_slave_pos = "0-1-177137";
+change master to
+    master_host='mariadb.mariadb.svc.cluster.local',
+    master_user='replicator',
+    master_password='***REMOVED***',
+    master_port=3306,
+    master_connect_retry=10,
+    master_use_gtid=slave_pos;
+
+start slave;

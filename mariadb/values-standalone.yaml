@@ -32,13 +32,14 @@ primary:
     long_query_time=10.0
 
     ## Replication slave to Galera Cluster
-    server-id       = 02
-    relay-log-index = slave-relay-bin.index
-    relay-log       = slave-relay-bin
-    gtid_domain_id  = 99
-    log-bin         = slave-bin
-    log-bin-index   = slave-bin.index
-    binlog_format   = mixed 
+    server-id         = 02
+    relay-log-index   = slave-relay-bin.index
+    relay-log         = slave-relay-bin
+    gtid_domain_id    = 99
+    log-bin           = slave-bin
+    log-bin-index     = slave-bin.index
+    binlog_format     = mixed 
+    slave-skip-errors = 1452
 
     [client]
     port=3306

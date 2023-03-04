@@ -3,7 +3,6 @@ apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: longhorn-frontend
   namespace: longhorn
-
 spec:
   entryPoints: 
     - websecure
