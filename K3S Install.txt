@@ -65,10 +65,6 @@ helm repo update
 helm install --create-namespace -n traefik traefik traefik/traefik --namespace=traefik --values=/home/ken/k3s/traefik/values.yaml
 
 # Add wildcard cert for Traefik
-kubectl -n traefik create secret tls traefik-wildcard-cert --key=/home/ken/k3s/certs/star_ucdialplans_com.key --cert=/home/ken/k3s/certs/star_ucdialplans_com.pem
-kubectl -n traefik create secret tls traefik-ucdialplans-cert --key=/home/ken/k3s/certs/www_ucdialplans_com.key --cert=/home/ken/k3s/certs/www_ucdialplans_com.pem
-kubectl -n traefik create secret generic traefik-clientauth-ca-root --from-file="ca.crt=/home/ken/k3s/certs/kl_internal_root.pem"
-kubectl -n traefik create secret generic traefik-clientauth-ca-int --from-file="ca.crt=/home/ken/k3s/certs/kl_internal_intermediate.pem"
 kubectl apply -f /home/ken/k3s/traefik/secrets.yaml
 kubectl apply -f /home/ken/k3s/traefik/dashboard-ingress.yaml
 kubectl apply -f /home/ken/k3s/traefik/security-middleware.yaml
