@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promstack
+  namespace: argocd
+spec:
+  project: k3s
+  sources:
+  - repoURL: 'https://prometheus-community.github.io/helm-charts'
+    targetRevision: 45.5.0
+    chart: kube-prometheus-stack
+    helm:
+      valueFiles:
+      - $values/monitoring/promstack-values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: monitoring
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: monitoring
