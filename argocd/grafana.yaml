@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: esphome
+  namespace: grafana
+spec:
+  project: k3s
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: grafana
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: grafana

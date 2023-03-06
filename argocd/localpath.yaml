@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: localpath
+  namespace: argocd
+spec:
+  project: k3s
+  source:
+    repoURL: 'https://github.com/rancher/local-path-provisioner'
+    path: deploy
+  destination:
+    server: 'https://kubernetes.default.svc'

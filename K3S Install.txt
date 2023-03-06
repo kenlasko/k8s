@@ -52,6 +52,10 @@ kubectl label nodes nuc1 storage=longhorn
 kubectl label nodes nuc2 storage=longhorn
 kubectl label nodes nuc3 storage=longhorn
 
+# Install ArgoCD
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
 # install MetalLB
 helm repo add metallb https://metallb.github.io/metallb 
 helm install --create-namespace -n metallb-system metallb metallb/metallb -n metallb-system
@@ -64,14 +68,9 @@ helm repo add traefik https://helm.traefik.io/traefik
 helm repo update
 helm install --create-namespace -n traefik traefik traefik/traefik --namespace=traefik --values=/home/ken/k3s/traefik/values.yaml
 
-# Add wildcard cert for Traefik
-kubectl apply -f /home/ken/k3s/traefik/secrets.yaml
-kubectl apply -f /home/ken/k3s/traefik/dashboard-ingress.yaml
-kubectl apply -f /home/ken/k3s/traefik/security-middleware.yaml
-kubectl apply -f /home/ken/k3s/traefik/tls-options-clientauth.yaml
-kubectl apply -f /home/ken/k3s/traefik/tls-options-default.yaml
-kubectl apply -f /home/ken/k3s/traefik/https-redirect.yaml
-kubectl apply -f /home/ken/k3s/traefik/external-routes.yaml
+# Add certs and other prep for Traefik
+kubectl apply -f /home/ken/k3s/traefik/
+
 
 # Install Longhorn
 helm repo add longhorn https://charts.longhorn.io
@@ -119,6 +118,9 @@ kubectl apply -f /home/ken/k3s/monitoring/monitoring/ingress.yaml
 kubectl apply -f /home/ken/k3s/monitoring/monitoring/pvc.yaml 
 kubectl apply -f /home/ken/k3s/monitoring/monitoring/deploy.yaml
 
+# Install Grafana
+kubectl apply -f /home/ken/k3s/monitoring/monitoring/grafana/
+
 # Install Loki
 helm repo add grafana https://grafana.github.io/helm-charts
 helm install -n monitoring loki grafana/loki-stack --values  /home/ken/k3s/monitoring/loki-values.yaml
@@ -129,12 +131,3 @@ kubectl apply -f /home/ken/k3s/mariadb/pv.yaml
 helm install --create-namespace -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera
 helm install --create-namespace -n mariadb-standalone mariadb-standalone -f /home/ken/k3s/mariadb/values-standalone.yaml bitnami/mariadb
 kubectl apply -f /home/ken/k3s/mariadb-backup/
-
-# Install ArgoCD
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-
-
-
-
