@@ -2,7 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: esphome
+  app.kubernetes.io/name: esphome
+  app.kubernetes.io/instance: esphome
   namespace: esphome
 spec:
   replicas: 1
