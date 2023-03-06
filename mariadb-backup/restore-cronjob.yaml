@@ -4,8 +4,6 @@ kind: CronJob
 metadata:
   name: mariadb-restore
   namespace: mariadb
-labels:
-  app.kubernetes.io/instance: mariadb-standalone
 spec:
   schedule: "@yearly"  # Start once a year
   jobTemplate:
