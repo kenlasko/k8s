@@ -16,6 +16,8 @@ spec:
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: monitoring
+    directory:
+      recurse: true
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
