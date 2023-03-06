@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mariadb-galera
+  name: mariadb
   namespace: argocd
 spec:
   project: k3s
