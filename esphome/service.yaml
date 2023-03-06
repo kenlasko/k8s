@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: esphome-service
-  app.kubernetes.io/name: esphome-service
+  name: esphome-service
   namespace: esphome
 spec:
   type: ClusterIP

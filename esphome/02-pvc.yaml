@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  app.kubernetes.io/name: longhorn-esphome-pvc
+  name: longhorn-esphome-pvc
   namespace: esphome
 spec:
   accessModes:
