@@ -39,7 +39,6 @@ sudo apt install -y bash-completion
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 source ~/.bashrc
 
-
 # Set labels
 kubectl label nodes nuc1 server-speed=nuc-fast
 kubectl label nodes nuc2 server-speed=nuc-slow
@@ -52,16 +51,6 @@ kubectl label nodes nuc1 storage=longhorn
 kubectl label nodes nuc2 storage=longhorn
 kubectl label nodes nuc3 storage=longhorn
 
-# Install ArgoCD
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-
-
-
-######################################################################################
-## Everything below should get deployed via ArgoCD. The below is just for reference ##
-######################################################################################
 # install MetalLB
 helm repo add metallb https://metallb.github.io/metallb 
 helm install --create-namespace -n metallb-system metallb metallb/metallb -n metallb-system
@@ -71,8 +60,19 @@ kubectl apply -f /home/ken/k3s/metallb/l2-advertise.yaml
 # Install Traefik
 helm repo add traefik https://helm.traefik.io/traefik
 helm repo update
-helm install --create-namespace -n traefik traefik traefik/traefik --namespace=traefik --values=/home/ken/k3s/traefik/values.yaml
+helm install --create-namespace traefik traefik/traefik --namespace=traefik --values=/home/ken/k3s/traefik/values.yaml
 kubectl apply -f /home/ken/k3s/traefik/
+
+# Install ArgoCD
+helm repo add argocd https://argoproj.github.io/argo-helm
+helm install argocd argocd/argo-cd --namespace=argocd --create-namespace --values=/home/ken/k3s/argocd/values.yaml
+kubectl apply -f /home/ken/k3s/argocd/
+
+
+
+######################################################################################
+## Everything below should get deployed via ArgoCD. The below is just for reference ##
+######################################################################################
 
 # Install Longhorn
 helm repo add longhorn https://charts.longhorn.io
@@ -127,11 +127,9 @@ kubectl apply -f /home/ken/k3s/monitoring/monitoring/grafana/
 helm repo add grafana https://grafana.github.io/helm-charts
 helm install -n monitoring loki grafana/loki-stack --values  /home/ken/k3s/monitoring/loki-values.yaml
 
-
-
 # Install MariaDB
 helm repo add bitnami https://charts.bitnami.com/bitnami
 kubectl apply -f /home/ken/k3s/mariadb/pv.yaml
 helm install --create-namespace -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera
-helm install --create-namespace -n mariadb-standalone mariadb-standalone -f /home/ken/k3s/mariadb/values-standalone.yaml bitnami/mariadb
+helm install --create-namespace -n mariadb-standalone mariadb-standalone -f /home/ken/k3s/mariadb-standalone/values bitnami/mariadb
 kubectl apply -f /home/ken/k3s/mariadb-backup/

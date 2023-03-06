@@ -13,9 +13,9 @@ defaultRules:
     kubeApiserverHistogram: false
     kubeApiserverSlos: false
     kubelet: true
-    kubeProxy: true
-    kubePrometheusGeneral: true
-    kubePrometheusNodeRecording: true
+    kubeProxy: false
+    kubePrometheusGeneral: false
+    kubePrometheusNodeRecording: false
     kubernetesApps: true
     kubernetesResources: true
     kubernetesStorage: true

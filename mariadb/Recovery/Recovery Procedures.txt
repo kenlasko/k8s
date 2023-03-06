@@ -2,9 +2,9 @@ From https://artifacthub.io/packages/helm/bitnami/mariadb-galera
 
 
 
-##################################
-Zero nodes with safe_to_bootstrap:
-##################################
+#######################################
+## Zero nodes with safe_to_bootstrap ##
+#######################################
 helm uninstall -n mariadb mariadb
 
 # Delete all PV/PVCs for MariaDB, then:
@@ -31,9 +31,9 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera --set rootUser.password=***REMOVED*** --set galera.mariabackup.password=***REMOVED*** --set podManagementPolicy=Parallel
 
 
-##################################
-One nodes with safe_to_bootstrap:
-##################################
+######################################
+## One nodes with safe_to_bootstrap ##
+######################################
 helm uninstall -n mariadb mariadb
 
 # Delete all PV/PVCs for MariaDB, then:
@@ -47,15 +47,20 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 --set podManagementPolicy=Parallel
 
 Once up and running
+kubectl scale statefulset mariadb -n mariadb --replicas=1
+# Wait a bit
+kubectl scale statefulset mariadb -n mariadb --replicas=0
+
+helm uninstall -n mariadb mariadb
 
 helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
---set galera.mariabackup.password=***REMOVED*** \
---set galera.bootstrap.forceBootstrap=true \
---set galera.bootstrap.bootstrapFromNode=2
+--set galera.mariabackup.password=***REMOVED***
 
 
-
+############################
+## Other helpful commands ##
+############################
 # Scale down to 1 or zero pods
 kubectl scale statefulset mariadb -n mariadb --replicas=1
 
