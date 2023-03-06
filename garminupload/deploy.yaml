@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   app.kubernetes.io/name: garmin-upload
-  app.kubernetes.io/instance: garmin-upload
   namespace: garmin-upload
 spec:
   schedule: "@yearly"

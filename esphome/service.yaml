@@ -4,7 +4,6 @@ metadata:
   labels:
     app: esphome-service
   app.kubernetes.io/name: esphome-service
-  app.kubernetes.io/instance: esphome
   namespace: esphome
 spec:
   type: ClusterIP

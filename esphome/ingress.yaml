@@ -2,7 +2,6 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   app.kubernetes.io/name: esphome
-  app.kubernetes.io/instance: esphome
   namespace: esphome
 spec:
   entryPoints: 
