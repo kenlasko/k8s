@@ -56,10 +56,15 @@ kubectl label nodes nuc3 storage=longhorn
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+
+
+
+######################################################################################
+## Everything below should get deployed via ArgoCD. The below is just for reference ##
+######################################################################################
 # install MetalLB
 helm repo add metallb https://metallb.github.io/metallb 
 helm install --create-namespace -n metallb-system metallb metallb/metallb -n metallb-system
-
 kubectl apply -f /home/ken/k3s/metallb/ip-pool.yaml
 kubectl apply -f /home/ken/k3s/metallb/l2-advertise.yaml
 
@@ -67,10 +72,7 @@ kubectl apply -f /home/ken/k3s/metallb/l2-advertise.yaml
 helm repo add traefik https://helm.traefik.io/traefik
 helm repo update
 helm install --create-namespace -n traefik traefik traefik/traefik --namespace=traefik --values=/home/ken/k3s/traefik/values.yaml
-
-# Add certs and other prep for Traefik
 kubectl apply -f /home/ken/k3s/traefik/
-
 
 # Install Longhorn
 helm repo add longhorn https://charts.longhorn.io
@@ -124,6 +126,8 @@ kubectl apply -f /home/ken/k3s/monitoring/monitoring/grafana/
 # Install Loki
 helm repo add grafana https://grafana.github.io/helm-charts
 helm install -n monitoring loki grafana/loki-stack --values  /home/ken/k3s/monitoring/loki-values.yaml
+
+
 
 # Install MariaDB
 helm repo add bitnami https://charts.bitnami.com/bitnami
