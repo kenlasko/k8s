@@ -4,6 +4,8 @@ kind: CronJob
 metadata:
   name: mariadb-backup
   namespace: mariadb
+labels:
+  app.kubernetes.io/instance: mariadb-standalone
 spec:
   schedule: "00 5 * * *"  # Start at 1am every day
   jobTemplate:
