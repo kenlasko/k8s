@@ -20,4 +20,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: mariadb-standalone
-
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

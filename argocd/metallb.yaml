@@ -20,3 +20,6 @@ spec:
     kind: CustomResourceDefinition
     jsonPointers:
     - /spec/conversion/webhook/clientConfig
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

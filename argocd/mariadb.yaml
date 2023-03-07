@@ -25,4 +25,6 @@ spec:
     kind: secret
     jsonPointers:
     - /data
-
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

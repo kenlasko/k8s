@@ -20,3 +20,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: longhorn
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

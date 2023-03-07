@@ -12,3 +12,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: glances
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

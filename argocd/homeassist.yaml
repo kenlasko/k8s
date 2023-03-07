@@ -12,3 +12,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: homeassist
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

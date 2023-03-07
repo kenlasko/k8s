@@ -12,3 +12,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: ucdialplans
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

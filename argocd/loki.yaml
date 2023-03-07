@@ -17,3 +17,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
