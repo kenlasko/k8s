@@ -3,7 +3,7 @@ sudo apt update && sudo apt upgrade
 # Copy k3s folder to /home/ken
 
 # On Kube1
-sudo apt install ansible nano
+sudo apt install ansible nano 
 
 # Create SSH key and push to other ndes
 ssh-keygen -t rsa
