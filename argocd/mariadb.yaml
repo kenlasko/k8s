@@ -24,7 +24,7 @@ spec:
   - group: v1
     kind: secret
     jsonPointers:
-    - /data
+    - /data/mariadb-*
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
