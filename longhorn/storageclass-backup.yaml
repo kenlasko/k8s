@@ -4,6 +4,7 @@ metadata:
   name: longhorn-high-value
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
+reclaimPolicy: Retain
 parameters:
   numberOfReplicas: "3"
   staleReplicaTimeout: "30"
