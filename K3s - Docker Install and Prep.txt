@@ -38,3 +38,13 @@ cd ../garminupload
 docker build -f dockerfile_bikeactivity --tag garminupload --tag registry.ucdialplans.com/garminupload .
 cd ../ucdialplans
 docker build -f dockerfile --tag ucdialplans --tag registry.ucdialplans.com/ucdialplans .
+
+docker push registry.ucdialplans.com/dxp-base-image
+docker push registry.ucdialplans.com/epc-testmonitor
+docker push registry.ucdialplans.com/epc-activecount
+docker push registry.ucdialplans.com/epc-groupupdate
+docker push registry.ucdialplans.com/epc-groupupdate-jb
+docker push registry.ucdialplans.com/dxp-in-license-check
+docker push registry.ucdialplans.com/epc-testmonitor
+docker push registry.ucdialplans.com/garminupload
+docker push registry.ucdialplans.com/ucdialplans
