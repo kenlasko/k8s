@@ -116,10 +116,7 @@ helm install --create-namespace -n monitoring promstack prometheus-community/kub
 kubectl apply -f /home/ken/k3s/monitoring/helm-ingress-prometheus.yaml
 kubectl apply -f /home/ken/k3s/monitoring/helm-ingress-alertmanager.yaml
 kubectl apply -f /home/ken/k3s/monitoring/helm-ingress-grafana.yaml
-kubectl apply -f /home/ken/k3s/monitoring/grafana/secrets.yaml
-kubectl apply -f /home/ken/k3s/monitoring/grafana/ingress.yaml
-kubectl apply -f /home/ken/k3s/monitoring/grafana/pvc.yaml 
-kubectl apply -f /home/ken/k3s/monitoring/grafana/deploy.yaml
+kubectl apply -f /home/ken/k3s/monitoring/grafana-secrets.yaml
 
 # Install Grafana
 kubectl apply -f /home/ken/k3s/monitoring/monitoring/grafana/
