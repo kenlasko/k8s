@@ -88,6 +88,13 @@ grafana:
     passwordKey: password
   additionalDataSources:
   - access: proxy
+    isDefault: true
+    name: prometheus
+    orgId: 1
+    type: prometheus
+    url: http://promstack-prometheus:9090
+    version: 1
+  - access: proxy
     isDefault: false
     name: loki
     orgId: 1
