@@ -22,9 +22,9 @@ spec:
     namespace: mariadb
   ignoreDifferences:
   - group: ""
-    kind: secret
+    kind: Secret
     jsonPointers:
-    - /data/mariadb-*
+    - /data
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
