@@ -4,8 +4,8 @@ defaultRules:
   create: true
   rules:
     alertmanager: false
-    etcd: true
-    configReloaders: true
+    etcd: false
+    configReloaders: false
     general: true
     k8s: true
     kubeApiserverAvailability: false
@@ -20,7 +20,7 @@ defaultRules:
     kubernetesResources: true
     kubernetesStorage: true
     kubernetesSystem: true
-    kubeScheduler: true
+    kubeScheduler: false
     kubeStateMetrics: true
     network: true
     node: true
