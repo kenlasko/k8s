@@ -16,11 +16,11 @@ promtail:
   enabled: true
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 300m
+      memory: 300Mi
     requests:
       cpu: 200m
-      memory: 248Mi
+      memory: 250Mi
   initContainer:
     - name: init
       image: docker.io/busybox:1.33
