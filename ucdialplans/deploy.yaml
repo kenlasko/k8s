@@ -40,9 +40,9 @@ spec:
         resources:
           requests:
             cpu: 300m
-            memory: 700Mi
+            memory: 800Mi
           limits:
-            cpu: 900m
+            cpu: 1000m
             memory: 800Mi
         livenessProbe:
           httpGet:
