@@ -6,3 +6,10 @@ service:
   type: ClusterIP
 nodeSelector:
   server-type: nuc
+resources:
+  requests:
+    cpu: 15m
+    memory: 100Mi
+  limits:
+    cpu: 15m
+    memory: 100Mi
