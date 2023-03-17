@@ -8,8 +8,8 @@ nodeSelector:
   server-type: nuc
 resources:
   requests:
-    cpu: 15m
+    cpu: 100m
     memory: 100Mi
   limits:
-    cpu: 15m
+    cpu: 100m
     memory: 100Mi
