@@ -4,7 +4,7 @@ metadata:
   name: argocd
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
     path: argocd
