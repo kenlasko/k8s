@@ -36,7 +36,7 @@ spec:
       containers:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always #IfNotPresent
         resources:
           requests:
             cpu: 300m
