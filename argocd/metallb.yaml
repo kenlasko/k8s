@@ -4,7 +4,7 @@ metadata:
   name: metallb
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   sources:
   - repoURL: 'https://metallb.github.io/metallb'
     targetRevision: 0.13.7

@@ -4,7 +4,7 @@ metadata:
   name: mariadb-backup
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   sources:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: mariadb-backup

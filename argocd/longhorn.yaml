@@ -4,7 +4,7 @@ metadata:
   name: longhorn
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   sources:
   - repoURL: 'https://charts.longhorn.io'
     targetRevision: 1.4.1

@@ -4,7 +4,7 @@ metadata:
   name: loki
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   sources:
   - repoURL: 'https://grafana.github.io/helm-charts'
     targetRevision: 2.9.9

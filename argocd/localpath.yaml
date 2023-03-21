@@ -4,7 +4,7 @@ metadata:
   name: localpath
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   source:
     repoURL: 'https://github.com/rancher/local-path-provisioner'
     path: deploy

@@ -4,7 +4,7 @@ metadata:
   name: mariadb-standalone
   namespace: argocd
 spec:
-  project: k3s
+  project: default
   sources:
   - repoURL: 'https://charts.bitnami.com/bitnami'
     targetRevision: 11.5.1
