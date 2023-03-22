@@ -92,7 +92,9 @@ grafana:
     type: prometheus
     access: proxy
     isDefault: true
+    orgId: 1
     url: http://promstack-prometheus:9090
+    version: 1
   - name: Loki
     type: loki
     access: proxy
@@ -241,7 +243,7 @@ prometheus-node-exporter:
     portName: http-metrics
   prometheus:
     monitor:
-      enabled: false
+      enabled: true
       relabelings:
         - action: replace
           regex: (.*)
@@ -277,7 +279,7 @@ prometheus:
     scrapeInterval: 30s
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
-    retention: 7d
+    retention: 4d
     enableAdminAPI: true
     walCompression: false
     nodeSelector: 
