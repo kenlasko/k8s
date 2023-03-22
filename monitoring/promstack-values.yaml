@@ -80,6 +80,7 @@ grafana:
     enabled: true
     size: 10Gi
     storageClassName: longhorn
+    accessModes: ["ReadWriteMany"]
   serviceMonitor:
     enabled: false
   admin:
