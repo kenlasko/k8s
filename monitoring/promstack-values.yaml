@@ -240,7 +240,7 @@ prometheus-node-exporter:
     portName: http-metrics
   prometheus:
     monitor:
-      enabled: true
+      enabled: false
       relabelings:
         - action: replace
           regex: (.*)
