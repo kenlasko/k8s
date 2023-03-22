@@ -118,9 +118,6 @@ kubectl apply -f /home/ken/k3s/monitoring/helm-ingress-alertmanager.yaml
 kubectl apply -f /home/ken/k3s/monitoring/helm-ingress-grafana.yaml
 kubectl apply -f /home/ken/k3s/monitoring/grafana-secrets.yaml
 
-# Install Grafana
-kubectl apply -f /home/ken/k3s/monitoring/monitoring/grafana/
-
 # Install Loki
 helm repo add grafana https://grafana.github.io/helm-charts
 helm install -n monitoring loki grafana/loki-stack --values  /home/ken/k3s/monitoring/loki-values.yaml
