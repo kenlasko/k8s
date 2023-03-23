@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: duplicati
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: duplicati
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: duplicati
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

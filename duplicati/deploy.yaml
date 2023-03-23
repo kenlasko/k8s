@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: duplicati
+  namespace: duplicati
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: duplicati
+  template:
+    metadata:
+      labels:
+        app: duplicati
+        name: duplicati
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - rpi1
+      containers:
+      - name: duplicati
+        image: duplicati/duplicati:canary
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 150m
+            memory: 500Mi
+          limits:
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8200
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 15
+          failureThreshold: 5
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: docker
+          mountPath: /docker
+        - name: kubestorage
+          mountPath: /backup/kube-storage
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: duplicati-data-pvc
+      - name: docker
+        persistentVolumeClaim:
+          claimName: duplicati-docker-pvc
+      - name: kubestorage
+        persistentVolumeClaim:
+          claimName: duplicati-kubestorage-pvc
+
+
+

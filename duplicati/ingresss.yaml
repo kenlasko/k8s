@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: duplicati
+  namespace: duplicati
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`duplicati.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: duplicati-service
+      port: 8200
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
