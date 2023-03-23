@@ -1,5 +1,5 @@
 [master]
-nuc1     ansible_connection=local
+nuc1     ansible_connection=ssh
 
 [rpi-nodes]
 rpi1     ansible_connection=ssh
@@ -7,6 +7,7 @@ rpi2     ansible_connection=ssh
 
 [rpi-nodes-k3s]
 rpi1     ansible_connection=ssh
+rpi2     ansible_connection=ssh
 
 [nuc-nodes]
 nuc2     ansible_connection=ssh

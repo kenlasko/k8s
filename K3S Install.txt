@@ -10,6 +10,7 @@ ssh-keygen -t rsa
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc2
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc3
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@rpi1
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@rpi2
 
 # Copy Ansible Hosts
 sudo mkdir /etc/ansible
