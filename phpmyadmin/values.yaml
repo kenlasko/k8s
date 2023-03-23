@@ -1,2 +1,2 @@
 db:
-  chartName: "mariadb"
+  host: "mariadb"
