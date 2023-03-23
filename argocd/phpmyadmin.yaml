@@ -5,8 +5,16 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: 'git@github.com:kenlasko/K3S.git'
+  sources:
+  - repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 10.4.5
+    chart: phpmyadmin
+    helm:
+      valueFiles:
+      - $values/phpmyadmin/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: phpmyadmin
     targetRevision: HEAD
   destination:

@@ -1,0 +1,2 @@
+db:
+  chartName: "mariadb-galera"
