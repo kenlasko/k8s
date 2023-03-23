@@ -94,7 +94,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/backup/kube-storage"
+    path: "/kube-storage"
   nodeAffinity:
     required:
       nodeSelectorTerms:
