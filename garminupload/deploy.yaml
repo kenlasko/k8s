@@ -5,7 +5,7 @@ metadata:
   name: garmin-upload
   namespace: garmin-upload
 spec:
-  schedule: "@yearly" # Schedule on Feb 31. Impossible, so essentially 'never'
+  schedule: "@yearly" 
   suspend: true
   successfulJobsHistoryLimit: 1
   jobTemplate:
