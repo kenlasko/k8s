@@ -1,6 +1,5 @@
 # Copy k3s folder to /home/ken
 
-Test
 # On Kube1
 sudo apt install ansible nano
 
