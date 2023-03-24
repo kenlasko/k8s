@@ -6,6 +6,8 @@ metadata:
   namespace: garmin-upload
 spec:
   schedule: "@yearly" # Schedule on Feb 31. Impossible, so essentially 'never'
+  suspend: true
+  successfulJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
@@ -13,7 +15,6 @@ spec:
           nodeSelector:
             server-speed: nuc-slow
           restartPolicy: Never
-          suspend: true
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garminupload
