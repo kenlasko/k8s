@@ -5,7 +5,7 @@ metadata:
   name: garmin-upload
   namespace: garmin-upload
 spec:
-  schedule: "* * 31 2 *" # Schedule on Feb 31. Impossible, so essentially 'never'
+  schedule: "@yearly" # Schedule on Feb 31. Impossible, so essentially 'never'
   jobTemplate:
     spec:
       template:
@@ -13,6 +13,7 @@ spec:
           nodeSelector:
             server-speed: nuc-slow
           restartPolicy: Never
+          suspend: true
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garminupload
