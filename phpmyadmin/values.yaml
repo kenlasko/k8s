@@ -1,2 +1,3 @@
 db:
+  allowArbitraryServer: true
   host: "mariadb"
