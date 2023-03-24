@@ -16,7 +16,7 @@ spec:
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garminupload
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
             resources:
               requests:
                 cpu: 100m
