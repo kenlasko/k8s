@@ -5,7 +5,7 @@ metadata:
   name: garmin-upload
   namespace: garmin-upload
 spec:
-  schedule: "@yearly"
+  schedule: "* * 31 2 *" # Schedule on Feb 31. Impossible, so essentially 'never'
   jobTemplate:
     spec:
       template:
@@ -26,7 +26,7 @@ spec:
                 memory: 300Mi
             env:
             - name: GarminLastActivity
-              value: "10515471671"
+              value: "10753075580"
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
