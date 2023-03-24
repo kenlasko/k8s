@@ -5,7 +5,7 @@ metadata:
   name: mariadb-restore
   namespace: mariadb
 spec:
-  schedule: "* * 31 2 *"  # Start once a year
+  schedule: "@never"  # Start once a year
   jobTemplate:
     spec:
       template:
