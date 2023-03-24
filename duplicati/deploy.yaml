@@ -60,6 +60,3 @@ spec:
       - name: kubestorage
         persistentVolumeClaim:
           claimName: duplicati-kubestorage-pvc
-
-
-
