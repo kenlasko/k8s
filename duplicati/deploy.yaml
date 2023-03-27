@@ -27,7 +27,7 @@ spec:
                 - rpi1
       containers:
       - name: duplicati
-        image: duplicati/duplicati:canary
+        image: lscr.io/linuxserver/duplicati:latest
         imagePullPolicy: Always
         resources:
           requests:
@@ -45,7 +45,7 @@ spec:
           failureThreshold: 5
         volumeMounts:
         - name: data
-          mountPath: /data
+          mountPath: /config
         - name: docker
           mountPath: /docker
         - name: kubestorage
