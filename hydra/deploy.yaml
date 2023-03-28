@@ -41,6 +41,11 @@ spec:
             port: 5076
           initialDelaySeconds: 15
           periodSeconds: 120
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
         volumeMounts:
         - name: hydra
           mountPath: /config
