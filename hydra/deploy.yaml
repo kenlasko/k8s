@@ -27,7 +27,7 @@ spec:
                 - nuc
       containers:
       - name: hydra
-        image: linuxserver/nzbhydra2
+        image: cr.hotio.dev/hotio/nzbhydra2
         imagePullPolicy: Always
         resources:
           requests:
