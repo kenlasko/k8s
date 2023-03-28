@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 5076
     protocol: TCP
-    targetPort: 6052
+    targetPort: 5076
     name: web
   selector:
     app: hydra
