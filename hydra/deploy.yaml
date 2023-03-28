@@ -25,14 +25,6 @@ spec:
                 operator: In
                 values:
                 - nuc
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-              - key: server-speed
-                operator: In
-                values:
-                - nuc-fast
       containers:
       - name: hydra
         image: linuxserver/nzbhydra2
