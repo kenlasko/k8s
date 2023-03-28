@@ -1,0 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: hydra
+  labels:
+    app.kubernetes.io/name: hydra
+    app.kubernetes.io/instance: hydra

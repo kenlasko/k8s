@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: hydra
+  namespace: hydra
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`hydra.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: esphome-service
+      port: 5076
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

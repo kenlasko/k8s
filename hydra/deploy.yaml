@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra
+  namespace: hydra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hydra
+  template:
+    metadata:
+      labels:
+        app: hydra
+        name: hydra
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: server-speed
+                operator: In
+                values:
+                - nuc-fast
+      containers:
+      - name: hydra
+        image: linuxserver/nzbhydra2
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 300Mi
+          limits:
+            memory: 350Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5076
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        volumeMounts:
+        - name: hydra
+          mountPath: /config
+      volumes:
+        - name: hydra
+          persistentVolumeClaim:
+            claimName: longhorn-hydra-pvc
+      automountServiceAccountToken: false
