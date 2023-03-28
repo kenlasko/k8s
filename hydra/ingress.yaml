@@ -10,7 +10,7 @@ spec:
   - match: Host(`hydra.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: esphome-service
+    - name: hydra-service
       port: 5076
     middlewares:
     - name: traefik-security
