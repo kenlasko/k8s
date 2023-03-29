@@ -1,2 +1,2 @@
 controller:
-  runOnControlPlane=true
+  runOnControlPlane: true
