@@ -37,7 +37,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 8079
+            port: 8080
           initialDelaySeconds: 15
           periodSeconds: 120
         volumeMounts:

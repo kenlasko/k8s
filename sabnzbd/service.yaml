@@ -8,9 +8,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 8079
+  - port: 8080
     protocol: TCP
-    targetPort: 8079
+    targetPort: 8080
     name: web
   selector:
     app: sabnzbd
