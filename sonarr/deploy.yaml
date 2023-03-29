@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hydra
+  name: sonarr
   namespace: media-tools
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hydra
+      app: sonarr
   template:
     metadata:
       labels:
-        app: hydra
-        name: hydra
+        app: sonarr
+        name: sonarr
     spec:
       restartPolicy: Always
       affinity:
@@ -26,27 +26,27 @@ spec:
                 values:
                 - nuc
       containers:
-      - name: hydra
-        image: linuxserver/nzbhydra2
+      - name: sonarr
+        image: linuxserver/sonarr
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: 100m
+            cpu: 1000m
             memory: 500Mi
           limits:
-            cpu: 100m
+            cpu: 1000m
             memory: 600Mi
         livenessProbe:
           httpGet:
             path: /
-            port: 5076
+            port: 8989
           initialDelaySeconds: 15
           periodSeconds: 120
         volumeMounts:
-        - name: hydra
+        - name: sonarr
           mountPath: /config
       volumes:
-        - name: hydra
+        - name: sonarr
           persistentVolumeClaim:
-            claimName: longhorn-hydra-pvc
+            claimName: longhorn-sonarr-pvc
       automountServiceAccountToken: false

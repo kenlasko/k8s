@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-hydra-pvc
+  name: longhorn-sonarr-pvc
   namespace: media-tools
 spec:
   accessModes:
@@ -9,4 +9,4 @@ spec:
   storageClassName: longhorn-high-value
   resources:
     requests:
-      storage: 500Mi
+      storage: 50Gi

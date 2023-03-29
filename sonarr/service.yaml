@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: hydra-service
-  name: hydra-service
+    app: sonarr-service
+  name: sonarr-service
   namespace: media-tools
 spec:
   type: ClusterIP
   ports:
-  - port: 5076
+  - port: 8989
     protocol: TCP
-    targetPort: 5076
+    targetPort: 8989
     name: web
   selector:
-    app: hydra
+    app: sonarr

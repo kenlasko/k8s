@@ -1,17 +1,17 @@
 kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
-  name: hydra
+  name: sonarr
   namespace: media-tools
 spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`hydra.ucdialplans.com`) 
+  - match: Host(`sonarr.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: hydra-service
-      port: 5076
+    - name: sonarr-service
+      port: 8989
     middlewares:
     - name: traefik-security
       namespace: traefik
