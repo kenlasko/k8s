@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: media-tools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+        name: radarr
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+      containers:
+      - name: radarr
+        image: linuxserver/radarr
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+          limits:
+            cpu: 1000m
+            memory: 600Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 7878
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        volumeMounts:
+        - name: radarr-config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      volumes:
+        - name: radarr-config
+          persistentVolumeClaim:
+            claimName: longhorn-radarr-config-pvc
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: longhorn-media-downloads-pvc
+      automountServiceAccountToken: false
