@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: sabnzbd
+  namespace: media-tools
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`sabnzbd-test.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: sabnzbd-service
+      port: 8079
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

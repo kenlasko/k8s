@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sabnzbd
+  namespace: media-tools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sabnzbd
+  template:
+    metadata:
+      labels:
+        app: sabnzbd
+        name: sabnzbd
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+      containers:
+      - name: sabnzbd
+        image: linuxserver/sabnzbd
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8079
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        volumeMounts:
+        - name: sabnzbd-config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      volumes:
+        - name: sabnzbd-config
+          persistentVolumeClaim:
+            claimName: longhorn-sabnzbd-config-pvc
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: longhorn-media-downloads-pvc
+      automountServiceAccountToken: false
