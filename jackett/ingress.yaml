@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: jackett
+  namespace: media-tools
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`jackett-test.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: jackett-service
+      port: 9117
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

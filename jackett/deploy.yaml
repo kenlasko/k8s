@@ -2,20 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sonarr
+  name: jackett
   namespace: media-tools
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sonarr
+      app: jackett
   template:
     metadata:
       labels:
-        app: sonarr
-        name: sonarr
+        app: jackett
+        name: jackett
     spec:
-      dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
       affinity:
         nodeAffinity:
@@ -27,32 +26,27 @@ spec:
                 values:
                 - nuc
       containers:
-      - name: sonarr
-        image: linuxserver/sonarr
+      - name: jackett
+        image: linuxserver/jackett
         imagePullPolicy: Always
         resources:
           requests:
             cpu: 100m
             memory: 500Mi
           limits:
-            cpu: 1000m
+            cpu: 100m
             memory: 600Mi
         livenessProbe:
           httpGet:
             path: /
-            port: 8989
+            port: 9117
           initialDelaySeconds: 15
           periodSeconds: 120
         volumeMounts:
-        - name: sonarr-config
+        - name: jackett
           mountPath: /config
-        - name: downloads
-          mountPath: /downloads
       volumes:
-        - name: sonarr-config
+        - name: jackett
           persistentVolumeClaim:
-            claimName: longhorn-sonarr-config-pvc
-        - name: downloads
-          persistentVolumeClaim:
-            claimName: longhorn-media-downloads-pvc
+            claimName: longhorn-jackett-pvc
       automountServiceAccountToken: false
