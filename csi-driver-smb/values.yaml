@@ -1,4 +1,4 @@
 controller:
-  runOnControlPlane: true
-  nodeSelector:
-    server-type: nuc
+  # runOnControlPlane: true
+  # nodeSelector:
+  #   server-type: nuc
