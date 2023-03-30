@@ -5,7 +5,7 @@ metadata:
   name: sonarr
   namespace: media-tools
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: sonarr
@@ -48,6 +48,8 @@ spec:
           mountPath: /config
         - name: downloads
           mountPath: /downloads
+        - name: data
+          mountPath: /data         
       volumes:
         - name: sonarr-config
           persistentVolumeClaim:
@@ -55,4 +57,7 @@ spec:
         - name: downloads
           persistentVolumeClaim:
             claimName: longhorn-media-downloads-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-smb-mediapc-data
       automountServiceAccountToken: false
