@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: media-tools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+        name: plex
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc-fast
+      containers:
+      - name: plex
+        image: plexinc/pms-docker:plexpass
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 32400
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        env:
+        - name: PLEX_CLAIM
+          value: "***REMOVED***"
+        - name: ADVERTISE_IP
+          value: "http://192.168.1.10:32400/"
+        volumeMounts:
+        - name: plex-config
+          mountPath: /config
+        - name: data
+          mountPath: /data
+      volumes:
+        - name: plex-config
+          persistentVolumeClaim:
+            claimName: longhorn-plex-config-pvc
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: pvc-smb-mediapc-data
+      automountServiceAccountToken: false

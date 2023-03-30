@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: plex
+  namespace: media-tools
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`plex-test.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: plex-service
+      port: 32400
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

@@ -58,6 +58,8 @@ kubectl label nodes nuc2 storage=longhorn
 kubectl label nodes nuc3 storage=longhorn
 kubectl label nodes nuc4 storage=longhorn
 kubectl label nodes nuc5 storage=longhorn
+kubectl label nodes nuc2 intel.feature.node.kubernetes.io/gpu=true
+kubectl label nodes nuc3 intel.feature.node.kubernetes.io/gpu=true
 
 # install MetalLB
 helm repo add metallb https://metallb.github.io/metallb 
