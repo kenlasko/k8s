@@ -21,7 +21,7 @@ spec:
     # make sure this value is unique for every share in the cluster
     volumeHandle: mediapc-data
     volumeAttributes:
-      source: "//192.168.1.5/data"
+      source: "//192.168.1.3/data"
     nodeStageSecretRef:
       name: mediapc-smb-access
       namespace: media-tools
@@ -67,7 +67,7 @@ spec:
     # make sure this value is unique for every share in the cluster
     volumeHandle: mediapc-movies
     volumeAttributes:
-      source: "//192.168.1.5/movies"
+      source: "//192.168.1.3/movies"
     nodeStageSecretRef:
       name: mediapc-smb-access
       namespace: media-tools
