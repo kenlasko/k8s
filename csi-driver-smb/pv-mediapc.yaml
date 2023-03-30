@@ -6,7 +6,7 @@ metadata:
   name: pv-smb-mediapc-data
 spec:
   capacity:
-    storage: 100Gi
+    storage: 1Ti
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -28,6 +28,22 @@ spec:
 
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-smb-mediapc-data
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: pv-smb-mediapc-data
+  storageClassName: ""
+
+
+
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   annotations:
@@ -35,7 +51,7 @@ metadata:
   name: pv-smb-mediapc-movies
 spec:
   capacity:
-    storage: 100Gi
+    storage: 10Ti
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -54,3 +70,17 @@ spec:
     nodeStageSecretRef:
       name: mediapc-smb-access
       namespace: media-tools
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-smb-mediapc-movies
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Ti
+  volumeName: pv-smb-mediapc-movies
+  storageClassName: ""
