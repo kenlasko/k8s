@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
+  storageClassName: "smb"
   mountOptions:
     - dir_mode=0777
     - file_mode=0777
@@ -39,7 +39,7 @@ spec:
     requests:
       storage: 1Ti
   volumeName: pv-smb-mediapc-data
-  storageClassName: ""
+  storageClassName: "smb"
 
 
 
@@ -56,7 +56,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
+  storageClassName: "smb"
   mountOptions:
     - dir_mode=0777
     - file_mode=0777
@@ -85,4 +85,4 @@ spec:
     requests:
       storage: 10Ti
   volumeName: pv-smb-mediapc-movies
-  storageClassName: ""
+  storageClassName: "smb"
