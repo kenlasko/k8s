@@ -48,6 +48,7 @@ kubectl label nodes nuc1 server-type=nuc
 kubectl label nodes nuc2 server-type=nuc
 kubectl label nodes nuc3 server-type=nuc
 kubectl label nodes rpi1 server-type=rpi
+kubectl label nodes rpi2 server-type=rpi
 kubectl label nodes nuc1 storage=longhorn
 kubectl label nodes nuc2 storage=longhorn
 kubectl label nodes nuc3 storage=longhorn
