@@ -28,7 +28,7 @@ spec:
                 - nuc
       containers:
       - name: readarr
-        image: linuxserver/readarr
+        image: hotio/readarr:nightly
         imagePullPolicy: Always
         resources:
           requests:
