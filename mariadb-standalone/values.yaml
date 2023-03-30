@@ -7,9 +7,6 @@ auth:
 primary:
   nodeSelector:
     server-type: nuc
-  service:
-    type: LoadBalancer
-    loadBalancerIP: 192.168.1.12
   persistence:
     storageClass: "longhorn-high-value"
     existingClaim: "longhorn-mariadb-pvc"
