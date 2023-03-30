@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: radarr
+    path: media-tools/radarr
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'

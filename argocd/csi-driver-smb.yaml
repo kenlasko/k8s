@@ -15,7 +15,7 @@ spec:
   # - repoURL: 'git@github.com:kenlasko/K3S.git'
   #   ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: csi-driver-smb
+    path: media-tools/csi-driver-smb
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'

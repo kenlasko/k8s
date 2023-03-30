@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: jackett
+    path: media-tools/jackett
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
