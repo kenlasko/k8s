@@ -48,6 +48,8 @@ spec:
           mountPath: /config
         - name: downloads
           mountPath: /downloads
+        - name: movies
+          mountPath: /movies
       volumes:
         - name: radarr-config
           persistentVolumeClaim:
@@ -55,4 +57,7 @@ spec:
         - name: downloads
           persistentVolumeClaim:
             claimName: longhorn-media-downloads-pvc
+        - name: movies
+          persistentVolumeClaim:
+            claimName: pvc-smb-mediapc-movies
       automountServiceAccountToken: false
