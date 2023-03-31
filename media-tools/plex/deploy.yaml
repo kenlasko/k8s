@@ -25,7 +25,7 @@ spec:
               - key: intel.feature.node.kubernetes.io/gpu
                 operator: In
                 values:
-                - true
+                - 'true'
       containers:
       - name: plex
         image: plexinc/pms-docker:plexpass
