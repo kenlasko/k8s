@@ -31,11 +31,6 @@ spec:
   - repoURL: 'https://intel.github.io/helm-charts/'
     targetRevision: 0.26.0
     chart: intel-device-plugins-gpu
-    helm:
-      valueFiles:
-      - $values/media-tools/intel-gpu/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    ref: values
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: media-tools
