@@ -5,7 +5,7 @@ metadata:
   name: plex
   namespace: media-tools
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: plex
@@ -34,6 +34,9 @@ spec:
           requests:
             cpu: 100m
             memory: 500Mi
+            gpu.intel.com/i915: "1" 
+          limits:
+            gpu.intel.com/i915: "1" 
         livenessProbe:
           httpGet:
             path: /
