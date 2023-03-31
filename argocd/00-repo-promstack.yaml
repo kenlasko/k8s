@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: promstack
+  name: promstack-helm-repo
   namespace: argocd
   labels:
     argocd.argoproj.io/secret-type: repository
