@@ -9,13 +9,8 @@ spec:
   - repoURL: 'https://intel.github.io/helm-charts/'
     targetRevision: 0.26.0
     chart: intel-device-plugins-operator
-    helm:
-      valueFiles:
-      - $values/media-tools/intel-gpu/operator-values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: media-tools/intel-gpu
+    path: media-tools/intel-gpu/operator-controller.yaml
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'

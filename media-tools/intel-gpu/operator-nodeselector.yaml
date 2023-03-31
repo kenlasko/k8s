@@ -1,7 +1,0 @@
-apiVersion: apps/v1
-kind: Deployment
-spec:
-  template:
-    spec:
-      nodeSelector:
-        server-type: nuc
