@@ -48,13 +48,13 @@ spec:
         - name: data
           mountPath: /data         
       volumes:
-        - name: sonarr-config
-          persistentVolumeClaim:
-            claimName: longhorn-sonarr-config-pvc
-        - name: downloads
-          persistentVolumeClaim:
-            claimName: longhorn-media-downloads-pvc
-        - name: data
-          persistentVolumeClaim:
-            claimName: pvc-smb-mediapc-data
+      - name: sonarr-config
+        persistentVolumeClaim:
+          claimName: longhorn-sonarr-config-pvc
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: longhorn-media-downloads-pvc
+      - name: data
+        persistentVolumeClaim:
+          claimName: pvc-smb-mediapc-data
       automountServiceAccountToken: false
