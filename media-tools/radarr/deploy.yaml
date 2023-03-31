@@ -5,7 +5,7 @@ metadata:
   name: radarr
   namespace: media-tools
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: radarr
@@ -34,9 +34,6 @@ spec:
           requests:
             cpu: 100m
             memory: 500Mi
-          limits:
-            cpu: 1000m
-            memory: 600Mi
         livenessProbe:
           httpGet:
             path: /

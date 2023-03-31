@@ -5,7 +5,7 @@ metadata:
   name: hydra
   namespace: media-tools
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: hydra
@@ -33,9 +33,6 @@ spec:
           requests:
             cpu: 100m
             memory: 500Mi
-          limits:
-            cpu: 100m
-            memory: 600Mi
         livenessProbe:
           httpGet:
             path: /
