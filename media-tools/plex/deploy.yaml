@@ -54,7 +54,7 @@ spec:
         - name: plex-config
           persistentVolumeClaim:
             claimName: longhorn-plex-config-pvc
-        - name: downloads
+        - name: data
           persistentVolumeClaim:
             claimName: pvc-smb-mediapc-data
       automountServiceAccountToken: false
