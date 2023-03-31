@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`jackett-test.ucdialplans.com`) 
+  - match: Host(`jackett.ucdialplans.com`) 
     kind: Rule
     services:
     - name: jackett-service

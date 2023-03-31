@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`readarr-test.ucdialplans.com`) 
+  - match: Host(`readarr.ucdialplans.com`) 
     kind: Rule
     services:
     - name: readarr-service

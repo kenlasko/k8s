@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`hydra-test.ucdialplans.com`) 
+  - match: Host(`hydra.ucdialplans.com`) 
     kind: Rule
     services:
     - name: hydra-service

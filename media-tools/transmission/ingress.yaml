@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`transmission-test.ucdialplans.com`) 
+  - match: Host(`transmission.ucdialplans.com`) 
     kind: Rule
     services:
     - name: transmission-service

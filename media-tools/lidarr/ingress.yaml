@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`lidarr-test.ucdialplans.com`) 
+  - match: Host(`lidarr.ucdialplans.com`) 
     kind: Rule
     services:
     - name: lidarr-service

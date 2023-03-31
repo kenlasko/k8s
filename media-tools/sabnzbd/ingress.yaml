@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`sabnzbd-test.ucdialplans.com`) 
+  - match: Host(`sabnzbd.ucdialplans.com`) 
     kind: Rule
     services:
     - name: sabnzbd-service

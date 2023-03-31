@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`radarr-test.ucdialplans.com`) 
+  - match: Host(`radarr.ucdialplans.com`) 
     kind: Rule
     services:
     - name: radarr-service

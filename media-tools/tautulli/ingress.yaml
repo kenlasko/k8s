@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`tautulli-test.ucdialplans.com`) 
+  - match: Host(`tautulli.ucdialplans.com`) 
     kind: Rule
     services:
     - name: tautulli-service

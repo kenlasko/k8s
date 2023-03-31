@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`sonarr-test.ucdialplans.com`) 
+  - match: Host(`sonarr.ucdialplans.com`) 
     kind: Rule
     services:
     - name: sonarr-service
