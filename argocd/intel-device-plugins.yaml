@@ -43,7 +43,7 @@ spec:
   - group: ""
     kind: GpuDevicePlugin
     jsonPointers:
-    - /resourceManager
+    - /spec/resourceManager
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
