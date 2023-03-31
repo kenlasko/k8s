@@ -22,10 +22,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: server-type
+              - key: intel.feature.node.kubernetes.io/gpu
                 operator: In
                 values:
-                - nuc-fast
+                - true
       containers:
       - name: plex
         image: plexinc/pms-docker:plexpass
