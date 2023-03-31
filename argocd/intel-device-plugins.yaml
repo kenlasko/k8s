@@ -7,7 +7,6 @@ spec:
   project: default
   sources:
   - repoURL: 'https://intel.github.io/helm-charts/'
-    targetRevision: 0.26.0
     chart: device-plugin-operator
   destination:
     server: 'https://kubernetes.default.svc'
