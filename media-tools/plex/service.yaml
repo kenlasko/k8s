@@ -6,11 +6,47 @@ metadata:
   name: plex-service
   namespace: media-tools
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.11
   ports:
   - port: 32400
-    protocol: TCP
     targetPort: 32400
-    name: web
+    name: pms-web
+    protocol: TCP
+  - port: 3005
+    targetPort: 3005
+    name: plex-companion
+  - port: 8324
+    name: plex-roku
+    targetPort: 8324  
+    protocol: TCP  
+  - port: 32469
+    targetPort: 32469
+    name: dlna-tcp
+    protocol: TCP
+  - port: 1900
+    targetPort: 1900
+    name: dlna-udp
+    protocol: UDP
+  - port: 5353
+    targetPort: 5353
+    name: discovery-udp
+    protocol: UDP
+  - port: 32410
+    targetPort: 32410
+    name: gdm-32410
+    protocol: UDP
+  - port: 32412
+    targetPort: 32412
+    name: gdm-32412
+    protocol: UDP
+  - port: 32413
+    targetPort: 32413
+    name: gdm-32413
+    protocol: UDP
+  - port: 32414
+    targetPort: 32414
+    name: gdm-32414
+    protocol: UDP
   selector:
     app: plex
