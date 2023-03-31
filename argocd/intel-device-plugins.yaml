@@ -10,7 +10,7 @@ spec:
     targetRevision: 0.26.0
     chart: intel-device-plugins-operator
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: media-tools/intel-gpu/operator-controller.yaml
+    path: media-tools/intel-operator/
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
@@ -33,7 +33,7 @@ spec:
     chart: intel-device-plugins-gpu
     helm:
       valueFiles:
-      - $values/media-tools/intel-gpu/gpu-values.yaml
+      - $values/media-tools/intel-gpu/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   destination:
