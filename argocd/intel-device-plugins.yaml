@@ -40,7 +40,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: media-tools
   ignoreDifferences:
-  - group: ""
+  - group: "*"
     kind: GpuDevicePlugin
     jsonPointers:
     - /spec/resourceManager
