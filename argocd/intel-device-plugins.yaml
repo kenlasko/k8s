@@ -39,6 +39,11 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: media-tools
+  ignoreDifferences:
+  - group: ""
+    kind: GpuDevicePlugin
+    jsonPointers:
+    - /spec/resourceManager
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
