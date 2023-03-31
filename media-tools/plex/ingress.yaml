@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`plex-test.ucdialplans.com`) 
+  - match: Host(`plex.ucdialplans.com`) 
     kind: Rule
     services:
     - name: plex-service
