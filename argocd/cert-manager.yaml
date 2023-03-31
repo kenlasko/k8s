@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://charts.jetstack.io'
     targetRevision: 1.11.0
-    chart: jetstack
+    chart: cert-manager
     helm:
       valueFiles:
       - $values/cert-manager/values.yaml
