@@ -14,7 +14,7 @@ nodeAffinityPreset:
   type: hard
   key: server-type
   values: 
-  - nuc
+  - nuc-fast
 mariadbConfiguration: |-
   [client]
   port=3306
