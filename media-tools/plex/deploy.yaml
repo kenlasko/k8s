@@ -39,7 +39,7 @@ spec:
             gpu.intel.com/i915: "1" 
         livenessProbe:
           httpGet:
-            path: /
+            path: /identity
             port: 32400
           initialDelaySeconds: 15
           periodSeconds: 120
