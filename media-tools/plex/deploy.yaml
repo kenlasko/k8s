@@ -47,7 +47,7 @@ spec:
         - name: PLEX_CLAIM
           value: "***REMOVED***"
         - name: ADVERTISE_IP
-          value: "http://192.168.1.10:32400/"
+          value: "http://192.168.1.11:32400/"
         volumeMounts:
         - name: plex-config
           mountPath: /config
