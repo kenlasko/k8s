@@ -12,7 +12,7 @@ mariabackup:
   password: ***REMOVED***
 nodeAffinityPreset:
   type: hard
-  key: server-type
+  key: server-speed
   values: 
   - nuc-fast
 mariadbConfiguration: |-
