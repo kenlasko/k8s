@@ -52,6 +52,8 @@ spec:
           value: "1000"
         - name: PLEX_GID
           value: "1000"           
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: plex-config
           mountPath: /config
