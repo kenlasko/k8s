@@ -12,6 +12,8 @@ rpi2     ansible_connection=ssh
 [nuc-nodes]
 nuc2     ansible_connection=ssh
 nuc3     ansible_connection=ssh
+nuc4     ansible_connection=ssh
+nuc5     ansible_connection=ssh
 
 [other-nodes]
 mediapc  ansible_connection=ssh
