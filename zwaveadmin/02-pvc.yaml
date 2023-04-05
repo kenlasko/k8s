@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: longhorn-zwaveadmin-pvc
-  namespace: zwaveadmin
+  namespace: homeassist
 spec:
   accessModes:
     - ReadWriteOnce

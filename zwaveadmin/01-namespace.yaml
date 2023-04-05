@@ -1,6 +1,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: zwaveadmin
+  name: homeassist
   labels:
-    name: zwaveadmin
+    name: homeassist

@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zwaveadmin
-  namespace: zwaveadmin
+  namespace: homeassist
 spec:
   replicas: 1
   selector:

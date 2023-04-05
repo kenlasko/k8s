@@ -4,7 +4,7 @@ metadata:
   labels:
     app: zwaveadmin-service
   name: zwaveadmin-service
-  namespace: zwaveadmin
+  namespace: homeassist
 spec:
   type: ClusterIP
   ports:
