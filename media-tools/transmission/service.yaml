@@ -23,10 +23,12 @@ metadata:
     app: transmission-remotedata-service
   name: transmission-remotedata-service
   namespace: media-tools
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "media-svc"
 spec:
   type: LoadBalancer
   externalIPs:
-  - 192.168.1.12
+  - 192.168.1.11
   ports:
   - port: 36881
     protocol: TCP
