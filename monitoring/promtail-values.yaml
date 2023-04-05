@@ -5,7 +5,6 @@ extraPorts:
     service:
       port: 1514
       type: LoadBalancer
-      externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.11
       annotations:
         metallb.universe.tf/allow-shared-ip: "share-11"
