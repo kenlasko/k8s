@@ -40,7 +40,7 @@ spec:
           name: syslog-ng-config
           items:
           - key: "syslog-ng.conf"
-          path: "syslog-ng.conf"
+            path: "syslog-ng.conf"
       automountServiceAccountToken: false
 
 ---
