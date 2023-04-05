@@ -1,3 +1,6 @@
 backend:
-  image:
-    tag: fart
+  persistence:
+    storageClass: longhorn
+    size: 20Gi
+  nodeSelector: 
+    server-type: "nuc"
