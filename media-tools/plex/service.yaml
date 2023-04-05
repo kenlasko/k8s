@@ -6,7 +6,7 @@ metadata:
   name: plex-service
   namespace: media-tools
   annotations:
-    metallb.universe.tf/allow-shared-ip: "media-svc"
+    metallb.universe.tf/allow-shared-ip: "share-11"
 spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.11

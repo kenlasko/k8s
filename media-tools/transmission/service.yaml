@@ -24,7 +24,7 @@ metadata:
   name: transmission-remotedata-service
   namespace: media-tools
   annotations:
-    metallb.universe.tf/allow-shared-ip: "media-svc"
+    metallb.universe.tf/allow-shared-ip: "share-11"
 spec:
   type: LoadBalancer
   externalIPs:
