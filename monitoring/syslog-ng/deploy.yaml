@@ -35,14 +35,14 @@ spec:
         mountPath: "/config"
         subPath: syslog-ng.conf
     volumes:
-      - name: config
+    - name: config
       configMap:
         name: syslog-ng-config
         items:
         - key: "syslog-ng.conf"
         path: "syslog-ng.conf"
     automountServiceAccountToken: false
-    
+
 ---
 apiVersion: v1
 kind: ConfigMap
