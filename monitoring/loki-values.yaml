@@ -36,15 +36,7 @@ promtail:
     protocol: TCP
     service:
       type: ClusterIP
-      clusterIP: null
       port: 1514
-      externalIPs: []
-      nodePort: null
-      annotations: {}
-      labels: {}
-      loadBalancerIP: null
-      loadBalancerSourceRanges: []
-      externalTrafficPolicy: null    
   resources:
     limits:
       cpu: 300m
