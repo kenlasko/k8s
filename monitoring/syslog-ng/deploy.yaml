@@ -6,8 +6,23 @@ metadata:
   namespace: monitoring
 data:
   syslog-ng.conf: |
+    source s_network_tcp {
+      syslog(transport(tcp) port(6601));
+    };
+
+    source s_network_udp {
+      syslog(transport(udp) port(5514));
+    };
+
     destination d_loki {
       syslog("promtail-syslog" transport("tcp") port(1514));
+    };
+
+    log {
+      source(s_local);
+      source(s_network_tcp);
+      source(s_network_udp);
+      destination(d_local);
     };
 
 ---
@@ -42,16 +57,16 @@ spec:
             port: 5514
           initialDelaySeconds: 15
           periodSeconds: 120
-      #   volumeMounts:
-      #   - name: config
-      #     mountPath: "/config"
-      #     subPath: syslog-ng.conf
-      # volumes:
-      # - name: config
-      #   configMap:
-      #     name: syslog-ng-config
-      #     items:
-      #     - key: "syslog-ng.conf"
-      #       path: "syslog-ng.conf"
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          subPath: syslog-ng.conf
+      volumes:
+      - name: config
+        configMap:
+          name: syslog-ng-config
+          items:
+          - key: "syslog-ng.conf"
+            path: "syslog-ng.conf"
       automountServiceAccountToken: false
 
