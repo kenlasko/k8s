@@ -1,4 +1,16 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: syslog-ng-config
+  namespace: monitoring
+data:
+  syslog-ng.conf: |
+    destination d_loki {
+      syslog("promtail-syslog" transport("tcp") port(1514));
+    };
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,14 +55,3 @@ spec:
             path: "syslog-ng.conf"
       automountServiceAccountToken: false
 
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: syslog-ng-config
-  namespace: monitoring
-data:
-  syslog-ng.conf: |
-    destination d_loki {
-      syslog("promtail-syslog" transport("tcp") port(1514));
-    };
