@@ -1,0 +1,46 @@
+loki:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    size: 20Gi
+  limits:
+    cpu: 1000m
+    memory: 2048Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  nodeSelector: 
+    server-type: "nuc"
+promtail:
+  enabled: true
+  scrape_configs:
+    - job_name: syslog
+      syslog:
+        listen_address: 192.168.1.12:1514
+        listen_protocol: tcp
+        idle_timeout: 60s
+        label_structured_data: yes
+        labels:
+          job: "syslog"
+      relabel_configs:
+        - source_labels: ['__syslog_message_hostname']
+          target_label: 'host'
+  resources:
+    limits:
+      cpu: 300m
+      memory: 300Mi
+    requests:
+      cpu: 200m
+      memory: 250Mi
+  initContainer:
+    - name: init
+      image: docker.io/busybox:1.33
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+        - -c
+        - sysctl -w fs.inotify.max_user_instances=512
+      securityContext:
+        privileged: true
+
