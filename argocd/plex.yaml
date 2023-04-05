@@ -14,6 +14,6 @@ spec:
     namespace: media-tools
   syncPolicy:
     automated:
-      selfHeal: false
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
