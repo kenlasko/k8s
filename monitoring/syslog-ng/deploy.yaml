@@ -5,7 +5,7 @@ metadata:
   name: syslog-ng-config
   namespace: monitoring
 data:
-  syslog-ng.conf: |
+  syslog-ng.confx: |
     source s_network_tcp {
       syslog(transport(tcp) port(6601));
     };
@@ -60,13 +60,13 @@ spec:
         volumeMounts:
         - name: config
           mountPath: "/config"
-          subPath: syslog-ng.conf
+          subPath: syslog-ng.confx
       volumes:
       - name: config
         configMap:
-          name: syslog-ng-config
+          name: syslog-ng-configx
           items:
-          - key: "syslog-ng.conf"
-            path: "syslog-ng.conf"
+          - key: "syslog-ng.confx"
+            path: "syslog-ng.confx"
       automountServiceAccountToken: false
 
