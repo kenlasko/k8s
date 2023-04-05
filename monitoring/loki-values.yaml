@@ -1,7 +1,6 @@
 backend:
   persistence:
-    enabled: true
-    storageClassName: longhorn
+    storageClass: longhorn
     size: 20Gi
   nodeSelector: 
     server-type: "nuc"
