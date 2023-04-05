@@ -14,22 +14,10 @@ loki:
     server-type: "nuc"
 promtail:
   enabled: true
-  scrapeConfigs:
-  - job_name: syslog
-    syslog:
-      listen_address: 0.0.0.0:1514
-      label_structured_data: yes
-      labels:
-        job: "syslog"
-    relabel_configs:
-    - source_labels: ["__syslog_connection_ip_address"]
-      target_label: "ip_address"
-    - source_labels: ["__syslog_message_severity"]
-      target_label: "severity"
-    - source_labels: ["__syslog_message_facility"]
-      target_label: "facility"
-    - source_labels: ["__syslog_message_hostname"]
-      target_label: "host"
+  syslog:
+    enabled: true
+    listenUDP: "0.0.0.0:5140"
+    listenTCP: "0.0.0.0:5140"
   resources:
     limits:
       cpu: 300m
