@@ -8,10 +8,10 @@ spec:
   sources:
   - repoURL: 'https://grafana.github.io/helm-charts'
     chart: loki
-    targetRevision: 5.0.0
+    targetRevision: 2.9.10
     helm:
       valueFiles:
-      - $values/monitoring/loki-values.yaml
+      - $values/monitoring/loki-stack-values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   destination:
