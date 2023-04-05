@@ -16,22 +16,6 @@ spec:
   - port: 3005
     targetPort: 3005
     name: plex-companion
-  - port: 8324
-    name: plex-roku
-    targetPort: 8324  
-    protocol: TCP  
-  - port: 32469
-    targetPort: 32469
-    name: dlna-tcp
-    protocol: TCP
-  - port: 1900
-    targetPort: 1900
-    name: dlna-udp
-    protocol: UDP
-  - port: 5353
-    targetPort: 5353
-    name: discovery-udp
-    protocol: UDP
   - port: 32410
     targetPort: 32410
     name: gdm-32410
