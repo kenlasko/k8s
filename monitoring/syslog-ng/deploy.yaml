@@ -30,7 +30,6 @@ spec:
             port: 5514
           initialDelaySeconds: 15
           periodSeconds: 120
-      automountServiceAccountToken: false
       volumeMounts:
       - name: config
         mountPath: "/config"
@@ -42,7 +41,8 @@ spec:
         items:
         - key: "syslog-ng.conf"
         path: "syslog-ng.conf"
-
+    automountServiceAccountToken: false
+    
 ---
 apiVersion: v1
 kind: ConfigMap
