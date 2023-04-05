@@ -11,7 +11,7 @@ spec:
     targetRevision: 2.9.10
     helm:
       valueFiles:
-      - $values/monitoring/loki-stack-values.yaml
+      - $values/monitoring/promstack/loki-stack-values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   destination:

@@ -51,7 +51,7 @@ spec:
       containers:
       - name: syslog-ng
         image: linuxserver/syslog-ng
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 100m
