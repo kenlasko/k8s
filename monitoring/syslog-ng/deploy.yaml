@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syslog-ng
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syslog-ng
+  template:
+    metadata:
+      labels:
+        app: syslog-ng
+        name: syslog-ng
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: syslog-ng
+        image: linuxserver/syslog-ng
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5514
+          initialDelaySeconds: 15
+          periodSeconds: 120
+      automountServiceAccountToken: false
+      volumeMounts:
+      - name: config
+        mountPath: "/config"
+        subPath: syslog-ng.conf
+volumes:
+  - name: config
+  configMap:
+    name: syslog-ng-config
+    items:
+    - key: "syslog-ng.conf"
+    path: "syslog-ng.conf"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: syslog-ng-config
+  namespace: monitoring
+data:
+  syslog-ng.conf: |
+    destination d_loki {
+      syslog("promtail-syslog" transport("tcp") port(1514));
+    };

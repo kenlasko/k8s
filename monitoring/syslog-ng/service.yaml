@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: syslog-ng-service
+  name: syslog-ng-service
+  namespace: monitoring
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "share-11"
+spec:
+  type: LoadBalancer
+  externalIPs:
+  - 192.168.1.11
+  ports:
+  - port: 5514
+    protocol: UDP
+    targetPort: 5514
+    name: syslog-udp
+  selector:
+    app: syslog-ng
