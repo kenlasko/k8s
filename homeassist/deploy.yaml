@@ -83,8 +83,6 @@ spec:
           mountPath: /config
         - name: homeassist
           mountPath: /hass-config
-        - name: github-sshkey-vol
-          mountPath: /root/.ssh/
         securityContext:
           privileged: true
       volumes:
@@ -94,10 +92,6 @@ spec:
       - name: haconfig
         persistentVolumeClaim:
           claimName: longhorn-haconfig-pvc
-      - name: github-sshkey-vol
-        secret:
-          secretName: github-ssh-key
-          defaultMode: 256
       - name: ttyusb
         hostPath:
           path: /dev/ttyUSB1
