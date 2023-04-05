@@ -42,16 +42,16 @@ spec:
             port: 5514
           initialDelaySeconds: 15
           periodSeconds: 120
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
-          subPath: syslog-ng.conf
-      volumes:
-      - name: config
-        configMap:
-          name: syslog-ng-config
-          items:
-          - key: "syslog-ng.conf"
-            path: "syslog-ng.conf"
+      #   volumeMounts:
+      #   - name: config
+      #     mountPath: "/config"
+      #     subPath: syslog-ng.conf
+      # volumes:
+      # - name: config
+      #   configMap:
+      #     name: syslog-ng-config
+      #     items:
+      #     - key: "syslog-ng.conf"
+      #       path: "syslog-ng.conf"
       automountServiceAccountToken: false
 
