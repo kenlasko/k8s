@@ -80,7 +80,8 @@ helm repo add argocd https://argoproj.github.io/argo-helm
 helm install argocd argocd/argo-cd --namespace=argocd --create-namespace --values=/home/ken/k3s/argocd/values.yaml
 kubectl apply -f /home/ken/k3s/argocd/
 
-
+# May have to follow this for Longhorn volume creation issues:
+https://longhorn.io/kb/troubleshooting-volume-with-multipath/
 
 ######################################################################################
 ##                  Install remote admin tools on non-K3S server                    ##
