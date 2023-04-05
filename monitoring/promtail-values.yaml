@@ -3,7 +3,7 @@ extraPorts:
     name: tcp-syslog
     containerPort: 1514
     service:
-      port: 80
+      port: 1514
       type: LoadBalancer
       externalTrafficPolicy: Local
       loadBalancerIP: 192.168.1.12
