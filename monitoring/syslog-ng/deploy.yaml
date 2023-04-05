@@ -5,7 +5,7 @@ metadata:
   name: syslog-ng-config
   namespace: monitoring
 data:
-  syslog-ng.confx: |
+  syslog-ng.conf: |
     source s_network_tcp {
       syslog(transport(tcp) port(6601));
     };
@@ -32,7 +32,7 @@ metadata:
   name: syslog-ng
   namespace: monitoring
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: syslog-ng
@@ -43,6 +43,11 @@ spec:
         name: syslog-ng
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
+      volumes:
+      - name: config
+        configMap:
+          name: syslog-ng-config
       containers:
       - name: syslog-ng
         image: linuxserver/syslog-ng
@@ -61,12 +66,5 @@ spec:
         - name: config
           mountPath: "/config"
           subPath: syslog-ng.confx
-      volumes:
-      - name: config
-        configMap:
-          name: syslog-ng-configx
-          items:
-          - key: "syslog-ng.confx"
-            path: "syslog-ng.confx"
-      automountServiceAccountToken: false
+
 
