@@ -11,8 +11,7 @@ spec:
     targetRevision: 5.0.0
     helm:
       valueFiles:
-      - monitoring/loki-values.yaml
-      #- $values/monitoring/loki-values.yaml
+      - $values/monitoring/loki-values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   destination:
