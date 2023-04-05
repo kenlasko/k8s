@@ -15,7 +15,7 @@ spec:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: monitoring
+    path: monitoring/promstack
     directory:
       recurse: true
     targetRevision: HEAD
