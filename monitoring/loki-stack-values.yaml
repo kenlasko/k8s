@@ -13,7 +13,7 @@ loki:
   nodeSelector: 
     server-type: "nuc"
 promtail:
-  enabled: true
+  enabled: false
   scrape_configs:
   - job_name: syslog
     syslog:
