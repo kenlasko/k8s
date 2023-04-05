@@ -35,13 +35,13 @@ spec:
       - name: config
         mountPath: "/config"
         subPath: syslog-ng.conf
-volumes:
-  - name: config
-  configMap:
-    name: syslog-ng-config
-    items:
-    - key: "syslog-ng.conf"
-    path: "syslog-ng.conf"
+    volumes:
+      - name: config
+      configMap:
+        name: syslog-ng-config
+        items:
+        - key: "syslog-ng.conf"
+        path: "syslog-ng.conf"
 
 ---
 apiVersion: v1
