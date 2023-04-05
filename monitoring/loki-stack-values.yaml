@@ -15,17 +15,17 @@ loki:
 promtail:
   enabled: true
   scrape_configs:
-    - job_name: syslog
-      syslog:
-        listen_address: 192.168.1.12:1514
-        listen_protocol: tcp
-        idle_timeout: 60s
-        label_structured_data: yes
-        labels:
-          job: "syslog"
-      relabel_configs:
-        - source_labels: ['__syslog_message_hostname']
-          target_label: 'host'
+  - job_name: syslog
+    syslog:
+      listen_address: 192.168.1.12:1514
+      listen_protocol: tcp
+      idle_timeout: 60s
+      label_structured_data: yes
+      labels:
+        job: "syslog"
+    relabel_configs:
+      - source_labels: ['__syslog_message_hostname']
+        target_label: 'host'
   resources:
     limits:
       cpu: 300m
