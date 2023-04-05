@@ -47,3 +47,4 @@ promtail:
         - sysctl -w fs.inotify.max_user_instances=512
       securityContext:
         privileged: true
+
