@@ -65,6 +65,6 @@ spec:
         volumeMounts:
         - name: config
           mountPath: "/config"
-          subPath: syslog-ng.conf
+          subPath: syslog-ng.confx
 
 
