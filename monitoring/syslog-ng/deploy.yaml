@@ -12,7 +12,7 @@ data:
 
     source s_network_udp { syslog(transport(udp) port(5514)); };
 
-    destination d_loki { syslog("promtail-syslog" transport("tcp") port(1514)); };
+    destination d_loki { syslog("loki-promtail-syslog" transport("tcp") port(1514)); };
     destination d_mesg { file("/var/log/messages" template(t_file)); };
 
     log {
