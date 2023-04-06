@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hydra2
+  name: hydra23
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: media-tools/hydra2
+    path: media-tools/hydra23
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
