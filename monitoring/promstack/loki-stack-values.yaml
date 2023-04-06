@@ -26,13 +26,13 @@ promtail:
     relabel_configs:
       - source_labels: ['__syslog_message_hostname']
         target_label: 'host'
-extraPorts:
-  syslog:
-    name: tcp-syslog
-    containerPort: 1514
-    service:
-      port: 1514
-      type: ClusterIP
+  extraPorts:
+    syslog:
+      name: tcp-syslog
+      containerPort: 1514
+      service:
+        port: 1514
+        type: ClusterIP
   resources:
     limits:
       cpu: 300m
