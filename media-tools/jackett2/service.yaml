@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jackett2-service
+  name: jackett2-service
+  namespace: media-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9117
+    protocol: TCP
+    targetPort: 9117
+    name: web
+  selector:
+    app: jackett2

@@ -1,0 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: media-test
+  labels:
+    app.kubernetes.io/name: media-test
+    app.kubernetes.io/instance: media-test

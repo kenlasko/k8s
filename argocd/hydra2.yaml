@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hydra2
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: media-tools/hydra2
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: media-test
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

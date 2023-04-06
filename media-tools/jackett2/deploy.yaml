@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett2
+  namespace: media-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett2
+  template:
+    metadata:
+      labels:
+        app: jackett2
+        name: jackett2
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+      containers:
+      - name: jackett2
+        image: linuxserver/jackett2
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        volumeMounts:
+        - name: jackett2
+          mountPath: /config
+      volumes:
+        - name: jackett2
+          persistentVolumeClaim:
+            claimName: longhorn-jackett2-pvc
+      automountServiceAccountToken: false

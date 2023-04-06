@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra2
+  namespace: media-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hydra2
+  template:
+    metadata:
+      labels:
+        app: hydra2
+        name: hydra2
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+      containers:
+      - name: hydra2
+        image: linuxserver/nzbhydra22
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5076
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        volumeMounts:
+        - name: hydra2
+          mountPath: /config
+      volumes:
+        - name: hydra2
+          persistentVolumeClaim:
+            claimName: longhorn-hydra2-pvc
+      automountServiceAccountToken: false
