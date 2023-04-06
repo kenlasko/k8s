@@ -6,6 +6,7 @@ metadata:
   namespace: monitoring
 data:
   syslog-ng.conf: |
+    @version: 3.38.1
     source s_network_tcp {
       syslog(transport(tcp) port(6601));
     };
