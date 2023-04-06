@@ -62,6 +62,6 @@ spec:
             port: 5514
           initialDelaySeconds: 15
           periodSeconds: 120
-        volumeMounts:
-        - name: config
-          mountPath: "/config"
+        # volumeMounts:
+        # - name: config
+        #   mountPath: "/config"
