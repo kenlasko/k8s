@@ -27,7 +27,7 @@ spec:
                 - nuc
       containers:
       - name: hydra2
-        image: linuxserver/nzbhydra22
+        image: linuxserver/nzbhydra2
         imagePullPolicy: Always
         resources:
           requests:
