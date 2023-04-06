@@ -14,7 +14,6 @@ loki:
     server-type: "nuc"
 promtail:
   enabled: true
-  snippets:
   config:
     snippets:
       scrapeConfigs:
