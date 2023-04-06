@@ -8,12 +8,7 @@ data:
   syslog-ng.conf: |
     @version: 3.38
 
-    #
-    # Templates
-    #
-    template t_file {
-            template("${YEAR}-${MONTH}-${DAY} ${HOUR}:${MIN}:${SEC} ${LEVEL} ${MSGHDR}${MSG}\n");
-    };
+    template t_file { template("${YEAR}-${MONTH}-${DAY} ${HOUR}:${MIN}:${SEC} ${LEVEL} ${MSGHDR}${MSG}\n"); };
 
     source s_network_udp { syslog(transport(udp) port(5514)); };
 
@@ -22,7 +17,7 @@ data:
 
     log {
       source(s_network_udp);
-      destination(d_loki);
+      destination(d_loki); destination(d_mesg);
     };
 
 ---
