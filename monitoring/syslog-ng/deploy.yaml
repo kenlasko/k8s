@@ -7,20 +7,15 @@ metadata:
 data:
   syslog-ng.conf: |
     @version: 3.38
-    source s_network_tcp {
-      syslog(transport(tcp) port(6601));
-    };
-
     source s_network_udp {
       syslog(transport(udp) port(5514));
     };
 
     destination d_loki {
-      syslog("promtail-syslog" transport("tcp") port(1514));
+      syslog("localhost" transport("tcp") port(1514));
     };
 
     log {
-      source(s_network_tcp);
       source(s_network_udp);
       destination(d_loki);
     };
