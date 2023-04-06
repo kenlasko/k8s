@@ -7,13 +7,18 @@ metadata:
 data:
   syslog-ng.conf: |
     @version: 3.38
-    source s_network_udp {
-      syslog(transport(udp) port(5514));
+
+    #
+    # Templates
+    #
+    template t_file {
+            template("${YEAR}-${MONTH}-${DAY} ${HOUR}:${MIN}:${SEC} ${LEVEL} ${MSGHDR}${MSG}\n");
     };
 
-    destination d_loki {
-      syslog("promtail-syslog" transport("tcp") port(1514));
-    };
+    source s_network_udp { syslog(transport(udp) port(5514)); };
+
+    destination d_loki { syslog("promtail-syslog" transport("tcp") port(1514)); };
+    destination d_mesg { file("/var/log/messages" template(t_file)); };
 
     log {
       source(s_network_udp);
