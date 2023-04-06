@@ -20,10 +20,9 @@ data:
     };
 
     log {
-      source(s_local);
       source(s_network_tcp);
       source(s_network_udp);
-      destination(d_local);
+      destination(d_loki);
     };
 
 ---
