@@ -14,18 +14,20 @@ loki:
     server-type: "nuc"
 promtail:
   enabled: true
-  extraScrapeConfigs: 
-  - job_name: syslog
-    syslog:
-      listen_address: 0.0.0.0:1514
-      listen_protocol: tcp
-      idle_timeout: 60s
-      label_structured_data: yes
-      labels:
-        job: "syslog"
-    relabel_configs:
-      - source_labels: ['__syslog_message_hostname']
-        target_label: 'host'
+  config:
+    snippets:
+      extraScrapeConfigs: |
+        - job_name: syslog
+          syslog:
+            listen_address: 0.0.0.0:1514
+            listen_protocol: tcp
+            idle_timeout: 60s
+            label_structured_data: yes
+            labels:
+              job: "syslog"
+          relabel_configs:
+            - source_labels: ['__syslog_message_hostname']
+              target_label: 'host'
   extraPorts:
     syslog:
       name: tcp-syslog
