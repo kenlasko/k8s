@@ -12,7 +12,7 @@ data:
     };
 
     destination d_loki {
-      syslog("localhost" transport("tcp") port(1514));
+      syslog("promtail-syslog" transport("tcp") port(1514));
     };
 
     log {
