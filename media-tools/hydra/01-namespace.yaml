@@ -1,0 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: media-tools
+  labels:
+    app.kubernetes.io/name: media-tools
+    app.kubernetes.io/instance: media-tools
