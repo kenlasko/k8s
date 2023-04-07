@@ -46,6 +46,8 @@ spec:
         env:
         - name: PLEX_CLAIM
           value: "***REMOVED***"
+        - name: HOSTNAME
+          value: plex.ucdialplans.com
         - name: ADVERTISE_IP
           value: "http://192.168.1.11:32400/"
         - name: PLEX_UID
