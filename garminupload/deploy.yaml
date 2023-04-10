@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: garminupload-config
-  namespace: garminupload
+  namespace: garmin-upload
 data:
   GCProgramSettings.xml: |
     <GCProgramSettings>
@@ -22,7 +22,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: garminupload-userdata
-  namespace: garminupload
+  namespace: garmin-upload
 data:
   GCUserSettings.xml: |
     <!-- Garmin Connect Activity Export User Settings XML -->
