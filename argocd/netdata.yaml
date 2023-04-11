@@ -7,8 +7,8 @@ spec:
   project: default
   sources:
   - repoURL: 'https://netdata.github.io/helmchart/'
-    targetRevision: *
-    chart: netdata/netdata 
+    targetRevision: 3.7.50
+    chart: netdata 
     helm:
       valueFiles:
       - $values/netdata/values.yaml
