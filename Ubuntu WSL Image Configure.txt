@@ -1,0 +1,47 @@
+# Install WSL2 from PS
+wsl --install
+
+# From Ubuntu desktop
+sudo apt update && sudo apt upgrade -y
+
+# Sync K3S Git repo
+git config --global user.name 'kenlasko'
+git config --global user.email 'ken.lasko@gmail.com'
+
+ssh-keygen -t ed25519 -C "ken.lasko@gmail.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/github
+
+git clone git@github.com:kenlasko/K3S.git /home/ken/k3s
+git pull
+git status
+
+mkdir ~/docker
+cd ~/docker
+git clone git@github.com:kenlasko/nectar.git
+git pull
+git status
+
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin ansible -y
+sudo usermod -aG docker $USER
+
+Follow: https://dev.to/felipecrs/simply-run-docker-on-wsl2-3o8
+
+sudo nano /etc/wsl.conf
+# /etc/wsl.conf
+[boot]
+systemd=true
+
+# Restart WSL
+wsl.exe --shutdown
+
+# Copy Ansible hosts to /etc/ansible
+sudo mkdir /etc/ansible
+sudo cp /home/ken/k3s/hosts /etc/ansible/hosts

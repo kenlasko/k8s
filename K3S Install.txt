@@ -7,6 +7,7 @@ sudo apt install ansible nano
 
 # Create SSH key and push to other ndes
 ssh-keygen -t rsa
+ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc1
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc2
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc3
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc4
