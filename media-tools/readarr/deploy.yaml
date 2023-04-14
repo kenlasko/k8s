@@ -48,6 +48,8 @@ spec:
           mountPath: /config
         - name: downloads
           mountPath: /downloads
+        - name: data
+          mountPath: /data 
       volumes:
         - name: readarr-config
           persistentVolumeClaim:
@@ -55,4 +57,7 @@ spec:
         - name: downloads
           persistentVolumeClaim:
             claimName: longhorn-media-downloads-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-smb-mediapc-data
       automountServiceAccountToken: false
