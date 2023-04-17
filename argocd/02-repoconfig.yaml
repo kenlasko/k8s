@@ -10,5 +10,9 @@ data:
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
       sshPrivateKeySecret:
-        name: github-private-key
+        name: github-k3s-private-key
+        key: privateKey
+    - url: git@github.com:kenlasko/helm-charts.git
+      sshPrivateKeySecret:
+        name: github-helm-private-key
         key: privateKey
