@@ -32,9 +32,9 @@ spec:
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
-        capabilities:
-          add: 
-            - NET_ADMIN
+        # capabilities:
+        #   add: 
+        #     - NET_ADMIN
         resources:
           requests:
             cpu: 150m
