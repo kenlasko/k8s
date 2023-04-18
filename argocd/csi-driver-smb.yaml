@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts'
-    targetRevision: 1.10.0
+    targetRevision: 1.*
     chart: csi-driver-smb
   #   helm:
   #     valueFiles:
