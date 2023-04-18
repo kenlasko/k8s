@@ -81,10 +81,11 @@ dnsmasq:
   - 192.168.1.15  rpi1.ucdialplans.com
   - 192.168.1.16  rpi2.ucdialplans.com
   - 192.168.1.23  firepit-speakers.ucdialplans.com
-  
+
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
+  - cname=backup-mpc.ucdialplans.com,mediapc.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
   - cname=glances.ucdialplans.com,k3s.ucdialplans.com
   - cname=glances-mpc.ucdialplans.com,mediapc.ucdialplans.com
