@@ -14,8 +14,8 @@ spec:
       - $values/pihole/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: pihole
+  # - repoURL: 'git@github.com:kenlasko/K3S.git'
+  #   path: pihole
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
