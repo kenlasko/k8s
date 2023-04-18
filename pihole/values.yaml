@@ -21,11 +21,7 @@ serviceDhcp:
   enabled: false
 
 ingress:
-  enabled: true
-  hosts:
-    - pihole.ucdialplans.com
-  annotations:
-    kubernetes.io/ingress.class: traefik
+  enabled: false
 
 serviceWeb:
   type: ClusterIP
