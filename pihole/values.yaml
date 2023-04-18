@@ -9,7 +9,7 @@ maxSurge: 1
 maxUnavailable: 1
 
 nodeSelector:
-  server-type: nuc-slow
+  server-speed: nuc-slow
 
 persistentVolumeClaim:
   enabled: true
