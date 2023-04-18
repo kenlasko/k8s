@@ -31,7 +31,7 @@ serviceWeb:
   type: ClusterIP
 
 serviceDns:
-  loadBalancerIP: 192.168.1.11
+  loadBalancerIP: 192.168.1.12
   type: LoadBalancer
   externalTrafficPolicy: Local
   annotations: 
