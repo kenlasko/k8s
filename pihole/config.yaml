@@ -31,7 +31,7 @@ serviceDns:
   type: LoadBalancer
   externalTrafficPolicy: Local
   annotations: 
-    metallb.universe.tf/allow-shared-ip: pihole-svc
+    metallb.universe.tf/allow-shared-ip: share-11
 
 podDnsConfig:
   enabled: true
@@ -64,14 +64,36 @@ probes:
     port: http
     scheme: HTTP
 
-customCnameEntries:
+dnsmasq:
+  customCnameEntries:
+  - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
+  - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
+  - cname=glances.ucdialplans.com,k3s.ucdialplans.com
+  - cname=grafana.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
+  - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
+  - cname=helm.ucdialplans.com,k3s.ucdialplans.com
+  - cname=hydra.ucdialplans.com,k3s.ucdialplans.com
+  - cname=jackett.ucdialplans.com,k3s.ucdialplans.com
+  - cname=lidarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
+  - cname=mariadb.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole.ucdialplans.com,k3s.ucdialplans.com
+  - cname=pihole1.ucdialplans.com,rpi1.ucdialplans.com
+  - cname=pihole2.ucdialplans.com,rpi2.ucdialplans.com
+  - cname=plex.ucdialplans.com,k3s.ucdialplans.com
   - cname=portainer.ucdialplans.com,k3s.ucdialplans.com
   - cname=prometheus.ucdialplans.com,k3s.ucdialplans.com
+  - cname=radarr.ucdialplans.com,k3s.ucdialplans.com
+  - cname=readarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=registry.ucdialplans.com,k3s.ucdialplans.com
+  - cname=sabnzbd.ucdialplans.com,k3s.ucdialplans.com
+  - cname=sonarr.ucdialplans.com,k3s.ucdialplans.com
+  - cname=tautulli.ucdialplans.com,k3s.ucdialplans.com
   - cname=traefik.ucdialplans.com,k3s.ucdialplans.com
+  - cname=traefik-rpi1.ucdialplans.com,rpi1.ucdialplans.com
+  - cname=traefik-rpi2.ucdialplans.com,rpi2.ucdialplans.com
+  - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
   - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
   - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com
