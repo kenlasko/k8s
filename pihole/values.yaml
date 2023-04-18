@@ -8,6 +8,8 @@ strategyType: RollingUpdate
 maxSurge: 1
 maxUnavailable: 1
 
+hostname: pihole
+
 nodeSelector:
   server-type: nuc
 
