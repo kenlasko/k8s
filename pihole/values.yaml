@@ -65,21 +65,21 @@ probes:
     scheme: HTTP
 
 dnsmasq:
-  additionalHostsEntries:
-  - 10.0.0.1      myrouter.io
-  - 192.168.1.1   unifi.ucdialplans.com
-  - 192.168.1.2   kenpc.ucdialplans.com
-  - 192.168.1.3   mediapc.ucdialplans.com
-  - 192.168.1.4   backuppc.ucdialplans.com
-  - 192.168.1.5   nuc1.ucdialplans.com
-  - 192.168.1.6   nuc2.ucdialplans.com
-  - 192.168.1.7   nuc3.ucdialplans.com
-  - 192.168.1.8   nuc4.ucdialplans.com
-  - 192.168.1.9   nuc5.ucdialplans.com
-  - 192.168.1.10  k3s.ucdialplans.com
-  - 192.168.1.15  rpi1.ucdialplans.com
-  - 192.168.1.16  rpi2.ucdialplans.com
-  - 192.168.1.23  firepit-speakers.ucdialplans.com
+  customDnsEntries:
+  - address=/myrouter.io/10.0.0.1
+  - address=/unifi.ucdialplans.com/192.168.1.1
+  - address=/kenpc.ucdialplans.com/192.168.1.2
+  - address=/mediapc.ucdialplans.com/192.168.1.3
+  - address=/backuppc.ucdialplans.com/192.168.1.4
+  - address=/nuc1.ucdialplans.com/192.168.1.5
+  - address=/nuc2.ucdialplans.com/192.168.1.6
+  - address=/nuc3.ucdialplans.com/192.168.1.7
+  - address=/nuc4.ucdialplans.com/192.168.1.8
+  - address=/nuc5.ucdialplans.com/192.168.1.9
+  - address=/k3s.ucdialplans.com/192.168.1.10
+  - address=/rpi1.ucdialplans.com/192.168.1.15
+  - address=/rpi2.ucdialplans.com/192.168.1.16
+  - address=/firepit-speakers.ucdialplans.com/192.168.1.23
 
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
