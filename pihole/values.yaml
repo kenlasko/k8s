@@ -8,15 +8,8 @@ strategyType: RollingUpdate
 maxSurge: 1
 maxUnavailable: 1
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: server-type
-          operator: In
-          values:
-          - nuc
+nodeSelector:
+  server-type: nuc
 
 persistentVolumeClaim:
   enabled: true
