@@ -9,7 +9,8 @@ maxSurge: 1
 maxUnavailable: 1
 
 persistentVolumeClaim:
-  enabled: true
+  enabled: false
+  storageClass: longhorn
   accessModes:
     - ReadWriteOnce
 
@@ -65,11 +66,28 @@ probes:
     scheme: HTTP
 
 dnsmasq:
+  additionalHostsEntries:
+  - 10.0.0.1      myrouter.io
+  - 192.168.1.1   unifi.ucdialplans.com
+  - 192.168.1.2   kenpc.ucdialplans.com
+  - 192.168.1.3   mediapc.ucdialplans.com
+  - 192.168.1.4   backuppc.ucdialplans.com
+  - 192.168.1.5   nuc1.ucdialplans.com
+  - 192.168.1.6   nuc2.ucdialplans.com
+  - 192.168.1.7   nuc3.ucdialplans.com
+  - 192.168.1.8   nuc4.ucdialplans.com
+  - 192.168.1.9   nuc5.ucdialplans.com
+  - 192.168.1.10  k3s.ucdialplans.com
+  - 192.168.1.15  rpi1.ucdialplans.com
+  - 192.168.1.16  rpi2.ucdialplans.com
+  - 192.168.1.23  firepit-speakers.ucdialplans.com
+  
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
   - cname=glances.ucdialplans.com,k3s.ucdialplans.com
+  - cname=glances-mpc.ucdialplans.com,mediapc.ucdialplans.com
   - cname=grafana.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
@@ -92,6 +110,7 @@ dnsmasq:
   - cname=sonarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=tautulli.ucdialplans.com,k3s.ucdialplans.com
   - cname=traefik.ucdialplans.com,k3s.ucdialplans.com
+  - cname=traefik-mpc.ucdialplans.com,mediapc.ucdialplans.com
   - cname=traefik-rpi1.ucdialplans.com,rpi1.ucdialplans.com
   - cname=traefik-rpi2.ucdialplans.com,rpi2.ucdialplans.com
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
