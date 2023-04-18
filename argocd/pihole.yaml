@@ -16,7 +16,7 @@ spec:
     ref: values
   # - repoURL: 'git@github.com:kenlasko/K3S.git'
   #   path: pihole
-    targetRevision: HEAD
+  #   targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: pihole
