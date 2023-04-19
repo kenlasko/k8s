@@ -27,7 +27,7 @@ spec:
                 - nuc
       containers:
       - name: jackett
-        image: linuxserver/jackett
+        image: linuxserver/jackett:latest
         imagePullPolicy: Always
         resources:
           requests:
