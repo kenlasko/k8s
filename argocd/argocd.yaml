@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
+  sources:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: argocd
     targetRevision: HEAD
