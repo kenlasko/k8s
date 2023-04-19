@@ -27,7 +27,7 @@ spec:
                 - nuc
       containers:
       - name: tautulli
-        image: tautulli/tautulli
+        image: tautulli/tautulli:latest
         imagePullPolicy: Always
         resources:
           requests:

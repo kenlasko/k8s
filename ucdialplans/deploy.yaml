@@ -35,7 +35,7 @@ spec:
                 - nuc-fast
       containers:
       - name: ucdialplans
-        image: registry.ucdialplans.com/ucdialplans
+        image: registry.ucdialplans.com/ucdialplans:latest
         imagePullPolicy: Always #IfNotPresent
         resources:
           requests:

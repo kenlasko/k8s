@@ -28,7 +28,7 @@ spec:
                 - nuc
       containers:
       - name: sonarr
-        image: linuxserver/sonarr
+        image: linuxserver/sonarr:latest
         imagePullPolicy: Always
         resources:
           requests:

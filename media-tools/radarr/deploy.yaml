@@ -28,7 +28,7 @@ spec:
                 - nuc
       containers:
       - name: radarr
-        image: linuxserver/radarr
+        image: linuxserver/radarr:latest
         imagePullPolicy: Always
         resources:
           requests:

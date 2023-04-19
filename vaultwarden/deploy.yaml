@@ -20,7 +20,7 @@ spec:
         server-type: nuc
       containers:
       - name: vaultwarden
-        image: vaultwarden/server
+        image: vaultwarden/server:latest
         imagePullPolicy: Always
         resources:
           requests:

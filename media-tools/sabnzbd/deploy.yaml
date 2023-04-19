@@ -28,7 +28,7 @@ spec:
                 - nuc
       containers:
       - name: sabnzbd
-        image: linuxserver/sabnzbd
+        image: linuxserver/sabnzbd:latest
         imagePullPolicy: Always
         resources:
           requests:

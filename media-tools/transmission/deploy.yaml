@@ -28,7 +28,7 @@ spec:
                 - nuc
       containers:
       - name: transmission
-        image: linuxserver/transmission
+        image: linuxserver/transmission:latest
         imagePullPolicy: Always
         resources:
           requests:

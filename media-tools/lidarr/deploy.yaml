@@ -28,7 +28,7 @@ spec:
                 - nuc
       containers:
       - name: lidarr
-        image: linuxserver/lidarr
+        image: linuxserver/lidarr:latest
         imagePullPolicy: Always
         resources:
           requests:
