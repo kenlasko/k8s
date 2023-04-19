@@ -4,7 +4,7 @@ metadata:
   name: readarr
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: readarr=linuxserver/readarr:latest
+    argocd-image-updater.argoproj.io/image-list: readarr=linuxserver/readarr:nightly
     argocd-image-updater.argoproj.io/readarr.update-strategy: digest
 spec:
   project: default
