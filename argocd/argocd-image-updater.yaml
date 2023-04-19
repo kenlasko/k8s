@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml'
-    path: deploy
+    repoURL: 'git@github.com:argoproj-labs/argocd-image-updater.git'
+    path: manifests/install.yaml
   destination:
     server: 'https://kubernetes.default.svc'
