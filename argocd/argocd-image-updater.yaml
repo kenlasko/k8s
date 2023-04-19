@@ -8,5 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/argoproj-labs/argocd-image-updater'
     path: manifests
+    directory:
+      recurse: false
   destination:
     server: 'https://kubernetes.default.svc'
