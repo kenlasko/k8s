@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: hydra
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: hydra=linuxserver/nzbhydra2:latest
+    argocd-image-updater.argoproj.io/hydra.update-strategy: digest
 spec:
   project: default
   source:

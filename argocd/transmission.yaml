@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: transmission
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: transmission=linuxserver/transmission:latest
+    argocd-image-updater.argoproj.io/transmission.update-strategy: digest
 spec:
   project: default
   source:
