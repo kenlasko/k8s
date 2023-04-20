@@ -1,0 +1,101 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden2
+  namespace: vaultwarden2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden2
+  template:
+    metadata:
+      labels:
+        app: vaultwarden2
+        name: vaultwarden2
+    spec:
+      restartPolicy: Always
+      nodeSelector:
+        server-type: nuc
+      containers:
+      - name: vaultwarden2
+        image: vaultwarden/server:latest
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+              - all
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+          limits:
+            cpu: 200m
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8087
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        env:
+        - name: ADMIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: admin-token
+              key: token   
+        - name: DATABASE_URL
+          value: "mysql://vaultwarden:***REMOVED***@mariadb.mariadb.svc.cluster.local/vaultwarden2"  # value: "mysql://vaultwarden:***REMOVED***@mariadb.mariadb.svc.cluster.local/vaultwarden"
+        - name: DOMAIN
+          value: "https://vaultwarden2.ucdialplans.com"
+        - name: ROCKET_PORT
+          value: "8087"
+        - name: RUST_BACKTRACE
+          value: "1"
+        - name: SIGNUPS_ALLOWED
+          value: "false"
+        - name: SMTP_HOST
+          value: "smtp.sendgrid.net"
+        - name: SMTP_FROM
+          value: "bitwarden@ucdialplans.com"
+        - name: SMTP_PORT
+          value: "465"
+        - name: SMTP_SECURITY
+          value: "force_tls"
+        - name: SMTP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sendgrid
+              key: username
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sendgrid
+              key: password
+        - name: SMTP_AUTH_MECHANISM
+          value: "'Login'"
+        - name: WEBSOCKET_ENABLED
+          value: "true"
+        - name: YUBICO_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: yubico
+              key: client-id
+        - name: YUBICO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yubico
+              key: secret
+        volumeMounts:
+        - name: vaultwarden2-data
+          mountPath: /data
+      volumes:
+        - name: vaultwarden2-data
+          persistentVolumeClaim:
+            claimName: longhorn-vaultwarden2-pvc
+      automountServiceAccountToken: false
