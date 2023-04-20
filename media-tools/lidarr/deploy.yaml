@@ -37,9 +37,6 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: false
           runAsUser: 911
-          capabilities:
-            drop:
-              - all
         resources:
           requests:
             cpu: 100m
