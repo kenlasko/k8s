@@ -33,7 +33,7 @@ spec:
         image: linuxserver/lidarr:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 911
@@ -50,6 +50,11 @@ spec:
             port: 8686
           initialDelaySeconds: 15
           periodSeconds: 120
+        env:
+        - name: PUID
+          value: "911"
+        - name: PGID
+          value: "911"
         volumeMounts:
         - name: lidarr-config
           mountPath: /config
