@@ -23,13 +23,10 @@ spec:
         image: vaultwarden/server:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
           runAsNonRoot: false
           runAsUser: 1000
-          capabilities:
-            drop:
-              - all
         resources:
           requests:
             cpu: 50m
