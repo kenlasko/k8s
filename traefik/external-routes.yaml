@@ -1,44 +1,44 @@
 # With help from https://crt.the-mori.com/2021-09-17-kubernetes-traefik-forward-traffic-external-ip
 ####### Radarr #######
 
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: pihole1-external-route
-  namespace: traefik
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`pihole1.ucdialplans.com`)
-    kind: Rule
-    services:
-    - name: pihole1-forward
-      kind: Service
-      port: 8050
-  tls:
-    secretName: traefik-wildcard-cert
-    options:
-      name: tls-options-default
-      namespace: traefik
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: pihole1-external-route
+#   namespace: traefik
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#   - match: Host(`pihole1.ucdialplans.com`)
+#     kind: Rule
+#     services:
+#     - name: pihole1-forward
+#       kind: Service
+#       port: 8050
+#   tls:
+#     secretName: traefik-wildcard-cert
+#     options:
+#       name: tls-options-default
+#       namespace: traefik
 
 
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: pihole1-forward
-  namespace: traefik
-spec:
-  type: ExternalName
-  ports:
-    - name: pihole1-forward
-      port: 8050
-      targetPort: 8050
-  externalName: 192.168.1.15
-  selector:
-    app.kubernetes.io/instance: traefik
-    app.kubernetes.io/name: traefik
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: pihole1-forward
+#   namespace: traefik
+# spec:
+#   type: ExternalName
+#   ports:
+#     - name: pihole1-forward
+#       port: 8050
+#       targetPort: 8050
+#   externalName: 192.168.1.15
+#   selector:
+#     app.kubernetes.io/instance: traefik
+#     app.kubernetes.io/name: traefik
 
 
 # ####### Sonarr #######
@@ -82,47 +82,3 @@ spec:
 #   selector:
 #     app.kubernetes.io/instance: traefik
 #     app.kubernetes.io/name: traefik
-
-
-# ####### SABNZBD #######
-
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: sabnzbd-external-route
-#   namespace: traefik
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#   - match: Host(`sabnzbd.ucdialplans.com`)
-#     kind: Rule
-#     services:
-#     - name: sabnzbd-forward
-#       kind: Service
-#       port: 8079
-#   tls:
-#     secretName: traefik-wildcard-cert
-#     options:
-#       name: tls-options-clientauth
-#       namespace: traefik
-
-
-# ---
-# kind: Service
-# apiVersion: v1
-# metadata:
-#   name: sabnzbd-forward
-#   namespace: traefik
-# spec:
-#   type: ExternalName
-#   ports:
-#     - name: sabnzbd-forward
-#       port: 8079
-#       targetPort: 8079
-#   externalName: 192.168.1.3
-#   selector:
-#     app.kubernetes.io/instance: traefik
-#     app.kubernetes.io/name: traefik
-
