@@ -32,6 +32,14 @@ spec:
       - name: lidarr
         image: linuxserver/lidarr:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 911
+          capabilities:
+            drop:
+              - all
         resources:
           requests:
             cpu: 100m
