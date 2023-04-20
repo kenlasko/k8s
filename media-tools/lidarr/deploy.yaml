@@ -33,7 +33,7 @@ spec:
         image: linuxserver/lidarr:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 911
