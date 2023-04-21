@@ -76,3 +76,8 @@ ansible-playbook k3s/ansible-clean-db-folders.yaml --limit "nuc2" --ask-become-p
 helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED***
+
+
+helm upgrade --namespace mariadb mariadb oci://registry-1.docker.io/bitnamicharts/mariadb-galera \
+      --set rootUser.password=$(kubectl get secret --namespace mariadb mariadb -o jsonpath="{.data.mariadb-root-password}" | base64 -d) \
+      --set galera.mariabackup.password=$(kubectl get secret --namespace mariadb mariadb -o jsonpath="{.data.mariadb-galera-mariabackup-password}" | base64 -d)
