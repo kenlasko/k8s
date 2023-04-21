@@ -23,11 +23,13 @@ stop slave;
 drop database homeassist;
 drop database ucdialplans;
 drop database vaultwarden;
+drop database phpmyadmin;
 
+# Exit to prompt and run
 mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
 
 # Then run 
-set global gtid_slave_pos = "0-1-303013";
+set global gtid_slave_pos = "0-1-1036026";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
     master_user='replicator',
@@ -40,3 +42,5 @@ start slave;
 
 # Check status
 show slave status;
+
+# If you get replication errors, 
