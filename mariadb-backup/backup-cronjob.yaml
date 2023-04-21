@@ -13,7 +13,14 @@ spec:
         spec:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
-          nodeName: rpi1
+          nodeAffinity:
+            required:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - rpi1
           containers:
           - name: mariadb-backup
             image: mariadb:10.9.4
