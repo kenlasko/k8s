@@ -2,13 +2,13 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: pihole
-  namespace: pihole
+  namespace: pihole-test
 
 spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`pihole.ucdialplans.com`) 
+  - match: Host(`pihole-test.ucdialplans.com`) 
     kind: Rule
     services:
     - name: pihole-web
