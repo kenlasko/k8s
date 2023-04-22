@@ -94,8 +94,6 @@ dnsmasq:
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
   - cname=helm.ucdialplans.com,k3s.ucdialplans.com
-  - cname=hydra.ucdialplans.com,k3s.ucdialplans.com
-  - cname=jackett.ucdialplans.com,k3s.ucdialplans.com
   - cname=lidarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
   - cname=mariadb.ucdialplans.com,k3s.ucdialplans.com
@@ -105,6 +103,7 @@ dnsmasq:
   - cname=plex.ucdialplans.com,k3s.ucdialplans.com
   - cname=portainer.ucdialplans.com,k3s.ucdialplans.com
   - cname=prometheus.ucdialplans.com,k3s.ucdialplans.com
+  - cname=prowlarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=radarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=readarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=registry.ucdialplans.com,k3s.ucdialplans.com
