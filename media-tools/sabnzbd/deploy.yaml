@@ -4,6 +4,9 @@ kind: Deployment
 metadata:
   name: sabnzbd
   namespace: media-tools
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
 spec:
   replicas: 1
   selector:

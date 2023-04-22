@@ -5,7 +5,7 @@ metadata:
   name: duplicati
   namespace: duplicati
   annotations:
-    keel.sh/policy: force     # update policy (available: patch, minor, major, all, force)
+    keel.sh/policy: force
     keel.sh/match-tag: "true"
 spec:
   replicas: 1
