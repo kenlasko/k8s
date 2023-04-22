@@ -1,6 +1,6 @@
 nodeSelector:
   server-type: nuc
-  
+
 polling:
   enabled: true
   defaultSchedule: "@every 2h"
@@ -17,3 +17,8 @@ mail:
     port: 587
     user: "apikey"
     password: "***REMOVED***"
+
+basicauth:
+  enabled: true
+  user: "kenadmin"
+  password: "***REMOVED***"
