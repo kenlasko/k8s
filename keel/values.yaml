@@ -1,0 +1,16 @@
+polling:
+  enabled: true
+  defaultSchedule: "@every 2h"
+
+helmProvider:
+  enabled: false
+
+mail:
+  enabled: true
+  from: "Keel Updates <keelupdates@ucdialplans.com>"
+  to: "ken.lasko@gmail.com"
+  smtp:
+    server: "smtp.sendgrid.net"
+    port: 587
+    user: "apikey"
+    password: "***REMOVED***"

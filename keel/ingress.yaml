@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: keel-frontend
+  namespace: keel
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`keel.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: keel-frontend
+      port: 9300
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
