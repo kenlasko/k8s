@@ -106,6 +106,7 @@ dnsmasq:
   - cname=plex.ucdialplans.com,k3s.ucdialplans.com
   - cname=portainer.ucdialplans.com,k3s.ucdialplans.com
   - cname=prometheus.ucdialplans.com,k3s.ucdialplans.com
+  - cname=prowlarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=radarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=readarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=registry.ucdialplans.com,k3s.ucdialplans.com
