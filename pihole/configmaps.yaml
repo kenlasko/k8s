@@ -7,7 +7,7 @@ metadata:
     app: pihole
     argocd.argoproj.io/instance: pihole
 data:
-  adlists.list: >
+  adlists.list: |
     https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
     https://adaway.org/hosts.txt
     https://v.firebog.net/hosts/AdguardDNS.txt
