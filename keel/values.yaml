@@ -1,3 +1,6 @@
+nodeSelector:
+  server-type: nuc
+  
 polling:
   enabled: true
   defaultSchedule: "@every 2h"
