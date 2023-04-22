@@ -6,6 +6,7 @@ metadata:
   namespace: duplicati
   annotations:
     keel.sh/policy: force
+    keel.sh/trigger: poll
     keel.sh/match-tag: "true"
 spec:
   replicas: 1

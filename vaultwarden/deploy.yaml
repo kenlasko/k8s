@@ -4,6 +4,11 @@ kind: Deployment
 metadata:
   name: vaultwarden
   namespace: vaultwarden
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+    keel.sh/approvals: "1"
 spec:
   replicas: 1
   selector:

@@ -4,6 +4,10 @@ kind: Deployment
 metadata:
   name: glances-nuc1
   namespace: glances
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
 spec:
   replicas: 1
   selector:
