@@ -66,6 +66,10 @@ probes:
     port: http
     scheme: HTTP
 
+extraVolumes:
+  pihole-logs:
+    emptyDir: {}
+
 extraVolumeMounts:
   pihole-logs:
     mountPath: /var/log/pihole
