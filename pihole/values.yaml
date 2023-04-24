@@ -78,18 +78,18 @@ extraObjects:
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: pihole
+      name: mediapc-urlwatcher
       namespace: pihole
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: pihole
+          app: mediapc-urlwatcher
       template:
         metadata:
           labels:
-            app: pihole
-            name: pihole
+            app: mediapc-urlwatcher
+            name: mediapc-urlwatcher
         spec:
           restartPolicy: Always
           volumes:
