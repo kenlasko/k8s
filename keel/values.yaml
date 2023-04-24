@@ -3,7 +3,7 @@ nodeSelector:
 
 polling:
   enabled: true
-  defaultSchedule: "@every 1h"
+  defaultSchedule: "@daily"
 
 helmProvider:
   enabled: false
