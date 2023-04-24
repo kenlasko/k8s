@@ -1,11 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: pihole
+  namespace: pihole
   labels:
     app: pihole
     argocd.argoproj.io/instance: pihole
-  name: pihole
-  namespace: pihole
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -21,19 +25,15 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        checksum.config.adlists: 2446386b146d4edc21e1700fe146859be6cf7b7c370292288244598f7c018f3
-        checksum.config.blacklist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
-        checksum.config.dnsmasqConfig: a1c5eeb3abf5acdfd1723a7f31cf71510f88b10b81321fe7254a10a2d5578ea
-        checksum.config.regex: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
-        checksum.config.staticDhcpConfig: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
-        checksum.config.whitelist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
       labels:
         app: pihole
         release: pihole
     spec:
       containers:
-        - env:
+        - name: pihole
+          image: 'pihole/pihole:latest'
+          imagePullPolicy: Always          
+          env:
             - name: WEB_PORT
               value: '80'
             - name: VIRTUAL_HOST
@@ -45,8 +45,6 @@ spec:
                   name: pihole-password
             - name: PIHOLE_DNS_
               value: 1.1.1.1;1.0.0.1
-          image: 'pihole/pihole:latest'
-          imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 10
             httpGet:
@@ -57,7 +55,6 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
-          name: pihole
           ports:
             - containerPort: 80
               name: http
@@ -68,9 +65,6 @@ spec:
             - containerPort: 53
               name: dns-udp
               protocol: UDP
-            - containerPort: 443
-              name: https
-              protocol: TCP
             - containerPort: 67
               name: client-udp
               protocol: UDP
