@@ -75,15 +75,7 @@ extraVolumeMounts:
     mountPath: /var/log/pihole
 
 extraObjects: 
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    name: pihole
-    namespace: pihole
-  spec:
-    volumes:
-    - name: pihole-logs
-    containers:
+  - containers:
     - name: mediapc-urlwatcher
       image: registry.ucdialplans.com/mediapc-urlwatcher
       imagePullPolicy: Always

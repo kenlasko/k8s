@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pihole-urlwatcher
+  name: pihole
   namespace: pihole
 spec:
   volumes:
