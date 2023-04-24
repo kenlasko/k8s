@@ -75,26 +75,28 @@ extraVolumeMounts:
     mountPath: /var/log/pihole
 
 extraObjects: 
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: pihole
-      namespace: pihole
-    spec:
-      containers:
-      - name: mediapc-urlwatcher
-        image: registry.ucdialplans.com/mediapc-urlwatcher
-        imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: 100m
-            memory: 5Mi
-          limits:
-            cpu: 100m
-            memory: 5Mi
-        volumeMounts:
-        - name: pihole-logs
-          mountPath: /var/log/pihole
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: pihole-urlwatcher
+    namespace: pihole
+  spec:
+    volumes:
+    - name: pihole-logs
+    containers:
+    - name: mediapc-urlwatcher
+      image: registry.ucdialplans.com/mediapc-urlwatcher
+      imagePullPolicy: Always
+      resources:
+        requests:
+          cpu: 100m
+          memory: 5Mi
+        limits:
+          cpu: 100m
+          memory: 5Mi
+      volumeMounts:
+      - name: pihole-logs
+        mountPath: /var/log/pihole
 
 
 dnsmasq:
