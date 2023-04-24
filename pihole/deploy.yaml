@@ -106,6 +106,20 @@ spec:
               subPath: adlists.list
             - mountPath: /var/log/pihole
               name: pihole-logs
+        - name: mediapc-urlwatcher
+          image: registry.ucdialplans.com/mediapc-urlwatcher
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 5Mi
+            limits:
+              cpu: 100m
+              memory: 5Mi
+          volumeMounts:
+          - name: pihole-logs
+            mountPath: /var/log/pihole      
+      
       dnsConfig:
         nameservers:
           - 127.0.0.1
