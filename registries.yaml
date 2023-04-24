@@ -1,4 +1,4 @@
 mirrors:
-  docker.io:
+  registry.ucdialplans.com:
     endpoint:
       - "http://registry.ucdialplans.com"
