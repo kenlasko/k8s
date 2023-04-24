@@ -66,6 +66,10 @@ probes:
     port: http
     scheme: HTTP
 
+extraVolumeMounts:
+  pihole-logs:
+    mountPath: /var/log/pihole
+
 dnsmasq:
   customDnsEntries:
   - address=/myrouter.io/10.0.0.1
