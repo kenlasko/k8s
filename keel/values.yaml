@@ -22,3 +22,8 @@ basicauth:
   enabled: true
   user: "kenadmin"
   password: "***REMOVED***"
+
+persistence:
+  enabled: true
+  storageClass: "longhorn"
+  size: 1Gi

@@ -14,7 +14,3 @@ spec:
     name: web
   selector:
     app: keel
-# persistence:
-#   enabled: true
-#   storageClass: "longhorn"
-#   size: 1Gi
