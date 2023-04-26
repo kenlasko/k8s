@@ -43,9 +43,7 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
---set galera.bootstrap.bootstrapFromNode=0 \
---set podManagementPolicy=Parallel
---version 7.5.5
+--set galera.bootstrap.bootstrapFromNode=0 
 
 Once up and running
 kubectl scale statefulset mariadb -n mariadb --replicas=1
