@@ -67,8 +67,8 @@ kubectl label nodes nuc6 storage=longhorn
 kubectl label nodes rpi1 server-type=rpi
 kubectl label nodes rpi2 server-type=rpi
 
+kubectl label nodes nuc3 intel.feature.node.kubernetes.io/gpu=true
 kubectl label nodes nuc4 intel.feature.node.kubernetes.io/gpu=true
-kubectl label nodes nuc5 intel.feature.node.kubernetes.io/gpu=true
 
 # install MetalLB
 helm repo add metallb https://metallb.github.io/metallb 
