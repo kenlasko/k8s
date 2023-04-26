@@ -52,17 +52,17 @@ kubectl label nodes nuc3 server-speed=nuc-fast
 kubectl label nodes nuc3 server-type=nuc
 kubectl label nodes nuc3 storage=longhorn
 
-kubectl label nodes nuc5 server-speed=nuc-fast
+kubectl label nodes nuc4 server-speed=nuc-fast
+kubectl label nodes nuc4 server-type=nuc
+kubectl label nodes nuc4 storage=longhorn
+
+kubectl label nodes nuc5 server-speed=nuc-slow
 kubectl label nodes nuc5 server-type=nuc
 kubectl label nodes nuc5 storage=longhorn
 
 kubectl label nodes nuc6 server-speed=nuc-slow
 kubectl label nodes nuc6 server-type=nuc
 kubectl label nodes nuc6 storage=longhorn
-
-kubectl label nodes nuc7 server-speed=nuc-slow
-kubectl label nodes nuc7 server-type=nuc
-kubectl label nodes nuc7 storage=longhorn
 
 kubectl label nodes rpi1 server-type=rpi
 kubectl label nodes rpi2 server-type=rpi
