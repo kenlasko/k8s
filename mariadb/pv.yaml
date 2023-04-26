@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mariadb-data-nuc4
+  name: mariadb-data-nuc3
 spec:
   storageClassName: local-path
   capacity:
@@ -42,7 +42,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nuc4
+          - nuc3
           
 ---
 apiVersion: v1

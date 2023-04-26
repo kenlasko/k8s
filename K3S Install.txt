@@ -26,10 +26,10 @@ ansible-playbook /home/ken/k3s/ansible-k3s-prep.yaml --ask-become-pass
 curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
 
 # Add nodes 2/3
-curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.5:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
 
 # Add worker nodes
-curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.5:6443 K3S_TOKEN=***REMOVED*** sh -
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
 
 # Run next Ansible script
 ansible-playbook /home/ken/k3s/ansible-k3s-post.yaml --ask-become-pass
@@ -48,25 +48,25 @@ kubectl label nodes nuc1 server-speed=nuc-fast
 kubectl label nodes nuc1 server-type=nuc
 kubectl label nodes nuc1 storage=longhorn
 
-kubectl label nodes nuc3 server-speed=nuc-slow
+kubectl label nodes nuc3 server-speed=nuc-fast
 kubectl label nodes nuc3 server-type=nuc
 kubectl label nodes nuc3 storage=longhorn
 
-kubectl label nodes nuc6 server-speed=nuc-slow
-kubectl label nodes nuc4 server-speed=nuc-fast
 kubectl label nodes nuc5 server-speed=nuc-fast
-
-kubectl label nodes nuc6 server-type=nuc
-
-kubectl label nodes nuc4 server-type=nuc
 kubectl label nodes nuc5 server-type=nuc
+kubectl label nodes nuc5 storage=longhorn
+
+kubectl label nodes nuc6 server-speed=nuc-slow
+kubectl label nodes nuc6 server-type=nuc
+kubectl label nodes nuc6 storage=longhorn
+
+kubectl label nodes nuc7 server-speed=nuc-slow
+kubectl label nodes nuc7 server-type=nuc
+kubectl label nodes nuc7 storage=longhorn
+
 kubectl label nodes rpi1 server-type=rpi
 kubectl label nodes rpi2 server-type=rpi
 
-kubectl label nodes nuc6 storage=longhorn
-
-kubectl label nodes nuc4 storage=longhorn
-kubectl label nodes nuc5 storage=longhorn
 kubectl label nodes nuc4 intel.feature.node.kubernetes.io/gpu=true
 kubectl label nodes nuc5 intel.feature.node.kubernetes.io/gpu=true
 
