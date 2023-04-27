@@ -7,7 +7,6 @@ metadata:
   namespace: ucdialplans
 spec:
   type: ClusterIP
-  externalTrafficPolicy: Local
   ports:
   - port: 80
     protocol: TCP
