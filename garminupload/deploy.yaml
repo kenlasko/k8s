@@ -32,7 +32,7 @@ spec:
                 memory: 300Mi
             env:
             - name: GarminLastActivity
-              value: "10846780816"
+              value: "10978529620"
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
