@@ -44,7 +44,8 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
 --set galera.bootstrap.bootstrapFromNode=0 \
---set podManagementPolicy=Parallel
+--set podManagementPolicy=Parallel \
+--version 7.5.5
 
 
 Once up and running
