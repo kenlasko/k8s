@@ -2,6 +2,7 @@ image:
   pullPolicy: Always
 persistence:
   size: 500Mi
+  storageClass: longhorn-high-value
 service:
   type: ClusterIP
 nodeSelector:
