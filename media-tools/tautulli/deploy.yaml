@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: tautulli
   namespace: media-tools
@@ -10,8 +10,6 @@ metadata:
     keel.sh/trigger: poll
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: tautulli
