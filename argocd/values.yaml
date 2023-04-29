@@ -1,5 +1,7 @@
 configs:
   params:
     server.insecure: true
+  cm: 
+    create: false # Don't create configmap because I do it separately via 02-repoconfig.yaml
 nodeSelector:
   server-type: nuc
