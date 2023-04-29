@@ -74,19 +74,19 @@ extraVolumeMounts:
     mountPath: /var/log/pihole
 
 extraContainers:
-- name: mediapc-urlwatcher
-  image: registry.ucdialplans.com/mediapc-urlwatcher
-  imagePullPolicy: Always
-  resources:
-    requests:
-      cpu: 100m
-      memory: 5Mi
-    limits:
-      cpu: 100m
-      memory: 5Mi
-  volumeMounts:
-  - name: pihole-logs
-    mountPath: /var/log/pihole  
+  - name: mediapc-urlwatcher
+    image: registry.ucdialplans.com/mediapc-urlwatcher
+    imagePullPolicy: Always
+    resources:
+      requests:
+        cpu: 100m
+        memory: 5Mi
+      limits:
+        cpu: 100m
+        memory: 5Mi
+    volumeMounts:
+    - name: pihole-logs
+      mountPath: /var/log/pihole  
 
 dnsmasq:
   customDnsEntries:
