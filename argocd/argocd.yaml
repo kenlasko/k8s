@@ -6,6 +6,14 @@ metadata:
 spec:
   project: default
   sources:
+  - repoURL: 'https://argoproj.github.io/argo-helm'
+    targetRevision: 5.*
+    chart: argocd/argo-cd
+    helm:
+      valueFiles:
+      - $values/argocd/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: argocd
     targetRevision: HEAD
