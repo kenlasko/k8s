@@ -3,5 +3,63 @@ configs:
     server.insecure: true
   cm: 
     create: false # Don't create configmap because I do it separately via 02-repoconfig.yaml
+  repositories:
+    argocd-helm-repo:
+      url: https://argoproj.github.io/argo-helm
+      name: argocd
+      type: helm
+    bitnami-helm-repo:
+      url: https://charts.bitnami.com/bitnami
+      name: bitnami
+      type: helm
+    cert-manager-helm-repo:
+      url: https://charts.jetstack.io
+      name: jetstack
+      type: helm
+    csi-helm-repo:
+      url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+      name: csi-driver-smb
+      type: helm
+    grafana-helm-repo:
+      url: https://grafana.github.io/helm-charts
+      name: grafana
+      type: helm
+    intel-helm-repo:
+      url: https://intel.github.io/helm-charts/
+      name: intel
+      type: helm
+    keel-helm-repo:
+      url: https://charts.keel.sh
+      name: keel
+      type: helm
+    longhorn-helm-repo:
+      url: https://charts.longhorn.io
+      name: longhorn
+      type: helm
+    metallb-helm-repo:
+      url: https://metallb.github.io/metallb
+      name: metallb
+      type: helm
+    netdata-helm-repo:
+      url: https://netdata.github.io/helmchart/
+      name: netdata
+      type: helm
+    pihole-helm-repo:
+      url: https://mojo2600.github.io/pihole-kubernetes/
+      name: pihole
+      type: helm
+    portainer-helm-repo:
+      url: https://portainer.github.io/k8s/
+      name: portainer
+      type: helm
+    promstack-helm-repo:
+      url: https://prometheus-community.github.io/helm-charts
+      name: promstack
+      type: helm
+    traefik-helm-repo:
+      url: https://helm.traefik.io/traefik
+      name: traefik
+      type: helm
+
 nodeSelector:
   server-type: nuc
