@@ -1,17 +1,5 @@
 configs:
   params:
     server.insecure: true
-  cm:
-    annotations:
-      data:
-        repositories: |
-          - url: git@github.com:kenlasko/K3S.git
-            sshPrivateKeySecret:
-              name: github-k3s-private-key
-              key: privateKey
-          - url: git@github.com:kenlasko/helm-charts.git
-            sshPrivateKeySecret:
-              name: github-helm-private-key
-              key: privateKey
 nodeSelector:
   server-type: nuc
