@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: ruleset-update-email
+  name: emailupdate
   namespace: ucdialplans
 spec:
   schedule: "0 8 * * *" 
@@ -16,13 +16,15 @@ spec:
             server-speed: nuc-slow
           restartPolicy: Never
           containers:
-          - name: ruleset-update-email
+          - name: emailupdate
             image: curlimages/curl
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
             - -c
-            - curl --silent --location --insecure --request POST 'https://www.ucdialplans.com/EmailUpdates.aspx' --form 'userID2="***REMOVED***"'
+            - echo "$(date +%F_%T) Checking rulesets for updates..." &&
+              curl --silent --location --insecure --request POST 'https://www.ucdialplans.com/EmailUpdates.aspx' --form 'userID2="***REMOVED***"' &&
+              echo "$(date +%F_%T) Finished!"
             resources:
               requests:
                 cpu: 100m
