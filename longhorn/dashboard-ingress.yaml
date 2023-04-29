@@ -11,7 +11,7 @@ spec:
     kind: Rule
     services:
     - name: longhorn-frontend
-      port: 8000
+      port: 80
     middlewares:
     - name: traefik-security
       namespace: traefik
