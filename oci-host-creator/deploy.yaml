@@ -19,7 +19,7 @@ spec:
         server-speed: nuc-slow
       containers:
       - name: oci-host-creator
-        image: registry.ucdialplans.com/oci-host-creator
+        image: registry.ucdialplans.com/oci-watcher
         imagePullPolicy: Always
         resources:
           requests:
