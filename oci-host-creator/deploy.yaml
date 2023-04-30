@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oci-host-creator
+  namespace: oci-host-creator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oci-host-creator
+  template:
+    metadata:
+      labels:
+        app: oci-host-creator
+        name: oci-host-creator
+    spec:
+      nodeSelector:
+        server-speed: nuc-slow
+      containers:
+      - name: oci-host-creator
+        image: registry.ucdialplans.com/oci-host-creator
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 50m
+            memory: 900Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
