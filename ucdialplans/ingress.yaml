@@ -11,7 +11,7 @@ spec:
     kind: Rule
     services:
     - name: ucdialplans-service
-      port: 80
+      port: 8080
     middlewares:
     - name: ucdialplans-redirect
       namespace: ucdialplans
