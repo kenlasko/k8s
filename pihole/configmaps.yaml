@@ -66,6 +66,7 @@ data:
     cname=grafana.ucdialplans.com,k3s.ucdialplans.com
     cname=ha.ucdialplans.com,k3s.ucdialplans.com
     cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
+    cname=heimdall.ucdialplans.com,k3s.ucdialplans.com
     cname=helm.ucdialplans.com,k3s.ucdialplans.com
     cname=hydra.ucdialplans.com,k3s.ucdialplans.com
     cname=jackett.ucdialplans.com,k3s.ucdialplans.com
