@@ -37,6 +37,14 @@ spec:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans:latest
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+              - all
         resources:
           requests:
             cpu: 300m
