@@ -23,8 +23,8 @@ spec:
       restartPolicy: Always
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 3000
+        runAsUser: 911
+        runAsGroup: 1001
         fsGroup: 2000
       affinity:
         nodeAffinity:
