@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: esphome
+    path: home-automation/esphome
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
