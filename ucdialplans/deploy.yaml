@@ -45,10 +45,10 @@ spec:
           capabilities:
             drop:
               - all
-          volumeMounts:
-            - mountPath: /var/www/web.config
-              name: ucdialplans-webconfig
-              subPath: web.config
+        volumeMounts:
+          - mountPath: /var/www/web.config
+            name: ucdialplans-webconfig
+            subPath: web.config
         resources:
           requests:
             cpu: 300m
