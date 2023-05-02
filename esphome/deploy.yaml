@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: esphome
-  namespace: esphome
+  namespace: homeassist
   annotations:
     keel.sh/policy: force
     keel.sh/trigger: poll

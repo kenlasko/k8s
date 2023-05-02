@@ -4,7 +4,7 @@ metadata:
   labels:
     app: esphome-service
   name: esphome-service
-  namespace: esphome
+  namespace: homeassist
 spec:
   type: ClusterIP
   ports:

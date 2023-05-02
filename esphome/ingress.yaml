@@ -2,7 +2,7 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: esphome
-  namespace: esphome
+  namespace: homeassist
 spec:
   entryPoints: 
     - websecure
