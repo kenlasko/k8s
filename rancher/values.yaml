@@ -1,2 +1,4 @@
 ingress:
   enabled: false
+rancher:
+  kubeVersion: < 1.26.9-0
