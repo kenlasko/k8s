@@ -36,7 +36,7 @@ spec:
       containers:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
@@ -45,10 +45,6 @@ spec:
           capabilities:
             drop:
               - all
-        volumeMounts:
-          - mountPath: /var/www/web.config
-            name: ucdialplans-webconfig
-            subPath: web.config
         resources:
           requests:
             cpu: 300m
@@ -64,9 +60,4 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 10
           failureThreshold: 3
-      volumes:
-        - configMap:
-            defaultMode: 420
-            name: ucdialplans-webconfig
-          name: ucdialplans-webconfig
       automountServiceAccountToken: false
