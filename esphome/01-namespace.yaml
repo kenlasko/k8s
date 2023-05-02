@@ -1,7 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: esphome
-  labels:
-    app.kubernetes.io/name: esphome
-    app.kubernetes.io/instance: esphome
