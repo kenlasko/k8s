@@ -20,12 +20,12 @@ data:
             <add namespace="System.Xml" />
             <add namespace="System.Net" />
             <add namespace="System.IO" />
-      <add namespace="System.Diagnostics"/>
+            <add namespace="System.Diagnostics"/>
             <add namespace="System.Text.RegularExpressions" />
             <add namespace="System.Collections.Generic" />
             <add namespace="System.Collections.Specialized" />
             <add namespace="MySql.Data.MySqlClient" />
-      <add namespace="MySql.Data" />
+            <add namespace="MySql.Data" />
           </namespaces>
         </pages>
         <sessionState timeout="60" />
