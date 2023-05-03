@@ -13,6 +13,18 @@ spec:
 
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarr-config
+spec:
+  storageClassName: longhorn-high-value
+  claimRef:
+    name: longhorn-sonarr-config-pvc
+    namespace: media-tools
+    
+
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: longhorn-media-downloads-pvc
