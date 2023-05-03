@@ -30,94 +30,94 @@ spec:
         release: pihole
     spec:
       containers:
-        - name: pihole
-          image: 'pihole/pihole:latest'
-          imagePullPolicy: Always          
-          env:
-            - name: WEB_PORT
-              value: '80'
-            - name: VIRTUAL_HOST
-              value: pi.hole
-            - name: WEBPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: pihole-password
-            - name: PIHOLE_DNS_
-              value: 1.1.1.1;1.0.0.1
-          livenessProbe:
-            failureThreshold: 10
-            httpGet:
-              path: /admin/index.php
-              port: http
-              scheme: HTTP
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-          ports:
-            - containerPort: 80
-              name: http
-              protocol: TCP
-            - containerPort: 53
-              name: dns
-              protocol: TCP
-            - containerPort: 53
-              name: dns-udp
-              protocol: UDP
-            - containerPort: 67
-              name: client-udp
-              protocol: UDP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /admin/index.php
-              port: http
-              scheme: HTTP
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-          resources: {}
-          securityContext:
-            privileged: false
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-            - mountPath: /etc/pihole
-              name: config
-            - mountPath: /etc/dnsmasq.d/02-custom.conf
-              name: custom-dnsmasq
-              subPath: 02-custom.conf
-            - mountPath: /etc/addn-hosts
-              name: custom-dnsmasq
-              subPath: addn-hosts
-            - mountPath: /etc/dnsmasq.d/05-pihole-custom-cname.conf
-              name: custom-dnsmasq
-              subPath: 05-pihole-custom-cname.conf
-            - mountPath: /etc/pihole/adlists.list
-              name: adlists
-              subPath: adlists.list
-            - mountPath: /var/log/pihole
-              name: pihole-logs
-        - name: mediapc-urlwatcher
-          image: registry.ucdialplans.com/mediapc-urlwatcher
-          imagePullPolicy: Always
-          resources:
-            requests:
-              cpu: 100m
-              memory: 5Mi
-            limits:
-              cpu: 100m
-              memory: 5Mi
-          volumeMounts:
-          - name: pihole-logs
-            mountPath: /var/log/pihole      
+      - name: pihole
+        image: 'pihole/pihole:latest'
+        imagePullPolicy: Always          
+        env:
+        - name: WEB_PORT
+          value: '80'
+        - name: VIRTUAL_HOST
+          value: pi.hole
+        - name: WEBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: pihole-password
+        - name: PIHOLE_DNS_
+          value: 1.1.1.1;1.0.0.1
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /admin/index.php
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 53
+          name: dns
+          protocol: TCP
+        - containerPort: 53
+          name: dns-udp
+          protocol: UDP
+        - containerPort: 67
+          name: client-udp
+          protocol: UDP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /admin/index.php
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/pihole
+          name: config
+        - mountPath: /etc/dnsmasq.d/02-custom.conf
+          name: custom-dnsmasq
+          subPath: 02-custom.conf
+        - mountPath: /etc/addn-hosts
+          name: custom-dnsmasq
+          subPath: addn-hosts
+        - mountPath: /etc/dnsmasq.d/05-pihole-custom-cname.conf
+          name: custom-dnsmasq
+          subPath: 05-pihole-custom-cname.conf
+        - mountPath: /etc/pihole/adlists.list
+          name: adlists
+          subPath: adlists.list
+        - mountPath: /var/log/pihole
+          name: pihole-logs
+      - name: mediapc-urlwatcher
+        image: registry.ucdialplans.com/mediapc-urlwatcher
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 5Mi
+          limits:
+            cpu: 100m
+            memory: 5Mi
+        volumeMounts:
+        - name: pihole-logs
+          mountPath: /var/log/pihole      
       
       dnsConfig:
         nameservers:
-          - 127.0.0.1
-          - 192.168.1.1
+        - 127.0.0.1
+        - 192.168.1.1
       dnsPolicy: None
       hostname: pihole
       nodeSelector:
@@ -127,16 +127,16 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: pihole
-        - configMap:
-            defaultMode: 420
-            name: pihole-custom-dnsmasq
-          name: custom-dnsmasq
-        - configMap:
-            defaultMode: 420
-            name: pihole-adlists
-          name: adlists
-        - emptyDir: {}
-          name: pihole-logs
+      - name: config
+        persistentVolumeClaim:
+          claimName: pihole
+      - configMap:
+          defaultMode: 420
+          name: pihole-custom-dnsmasq
+        name: custom-dnsmasq
+      - configMap:
+          defaultMode: 420
+          name: pihole-adlists
+        name: adlists
+      - emptyDir: {}
+        name: pihole-logs
