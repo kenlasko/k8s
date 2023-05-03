@@ -61,8 +61,8 @@ alertmanager:
       - to: ken.lasko@gmail.com
     - name: ha-mediapc-webhook
       webhook_configs:
-     - url: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-
-       send_resolved: false
+      - url: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-
+        send_resolved: false
 
   ingress:
     enabled: false
