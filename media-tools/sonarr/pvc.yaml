@@ -17,11 +17,15 @@ kind: PersistentVolume
 metadata:
   name: sonarr-config
 spec:
+  capacity:
+    storage: 250Mi
+  accessModes:
+  - ReadWriteOnce
   storageClassName: longhorn-high-value
   claimRef:
     name: longhorn-sonarr-config-pvc
     namespace: media-tools
-    
+
 
 ---
 apiVersion: v1
