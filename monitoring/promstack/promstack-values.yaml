@@ -45,15 +45,16 @@ alertmanager:
       repeat_interval: 4h
       receiver: 'null'
       routes:
-      - receiver: 'ken-gmail'
-        matchers:
-        - severity = "warning"
-        continue: true
       - receiver: ha-mediapc-webhook
         matchers:
         - alertname = "KubePodNotReady"
         - namespace = "media-tools"
         - severity = "warning"
+        continue: true
+      - receiver: 'ken-gmail'
+        matchers:
+        - severity = "warning"
+        continue: false
 
     receivers:
     - name: 'null'
