@@ -52,7 +52,7 @@ alertmanager:
         matchers:
         - alertname = "KubePodNotReady"
         - namespace = "media-tools"
-        - pod =~ "sonarr-0|radarr-0|sabnzbd-0" 
+        - pod = "sonarr-0" 
 
     receivers:
     - name: 'null'
