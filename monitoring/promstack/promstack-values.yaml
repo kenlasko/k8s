@@ -52,6 +52,7 @@ alertmanager:
         matchers:
         - alertname = "KubePodNotReady"
         - namespace = "media-tools"
+        - severity = "warning"
 
     receivers:
     - name: 'null'
