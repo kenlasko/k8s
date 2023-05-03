@@ -43,7 +43,8 @@ spec:
             path: /
             port: 8686
           initialDelaySeconds: 15
-          periodSeconds: 120
+          periodSeconds: 60
+          timeoutSeconds: 5
         volumeMounts:
         - name: lidarr-config
           mountPath: /config
