@@ -30,13 +30,6 @@ spec:
                 operator: In
                 values:
                 - nuc
-      initContainers:
-      - name: start-mediapc
-        image: yauritux/busybox-curl
-        imagePullPolicy: IfNotPresent
-        command:
-        - curl
-        - '-X POST http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-'
       containers:
       - name: sonarr
         image: linuxserver/sonarr:latest
