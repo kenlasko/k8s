@@ -48,10 +48,10 @@ alertmanager:
       - receiver: 'ken-gmail'
         matchers:
         - severity = "warning"
-      - receiver: 'ha-mediapc-webhook'
+      - receiver: ha-mediapc-webhook
         matchers:
-        - alertname = 'KubePodNotReady'
-        - namespace = 'media-tools'
+        - alertname = "KubePodNotReady"
+        - namespace = "media-tools"
         - pod =~ "sonarr-0|radarr-0|sabnzbd-0" 
 
     receivers:
@@ -61,7 +61,7 @@ alertmanager:
       - to: ken.lasko@gmail.com
     - name: ha-mediapc-webhook
       webhook_configs:
-      - url: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-
+      - url: "http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-"
         send_resolved: false
 
   ingress:
