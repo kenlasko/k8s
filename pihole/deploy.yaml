@@ -32,19 +32,28 @@ spec:
       containers:
         - name: pihole
           image: 'pihole/pihole:latest'
-          imagePullPolicy: Always          
+          imagePullPolicy: Always   
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 999
+            capabilities:
+              drop:
+                - all       
           env:
-            - name: WEB_PORT
-              value: '80'
-            - name: VIRTUAL_HOST
-              value: pi.hole
-            - name: WEBPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: pihole-password
-            - name: PIHOLE_DNS_
-              value: 1.1.1.1;1.0.0.1
+          - name: WEB_PORT
+            value: '80'
+          - name: VIRTUAL_HOST
+            value: pi.hole
+          - name: WEBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: pihole-password
+          - name: PIHOLE_DNS_
+            value: 1.1.1.1;1.0.0.1
           livenessProbe:
             failureThreshold: 10
             httpGet:
@@ -79,8 +88,6 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
           resources: {}
-          securityContext:
-            privileged: false
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
