@@ -32,7 +32,7 @@ spec:
                 - nuc
       initContainers:
       - name: start-mediapc
-        image: busybox
+        image: yauritux/busybox-curl
         imagePullPolicy: IfNotPresent
         command:
         - curl
