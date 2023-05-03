@@ -19,6 +19,16 @@ metadata:
 spec:
   capacity:
     storage: 250Mi
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: sonarr-config
+    fsType: ext4
+    volumeAttributes:
+      dataLocality: disabled
+      fromBackup: ''
+      fsType: ext4
+      numberOfReplicas: '3'
+      staleReplicaTimeout: '30'
   accessModes:
   - ReadWriteOnce
   storageClassName: longhorn-high-value
