@@ -22,6 +22,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   storageClassName: longhorn-high-value
+  persistentVolumeReclaimPolicy: Retain
   claimRef:
     name: longhorn-sonarr-config-pvc
     namespace: media-tools
