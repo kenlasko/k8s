@@ -48,6 +48,7 @@ alertmanager:
       - receiver: 'ken-gmail'
         matchers:
         - severity = "warning"
+        continue: true
       - receiver: ha-mediapc-webhook
         matchers:
         - alertname = "KubePodNotReady"
