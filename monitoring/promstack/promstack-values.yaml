@@ -321,9 +321,9 @@ additionalPrometheusRulesMap:
       for: 15m
       severity: warning
       annotations:
-      description: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 1 minute.
-      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodnotready
-      summary: Media-Tools pod has been in a non-ready state for more than 1 minute.
+        description: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 1 minute.
+        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodnotready
+        summary: Media-Tools pod has been in a non-ready state for more than 1 minute.
 
 thanosRuler:
   enabled: false
