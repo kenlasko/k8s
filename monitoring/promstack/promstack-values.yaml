@@ -47,7 +47,7 @@ alertmanager:
       routes:
       - receiver: ha-mediapc-webhook
         matchers:
-        - alertname = "KubePodNotReady"
+        - alertname = "MediaToolsPodNotReady"
         - namespace = "media-tools"
         - severity = "warning"
         continue: true
