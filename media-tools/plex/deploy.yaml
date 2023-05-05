@@ -26,6 +26,14 @@ spec:
                 operator: In
                 values:
                 - 'true'
+      volumes:
+        - name: plex-config
+          persistentVolumeClaim:
+            claimName: longhorn-plex-config-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-smb-mediapc-toplevel
+      automountServiceAccountToken: false
       containers:
       - name: plex
         image: plexinc/pms-docker:plexpass
@@ -61,11 +69,10 @@ spec:
           mountPath: /config
         - name: data
           mountPath: /data
-      volumes:
+      - name: plex-server-logger
+        image: busybox
+        args: [/bin/sh, -c, 'tail -n+1 -F /config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log']
+        volumeMounts:
         - name: plex-config
-          persistentVolumeClaim:
-            claimName: longhorn-plex-config-pvc
-        - name: data
-          persistentVolumeClaim:
-            claimName: pvc-smb-mediapc-toplevel
-      automountServiceAccountToken: false
+          mountPath: /config
+
