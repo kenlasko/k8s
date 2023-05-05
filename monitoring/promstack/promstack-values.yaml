@@ -312,17 +312,20 @@ prometheus:
 additionalPrometheusRulesMap:
   rule-name: 
     groups: 
+    # Notify when a pod in media-tools namespace is offline for more than a few minutes. 
+    # Several pods require access to MediaPC volumes, which is offline when not used. The pod will fail to come online until the volumes are available. 
+    # This triggers a webhook to a Home Assistant automation to turn on MediaPC so the pod can come online. MediaPC will then turn off on its own.
     - name: mediatools-podnotready
       rules:
       - alert: MediaToolsPodNotReady
         expr: sum by (namespace, pod, cluster) (max by (namespace, pod, cluster) (kube_pod_status_phase{job="kube-state-metrics",namespace=~"media-tools",phase=~"Pending|Unknown|Failed"}) * on (namespace, pod, cluster) group_left (owner_kind) topk by (namespace, pod, cluster) (1, max by (namespace, pod, owner_kind, cluster) (kube_pod_owner{owner_kind!="Job"}))) > 0
-        for: 1m
+        for: 2m
         labels:
           severity: warning
         annotations:
-          description: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 1 minute.
+          description: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 2 minutes.
           runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodnotready
-          summary: Media-Tools pod has been in a non-ready state for more than 1 minute.
+          summary: Media-Tools pod has been in a non-ready state for more than 2 minutes.
 
 thanosRuler:
   enabled: false
