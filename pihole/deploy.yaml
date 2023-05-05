@@ -108,8 +108,8 @@ spec:
             cpu: 100m
             memory: 5Mi
           limits:
-            cpu: 100m
-            memory: 5Mi
+            cpu: 200m
+            memory: 15Mi
         volumeMounts:
         - name: pihole-logs
           mountPath: /var/log/pihole      
