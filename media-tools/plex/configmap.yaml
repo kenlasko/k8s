@@ -13,5 +13,4 @@ data:
 
     tail -f "$PLEX_LOG" | while read LINE; do
       echo $LINE | grep "^.*DEBUG - Request.*GET /media/providers.*Signed-in Token.*$" && echo "ACTIVITY DETECTED" 
-      # | curl -sk -X POST https://ha.ucdialplans.com/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-
     done
