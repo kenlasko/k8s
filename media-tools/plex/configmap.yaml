@@ -14,12 +14,12 @@ data:
     # Wait 30 seconds and verify that we're looking at the right log file
     sleep 30
 
-    if grep -Fxq "cloud provider (Metadata) is online and available" "$PLEX_LOG"
+    if grep -q "Listening on port 32400" "$PLEX_LOG"
     then
-        echo "Looking at current file"
+        echo 'Looking at current file'
     else
         cat "$PLEX_LOG"
-        echo "Not looking at latest file. Exiting"
+        echo 'Not looking at latest file. Exiting'
         exit 1
     fi
 
