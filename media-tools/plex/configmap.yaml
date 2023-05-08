@@ -11,6 +11,11 @@ data:
     # Logfile
     PLEX_LOG=/config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log
 
+    # Verify file exists
+    if test -f "$PLEX_LOG"; then
+      echo "$PLEX_LOG exists."
+    fi
+
     tail -f "$PLEX_LOG" | while read LINE; do
       echo $LINE | grep "^.*DEBUG - Request.*GET /media/providers.*Signed-in Token.*$" && echo "ACTIVITY DETECTED" 
     done
