@@ -18,7 +18,6 @@ data:
     then
         echo 'Looking at current file'
     else
-        cat "$PLEX_LOG"
         echo 'Not looking at latest file. Exiting'
         exit 1
     fi
