@@ -8,10 +8,8 @@ data:
     #!/bin/sh
     currentDate=`date`
     echo "STARTING on $currentDate"
-    # Logfile
-    PLEX_LOG="/config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log"
 
-    tail -f $PLEX_LOG| while read LINE; do
+    tail -f /config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log | while read LINE; do
       echo $LINE | grep "^.*DEBUG - Request.*GET /media/providers.*$" && echo "ACTIVITY DETECTED" 
       # | curl -sk -X POST https://ha.ucdialplans.com/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-
     done
