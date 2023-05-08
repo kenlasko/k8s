@@ -81,10 +81,10 @@ spec:
           mountPath: /config
       - name: plex-activity-monitor
         image: busybox
-        args: [/bin/sh, -c, './plex-activity-monitor.sh']
+        args: [/bin/sh, -c, './home/plex-activity-monitor.sh']
         volumeMounts:
         - name: plex-config
           mountPath: /config
         - name: plex-activity-monitor
-          mountPath: /
+          mountPath: /home
 
