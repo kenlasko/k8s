@@ -9,7 +9,7 @@ data:
     currentDate=`date`
     echo "STARTING on $currentDate"
     # Logfile
-    PLEX_LOG="/config/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log"
+    PLEX_LOG="/config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log"
 
     tail -f $PLEX_LOG| while read LINE; do
       echo $LINE | grep "^.*DEBUG - Request.*GET /media/providers.*$" && echo "ACTIVITY DETECTED" 
