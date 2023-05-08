@@ -80,7 +80,7 @@ spec:
         - name: plex-config
           mountPath: /config
       - name: plex-activity-monitor
-        image: curlimages/curl
+        image: busybox
         args: [/bin/sh, -c, './script/plex-activity-monitor.sh']
         volumeMounts:
         - name: plex-config
