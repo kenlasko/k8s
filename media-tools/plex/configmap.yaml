@@ -12,7 +12,7 @@ data:
     PLEX_LOG=/config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log
 
     # Wait 30 seconds and verify that we're looking at the right log file
-    sleep 30
+    sleep 10
 
     if grep -q "Listening on port 32400" "$PLEX_LOG"
     then
