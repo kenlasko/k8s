@@ -33,6 +33,10 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: pvc-smb-mediapc-toplevel
+        - name: plex-activity-monitor
+          configMap:
+            name: plex-activity-monitor
+            defaultMode: 0744
       automountServiceAccountToken: false
       containers:
       - name: plex
@@ -75,4 +79,12 @@ spec:
         volumeMounts:
         - name: plex-config
           mountPath: /config
+      - name: plex-activity-monitor
+        image: busybox
+        args: [/bin/sh, -c, './plex-activity-monitor.sh']
+        volumeMounts:
+        - name: plex-config
+          mountPath: /config
+        - name: plex-activity-monitor
+          mountPath: /
 
