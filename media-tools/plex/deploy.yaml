@@ -81,7 +81,7 @@ spec:
           mountPath: /config
       - name: plex-activity-monitor
         image: curlimages/curl
-        args: [/bin/sh, -c, './home/plex-activity-monitor.sh']
+        args: [/bin/sh, -c, './script/plex-activity-monitor.sh']
         volumeMounts:
         - name: plex-config
           mountPath: /config
