@@ -11,9 +11,15 @@ data:
     # Logfile
     PLEX_LOG=/config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log
 
-    # Verify file exists
-    if test -f "$PLEX_LOG"; then
-      echo "$PLEX_LOG exists."
+    # Wait 30 seconds and verify that we're looking at the right log file
+    sleep 30
+
+    if grep -Fxq "cloud provider (Metadata) is online and available" "$PLEX_LOG"
+    then
+        echo "Looking at current file"
+    else
+        echo "Not looking at latest file. Exiting"
+        exit 1
     fi
 
     tail -f "$PLEX_LOG" | while read LINE; do
