@@ -1,3 +1,7 @@
+global:
+  nodeSelector:
+    server-type: nuc 
+
 configs:
   params:
     server.insecure: true
@@ -64,6 +68,3 @@ configs:
       url: https://helm.traefik.io/traefik
       name: traefik
       type: helm
-
-nodeSelector:
-  server-type: nuc
