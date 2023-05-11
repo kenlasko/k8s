@@ -60,6 +60,7 @@ data:
     cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
     cname=argocd.ucdialplans.com,k3s.ucdialplans.com
     cname=backup-mpc.ucdialplans.com,mediapc.ucdialplans.com
+    cname=duplicati.ucdialplans.com,k3s.ucdialplans.com
     cname=esphome.ucdialplans.com,k3s.ucdialplans.com
     cname=glances.ucdialplans.com,k3s.ucdialplans.com
     cname=glances-mpc.ucdialplans.com,mediapc.ucdialplans.com
