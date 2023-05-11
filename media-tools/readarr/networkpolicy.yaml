@@ -49,3 +49,9 @@ spec:
               app: transmission
       ports:
         - port: 9091
+    - to:
+        - podSelector:
+            matchLabels:
+              app: prowlarr
+      ports:
+        - port: 9696
