@@ -1,6 +1,8 @@
 deployment:
   enabled: true
   kind: DaemonSet
+  labels:
+    networkClass: WebIngress
 
 ingressRoute:
   dashboard:
