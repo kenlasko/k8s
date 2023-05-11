@@ -28,7 +28,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app: homeassist
+              statefulset.kubernetes.io/pod-name: homeassist-0
       ports:
         - port: 8123
     - to:
