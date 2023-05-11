@@ -9,9 +9,10 @@ spec:
     - Egress
   ingress:
     - from:
-        - namespaceSelector:
+        - namespaceSelector: {}
+          podSelector:
             matchLabels:
-              networkClass: WebIngress
+              app.kubernetes.io/name: traefik
       ports:
         - port: 8080
   egress:
@@ -26,7 +27,7 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              networkClass: Database
+              networkClass: database
       ports:
         - port: 3306
     - to:
