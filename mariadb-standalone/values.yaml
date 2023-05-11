@@ -1,5 +1,7 @@
 namespaceOverride: mariadb-standalone
 fullnameOverride: mariadb
+commonLabels:
+  networkClass: Database
 image:
   tag: 10.9.4
 auth:

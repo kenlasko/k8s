@@ -2,6 +2,8 @@ global:
   storageClass: local-path
 namespaceOverride: mariadb
 fullnameOverride: mariadb
+commonLabels:
+  networkClass: Database
 #image:
 #  tag: 10.9.4
 rootUser:
