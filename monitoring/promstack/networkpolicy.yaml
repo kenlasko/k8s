@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: argocd
-  namespace: argocd
+  name: monitoring
+  namespace: monitoring
 spec:
   podSelector: {}
   ingress:
@@ -14,7 +14,9 @@ spec:
             matchLabels:
               app.kubernetes.io/name: traefik
       ports:
-        - port: 8080
+        - port: 80
+        - port: 9090
+        - port: 9093
   egress:
     - ports:
         - port: 80
