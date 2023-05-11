@@ -26,12 +26,9 @@ spec:
           protocol: UDP
     - to:
         - namespaceSelector: {}
-          - podSelector:
-              matchLabels:
-                app.kubernetes.io/name: mariadb-galera
-          - podSelector:
-              matchLabels:
-                app.kubernetes.io/name: mariadb
+          podSelector:
+            matchLabels:
+              networkClass: Database
       ports:
         - port: 3306
     - to:
