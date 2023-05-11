@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: base-media-tools
-  namespace: media-tools
+  name: homeassist
+  namespace: homeassist
 spec:
   podSelector: {}
   policyTypes:
@@ -34,7 +34,27 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app: homeassist
+              app: plex
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: sabnzbd
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: radarr
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: sonarr
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: pihole
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
@@ -42,20 +62,4 @@ spec:
         - port: 443
         - port: 80
     - to:
-        - podSelector:
-            matchLabels:
-              app: sabnzbd
-      ports:
-        - port: 8080
-    - to:
-        - podSelector:
-            matchLabels:
-              app: transmission
-      ports:
-        - port: 9091
-    - to:
-        - podSelector:
-            matchLabels:
-              app: prowlarr
-      ports:
-        - port: 9696
+        - podSelector: {}
