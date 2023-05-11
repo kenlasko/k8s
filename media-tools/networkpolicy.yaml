@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: radarr
+  name: base-media-tools
 spec:
   podSelector: {}
   policyTypes:
@@ -13,8 +13,6 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: traefik
-      ports:
-        - port: 7878
   egress:
     - to:
         - namespaceSelector: {}
