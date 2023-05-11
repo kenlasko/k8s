@@ -31,6 +31,7 @@ spec:
               statefulset.kubernetes.io/pod-name: homeassist-0
       ports:
         - port: 8123
+          protocol: TCP
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
