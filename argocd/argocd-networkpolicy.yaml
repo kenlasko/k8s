@@ -29,4 +29,6 @@ spec:
         - port: 53
           protocol: UDP
     - to:
+        - namespaceSelector: {}
+    - to:
         - podSelector: {}
