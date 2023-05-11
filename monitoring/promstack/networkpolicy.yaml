@@ -22,6 +22,8 @@ spec:
           podSelector:
             matchLabels:
               app: homeassist
+    - from:
+        - namespaceSelector: {}
   egress:
     - ports:
         - port: 80
