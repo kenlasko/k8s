@@ -56,6 +56,11 @@ spec:
             matchLabels:
               app: pihole
     - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:

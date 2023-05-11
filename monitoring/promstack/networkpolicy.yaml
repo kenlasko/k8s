@@ -17,6 +17,11 @@ spec:
         - port: 3000
         - port: 9090
         - port: 9093
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: homeassist
   egress:
     - ports:
         - port: 80
