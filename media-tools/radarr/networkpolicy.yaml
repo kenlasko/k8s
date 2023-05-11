@@ -28,7 +28,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app: homeassist
+              app: homeassist-service
       ports:
         - port: 8123
     - to:
