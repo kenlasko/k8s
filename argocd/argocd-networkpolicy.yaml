@@ -17,6 +17,7 @@ spec:
         - port: 8080
   egress:
     - ports:
+        - port: 22
         - port: 80
         - port: 443
     - to:
