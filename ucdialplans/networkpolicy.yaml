@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: ucdialplans
+  name: untitled-policy
 spec:
   podSelector: {}
   policyTypes:
@@ -25,9 +25,13 @@ spec:
         - port: 53
           protocol: UDP
     - to:
-        - namespaceSelector:
-            matchLabels:
-              networkClass: Database
+        - namespaceSelector: {}
+          - podSelector:
+              matchLabels:
+                app.kubernetes.io/name: mariadb-galera
+          - podSelector:
+              matchLabels:
+                app.kubernetes.io/name: mariadb
       ports:
         - port: 3306
     - to:
