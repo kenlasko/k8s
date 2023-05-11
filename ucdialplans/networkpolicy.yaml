@@ -26,7 +26,7 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              networkClass: database
+              networkClass: Database
       ports:
         - port: 3306
     - to:
