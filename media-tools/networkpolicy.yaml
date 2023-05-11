@@ -19,15 +19,15 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - port: 53
-          protocol: UDP
+              statefulset.kubernetes.io/pod-name: homeassist-0
     - to:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              statefulset.kubernetes.io/pod-name: homeassist-0
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
