@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: duplicati
+spec:
+  podSelector:
+    matchLabels:
+      app: duplicati
+  ingress:
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 8200
+  egress:
+    - ports:
+        - port: 80
+        - port: 443
