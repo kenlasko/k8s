@@ -46,6 +46,11 @@ spec:
         - port: 8080
     - from:
         - podSelector: {}
+    - from:
+        - ipBlock:
+            cidr: 192.168.1.0/24
+      ports:
+        - port: 3306
   egress:
     - to:
         - namespaceSelector: {}
