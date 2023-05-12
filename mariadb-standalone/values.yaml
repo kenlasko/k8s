@@ -38,7 +38,7 @@ primary:
     log-bin           = slave-bin
     log-bin-index     = slave-bin.index
     binlog_format     = mixed 
-    slave-skip-errors = 1452
+    slave-skip-errors = 1452,1032
 
     [client]
     port=3306
