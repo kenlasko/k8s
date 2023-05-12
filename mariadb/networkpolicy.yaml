@@ -43,7 +43,7 @@ spec:
             matchLabels:
               app.kubernetes.io/name: traefik
       ports:
-        - port: 8080
+        - port: 80
     - from:
         - podSelector: {}
   egress:
@@ -55,3 +55,10 @@ spec:
       ports:
         - port: 53
           protocol: UDP
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkClass: Database
+      ports:
+        - port: 3306
