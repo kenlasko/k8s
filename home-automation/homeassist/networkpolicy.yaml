@@ -56,11 +56,7 @@ spec:
             matchLabels:
               app.kubernetes.io/name: prometheus
     - to:
+        - podSelector: {}
+    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-        - port: 80
-        - port: 6053
-    - to:
-        - podSelector: {}
