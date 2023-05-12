@@ -38,6 +38,13 @@ spec:
       ports:
         - port: 3306
     - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 80
+    - from:
         - podSelector: {}
   egress:
     - to:
