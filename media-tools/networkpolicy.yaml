@@ -36,12 +36,6 @@ spec:
             matchLabels:
               app: homeassist
     - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-        - port: 80
-    - to:
         - podSelector:
             matchLabels:
               app: sabnzbd
@@ -59,3 +53,10 @@ spec:
               app: prowlarr
       ports:
         - port: 9696
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
+        - port: 80
+        - port: 563
