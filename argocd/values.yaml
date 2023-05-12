@@ -1,7 +1,10 @@
 global:
   nodeSelector:
     server-type: nuc 
-
+  networkPolicy:
+    create: true
+    defaultDenyIngress: true
+    
 configs:
   params:
     server.insecure: true
