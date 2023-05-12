@@ -25,6 +25,9 @@ spec:
             cidr: 0.0.0.0/0
       ports:
         - port: 53
+    - from:
+        - ipBlock:
+            cidr: 0.0.0.0/0
   egress:
     - to:
         - namespaceSelector: {}
