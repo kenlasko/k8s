@@ -69,3 +69,8 @@ spec:
         - port: 3306
     - to:
         - podSelector: {}
+    - to:
+        - ipBlock:
+            cidr: 192.168.1.0/24
+      ports:
+        - port: 3306
