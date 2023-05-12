@@ -44,7 +44,7 @@ spec:
               key: password
               name: pihole-password
         - name: PIHOLE_DNS_
-          value: 1.1.1.1;1.0.0.1
+          value: 192.168.1.1
         livenessProbe:
           failureThreshold: 10
           httpGet:

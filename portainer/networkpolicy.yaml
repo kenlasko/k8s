@@ -34,6 +34,12 @@ spec:
       ports:
         - port: 2375
     - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 80
+        - port: 443
+    - to:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
@@ -41,6 +47,3 @@ spec:
       ports:
         - port: 53
           protocol: UDP
-    - ports:
-        - port: 443
-        - port: 80
