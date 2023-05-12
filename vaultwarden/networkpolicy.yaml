@@ -29,3 +29,10 @@ spec:
       ports:
         - port: 53
           protocol: UDP
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkClass: Database
+      ports:
+        - port: 3306
