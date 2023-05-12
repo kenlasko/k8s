@@ -60,3 +60,4 @@ spec:
         - port: 443
         - port: 80
         - port: 563
+        - port: 8123
