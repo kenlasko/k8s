@@ -20,6 +20,10 @@ spec:
             matchLabels:
               app: homeassist
     - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 8080
+    - from:
         - podSelector: {}
     - from:
         - ipBlock:
