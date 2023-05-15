@@ -6,32 +6,7 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-    - Ingress
     - Egress
-  ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: homeassist
-    - from:
-        - namespaceSelector: {}
-      ports:
-        - port: 8080
-    - from:
-        - namespaceSelector: {}
-    - from:
-        - podSelector: {}
-    - from:
-        - ipBlock:
-            cidr: 192.168.1.0/24
-      ports:
-        - port: 8080
   egress:
     - to:
         - namespaceSelector: {}
