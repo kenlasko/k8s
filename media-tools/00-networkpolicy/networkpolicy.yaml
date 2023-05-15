@@ -7,6 +7,14 @@ spec:
   podSelector: {}
   policyTypes:
     - Egress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 192.168.1.0/24
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
