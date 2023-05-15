@@ -10,12 +10,45 @@ spec:
     - Egress
   ingress:
     - from:
-        - podSelector: {}
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkClass: Database
+      ports:
+        - port: 3306
     - from:
         - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: phpmyadmin
+      ports:
+        - port: 3306
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: vaultwarden
+      ports:
+        - port: 3306
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: ucdialplans
+      ports:
+        - port: 3306
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 8080
+    - from:
+        - podSelector: {}
     - from:
         - ipBlock:
-            cidr: 192.168.1.0/24
+            cidr: 0.0.0.0/0
   egress:
     - to:
         - namespaceSelector: {}
