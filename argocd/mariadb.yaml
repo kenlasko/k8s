@@ -21,7 +21,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: mariadb
   ignoreDifferences:
-  - group: ""
+  - group: ''
     kind: Secret
     jsonPointers:
     - /data
