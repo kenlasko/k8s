@@ -62,5 +62,3 @@ spec:
               networkClass: Database
       ports:
         - port: 3306
-    - to:
-        - podSelector: {}
