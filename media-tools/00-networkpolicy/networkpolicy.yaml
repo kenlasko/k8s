@@ -24,6 +24,8 @@ spec:
       ports:
         - port: 8080
     - from:
+        - namespaceSelector: {}
+    - from:
         - podSelector: {}
     - from:
         - ipBlock:
