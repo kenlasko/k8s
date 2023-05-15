@@ -12,6 +12,14 @@ spec:
         - podSelector: {}
     - from:
         - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: homeassist
   egress:
     - to:
         - namespaceSelector: {}

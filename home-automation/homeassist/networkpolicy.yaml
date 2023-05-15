@@ -1,25 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: base-media-tools
-  namespace: media-tools
+  name: homeassist
+  namespace: homeassist
 spec:
   podSelector: {}
   policyTypes:
+    - Ingress
     - Egress
   ingress:
-    - from:
-        - podSelector: {}
     - from:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
               app.kubernetes.io/name: traefik
     - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: homeassist
+        - podSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
@@ -33,30 +29,34 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app: homeassist
+              app: plex
     - to:
-        - podSelector:
+        - namespaceSelector: {}
+          podSelector:
             matchLabels:
               app: sabnzbd
-      ports:
-        - port: 8080
     - to:
-        - podSelector:
+        - namespaceSelector: {}
+          podSelector:
             matchLabels:
-              app: transmission
-      ports:
-        - port: 9091
+              app: radarr
     - to:
-        - podSelector:
+        - namespaceSelector: {}
+          podSelector:
             matchLabels:
-              app: prowlarr
-      ports:
-        - port: 9696
+              app: sonarr
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: pihole
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+    - to:
+        - podSelector: {}
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-        - port: 80
-        - port: 563
-        - port: 8123
