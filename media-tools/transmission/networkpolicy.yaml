@@ -7,7 +7,7 @@ spec:
   podSelector:
     matchLabels:
       app: transmission
-    ingress:
+  ingress:
     - from:
         - ipBlock:
             cidr: 0.0.0.0/0
