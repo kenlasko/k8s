@@ -7,9 +7,13 @@ spec:
   podSelector:
     matchLabels:
       app: transmission
-  ingress:
+    ingress:
     - from:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
         - port: 36881
+    - from:
+        - podSelector: {}
+    - from:
+        - namespaceSelector: {}
