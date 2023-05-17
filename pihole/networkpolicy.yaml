@@ -20,7 +20,3 @@ spec:
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-        - port: 80
-        - port: 443
