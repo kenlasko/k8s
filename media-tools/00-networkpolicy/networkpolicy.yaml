@@ -53,6 +53,12 @@ spec:
       ports:
         - port: 9696
     - to:
+        - podSelector:
+            matchLabels:
+              app: plex
+      ports:
+        - port: 32400
+    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
