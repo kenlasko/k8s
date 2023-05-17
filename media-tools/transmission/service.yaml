@@ -29,6 +29,7 @@ spec:
   type: LoadBalancer
   externalIPs:
   - 192.168.1.11
+  externalTrafficPolicy: Local
   ports:
   - port: 36881
     protocol: TCP
