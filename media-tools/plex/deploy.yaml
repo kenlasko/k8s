@@ -90,7 +90,7 @@ spec:
         livenessProbe:
           exec:
             command:
-            - /bin/sh/
+            - /bin/sh
             - c
             - ps aux | grep "[p]lex-activity-monitor.sh"
           initialDelaySeconds: 60
