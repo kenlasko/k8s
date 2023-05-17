@@ -7,13 +7,15 @@ spec:
   podSelector: {}
   ingress:
     - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-    - from:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
               app.kubernetes.io/name: traefik
+    - from:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 53
   egress:
     - to:
         - ipBlock:
