@@ -25,4 +25,11 @@ spec:
         - port: 32412
         - port: 32413
         - port: 32414   
-
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 32400
+        - port: 32410
+        - port: 32412
+        - port: 32413
+        - port: 32414   
