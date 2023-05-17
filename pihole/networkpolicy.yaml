@@ -9,6 +9,11 @@ spec:
     - from:
         - ipBlock:
             cidr: 0.0.0.0/0
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
   egress:
     - to:
         - ipBlock:
