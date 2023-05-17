@@ -5,15 +5,3 @@ metadata:
   namespace: pihole
 spec:
   podSelector: {}
-  policyTypes:
-    - Egress
-  egress:
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-        - port: 80
-        - port: 443
-    - to:
-        - namespaceSelector: {}
