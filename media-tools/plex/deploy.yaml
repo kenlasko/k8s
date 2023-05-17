@@ -87,4 +87,11 @@ spec:
           mountPath: /config
         - name: plex-activity-monitor
           mountPath: /home
+        livenessProbe:
+          exec:
+            command:
+            - ps aux | grep "[p]lex-activity-monitor.sh"
+          initialDelaySeconds: 60
+          periodSeconds: 120
+          failureThreshold: 1
 
