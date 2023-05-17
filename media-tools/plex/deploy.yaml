@@ -91,7 +91,7 @@ spec:
           exec:
             command:
             - /bin/sh
-            - c
+            - -c
             - ps aux | grep "[p]lex-activity-monitor.sh"
           initialDelaySeconds: 60
           periodSeconds: 120
