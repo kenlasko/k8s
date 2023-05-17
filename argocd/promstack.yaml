@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://prometheus-community.github.io/helm-charts'
-    targetRevision: 45.*
+    targetRevision: 45.28.0
     chart: kube-prometheus-stack
     helm:
       valueFiles:
