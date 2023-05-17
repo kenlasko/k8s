@@ -5,6 +5,8 @@ metadata:
   namespace: pihole
 spec:
   podSelector: {}
+  policyTypes:
+    - Egress
   ingress:
     - from:
         - namespaceSelector: {}
@@ -12,21 +14,13 @@ spec:
             matchLabels:
               app.kubernetes.io/name: traefik
     - from:
-        - namespaceSelector: {}
-      ports:
-        - port: 53
-    - from:
         - ipBlock:
             cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-    - from:
-        - podSelector:
-            matchLabels:
-              app: pihole
-      ports:
-        - port: 53
   egress:
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
+      ports:
+        - port: 53
+        - port: 80
+        - port: 443
