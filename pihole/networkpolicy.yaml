@@ -15,3 +15,5 @@ spec:
         - port: 53
         - port: 80
         - port: 443
+    - to:
+        - namespaceSelector: {}
