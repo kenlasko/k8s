@@ -12,6 +12,10 @@ spec:
             matchLabels:
               app.kubernetes.io/name: traefik
     - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 53
+    - from:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
