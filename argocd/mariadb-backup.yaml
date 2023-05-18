@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: 'git@github.com:kenlasko/cloud-k3s.git'
     path: mariadb-backup
     targetRevision: HEAD
   destination:
@@ -14,7 +14,7 @@ spec:
     namespace: mariadb
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
     syncOptions:
     - CreateNamespace=true
 

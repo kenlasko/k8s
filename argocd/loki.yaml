@@ -12,7 +12,7 @@ spec:
     helm:
       valueFiles:
       - $values/monitoring/promstack/loki-stack-values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: 'git@github.com:kenlasko/cloud-k3s.git'
     ref: values
   destination:
     server: 'https://kubernetes.default.svc'
