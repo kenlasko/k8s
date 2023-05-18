@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:kenlasko/K3S.git'
+    repoURL: 'git@github.com:kenlasko/cloud-k3s.git'
     path: registry
     targetRevision: HEAD
   destination:
@@ -14,6 +14,6 @@ spec:
     namespace: registry
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
     syncOptions:
     - CreateNamespace=true

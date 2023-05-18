@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   repositories: |
-    - url: git@github.com:kenlasko/K3S.git
+    - url: git@github.com:kenlasko/cloud-k3s.git
       sshPrivateKeySecret:
         name: github-k3s-private-key
         key: privateKey

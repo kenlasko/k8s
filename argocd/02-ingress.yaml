@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: Host(`argocd.ucdialplans.com`) 
+    match: Host(`argocd(?!\-cloud).ucdialplans.com`) 
     services:
     - name: argocd-server
       port: 80
@@ -16,7 +16,7 @@ spec:
     - name: traefik-security
       namespace: traefik
   - kind: Rule
-    match: Host(`argocd.ucdialplans.com`) && Headers(`Content-Type`, `application/grpc`)
+    match: Host(`argocd(?!\-cloud).ucdialplans.com`) && Headers(`Content-Type`, `application/grpc`)
     priority: 11
     services:
     - name: argocd-server
