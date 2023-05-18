@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: longhorn-sonarr-config-pvc
+  namespace: media-tools
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-high-value
+  resources:
+    requests:
+      storage: 250Mi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: longhorn-media-downloads-pvc
+  namespace: media-tools
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 100Gi

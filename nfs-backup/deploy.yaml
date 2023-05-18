@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: nfs-server
+  labels:
+    app: nfs-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server
+  template:
+    metadata:
+      labels:
+        app: nfs-server
+        name: nfs-server
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - rpi1 
+      containers:
+      - name: nfs-server
+        image: gists/nfs-server  #k8s.gcr.io/volume-nfs:0.8
+        imagePullPolicy: Always
+        env:
+        - name: NFS_OPTION
+          value: "fsid=0,rw,async,all_squash,anonuid=0,anongid=0,no_subtree_check,nohide"
+        ports:
+        - name: nfs
+          containerPort: 2049
+        - name: mountd
+          containerPort: 20048
+        - name: rpcbind
+          containerPort: 111
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: nfs-server-vol
+          mountPath: "/nfs-share"
+      volumes:
+      - name: nfs-server-vol
+        persistentVolumeClaim:
+          claimName: nfs-server-pvc

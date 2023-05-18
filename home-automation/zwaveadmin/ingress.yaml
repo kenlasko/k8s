@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: zwaveadmin
+  namespace: homeassist
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`zwaveadmin.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: zwaveadmin-service
+      port: 8091
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

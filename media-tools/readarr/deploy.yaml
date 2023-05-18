@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: readarr
+  namespace: media-tools
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: readarr
+  template:
+    metadata:
+      labels:
+        app: readarr
+        name: readarr
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+      containers:
+      - name: readarr
+        image: linuxserver/readarr:nightly
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+          limits:
+            cpu: 1000m
+            memory: 600Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8787
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: readarr-config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+        - name: data
+          mountPath: /data 
+      volumes:
+        - name: readarr-config
+          persistentVolumeClaim:
+            claimName: longhorn-readarr-config-pvc
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: longhorn-media-downloads-pvc
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-smb-mediapc-data
+      automountServiceAccountToken: false

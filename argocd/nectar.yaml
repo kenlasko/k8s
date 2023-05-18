@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nectar
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: nectar
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: nectar
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

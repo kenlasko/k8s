@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: transmission
+  namespace: media-tools
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`transmission.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: transmission-service
+      port: 9091
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

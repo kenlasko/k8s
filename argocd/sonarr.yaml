@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarr
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: sonarr=linuxserver/sonarr:latest
+    argocd-image-updater.argoproj.io/sonarr.update-strategy: digest
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: media-tools/sonarr
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: media-tools
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

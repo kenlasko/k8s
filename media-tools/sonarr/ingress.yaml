@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: sonarr
+  namespace: media-tools
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`sonarr.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: sonarr-service
+      port: 8989
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

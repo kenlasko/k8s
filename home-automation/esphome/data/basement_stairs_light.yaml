@@ -1,0 +1,113 @@
+substitutions:
+  device_name: basement_stairs_light 
+  friendly_name: Basement Stairs 
+
+esphome:
+  name: ${device_name}
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  power_save_mode: none
+  fast_connect: on
+  use_address: basement_stairs_light.ucdialplans.com
+
+# Enable logging
+logger:
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+ota:
+
+web_server:
+  port: 80
+
+status_led:
+  pin:
+    number: GPIO5   # Red LED
+    inverted: True
+    
+binary_sensor:
+  - platform: gpio
+    id: power_sensor
+    pin:
+      number: GPIO14
+      inverted: True
+    filters:
+      - delayed_off: 50ms
+    on_press:
+      - light.turn_off: white_led
+    on_release:
+      - light.turn_on: white_led
+    internal: True
+  - platform: gpio
+    pin:
+      number: GPIO13
+      inverted: True
+    id: button
+    on_press:
+      then:
+      - switch.toggle: ${device_name}
+    internal: True
+    
+light:
+  - platform: binary
+    id: white_led
+    output: led_1
+    restore_mode: RESTORE_DEFAULT_ON
+    internal: True
+    
+output:
+  - platform: gpio
+    id: led_1
+    pin:
+      number: GPIO4
+      inverted: True
+      
+switch:
+  - platform: gpio
+    id: red_led
+    pin:
+      number: GPIO5
+      inverted: True
+    internal: True
+  
+  - platform: gpio
+    pin: GPIO12
+    id: relay
+    restore_mode: RESTORE_DEFAULT_OFF
+    internal: True
+  
+  - platform: template
+    name: ${friendly_name} Light
+    id: ${device_name}
+    lambda: |-
+      if (id(power_sensor).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+    - if:
+        condition:
+          - binary_sensor.is_off: power_sensor
+        then:
+          - switch.toggle: relay
+    turn_off_action:
+    - if:
+        condition:
+          - binary_sensor.is_on: power_sensor
+        then:
+          - switch.toggle: relay
+          
+  - platform: restart
+    name: "${friendly_name} Restart"

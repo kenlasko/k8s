@@ -1,0 +1,23 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: portainer
+  namespace: portainer
+
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`portainer.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: portainer
+      port: 9000
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik

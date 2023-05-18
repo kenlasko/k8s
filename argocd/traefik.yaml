@@ -12,9 +12,9 @@ spec:
     helm:
       valueFiles:
       - $values/traefik/values.yaml
-  - repoURL: 'git@github.com:kenlasko/cloud-k3s.git'
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
-  - repoURL: 'git@github.com:kenlasko/cloud-k3s.git'
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: traefik
     targetRevision: HEAD
   destination:

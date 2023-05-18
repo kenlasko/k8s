@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: esphome-service
+  name: esphome-service
+  namespace: homeassist
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6052
+    protocol: TCP
+    targetPort: 6052
+    name: web
+  selector:
+    app: esphome

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lidarr
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: lidarr=linuxserver/lidarr:latest
+    argocd-image-updater.argoproj.io/lidarr.update-strategy: digest
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: media-tools/lidarr
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: media-tools
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
