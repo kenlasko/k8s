@@ -9,7 +9,7 @@ spec:
   - repoURL: 'https://metallb.github.io/metallb'
     targetRevision: 0.13.9
     chart: metallb
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: 'git@github.com:kenlasko/cloud-k3s.git'
     path: metallb
     targetRevision: HEAD
   destination:

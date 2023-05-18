@@ -12,9 +12,9 @@ spec:
     helm:
       valueFiles:
       - $values/cert-manager/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: 'git@github.com:kenlasko/cloud-K3S.git'
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: 'git@github.com:kenlasko/cloud-K3S.git'
     path: cert-manager
     targetRevision: HEAD
   destination:
@@ -22,6 +22,6 @@ spec:
     namespace: cert-manager
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
     syncOptions:
     - CreateNamespace=true
