@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: transmission-service
+  name: transmission-service
+  namespace: media-tools
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9091
+    protocol: TCP
+    targetPort: 9091
+    name: web
+  selector:
+    app: transmission
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: transmission-remotedata-service
+  name: transmission-remotedata-service
+  namespace: media-tools
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "share-11"
+spec:
+  type: LoadBalancer
+  externalIPs:
+  - 192.168.1.11
+  externalTrafficPolicy: Local
+  ports:
+  - port: 36881
+    protocol: TCP
+    targetPort: 36881
+    name: remotedata-tcp
+  - port: 36881
+    protocol: UDP
+    targetPort: 36881
+    name: remotedata-udp
+  selector:
+    app: transmission

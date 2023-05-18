@@ -1,0 +1,25 @@
+longhornManager:
+  nodeSelector: 
+    server-type: "nuc"
+
+longhornDriver:
+  nodeSelector: 
+    server-type: "nuc"
+
+longhornUI:
+  nodeSelector: 
+    server-type: "nuc"
+
+longhornConversionWebhook:
+  nodeSelector: 
+    server-type: "nuc"
+
+longhornAdmissionWebhook:
+  nodeSelector: 
+    server-type: "nuc"
+
+longhornRecoveryBackend:
+  nodeSelector: 
+    server-type: "nuc"
+
+namespaceOverride: "longhorn"

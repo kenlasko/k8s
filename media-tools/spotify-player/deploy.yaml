@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spotify-player
+  namespace: media-tools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotify-player
+  template:
+    metadata:
+      labels:
+        app: spotify-player
+        name: spotify-player
+    spec:
+      hostNetwork: true
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - rpi2
+      containers:
+      - name: spotify-player
+        image: registry.ucdialplans.com/spotify-player
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        # capabilities:
+        #   add: 
+        #     - NET_ADMIN
+        resources:
+          requests:
+            cpu: 250m
+            memory: 100Mi
+          limits:
+            cpu: 250m
+            memory: 100Mi

@@ -1,0 +1,21 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: pihole
+  namespace: pihole
+
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`pihole.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: pihole-web
+      port: 80
+
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-default
+      namespace: traefik

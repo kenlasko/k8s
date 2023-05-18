@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: esphome
+  namespace: homeassist
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+        name: esphome
+    spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: server-speed
+                operator: In
+                values:
+                - nuc-fast
+      containers:
+      - name: esphome
+        image: esphome/esphome:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 6052
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        env:
+        - name: ESPHOME_DASHBOARD_USE_PING
+          value: "true"
+        volumeMounts:
+        - name: esphome
+          mountPath: /config
+      volumes:
+        - name: esphome
+          persistentVolumeClaim:
+            claimName: longhorn-esphome-pvc
+      automountServiceAccountToken: false

@@ -1,0 +1,171 @@
+substitutions:
+  device_name: outside_lights 
+  channel_1: Deck
+  channel_2: Security
+  max_power: "2000.0"
+  max_temp: "70.0"
+
+esphome:
+  name: ${device_name}
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  power_save_mode: none
+  fast_connect: on
+  use_address: ${device_name}.ucdialplans.com
+
+# Enable logging
+logger:
+  level: info
+  
+# Enable Home Assistant API
+api:
+
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+ota:
+
+web_server:
+  port: 80
+
+i2c:
+  sda: GPIO12
+  scl: GPIO14
+
+sensor:
+  - platform: ade7953
+    current_a:
+      name: ${channel_2} current
+      internal: true
+    current_b:
+      name: ${channel_1} current
+      internal: true
+    active_power_a:
+      name: ${channel_2} Power
+      id: power_channel_2
+      filters:
+        - multiply: 1
+      on_value_range:
+        - above: ${max_power}
+          then:
+            - light.turn_off: lightid2
+            - homeassistant.service:
+                service: persistent_notification.create
+                data:
+                  title: Message from ${device_name}
+                data_template:
+                  message: Switch turned off because power exceeded ${max_power}W
+    active_power_b:
+      name: ${channel_1} Power
+      id: power_channel_1
+      filters:
+        - multiply: -1
+      on_value_range:
+        - above: ${max_power}
+          then:
+            - light.turn_off: lightid1
+            - homeassistant.service:
+                service: persistent_notification.create
+                data:
+                  title: Message from ${device_name}
+                data_template:
+                  message: Switch turned off because power exceeded ${max_power}W
+    update_interval: 30s
+
+  # NTC Temperature
+  - platform: ntc
+    sensor: temp_resistance_reading
+    name: ${device_name} temperature
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
+    icon: "mdi:thermometer"
+    calibration:
+      b_constant: 3350
+      reference_resistance: 10kOhm
+      reference_temperature: 298.15K
+    on_value_range:
+      - above: ${max_temp}
+        then:
+          - light.turn_off: lightid1
+          - light.turn_off: lightid2
+          - homeassistant.service:
+              service: persistent_notification.create
+              data:
+                title: Message from ${device_name}
+              data_template:
+                message: Switch turned off because temperature exceeded ${max_temp}°C
+  - platform: resistance
+    id: temp_resistance_reading
+    sensor: temp_analog_reading
+    configuration: DOWNSTREAM
+    resistor: 32kOhm
+  - platform: adc
+    id: temp_analog_reading
+    pin: A0
+
+status_led:
+  pin:
+    number: GPIO0
+    inverted: yes
+
+output:
+  - platform: gpio
+    pin: GPIO4
+    id: shelly_25_relay_1
+  - platform: gpio
+    pin: GPIO15
+    id: shelly_25_relay_2
+
+light:
+  - platform: binary
+    name: "${channel_1}"
+    output: shelly_25_relay_1
+    id: lightid1
+  - platform: binary
+    name: "${channel_2}"
+    output: shelly_25_relay_2
+    id: lightid2
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO16
+    name: "ade7953 IRQ pin"
+    internal: true
+  - platform: gpio
+    pin:
+      number: GPIO13
+    name: "${channel_1} input"
+    id: switchid1
+    internal: true
+    on_state:
+      then:
+        lambda: |-
+          if (id(switchid1).state) {
+            auto call = id(lightid1).turn_on();
+            call.perform();
+          } else {
+            auto call = id(lightid1).turn_off();
+            call.perform();
+          }
+  - platform: gpio
+    pin:
+      number: GPIO5
+    name: "${channel_2} input"
+    id: switchid2
+    internal: true
+    on_state:
+      then:
+        lambda: |-
+          if (id(switchid2).state) {
+            auto call = id(lightid2).turn_on();
+            call.perform();
+          } else {
+            auto call = id(lightid2).turn_off();
+            call.perform();
+          }

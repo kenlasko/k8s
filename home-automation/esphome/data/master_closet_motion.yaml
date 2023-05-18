@@ -1,0 +1,38 @@
+esphome:
+  name: master_closet_motion
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  power_save_mode: none
+  fast_connect: on
+  use_address: master_closet_motion.ucdialplans.com
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+ota:
+
+web_server:
+  port: 80
+  
+# Switch to restart the master_closet_motion.   
+switch:
+  - platform: restart
+    name: "master_closet_motion Restart"
+
+binary_sensor:
+  - platform: gpio
+    pin: 13
+    name: "Master Closet Motion"
+    device_class: motion

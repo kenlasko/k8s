@@ -1,0 +1,374 @@
+substitutions:
+# Interval of how often the power is updated
+  update_time: 10s
+  
+  gain_ct_80a: '41660'
+  gain_ct_20a: '10645'
+  gain_voltage: '7305'
+
+esphome:
+  name: power_monitor_2
+  platform: ESP32
+  board: nodemcu-32s
+   
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  power_save_mode: none
+  fast_connect: on
+  use_address: power_monitor_2.ucdialplans.com
+
+# Enable logging
+logger:
+  level: info
+
+api:
+
+ota:
+
+web_server:
+  port: 80
+
+spi:
+  clk_pin: 18
+  miso_pin: 19
+  mosi_pin: 23
+
+sensor:
+  - platform: wifi_signal
+    name: WiFi
+    update_interval: 60s
+    
+# Board 1A #
+  - platform: atm90e32
+    cs_pin: 5
+    line_frequency: 60Hz
+    gain_pga: 1X
+
+    # B1-CT1 - Kitchen Outlets 1
+    phase_a:
+      power:
+        name: Kitchen Outlets 1 Watts
+        id: kitchenOutlets1Watts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if (x < 0.00) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_80a}
+  
+    # B1-CT2 - Kitchen Outlets 2
+    phase_b:
+      power:
+        name: Kitchen Outlets 2 Watts
+        id: kitchenOutlets2Watts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if (x < 0.00) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_80a}
+    
+    # B1-CT3 - Kitchen Island Outlets
+    phase_c:
+      power:
+        name: Kitchen Island Watts
+        id: kitchenIslandWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if (x < 0.00) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_80a}
+      
+# Board 1B #
+  - platform: atm90e32
+    cs_pin: 4
+    line_frequency: 60Hz
+    gain_pga: 1X
+
+    # B1-CT4 - Pantry 1
+    phase_a:
+      power:
+        name: Pantry 20A Watts
+        id: pantry1Watts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_80a}
+      
+    # B1-CT5 - Pantry 2
+    phase_b:
+      power:
+        name: Pantry 15A-1 Watts
+        id: pantry2Watts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+      
+    # B1-CT6 - Master Bedroom
+    phase_c:
+      power:
+        name: Master Bedroom Watts
+        id: masterBedroomWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+
+# Board 2A #
+  - platform: atm90e32
+    cs_pin: 15
+    line_frequency: 60Hz
+    gain_pga: 1X
+
+    # B2-CT1 - Other Bedrooms
+    phase_a:
+      power:
+        name: Other Bedrooms Watts
+        id: bedroomsWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+  
+    # B2-CT2 - Living Room
+    phase_b:
+      power:
+        name: Living Room Watts
+        id: livingRoomWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+    
+    # B2-CT3 - Dining Room
+    phase_c:
+      power:
+        name: Dining Room Watts
+        id: diningRoomWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+
+# Board 2B #
+  - platform: atm90e32
+    cs_pin: 16
+    line_frequency: 60Hz
+    gain_pga: 1X
+
+    # B2-CT4 - Boiler
+    phase_a:
+      power:
+        name: Boiler Watts
+        id: boilerWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+      
+    # B2-CT5 - Pantry 3 
+    phase_b:
+      power:
+        name: Pantry 15A-2 Watts
+        id: pantry3Watts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        filters:
+          # filter out slightly negative values
+          - lambda: if ((x < 0.00) and (x > -1.00)) return 0; else return x;
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+      
+    # B2-CT6 - Outside
+    phase_c:
+      power:
+        name: Outside Watts
+        id: outsideWatts
+        accuracy_decimals: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+      gain_voltage: ${gain_voltage}
+      gain_ct: ${gain_ct_20a}
+
+  - platform: total_daily_energy
+    name: Kitchen Outlets 1 Daily kWh
+    power_id: kitchenOutlets1Watts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Kitchen Outlets 2 Daily kWh
+    power_id: kitchenOutlets2Watts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Kitchen Island Daily kWh
+    power_id: kitchenIslandWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Pantry 20A Daily kWh
+    power_id: pantry1Watts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Pantry 15A-1 Daily kWh
+    power_id: pantry2Watts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Master Bedroom Daily kWh
+    power_id: masterBedroomWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Other Bedroom Daily kWh
+    power_id: bedroomsWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Living Room Daily kWh
+    power_id: livingRoomWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Boiler Daily kWh
+    power_id: boilerWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Dining Room Daily kWh
+    power_id: diningRoomWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Pantry 15A-2 Daily kWh
+    power_id: pantry3Watts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: Outside Daily kWh
+    power_id: outsideWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: total_daily_energy
+    name: PowerMon2 Total Daily kWh
+    power_id: powerMon2TotalWatts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    
+  - platform: template
+    name: PowerMon2 Total Watts
+    id: powerMon2TotalWatts
+    lambda: return (id(kitchenOutlets1Watts).state + id(kitchenOutlets2Watts).state + id(kitchenIslandWatts).state + id(pantry1Watts).state + id(pantry2Watts).state + id(pantry3Watts).state + id(masterBedroomWatts).state + id(bedroomsWatts).state + id(livingRoomWatts).state + id(diningRoomWatts).state + id(boilerWatts).state + id(outsideWatts).state);
+    accuracy_decimals: 0
+    unit_of_measurement: W
+    device_class: power
+    state_class: measurement
+    update_interval: ${update_time}
+
+switch:
+  - platform: restart
+    name: PowerMon2 Restart  
+    
+time:
+  - platform: homeassistant
+    id: homeassistant_time   
+    

@@ -1,0 +1,9 @@
+---
+- hosts: k3s_master
+  become: true
+  become_user: root
+  tasks:
+    - name: Copy registries.yaml
+      ansible.builtin.copy:
+        src: /home/ken/k3s/registries.yaml
+        dest: /etc/rancher/k3s/registries.yaml

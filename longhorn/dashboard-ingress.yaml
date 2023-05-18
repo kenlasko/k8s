@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: longhorn-frontend
+  namespace: longhorn
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`longhorn.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: longhorn-frontend
+      port: 80
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
