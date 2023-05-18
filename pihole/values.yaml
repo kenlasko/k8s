@@ -81,6 +81,7 @@ dnsmasq:
   - address=/rpi2.ucdialplans.com/192.168.1.16
   - address=/backuppc.ucdialplans.com/192.168.1.19
   - address=/firepit-speakers.ucdialplans.com/192.168.1.23
+  - address=/onode1.ucdialplans.com/192.18.153.11
 
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
@@ -119,6 +120,10 @@ dnsmasq:
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
   - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
   - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com
+  - cname=cloud-argocd.ucdialplans.com,onode1.ucdialplans.com
+  - cname=cloud-mariadb.ucdialplans.com,onode1.ucdialplans.com
+  - cname=cloud-traefik.ucdialplans.com,onode1.ucdialplans.com
+  - cname=cloud-vaultwarden.ucdialplans.com,onode1.ucdialplans.com
 
 adlists:
 - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
