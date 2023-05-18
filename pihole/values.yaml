@@ -82,7 +82,10 @@ dnsmasq:
   - address=/backuppc.ucdialplans.com/192.168.1.19
   - address=/firepit-speakers.ucdialplans.com/192.168.1.23
 <<<<<<< HEAD
+<<<<<<< HEAD
   - address=/onode1.ucdialplans.com/192.18.153.11
+=======
+>>>>>>> parent of 06ab3d7 (Initial commit)
 =======
 >>>>>>> parent of 06ab3d7 (Initial commit)
 
@@ -124,10 +127,13 @@ dnsmasq:
   - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
   - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com
 <<<<<<< HEAD
+<<<<<<< HEAD
   - cname=cloud-argocd.ucdialplans.com,onode1.ucdialplans.com
   - cname=cloud-mariadb.ucdialplans.com,onode1.ucdialplans.com
   - cname=cloud-traefik.ucdialplans.com,onode1.ucdialplans.com
   - cname=cloud-vaultwarden.ucdialplans.com,onode1.ucdialplans.com
+=======
+>>>>>>> parent of 06ab3d7 (Initial commit)
 =======
 >>>>>>> parent of 06ab3d7 (Initial commit)
 
