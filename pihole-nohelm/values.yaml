@@ -29,18 +29,19 @@ serviceWeb:
   type: ClusterIP
 
 serviceDns:
-  loadBalancerIP: 192.168.1.13
+  loadBalancerIP: 192.168.1.14
   type: LoadBalancer
   externalTrafficPolicy: Local
   annotations: 
-    metallb.universe.tf/allow-shared-ip: "share-13"
+    metallb.universe.tf/allow-shared-ip: "share-14"
 
 podDnsConfig:
   enabled: true
   policy: "None"
   nameservers:
   - 127.0.0.1
-  - 192.168.1.1
+  - 1.1.1.1
+  - 1.0.0.1
 
 DNS1: "1.1.1.1"
 DNS2: "1.0.0.1"
@@ -73,20 +74,22 @@ extraVolumeMounts:
   pihole-logs:
     mountPath: /var/log/pihole
 
-extraContainers:
-  - name: mediapc-urlwatcher
-    image: registry.ucdialplans.com/mediapc-urlwatcher
-    imagePullPolicy: Always
-    resources:
-      requests:
-        cpu: 100m
-        memory: 5Mi
-      limits:
-        cpu: 100m
-        memory: 5Mi
-    volumeMounts:
-    - name: pihole-logs
-      mountPath: /var/log/pihole  
+extraObjects: 
+  - containers:
+    - name: mediapc-urlwatcher
+      image: registry.ucdialplans.com/mediapc-urlwatcher
+      imagePullPolicy: Always
+      resources:
+        requests:
+          cpu: 100m
+          memory: 5Mi
+        limits:
+          cpu: 100m
+          memory: 5Mi
+      volumeMounts:
+      - name: pihole-logs
+        mountPath: /var/log/pihole
+
 
 dnsmasq:
   customDnsEntries:
@@ -115,6 +118,7 @@ dnsmasq:
   - cname=grafana.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
+  - cname=heimdall.ucdialplans.com,k3s.ucdialplans.com
   - cname=helm.ucdialplans.com,k3s.ucdialplans.com
   - cname=hydra.ucdialplans.com,k3s.ucdialplans.com
   - cname=jackett.ucdialplans.com,k3s.ucdialplans.com

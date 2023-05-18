@@ -40,11 +40,9 @@ podDnsConfig:
   policy: "None"
   nameservers:
   - 127.0.0.1
-  - 1.1.1.1
-  - 1.0.0.1
+  - 192.168.1.1
 
-DNS1: "1.1.1.1"
-DNS2: "1.0.0.1"
+DNS1: "192.168.1.1"
 adminPassword: ***REMOVED***
 
 probes:
@@ -66,52 +64,29 @@ probes:
     port: http
     scheme: HTTP
 
-extraVolumes:
-  pihole-logs:
-    emptyDir: {}
-
-extraVolumeMounts:
-  pihole-logs:
-    mountPath: /var/log/pihole
-
-extraObjects: 
-  - containers:
-    - name: mediapc-urlwatcher
-      image: registry.ucdialplans.com/mediapc-urlwatcher
-      imagePullPolicy: Always
-      resources:
-        requests:
-          cpu: 100m
-          memory: 5Mi
-        limits:
-          cpu: 100m
-          memory: 5Mi
-      volumeMounts:
-      - name: pihole-logs
-        mountPath: /var/log/pihole
-
-
 dnsmasq:
   customDnsEntries:
   - address=/myrouter.io/10.0.0.1
   - address=/unifi.ucdialplans.com/192.168.1.1
   - address=/kenpc.ucdialplans.com/192.168.1.2
   - address=/mediapc.ucdialplans.com/192.168.1.3
-  - address=/backuppc.ucdialplans.com/192.168.1.4
-  - address=/nuc1.ucdialplans.com/192.168.1.5
-  - address=/nuc2.ucdialplans.com/192.168.1.6
-  - address=/nuc3.ucdialplans.com/192.168.1.7
-  - address=/nuc4.ucdialplans.com/192.168.1.8
-  - address=/nuc5.ucdialplans.com/192.168.1.9
+  - address=/nuc1.ucdialplans.com/192.168.1.4
+  - address=/nuc2.ucdialplans.com/192.168.1.5
+  - address=/nuc3.ucdialplans.com/192.168.1.6
+  - address=/nuc4.ucdialplans.com/192.168.1.7
+  - address=/nuc5.ucdialplans.com/192.168.1.8
+  - address=/nuc6.ucdialplans.com/192.168.1.9
   - address=/k3s.ucdialplans.com/192.168.1.10
   - address=/rpi1.ucdialplans.com/192.168.1.15
   - address=/rpi2.ucdialplans.com/192.168.1.16
+  - address=/backuppc.ucdialplans.com/192.168.1.19
   - address=/firepit-speakers.ucdialplans.com/192.168.1.23
 
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
   - cname=backup-mpc.ucdialplans.com,mediapc.ucdialplans.com
+  - cname=duplicati.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
   - cname=glances.ucdialplans.com,k3s.ucdialplans.com
   - cname=glances-mpc.ucdialplans.com,mediapc.ucdialplans.com
@@ -120,8 +95,6 @@ dnsmasq:
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
   - cname=heimdall.ucdialplans.com,k3s.ucdialplans.com
   - cname=helm.ucdialplans.com,k3s.ucdialplans.com
-  - cname=hydra.ucdialplans.com,k3s.ucdialplans.com
-  - cname=jackett.ucdialplans.com,k3s.ucdialplans.com
   - cname=keel.ucdialplans.com,k3s.ucdialplans.com
   - cname=lidarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
