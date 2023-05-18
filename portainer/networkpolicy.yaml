@@ -39,6 +39,7 @@ spec:
       ports:
         - port: 80
         - port: 443
+        - port: 9001
     - to:
         - namespaceSelector: {}
           podSelector:
