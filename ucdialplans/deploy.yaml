@@ -52,6 +52,10 @@ spec:
           limits:
             cpu: 1000m
             memory: 800Mi
+        volumeMounts:
+        - name: ucdialplans-webconfig
+          mountPath: /var/www/web.config
+          subPath: web.config
         livenessProbe:
           httpGet:
             path: /healthcheck
@@ -61,3 +65,10 @@ spec:
           timeoutSeconds: 10
           failureThreshold: 3
       automountServiceAccountToken: false
+      volumes:
+        - configMap:
+            items:
+            - key: web.config
+              path: web.config
+            name: ucdialplans-webconfig
+          name: ucdialplans-webconfig
