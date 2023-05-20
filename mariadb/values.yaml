@@ -17,6 +17,8 @@ nodeAffinityPreset:
   key: server-speed
   values: 
   - nuc-fast
+service:
+  type: LoadBalancer
 mariadbConfiguration: |-
   [client]
   port=3306
