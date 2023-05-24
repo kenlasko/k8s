@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  namespace: cert-manager
+  namespace: whoami
   name: whoami
   labels:
     app: whoami
@@ -27,7 +27,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: whoami
-  namespace: cert-manager
+  namespace: whoami
 spec:
   ports:
   - protocol: TCP
