@@ -1,18 +1,25 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  namespace: default
+  namespace: cert-manager
   name: whoami-https
+  annotations:
+   cert-manager.io/issuer: "letsencrypt-staging"
   labels:
     app: whoami
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`whoami.ucdialplans.com`)
-      kind: Rule
-      services:
-        - name: whoami
-          port: 80
-  tls:
-    secretName: whoami-https-cert
+ tls:
+   - hosts:
+       - whoami.ucdialplans.com
+     secretName: tls-whoami-ingress-http
+ rules:
+   - host: whoami.ucdialplans.com
+     http:
+       paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: whoami
+               port:
+                 name: web
