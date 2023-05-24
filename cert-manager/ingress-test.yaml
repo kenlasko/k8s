@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  namespace: default
+  name: whoami-https
+  labels:
+    app: whoami
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`whoami.ucdialplans.com`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+  tls:
+    secretName: whoami-https-cert
