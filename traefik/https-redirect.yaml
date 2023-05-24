@@ -5,7 +5,7 @@ metadata:
   namespace: traefik
 spec:
   entryPoints:
-    - web # Change this?
+    - web
   routes:
     - kind: Rule
       match: PathPrefix(`/`)

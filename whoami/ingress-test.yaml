@@ -4,14 +4,15 @@ metadata:
   namespace: whoami
   name: whoami
   annotations:
-   cert-manager.io/issuer: letsencrypt
+    cert-manager.io/issuer: letsencrypt
+    namespace: cert-manager
   labels:
     app: whoami
 spec:
   tls:
   - hosts:
     - whoami.ucdialplans.com
-     secretName: tls-whoami-ingress-http
+    secretName: tls-whoami-ingress-http
   rules:
   - host: whoami.ucdialplans.com
     http:
@@ -22,4 +23,4 @@ spec:
           service:
             name: whoami
             port:
-              name: web
+              name: web-letsencrypt
