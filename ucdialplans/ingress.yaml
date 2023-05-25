@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`www.ucdialplans.com`,`ucdialplans.com`,`www.skypeoptimizer.com`,`skypeoptimizer.com`) 
+  - match: Host(`www.ucdialplans.com`,`ucdialplans.com`) 
     kind: Rule
     services:
     - name: ucdialplans-service
@@ -31,6 +31,6 @@ metadata:
   namespace: ucdialplans
 spec:
   redirectRegex:
-    regex: ^https?://((www.)?skypeoptimizer.com|ucdialplans.com)
+    regex: ^https?://((www.)?ucdialplans.com)
     replacement: https://www.ucdialplans.com
     permanent: true
