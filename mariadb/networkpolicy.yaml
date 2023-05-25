@@ -63,3 +63,5 @@ spec:
     - to:
         - ipBlock:
             cidr: 192.18.153.11/32
+        - ipBlock:
+            cidr: 192.18.152.199/32
