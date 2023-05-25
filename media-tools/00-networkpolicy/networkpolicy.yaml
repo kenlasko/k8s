@@ -35,30 +35,6 @@ spec:
             matchLabels:
               app: homeassist
     - to:
-        - podSelector:
-            matchLabels:
-              app: sabnzbd
-      ports:
-        - port: 8080
-    - to:
-        - podSelector:
-            matchLabels:
-              app: transmission
-      ports:
-        - port: 9091
-    - to:
-        - podSelector:
-            matchLabels:
-              app: prowlarr
-      ports:
-        - port: 9696
-    - to:
-        - podSelector:
-            matchLabels:
-              app: plex
-      ports:
-        - port: 32400
-    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
@@ -66,3 +42,5 @@ spec:
         - port: 80
         - port: 563
         - port: 8123
+    - to:
+        - podSelector: {}
