@@ -19,6 +19,7 @@ nodeAffinityPreset:
   - nuc-fast
 tls:
   enabled: true
+  certificatesSecret: ucdialplans-wildcard-cert
   certFilename: /certs/tls.crt
   certKeyFilename: /certs/tls.key
 extraVolumes:
