@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mariadb-test
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 8.*
+    chart: mariadb-galera
+    helm:
+      valueFiles:
+      - $values/mariadb-test/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: mariadb-test
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: mariadb-test
+  ignoreDifferences:
+  - jsonPointers:
+    - /data
+    kind: Secret
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
