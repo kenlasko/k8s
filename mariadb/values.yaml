@@ -17,6 +17,19 @@ nodeAffinityPreset:
   key: server-speed
   values: 
   - nuc-fast
+tls:
+  enabled: false
+  certFilename: /certs/tls.crt
+  certKeyFilename: /certs/tls.key
+extraVolumes:
+- name: mariadb-certs
+  secret:
+    defaultMode: 288
+    secretName: ucdialplans-wildcard-cert
+extraVolumeMounts:
+- name: mariadb-certs
+  mountPath: /certs
+  readOnly: true
 service:
   type: LoadBalancer
 mariadbConfiguration: |-
