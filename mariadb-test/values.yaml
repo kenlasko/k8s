@@ -140,7 +140,7 @@ mariadbConfiguration: |-
   wsrep_slave_threads=4
   wsrep_cluster_address=gcomm://
   wsrep_cluster_name=galera
-  wsrep_sst_auth="root:"
+  wsrep_sst_auth="root:***REMOVED***"
   # Enabled for performance per https://mariadb.com/kb/en/innodb-system-variables/#innodb_flush_log_at_trx_commit
   innodb_flush_log_at_trx_commit=2
   # MYISAM REPLICATION SUPPORT #
