@@ -5,7 +5,7 @@ fullnameOverride: mariadb
 podLabels:
   networkClass: Database
 #image:
-#  tag: 10.9.4
+#  tag: 10.6.12
 rootUser:
   user: root
   password: ***REMOVED***
@@ -17,21 +17,21 @@ nodeAffinityPreset:
   key: server-speed
   values: 
   - nuc-fast
-tls:
-  enabled: false
-  certificatesSecret: ucdialplans-wildcard-cert
-  certFilename: tls.crt
-  certKeyFilename: tls.key
-  certCAFilename: ca.crt
-extraVolumes:
-- name: mariadb-certs
-  secret:
-    defaultMode: 288
-    secretName: ucdialplans-wildcard-cert
-extraVolumeMounts:
-- name: mariadb-certs
-  mountPath: /certs #/bitnami/mariadb/certs
-  readOnly: true
+# tls:
+#   enabled: false
+#   certificatesSecret: ucdialplans-wildcard-cert
+#   certFilename: tls.crt
+#   certKeyFilename: tls.key
+#   certCAFilename: ca.crt
+# extraVolumes:
+# - name: mariadb-certs
+#   secret:
+#     defaultMode: 288
+#     secretName: ucdialplans-wildcard-cert
+# extraVolumeMounts:
+# - name: mariadb-certs
+#   mountPath: /bitnami/mariadb/certs
+#   readOnly: true
 service:
   type: LoadBalancer
 mariadbConfiguration: |-
