@@ -30,7 +30,7 @@ extraVolumes:
     secretName: ucdialplans-wildcard-cert
 extraVolumeMounts:
 - name: mariadb-certs
-  mountPath: /bitnami/mariadb/certs/
+  mountPath: /certs #/bitnami/mariadb/certs
   readOnly: true
 service:
   type: LoadBalancer
