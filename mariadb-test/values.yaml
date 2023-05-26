@@ -79,13 +79,7 @@ mariadbConfiguration: |-
   # Required for Galera
   binlog_format=row
 
-  ## Replication to secondary server
-  ##
-  wsrep_gtid_mode      = on
-  wsrep_gtid_domain_id = 0
-  server-id            = 01
-  log_slave_updates    = on
-  gtid_domain_id       = 1
+
 
 
   ## Caches and Limits
@@ -133,6 +127,14 @@ mariadbConfiguration: |-
   ssl_cert=/certs/tls.crt
   ssl_key=/certs/tls.key
 
+  ## Replication to secondary server
+  ##
+  wsrep_gtid_mode      = on
+  wsrep_gtid_domain_id = 0
+  server-id            = 01
+  log_slave_updates    = on
+  gtid_domain_id       = 1
+
   [galera]
   wsrep_on=ON
   wsrep_provider=/opt/bitnami/mariadb/lib/libgalera_smm.so
@@ -144,7 +146,7 @@ mariadbConfiguration: |-
   # Enabled for performance per https://mariadb.com/kb/en/innodb-system-variables/#innodb_flush_log_at_trx_commit
   innodb_flush_log_at_trx_commit=2
   # MYISAM REPLICATION SUPPORT #
-  wsrep_replicate_myisam=ON
+  wsrep_mode=REPLICATE_MYISAM
 
   [mariadb]
   plugin_load_add=auth_pam
