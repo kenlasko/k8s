@@ -20,8 +20,9 @@ nodeAffinityPreset:
 tls:
   enabled: true
   certificatesSecret: ucdialplans-wildcard-cert
-  certFilename: /certs/tls.crt
-  certKeyFilename: /certs/tls.key
+  certFilename: tls.crt
+  certKeyFilename: tls.key
+  certCAFilename: ca.crt
 extraVolumes:
 - name: mariadb-certs
   secret:
@@ -29,7 +30,7 @@ extraVolumes:
     secretName: ucdialplans-wildcard-cert
 extraVolumeMounts:
 - name: mariadb-certs
-  mountPath: /certs
+  mountPath: /bitnami/mariadb/certs/
   readOnly: true
 service:
   type: LoadBalancer
