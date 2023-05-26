@@ -4,8 +4,8 @@ namespaceOverride: mariadb
 fullnameOverride: mariadb
 podLabels:
   networkClass: Database
-#image:
-#  tag: 10.6.12
+image:
+  tag: 10.6.12-debian-11-r16
 rootUser:
   user: root
   password: ***REMOVED***
