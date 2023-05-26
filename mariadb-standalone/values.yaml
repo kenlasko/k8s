@@ -39,6 +39,7 @@ primary:
     log-bin-index     = slave-bin.index
     binlog_format     = mixed 
     slave-skip-errors = 1451,1452,1032
+    report-host       = k3s-replica
 
     [client]
     port=3306
