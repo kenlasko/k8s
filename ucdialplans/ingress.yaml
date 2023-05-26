@@ -18,7 +18,7 @@ spec:
     - name: traefik-security
       namespace: traefik
   tls:
-    secretName: traefik-ucdialplans-cert
+    secretName: traefik-wildcard-cert
     options:
       name: tls-options-default
       namespace: traefik
