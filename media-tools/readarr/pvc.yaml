@@ -7,7 +7,7 @@ spec:
   volumeName: pv-readarr
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-high-value
+  storageClassName: ""
   resources:
     requests:
       storage: 500Mi
