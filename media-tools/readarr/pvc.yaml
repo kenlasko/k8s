@@ -25,5 +25,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   claimRef:
-    namespace: default
+    namespace: media-tools
     name: readarr-pvc
