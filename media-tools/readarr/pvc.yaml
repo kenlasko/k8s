@@ -19,6 +19,7 @@ metadata:
   name: pv-readarr
 spec:
   storageClassName: longhorn-high-value
+  type: PersistentVolumeClaim
   capacity:
     storage: 500Mi
   accessModes:
