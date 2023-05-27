@@ -18,6 +18,14 @@ spec:
       labels:
         app: readarr
         name: readarr
+  volumeClaimTemplates:
+  - metadata:
+      name: readarr-pvc-template
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 500Mi
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
@@ -49,7 +57,7 @@ spec:
           periodSeconds: 60
           timeoutSeconds: 5
         volumeMounts:
-        - name: readarr-config
+        - name: readarr-pvc-template
           mountPath: /config
         - name: downloads
           mountPath: /downloads
@@ -58,7 +66,7 @@ spec:
       volumes:
         - name: readarr-config
           persistentVolumeClaim:
-            claimName: longhorn-readarr-config-pvc
+            claimName: readarr-pvc
         - name: downloads
           persistentVolumeClaim:
             claimName: longhorn-media-downloads-pvc

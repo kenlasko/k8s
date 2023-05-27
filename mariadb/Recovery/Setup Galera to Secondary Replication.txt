@@ -14,7 +14,7 @@ unlock tables;
 # From NUC1 host
 # mount the Longhorn vol for MariaDB-standalone
 sudo mount /dev/longhorn/pvc-ba57dad5-2d66-4e28-851e-6bdaea0e10cc /mnt/
-mv /kube-storage/mariadb/data/mariadb-repl-backup.sql /mnt/mariadb-repl-backup.sql
+sudo mv /kube-storage/mariadb/data/mariadb-repl-backup.sql /mnt/mariadb-repl-backup.sql
 
 # Then on mariadb-standalone pod command prompt:
 mariadb -u root -p***REMOVED***
@@ -29,7 +29,7 @@ drop database phpmyadmin;
 mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
 
 # Then run 
-set global gtid_slave_pos = "0-1-1462,1-1-42";
+set global gtid_slave_pos = "0-1-1422,1-1-42";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
     master_user='replicator',
