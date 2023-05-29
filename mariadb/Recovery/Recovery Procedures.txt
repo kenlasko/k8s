@@ -44,8 +44,7 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
 --set galera.bootstrap.bootstrapFromNode=0 \
---set podManagementPolicy=Parallel \
---version 7.5.5
+--set podManagementPolicy=Parallel 
 
 
 Once up and running
@@ -57,8 +56,7 @@ helm uninstall -n mariadb mariadb
 
 helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
---set galera.mariabackup.password=***REMOVED*** \
---version 7.5.5
+--set galera.mariabackup.password=***REMOVED*** 
 
 
 ############################
