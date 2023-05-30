@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: readarr
+  namespace: default
+spec:
+  secretName: readarr-cert
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: readarr.ucdialplans.com
+  dnsNames:
+  - readarr.ucdialplans.com
