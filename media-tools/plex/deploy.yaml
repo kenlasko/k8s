@@ -243,6 +243,11 @@ spec:
       containers:
       - name: plex-worker
         image: lscr.io/linuxserver/plex:latest
+        resources:
+          requests:
+            gpu.intel.com/i915: "1" 
+          limits:
+            gpu.intel.com/i915: "1" 
         startupProbe:
           httpGet:
             path: /health
