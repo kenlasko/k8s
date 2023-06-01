@@ -79,8 +79,8 @@ spec:
             path: /identity
             scheme: HTTPS
             port: 32400
-          failureThreshold: 30
-          periodSeconds: 10
+          failureThreshold: 45
+          periodSeconds: 15
         livenessProbe:
           httpGet:
             path: /identity
