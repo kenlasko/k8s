@@ -243,11 +243,6 @@ spec:
       containers:
       - name: plex-worker
         image: lscr.io/linuxserver/plex:latest
-        resources:
-          requests:
-            gpu.intel.com/i915: "1" 
-          limits:
-            gpu.intel.com/i915: "1" 
         startupProbe:
           httpGet:
             path: /health
@@ -283,9 +278,11 @@ spec:
           requests:
             cpu: 500m
             memory: 200Mi
+            gpu.intel.com/i915: "1" 
           limits:
             cpu: 3000m
             memory: 800Mi
+            gpu.intel.com/i915: "1"
       volumes:
       - name: data
         persistentVolumeClaim:
