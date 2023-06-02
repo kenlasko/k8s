@@ -7,8 +7,11 @@ image:
 auth:
   rootPassword: "***REMOVED***"
 primary:
-  nodeSelector:
-    server-type: nuc
+  nodeAffinityPreset:
+    type: hard
+    key: kubernetes.io/hostname
+    values: 
+    - nuc2
   persistence:
     storageClass: "longhorn-high-value"
     existingClaim: "longhorn-mariadb-pvc"
