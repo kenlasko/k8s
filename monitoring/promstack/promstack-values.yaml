@@ -231,7 +231,7 @@ kubeStateMetrics:
 kube-state-metrics:
   fullnameOverride: kube-state-metrics
   selfMonitor:
-    enabled: true
+    enabled: false
   prometheus:
     monitor:
       enabled: true
