@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: overseerr
+  namespace: media-tools
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: overseerr
+  template:
+    metadata:
+      labels:
+        app: overseerr
+        name: overseerr
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: server-type
+                operator: In
+                values:
+                - nuc
+      containers:
+      - name: overseerr
+        image: linuxserver/overseerr:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5055
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: overseerr-config
+          mountPath: /config
+      volumes:
+        - name: overseerr-config
+          persistentVolumeClaim:
+            claimName: longhorn-overseerr-config-pvc
+      automountServiceAccountToken: false
