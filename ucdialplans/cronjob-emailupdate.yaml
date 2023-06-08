@@ -23,7 +23,7 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Checking rulesets for updates..." &&
-              curl -o /dev/null --silent --location --insecure --request POST 'https://www.ucdialplans.com/EmailUpdates.aspx' --form 'userID2="***REMOVED***"' &&
+              curl --location --insecure --request POST 'https://www.ucdialplans.com/EmailUpdates.aspx' --form 'userID2="***REMOVED***"' &&
               echo "$(date +%F_%T) Finished!"
             resources:
               requests:
