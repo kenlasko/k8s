@@ -101,6 +101,7 @@ dnsmasq:
   - cname=lidarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
   - cname=mariadb.ucdialplans.com,k3s.ucdialplans.com
+  - cname=media.ucdialplans.com,k3s.ucdialplans.com
   - cname=overseerr.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole1.ucdialplans.com,rpi1.ucdialplans.com
