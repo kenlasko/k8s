@@ -10,3 +10,21 @@ spec:
   resources:
     requests:
       storage: 20Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: clusterplex-transcode-pvc
+  namespace: media-tools
+  labels:
+    app.kubernetes.io/name: clusterplex-transcode-pvc
+    app.kubernetes.io/part-of: clusterplex
+spec:
+  storageClassName: longhorn
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: "10Gi"
+
