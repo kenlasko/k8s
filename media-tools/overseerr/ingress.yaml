@@ -18,5 +18,5 @@ spec:
   tls:
     secretName: traefik-wildcard-cert
     options:
-      name: tls-options-clientauth
+      name: tls-options-default
       namespace: traefik
