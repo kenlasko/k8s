@@ -7,7 +7,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`overseerr.ucdialplans.com`) 
+  - match: Host(`(overseerr|media).ucdialplans.com`) 
     kind: Rule
     services:
     - name: overseerr-service

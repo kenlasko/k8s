@@ -42,5 +42,6 @@ spec:
         - port: 80
         - port: 563
         - port: 8123
+        - port: 587
     - to:
         - podSelector: {}
