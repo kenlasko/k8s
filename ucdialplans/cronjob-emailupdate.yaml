@@ -13,7 +13,7 @@ spec:
       template:
         spec:
           nodeSelector:
-            server-speed: nuc-slow
+            server-type: nuc
           restartPolicy: OnFailure
           containers:
           - name: emailupdate

@@ -16,7 +16,7 @@ spec:
         name: oci-host-creator
     spec:
       nodeSelector:
-        server-speed: nuc-slow
+        server-type: nuc
       containers:
       - name: oci-host-creator
         image: registry.ucdialplans.com/oci-watcher
