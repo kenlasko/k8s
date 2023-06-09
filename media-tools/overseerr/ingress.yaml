@@ -11,7 +11,7 @@ spec:
     kind: Rule
     services:
     - name: overseerr-service
-      port: 7878
+      port: 5055
     middlewares:
     - name: traefik-security
       namespace: traefik
