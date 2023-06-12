@@ -253,7 +253,7 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: "clusterplex-media-pvc"
+          claimName: "pvc-smb-mediapc-toplevel"
       - name: transcode
         persistentVolumeClaim:
           claimName: "clusterplex-transcode-pvc"
