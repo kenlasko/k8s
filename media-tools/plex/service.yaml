@@ -11,11 +11,19 @@ spec:
   type: LoadBalancer
   loadBalancerIP: 192.168.1.11
   externalTrafficPolicy: Local
+  selector:
+    app: plex
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/part-of: plex
   ports:
   - port: 32400
     targetPort: 32400
     name: pms-web
     protocol: TCP
+  - name: relay
+    port: 32499
+    protocol: TCP
+    targetPort: relay
   - port: 3005
     targetPort: 3005
     name: plex-companion
@@ -35,5 +43,23 @@ spec:
     targetPort: 32414
     name: gdm-32414
     protocol: UDP
+    
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterplex-orchestrator
+  labels:
+    app.kubernetes.io/name: clusterplex-orchestrator
+    app.kubernetes.io/part-of: plex
+spec:
+  type: ClusterIP
+  ports:
+    - name: orchestrator
+      port: 3500
+      protocol: TCP
+      targetPort: orchestrator
   selector:
-    app: plex
+    app.kubernetes.io/name: clusterplex-orchestrator
+    app.kubernetes.io/part-of: plex

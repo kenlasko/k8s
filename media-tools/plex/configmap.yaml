@@ -25,3 +25,60 @@ data:
     tail -F "$PLEX_LOG" | while read LINE; do
       echo $LINE | grep -E "^.*DEBUG - Request: \[192.168.1.(2|1[1-9]\d):\d{5}.*GET /media/providers.*Signed-in Token.*$" && echo "ACTIVITY DETECTED" | curl -sk -X POST http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/mediapc-power-control-urlrequest-YFZlHKL8BXgtKZpfJMfhc8G-
     done
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: clusterplex-pms-config
+  namespace: media-tools
+  labels:
+    app.kubernetes.io/name: clusterplex-pms-config
+    app.kubernetes.io/part-of: plex
+data:
+  VERSION: docker
+  TZ: America/Toronto
+  PGID: '1000'
+  PUID: '1000'
+  DOCKER_MODS: 'ghcr.io/pabloromeo/clusterplex_dockermod:latest'
+  ORCHESTRATOR_URL: 'http://clusterplex-orchestrator:3500'
+  PMS_SERVICE: "plex-service"
+  PMS_PORT: "32400"
+  TRANSCODER_VERBOSE: '1'
+  TRANSCODE_OPERATING_MODE: both
+  LOCAL_RELAY_ENABLED: '1'
+  LOCAL_RELAY_PORT: "32499"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: clusterplex-orchestrator-config
+  namespace: media-tools
+  labels:
+    app.kubernetes.io/name: clusterplex-orchestrator-config
+    app.kubernetes.io/part-of: plex
+data:
+  TZ: America/Toronto
+  LISTENING_PORT: '3500'
+  WORKER_SELECTION_STRATEGY: LOAD_TASKS
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: clusterplex-worker-config
+  namespace: media-tools
+  labels:
+    app.kubernetes.io/name: clusterplex-worker-config
+    app.kubernetes.io/part-of: plex
+data:
+  TZ: America/Toronto
+  PGID: '1000'
+  PUID: '1000'
+  VERSION: docker
+  DOCKER_MODS: 'ghcr.io/pabloromeo/clusterplex_worker_dockermod:latest'
+  ORCHESTRATOR_URL: 'http://clusterplex-orchestrator:3500'
+  LISTENING_PORT: '3501'
+  STAT_CPU_INTERVAL: '10000'
+  EAE_SUPPORT: '1'
