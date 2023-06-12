@@ -3,8 +3,6 @@ kind: Service
 metadata:
   labels:
     app: plex-service
-    app.kubernetes.io/name: plex-service
-    app.kubernetes.io/part-of: plex
   name: plex-service
   namespace: media-tools
   annotations:
@@ -37,30 +35,5 @@ spec:
     targetPort: 32414
     name: gdm-32414
     protocol: UDP
-  - name: relay
-    port: 32499
-    protocol: TCP
-    targetPort: relay
   selector:
     app: plex
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/part-of: plex
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: clusterplex-orchestrator
-  labels:
-    app.kubernetes.io/name: clusterplex-orchestrator
-    app.kubernetes.io/part-of: plex
-spec:
-  type: ClusterIP
-  ports:
-    - name: orchestrator
-      port: 3500
-      protocol: TCP
-      targetPort: orchestrator
-  selector:
-    app.kubernetes.io/name: clusterplex-orchestrator
-    app.kubernetes.io/part-of: plex
