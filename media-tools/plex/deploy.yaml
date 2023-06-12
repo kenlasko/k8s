@@ -44,6 +44,9 @@ spec:
           configMap:
             name: plex-activity-monitor
             defaultMode: 0744
+        - name: transcode
+          persistentVolumeClaim:
+            claimName: clusterplex-transcode-pvc
       automountServiceAccountToken: false
       containers:
       - name: plex
@@ -56,12 +59,27 @@ spec:
             gpu.intel.com/i915: "1" 
           limits:
             gpu.intel.com/i915: "1" 
+        readinessProbe:
+          httpGet:
+            path: /identity
+            scheme: HTTPS
+            port: 32400
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
         livenessProbe:
           httpGet:
             path: /identity
             port: 32400
           initialDelaySeconds: 15
           periodSeconds: 120
+        ports:
+          - name: pms-web
+            containerPort: 32400
+          - name: relay
+            containerPort: 32499
+        envFrom:
+        - configMapRef:
+            name: clusterplex-pms-config
         env:
         - name: PLEX_CLAIM
           value: "***REMOVED***"
@@ -80,6 +98,8 @@ spec:
           mountPath: /config
         - name: data
           mountPath: /data
+        - name: transcode
+          mountPath: /transcode
       - name: plex-server-logger
         image: busybox
         args: [/bin/sh, -c, 'tail -n+1 -F /config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log']
@@ -104,3 +124,155 @@ spec:
           periodSeconds: 120
           failureThreshold: 1
 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clusterplex-orchestrator
+  labels:
+    app.kubernetes.io/name: clusterplex-orchestrator
+    app.kubernetes.io/part-of: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: clusterplex-orchestrator
+      app.kubernetes.io/part-of: plex
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: clusterplex-orchestrator
+        app.kubernetes.io/part-of: plex
+    spec:
+      containers:
+      - name: plex-orchestrator
+        image: ghcr.io/pabloromeo/clusterplex_orchestrator:latest
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3500
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3500
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3500
+          initialDelaySeconds: 5
+          timeoutSeconds: 10
+        ports:
+          - name: orchestrator
+            containerPort: 3500
+        envFrom:
+        - configMapRef:
+            name: clusterplex-orchestrator-config
+        resources:            # adapt requests and limits to your needs
+          requests:
+            cpu: 200m
+            memory: 32Mi
+          limits:
+            cpu: 500m
+            memory: 64Mi
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: clusterplex-worker
+  labels:
+    app.kubernetes.io/name: clusterplex-worker
+    app.kubernetes.io/part-of: plex
+spec:
+  serviceName: clusterplex-worker-service
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: clusterplex-worker
+      app.kubernetes.io/part-of: plex
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: clusterplex-worker
+        app.kubernetes.io/part-of: plex
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  name: clusterplex-worker
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  name: clusterplex-pms
+              topologyKey: kubernetes.io/hostname
+            weight: 50
+      containers:
+      - name: plex-worker
+        image: lscr.io/linuxserver/plex:latest
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3501
+          failureThreshold: 40
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3501
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3501
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+        ports:
+          - name: worker
+            containerPort: 3501
+        envFrom:
+        - configMapRef:
+            name: clusterplex-worker-config
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: codecs
+          mountPath: /codecs
+        - name: transcode
+          mountPath: /transcode
+        resources:              # adapt requests and limits to your needs
+          requests:
+            cpu: 500m
+            memory: 200Mi
+          limits:
+            cpu: 3000m
+            memory: 800Mi
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: "pvc-smb-mediapc-toplevel"
+      - name: transcode
+        persistentVolumeClaim:
+          claimName: "clusterplex-transcode-pvc"
+  volumeClaimTemplates:
+    - metadata:
+        name: codecs
+        labels:
+          app.kubernetes.io/name: clusterplex-codecs-pvc
+          app.kubernetes.io/part-of: plex
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        # specify your storage class
+        storageClassName: longhorn
