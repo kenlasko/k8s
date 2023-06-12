@@ -42,7 +42,7 @@ data:
   PUID: '1000'
   DOCKER_MODS: 'ghcr.io/pabloromeo/clusterplex_dockermod:latest'
   ORCHESTRATOR_URL: 'http://clusterplex-orchestrator:3500'
-  PMS_SERVICE: "clusterplex-pms"
+  PMS_SERVICE: "plex-service"
   PMS_PORT: "32400"
   TRANSCODER_VERBOSE: '1'
   TRANSCODE_OPERATING_MODE: both

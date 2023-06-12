@@ -93,6 +93,7 @@ spec:
           value: "1000"           
         - name: TZ
           value: "America/Toronto"
+        - name: DOCKER_MODS
         volumeMounts:
         - name: plex-config
           mountPath: /config
