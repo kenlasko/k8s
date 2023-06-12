@@ -34,7 +34,7 @@ metadata:
   namespace: media-tools
   labels:
     app.kubernetes.io/name: clusterplex-pms-config
-    app.kubernetes.io/part-of: clusterplex
+    app.kubernetes.io/part-of: plex
 data:
   VERSION: docker
   TZ: America/Toronto
@@ -57,7 +57,7 @@ metadata:
   namespace: media-tools
   labels:
     app.kubernetes.io/name: clusterplex-orchestrator-config
-    app.kubernetes.io/part-of: clusterplex
+    app.kubernetes.io/part-of: plex
 data:
   TZ: America/Toronto
   LISTENING_PORT: '3500'
@@ -71,7 +71,7 @@ metadata:
   namespace: media-tools
   labels:
     app.kubernetes.io/name: clusterplex-worker-config
-    app.kubernetes.io/part-of: clusterplex
+    app.kubernetes.io/part-of: plex
 data:
   TZ: America/Toronto
   PGID: '1000'

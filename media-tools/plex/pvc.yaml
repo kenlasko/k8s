@@ -19,7 +19,7 @@ metadata:
   namespace: media-tools
   labels:
     app.kubernetes.io/name: clusterplex-transcode-pvc
-    app.kubernetes.io/part-of: clusterplex
+    app.kubernetes.io/part-of: plex
 spec:
   storageClassName: longhorn
   accessModes:
