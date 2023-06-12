@@ -218,6 +218,14 @@ spec:
         app.kubernetes.io/part-of: plex
     spec:
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: intel.feature.node.kubernetes.io/gpu
+                operator: In
+                values:
+                - 'true'
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
