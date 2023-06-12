@@ -134,7 +134,7 @@ metadata:
     app.kubernetes.io/name: clusterplex-orchestrator
     app.kubernetes.io/part-of: plex
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: clusterplex-orchestrator
@@ -190,7 +190,7 @@ metadata:
     app.kubernetes.io/part-of: plex
 spec:
   serviceName: clusterplex-worker-service
-  replicas: 2
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: clusterplex-worker
