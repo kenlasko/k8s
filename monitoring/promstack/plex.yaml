@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterplex-orchestrator
+    app.kubernetes.io/part-of: plex
+    release: kube-prometheus-stack
+  name: clusterplex-orchestrator-monitor
+  namespace: monitoring
+spec:
+  endpoints:
+  - path: /metrics
+    port: orchestrator
+    scheme: http
+    interval: 60s
+  jobLabel: clusterplex-orchestrator
+  namespaceSelector:
+    matchNames:
+    - media-tools
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: clusterplex-orchestrator
+      app.kubernetes.io/part-of: plex
