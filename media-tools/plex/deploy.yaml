@@ -65,15 +65,15 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: plex
-        image: plexinc/pms-docker:plexpass  #ghcr.io/linuxserver/plex:latest 
+        image: ghcr.io/linuxserver/plex:latest  #ghcr.io/linuxserver/plex:latest  # plexinc/pms-docker:plexpass 
         imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 100m
             memory: 2Gi
-            gpu.intel.com/i915: "1" 
+            #gpu.intel.com/i915: "1" 
           limits:
-            gpu.intel.com/i915: "1" 
+            #gpu.intel.com/i915: "1" 
         startupProbe:
           httpGet:
             path: /identity
@@ -278,11 +278,11 @@ spec:
           requests:
             cpu: 500m
             memory: 200Mi
-            #gpu.intel.com/i915: "1" 
+            gpu.intel.com/i915: "1" 
           limits:
             cpu: 3000m
             memory: 800Mi
-            #gpu.intel.com/i915: "1"
+            gpu.intel.com/i915: "1"
       volumes:
       - name: data
         persistentVolumeClaim:
