@@ -74,12 +74,12 @@ metadata:
     app.kubernetes.io/part-of: plex
 data:
   TZ: America/Toronto
-  PGID: '1000'
-  PUID: '1000'
+  PGID: '0'
+  PUID: '0'
   VERSION: docker
   DOCKER_MODS: 'ghcr.io/pabloromeo/clusterplex_worker_dockermod:latest'
   ORCHESTRATOR_URL: 'http://clusterplex-orchestrator:3500'
   LISTENING_PORT: '3501'
   STAT_CPU_INTERVAL: '10000'
   EAE_SUPPORT: '1'
-  FFMPEG_HWACCEL: 'libvpl'
+  FFMPEG_HWACCEL: 'vaapi'
