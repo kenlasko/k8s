@@ -19,3 +19,11 @@ spec:
         - port: 32414
     - from:
         - podSelector: {}
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              jobLabel: node-exporter
+      ports:
+        - port: 80
+        - port: 443
