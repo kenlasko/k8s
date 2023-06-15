@@ -65,7 +65,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: plex
-        image: ghcr.io/linuxserver/plex:latest   # ghcr.io/linuxserver/plex:latest  # plexinc/pms-docker:plexpass 
+        image: plexinc/pms-docker:plexpass    # ghcr.io/linuxserver/plex:latest  # plexinc/pms-docker:plexpass 
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -149,7 +149,7 @@ metadata:
     app.kubernetes.io/name: clusterplex-orchestrator
     app.kubernetes.io/part-of: plex
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: clusterplex-orchestrator
@@ -206,7 +206,7 @@ metadata:
     app.kubernetes.io/part-of: plex
 spec:
   serviceName: clusterplex-worker-service
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: clusterplex-worker
