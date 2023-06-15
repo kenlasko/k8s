@@ -71,9 +71,9 @@ spec:
           requests:
             cpu: 100m
             memory: 2Gi
-            #gpu.intel.com/i915: "1" 
+            gpu.intel.com/i915: "1" 
           limits:
-            #gpu.intel.com/i915: "1" 
+            gpu.intel.com/i915: "1" 
         startupProbe:
           httpGet:
             path: /identity
@@ -149,7 +149,7 @@ metadata:
     app.kubernetes.io/name: clusterplex-orchestrator
     app.kubernetes.io/part-of: plex
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: clusterplex-orchestrator
@@ -206,7 +206,7 @@ metadata:
     app.kubernetes.io/part-of: plex
 spec:
   serviceName: clusterplex-worker-service
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: clusterplex-worker
