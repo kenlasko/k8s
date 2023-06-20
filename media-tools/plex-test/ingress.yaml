@@ -10,7 +10,7 @@ spec:
   - match: Host(`plex-test.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: plex--test-service
+    - name: plex-test-service
       port: 32400
     middlewares:
     - name: traefik-security
