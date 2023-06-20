@@ -7,10 +7,10 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`plex.ucdialplans.com`) 
+  - match: Host(`plex-test.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: plex-service
+    - name: plex--test-service
       port: 32400
     middlewares:
     - name: traefik-security

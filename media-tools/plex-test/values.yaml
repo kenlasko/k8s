@@ -62,7 +62,8 @@ service:
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
   ##
   annotations: {}
-  labels: {}
+  labels:
+    app: plex-test-service
   ## Use loadBalancerIP to request a specific static IP,
   ## otherwise leave blank
   ##
