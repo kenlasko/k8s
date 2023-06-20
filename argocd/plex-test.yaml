@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://ressu.github.io/'
-    targetRevision: *
+    targetRevision: 0.*
     chart: kube-plex
     helm:
       valueFiles:
