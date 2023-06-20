@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://ressu.github.io/'
+  - repoURL: 'https://ressu.github.io/kube-plex'
     targetRevision: 0.*
     chart: kube-plex
     helm:
