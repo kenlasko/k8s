@@ -1,7 +1,7 @@
 kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
-  name: plex
+  name: plex-test
   namespace: media-tools
 spec:
   entryPoints: 
