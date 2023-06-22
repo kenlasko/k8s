@@ -12,6 +12,11 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: nectar-ps
+  ignoreDifferences:
+  - group: batch
+    kind: CronJob
+    jsonPointers:
+    - /spec/schedule
   syncPolicy:
     automated:
       selfHeal: true
