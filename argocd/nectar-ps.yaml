@@ -15,6 +15,7 @@ spec:
   ignoreDifferences:
   - group: batch
     kind: CronJob
+    namespace: nectar-ps
     jsonPointers:
     - /spec/schedule
   syncPolicy:
