@@ -15,6 +15,7 @@ spec:
   ignoreDifferences:
   - group: batch
     kind: CronJob
+    name: dxp-sessionexport-*
     namespace: nectar-ps
     jsonPointers:
     - /spec/schedule
