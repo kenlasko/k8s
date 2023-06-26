@@ -16,6 +16,7 @@ nodeSelector:
 persistentVolumeClaim:
   enabled: true
   storageClass: longhorn-high-value
+  size: "1Gi"
   accessModes:
     - ReadWriteOnce
 
