@@ -55,9 +55,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: pvc-smb-mediapc-toplevel
-        - name: transcode
-          persistentVolumeClaim:
-            claimName: clusterplex-transcode-pvc
+        # - name: transcode
+        #   persistentVolumeClaim:
+        #     claimName: clusterplex-transcode-pvc
         - name: plex-activity-monitor
           configMap:
             name: plex-activity-monitor
@@ -113,8 +113,8 @@ spec:
           mountPath: /config
         - name: data
           mountPath: /data
-        - name: transcode
-          mountPath: /transcode  
+        # - name: transcode
+        #   mountPath: /transcode  
       - name: plex-server-logger
         image: busybox
         args: [/bin/sh, -c, 'tail -n+1 -F /config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log']
