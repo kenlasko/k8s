@@ -152,11 +152,6 @@ kubectl apply -f ~/k3s/portainer/dashboard-ingress.yaml
 # Install local registry
 kubectl apply -f ~/k3s/registry/
 docker push registry.ucdialplans.com/dxp-base-image
-docker push registry.ucdialplans.com/epc-groupupdate
-docker push registry.ucdialplans.com/epc-groupupdate-jb
-docker push registry.ucdialplans.com/epc-testmonitor
-docker push registry.ucdialplans.com/epc-activecount
-docker push registry.ucdialplans.com/dxp-in-license-check
 docker push registry.ucdialplans.com/garminupload
 docker push registry.ucdialplans.com/ucdialplans
 

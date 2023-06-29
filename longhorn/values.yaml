@@ -1,3 +1,11 @@
+persistence:
+  defaultNodeSelector:
+    server-type: "nuc"
+
+defaultSettings:
+  backupTarget: "nfs://nfs-server-svc.nfs-server:/"
+  defaultLonghornStaticStorageClass: longhorn-high-value
+
 longhornManager:
   nodeSelector: 
     server-type: "nuc"

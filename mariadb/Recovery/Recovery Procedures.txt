@@ -72,8 +72,6 @@ ansible-playbook k3s/ansible-clean-db-folders.yaml --ask-become-pass
 ansible-playbook k3s/ansible-clean-db-folders.yaml --limit "nuc2" --ask-become-pass
 
 
-
-
 helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED***
