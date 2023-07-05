@@ -104,7 +104,7 @@ spec:
       - name: github-ssh-creds
         secret:
           secretName: github-ssh-creds
-          defaultMode: 0444
+          defaultMode: 0600
       - name: ttyusb
         hostPath:
           path: /dev/ttyUSB1
