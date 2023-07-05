@@ -90,7 +90,7 @@ spec:
         - name: homeassist
           mountPath: /hass-config
         - name: github-ssh-creds
-          mountPath: /home/root/.ssh
+          mountPath: /root/.ssh
           readOnly: true
         securityContext:
           privileged: true
