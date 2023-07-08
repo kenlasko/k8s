@@ -65,7 +65,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: plex
-        image: plexinc/pms-docker:plexpass    # ghcr.io/linuxserver/plex:latest  # plexinc/pms-docker:plexpass 
+        image: ghcr.io/linuxserver/plex:latest    # ghcr.io/linuxserver/plex:latest  # plexinc/pms-docker:plexpass 
         imagePullPolicy: IfNotPresent
         resources:
           requests:
