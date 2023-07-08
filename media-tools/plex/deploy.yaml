@@ -96,8 +96,8 @@ spec:
         - configMapRef:
             name: clusterplex-pms-config
         env:
-        - name: PLEX_CLAIM
-          value: "***REMOVED***"
+        # - name: PLEX_CLAIM
+        #   value: "***REMOVED***"
         - name: HOSTNAME
           value: plex.ucdialplans.com
         - name: ADVERTISE_IP
