@@ -29,7 +29,7 @@ spec:
       containers:
       - name: spotify-player
         image: registry.ucdialplans.com/spotify-player
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         securityContext:
           privileged: true
         # capabilities:
