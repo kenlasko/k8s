@@ -74,19 +74,19 @@ spec:
             gpu.intel.com/i915: "1" 
           limits:
             gpu.intel.com/i915: "1" 
-        # startupProbe:
-        #   httpGet:
-        #     path: /identity
-        #     scheme: HTTPS
-        #     port: 32400
-        #   failureThreshold: 45
-        #   periodSeconds: 15
-        # livenessProbe:
-        #   httpGet:
-        #     path: /identity
-        #     port: 32400
-        #   initialDelaySeconds: 15
-        #   periodSeconds: 120
+        startupProbe:
+          httpGet:
+            path: /identity
+            scheme: HTTPS
+            port: 32400
+          failureThreshold: 45
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /identity
+            port: 32400
+          initialDelaySeconds: 15
+          periodSeconds: 120
         ports:
           - name: pms-web
             containerPort: 32400
