@@ -52,15 +52,14 @@ kubectl label nodes nuc2 server-speed=nuc-fast
 kubectl label nodes nuc2 server-type=nuc
 kubectl label nodes nuc2 storage=longhorn
 
-kubectl label nodes nuc3 server-speed=nuc-fast
+kubectl label nodes nuc3 server-speed=nuc-slow
 kubectl label nodes nuc3 server-type=nuc
-kubectl label nodes nuc3 storage=longhorn
 
 kubectl label nodes nuc4 server-speed=nuc-fast
 kubectl label nodes nuc4 server-type=nuc
 kubectl label nodes nuc4 storage=longhorn
 
-kubectl label nodes nuc5 server-speed=nuc-slow
+kubectl label nodes nuc5 server-speed=nuc-fast
 kubectl label nodes nuc5 server-type=nuc
 kubectl label nodes nuc5 storage=longhorn
 
@@ -71,8 +70,8 @@ kubectl label nodes nuc6 storage=longhorn
 kubectl label nodes rpi1 server-type=rpi
 kubectl label nodes rpi2 server-type=rpi
 
-kubectl label nodes nuc3 intel.feature.node.kubernetes.io/gpu=true
 kubectl label nodes nuc4 intel.feature.node.kubernetes.io/gpu=true
+kubectl label nodes nuc5 intel.feature.node.kubernetes.io/gpu=true
 kubectl label nodes nuc6 intel.feature.node.kubernetes.io/gpu=true
 
 # Install Helm
