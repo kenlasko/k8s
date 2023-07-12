@@ -10,7 +10,7 @@ longhornManager:
   nodeSelector: 
     server-type: "nuc"
 
-longhornDriver:
+longhornDriverDeployer:
   nodeSelector: 
     server-type: "nuc"
 

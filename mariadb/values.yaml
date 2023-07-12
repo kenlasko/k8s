@@ -14,9 +14,9 @@ mariabackup:
   password: ***REMOVED***
 nodeAffinityPreset:
   type: hard
-  key: server-speed
+  key: node-type
   values: 
-  - nuc-fast
+  - worker
 # tls:
 #   enabled: false
 #   certificatesSecret: ucdialplans-wildcard-cert
