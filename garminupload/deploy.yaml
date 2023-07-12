@@ -12,6 +12,7 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: ps-serviceaccount
           nodeSelector:
             server-type: nuc
           restartPolicy: Never
@@ -32,7 +33,7 @@ spec:
                 memory: 300Mi
             env:
             - name: GarminLastActivity
-              value: "11422069774"
+              value: "11540535499"
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data

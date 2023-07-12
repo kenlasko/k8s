@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gc-programsettings
+  namespace: garminupload
+data:
+  UploadRides.ps1: |
+    <!-- Garmin Connect Activity Export Program Settings XML, do not change. These settings are overwritten at any new release. -->
+    <GCProgramSettings>
+      <BaseURLs>
+        <BaseLoginURL>https://sso.garmin.com/sso/signin</BaseLoginURL>
+        <PostLoginURL>https://connect.garmin.com/modern/</PostLoginURL>
+        <ActivitySearchURL>https://connect.garmin.com/modern/proxy/activitylist-service/activities/search/activities</ActivitySearchURL>
+        <GPXActivityBaseURL>https://connect.garmin.com/modern/proxy/download-service/export/gpx/activity/</GPXActivityBaseURL>
+        <TCXActivityBaseURL>https://connect.garmin.com/modern/proxy/download-service/export/tcx/activity/</TCXActivityBaseURL>
+        <FITActivityBaseURL>https://connect.garmin.com/modern/proxy/download-service/files/activity/</FITActivityBaseURL>
+      </BaseURLs>
+    </GCProgramSettings>
+  GCUserSettings.xml: |
+    <!-- Garmin Connect Activity Export User Settings XML -->
+    <GCUserSettings>
+      <Credentials>
+        <UserName>ken.lasko@gmail.com</UserName> <!-- Your Garmin Connect username -->
+        <Password>***REMOVED***</Password> <!-- Your Garmin Connect password -->
+      </Credentials>
+      <ActivityFileType>FIT</ActivityFileType> <!-- FIT, GPX or TCX -->
+      <DownloadOption>New</DownloadOption> <!-- New or All -->
+      <Folders>
+        <Destination>
+          <Folder>/garmin-data</Folder> <!-- Destination folder, like c:\Garmin -->
+          <Overwrite>Yes</Overwrite>
+        </Destination>
+      </Folders>
+    </GCUserSettings>
+  FormData.xml: |
+    <Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+      <Obj RefId="0">
+        <TN RefId="0">
+          <T>Microsoft.PowerShell.Commands.FormObject</T>
+          <T>System.Object</T>
+        </TN>
+        <ToString>Microsoft.PowerShell.Commands.FormObject</ToString>
+        <Props>
+          <S N="Id">login-form</S>
+          <S N="Method">post</S>
+          <Nil N="Action" />
+          <Obj N="Fields" RefId="1">
+            <TN RefId="1">
+              <T>System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</T>
+              <T>System.Object</T>
+            </TN>
+            <DCT>
+              <En>
+                <S N="Key">username</S>
+                <Nil N="Value" />
+              </En>
+              <En>
+                <S N="Key">password</S>
+                <Nil N="Value" />
+              </En>
+              <En>
+                <S N="Key">embed</S>
+                <S N="Value">false</S>
+              </En>
+              <En>
+                <S N="Key">_csrf</S>
+                <Nil N="Value" />
+              </En>
+            </DCT>
+          </Obj>
+        </Props>
+      </Obj>
+    </Objs>
