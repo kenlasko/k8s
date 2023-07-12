@@ -6,8 +6,8 @@ metadata:
 data:
   UploadRides.ps1: |
     # Garmin Connect Activity Export
-    # Mark van Eijken 2021
-    # Version 1.3.1
+    # Mark van Eijken 2021. Modified by Ken Lasko 2023
+    # Version 1.3.2
     # Version history:
     # 1.0   - Initial version
     # 1.1   - Fix: Garmin now expects parameters in the SSO url
