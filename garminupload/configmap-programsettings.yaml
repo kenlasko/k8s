@@ -2,9 +2,657 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: gc-programsettings
-  namespace: garminupload
+  namespace: garmin-upload
 data:
   UploadRides.ps1: |
+    # Garmin Connect Activity Export
+    # Mark van Eijken 2021
+    # Version 1.3.1
+    # Version history:
+    # 1.0   - Initial version
+    # 1.1   - Fix: Garmin now expects parameters in the SSO url
+    #       Update: Added settings support in separate XML files
+    # 1.2   - Update support for new Garmin activity feed
+    # 1.3   - Update to support the new Garmin Signin URL
+    # 1.3.1 - Fix due error 402 Payment required error when retrieving activity list
+    # The scripts does the following:
+    # - Downloads activity files from garmin in FIT, TCX or GPX format.
+    # - Supports delta download
+
+    PARAM(
+        [CmdletBinding()]
+        [ValidateSet("FIT", "TCX", "GPX")]
+        $ActivityFileType = "FIT",
+        [ValidateSet("All", "New")]
+        $DownloadOption = "New",
+        [parameter(Mandatory = $false)]
+        $Destination,
+        [parameter(Mandatory = $false)]
+        $Username = "",
+        [parameter(Mandatory = $false)]
+        $Password = "",
+        [ValidateSet("Yes", "No")]
+        $Overwrite = "No"<#,
+        [ValidateRange(1,999999999999999999)]
+        $MaxItems = ""#>
+    )
+
+    #General parameters and settings
+    $error.Clear()
+    $ErrorActionPreference = "Stop"
+
+    #Read settings XML
+    try {
+        $RAWProgramSettingsXML = get-content "/garmin-prog/GCProgramSettings.xml"
+        $RAWProgramSettingsXML = $RAWProgramSettingsXML.replace("&", "###")
+        [xml]$ProgramSettingsXML = $RAWProgramSettingsXML
+
+        $RAWUserSettingsXML = get-content "/garmin-prog/GCUserSettings.xml"
+        $RAWUserSettingsXML = $RAWUserSettingsXML.replace("&", "###")
+        [xml]$UserSettingsXML = $RAWUserSettingsXML
+    }
+    catch {
+        write-error "ERROR - Error occured reading XML files:`n$error"
+    }
+
+    ##Checks
+    if ([string]::IsNullOrEmpty($username) -or [string]::IsNullOrEmpty($Password)) {
+        #Check for Garmin Connect Activity Export - User Settings XML file
+        write-host "INFO - Using Garmin Connect credentials from Garmin Connect Activity Export - User Settings XML file"
+        $Username = $UserSettingsXML.GCUserSettings.Credentials.UserName
+        $password = $UserSettingsXML.GCUserSettings.Credentials.Password
+    }
+    else {
+        write-host "INFO - Using Garmin Connect credentials from script parameters"
+    }
+
+    #DestinationCheck
+    if ([string]::IsNullOrEmpty($Destination)) {
+        #Check for Garmin Connect Activity Export - User Settings XML file
+        write-host "INFO - Using Garmin Connect Destination from Garmin Connect Activity Export - User Settings XML file"
+        $Destination = $UserSettingsXML.GCUserSettings.Folders.Destination.Folder
+
+        #A work-arround to support system environment variables from the XML file.
+        if ($Destination -like '$env:*') {
+            $PsEnv = $Destination.split("\")[0]
+            $PsEnvVariable = $PsEnv.split(":")[1]
+            $PsEnvPath = Get-ChildItem env: | Where-Object Name -eq $PsEnvVariable | select-object value -ExpandProperty value
+            $destination = $Destination.Replace($PsEnv, $PsEnvPath)
+        }
+    }
+    else {
+        write-host "INFO - Using Garmin Connect Destination from script parameters"
+    }
+    $invaliddestination = $false
+    if (!(test-path $Destination -ErrorAction SilentlyContinue)) {
+        Write-error "ERROR - Incorrect Destination configured in the user settings XML file. You will be asked to select a destination"
+        $invaliddestination = $true
+    }
+    else {
+        write-host "INFO - Destination directory $Destination correct."
+    }
+
+    #ActivityFileType Check
+    if ([string]::IsNullOrEmpty($ActivityFileType)) {
+        #Check for Garmin Connect Activity Export - User Settings XML file
+
+        $ActivityFileType = $UserSettingsXML.GCUserSettings.ActivityFileType
+        $ActivityFileTypeValidateSet = @("FIT", "TCX", "GPX")
+        $ActivityFileTypeCorrect = $false
+        foreach ($i in $ActivityFileTypeValidateSet) {
+            if ($i -eq $ActivityFileType) {
+
+                $ActivityFileTypeCorrect = $true
+            }
+        }
+        if ($ActivityFileTypeCorrect -ne $true) {
+            write-error "Incorrect activity filetype configured in the user settings XML file. Please use one of the following types:"
+            foreach ($a in $ActivityFileTypeValidateSet) {
+                write-host $a -ForegroundColor Red
+            }
+        }
+        else {
+            write-host "INFO - Using Garmin Connect ActivityFileType from Garmin Connect Activity Export - User Settings XML file"
+        }
+    }
+    else {
+        write-host "INFO - Using Garmin Connect ActivityFileType from script parameters"
+    }
+
+    #Download option check
+    if ([string]::IsNullOrEmpty($DownloadOption)) {
+        #Check for Garmin Connect Activity Export - User Settings XML file
+        write-host "INFO - Using Garmin Connect DownloadOption from Garmin Connect Activity Export - User Settings XML file"
+        $DownloadOption = $UserSettingsXML.GCUserSettings.DownloadOption
+        $DownloadOptionValidateSet = @("New", "All")
+        $DownloadOptionCorrect = $false
+        foreach ($i in $DownloadOptionValidateSet) {
+            if ($i -eq $DownloadOption) {
+                $DownloadOptionCorrect = $true
+            }
+        }
+        if ($DownloadOptionCorrect -ne $true) {
+            write-error "Incorrect download option configured in the user settings XML file. Please use one of the following types:"
+            foreach ($d in $DownloadOptionValidateSet) {
+                write-host $d -ForegroundColor Red
+            }
+        }
+        else {
+            write-host "INFO - Using Garmin Connect download option from Garmin Connect Activity Export - User Settings XML file"
+        }
+    }
+    else {
+        write-host "INFO - Using Garmin Connect DownloadOption from script parameters"
+    }
+
+    #Overwrite check
+    if ([string]::IsNullOrEmpty($Overwrite)) {
+        #Check for Garmin Connect Activity Export - User Settings XML file
+        write-host "INFO - Using Garmin Connect Overwrite from Garmin Connect Activity Export - User Settings XML file"
+        $Overwrite = $UserSettingsXML.GCUserSettings.Folders.Destination.Overwrite
+        $OverwriteValidateSet = @("Yes", "No")
+        $OverwriteCorrect = $false
+        foreach ($i in $OverwriteValidateSet) {
+            if ($i -eq $Overwrite) {
+                $OverwriteCorrect = $true
+            }
+        }
+        if ($OverwriteCorrect -ne $true) {
+            write-error "Incorrect Overwrite configured in the user settings XML file. Please use one of the following types:"
+            foreach ($o in $OverwriteValidateSet) {
+                write-host $o -ForegroundColor Red
+            }
+        }
+        else {
+            write-host "INFO - Using Garmin Connect Overwrite from Garmin Connect Activity Export - User Settings XML file"
+        }
+    }
+    else {
+        write-host "INFO - Using Garmin Connect Overwrite from script parameters"
+    }
+
+    #Get URLs neede from program settings xml
+    $ProgramSettingsXMLBaseURLNodes = $ProgramSettingsXML.GCProgramSettings.BaseURLs | get-member | where-object name -notlike "#*" | where-object membertype -eq "property" | select-object name -ExpandProperty name
+    foreach ($n in $ProgramSettingsXMLBaseURLNodes) {
+        $variablename = $n
+        New-Variable $n -Force
+        if ([string]::IsNullOrEmpty($($ProgramSettingsXML.GCProgramSettings.BaseURLs.$n))) {
+            write-error "Setting $n is empty in the Garmin Connect Activity Export - Program Settings XML file. Please correct"
+        } else {
+            Set-Variable -Name $variablename -value  $($ProgramSettingsXML.GCProgramSettings.BaseURLs.$n).replace("###", "&")
+            $n = $($ProgramSettingsXML.GCProgramSettings.BaseURLs.$n)
+            #Get-Variable $variablename
+        }
+    }
+
+    $CookieFilename = ".GCDownloadStatus$ActivityFileType.cookie"
+    $CookieFileFullPath = ($Destination + "/" + $CookieFilename)
+
+    #Write process information:
+    write-host "INFO - Starting processing $ActivityFileType files from Garmin Connect with the following parameters:"
+    write-host "- Activity File Type = $ActivityFileType"
+    write-host "- Download Option = $DownloadOption"
+    write-host "- Destination = $Destination"
+    write-host "- Username = $Username"
+    write-host "- Overwrite = $Overwrite"
+
+    #Authenticate
+    write-host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
+
+    $BaseLogin = Invoke-WebRequest -URI $BaseLoginURL -SessionVariable GarminConnectSession
+    #$LoginForm = $BaseLogin.Forms[0]
+    $LoginForm = Import-Clixml /garmin-prog/FormData.xml
+    $LoginForm.Fields["username"] = "$Username"
+    $LoginForm.Fields["password"] = "$Password"
+
+    $Header = @{
+        "origin"="https://sso.garmin.com";
+        "authority"="connect.garmin.com"
+        "scheme"="https"
+        "path"="/signin/"
+        "pragma"="no-cache"
+        "cache-control"="no-cache"
+        "dnt"="1"
+        "upgrade-insecure-requests"="1"
+        "user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edge/88.0.705.81"
+        "accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        "sec-fetch-site"="cross-site"
+        "sec-fetch-mode"="navigate"
+        "sec-fetch-user"="?1"
+        "sec-fetch-dest"="document"
+        "accept-language"="en,en-US;q=0.9,nl;q=0.8"}
+    $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
+    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm.Fields -Headers $Header
+
+    #Get Cookies
+    $Cookies = $GarminConnectSession.Cookies.GetCookies($BaseLoginURL)
+
+    <#Show Cookies
+    foreach ($cookie in $Cookies) {
+        # You can get cookie specifics, or just use $cookie
+        # This gets each cookie's name and value
+        Write-Host "$($cookie.name) = $($cookie.value)"
+    }#>
+
+    #Get SSO cookie
+    $SSOCookie = $Cookies | Where-Object name -eq "CASTGC" | select-object value -ExpandProperty value
+    if ($SSOCookie.Length -lt 1) {
+        write-error "ERROR - No valid SSO cookie found, wrong credentials?"
+        break
+    }
+
+    #Authenticate by using cookie
+    $PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession 
+
+    #Set the correct activity download URL for the selected type.
+    switch ($ActivityFileType) {
+        'TCX' {$ActivityBaseURL = $TCXActivityBaseURL}
+        'GPX' {$ActivityBaseURL = $GPXActivityBaseURL}
+        Default {$ActivityBaseURL = $FITActivityBaseURL}
+    }
+
+    #Get activity pages and check if the connection is successfull
+    $ActivityList = @()
+    $PageSize = 100
+    $FirstRecord = 0
+    $Pages = 0
+
+    do {
+        $SearchResults = Invoke-RestMethod -Uri $ActivitySearchURL"?limit=$PageSize&start=$FirstRecord" -method get -WebSession $GarminConnectSession -ErrorAction SilentlyContinue -Headers @{
+            "method"="GET"
+            "authority"="connect.garmin.com"
+            "scheme"="https"
+            "accept"="application/json, text/javascript, */*; q=0.01"
+            "dnt"="1"
+            "x-requested-with"="XMLHttpRequest"
+            "user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.81"
+            "nk"="NT"
+            "sec-fetch-site"="same-origin"
+            "sec-fetch-mode"="cors"
+            "sec-fetch-dest"="empty"
+            "referer"="https://connect.garmin.com/modern/activities"
+            "accept-language"="en,en-US;q=0.9,nl;q=0.8"}
+        $ActivityList += $SearchResults
+        $FirstRecord = $FirstRecord + $PageSize
+        $Pages++
+    }
+    until ($SearchResults.Count -eq 0)
+
+    if ($Pages -gt 0) {
+      write-host "SUCCESS - Successfully connected to Garmin Connect" -ForegroundColor Green
+    } else {
+        write-error "ERROR - Connection to Garmin Connect failed. Error:`n$($error[0])."
+        break
+    }
+
+    # Get the most recent Garmin activity ID from the manually set environment variable
+    Write-Host 'INFO - Getting LastActivity from environment variable'
+    [string]$GarminLastActivity = (Get-ChildItem env:GarminLastActivity).Value
+
+    #Validate download option
+    If ($DownloadOption -eq "New") {
+      Try {
+        Write-Host 'INFO - Getting LastActivity from cookie file'
+        if (Test-Path $CookieFileFullPath) {
+          $DeltaCookie = Get-Content $CookieFileFullPath
+          if (($DeltaCookie -match '^[0-9]*$') -and (($DeltaCookie | Measure-Object -Line).lines -eq 1) -and (($DeltaCookie | Measure-Object -word).words -eq 1)) {
+            Write-Host 'INFO - Delta cookie found.'
+          }
+          else {
+            $DeltaCookie = $GarminLastActivity
+          }
+        }
+        else {
+          $DeltaCookie = $GarminLastActivity
+        }
+      }
+      Catch {
+        Write-Warning "Delta cookie not found. Setting to ENVVAR"
+        $DeltaCookie = $GarminLastActivity
+      }
+    }
+
+    # Get environment variable for most recent activity and use in place of cookie if the env variable is higher
+    If ($GarminLastActivity.ToInt64($NULL) -gt $DeltaCookie.ToInt64($NULL)) { $DeltaCookie = $GarminLastActivity }
+
+
+    #Get activities
+    $Activities = @()
+    if ($DownloadOption -eq "New") {
+        write-host "INFO - Retrieving current status of your activities in Garmin Connect, please wait..."
+        foreach ($Activity in $ActivityList) {
+            if ($($Activity.activityId) -gt $DeltaCookie) {$Activities += $Activity}
+        }
+    } else {
+        write-host "INFO - Retrieving current status of your activities in Garmin Connect, please wait..."
+        $Activities = $ActivityList
+    }
+
+    #Download activities in queue and unpack to destination location
+    write-host "INFO - Continue to process all retrieved activities, please wait..."
+
+
+    $TempDir = join-path -path /garmin-data -childpath GarminConnectActivityExportTMP
+    $ActivityFileType = $ActivityFileType.tolower()
+    if (!(Test-Path $TempDir)) {$null = New-Item -Path $TempDir -ItemType Directory -Force}
+    $ActivityExportedCount = 0
+    foreach ($Activity in $Activities) {
+      #Download files
+      $URL = $ActivityBaseURL + $($Activity.activityID) + "/"
+      if ($ActivityFileType -eq "fit") {
+        $OutputFileFullPath = join-path -path $TempDir -ChildPath "$($Activity.activityID).zip"
+      }
+      else {$OutputFileFullPath = join-path -path $TempDir -ChildPath "$($Activity.activityID).$ActivityFileType"}
+      
+      if (Test-Path $OutputFileFullPath) {
+        #Allways overwrite temp files
+        $null = Remove-Item $OutputFileFullPath -Force
+      }
+      Invoke-RestMethod -Uri $URL  -WebSession $GarminConnectSession -OutFile $OutputFileFullPath
+
+      #Setting naming parameters for having the file to a more readable format
+      $ActivityID = $Activity.activityId
+      $ActivityName = $Activity.activityName
+      $ActivityNotes = $Activity.description
+      $ActivityType = $Activity.activityType.typekey
+      $ActivityBeginTimeStamp = (get-date $Activity.startTimeLocal).ToString("yyyy-MM-dd")
+      $NamingMask = (("$ActivityID - $ActivityBeginTimeStamp - $ActivityType - $ActivityName").TrimEnd() -replace $_.name -replace '[^A-Za-z0-9-_\@\,\(\) \/garmin\-data/[\]]', '-')
+      
+      #Unzip the temporary files for FIT files and move all files to the destination location
+      $DownloadedFileFullPath = join-path -path $TempDir -ChildPath $($Item.name)
+      $FinalFileName = ($NamingMask + "-" + $Count + "." + $ActivityFileType)
+      $FinalFileNameTempFullPath = join-path -path $TempDir -ChildPath $FinalFileName
+
+      Expand-Archive $OutputFileFullPath -Force
+      $FilePath = "$ActivityID/$($ActivityID)_ACTIVITY.fit"
+      Move-Item $FilePath -Destination . -Force
+      Remove-Item $ActivityID -Recurse -Force
+      
+      $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
+
+      Write-Host "INFO - FILENAME: $DownloadedFile"
+      $ActivityExportedCount++
+      
+      Try {
+        # Di2Stats Upload
+        $Di2Success = $False
+        
+        Write-Host 'INFO - Logging into Di2stats.com'
+        # Generate initial PHPSESSID
+        $InitSessionID = -join ((0x30..0x39) + ( 0x61..0x7A) | Get-Random -Count 26  | % {[char]$_})
+
+        # Get initial login data
+        $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
+        $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $InitSessionID, "/", "di2stats.com")))
+        $Startup = Invoke-WebRequest -UseBasicParsing -Uri "https://di2stats.com/login" `
+        -WebSession $Di2Session `
+        -Headers @{
+        "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+          "Referer"="https://di2stats.com/"
+          "Sec-Fetch-Dest"="document"
+          "Sec-Fetch-Mode"="navigate"
+          "Sec-Fetch-Site"="same-origin"
+          "Sec-Fetch-User"="?1"
+          "Upgrade-Insecure-Requests"="1"
+        }
+
+        # Login and get session cookie
+        $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
+        $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $InitSessionID, "/", "di2stats.com")))
+        $Di2Login = Invoke-WebRequest -UseBasicParsing -Uri "https://di2stats.com/login" `
+        -Method "POST" `
+        -MaximumRedirection 0 `
+        -ErrorAction SilentlyContinue `
+        -SkipHttpErrorCheck `
+        -WebSession $Di2Session `
+        -Headers @{
+        "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+          "Origin"="https://di2stats.com"
+          "Referer"="https://di2stats.com/login"
+          "Sec-Fetch-Dest"="document"
+          "Sec-Fetch-Mode"="navigate"
+          "Sec-Fetch-Site"="same-origin"
+          "Sec-Fetch-User"="?1"
+          "Upgrade-Insecure-Requests"="1"
+        } `
+        -ContentType "application/x-www-form-urlencoded" `
+        -Body "_method=POST&data%5BUser%5D%5Busername%5D=klasko&data%5BUser%5D%5Bpassword%5D=***REMOVED***&data%5BUser%5D%5Bremember_me%5D=0"
+
+        Write-Host 'INFO - Getting Di2Stats session cookie'
+        $Cookie = $Di2Login.Headers.'Set-Cookie' #[2]
+        $RegEx = 'PHPSESSID=(\w{26});\ path=/$'
+        $Match = Select-String -InputObject $Cookie -Pattern $RegEx	
+        $SessionCookie = $Match.Matches.Groups[1].Value
+
+        # Create session variable
+        $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+        $Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
+        $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $SessionCookie, "/", "di2stats.com")))
+
+        $Path = (Get-ChildItem $DownloadedFile).FullName
+        Write-Host "INFO - Path to downloaded file: $Path"
+        $Uri = 'https://di2stats.com/import'
+
+        $fileBytes = [System.IO.File]::ReadAllBytes($Path);
+        $fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
+        $boundary = [System.Guid]::NewGuid().ToString(); 
+        $LF = "`r`n";
+
+        $bodyLines = ( 
+          "--$boundary",
+          "Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
+          "1$LF",    
+          "--$boundary",
+          "Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$Path`"",
+          "Content-Type: application/octet-stream$LF",
+          $fileEnc,
+          "--$boundary--$LF" 
+        ) -join $LF
+
+        Write-Host 'INFO - Uploading activity file to Di2Stats'
+        $Di2Upload = Invoke-WebRequest -Uri $URI -Method POST -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines -websession $Di2Session
+        Write-Host 'INFO - Uploaded activity file to Di2Stats'
+
+        #Parse out the URL
+        Write-Host 'INFO - Parsing URL'
+        $RegEx = '/rides/mapview/(\d{6})'
+        $Match = Select-String -InputObject $Di2Upload.Content -Pattern $RegEx	
+        $Di2RideID = $Match.Matches.Groups[1].Value
+        $Di2URL = "https://di2stats.com/rides/view/$Di2RideID"
+        Write-Host "INFO - Di2Status ride URL: $Di2URL"
+
+        Remove-Variable Di2Upload
+        
+        # Update the name and description from Garmin
+        Write-Host 'Adding name/description from Garmin to Di2stats.com'
+        $Di2EditURL = "https://di2stats.com/rides/edit/$Di2RideID"
+        
+        $Headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+        $Headers.Add("Connection", "keep-alive")
+        $Headers.Add("Content-Type", "application/x-www-form-urlencoded")
+        $Headers.Add("Cookie", "PHPSESSID=$SessionCookie")
+        $Headers.Add("Origin", "https://di2stats.com")
+        $Headers.Add("Referer", $Di2EditURL)
+        $Headers.Add("Sec-Fetch-Dest", "document")
+        $Headers.Add("Sec-Fetch-Mode", "navigate")
+        $Headers.Add("Sec-Fetch-Site", "same-origin")
+        $Headers.Add("Sec-Fetch-User", "?1")
+        $Headers.Add("Upgrade-Insecure-Requests", "1")
+
+        $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$ActivityName&data%5BRide%5D%5Bnotes%5D=$ActivityNotes&data%5BRide%5D%5Bexclude%5D=0"
+
+        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body
+        $Di2Success = $True
+      }
+      Catch {
+        Write-Warning 'Error uploading to Di2Stats.com'
+        Write-Warning $Error[0]
+        $Di2Url = $NULL
+      }
+
+      # MyBikeTraffic Upload
+      Write-Host 'INFO - Logging into MyBikeTraffic.com'
+      $MBTLoginForm = @{'email' = 'ken.lasko@gmail.com'
+            'password' = '***REMOVED***'
+          }
+      $MBTLoginResponse = Invoke-WebRequest -Uri https://www.mybiketraffic.com/auth/login -Form $MBTLoginForm -Method POST -SessionVariable 'MBTSession'
+      
+      $MBTUploadForm = @{
+            'fitfile' = Get-ChildItem $DownloadedFile
+          }
+          
+      Write-Host 'INFO - Uploading FIT file to MyBikeTraffic.com'
+      $MBTUpload = Invoke-WebRequest -Uri https://www.mybiketraffic.com/rides/upload -Form $MBTUploadForm -Method POST -WebSession $MBTSession
+      
+      #Parse out the URL
+      $RegEx = '"id":(\d{5})'
+      $Match = Select-String -InputObject $MBTUpload.Content -Pattern $RegEx	
+      $MBTRideID = $Match.Matches.Groups[1].Value
+      $MBTURL = "https://www.mybiketraffic.com/rides/view/$MBTRideID"
+      Remove-Variable MBTUploadForm
+
+
+      # Update Strava with URLs for Di2Stats and MyBikeTraffic
+      Try {
+        Write-Host 'INFO - Getting cached Strave auth token'
+        $AuthToken = Get-Content -Raw -Path /garmin-data/StravaToken.json | ConvertFrom-Json
+      }
+      Catch {
+        Write-Warning 'Couldn''t find new auth token. Generating from original' 
+        $AuthToken = Get-Content -Raw -Path /garmin-prog/StravaToken.json | ConvertFrom-Json
+      }
+
+      $TokenExpires = [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($AuthToken.expires_at))
+
+      If ((New-TimeSpan -Start (Get-Date) -End $TokenExpires).Ticks -lt 0) {  # Token expired
+        # Get new token using refresh token
+        Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
+        $AuthBody = @{
+          grant_type = 'refresh_token'
+          client_id = 63572
+          client_secret = '***REMOVED***'
+          refresh_token = $AuthToken.refresh_token
+        }	
+
+        $AuthToken = Invoke-RestMethod -Method POST -uri "https://www.strava.com/oauth/token" -Body $AuthBody
+        
+        Write-Host 'INFO - Obtained new Strave auth token'
+        $AuthToken | ConvertTo-Json | Out-File /garmin-data/StravaToken.json
+      }
+      
+
+      $AccessToken = $AuthToken.Access_Token
+
+      $StravaHeaders = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+      $StravaHeaders.Add("Authorization", "Bearer $AccessToken")
+      $StravaHeaders.Add("Content-Type", "application/json")
+
+      # Get the most recent activity
+      Write-Host 'INFO - Pulling most recent Strava activity'
+      $URI = "https://www.strava.com/api/v3/athlete/activities?per_page=1"
+
+      $JSON = Invoke-RestMethod -Method GET -uri $URI -Headers $StravaHeaders
+      $ID = $JSON.id
+
+      # Get the details about the most recent activity
+      $StravaURI = "https://www.strava.com/api/v3/activities/$ID"		
+      
+      Write-Host 'INFO - Adding MyBikeTraffic and Di2Stats URLs to Strava'
+
+      If ($ActivityNotes -eq $NULL) {
+        $NewDescription = "$MBTURL\n$Di2URL"
+      }
+      Else {
+        $NewDescription = "$ActivityNotes\n\n$MBTURL\n$Di2URL"
+      }
+
+      $StravaBody = "{
+      `n  `"commute`": false,
+      `n  `"trainer`": false,
+      `n  `"description`": `"$NewDescription`",
+      `n  `"name`": `"$ActivityName`",
+      `n  `"type`": `"$($JSON.Type)`",
+      `n  `"gear_id`": `"$($JSON.gear_id)`"
+      `n}"
+
+      $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody
+      
+      # Update Garmin activity with MyBikeTraffic and Di2Stats URLs
+      
+      Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
+      $UpdatedActivityNotes = $ActivityNotes + "`r`n`r`n$MBTURL`r`n$Di2URL"
+      
+      # Update the description to include MyBikeTraffic and Di2Stats data
+      $DescriptionUpdate = @{
+        description = $UpdatedActivityNotes
+        activityId = $ActivityId
+      }
+      
+      $JSONUpdate = $DescriptionUpdate | ConvertTo-Json
+
+      $UpdateURL = "https://connect.garmin.com/modern/proxy/activity-service/activity/$ActivityID"
+      
+      $UpdateHeaders = @{
+        "authority"="connect.garmin.com"
+        "path"="/modern/proxy/activity-service/activity/$ActivityID"
+        "scheme"="https"
+        "accept"="application/json, text/javascript, */*; q=0.01"
+        "accept-encoding"="gzip, deflate, br"
+        "accept-language"="en-CA,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,pt;q=0.6"
+        "content-type"="application/json"
+        "nk"="NT"
+        "origin"="https://connect.garmin.com"
+        "referer"="https://connect.garmin.com/modern/activity/$ActivityID"
+        "sec-ch-ua-mobile"="?0"
+        "sec-fetch-dest"="empty"
+        "sec-fetch-mode"="cors"
+        "sec-fetch-site"="same-origin"
+        "user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edge/88.0.705.81"
+        "x-app-ver"="4.41.2.0"
+        "x-http-method-override"="PUT"
+        "x-lang"="en-US"
+        "x-requested-with"="XMLHttpRequest"
+      }		
+      
+      Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession -Body $JSONUpdate -Headers $UpdateHeaders
+      Write-Host "INFO - Garmin activity updated"
+      
+      # Move FIT file to backup location
+      Write-Host "INFO - Moving FIT file to backup location"
+      Write-Host "INFO - Downloaded Filename: $DownloadedFile"
+      Write-Host "INFO - Destination: $Destination"
+      Move-Item $DownloadedFile -Destination $Destination -Force
+    }
+
+
+    #Finally write the hidden delta cookie for later use
+    if (($Activities[0].activityId).length -gt 0) {
+      # Update the Cronjob with the new Cron interval
+      $Namespace		= Get-Content /run/secrets/kubernetes.io/serviceaccount/namespace
+        $Token 			= Get-Content /run/secrets/kubernetes.io/serviceaccount/token
+      $Headers 		= @{ Authorization = "Bearer $Token" }
+      $UpdateURI = "https://kubernetes.default.svc/apis/batch/v1/namespaces/$Namespace/cronjobs/garmin-upload"
+      #$Body = "{""spec"":{""schedule"": ""$CronInterval""}}"
+      #$NULL = Invoke-RestMethod -Uri $UpdateURI -Method PATCH -Headers $Headers -Body $Body -ContentType 'application/strategic-merge-patch+json' -SkipCertificateCheck
+      
+        if (!(Test-Path $CookieFileFullPath)) {$null = New-Item $CookieFileFullPath -ItemType File -Force}
+        $NewestActivity = ($Activities[0].activityId)
+        try {
+            $CookieFileFullPath = join-path -path $Destination -ChildPath $CookieFilename
+            (Get-Item $CookieFileFullPath -Force).Attributes = "Normal"
+            $NewestActivity | Out-File $CookieFileFullPath -Force
+            (Get-Item $CookieFileFullPath -Force).Attributes = "Hidden"
+            write-host "INFO - Finished exporting $ActivityExportedCount activities from Garmin Connect. Delta file successfully stored."
+        }
+        catch {
+            write-error "ERROR - Unable the write the delta file for later use, see error details below:`n$($error[0])"
+        }
+    }
+    else {write-warning "INFO - No new activities found." }
+
+  GCProgramSettings.xml: |
     <!-- Garmin Connect Activity Export Program Settings XML, do not change. These settings are overwritten at any new release. -->
     <GCProgramSettings>
       <BaseURLs>

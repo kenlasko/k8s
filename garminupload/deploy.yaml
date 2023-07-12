@@ -20,6 +20,12 @@ spec:
           - name: garmindata
             persistentVolumeClaim:
               claimName: longhorn-garmin-pvc
+          - configMap:
+              items:
+              - key: UploadRides.ps1
+                path: UploadRides.ps1
+              name: upload-rides
+            name: upload-rides
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garmin-upload
@@ -37,3 +43,6 @@ spec:
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
+            - name: upload-rides
+              mountPath: /garmin-prog/UploadRides.ps1
+              subPath: UploadRides.ps1
