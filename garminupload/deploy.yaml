@@ -24,7 +24,7 @@ spec:
               items:
               - key: UploadRides.ps1
                 path: UploadRides.ps1
-              name: gc-programsettings
+              name: gc-script
             name: gc-programsettings
           containers:
           - name: garmin-upload
@@ -43,6 +43,6 @@ spec:
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
-            - name: upload-rides
+            - name: gc-script
               mountPath: /garmin-prog/UploadRides.ps1
               subPath: UploadRides.ps1
