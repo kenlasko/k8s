@@ -25,7 +25,7 @@ spec:
               - key: UploadRides.ps1
                 path: UploadRides.ps1
               name: upload-rides
-            name: upload-rides
+            name: gc-programsettings
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garmin-upload
