@@ -24,7 +24,7 @@ spec:
               items:
               - key: UploadRides.ps1
                 path: UploadRides.ps1
-              name: gc-programsettings
+              name: upload-rides
             name: gc-programsettings
           containers:
           - name: garmin-upload
