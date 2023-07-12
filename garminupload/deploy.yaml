@@ -12,6 +12,7 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: ps-serviceaccount
           nodeSelector:
             server-type: nuc
           restartPolicy: Never
@@ -19,6 +20,12 @@ spec:
           - name: garmindata
             persistentVolumeClaim:
               claimName: longhorn-garmin-pvc
+          - configMap:
+              items:
+              - key: UploadRides.ps1
+                path: UploadRides.ps1
+              name: gc-programsettings
+            name: gc-programsettings
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garmin-upload
@@ -32,7 +39,10 @@ spec:
                 memory: 300Mi
             env:
             - name: GarminLastActivity
-              value: "11422069774"
+              value: "11540535499"
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
+            - name: gc-programsettings
+              mountPath: /garmin-prog/UploadRides.ps1
+              subPath: UploadRides.ps1

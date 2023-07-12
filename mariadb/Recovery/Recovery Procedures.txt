@@ -14,7 +14,7 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
---set galera.bootstrap.bootstrapFromNode=0 \
+--set galera.bootstrap.bootstrapFromNode=1 \
 --set galera.bootstrap.forceSafeToBootstrap=true \
 --set podManagementPolicy=Parallel
 
@@ -43,7 +43,7 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
---set galera.bootstrap.bootstrapFromNode=0 \
+--set galera.bootstrap.bootstrapFromNode=1 \
 --set podManagementPolicy=Parallel 
 
 

@@ -107,7 +107,7 @@ grafana:
   - name: Prometheus
     type: prometheus
     access: proxy
-    isDefault: true
+    isDefault: false
     orgId: 1
     url: http://promstack-prometheus:9090
     version: 1
