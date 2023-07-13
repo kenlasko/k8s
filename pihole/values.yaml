@@ -11,7 +11,7 @@ maxUnavailable: 1
 hostname: pihole
 
 nodeSelector:
-  server-type: nuc
+  node-type: worker
 
 persistentVolumeClaim:
   enabled: true
