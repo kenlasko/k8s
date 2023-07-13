@@ -1,6 +1,6 @@
 global:
   nodeSelector:
-    server-type: nuc 
+    node-type: worker
   networkPolicy:
     create: true
     defaultDenyIngress: true

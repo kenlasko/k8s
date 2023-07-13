@@ -26,10 +26,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: server-type
+              - key: node-type
                 operator: In
                 values:
-                - nuc
+                - worker
       containers:
       - name: tautulli
         image: tautulli/tautulli:latest

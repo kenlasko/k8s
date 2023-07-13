@@ -23,7 +23,7 @@ spec:
     spec:
       restartPolicy: Always
       nodeSelector:
-        server-type: nuc
+        node-type: worker
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
