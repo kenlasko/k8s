@@ -55,6 +55,10 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: pvc-smb-mediapc-toplevel
+        - name: media
+          nfs:
+            server: 192.168.1.172
+            path: /mnt/md1/Media
         # - name: transcode
         #   persistentVolumeClaim:
         #     claimName: clusterplex-transcode-pvc
@@ -111,6 +115,8 @@ spec:
         volumeMounts:
         - name: plex-config
           mountPath: /config
+        - name: media
+          mountPath: /media
         - name: data
           mountPath: /data
         # - name: transcode
