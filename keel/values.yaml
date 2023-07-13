@@ -1,5 +1,5 @@
 nodeSelector:
-  server-type: nuc
+  node-type: worker
 
 polling:
   enabled: true
