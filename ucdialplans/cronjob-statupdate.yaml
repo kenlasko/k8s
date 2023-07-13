@@ -14,7 +14,7 @@ spec:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
           nodeSelector:
-            server-type: rpi
+            node-type: worker
           containers:
           - name: mariadb-ucdialplans-statusupdate
             image: mariadb:10.9.4
