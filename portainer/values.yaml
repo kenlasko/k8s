@@ -6,7 +6,7 @@ persistence:
 service:
   type: ClusterIP
 nodeSelector:
-  server-type: nuc
+  node-type: worker
 resources:
   requests:
     cpu: 100m
