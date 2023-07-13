@@ -27,10 +27,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: server-type
+              - key: node-type
                 operator: In
                 values:
-                - nuc
+                - worker
       containers:
       - name: sabnzbd
         image: linuxserver/sabnzbd:latest
