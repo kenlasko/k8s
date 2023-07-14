@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-high-value
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 10Gi
