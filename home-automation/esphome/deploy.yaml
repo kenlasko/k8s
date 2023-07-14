@@ -34,10 +34,10 @@ spec:
           - weight: 1
             preference:
               matchExpressions:
-              - key: server-speed
+              - key: node-type
                 operator: In
                 values:
-                - nuc-fast
+                - worker
       containers:
       - name: esphome
         image: esphome/esphome:latest
@@ -61,5 +61,5 @@ spec:
       volumes:
         - name: esphome
           persistentVolumeClaim:
-            claimName: longhorn-esphome-pvc
+            claimName: esphome
       automountServiceAccountToken: false
