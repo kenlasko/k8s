@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-registry-pvc
+  name: registry-pvc
   namespace: registry
 spec:
   accessModes:
