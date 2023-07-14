@@ -59,7 +59,7 @@ spec:
             claimName: longhorn-radarr-config-pvc
         - name: downloads
           persistentVolumeClaim:
-            claimName: longhorn-media-downloads-pvc
+            claimName: downloads
         - name: movies
           persistentVolumeClaim:
             claimName: pvc-smb-mediapc-movies

@@ -59,7 +59,7 @@ spec:
           claimName: longhorn-sonarr-config-pvc
       - name: downloads
         persistentVolumeClaim:
-          claimName: longhorn-media-downloads-pvc
+          claimName: downloads
       - name: data
         persistentVolumeClaim:
           claimName: pvc-smb-mediapc-data

@@ -52,5 +52,5 @@ spec:
       volumes:
         - name: heimdall-config
           persistentVolumeClaim:
-            claimName: longhorn-heimdall-config-pvc
+            claimName: heimdall
       automountServiceAccountToken: false

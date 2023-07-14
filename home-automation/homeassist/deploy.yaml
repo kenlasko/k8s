@@ -85,8 +85,6 @@ spec:
           timeoutSeconds: 10
           failureThreshold: 3
         volumeMounts:
-        - name: haconfig
-          mountPath: /config
         - name: homeassist
           mountPath: /hass-config
         - name: github-ssh-creds
@@ -97,10 +95,7 @@ spec:
       volumes:
       - name: homeassist
         persistentVolumeClaim:
-          claimName: longhorn-homeassist-pvc
-      - name: haconfig
-        persistentVolumeClaim:
-          claimName: longhorn-haconfig-pvc
+          claimName: homeassist
       - name: github-ssh-creds
         secret:
           secretName: github-ssh-creds
