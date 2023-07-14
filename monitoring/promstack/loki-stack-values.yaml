@@ -2,7 +2,7 @@ loki:
   enabled: true
   persistence:
     enabled: true
-    storageClassName: longhorn
+    storageClassName: nfs-client
     size: 20Gi
   limits:
     cpu: 1000m

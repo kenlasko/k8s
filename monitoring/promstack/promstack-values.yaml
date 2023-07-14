@@ -318,7 +318,7 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: nfs-client
-          accessModes: ["ReadWriteMany"]
+          accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 50Gi

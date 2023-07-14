@@ -1,6 +1,6 @@
 backend:
   persistence:
-    storageClass: longhorn
+    storageClass: nfs-client
     size: 20Gi
   nodeSelector: 
     server-type: "nuc"
