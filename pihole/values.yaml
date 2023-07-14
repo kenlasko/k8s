@@ -15,7 +15,7 @@ nodeSelector:
 
 persistentVolumeClaim:
   enabled: true
-  storageClass: longhorn-high-value
+  storageClass: nfs-volume
   size: "1Gi"
   accessModes:
     - ReadWriteOnce
@@ -71,6 +71,7 @@ dnsmasq:
   - address=/unifi.ucdialplans.com/192.168.1.1
   - address=/kenpc.ucdialplans.com/192.168.1.2
   - address=/mediapc.ucdialplans.com/192.168.1.3
+  - address=/nas01.ucdialplans.com/192.168.1.172  
   - address=/nuc1.ucdialplans.com/192.168.1.4
   - address=/nuc2.ucdialplans.com/192.168.1.5
   - address=/nuc3.ucdialplans.com/192.168.1.6
