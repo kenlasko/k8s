@@ -58,7 +58,7 @@ spec:
         - name: media
           nfs:
             server: 192.168.1.172
-            path: /mnt/md1/Media
+            path: /mnt/md1/media
         # - name: transcode
         #   persistentVolumeClaim:
         #     claimName: clusterplex-transcode-pvc
