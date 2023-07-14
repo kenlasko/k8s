@@ -15,7 +15,7 @@ nodeSelector:
 
 persistentVolumeClaim:
   enabled: true
-  storageClass: nfs-volume
+  storageClass: nfs-client
   size: "1Gi"
   accessModes:
     - ReadWriteOnce
