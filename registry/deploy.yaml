@@ -47,5 +47,5 @@ spec:
       volumes:
         - name: volv
           persistentVolumeClaim:
-            claimName: longhorn-registry-pvc
+            claimName: registry-pvc
       automountServiceAccountToken: false
