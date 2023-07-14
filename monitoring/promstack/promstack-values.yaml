@@ -306,22 +306,22 @@ prometheus:
     walCompression: false
     nodeSelector: 
       server-type: "nuc"
-    volumes:
-    - name: data
-      nfs:
-        server: 192.168.1.172
-        path: /mnt/md0/data/monitoring/prometheus
-    volumeMounts:
-    - name: data
-      mountPath: /prometheus   
-    # storageSpec:
-    #   volumeClaimTemplate:
-    #     spec:
-    #       storageClassName: longhorn
-    #       accessModes: ["ReadWriteOnce"]
-    #       resources:
-    #         requests:
-    #           storage: 50Gi
+    # volumes:
+    # - name: data
+    #   nfs:
+    #     server: 192.168.1.172
+    #     path: /mnt/md0/data/monitoring/prometheus
+    # volumeMounts:
+    # - name: data
+    #   mountPath: /prometheus   
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
 
 additionalPrometheusRulesMap:
   rule-name: 
