@@ -2,6 +2,6 @@ nfs:
   server: 192.168.1.172
   path: /mnt/md0/data/
 
-storageClassName:
-  name: nfs
+storageClass:
+  name: nfs-client
   accessModes: ReadWriteMany
