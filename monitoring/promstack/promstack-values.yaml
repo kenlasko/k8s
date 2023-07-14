@@ -317,8 +317,8 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: longhorn
-          accessModes: ["ReadWriteOnce"]
+          storageClassName: nfs-client
+          accessModes: ["ReadWriteMany"]
           resources:
             requests:
               storage: 50Gi
