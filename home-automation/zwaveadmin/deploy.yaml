@@ -50,7 +50,7 @@ spec:
       volumes:
         - name: zwaveadmin
           persistentVolumeClaim:
-            claimName: longhorn-zwaveadmin-pvc
+            claimName: zwaveadmin
         - name: ttyusb0
           hostPath:
             path: /dev/ttyUSB0
