@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-heimdall-config-pvc
+  name: heimdall
   namespace: media-tools
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-high-value
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 250Mi
