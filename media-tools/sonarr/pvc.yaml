@@ -15,12 +15,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-media-downloads-pvc
+  name: downloads
   namespace: media-tools
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: longhorn
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 100Gi

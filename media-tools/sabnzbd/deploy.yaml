@@ -57,5 +57,5 @@ spec:
             claimName: longhorn-sabnzbd-config-pvc
         - name: downloads
           persistentVolumeClaim:
-            claimName: longhorn-media-downloads-pvc
+            claimName: downloads
       automountServiceAccountToken: false
