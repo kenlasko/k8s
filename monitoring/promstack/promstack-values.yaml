@@ -78,7 +78,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: longhorn
+          storageClassName: nfs-client
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -95,7 +95,7 @@ grafana:
   persistence:
     enabled: true
     size: 10Gi
-    storageClassName: longhorn
+    storageClassName: nfs-client
     accessModes: ["ReadWriteMany"]
   serviceMonitor:
     enabled: false
