@@ -47,5 +47,5 @@ spec:
       volumes:
         - name: volv
           persistentVolumeClaim:
-            claimName: registry-pvc
+            claimName: registry
       automountServiceAccountToken: false
