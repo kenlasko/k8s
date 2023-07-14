@@ -3,7 +3,7 @@ persistence:
     server-type: "nuc"
 
 defaultSettings:
-  backupTarget: "nfs://nfs-server-svc.nfs-server:/"
+  backupTarget: "nfs://192.168.1.172:/backup"
   defaultLonghornStaticStorageClass: longhorn-high-value
   systemManagedComponentsNodeSelector: server-type:nuc
   
