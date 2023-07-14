@@ -18,10 +18,10 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                 - matchExpressions:
-                  - key: kubernetes.io/hostname
+                  - key: node-type
                     operator: In
                     values:
-                    - rpi1
+                    - worker
           containers:
           - name: mariadb-backup
             image: mariadb:10.9.4
