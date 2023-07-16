@@ -50,7 +50,7 @@ spec:
         - name: sabnzbd-config
           mountPath: /config
         - name: media
-          mountPath: /downloads
+          mountPath: /media
       volumes:
         - name: sabnzbd-config
           persistentVolumeClaim:
