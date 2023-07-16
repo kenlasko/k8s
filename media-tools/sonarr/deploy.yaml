@@ -51,6 +51,8 @@ spec:
           mountPath: /config
         - name: downloads
           mountPath: /downloads
+        - name: media
+          mountPath: media
         - name: data
           mountPath: /data         
       volumes:
@@ -60,6 +62,10 @@ spec:
       - name: downloads
         persistentVolumeClaim:
           claimName: downloads
+      - name: media
+        nfs:
+          server: 192.168.1.172
+          path: /mnt/md1/media
       - name: data
         persistentVolumeClaim:
           claimName: pvc-smb-mediapc-data
