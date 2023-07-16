@@ -49,12 +49,16 @@ spec:
         volumeMounts:
         - name: sabnzbd-config
           mountPath: /config
-        - name: downloads
+        - name: media
           mountPath: /downloads
       volumes:
         - name: sabnzbd-config
           persistentVolumeClaim:
             claimName: longhorn-sabnzbd-config-pvc
+        - name: media
+          nfs:
+            server: 192.168.1.172
+            path: /mnt/md1/media
         - name: downloads
           persistentVolumeClaim:
             claimName: downloads
