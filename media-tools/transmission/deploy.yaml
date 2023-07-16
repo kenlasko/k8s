@@ -49,12 +49,18 @@ spec:
         volumeMounts:
         - name: transmission-config
           mountPath: /config
+        - name: media
+          mountPath: /media
         - name: downloads
           mountPath: /downloads
       volumes:
         - name: transmission-config
           persistentVolumeClaim:
             claimName: longhorn-transmission-config-pvc
+        - name: media
+          nfs:
+            server: 192.168.1.172
+            path: /mnt/md1/media
         - name: downloads
           persistentVolumeClaim:
             claimName: downloads
