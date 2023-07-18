@@ -7,28 +7,4 @@ defaultSettings:
   defaultLonghornStaticStorageClass: longhorn-high-value
   systemManagedComponentsNodeSelector: server-type:nuc
   
-longhornManager:
-  nodeSelector: 
-    server-type: "nuc"
-
-longhornDriverDeployer:
-  nodeSelector: 
-    server-type: "nuc"
-
-longhornUI:
-  nodeSelector: 
-    server-type: "nuc"
-
-longhornConversionWebhook:
-  nodeSelector: 
-    server-type: "nuc"
-
-longhornAdmissionWebhook:
-  nodeSelector: 
-    server-type: "nuc"
-
-longhornRecoveryBackend:
-  nodeSelector: 
-    server-type: "nuc"
-
 namespaceOverride: "longhorn"
