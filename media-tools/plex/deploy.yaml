@@ -114,8 +114,6 @@ spec:
           mountPath: /config
         - name: media
           mountPath: /media
-        - name: data
-          mountPath: /data
         # - name: transcode
         #   mountPath: /transcode  
       - name: plex-server-logger
