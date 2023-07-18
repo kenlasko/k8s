@@ -13,8 +13,8 @@ primary:
     values: 
     - nuc2
   persistence:
-    storageClass: "longhorn-high-value"
-    existingClaim: "longhorn-mariadb-pvc"
+    storageClass: "local-path"
+    existingClaim: "mariadb-backup-pvc"
   configuration: |-
     [mysqld]
     skip-name-resolve

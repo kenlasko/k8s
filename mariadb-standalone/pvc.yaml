@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-mariadb-pvc
+  name: mariadb-backup-pvc
   namespace: mariadb-standalone
 spec:
   accessModes:
