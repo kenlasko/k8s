@@ -49,17 +49,12 @@ spec:
         volumeMounts:
         - name: sonarr-config
           mountPath: /config
-        - name: downloads
-          mountPath: /downloads
         - name: media
           mountPath: media
       volumes:
       - name: sonarr-config
         persistentVolumeClaim:
           claimName: longhorn-sonarr-config-pvc
-      - name: downloads
-        persistentVolumeClaim:
-          claimName: downloads
       - name: media
         nfs:
           server: 192.168.1.3
