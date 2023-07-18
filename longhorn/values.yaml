@@ -3,7 +3,7 @@ persistence:
     node-type: "worker"
 
 defaultSettings:
-  #backupTarget: "nfs://192.168.1.3:/backup"
+  backupTarget: "nfs://192.168.1.3:/backup"
   defaultLonghornStaticStorageClass: longhorn-high-value
   systemManagedComponentsNodeSelector: server-type:nuc
   
