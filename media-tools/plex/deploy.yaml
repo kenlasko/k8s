@@ -116,29 +116,6 @@ spec:
           mountPath: /media
         # - name: transcode
         #   mountPath: /transcode  
-      - name: plex-server-logger
-        image: busybox
-        args: [/bin/sh, -c, 'tail -n+1 -F /config/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log']
-        volumeMounts:
-        - name: plex-config
-          mountPath: /config
-      - name: plex-activity-monitor
-        image: alpine/curl
-        args: [/bin/sh, -c, './home/plex-activity-monitor.sh']
-        volumeMounts:
-        - name: plex-config
-          mountPath: /config
-        - name: plex-activity-monitor
-          mountPath: /home
-        livenessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - ps aux | grep "[p]lex-activity-monitor.sh"
-          initialDelaySeconds: 60
-          periodSeconds: 120
-          failureThreshold: 1
 
 ---
 apiVersion: apps/v1
