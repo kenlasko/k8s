@@ -59,10 +59,6 @@ spec:
         # - name: transcode
         #   persistentVolumeClaim:
         #     claimName: clusterplex-transcode-pvc
-        - name: plex-activity-monitor
-          configMap:
-            name: plex-activity-monitor
-            defaultMode: 0744
       automountServiceAccountToken: false
       containers:
       - name: plex
