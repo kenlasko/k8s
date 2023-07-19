@@ -24,13 +24,6 @@ spec:
       restartPolicy: Always
       affinity:
         nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: plex
-              topologyKey: my-node-label
-            weight: 100
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
