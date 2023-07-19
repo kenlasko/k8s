@@ -29,7 +29,7 @@ spec:
               labelSelector:
                 matchLabels:
                   name: plex
-              topologyKey: kubernetes.io/hostname
+              topologyKey: my-node-label
             weight: 100
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
