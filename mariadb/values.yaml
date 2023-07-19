@@ -34,6 +34,10 @@ nodeAffinityPreset:
 #   readOnly: true
 service:
   type: LoadBalancer
+  externalIPs:
+  - 192.168.1.11
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "share-11"
 mariadbConfiguration: |-
   [client]
   port=3306
