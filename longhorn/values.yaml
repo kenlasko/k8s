@@ -4,8 +4,9 @@ persistence:
 
 defaultSettings:
   backupTarget: "nfs://192.168.1.3:/backup"
+  backupTargetCredentialSecret: nfs-creds
   defaultLonghornStaticStorageClass: longhorn-high-value
-  systemManagedComponentsNodeSelector: server-type:nuc
+  systemManagedComponentsNodeSelector: node-type:worker
   
 longhornManager:
   nodeSelector: 
