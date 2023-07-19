@@ -7,10 +7,11 @@ data:
   backup.sh: |
     #! /bin/bash
 
-    kubectl cp -n media-tools radarr-0:/config/Backups/scheduled/. /home/ken/backup/radarr/.client_loop: send disconnect: Connection resetmedia-tools sonarr-0:/config/Backups/scheduled/. /home/ken/backup/sonarr/.
+    kubectl cp -n media-tools radarr-0:/config/Backups/scheduled/. /home/ken/backup/radarr/.
+    kubectl cp -n media-tools sonarr-0:/config/Backups/scheduled/. /home/ken/backup/sonarr/.
     kubectl cp -n media-tools readarr-0:/config/Backups/scheduled/. /home/ken/backup/readarr/.
-    kubectl cp -n media-tools liddarr-0:/config/Backups/scheduled/. /home/ken/backup/lidarr/.
-    You can now close this terminal with Ctrl+D, or press Enter to restart./prowlarr/.
+    kubectl cp -n media-tools lidarr-0:/config/Backups/scheduled/. /home/ken/backup/lidarr/.
+    kubectl cp -n media-tools prowlarr-0:/config/Backups/scheduled/. backup/prowlarr/.
     kubectl cp -n media-tools sabnzbd-0:/config/Downloads/. /home/ken/backup/sabnzbd/.
     kubectl cp -n media-tools overseerr-0:/config/. /home/ken/backup/overseerr/.
     kubectl cp -n media-tools tautulli-0:/config/backups/. /home/ken/backup/tautulli/.
