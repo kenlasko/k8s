@@ -24,15 +24,13 @@ spec:
       restartPolicy: Always
       affinity:
         podAffinity:
-        - weight: 50
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - plex
-            topologyKey: kubernetes.io/hostname       
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  name: plex
+              topologyKey: kubernetes.io/hostname
+            weight: 100     
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
