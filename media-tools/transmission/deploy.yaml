@@ -23,6 +23,16 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
       affinity:
+        podAffinity:
+        - weight: 50
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: name
+                operator: In
+                values:
+                - plex
+            topologyKey: kubernetes.io/hostname       
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
