@@ -14,7 +14,7 @@ spec:
         spec:
           serviceAccountName: ps-serviceaccount
           nodeSelector:
-            server-type: nuc
+            node-type: worker
           restartPolicy: Never
           volumes:
           - name: garmindata
