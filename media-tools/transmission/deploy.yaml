@@ -25,12 +25,11 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: name
-                operator: In
-                values:
-                - plex
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  name: plex
+              topologyKey: kubernetes.io/hostname
             weight: 100
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
