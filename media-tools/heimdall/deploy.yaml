@@ -43,9 +43,9 @@ spec:
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 15
+          initialDelaySeconds: 30
           periodSeconds: 60
-          timeoutSeconds: 5
+          timeoutSeconds: 10
         volumeMounts:
         - name: heimdall-config
           mountPath: /config
