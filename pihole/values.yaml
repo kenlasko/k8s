@@ -70,7 +70,6 @@ dnsmasq:
   - address=/myrouter.io/10.0.0.1
   - address=/unifi.ucdialplans.com/192.168.1.1
   - address=/kenpc.ucdialplans.com/192.168.1.2
-  - address=/mediapc.ucdialplans.com/192.168.1.3
   - address=/nas01.ucdialplans.com/192.168.1.3  
   - address=/nuc1.ucdialplans.com/192.168.1.4
   - address=/nuc2.ucdialplans.com/192.168.1.5
@@ -80,7 +79,7 @@ dnsmasq:
   - address=/k3s.ucdialplans.com/192.168.1.10
   - address=/rpi1.ucdialplans.com/192.168.1.15
   - address=/rpi2.ucdialplans.com/192.168.1.16
-  - address=/backuppc.ucdialplans.com/192.168.1.19
+  - address=/backuppc.ucdialplans.com/192.168.1.17
   - address=/firepit-speakers.ucdialplans.com/192.168.1.23
   - address=/onode1.ucdialplans.com/192.18.153.11
   - address=/cloud-k3s.ucdialplans.com/192.18.152.199
@@ -88,12 +87,8 @@ dnsmasq:
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
-  - cname=backup-mpc.ucdialplans.com,mediapc.ucdialplans.com
   - cname=duplicati.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
-  - cname=glances.ucdialplans.com,k3s.ucdialplans.com
-  - cname=glances-mpc.ucdialplans.com,mediapc.ucdialplans.com
-  - cname=grafana.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
   - cname=heimdall.ucdialplans.com,k3s.ucdialplans.com
