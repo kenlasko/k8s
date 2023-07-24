@@ -26,14 +26,6 @@ spec:
                 operator: In
                 values:
                 - worker
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-              - key: server-speed
-                operator: In
-                values:
-                - nuc-fast
       containers:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans:latest

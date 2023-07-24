@@ -48,6 +48,13 @@ spec:
                 operator: In
                 values:
                 - 'true'
+          preferredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - 'nuc6'                      
       volumes:
         - name: plex-config
           persistentVolumeClaim:
