@@ -49,7 +49,8 @@ spec:
                 values:
                 - 'true'
           preferredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
+          - weight: 1
+            preference:
             - matchExpressions:
               - key: kubernetes.io/hostname
                 operator: In
