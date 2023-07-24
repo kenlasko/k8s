@@ -55,7 +55,7 @@ spec:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
-                - 'nuc6'                      
+                - nuc6                      
       volumes:
         - name: plex-config
           persistentVolumeClaim:
