@@ -90,6 +90,8 @@ spec:
         - name: github-ssh-creds
           mountPath: /root/.ssh
           readOnly: true
+        - name: tz-config
+          mountPath: /etc/localtime
         securityContext:
           privileged: true
       volumes:

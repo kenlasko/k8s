@@ -45,14 +45,19 @@ spec:
           mountPath: /usr/src/app/store
         - mountPath: /dev/ttyUSB0
           name: ttyusb0
+        - name: tz-config
+          mountPath: /etc/localtime
         securityContext:
           privileged: true
       volumes:
-        - name: zwaveadmin
-          persistentVolumeClaim:
-            claimName: zwaveadmin
-        - name: ttyusb0
-          hostPath:
-            path: /dev/ttyUSB0
+      - name: zwaveadmin
+        persistentVolumeClaim:
+          claimName: zwaveadmin
+      - name: ttyusb0
+        hostPath:
+          path: /dev/ttyUSB0
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/Canada/Eastern
 
 
