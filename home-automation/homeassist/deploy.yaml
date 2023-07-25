@@ -57,8 +57,8 @@ spec:
           mountPath: /config
         - mountPath: /dev/ttyUSB1
           name: ttyusb
-        - name: tz-config
-          mountPath: /etc/localtime
+        # - name: tz-config
+        #   mountPath: /etc/localtime
         securityContext:
           privileged: true
       - name: hass-configurator
