@@ -1,2 +1,4 @@
 db:
   host: ""
+nodesSelector:
+  node-type: worker

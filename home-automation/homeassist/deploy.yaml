@@ -57,8 +57,8 @@ spec:
           mountPath: /config
         - mountPath: /dev/ttyUSB1
           name: ttyusb
-        - name: tz-config
-          mountPath: /etc/localtime
+        # - name: tz-config
+        #   mountPath: /etc/localtime
         securityContext:
           privileged: true
       - name: hass-configurator
@@ -90,8 +90,8 @@ spec:
         - name: github-ssh-creds
           mountPath: /root/.ssh
           readOnly: true
-        - name: tz-config
-          mountPath: /etc/localtime
+        # - name: tz-config
+        #   mountPath: /etc/localtime
         securityContext:
           privileged: true
       volumes:
@@ -105,6 +105,6 @@ spec:
       - name: ttyusb
         hostPath:
           path: /dev/ttyUSB1
-      - name: tz-config
-        hostPath:
-          path: /usr/share/zoneinfo/Canada/Eastern
+      # - name: tz-config
+      #   hostPath:
+      #     path: /usr/share/zoneinfo/Canada/Eastern
