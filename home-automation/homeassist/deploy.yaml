@@ -57,8 +57,8 @@ spec:
           mountPath: /config
         - mountPath: /dev/ttyUSB1
           name: ttyusb
-        - mountPath: /var/run/docker.sock
-          name: docker-socket
+        - name: tz-config
+          mountPath: /etc/localtime
         securityContext:
           privileged: true
       - name: hass-configurator
@@ -103,8 +103,6 @@ spec:
       - name: ttyusb
         hostPath:
           path: /dev/ttyUSB1
-      - name: docker-socket
+      - name: tz-config
         hostPath:
-          path: /run/user/1000/docker.sock
-
-
+          path: /usr/share/zoneinfo/Canada/Eastern
