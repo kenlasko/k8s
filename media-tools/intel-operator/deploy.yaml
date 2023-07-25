@@ -25,7 +25,7 @@ spec:
         control-plane: controller-manager
     spec:
       nodeSelector:
-        server-type: nuc
+        node-type: worker
       containers:
         - env:
             - name: DEVICEPLUGIN_NAMESPACE
