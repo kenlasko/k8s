@@ -17,6 +17,13 @@ spec:
               app.kubernetes.io/name: traefik
       ports:
         - port: 9000
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: cloudflare-tunnel
+      ports:
+        - port: 9000
   egress:
     - to:
         - ipBlock:
