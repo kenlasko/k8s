@@ -94,6 +94,10 @@ spec:
         #   mountPath: /etc/localtime
         securityContext:
           privileged: true
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       volumes:
       - name: homeassist
         persistentVolumeClaim:
