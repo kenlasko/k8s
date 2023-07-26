@@ -16,7 +16,6 @@ spec:
       ports:
         - port: 3012
         - port: 8087
-  ingress:
     - from:
         - namespaceSelector: {}
           podSelector:
