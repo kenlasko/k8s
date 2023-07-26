@@ -54,6 +54,10 @@ spec:
           mountPath: /config
         - name: media
           mountPath: /media 
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       volumes:
         - name: readarr-config
           persistentVolumeClaim:

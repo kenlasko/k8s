@@ -49,6 +49,10 @@ spec:
         volumeMounts:
         - name: heimdall-config
           mountPath: /config
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       volumes:
         - name: heimdall-config
           persistentVolumeClaim:
