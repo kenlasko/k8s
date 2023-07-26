@@ -19,6 +19,11 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
+              app: cloudflare-tunnel
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
               app: homeassist
   egress:
     - to:
