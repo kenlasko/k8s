@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-tunnel
+  namespace: cloudflare
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-tunnel
+  template:
+    metadata:
+      labels:
+        app: cloudflare-tunnel
+        name: cloudflare-tunnel
+    spec:
+      nodeSelector:
+        node-type: worker
+      containers:
+        - name: cloudflare-tunnel
+          image: cloudflare/cloudflared:latest
+          imagePullPolicy: Always
+          env:
+          - name: TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: admin-token
+                key: token
+          args:
+            - "tunnel"
+            - "--no-autoupdate"
+            - "run"
+            - "--token"
+            - "$(TOKEN)"
