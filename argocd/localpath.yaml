@@ -10,3 +10,6 @@ spec:
     path: deploy
   destination:
     server: 'https://kubernetes.default.svc'
+  syncPolicy:
+    automated:
+      selfHeal: true
