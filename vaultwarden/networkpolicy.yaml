@@ -16,6 +16,15 @@ spec:
       ports:
         - port: 3012
         - port: 8087
+  ingress:
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: cloudflare-tunnel
+      ports:
+        - port: 3012
+        - port: 8087
   egress:
     - to:
         - namespaceSelector: {}
