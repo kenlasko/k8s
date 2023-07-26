@@ -20,7 +20,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: cloudflare-tunnel
+              app: cloudflare-tunnel
       ports:
         - port: 8080
   egress:
