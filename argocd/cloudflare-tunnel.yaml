@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cloudflare-tunnel
-  namespace: cloudflare
+  namespace: argocd
   annotations:
     argocd-image-updater.argoproj.io/image-list: cloudflare-tunnel=cloudflare/cloudflared:latest
     argocd-image-updater.argoproj.io/esphome.update-strategy: digest
