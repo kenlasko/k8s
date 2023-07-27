@@ -11,3 +11,8 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: traefik
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: cloudflare-tunnel
