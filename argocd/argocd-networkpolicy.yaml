@@ -16,3 +16,5 @@ spec:
           podSelector:
             matchLabels:
               app: cloudflare-tunnel
+      ports:
+        - port: 8080
