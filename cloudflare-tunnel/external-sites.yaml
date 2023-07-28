@@ -1,0 +1,38 @@
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-pihole1-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: pihole1.ucdialplans.com
+
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-pihole2-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: pihole2.ucdialplans.com
+
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-unifi-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: unifi.ucdialplans.com
+
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-nas01-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: nas01.ucdialplans.com
