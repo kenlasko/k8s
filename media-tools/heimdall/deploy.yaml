@@ -44,8 +44,8 @@ spec:
             path: /
             port: 80
           initialDelaySeconds: 30
-          periodSeconds: 60
-          timeoutSeconds: 30
+          periodSeconds: 120
+          timeoutSeconds: 60
         volumeMounts:
         - name: heimdall-config
           mountPath: /config
