@@ -28,7 +28,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: ServersTransport
 metadata:
   name: k3s-root
-  namespace: traefik
+  namespace: default
 spec:
   serverName: k3s.ucdialplans.com
   insecureSkipVerify: true
