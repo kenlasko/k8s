@@ -14,14 +14,14 @@ spec:
       namespace: default
       port: 443
       serversTransport: k3s-root
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
+    #middlewares:
+    #- name: traefik-security
+    #  namespace: traefik
   tls:
     secretName: traefik-wildcard-cert
-    options:
-      name: tls-options-default
-      namespace: traefik
+    #options:
+    #  name: tls-options-default
+    #  namespace: traefik
 
 
 ---
