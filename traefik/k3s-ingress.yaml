@@ -30,6 +30,7 @@ metadata:
   name: k3s-root
   namespace: traefik
 spec:
+  serverName: k3s.ucdialplans.com
   insecureSkipVerify: true
   rootCAsSecrets:
   - traefik-k3s-ca
