@@ -2,7 +2,7 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: k3s
-  namespace: default
+  namespace: traefik
 spec:
   entryPoints: 
     - websecure
@@ -11,6 +11,7 @@ spec:
     kind: Rule
     services:
     - name: kubernetes
+      namespace: default
       port: 443
       serversTransport: k3s-root
     middlewares:
