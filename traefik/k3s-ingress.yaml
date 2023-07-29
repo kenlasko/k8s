@@ -12,10 +12,10 @@ spec:
     services:
     - name: kubernetes
       port: 443
-      serversTransport: k3s-root
     middlewares:
     - name: traefik-security
       namespace: traefik
+      serversTransport: k3s-root
   tls:
     secretName: traefik-wildcard-cert
     # options:
@@ -28,7 +28,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: ServersTransport
 metadata:
   name: k3s-root
-  namespace: default
+  namespace: traefik
 spec:
   rootCAsSecrets:
   - traefik-k3s-ca
