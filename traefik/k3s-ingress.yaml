@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: k3s
+  namespace: default
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`k3s.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: kubernetes
+      port: 443
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    # options:
+    #   name: tls-options-clientauth
+    #   namespace: traefik
