@@ -2,7 +2,7 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: k3s
-  namespace: default
+  namespace: traefik
 spec:
   entryPoints: 
     - websecure
@@ -28,7 +28,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: ServersTransport
 metadata:
   name: k3s-root
-  namespace: default
+  namespace: traefik
 spec:
   rootCAsSecrets:
   - traefik-k3s-ca
