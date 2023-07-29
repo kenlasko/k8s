@@ -32,6 +32,6 @@ metadata:
   namespace: default
 spec:
   serverName: k3s.ucdialplans.com
-  insecureSkipVerify: true
+#  insecureSkipVerify: true
   rootCAsSecrets:
   - traefik-k3s-ca
