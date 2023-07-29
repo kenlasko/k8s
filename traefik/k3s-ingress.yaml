@@ -13,6 +13,7 @@ spec:
     - name: kubernetes
       port: 443
       serversTransport: k3s-root
+      namespace: traefik
     middlewares:
     - name: traefik-security
       namespace: traefik
