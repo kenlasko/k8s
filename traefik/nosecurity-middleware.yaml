@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-security-disabled
+  namespace: traefik
+spec:
+  headers:
+    frameDeny: false
+    sslRedirect: false
+    browserXssFilter: false
+    contentTypeNosniff: false
+    stsIncludeSubdomains: false
+    stsPreload: false
+    stsSeconds: 31536000
