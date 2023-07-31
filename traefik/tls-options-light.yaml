@@ -1,9 +1,0 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: TLSOption
-metadata:
-  name: tls-options-light
-  namespace: traefik
-spec:
-  sniStrict: false
-  minVersion: VersionTLS12
-
