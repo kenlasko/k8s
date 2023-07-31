@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: nas01
+  namespace: cloudflare
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`nas01.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: external-nas01-service
+      port: 8181
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
