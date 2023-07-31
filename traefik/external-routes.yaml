@@ -1,0 +1,95 @@
+# With help from https://crt.the-mori.com/2021-09-17-kubernetes-traefik-forward-traffic-external-ip
+####### Radarr #######
+
+# ####### Sonarr #######
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: sonarr-external-route
+#   namespace: traefik
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#   - match: Host(`sonarr.ucdialplans.com`)
+#     kind: Rule
+#     services:
+#     - name: sonarr-forward
+#       kind: Service
+#       port: 8989
+#   tls:
+#     secretName: traefik-wildcard-cert
+#     options:
+#       name: tls-options-clientauth
+#       namespace: traefik
+
+
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: sonarr-forward
+#   namespace: traefik
+# spec:
+#   type: ExternalName
+#   ports:
+#     - name: sonarr-forward
+#       port: 8989
+#       targetPort: 8989
+#   externalName: 192.168.1.3
+#   selector:
+#     app.kubernetes.io/instance: traefik
+#     app.kubernetes.io/name: traefik
+
+---
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: firepit-speakers
+  namespace: traefik
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`firepit-speakers.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: firepit-speakers-service
+      port: 80
+    # middlewares:
+    # - name: traefik-security
+    #   namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-default
+      namespace: traefik
+
+
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "firepit-speakers-service"
+  namespace: traefik
+spec:
+  ports:
+  - name: "firepit-speakers"
+    protocol: "TCP"
+    port: 80
+    targetPort: 80 
+
+---
+kind: "Endpoints"
+apiVersion: "v1"
+metadata:
+  name: "firepit-speakers-service"
+  namespace: traefik 
+subsets: 
+- addresses:
+  - ip: "192.168.1.23" 
+  ports:
+  - port: 80
+    name: "firepit-speakers"
