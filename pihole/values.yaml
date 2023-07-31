@@ -82,7 +82,6 @@ dnsmasq:
   - address=/backuppc.ucdialplans.com/192.168.1.17
   - address=/firepit-speakers.ucdialplans.com/192.168.1.23
   - address=/onode1.ucdialplans.com/192.18.153.11
-  - address=/cloud-k3s.ucdialplans.com/192.18.152.199
 
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
@@ -119,7 +118,6 @@ dnsmasq:
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
   - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
   - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com
-  - cname=cloud-argocd.ucdialplans.com,cloud-k3s.ucdialplans.com
   - cname=cloud-keel.ucdialplans.com,cloud-k3s.ucdialplans.com
   - cname=cloud-mariadb.ucdialplans.com,cloud-k3s.ucdialplans.com
   - cname=cloud-traefik.ucdialplans.com,cloud-k3s.ucdialplans.com
