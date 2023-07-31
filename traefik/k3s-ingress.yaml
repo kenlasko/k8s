@@ -15,12 +15,12 @@ spec:
       port: 443
       serversTransport: k3s-root
     middlewares:
-    - name: traefik-security-disabled
+    - name: traefik-security
       namespace: traefik
   tls:
     secretName: traefik-wildcard-cert
     options:
-     name: tls-options-light
+     name: tls-options-default
      namespace: traefik
 
 
