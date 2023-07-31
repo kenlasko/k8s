@@ -46,11 +46,9 @@ source ~/.bashrc
 # Set labels
 kubectl label nodes nuc1 server-speed=nuc-fast
 kubectl label nodes nuc1 server-type=nuc
-kubectl label nodes nuc1 storage=longhorn
 
 kubectl label nodes nuc2 server-speed=nuc-fast
 kubectl label nodes nuc2 server-type=nuc
-kubectl label nodes nuc2 storage=longhorn
 
 kubectl label nodes nuc3 server-speed=nuc-slow
 kubectl label nodes nuc3 server-type=master

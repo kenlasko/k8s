@@ -43,53 +43,53 @@
 #     app.kubernetes.io/instance: traefik
 #     app.kubernetes.io/name: traefik
 
----
-kind: IngressRoute
-apiVersion: traefik.containo.us/v1alpha1
-metadata:
-  name: firepit-speakers
-  namespace: traefik
-spec:
-  entryPoints: 
-    - websecure
-  routes:
-  - match: Host(`firepit-speakers.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: firepit-speakers-service
-      port: 80
-    # middlewares:
-    # - name: traefik-security
-    #   namespace: traefik
-  tls:
-    secretName: traefik-wildcard-cert
-    options:
-      name: tls-options-default
-      namespace: traefik
+# ---
+# kind: IngressRoute
+# apiVersion: traefik.containo.us/v1alpha1
+# metadata:
+#   name: firepit-speakers
+#   namespace: traefik
+# spec:
+#   entryPoints: 
+#     - websecure
+#   routes:
+#   - match: Host(`firepit-speakers.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: firepit-speakers-service
+#       port: 80
+#     middlewares:
+#     - name: traefik-security
+#       namespace: traefik
+#   tls:
+#     secretName: traefik-wildcard-cert
+#     options:
+#       name: tls-options-default
+#       namespace: traefik
 
 
----
-kind: "Service"
-apiVersion: "v1"
-metadata:
-  name: "firepit-speakers-service"
-  namespace: traefik
-spec:
-  ports:
-  - name: "firepit-speakers"
-    protocol: "TCP"
-    port: 80
-    targetPort: 80 
+# ---
+# kind: "Service"
+# apiVersion: "v1"
+# metadata:
+#   name: "firepit-speakers-service"
+#   namespace: traefik
+# spec:
+#   ports:
+#   - name: "firepit-speakers"
+#     protocol: "TCP"
+#     port: 80
+#     targetPort: 80 
 
----
-kind: "Endpoints"
-apiVersion: "v1"
-metadata:
-  name: "firepit-speakers-service"
-  namespace: traefik 
-subsets: 
-- addresses:
-  - ip: "192.168.1.23" 
-  ports:
-  - port: 80
-    name: "firepit-speakers"
+# ---
+# kind: "Endpoints"
+# apiVersion: "v1"
+# metadata:
+#   name: "firepit-speakers-service"
+#   namespace: traefik 
+# subsets: 
+# - addresses:
+#   - ip: "192.168.1.23" 
+#   ports:
+#   - port: 80
+#     name: "firepit-speakers"

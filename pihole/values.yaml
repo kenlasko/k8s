@@ -118,10 +118,6 @@ dnsmasq:
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
   - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
   - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com
-  - cname=cloud-keel.ucdialplans.com,cloud-k3s.ucdialplans.com
-  - cname=cloud-mariadb.ucdialplans.com,cloud-k3s.ucdialplans.com
-  - cname=cloud-traefik.ucdialplans.com,cloud-k3s.ucdialplans.com
-  - cname=cloud-vaultwarden.ucdialplans.com,cloud-k3s.ucdialplans.com
 
 adlists:
 - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
