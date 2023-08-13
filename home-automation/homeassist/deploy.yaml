@@ -8,7 +8,6 @@ metadata:
     keel.sh/policy: force
     keel.sh/trigger: poll
     keel.sh/match-tag: "true"
-    keel.sh/approvals: "1"
 spec:
   replicas: 1
   revisionHistoryLimit: 2
