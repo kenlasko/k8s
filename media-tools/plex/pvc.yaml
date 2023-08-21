@@ -11,19 +11,19 @@ spec:
     requests:
       storage: 20Gi
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: clusterplex-transcode-pvc
-  labels:
-    app.kubernetes.io/name: clusterplex-transcode-pvc
-    app.kubernetes.io/part-of: plex
-spec:
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: "10Gi"
-  # specify your storage class
-  storageClassName: longhorn
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: clusterplex-transcode-pvc
+#   labels:
+#     app.kubernetes.io/name: clusterplex-transcode-pvc
+#     app.kubernetes.io/part-of: plex
+# spec:
+#   accessModes:
+#   - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: "10Gi"
+#   # specify your storage class
+#   storageClassName: longhorn

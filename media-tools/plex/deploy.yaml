@@ -125,167 +125,167 @@ spec:
         # - name: transcode
         #   mountPath: /transcode  
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: clusterplex-orchestrator
-  namespace: media-tools
-  labels:
-    app.kubernetes.io/name: clusterplex-orchestrator
-    app.kubernetes.io/part-of: plex
-spec:
-  replicas: 0
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: clusterplex-orchestrator
-      app.kubernetes.io/part-of: plex
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: clusterplex-orchestrator
-        app.kubernetes.io/part-of: plex
-    spec:
-      containers:
-      - name: plex
-        image: ghcr.io/pabloromeo/clusterplex_orchestrator:latest
-        startupProbe:
-          httpGet:
-            path: /health
-            port: 3500
-          failureThreshold: 3
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 3500
-          initialDelaySeconds: 5
-          timeoutSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3500
-          initialDelaySeconds: 5
-          timeoutSeconds: 10
-        ports:
-          - name: orchestrator
-            containerPort: 3500
-        envFrom:
-        - configMapRef:
-            name: clusterplex-orchestrator-config
-        resources:            # adapt requests and limits to your needs
-          requests:
-            cpu: 200m
-            memory: 32Mi
-          limits:
-            cpu: 500m
-            memory: 64Mi
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: clusterplex-orchestrator
+#   namespace: media-tools
+#   labels:
+#     app.kubernetes.io/name: clusterplex-orchestrator
+#     app.kubernetes.io/part-of: plex
+# spec:
+#   replicas: 0
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: clusterplex-orchestrator
+#       app.kubernetes.io/part-of: plex
+#   template:
+#     metadata:
+#       labels:
+#         app.kubernetes.io/name: clusterplex-orchestrator
+#         app.kubernetes.io/part-of: plex
+#     spec:
+#       containers:
+#       - name: plex
+#         image: ghcr.io/pabloromeo/clusterplex_orchestrator:latest
+#         startupProbe:
+#           httpGet:
+#             path: /health
+#             port: 3500
+#           failureThreshold: 3
+#           periodSeconds: 10
+#         readinessProbe:
+#           httpGet:
+#             path: /health
+#             port: 3500
+#           initialDelaySeconds: 5
+#           timeoutSeconds: 5
+#         livenessProbe:
+#           httpGet:
+#             path: /health
+#             port: 3500
+#           initialDelaySeconds: 5
+#           timeoutSeconds: 10
+#         ports:
+#           - name: orchestrator
+#             containerPort: 3500
+#         envFrom:
+#         - configMapRef:
+#             name: clusterplex-orchestrator-config
+#         resources:            # adapt requests and limits to your needs
+#           requests:
+#             cpu: 200m
+#             memory: 32Mi
+#           limits:
+#             cpu: 500m
+#             memory: 64Mi
 
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: clusterplex-worker
-  namespace: media-tools
-  labels:
-    app.kubernetes.io/name: clusterplex-worker
-    app.kubernetes.io/part-of: plex
-spec:
-  serviceName: clusterplex-worker-service
-  replicas: 0
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: clusterplex-worker
-      app.kubernetes.io/part-of: plex
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: clusterplex-worker
-        app.kubernetes.io/part-of: plex
-    spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: intel.feature.node.kubernetes.io/gpu
-                operator: In
-                values:
-                - 'true'
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: clusterplex-worker
-              topologyKey: kubernetes.io/hostname
-            weight: 100
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: plex
-              topologyKey: kubernetes.io/hostname
-            weight: 50
-      containers:
-      - name: plex-worker
-        image: ghcr.io/pabloromeo/clusterplex_worker:latest  # lscr.io/linuxserver/plex:latest
-        startupProbe:
-          httpGet:
-            path: /health
-            port: 3501
-          failureThreshold: 40
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 3501
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3501
-          initialDelaySeconds: 10
-          timeoutSeconds: 10
-        ports:
-          - name: worker
-            containerPort: 3501
-        envFrom:
-        - configMapRef:
-            name: clusterplex-worker-config
-        volumeMounts:
-        - name: data
-          mountPath: /data
-        - name: codecs
-          mountPath: /codecs
-        - name: transcode
-          mountPath: /transcode
-        resources:              # adapt requests and limits to your needs
-          requests:
-            cpu: 500m
-            memory: 200Mi
-            gpu.intel.com/i915: "1" 
-          limits:
-            cpu: 3000m
-            memory: 800Mi
-            gpu.intel.com/i915: "1"
-      volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: pvc-smb-mediapc-toplevel
-      - name: transcode
-        persistentVolumeClaim:
-          claimName: clusterplex-transcode-pvc
-  volumeClaimTemplates:
-    - metadata:
-        name: codecs
-        labels:
-          app.kubernetes.io/name: clusterplex-codecs-pvc
-          app.kubernetes.io/part-of: plex
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-        # specify your storage class
-        storageClassName: longhorn
+# ---
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: clusterplex-worker
+#   namespace: media-tools
+#   labels:
+#     app.kubernetes.io/name: clusterplex-worker
+#     app.kubernetes.io/part-of: plex
+# spec:
+#   serviceName: clusterplex-worker-service
+#   replicas: 0
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: clusterplex-worker
+#       app.kubernetes.io/part-of: plex
+#   template:
+#     metadata:
+#       labels:
+#         app.kubernetes.io/name: clusterplex-worker
+#         app.kubernetes.io/part-of: plex
+#     spec:
+#       affinity:
+#         nodeAffinity:
+#           requiredDuringSchedulingIgnoredDuringExecution:
+#             nodeSelectorTerms:
+#             - matchExpressions:
+#               - key: intel.feature.node.kubernetes.io/gpu
+#                 operator: In
+#                 values:
+#                 - 'true'
+#         podAntiAffinity:
+#           preferredDuringSchedulingIgnoredDuringExecution:
+#           - podAffinityTerm:
+#               labelSelector:
+#                 matchLabels:
+#                   name: clusterplex-worker
+#               topologyKey: kubernetes.io/hostname
+#             weight: 100
+#           - podAffinityTerm:
+#               labelSelector:
+#                 matchLabels:
+#                   name: plex
+#               topologyKey: kubernetes.io/hostname
+#             weight: 50
+#       containers:
+#       - name: plex-worker
+#         image: ghcr.io/pabloromeo/clusterplex_worker:latest  # lscr.io/linuxserver/plex:latest
+#         startupProbe:
+#           httpGet:
+#             path: /health
+#             port: 3501
+#           failureThreshold: 40
+#           periodSeconds: 10
+#         readinessProbe:
+#           httpGet:
+#             path: /health
+#             port: 3501
+#           initialDelaySeconds: 60
+#           timeoutSeconds: 5
+#         livenessProbe:
+#           httpGet:
+#             path: /health
+#             port: 3501
+#           initialDelaySeconds: 10
+#           timeoutSeconds: 10
+#         ports:
+#           - name: worker
+#             containerPort: 3501
+#         envFrom:
+#         - configMapRef:
+#             name: clusterplex-worker-config
+#         volumeMounts:
+#         - name: data
+#           mountPath: /data
+#         - name: codecs
+#           mountPath: /codecs
+#         - name: transcode
+#           mountPath: /transcode
+#         resources:              # adapt requests and limits to your needs
+#           requests:
+#             cpu: 500m
+#             memory: 200Mi
+#             gpu.intel.com/i915: "1" 
+#           limits:
+#             cpu: 3000m
+#             memory: 800Mi
+#             gpu.intel.com/i915: "1"
+#       volumes:
+#       - name: data
+#         persistentVolumeClaim:
+#           claimName: pvc-smb-mediapc-toplevel
+#       - name: transcode
+#         persistentVolumeClaim:
+#           claimName: clusterplex-transcode-pvc
+#   volumeClaimTemplates:
+#     - metadata:
+#         name: codecs
+#         labels:
+#           app.kubernetes.io/name: clusterplex-codecs-pvc
+#           app.kubernetes.io/part-of: plex
+#       spec:
+#         accessModes: [ "ReadWriteOnce" ]
+#         resources:
+#           requests:
+#             storage: 1Gi
+#         # specify your storage class
+#         storageClassName: longhorn
