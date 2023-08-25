@@ -12,7 +12,7 @@ kubectl apply -f /home/ken/k3s/mariadb/pv.yaml
 
 helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
---set galera.mariabackup.password=***REMOVED*** \
+--set galera.mariabackup.password=  \
 --set galera.bootstrap.forceBootstrap=true \
 --set galera.bootstrap.bootstrapFromNode=1 \
 --set galera.bootstrap.forceSafeToBootstrap=true \
