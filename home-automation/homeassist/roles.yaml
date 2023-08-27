@@ -9,4 +9,4 @@ rules:
   resources:
   - cronjobs
   - jobs
-  verbs: ["get", "delete"]
+  verbs: ["get", "delete", "create"]
