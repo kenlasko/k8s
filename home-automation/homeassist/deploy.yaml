@@ -11,6 +11,7 @@ metadata:
 spec:
   replicas: 1
   revisionHistoryLimit: 2
+  serviceAccountName: ha-sa-garminupload
   selector:
     matchLabels:
       app: homeassist
@@ -58,7 +59,6 @@ spec:
           name: ttyusb
         - name: tz-config
           mountPath: /etc/localtime
-        serviceAccountName: ha-sa-garminupload
         securityContext:
           privileged: true
       - name: hass-configurator
