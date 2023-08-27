@@ -58,6 +58,7 @@ spec:
           name: ttyusb
         - name: tz-config
           mountPath: /etc/localtime
+        serviceAccountName: ha-sa-garminupload
         securityContext:
           privileged: true
       - name: hass-configurator
