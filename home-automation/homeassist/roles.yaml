@@ -4,9 +4,9 @@ metadata:
   name: ha-accessrole-garminupload
   namespace: garmin-upload
 rules:
-- apiGroups: ["*"]
-  # - batch
+- apiGroups:
+  - batch
   resources: ["*"]
   # - cronjobs
   # - jobs
-  verbs: ["*"] #["get", "delete", "create"]
+  verbs: ["get", "delete", "create"]
