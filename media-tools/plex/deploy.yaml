@@ -101,9 +101,9 @@ spec:
             containerPort: 32400
           - name: relay
             containerPort: 32499
-        envFrom:
-        - configMapRef:
-            name: clusterplex-pms-config
+        # envFrom:
+        # - configMapRef:
+        #     name: clusterplex-pms-config
         env:
         # - name: PLEX_CLAIM
         #   value: "***REMOVED***"
