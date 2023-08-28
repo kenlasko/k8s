@@ -12,7 +12,7 @@ rootUser:
 mariabackup:
   user: mariabackup
   password: ***REMOVED***
-  forcePassword: true
+  forcePassword: false
 nodeAffinityPreset:
   type: hard
   key: node-type
