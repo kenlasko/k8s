@@ -6,7 +6,7 @@ metadata:
 rules:
 - apiGroups:
   - batch
-  resources:
-  - cronjobs
-  - jobs
+  resources: ["*"]
+  # - cronjobs
+  # - jobs
   verbs: ["get", "delete", "create"]
