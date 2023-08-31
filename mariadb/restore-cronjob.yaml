@@ -24,7 +24,7 @@ spec:
             - name: K3S_ROOT_PW 
               valueFrom: 
                 secretKeyRef: 
-                  name: mariadb 
+                  name: mariadb-passwords
                   key: mariadb-root-password
             command: 
             - /bin/sh
