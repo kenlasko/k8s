@@ -6,13 +6,13 @@ podLabels:
   networkClass: Database
 image:
   tag: 10.9.6-debian-11-r4
+existingSecret: mariadb-passwords 
 rootUser:
   user: root
   password: ***REMOVED***
 mariabackup:
   user: mariabackup
   password: ***REMOVED***
-  forcePassword: true
 nodeAffinityPreset:
   type: hard
   key: node-type
