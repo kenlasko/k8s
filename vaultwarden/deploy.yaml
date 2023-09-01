@@ -57,6 +57,12 @@ spec:
           # value: "mysql://vaultwarden:***REMOVED***@mariadb-standalone.mariadb-standalone.svc.cluster.local/vaultwarden"
         - name: DOMAIN
           value: "https://vaultwarden.ucdialplans.com"
+        - name: PUSH_ENABLED
+          value: "true"
+        - name: PUSH_INSTALLATION_ID
+          value: "***REMOVED***"
+        - name: PUSH_INSTALLATION_KEY
+          value: "***REMOVED***"         
         - name: ROCKET_PORT
           value: "8087"
         - name: RUST_BACKTRACE
@@ -83,8 +89,6 @@ spec:
               key: password
         - name: SMTP_AUTH_MECHANISM
           value: "'Login'"
-        - name: WEBSOCKET_ENABLED
-          value: "true"
         - name: YUBICO_CLIENT_ID
           valueFrom:
             secretKeyRef:
