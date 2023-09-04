@@ -57,7 +57,7 @@ spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`ma.ucdialplans.com`) 
+  - match: Host(`musicassist.ucdialplans.com`) 
     kind: Rule
     services:
     - name: musicassist-service
