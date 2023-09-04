@@ -47,7 +47,7 @@ spec:
         - name: musicassist
           mountPath: /data
         - name: media
-          mountPath: /media
+          mountPath: /media/music
         - name: tz-config
           mountPath: /etc/localtime
         securityContext:
