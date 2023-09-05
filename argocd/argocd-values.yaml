@@ -31,6 +31,10 @@ configs:
       url: https://grafana.github.io/helm-charts
       name: grafana
       type: helm
+    headlamp:
+      url: https://headlamp-k8s.github.io/headlamp/
+      name: headlamp
+      type: helm
     intel:
       url: https://intel.github.io/helm-charts/
       name: intel

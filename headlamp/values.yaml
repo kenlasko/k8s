@@ -1,0 +1,4 @@
+config:
+  baseURL: "https://headlamp.ucdialplans.com"
+nodesSelector:
+  node-type: worker
