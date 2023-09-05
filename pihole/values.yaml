@@ -76,6 +76,7 @@ dnsmasq:
   - address=/nuc3.ucdialplans.com/192.168.1.6
   - address=/nuc4.ucdialplans.com/192.168.1.7
   - address=/nuc5.ucdialplans.com/192.168.1.8
+  - address=/nuc6.ucdialplans.com/192.168.1.9
   - address=/k3s.ucdialplans.com/192.168.1.10
   - address=/rpi1.ucdialplans.com/192.168.1.15
   - address=/rpi2.ucdialplans.com/192.168.1.16
@@ -90,6 +91,7 @@ dnsmasq:
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
+  - cname=headlamp.ucdialplans.com,k3s.ucdialplans.com
   - cname=heimdall.ucdialplans.com,k3s.ucdialplans.com
   - cname=helm.ucdialplans.com,k3s.ucdialplans.com
   - cname=keel.ucdialplans.com,k3s.ucdialplans.com
@@ -97,6 +99,7 @@ dnsmasq:
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
   - cname=mariadb.ucdialplans.com,k3s.ucdialplans.com
   - cname=media.ucdialplans.com,k3s.ucdialplans.com
+  - cname=musicassist.ucdialplans.com,k3s.ucdialplans.com
   - cname=overseerr.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole1.ucdialplans.com,rpi1.ucdialplans.com
@@ -112,7 +115,6 @@ dnsmasq:
   - cname=sonarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=tautulli.ucdialplans.com,k3s.ucdialplans.com
   - cname=traefik.ucdialplans.com,k3s.ucdialplans.com
-  - cname=traefik-mpc.ucdialplans.com,mediapc.ucdialplans.com
   - cname=traefik-rpi1.ucdialplans.com,rpi1.ucdialplans.com
   - cname=traefik-rpi2.ucdialplans.com,rpi2.ucdialplans.com
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
