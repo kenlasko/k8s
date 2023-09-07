@@ -1,0 +1,7 @@
+---
+- hosts: k3s_all
+  become: true
+  become_user: root
+  tasks:
+  - name: Run Delete orphaned volumes script
+    ansible.builtin.script: /home/ken/k3s/fix-orphaned-vol.sh
