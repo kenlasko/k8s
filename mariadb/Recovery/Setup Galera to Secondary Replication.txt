@@ -1,4 +1,4 @@
-# Select the MariaDB pod on NUC4 and go to command prompt:
+# Select the MariaDB pod on NUC6 and go to command prompt:
 mariadb -u root -p***REMOVED***
 flush tables with read lock;
 show variables like 'gtid_binlog_pos';  
@@ -12,7 +12,7 @@ mysqldump -h mariadb.mariadb.svc.cluster.local -u root -p***REMOVED*** -B homeas
 unlock tables;
 
 # From NUC2 host
-sudo scp ken@nuc4:/kube-storage/mariadb/data/mariadb-repl-backup.sql /kube-storage/mariadb/mariadb-repl-backup.sql
+sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /kube-storage/mariadb/mariadb-repl-backup.sql
 
 # Then on mariadb-standalone pod command prompt:
 mariadb -u root -p***REMOVED***
@@ -27,7 +27,7 @@ drop database phpmyadmin;
 mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
 
 # Then run 
-set global gtid_slave_pos = "0-1-894832,1-1-42";
+set global gtid_slave_pos = "0-1-1777542,1-1-42";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
     master_user='replicator',
