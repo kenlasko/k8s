@@ -2,27 +2,25 @@
 rpi1     ansible_connection=ssh
 rpi2     ansible_connection=ssh
 
-[rpi-nodes-k3s]
-rpi1     ansible_connection=ssh
-rpi2     ansible_connection=ssh
-
-[nuc-nodes]
+[nuc-masters]
 nuc1     ansible_connection=ssh
 nuc2     ansible_connection=ssh
 nuc3     ansible_connection=ssh
+
+[nuc-workers]
 nuc4     ansible_connection=ssh
 nuc5     ansible_connection=ssh
 nuc6     ansible_connection=ssh
 
 [other-nodes]
-mediapc  ansible_connection=ssh
 backuppc ansible_connection=ssh
 
 [k3s_all:children]
-nuc-nodes
-rpi-nodes-k3s
+nuc-masters
+nuc-workers
 
 [everything:children]
 rpi-nodes
-nuc-nodes
+nuc-masters
+nuc-workers
 other-nodes
