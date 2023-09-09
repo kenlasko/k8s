@@ -4,4 +4,7 @@
   become_user: root
   tasks:
   - name: Run Delete orphaned volumes script
-    ansible.builtin.script: /home/ken/k3s/fix-orphaned-vol.sh
+    ansible.builtin.script: /home/ken/k3s/test.sh
+    register: results
+  - debug:
+      var: results.stdout
