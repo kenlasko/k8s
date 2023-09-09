@@ -30,6 +30,7 @@ primary:
   - name: mariadb-healthcheck
     mountPath: /opt/bitnami/mariadb/healthcheck.sh
     subPath: healthcheck.sh
+    
 # tls:
 #   enabled: false
 #   certificatesSecret: ucdialplans-wildcard-cert
