@@ -18,18 +18,6 @@ nodeAffinityPreset:
   key: node-type
   values: 
   - worker
-primary:
-  extraVolumes:
-  - configMap:
-      items:
-      - key: healthcheck.sh
-        path: healthcheck.sh
-      name: mariadb-healthcheck
-    name: mariadb-healthcheck
-  extraVolumeMounts:
-  - name: mariadb-healthcheck
-    mountPath: /opt/bitnami/mariadb/healthcheck.sh
-    subPath: healthcheck.sh
     
 # tls:
 #   enabled: false
