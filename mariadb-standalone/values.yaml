@@ -21,6 +21,7 @@ primary:
       - key: healthcheck.sh
         path: healthcheck.sh
       name: mariadb-healthcheck
+      defaultMode: 0500
     name: mariadb-healthcheck
   extraVolumeMounts:
   - name: mariadb-healthcheck
