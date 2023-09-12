@@ -1,4 +1,16 @@
 db:
   host: ""
+  allowArbitraryServer: false
 nodesSelector:
   node-type: worker
+extraVolumes:
+- configMap:
+    items:
+    - key: default
+      path: default
+    name: phpmyadmin-config
+  name: phpmyadmin-config
+extraVolumeMounts:
+- name: phpmyadmin-config
+  mountPath: /opt/bitnami/phpmyadmin/config.inc.php
+  subPath: config.inc.php
