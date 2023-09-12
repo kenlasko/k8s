@@ -15,18 +15,6 @@ primary:
   persistence:
     storageClass: "local-path"
     existingClaim: "mariadb-backup-pvc"
-  extraVolumes:
-  - configMap:
-      items:
-      - key: healthcheck.sh
-        path: healthcheck.sh
-      name: mariadb-healthcheck
-      defaultMode: 0555
-    name: mariadb-healthcheck
-  extraVolumeMounts:
-  - name: mariadb-healthcheck
-    mountPath: /opt/bitnami/mariadb/healthcheck.sh
-    subPath: healthcheck.sh
   configuration: |-
     [mysqld]
     skip-name-resolve
