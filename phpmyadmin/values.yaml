@@ -6,8 +6,8 @@ nodesSelector:
 extraVolumes:
 - configMap:
     items:
-    - key: default
-      path: default
+    - key: config.inc.php
+      path: config.inc.php
     name: phpmyadmin-config
   name: phpmyadmin-config
 extraVolumeMounts:
