@@ -27,6 +27,9 @@ primary:
   - name: mariadb-healthcheck
     mountPath: /opt/bitnami/mariadb/healthcheck.sh
     subPath: healthcheck.sh
+  extraEnvVars:
+  - name: MARIADB_MYSQL_LOCALHOST_USER
+    value: "1"
   configuration: |-
     [mysqld]
     skip-name-resolve
