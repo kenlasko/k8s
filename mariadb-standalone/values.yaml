@@ -2,8 +2,6 @@ namespaceOverride: mariadb-standalone
 fullnameOverride: mariadb
 commonLabels:
   networkClass: Database
-image:
-  tag: 10.9.8
 auth:
   rootPassword: "***REMOVED***"
 primary:

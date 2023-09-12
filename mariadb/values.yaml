@@ -4,8 +4,6 @@ namespaceOverride: mariadb
 fullnameOverride: mariadb
 podLabels:
   networkClass: Database
-image:
-  tag: 10.9.8
 existingSecret: mariadb-passwords 
 rootUser:
   user: root
