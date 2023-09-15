@@ -55,6 +55,7 @@ spec:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
+                - nuc5
                 - nuc6
       dnsConfig:
         options:
