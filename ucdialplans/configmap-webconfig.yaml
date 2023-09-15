@@ -28,7 +28,7 @@ data:
           </namespaces>
         </pages>
         <sessionState timeout="60" />
-        <customErrors mode="On" defaultRedirect="https://www.ucdialplans.com/errorpage.html" />
+        <customErrors mode="Off" defaultRedirect="https://www.ucdialplans.com/errorpage.html" />
       </system.web>
       <system.webServer>
         <security>

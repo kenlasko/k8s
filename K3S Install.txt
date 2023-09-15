@@ -1,5 +1,9 @@
 sudo apt update && sudo apt upgrade
 
+# Follow steps to upgrade to latest kernel for Plex transcoding
+# https://linux.how2shout.com/linux-kernel-6-2-features-in-ubuntu-22-04-20-04/
+
+
 # Copy k3s folder to ~
 
 # On Kube1
