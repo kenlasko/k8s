@@ -62,18 +62,18 @@ spec:
       automountServiceAccountToken: false
       dnsConfig:
         options:
-          - name: ndots
-            value: "1"
+        - name: ndots
+          value: "1"
       volumes:
-        - configMap:
-            items:
-            - key: default
-              path: default
-            name: ucdialplans-nginx
+      - configMap:
+          items:
+          - key: default
+            path: default
           name: ucdialplans-nginx
-        - configMap:
-            items:
-            - key: web.config
-              path: web.config
-            name: ucdialplans-webconfig
+        name: ucdialplans-nginx
+      - configMap:
+          items:
+          - key: web.config
+            path: web.config
           name: ucdialplans-webconfig
+        name: ucdialplans-webconfig
