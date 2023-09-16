@@ -87,7 +87,6 @@ dnsmasq:
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
-  - cname=cloud-k3s.ucdialplans.com,onode1.ucdialplans.com
   - cname=duplicati.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com

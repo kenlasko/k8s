@@ -1,7 +1,7 @@
 sudo apt update && sudo apt upgrade
 
-# Follow steps to upgrade to latest kernel for Plex transcoding
-# https://linux.how2shout.com/linux-kernel-6-2-features-in-ubuntu-22-04-20-04/
+# Upgrade workers to latest kernel for Plex transcoding
+sudo apt install linux-generic-hwe-22.04
 
 
 # Copy k3s folder to ~
@@ -49,13 +49,13 @@ source ~/.bashrc
 
 # Set labels
 kubectl label nodes nuc1 server-type=nuc
-kubectl label nodes nuc4 node-type=master
+kubectl label nodes nuc1 node-type=master
 
 kubectl label nodes nuc2 server-type=nuc
-kubectl label nodes nuc4 node-type=master
+kubectl label nodes nuc2 node-type=master
 
 kubectl label nodes nuc3 server-type=nuc
-kubectl label nodes nuc4 node-type=master
+kubectl label nodes nuc3 node-type=master
 
 kubectl label nodes nuc4 server-type=nuc
 kubectl label nodes nuc4 node-type=worker
