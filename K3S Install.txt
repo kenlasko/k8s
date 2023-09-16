@@ -3,7 +3,7 @@ sudo apt update && sudo apt upgrade
 # Upgrade workers to latest kernel for Plex transcoding
 sudo apt install linux-generic-hwe-22.04
 
-# Manually assign IP address via netplan:
+# Manually assign IP address via netplan (this removes the ucdialplans.com domain from the DNS search, which screws up a lot of containers):
 sudo nano /etc/netplan/00-installer-config.yaml
 
 # Set as per below:
