@@ -3,6 +3,9 @@ sudo apt update && sudo apt upgrade
 # Upgrade workers to latest kernel for Plex transcoding
 sudo apt install linux-generic-hwe-22.04
 
+# Beelink U59 may need updated network drivers to avoid failures
+https://devicetests.com/ubuntu-network-driver-guide
+
 # Manually assign IP address via netplan (this removes the ucdialplans.com domain from the DNS search, which screws up a lot of containers):
 sudo nano /etc/netplan/00-installer-config.yaml
 
