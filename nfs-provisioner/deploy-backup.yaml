@@ -52,5 +52,5 @@ spec:
             - name: backup
               mountPath: /backup
             - name: backup-script
-              mountPath: /script/backup-nas.sh
+              mountPath: /backup-nas.sh
               subPath: backup-nas.sh
