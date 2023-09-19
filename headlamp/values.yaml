@@ -1,2 +1,2 @@
-nodesSelector:
+nodeSelector:
   node-type: worker
