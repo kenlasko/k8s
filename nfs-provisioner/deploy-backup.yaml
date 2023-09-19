@@ -41,10 +41,10 @@ spec:
             imagePullPolicy: IfNotPresent
             resources:
               requests:
-                cpu: 1500m
+                cpu: 1000m
                 memory: 100Mi
               limits:
-                cpu: 2000m
+                cpu: 1500m
                 memory: 100Mi
             volumeMounts:
             - name: source
