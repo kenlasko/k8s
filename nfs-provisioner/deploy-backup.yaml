@@ -34,7 +34,7 @@ spec:
           containers:
           - name: backup-nas
             image: docker.io/busybox
-            command: ["/backup-nas.sh"]
+            command: ["/script/backup-nas.sh"]
             imagePullPolicy: IfNotPresent
             resources:
               requests:
@@ -49,5 +49,5 @@ spec:
             - name: backup
               mountPath: /backup
             - name: backup-script
-              mountPath: /backup-nas.sh
+              mountPath: /script/backup-nas.sh
               subPath: backup-nas.sh
