@@ -26,7 +26,7 @@ data:
     echo
         
     # Backup the files using tar.
-    tar czf $dest/$archive_file $backup_files -X "/source/esphome/.esphome" -X "/source/registry"
+    tar czf $dest/$archive_file $backup_files -X "/source/esphome/.esphome" -X "/source/registry" -X "/source/homeassist/backups"
         
     # Print end status message.
     echo
