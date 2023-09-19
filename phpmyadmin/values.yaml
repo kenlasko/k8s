@@ -1,7 +1,7 @@
 db:
   host: ""
   allowArbitraryServer: false
-nodesSelector:
+nodeSelector:
   node-type: worker
 extraVolumes:
 - configMap:
