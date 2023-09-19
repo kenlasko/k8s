@@ -70,9 +70,6 @@ spec:
         nfs:
           server: 192.168.1.3
           path: /mnt/md0/data/vol/transmission
-      - name: transmission-config
-        persistentVolumeClaim:
-          claimName: longhorn-transmission-config-pvc
       - name: media
         nfs:
           server: 192.168.1.3
