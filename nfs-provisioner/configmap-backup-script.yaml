@@ -14,7 +14,7 @@ data:
     backup_files="/source/"
         
     # Where to backup to.
-    dest="/backup/"
+    dest="/backup"
         
     # Create archive filename.
     day=$(date +%A)
