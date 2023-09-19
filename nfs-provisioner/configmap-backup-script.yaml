@@ -3,9 +3,6 @@ kind: ConfigMap
 metadata:
   name: backup-script
   namespace: nfs-provisioner
-  labels:
-    app: backup-script
-    argocd.argoproj.io/instance: backup-script
 data:
   backup-nas.sh: |
     #!/bin/bash
