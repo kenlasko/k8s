@@ -29,6 +29,7 @@ spec:
               - key: backup-nas.sh
                 path: backup-nas.sh
               name: backup-script
+              defaultMode: 0555
             name: backup-script
           containers:
           - name: backup-nas
