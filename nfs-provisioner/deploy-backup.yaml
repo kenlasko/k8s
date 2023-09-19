@@ -37,7 +37,7 @@ spec:
             args:
             - ash
             - -c
-            - sleep 10000;
+            - ./backup-nas.sh
             imagePullPolicy: IfNotPresent
             resources:
               requests:
@@ -52,5 +52,5 @@ spec:
             - name: backup
               mountPath: /backup
             - name: backup-script
-              mountPath: /script/backup-nas.sh
+              mountPath: /backup-nas.sh
               subPath: backup-nas.sh
