@@ -34,7 +34,10 @@ spec:
           containers:
           - name: backup-nas
             image: docker.io/busybox
-            command: ["/bin/sh -c 'sleep 100000'"]
+            args:
+            - ash
+            - -c
+            - sleep 10000;
             imagePullPolicy: IfNotPresent
             resources:
               requests:
