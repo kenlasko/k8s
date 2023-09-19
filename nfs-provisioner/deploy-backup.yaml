@@ -45,7 +45,7 @@ spec:
                 memory: 100Mi
               limits:
                 cpu: 1500m
-                memory: 100Mi
+                memory: 200Mi
             volumeMounts:
             - name: source
               mountPath: /source
