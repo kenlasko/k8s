@@ -5,7 +5,7 @@ metadata:
   namespace: nfs-provisioner
 data:
   backup-nas.sh: |
-    #!/bin/bash
+    #!/bin/ash
     ####################################
     # Backup to NFS mount script.
     ####################################
