@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-script
+  namespace: nfs-provisioner
+  labels:
+    app: backup-script
+    argocd.argoproj.io/instance: backup-script
+data:
+  backup-nas.sh: |
+    #!/bin/bash
+    ####################################
+    # Backup to NFS mount script.
+    ####################################
+        
+    # What to backup. 
+    backup_files="/source/"
+        
+    # Where to backup to.
+    dest="/backup/"
+        
+    # Create archive filename.
+    day=$(date +%A)
+    archive_file="nas-backup-$day.tgz"
+        
+    # Print start status message.
+    echo "Backing up $backup_files to $dest/$archive_file"
+    date
+    echo
+        
+    # Backup the files using tar.
+    tar czf $dest/$archive_file $backup_files
+        
+    # Print end status message.
+    echo
+    echo "Backup finished"
+    date
+        
+    # Long listing of files in $dest to check file sizes.
+    ls -lh $dest
