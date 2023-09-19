@@ -5,7 +5,7 @@ metadata:
   name: backup-nas
   namespace: nfs-provisioner
 spec:
-  schedule: "@daily" 
+  schedule: "0 6 * * *" 
   suspend: false
   successfulJobsHistoryLimit: 3
   jobTemplate:
