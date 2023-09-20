@@ -22,6 +22,8 @@ data:
         
     tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/backups' --exclude 'data/vol/homeassist/.git' -czvf /backup/vol/backup-$day.tgz /data/vol
 
+    echo
+    echo
     echo "Backing up pv to backup/pv/backup-$day.tgz"
     date
     echo
