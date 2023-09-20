@@ -47,8 +47,8 @@ spec:
                 cpu: 1500m
                 memory: 200Mi
             volumeMounts:
-            - name: source
-              mountPath: /source
+            - name: data
+              mountPath: /data
             - name: backup
               mountPath: /backup
             - name: backup-script
