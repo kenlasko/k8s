@@ -27,7 +27,7 @@ data:
         
     # Backup the files using tar.
     #tar --exclude=/source/esphome/.esphome --exclude=/source/registry --exclude=/source/homeassist/backups --exclude=/source/homeassist/.git -czvf $dest/$archive_file $backup_files 
-    tar --exclude=/source/{esphome/.esphome,registry,homeassist/backups,homeassist/.git} -czvf $dest/$archive_file $backup_files
+    tar --exclude=/source/{esphome/.esphome,registry,homeassist/backups,homeassist/.git}/* -czvf $dest/$archive_file $backup_files
 
     # Print end status message.
     echo
