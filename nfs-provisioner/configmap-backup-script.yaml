@@ -10,23 +10,17 @@ data:
     # Backup to NFS mount script.
     ####################################
         
-    # What to backup. 
-    backup_files="/source"
-        
-    # Where to backup to.
-    dest="/backup"
-        
+  
     # Create archive filename.
     day=$(date +%A)
     archive_file="nas-backup-$day.tgz"
         
     # Print start status message.
-    echo "Backing up $backup_files to $dest/$archive_file"
+    echo "Backing up vol to backup/vol/backup-$day.tgz"
     date
     echo
         
-    # Backup the files using tar.
-    tar --exclude 'source/esphome/.esphome' --exclude 'source/registry' --exclude 'source/homeassist/backups' --exclude 'source/homeassist/.git' -czvf $dest/$archive_file $backup_files 
+    tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/backups' --exclude 'data/vol/homeassist/.git' -czvf /backup/vol/backup-$day.tgz /data/vol
 
     # Print end status message.
     echo
