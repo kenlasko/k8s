@@ -22,10 +22,13 @@ data:
         
     tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/backups' --exclude 'data/vol/homeassist/.git' -czvf /backup/vol/backup-$day.tgz /data/vol
 
+    echo "Backing up pv to backup/pv/backup-$day.tgz"
+    date
+    echo
+        
+    tar --exclude 'data/pv/media*' --exclude 'data/pv/monitoring*' -czvf /backup/pv/backup-$day.tgz /data/pv
+
     # Print end status message.
     echo
     echo "Backup finished"
     date
-        
-    # Long listing of files in $dest to check file sizes.
-    ls -lh $dest
