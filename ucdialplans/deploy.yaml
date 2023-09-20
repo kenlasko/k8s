@@ -29,7 +29,7 @@ spec:
       containers:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
