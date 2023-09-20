@@ -168,11 +168,6 @@ kubectl apply -f ~/k3s/longhorn/dashboard-ingress.yaml
 # Add local-path storage class
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.23/deploy/local-path-storage.yaml
 
-# Install NFS server for Longhorn
-kubectl apply -f ~/k3s/nfs-backup
-
-# In Longhorn, go to Settings - General and set the backup target to: nfs://nfs-server-svc.nfs-server:/
-
 # Add Portainer
 helm repo add portainer https://portainer.github.io/k8s/
 helm repo update
