@@ -2,7 +2,7 @@ image:
   pullPolicy: Always
 persistence:
   size: 500Mi
-  storageClass: longhorn-high-value
+  storageClass: nfs-client
 service:
   type: ClusterIP
 nodeSelector:
