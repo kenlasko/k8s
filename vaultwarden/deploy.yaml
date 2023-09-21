@@ -31,7 +31,7 @@ spec:
         fsGroup: 2000
       containers:
       - name: vaultwarden
-        image: vaultwarden/server:latest
+        image: vaultwarden/server:1.29.1
         imagePullPolicy: Always
         resources:
           requests:
