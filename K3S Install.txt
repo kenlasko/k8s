@@ -27,6 +27,9 @@ network:
   version: 2
 
 sudo netplan apply 
+
+# Check that resolv.conf shows . for search:
+cat /etc/resolv.conf
 sudo reboot now
 
 # Copy k3s folder to ~
