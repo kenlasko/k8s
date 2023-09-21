@@ -70,7 +70,7 @@ spec:
         - name: SIGNUPS_ALLOWED
           value: "true"
         - name: SMTP_HOST
-          value: "smtp.sendgrid.net"
+          value: "smtp.sendgrid.net."
         - name: SMTP_FROM
           value: "bitwarden@ucdialplans.com"
         - name: SMTP_PORT
