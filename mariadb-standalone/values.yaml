@@ -9,7 +9,6 @@ primary:
     type: hard
     key: kubernetes.io/hostname
     values: 
-    - nuc1
     - nuc2
   persistence:
     storageClass: "local-path"
