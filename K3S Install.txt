@@ -1,4 +1,5 @@
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
+sudo apt install nano nfs-common -y
 
 # Upgrade workers to latest kernel for Plex transcoding
 sudo apt install linux-generic-hwe-22.04
@@ -56,10 +57,10 @@ sudo cp ~/k3s/hosts /etc/ansible/hosts
 ansible-playbook ~/k3s/ansible-k3s-prep.yaml --ask-become-pass
 
 # Create first server
-curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
 
 # Add nodes 2/3
-curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
 
 # Add worker nodes
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
