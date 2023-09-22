@@ -17,7 +17,7 @@ spec:
             node-type: worker
           containers:
           - name: mariadb-ucdialplans-statusupdate
-            image: mariadb:11.0.3
+            image: bitnami/mariadb:11.0.3-debian-11-r5
             imagePullPolicy: IfNotPresent
             env: 
             - name: K3S_ROOT_PW 
