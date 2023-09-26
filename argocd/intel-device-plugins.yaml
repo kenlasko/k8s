@@ -33,6 +33,9 @@ spec:
   - repoURL: 'https://intel.github.io/helm-charts/'
     targetRevision: 0.*
     chart: intel-device-plugins-operator
+    # helm:
+    #   valueFiles:
+    #   - $values/media-tools/intel-gpu/values-operator.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: media-tools/intel-gpu/
     targetRevision: HEAD
@@ -41,7 +44,7 @@ spec:
     chart: intel-device-plugins-gpu
     helm:
       valueFiles:
-      - $values/media-tools/intel-gpu/values.yaml
+      - $values/media-tools/intel-gpu/values-gpu.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   destination:
