@@ -34,7 +34,7 @@ spec:
     targetRevision: 0.*
     chart: intel-device-plugins-operator
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: media-tools/intel-operator/
+    path: media-tools/intel-gpu/
     targetRevision: HEAD
   - repoURL: 'https://intel.github.io/helm-charts/'
     targetRevision: 0.*
