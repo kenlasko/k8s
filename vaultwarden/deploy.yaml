@@ -68,7 +68,7 @@ spec:
         - name: RUST_BACKTRACE
           value: "1"
         - name: SIGNUPS_ALLOWED
-          value: "true"
+          value: "false"
         - name: SMTP_HOST
           value: "smtp.sendgrid.net"
         - name: SMTP_FROM
