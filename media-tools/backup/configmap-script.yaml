@@ -5,7 +5,7 @@ metadata:
   namespace: media-tools
 data:
   backup-media-apps.sh: |
-    #! /bin/bash
+    #! /bin/sh
 
     kubectl cp -n media-tools radarr-0:/config/Backups/scheduled/. /backup/radarr/.
     kubectl cp -n media-tools sonarr-0:/config/Backups/scheduled/. /backup/sonarr/.
