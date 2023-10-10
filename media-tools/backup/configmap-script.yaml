@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-backup-script
+  namespace: media-tools
+data:
+  backup-media-apps.sh: |
+    #! /bin/bash
+
+    kubectl cp -n media-tools radarr-0:/config/Backups/scheduled/. /backup/radarr/.
+    kubectl cp -n media-tools sonarr-0:/config/Backups/scheduled/. /backup/sonarr/.
+    kubectl cp -n media-tools readarr-0:/config/Backups/scheduled/. /backup/readarr/.
+    kubectl cp -n media-tools lidarr-0:/config/Backups/scheduled/. /backup/lidarr/.
+    kubectl cp -n media-tools prowlarr-0:/config/Backups/scheduled/. backup/prowlarr/.
+    kubectl cp -n media-tools sabnzbd-0:/config/Downloads/. /backup/sabnzbd/.
+    kubectl cp -n media-tools overseerr-0:/config/. /backup/overseerr/.
+    kubectl cp -n media-tools tautulli-0:/config/backups/. /backup/tautulli/.
+    kubectl cp -n media-tools plex-0:/config/. /backup/plex/.
+
+    
