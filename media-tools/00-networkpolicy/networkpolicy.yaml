@@ -41,8 +41,6 @@ spec:
               app: homeassist
     - to:
         - namespaceSelector: {}
-      ports:
-        - port: 443
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
