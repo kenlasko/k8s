@@ -29,7 +29,7 @@ spec:
               items:
               - key: backup-media-apps.sh
                 path: backup-media-apps.sh
-                defaultMode: 0777
+                defaultMode: 0420
               name: backup-media-apps-script
             name: backup-media-apps-script
           containers:
