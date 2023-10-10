@@ -5,9 +5,12 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: 'git@github.com:kenlasko/K3S.git'
+  sources:
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: media-tools/00-networkpolicy
+    targetRevision: HEAD
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: media-tools/backup
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
