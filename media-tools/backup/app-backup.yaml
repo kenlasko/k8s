@@ -12,6 +12,7 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: mediatools-service-account
           nodeSelector:
             node-type: worker
           restartPolicy: OnFailure
