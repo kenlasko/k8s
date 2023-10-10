@@ -25,6 +25,8 @@ spec:
           podSelector:
             matchLabels:
               app: homeassist
+    - from:
+        - namespaceSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
