@@ -8,23 +8,23 @@ data:
     #! /bin/sh
 
     echo 'Backing up Radarr'
-    kubectl cp -n media-tools radarr-0:/config/Backups/scheduled/. /backup/radarr/.
+    kubectl cp -n media-tools radarr-0:config/Backups/scheduled/. /backup/radarr/.
     echo 'Backing up Sonarr'
-    kubectl cp -n media-tools sonarr-0:/config/Backups/scheduled/. /backup/sonarr/.
+    kubectl cp -n media-tools sonarr-0:config/Backups/scheduled/. /backup/sonarr/.
     echo 'Backing up Readarr'
-    kubectl cp -n media-tools readarr-0:/config/Backups/scheduled/. /backup/readarr/.
+    kubectl cp -n media-tools readarr-0:config/Backups/scheduled/. /backup/readarr/.
     echo 'Backing up Lidarr'
-    kubectl cp -n media-tools lidarr-0:/config/Backups/scheduled/. /backup/lidarr/.
+    kubectl cp -n media-tools lidarr-0:config/Backups/scheduled/. /backup/lidarr/.
     echo 'Backing up Prowlarr'
-    kubectl cp -n media-tools prowlarr-0:/config/Backups/scheduled/. backup/prowlarr/.
+    kubectl cp -n media-tools prowlarr-0:config/Backups/scheduled/. backup/prowlarr/.
     echo 'Backing up SABNZBD'
-    kubectl cp -n media-tools sabnzbd-0:/config/Downloads/. /backup/sabnzbd/.
+    kubectl cp -n media-tools sabnzbd-0:config/Downloads/. /backup/sabnzbd/.
     echo 'Backing up Overseerr'
-    kubectl cp -n media-tools overseerr-0:/config/. /backup/overseerr/.
+    kubectl cp -n media-tools overseerr-0:config/. /backup/overseerr/.
     echo 'Backing up Tautulli'
-    kubectl cp -n media-tools tautulli-0:/config/backups/. /backup/tautulli/.
+    kubectl cp -n media-tools tautulli-0:config/backups/. /backup/tautulli/.
     echo 'Backing up Plex'
-    kubectl cp -n media-tools plex-0:/config/. /backup/plex/.
+    kubectl cp -n media-tools plex-0:config/. /backup/plex/.
     echo 'Backup complete!'
 
     
