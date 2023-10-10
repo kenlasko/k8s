@@ -31,7 +31,7 @@ spec:
           - name: backup-media-apps
             image: rancher/k3s:v1.27.6-k3s1-amd64
             imagePullPolicy: IfNotPresent
-            args: 
+            command: 
             - /bin/sh
             - -c
             - /script/backup-media-apps.sh
