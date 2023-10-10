@@ -5,8 +5,6 @@ metadata:
   namespace: media-tools
 spec:
   podSelector: {}
-  policyTypes:
-    - Egress
   ingress:
     - from:
         - podSelector: {}
@@ -25,34 +23,3 @@ spec:
           podSelector:
             matchLabels:
               app: homeassist
-  egress:
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - port: 53
-          protocol: UDP
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: homeassist
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-        - port: 80
-        - port: 563
-        - port: 8123
-        - port: 587
-    - to:
-        - podSelector: {}
-    - ports:
-      - port: 443
-        protocol: TCP
-      to:
-      - ipBlock:
-          cidr: 10.43.0.1/32
