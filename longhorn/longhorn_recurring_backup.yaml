@@ -9,6 +9,6 @@ spec:
   groups:
   - high-value
   retain: 3
-  concurrency: 2
+  concurrency: 5
   labels:
     job: nightly-backups
