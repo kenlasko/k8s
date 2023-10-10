@@ -13,8 +13,8 @@ spec:
     spec:
       template:
         spec:
-          serviceAccountName: api-service-account
-          namespace: default
+          # serviceAccountName: api-service-account
+          # namespace: default
           nodeSelector:
             node-type: worker
           securityContext:
