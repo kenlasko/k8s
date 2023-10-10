@@ -24,7 +24,7 @@ spec:
                     - worker
           containers:
           - name: mariadb-backup
-            image: mariadb:11.0.4
+            image: mariadb:11.1.2
             imagePullPolicy: IfNotPresent
             env: 
             - name: K3S_ROOT_PW 
