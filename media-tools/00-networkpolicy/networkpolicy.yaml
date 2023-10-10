@@ -56,7 +56,7 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1 
 metadata:
   name: allow-apiserver
-  namespace: default
+  namespace: media-tools
 spec:
   policyTypes:
   - Egress
