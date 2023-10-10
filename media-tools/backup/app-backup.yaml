@@ -36,7 +36,7 @@ spec:
             command: 
             - /bin/sh
             - -c
-            - sleep 99999999
+            - /script/backup-media-apps.sh
             volumeMounts:
             - name: backup
               mountPath: /backup
