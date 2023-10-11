@@ -42,9 +42,7 @@ spec:
               sed -i 's/$/;/' /app/mariadb-users.sql &&
               echo "$(date +%F_%T) Backing up MariaDB databases..." && 
               mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p$K3S_ROOT_PW -B homeassist phpmyadmin ucdialplans vaultwarden > /app/mariadb-backup-$day.sql && 
-              echo "$(date +%F_%T) MariaDB databases have been backed up. Zipping contents..." && 
-              gzip -f /app/mariadb-backup-$day.sql && 
-              echo "$(date +%F_%T) Finished!"
+              echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data
               mountPath: /app
