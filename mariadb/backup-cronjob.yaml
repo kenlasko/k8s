@@ -36,11 +36,11 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
-              mysql -B -N -h mariadb.mariadb.svc.cluster.local -uroot -p$K3S_ROOT_PW -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user != 'debian-sys-maint' AND user != 'root' AND user != ''" mysql > mariadb-users.txt &&
-              while read line; do mysql -B -N -h mariadb.mariadb.svc.cluster.local -uroot -p$K3S_ROOT_PW -e "SHOW GRANTS FOR $line"; done < mariadb-users.txt > /app/mariadb-users.sql &&
+              mariadb -B -N -h mariadb.mariadb.svc.cluster.local -uroot -p$K3S_ROOT_PW -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user != 'debian-sys-maint' AND user != 'root' AND user != ''" mariadb > mariadb-users.txt &&
+              while read line; do mariadb -B -N -h mariadb.mariadb.svc.cluster.local -uroot -p$K3S_ROOT_PW -e "SHOW GRANTS FOR $line"; done < mariadb-users.txt > /app/mariadb-users.sql &&
               sed -i 's/$/;/' /app/mariadb-users.sql &&
               echo "$(date +%F_%T) Backing up MariaDB databases..." && 
-              mysqldump -h mariadb.mariadb.svc.cluster.local -u root -p$K3S_ROOT_PW -B homeassist phpmyadmin ucdialplans vaultwarden > /app/mariadb-backup.sql && 
+              mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p$K3S_ROOT_PW -B homeassist phpmyadmin ucdialplans vaultwarden > /app/mariadb-backup.sql && 
               echo "$(date +%F_%T) MariaDB databases have been backed up. Zipping contents..." && 
               gzip -f /app/mariadb-backup.sql && 
               echo "$(date +%F_%T) Finished!"
