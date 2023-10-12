@@ -35,6 +35,11 @@ spec:
       - name: readarr
         image: linuxserver/readarr:nightly
         imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: '1000'
+        - name: PGID
+          value: '1000'
         resources:
           requests:
             cpu: 400m
