@@ -17,13 +17,8 @@ data:
     $ActivityID = $Activity.activityId
     $ActivityName = $Activity.activityName
     $ActivityNotes = $Activity.description
-    $ActivityType = $Activity.activityType.typekey
-    $ActivityBeginTimeStamp = (get-date $Activity.startTimeLocal).ToString("yyyy-MM-dd")
 
-    Write-Host "Unzipping $DataPath/activity_$ActivityID.zip"
-    Expand-Archive $DataPath/activity_$ActivityID.zip -DestinationPath $DataPath -Force
     $FilePath = "$DataPath/$($ActivityID)_ACTIVITY.fit"
-
     $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
 
     Write-Host "INFO - FILENAME: $DownloadedFile"
@@ -271,5 +266,6 @@ data:
     # Write-Host "INFO - Garmin activity updated"
 
     # Delete all files 
-    Remove-Item -Path $DataPath -Force
+    Remove-ChildItem -Path $DataPath/*.* -Force
+
 
