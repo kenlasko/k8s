@@ -270,4 +270,4 @@ data:
     # Write-Host "INFO - Garmin activity updated"
 
     # Delete all files 
-    Remove-Item -Path $DataPath
+    Remove-Item -Path $DataPath -Force
