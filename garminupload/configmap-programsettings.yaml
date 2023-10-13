@@ -20,6 +20,7 @@ data:
     $ActivityType = $Activity.activityType.typekey
     $ActivityBeginTimeStamp = (get-date $Activity.startTimeLocal).ToString("yyyy-MM-dd")
 
+    Write-Host "Unzipping $DataPath/activity_$ActivityID.zip"
     Expand-Archive $DataPath/activity_$ActivityID.zip -DestinationPath $DataPath -Force
     $FilePath = "$DataPath/$($ActivityID)_ACTIVITY.fit"
 
@@ -96,7 +97,7 @@ data:
         "Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
         "1$LF",    
         "--$boundary",
-        "Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$Path`"",
+        "Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$FilePath`"",
         "Content-Type: application/octet-stream$LF",
         $fileEnc,
         "--$boundary--$LF" 
@@ -271,3 +272,4 @@ data:
 
     # Delete all files 
     Remove-Item -Path $DataPath -Force
+
