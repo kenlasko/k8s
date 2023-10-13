@@ -21,7 +21,7 @@ data:
     $ActivityType = $Activity.activityType.typekey
     $ActivityBeginTimeStamp = (get-date $Activity.startTimeLocal).ToString("yyyy-MM-dd")
 
-    Expand-Archive $DataPath/activity_$ActivityID.zip -DestinationPath . -Force
+    Expand-Archive $DataPath/activity_$ActivityID.zip -DestinationPath $DataPath -Force
     $FilePath = "$DataPath/activity_$($ActivityID).fit"
 
     $DownloadedFile = "activity_$($ActivityID).fit"
