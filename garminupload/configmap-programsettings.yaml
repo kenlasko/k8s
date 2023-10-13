@@ -266,6 +266,6 @@ data:
     # Write-Host "INFO - Garmin activity updated"
 
     # Delete all files 
-    Remove-ChildItem -Path $DataPath/*.* -Force
+    Remove-Item -Path $DataPath/*.* -Exclude StravaToken.json -Force
 
 
