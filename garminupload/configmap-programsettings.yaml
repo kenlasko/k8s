@@ -5,7 +5,6 @@ metadata:
   namespace: garmin-upload
 data:
   UploadRides.ps1: |
-    # Garmin Connect Activity Export
     PARAM(
     )
 
@@ -22,9 +21,9 @@ data:
     $ActivityBeginTimeStamp = (get-date $Activity.startTimeLocal).ToString("yyyy-MM-dd")
 
     Expand-Archive $DataPath/activity_$ActivityID.zip -DestinationPath $DataPath -Force
-    $FilePath = "$DataPath/activity_$($ActivityID).fit"
+    $FilePath = "$DataPath/$($ActivityID)_ACTIVITY.fit"
 
-    $DownloadedFile = "activity_$($ActivityID).fit"
+    $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
 
     Write-Host "INFO - FILENAME: $DownloadedFile"
 
