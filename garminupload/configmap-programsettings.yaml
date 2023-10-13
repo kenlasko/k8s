@@ -18,8 +18,8 @@ data:
     $ActivityName = $Activity.activityName
     $ActivityNotes = $Activity.description
 
-    $FilePath = "$DataPath/$($ActivityID)_ACTIVITY.fit"
-    $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
+    $FilePath = "$DataPath/activity_$($ActivityID).fit"
+    $DownloadedFile = "activity_$($ActivityID).fit"
 
     Write-Host "INFO - FILENAME: $DownloadedFile"
 
