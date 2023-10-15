@@ -11,16 +11,16 @@ spec:
     requests:
       storage: 1Gi
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: downloads
-  namespace: media-tools
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: nfs-client
-  resources:
-    requests:
-      storage: 100Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: downloads
+#   namespace: media-tools
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   storageClassName: nfs-client
+#   resources:
+#     requests:
+#       storage: 100Gi
