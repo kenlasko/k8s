@@ -3,7 +3,7 @@ persistence:
     node-type: "worker"
 
 defaultSettings:
-  backupTarget: "nfs://192.168.1.3:/mnt/md2/backup/longhorn"
+  backupTarget: "nfs://192.168.1.3:/backup/longhorn"
   backupTargetCredentialSecret: nfs-creds
   defaultLonghornStaticStorageClass: longhorn-high-value
   systemManagedComponentsNodeSelector: node-type:worker
