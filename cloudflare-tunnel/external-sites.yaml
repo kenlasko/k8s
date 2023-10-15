@@ -34,21 +34,32 @@ metadata:
   name: "external-nas01-service"
   namespace: cloudflare
 spec:
-  ports:
-  - name: "nas01"
-    protocol: "TCP"
-    port: 8181
-    targetPort: 8181 
+  type: ExternalName
+  externalName: nas01.ucdialplans.com
 
----
-kind: "Endpoints"
-apiVersion: "v1"
-metadata:
-  name: "external-nas01-service"
-  namespace: cloudflare 
-subsets: 
-- addresses:
-  - ip: "192.168.1.3" 
-  ports:
-  - port: 8181 
-    name: "nas01"
+
+# ---
+# kind: "Service"
+# apiVersion: "v1"
+# metadata:
+#   name: "external-nas01-service"
+#   namespace: cloudflare
+# spec:
+#   ports:
+#   - name: "nas01"
+#     protocol: "TCP"
+#     port: 8181
+#     targetPort: 8181 
+
+# ---
+# kind: "Endpoints"
+# apiVersion: "v1"
+# metadata:
+#   name: "external-nas01-service"
+#   namespace: cloudflare 
+# subsets: 
+# - addresses:
+#   - ip: "192.168.1.3" 
+#   ports:
+#   - port: 8181 
+#     name: "nas01"
