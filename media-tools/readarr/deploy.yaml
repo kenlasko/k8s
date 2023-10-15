@@ -70,5 +70,5 @@ spec:
         - name: media
           nfs:
             server: 192.168.1.3
-            path: /mnt/md1/media
+            path: /media
       automountServiceAccountToken: false
