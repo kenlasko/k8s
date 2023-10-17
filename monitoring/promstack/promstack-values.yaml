@@ -91,7 +91,7 @@ grafana:
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: America/Toronto
   nodeSelector: 
-    server-type: "nuc"
+    node-type: "worker"
   persistence:
     enabled: true
     size: 10Gi
