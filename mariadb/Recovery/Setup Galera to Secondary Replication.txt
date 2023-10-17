@@ -27,6 +27,7 @@ drop database phpmyadmin;
 mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
 
 # Then run 
+mariadb -u root -p***REMOVED***
 set global gtid_slave_pos = "0-1-2358510,1-1-42";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
