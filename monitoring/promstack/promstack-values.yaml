@@ -305,7 +305,7 @@ prometheus:
     enableAdminAPI: true
     walCompression: false
     nodeSelector: 
-      server-type: "nuc"
+      node-type: "worker"
     storageSpec:
       volumeClaimTemplate:
         spec:
