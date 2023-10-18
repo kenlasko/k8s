@@ -72,3 +72,8 @@ spec:
             cidr: 192.18.153.11/32
         - ipBlock:
             cidr: 192.18.152.199/32
+    - to:
+        - ipBlock:
+            cidr: 192.168.1.3/32
+      ports:
+        - port: 3306
