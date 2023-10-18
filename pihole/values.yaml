@@ -116,6 +116,7 @@ dnsmasq:
   - cname=sonarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=tautulli.ucdialplans.com,k3s.ucdialplans.com
   - cname=traefik.ucdialplans.com,k3s.ucdialplans.com
+  - cname=traefik-nas.ucdialplans.com,nas01.ucdialplans.com
   - cname=traefik-rpi1.ucdialplans.com,rpi1.ucdialplans.com
   - cname=traefik-rpi2.ucdialplans.com,rpi2.ucdialplans.com
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
