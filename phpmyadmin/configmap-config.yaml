@@ -58,7 +58,7 @@ data:
 
 
         /**
-    * MariaDB Standalone
+    * MariaDB NAS DR
     */
     $i++;
     /* Authentication type */
