@@ -1,0 +1,25 @@
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 6444
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList: 
+    - 10.42.0.0/16
+k8sClientRateLimit:
+  qps: 5
+  burst: 10
+cluster:
+  name: home
+  id: 1
+l2announcements:
+  enabled: true
+  leaseDuration: 30s
+  leaseRenewDeadline: 10s
+  leaseRetryPeriod: 4s
+externalIPs:
+  enabled: true
+kubeProxyReplacement: true
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
