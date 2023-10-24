@@ -95,6 +95,7 @@ dnsmasq:
   - cname=headlamp.ucdialplans.com,k3s.ucdialplans.com
   - cname=heimdall.ucdialplans.com,k3s.ucdialplans.com
   - cname=helm.ucdialplans.com,k3s.ucdialplans.com
+  - cname=hubble.ucdialplans.com,k3s.ucdialplans.com
   - cname=keel.ucdialplans.com,k3s.ucdialplans.com
   - cname=lidarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com

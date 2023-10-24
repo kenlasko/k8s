@@ -24,11 +24,11 @@ metadata:
   name: transmission-remotedata-tcp-service
   namespace: media-tools
   annotations:
-    metallb.universe.tf/allow-shared-ip: "share-11"
+    metallb.universe.tf/allow-shared-ip: "share-12"
 spec:
   type: LoadBalancer
   externalIPs:
-  - 192.168.1.11
+  - 192.168.1.12
   externalTrafficPolicy: Cluster
   ports:
   - port: 36881
@@ -47,11 +47,11 @@ metadata:
   name: transmission-remotedata-udp-service
   namespace: media-tools
   annotations:
-    metallb.universe.tf/allow-shared-ip: "share-11"
+    metallb.universe.tf/allow-shared-ip: "share-12"
 spec:
   type: LoadBalancer
   externalIPs:
-  - 192.168.1.11
+  - 192.168.1.12
   externalTrafficPolicy: Cluster
   ports:
   - port: 36881
