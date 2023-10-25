@@ -13,14 +13,21 @@ spec:
 
 # ---
 # apiVersion: v1
-# kind: PersistentVolumeClaim
+# kind: PersistentVolume
 # metadata:
-#   name: downloads
-#   namespace: media-tools
+#   name: pvc-sonarr
 # spec:
+#   capacity:
+#     storage: 1Gi
+#   volumeMode: Filesystem
 #   accessModes:
-#     - ReadWriteMany
-#   storageClassName: nfs-client
-#   resources:
-#     requests:
-#       storage: 100Gi
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   csi:
+#     driver: driver.longhorn.io
+#     fsType: ext4
+#     volumeAttributes:
+#       numberOfReplicas: '3'
+#       staleReplicaTimeout: '30'
+#     volumeHandle: pvc-sonarr
+#   storageClassName: longhorn-high-value

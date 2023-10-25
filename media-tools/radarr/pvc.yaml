@@ -10,3 +10,24 @@ spec:
   resources:
     requests:
       storage: 2Gi
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: pvc-radarr
+# spec:
+#   capacity:
+#     storage: 2Gi
+#   volumeMode: Filesystem
+#   accessModes:
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   csi:
+#     driver: driver.longhorn.io
+#     fsType: ext4
+#     volumeAttributes:
+#       numberOfReplicas: '3'
+#       staleReplicaTimeout: '30'
+#     volumeHandle: pvc-radarr
+#   storageClassName: longhorn-high-value

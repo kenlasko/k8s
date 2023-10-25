@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ups-monitor
+  namespace: ups-monitor
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ups-monitor
+  template:
+    metadata:
+      labels:
+        app: ups-monitor
+        name: ups-monitor
+    spec:
+      restartPolicy: Always
+      hostNetwork: true
+      nodeName: nuc2
+      containers:
+      - name: ups-monitor
+        image: instantlinux/nut-upsd:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 400Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3493
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        env:
+        - name: API_USER
+          value: "***REMOVED***"
+        volumeMounts:
+        - mountPath: /dev/ttyUSB0
+          name: ttyusb0
+        - name: tz-config
+          mountPath: /etc/localtime
+        securityContext:
+          privileged: true
+      volumes:
+      - name: ttyusb0
+        hostPath:
+          path: /dev/ttyUSB0
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/Canada/Eastern
+
+

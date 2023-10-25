@@ -13,17 +13,21 @@ spec:
 
 # ---
 # apiVersion: v1
-# kind: PersistentVolumeClaim
+# kind: PersistentVolume
 # metadata:
-#   name: clusterplex-transcode-pvc
-#   labels:
-#     app.kubernetes.io/name: clusterplex-transcode-pvc
-#     app.kubernetes.io/part-of: plex
+#   name: pvc-plex
 # spec:
+#   capacity:
+#     storage: 20Gi
+#   volumeMode: Filesystem
 #   accessModes:
-#   - ReadWriteMany
-#   resources:
-#     requests:
-#       storage: "10Gi"
-#   # specify your storage class
-#   storageClassName: longhorn
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   csi:
+#     driver: driver.longhorn.io
+#     fsType: ext4
+#     volumeAttributes:
+#       numberOfReplicas: '3'
+#       staleReplicaTimeout: '30'
+#     volumeHandle: pvc-plex
+#   storageClassName: longhorn-high-value
