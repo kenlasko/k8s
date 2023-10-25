@@ -19,7 +19,7 @@ metadata:
   name: pvc-sabnzbd
 spec:
   capacity:
-    storage: 100Mi # must match size of Longhorn volume
+    storage: 100Mi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
