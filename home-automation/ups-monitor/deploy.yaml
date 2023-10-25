@@ -22,7 +22,7 @@ spec:
     spec:
       restartPolicy: Always
       hostNetwork: true
-      nodeName: nuc2
+      nodeName: nuc4
       containers:
       - name: ups-monitor
         image: instantlinux/nut-upsd:latest
