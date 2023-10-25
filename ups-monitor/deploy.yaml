@@ -32,8 +32,7 @@ spec:
             cpu: 100m
             memory: 400Mi
         livenessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: 3493
           initialDelaySeconds: 15
           periodSeconds: 60
