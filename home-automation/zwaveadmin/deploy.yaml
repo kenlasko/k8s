@@ -22,7 +22,7 @@ spec:
     spec:
       restartPolicy: Always
       hostNetwork: true
-      nodeName: nuc1
+      nodeName: nuc4
       containers:
       - name: zwaveadmin
         image: zwavejs/zwavejs2mqtt:latest
