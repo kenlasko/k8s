@@ -31,7 +31,7 @@ spec:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
-                - nuc1
+                - nuc4
       containers:
       - name: musicassist
         image: ghcr.io/music-assistant/server:latest

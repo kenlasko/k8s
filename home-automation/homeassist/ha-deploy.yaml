@@ -32,7 +32,7 @@ spec:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
-                - nuc1
+                - nuc4
       containers:
       - name: homeassist
         image: ghcr.io/home-assistant/home-assistant:stable
