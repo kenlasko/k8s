@@ -7,7 +7,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   storageClassName: longhorn-high-value
-  volumeName: pvc-6f1fefde-6e08-4fcd-8871-316e10549969
+  volumeName: pvc-sabnzbd
   resources:
     requests:
       storage: 100Mi
@@ -16,7 +16,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pvc-6f1fefde-6e08-4fcd-8871-316e10549969
+  name: pvc-sabnzbd
 spec:
   capacity:
     storage: 100Mi # must match size of Longhorn volume
@@ -30,6 +30,6 @@ spec:
     volumeAttributes:
       numberOfReplicas: '3' # must match Longhorn volume value
       staleReplicaTimeout: '30' # in minutes
-    volumeHandle: pvc-6f1fefde-6e08-4fcd-8871-316e10549969 # must match volume name from Longhorn
+    volumeHandle: pvc-sabnzbd # must match volume name from Longhorn
   storageClassName: longhorn-high-value # must be same name that we will use later
   
