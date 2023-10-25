@@ -23,8 +23,9 @@ data:
 
     Write-Host "INFO - FILENAME: $DownloadedFile"
 
+    Write-Host "WAITING>>>>>>>>>>>>>>>>>>>>>>"
     Start-Sleep -Seconds 999999
-    # XXXXXXXXX
+ 
 
     Try {
       # Di2Stats Upload
