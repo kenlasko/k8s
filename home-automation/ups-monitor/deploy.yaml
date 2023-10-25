@@ -36,11 +36,11 @@ spec:
             port: 3493
           initialDelaySeconds: 15
           periodSeconds: 60
-        env:
-        - name: API_USER
-          value: "***REMOVED***"
-        - name: API_PASSWORD
-          value: "***REMOVED***"
+        # env:
+        # - name: API_USER
+        #   value: "***REMOVED***"
+        # - name: API_PASSWORD
+        #   value: "***REMOVED***"
         volumeMounts:
         - mountPath: /dev/ttyUSB0
           name: ttyusb0
