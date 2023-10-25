@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ups-monitor
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: ups-monitor
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: ups-monitor
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
