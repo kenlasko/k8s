@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gc-programsettings
+  name: gc-script
   namespace: garmin-upload
 data:
   UploadRides.ps1: |
