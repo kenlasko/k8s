@@ -40,6 +40,9 @@ spec:
         env:
         - name: API_USER
           value: "***REMOVED***"
+        - name: API_PASSWORD
+          value: "***REMOVED***"
+
         volumeMounts:
         - mountPath: /dev/ttyUSB0
           name: ttyusb0
@@ -50,7 +53,7 @@ spec:
       volumes:
       - name: ttyusb0
         hostPath:
-          path: /dev/ttyUSB0
+          path: /dev/bus/usb/001/003
       - name: tz-config
         hostPath:
           path: /usr/share/zoneinfo/Canada/Eastern
