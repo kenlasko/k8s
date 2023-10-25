@@ -23,6 +23,9 @@ data:
 
     Write-Host "INFO - FILENAME: $DownloadedFile"
 
+    Start-Sleep -Seconds 999999
+    # XXXXXXXXX
+
     Try {
       # Di2Stats Upload
       Write-Host 'INFO - Logging into Di2stats.com'
@@ -267,5 +270,3 @@ data:
 
     # Delete all files 
     Remove-Item -Path $DataPath/*.* -Exclude StravaToken.json -Force
-
-
