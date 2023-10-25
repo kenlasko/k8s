@@ -5,8 +5,31 @@ metadata:
   namespace: media-tools
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   storageClassName: longhorn-high-value
+  volumeName: pvc-6f1fefde-6e08-4fcd-8871-316e10549969
   resources:
     requests:
       storage: 100Mi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-6f1fefde-6e08-4fcd-8871-316e10549969
+spec:
+  capacity:
+    storage: 100Mi # must match size of Longhorn volume
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: driver.longhorn.io # driver must match this
+    fsType: ext4
+    volumeAttributes:
+      numberOfReplicas: 3 # must match Longhorn volume value
+      staleReplicaTimeout: '30' # in minutes
+    volumeHandle: pvc-6f1fefde-6e08-4fcd-8871-316e10549969 # must match volume name from Longhorn
+  storageClassName: longhorn-high-value # must be same name that we will use later
+  
