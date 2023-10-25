@@ -1,16 +1,16 @@
 kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
-  name: zwaveadmin
-  namespace: homeassist
+  name: ups-monitor
+  namespace: ups-monitor
 spec:
   entryPoints: 
     - websecure
   routes:
-  - match: Host(`zwaveadmin.ucdialplans.com`) 
+  - match: Host(`ups.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: zwaveadmin-service
+    - name: ups-monitor-service
       port: 8091
     middlewares:
     - name: traefik-security
