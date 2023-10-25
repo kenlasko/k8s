@@ -7,11 +7,11 @@ spec:
   project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: ups-monitor
+    path: home-automation/ups-monitor
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: ups-monitor
+    namespace: homeassist
   syncPolicy:
     automated:
       selfHeal: true

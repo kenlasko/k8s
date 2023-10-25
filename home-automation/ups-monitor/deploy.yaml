@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: ups-monitor
-  namespace: ups-monitor
+  namespace: homeassist
   annotations:
     keel.sh/policy: force
     keel.sh/match-tag: "true"
@@ -41,7 +41,6 @@ spec:
           value: "***REMOVED***"
         - name: API_PASSWORD
           value: "***REMOVED***"
-
         volumeMounts:
         - mountPath: /dev/ttyUSB0
           name: ttyusb0
@@ -56,5 +55,3 @@ spec:
       - name: tz-config
         hostPath:
           path: /usr/share/zoneinfo/Canada/Eastern
-
-

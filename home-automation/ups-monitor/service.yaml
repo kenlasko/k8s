@@ -4,7 +4,7 @@ metadata:
   labels:
     app: ups-monitor-service
   name: ups-monitor-service
-  namespace: ups-monitor
+  namespace: homeassist
 spec:
   type: ClusterIP
   ports:
