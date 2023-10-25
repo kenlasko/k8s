@@ -36,17 +36,11 @@ spec:
             port: 3493
           initialDelaySeconds: 15
           periodSeconds: 60
-        # env:
-        # - name: API_USER
-        #   value: "***REMOVED***"
-        # - name: API_PASSWORD
-        #   value: "***REMOVED***"
         volumeMounts:
         - mountPath: /dev/ttyUSB0
           name: ttyusb0
-        - name: ups-monitor-users
-          mountPath: /etc/nut/upsd.users
-          subPath: upsd.users         
+        - name: ups-monitor-config
+          mountPath: /etc/nut
         - name: tz-config
           mountPath: /etc/localtime
         securityContext:
@@ -55,12 +49,10 @@ spec:
       - name: ttyusb0
         hostPath:
           path: /dev/bus/usb/001/003
-      - configMap:
-          items:
-          - key: upsd.users
-            path: upsd.users
-          name: ups-monitor-users
-        name: ups-monitor-users
+      - name: ups-monitor-config
+        nfs:
+          server: 192.168.1.3
+          path: /appdata/vol/ups-monitor
       - name: tz-config
         hostPath:
           path: /usr/share/zoneinfo/Canada/Eastern
