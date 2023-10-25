@@ -20,13 +20,13 @@ spec:
           - name: garmindata
             nfs:
               server: 192.168.1.3
-              path: /mnt/md0/data/vol/garmin-upload
-          - configMap:
-              items:
-              - key: UploadRides.ps1
-                path: UploadRides.ps1
-              name: gc-programsettings
-            name: gc-programsettings
+              path: /mnt/appdata/vol/garmin-upload
+          # - configMap:
+          #     items:
+          #     - key: UploadRides.ps1
+          #       path: UploadRides.ps1
+          #     name: gc-programsettings
+          #   name: gc-programsettings
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garmin-upload
@@ -44,6 +44,6 @@ spec:
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
-            - name: gc-programsettings
-              mountPath: /garmin-prog/UploadRides.ps1
-              subPath: UploadRides.ps1
+            # - name: gc-programsettings
+            #   mountPath: /garmin-prog/UploadRides.ps1
+            #   subPath: UploadRides.ps1
