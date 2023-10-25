@@ -44,6 +44,9 @@ spec:
         volumeMounts:
         - mountPath: /dev/ttyUSB0
           name: ttyusb0
+        - name: ups-monitor-users
+          mountPath: /etc/nut/upsd.users
+          subPath: upsd.users         
         - name: tz-config
           mountPath: /etc/localtime
         securityContext:
@@ -52,6 +55,12 @@ spec:
       - name: ttyusb0
         hostPath:
           path: /dev/bus/usb/001/003
+      - configMap:
+          items:
+          - key: upsd.users
+            path: upsd.users
+          name: ups-monitor-users
+        name: ups-monitor-users
       - name: tz-config
         hostPath:
           path: /usr/share/zoneinfo/Canada/Eastern
