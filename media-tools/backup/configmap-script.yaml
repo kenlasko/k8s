@@ -25,6 +25,8 @@ data:
     kubectl cp -n media-tools tautulli-0:/config/backups/. /backup/tautulli/.
     echo 'Backing up Plex'
     kubectl cp -n media-tools plex-0:config/. /backup/plex/.
+    echo 'Deleting Plex PhotoCache'
+    rm -rf '/backup/plex/Library/Application Support/Plex Media Server/Cache/PhotoTranscoder/*'
     echo 'Backup complete!'
 
     
