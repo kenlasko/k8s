@@ -37,6 +37,7 @@ sudo reboot now
 
 # On Kube1
 sudo apt install ansible nano 
+ansible-galaxy collection install community.general
 
 # Create SSH key and push to other ndes
 ssh-keygen -t rsa

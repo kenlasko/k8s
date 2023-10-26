@@ -1,0 +1,2 @@
+sudo apt install etherwake
+etherwake 24:5E:BE:5F:F3:2F
