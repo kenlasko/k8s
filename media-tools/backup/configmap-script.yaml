@@ -24,8 +24,7 @@ data:
     echo 'Backing up Tautulli'
     kubectl cp -n media-tools tautulli-0:/config/backups/. /backup/tautulli/.
     echo 'Backing up Plex'
-    tar -C /precious/files --create --listed-incremental=/path/to/backupIndex -vv --file=- . | tar -xvf - /precious/backups
-    kubectl exec -n media-tools plex-0 -- tar cf - --exclude='/config/plex/Library/Application\ Support/Plex\ Media\ Server/Cache/PhotoTranscoder/' /config/ | tar xf - -C /backup/plex/
+    kubectl exec -n media-tools plex-0 -- tar cf - --exclude='/config/plex/Library/Application\ Support/Plex\ Media Server/Cache/PhotoTranscoder/' /config/ | tar xf - -C /backup/plex/
     # kubectl cp -n media-tools plex-0:config/. /backup/plex/.
     echo 'Backup complete!'
 
