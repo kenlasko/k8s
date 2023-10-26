@@ -29,5 +29,15 @@ spec:
     volumeAttributes:
       numberOfReplicas: '3'
       staleReplicaTimeout: '30'
+      recurringJobSelector: '[
+          {
+            "name":"high-value",
+            "isGroup":true
+          },
+          {
+            "name":"daily-snapshot",
+            "isGroup":true
+          }
+        ]'
     volumeHandle: pvc-overseerr
   storageClassName: longhorn-high-value
