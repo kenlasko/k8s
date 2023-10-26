@@ -11,23 +11,23 @@ spec:
     requests:
       storage: 20Gi
 
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: pvc-plex
-# spec:
-#   capacity:
-#     storage: 20Gi
-#   volumeMode: Filesystem
-#   accessModes:
-#   - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   csi:
-#     driver: driver.longhorn.io
-#     fsType: ext4
-#     volumeAttributes:
-#       numberOfReplicas: '3'
-#       staleReplicaTimeout: '30'
-#     volumeHandle: pvc-plex
-#   storageClassName: longhorn-high-value
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-plex
+spec:
+  capacity:
+    storage: 20Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: driver.longhorn.io
+    fsType: ext4
+    volumeAttributes:
+      numberOfReplicas: '3'
+      staleReplicaTimeout: '30'
+    volumeHandle: pvc-plex
+  storageClassName: longhorn-high-value
