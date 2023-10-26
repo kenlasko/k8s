@@ -73,11 +73,11 @@ spec:
           value: "True"
         resources:
           requests:
-            cpu: 200m
-            memory: 100Mi
+            cpu: 10m
+            memory: 20Mi
           limits:
             cpu: 200m
-            memory: 100Mi
+            memory: 40Mi
         livenessProbe:
           httpGet:
             path: /
