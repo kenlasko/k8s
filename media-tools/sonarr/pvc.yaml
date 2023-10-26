@@ -11,23 +11,23 @@ spec:
     requests:
       storage: 1Gi
 
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: pvc-sonarr
-# spec:
-#   capacity:
-#     storage: 1Gi
-#   volumeMode: Filesystem
-#   accessModes:
-#   - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   csi:
-#     driver: driver.longhorn.io
-#     fsType: ext4
-#     volumeAttributes:
-#       numberOfReplicas: '3'
-#       staleReplicaTimeout: '30'
-#     volumeHandle: pvc-sonarr
-#   storageClassName: longhorn-high-value
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-sonarr
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: driver.longhorn.io
+    fsType: ext4
+    volumeAttributes:
+      numberOfReplicas: '3'
+      staleReplicaTimeout: '30'
+    volumeHandle: pvc-sonarr
+  storageClassName: longhorn-high-value
