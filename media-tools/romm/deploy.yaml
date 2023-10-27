@@ -70,7 +70,7 @@ spec:
       volumes:
         - name: romm-database
           persistentVolumeClaim:
-            claimName: longhorn-readarr-config-pvc
+            claimName: longhorn-romm-db-pvc
         - name: romm-library
           nfs:
             server: 192.168.1.3

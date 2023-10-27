@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-romm-config-pvc
+  name: longhorn-romm-db-pvc
   namespace: media-tools
 spec:
   accessModes:
