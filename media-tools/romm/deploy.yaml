@@ -37,17 +37,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: ROMM_DB_DRIVER
-          value: 'mariadb'
-        - name: DB_HOST
-          value: 'mariadb.mariadb.svc.cluster.local'
-        - name: DB_PORT
-          value: '3306'
-        - name: DB_NAME
-          value: 'romm'
-        - name: DB_USER
-          value: 'romm'
-        - name: DB_PASSWD
-          value: '***REMOVED***'
+          value: 'sqlite'
         - name: IGDB_CLIENT_ID
           value: '***REMOVED***'
         - name: IGDB_CLIENT_SECRET
@@ -67,15 +57,26 @@ spec:
           periodSeconds: 60
           timeoutSeconds: 5
         volumeMounts:
-        - name: data
-          mountPath: /romm
+        - name: romm-database
+          mountPath: /romm/database
+        - name: romm-library
+          mountPath: /romm/library
+        - name: romm-logs
+          mountPath: /romm/logs
       dnsConfig:
         options:
           - name: ndots
             value: "1"
       volumes:
-        - name: data
+        - name: romm-database
+          persistentVolumeClaim:
+            claimName: longhorn-readarr-config-pvc
+        - name: romm-library
           nfs:
             server: 192.168.1.3
-            path: /appdata/vol/romm
+            path: /appdata/vol/romm/library
+        - name: romm-logs
+          nfs:
+            server: 192.168.1.3
+            path: /appdata/vol/romm/logs
       automountServiceAccountToken: false
