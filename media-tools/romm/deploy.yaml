@@ -46,7 +46,7 @@ spec:
           value: 'romm'
         - name: DB_USER
           value: 'romm'
-        - name: DB_PASSWORD
+        - name: DB_PASSWD
           value: '***REMOVED***'
         - name: IGDB_CLIENT_ID
           value: '***REMOVED***'
