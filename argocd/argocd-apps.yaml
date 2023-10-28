@@ -1,21 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd-apps
   namespace: argocd
 spec:
   project: default
   sources:
-  - repoURL: 'https://argoproj.github.io/argo-helm'
-    targetRevision: 5.*
-    chart: argo-cd
-    helm:
-      valueFiles:
-      - $values/argocd/argocd-values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: argocd
+    path: argocd-apps
     targetRevision: HEAD
   # - repoURL: 'https://github.com/argoproj-labs/argocd-image-updater'
   #   path: manifests
@@ -25,7 +17,5 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
   syncPolicy:
-    automated:
-      selfHeal: true
     syncOptions:
     - CreateNamespace=true
