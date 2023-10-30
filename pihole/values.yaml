@@ -113,6 +113,7 @@ dnsmasq:
   - cname=radarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=readarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=registry.ucdialplans.com,k3s.ucdialplans.com
+  - cname=romm.ucdialplans.com,k3s.ucdialplans.com
   - cname=sabnzbd.ucdialplans.com,k3s.ucdialplans.com
   - cname=sonarr.ucdialplans.com,k3s.ucdialplans.com
   - cname=tautulli.ucdialplans.com,k3s.ucdialplans.com
