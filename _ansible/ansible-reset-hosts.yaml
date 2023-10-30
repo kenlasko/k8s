@@ -7,12 +7,12 @@
       become: yes
       become_user: root
       copy:
-        src: /home/ken/default-etc-hosts.txt
+        src: /home/ken/k3s/_ansible/default-etc-hosts.txt
         dest: /etc/hosts
     - name: Update /etc/hosts
       become: yes
       become_user: root
       ansible.builtin.lineinfile:
         path: /etc/hosts
-        search_string: '127.0.1.1 nodename'
-        line: "127.0.1.1 {{ ansible_hostname }}"
+        search_string: "127.0.1.1       nodename"
+        line: "127.0.1.1\t{{ ansible_hostname }}"
