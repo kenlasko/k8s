@@ -39,7 +39,7 @@ spec:
         - name: ROMM_DB_DRIVER
           value: 'sqlite'
         - name: IGDB_CLIENT_ID
-          value: '***REMOVED***'
+          value: 'nqg5i35sssuvnti85o1gsnxtfk6bel'
         - name: IGDB_CLIENT_SECRET
           value: '***REMOVED***'
         resources:
