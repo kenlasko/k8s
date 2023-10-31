@@ -16,3 +16,10 @@ data:
       sshPrivateKeySecret:
         name: github-helm-private-key
         key: privateKey
+  resource.exclusions: |
+    - apiGroups:
+        - cilium.io
+      kinds:
+        - CiliumIdentity
+      clusters:
+        - "*"
