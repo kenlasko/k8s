@@ -42,16 +42,7 @@ spec:
           value: '1000'
         - name: GROCY_FEATURE_FLAG_STOCK
           value: 'false'
-        - name: GROCY_FEATURE_FLAG_RECIPES
-          value: 'false'
-        - name: GROCY_FEATURE_FLAG_BATTERIES
-          value: 'false'
-        - name: GROCY_FEATURE_FLAG_EQUIPMENT
-          value: 'false'
-        - name: GROCY_FEATURE_FLAG_CALENDAR
-          value: 'false'
-        - name: GROCY_FEATURE_FLAG_LABEL_PRINTER
-          value: 'false'
+
         resources:
           requests:
             cpu: 100m
