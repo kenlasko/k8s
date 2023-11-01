@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grocy
+  namespace: homeassist
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: grocy
+  template:
+    metadata:
+      labels:
+        app: grocy
+        name: grocy
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-type
+                operator: In
+                values:
+                - worker
+      containers:
+      - name: grocy
+        image: linuxserver/grocy:latest
+        imagePullPolicy: Always
+        env:
+        - name: PUID
+          value: '1000'
+        - name: PGID
+          value: '1000'
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: grocy-config
+          mountPath: /config
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      volumes:
+        - name: grocy-config
+          persistentVolumeClaim:
+            claimName: longhorn-grocy-config-pvc
+      automountServiceAccountToken: false
