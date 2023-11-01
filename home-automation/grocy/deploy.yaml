@@ -40,6 +40,8 @@ spec:
           value: '1000'
         - name: PGID
           value: '1000'
+        - name: GROCY_FEATURE_FLAG_STOCK
+          value: 'false'
         resources:
           requests:
             cpu: 100m
