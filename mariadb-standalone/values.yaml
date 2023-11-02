@@ -9,7 +9,7 @@ primary:
     type: hard
     key: kubernetes.io/hostname
     values: 
-    - nuc2
+    - nuc3
   persistence:
     storageClass: "local-path"
     existingClaim: "mariadb-backup-pvc"
