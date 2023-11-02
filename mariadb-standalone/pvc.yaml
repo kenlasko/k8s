@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mariadb-backup-nuc3
+  name: pv-mariadb-backup
 spec:
   storageClassName: local-path
   capacity:
