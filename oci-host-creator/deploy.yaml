@@ -16,7 +16,7 @@ spec:
         name: oci-host-creator
     spec:
       nodeSelector:
-        server-type: nuc
+        node-type: worker
       containers:
       - name: oci-host-creator
         image: registry.ucdialplans.com/oci-watcher

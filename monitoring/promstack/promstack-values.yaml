@@ -67,7 +67,7 @@ alertmanager:
   alertmanagerSpec:
     externalUrl: 'https://alertmanager.ucdialplans.com'
     nodeSelector: 
-      server-type: "nuc"
+      node-type: "worker"
     storage:
       volumeClaimTemplate:
         spec:

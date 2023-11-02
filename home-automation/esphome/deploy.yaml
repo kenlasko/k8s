@@ -23,13 +23,6 @@ spec:
       restartPolicy: Always
       affinity:
         nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: server-type
-                operator: In
-                values:
-                - nuc
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
             preference:

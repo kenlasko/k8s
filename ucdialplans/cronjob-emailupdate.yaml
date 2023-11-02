@@ -13,7 +13,7 @@ spec:
       template:
         spec:
           nodeSelector:
-            server-type: nuc
+            node-type: worker
           restartPolicy: OnFailure
           containers:
           - name: emailupdate

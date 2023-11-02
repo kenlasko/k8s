@@ -11,7 +11,7 @@ loki:
     cpu: 500m
     memory: 512Mi
   nodeSelector: 
-    server-type: "nuc"
+    node-type: "worker"
 promtail:
   enabled: false
   config:

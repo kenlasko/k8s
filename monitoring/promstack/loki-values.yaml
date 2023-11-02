@@ -3,4 +3,4 @@ backend:
     storageClass: nfs-client
     size: 20Gi
   nodeSelector: 
-    server-type: "nuc"
+    node-type: "worker"

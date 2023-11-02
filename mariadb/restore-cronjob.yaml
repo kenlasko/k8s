@@ -15,7 +15,7 @@ spec:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
           nodeSelector:
-            server-type: rpi
+            node-type: worker
           containers:
           - name: mariadb-backup
             image: mariadb:11.1.2
