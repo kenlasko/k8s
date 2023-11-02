@@ -79,7 +79,7 @@ dnsmasq:
   - address=/nuc5.ucdialplans.com/192.168.1.8
   - address=/nuc6.ucdialplans.com/192.168.1.9
   - address=/k3s.ucdialplans.com/192.168.1.10
-  - address=/rpi1.ucdialplans.com/192.168.1.15
+  - address=/rpi1.ucdialplans.com/192.168.1.17
   - address=/rpi2.ucdialplans.com/192.168.1.18
   - address=/backuppc.ucdialplans.com/192.168.1.19
   - address=/firepit-speakers.ucdialplans.com/192.168.1.23
