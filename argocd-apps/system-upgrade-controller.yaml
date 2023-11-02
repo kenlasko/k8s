@@ -13,7 +13,5 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: system-upgrade
   syncPolicy:
-    automated:
-      selfHeal: false
     syncOptions:
     - CreateNamespace=true
