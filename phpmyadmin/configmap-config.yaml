@@ -57,7 +57,7 @@ data:
     $cfg['Servers'][$i]['verbose'] = 'Secondary';
 
 
-        /**
+    /**
     * MariaDB NAS DR
     */
     $i++;
