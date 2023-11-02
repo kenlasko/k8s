@@ -1,40 +1,21 @@
 ---
 - hosts: master
   tasks:
-    - name: Create etc/ansible directory
-      ansible.builtin.file:
-        path: /etc/ansible
-        state: directory
-    - name: Creating Ansible hosts file
-      become: true
-      become_user: root
-      copy:
-        dest: "/etc/ansible/hosts"
-        content: |
-          [master]
-          nuc1  ansible_connection=local
-          [nodes]
-          nuc2  ansible_connection=ssh
-          nuc3  ansible_connection=ssh
-
-          [cube:children]
-          master
-          nodes
-    - name: Create k3s directory
-      become: true
-      become_user: root
-      ansible.builtin.file:
-        path: /k3s
-        state: directory
-        owner: 'ken'
-    - name: Create helm directory
-      ansible.builtin.file:
-        path: /k3s/helm
-        state: directory
-    - name: Download Helm
-      ansible.builtin.get_url:
-        url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3  
-        dest: /k3s/helm/get_helm.sh
-        mode: '0700'
-    - name: Install Helm
-      ansible.builtin.script: /k3s/helm/get_helm.sh
+  - name: Create k3s directory
+    become: true
+    become_user: root
+    ansible.builtin.file:
+      path: /k3s
+      state: directory
+      owner: 'ken'
+  - name: Create helm directory
+    ansible.builtin.file:
+      path: /k3s/helm
+      state: directory
+  - name: Download Helm
+    ansible.builtin.get_url:
+      url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3  
+      dest: /k3s/helm/get_helm.sh
+      mode: '0700'
+  - name: Install Helm
+    ansible.builtin.script: /k3s/helm/get_helm.sh
