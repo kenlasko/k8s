@@ -11,7 +11,7 @@ spec:
     kind: Rule
     services:
     - name: grocy-service
-      port: 9283
+      port: 80
     middlewares:
     - name: traefik-security
       namespace: traefik
