@@ -1,0 +1,89 @@
+---
+- hosts: master
+  tasks:
+  - name: Copy file with owner and permissions
+    ansible.builtin.copy:
+      src: /etc/rancher/k3s/k3s.yaml
+      dest: /home/ken/.kube/config
+      owner: ken
+      group: ken
+      mode: '0600'
+  - name: Add node label to Lab1
+    shell: kubectl label nodes lab1 node-type=worker
+  - name: Add node label to Lab2
+    shell: kubectl label nodes lab2 node-type=worker
+  - name: Add node label to Lab3
+    shell: kubectl label nodes lab3 node-type=worker
+  - name: Add Traefik chart repo
+    kubernetes.core.helm_repository:
+      name: traefik
+      repo_url: "https://helm.traefik.io/traefik"
+  - name: Deploy Traefik
+    kubernetes.core.helm:
+      name: traefik
+      chart_ref: traefik/traefik
+      create_namespace: true
+      release_namespace: traefik
+      values_files:
+      - /home/ken/k3s-lab/traefik/values.yaml
+  - name: Apply Traefik resources
+    kubernetes.core.k8s:
+      definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
+    with_fileglob:
+    - "/home/ken/k3s-lab/traefik/tls*.yaml"
+    - "/home/ken/k3s-lab/traefik/dashboard-ingress.yaml"
+    - "/home/ken/k3s-lab/traefik/security-middleware.yaml"
+  - name: Apply Traefik secrets
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s-lab/traefik/secrets.yaml
+  - name: Apply Traefik https redirect
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s-lab/traefik/https-redirect.yaml
+  - name: Apply Traefik prefix strip middleware
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s-lab/traefik/stripprefix-middleware.yaml
+  - name: Add Cilium chart repo
+    kubernetes.core.helm_repository:
+      name: cilium
+      repo_url: "https://helm.cilium.io/"
+  - name: Deploy Cilium
+    environment:
+      KUBECONFIG: /home/ken/.kube/config
+    kubernetes.core.helm:
+      name: cilium
+      chart_ref: cilium/cilium
+      chart_version: "1.14.3"
+      release_namespace: kube-system
+      values_files:
+      - /home/ken/k3s-lab/cilium/values.yaml
+  - name: Add ArgoCD chart repo
+    kubernetes.core.helm_repository:
+      name: argocd
+      repo_url: "https://argoproj.github.io/argo-helm"
+  - name: Deploy ArgoCD
+    kubernetes.core.helm:
+      name: argocd
+      chart_ref: argocd/argo-cd
+      create_namespace: true
+      release_namespace: argocd
+      values_files:
+      - /home/ken/k3s-lab/argocd/values.yaml
+  - name: Apply ArgoCD secrets
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s-lab/argocd/01-secrets.yaml
+  - name: Apply ArgoCD K8s resources
+    kubernetes.core.k8s:
+      definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
+    with_fileglob:
+    - "/home/ken/k3s-lab/argocd/02-ingress.yaml"
+    - "/home/ken/k3s-lab/argocd/02-repoconfig.yaml"
+    - "/home/ken/k3s-lab/argocd/[a-u]*.yaml"
+  - name: Apply Cilium resources
+    kubernetes.core.k8s:
+      definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
+    with_fileglob:
+    - "/home/ken/k3s-lab/cilium/[a-u]*.yaml"

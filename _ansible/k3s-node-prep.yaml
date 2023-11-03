@@ -3,10 +3,6 @@
   become: true
   become_user: root
   tasks:
-    - name: Install IPTables
-      ansible.builtin.apt:
-        name: iptables
-        state: present
     - name: Install Longhorn prereq - NFS Common
       ansible.builtin.apt:
         name: nfs-common
@@ -35,13 +31,3 @@
       file:
         path: /kube-storage/mariadb
         state: directory
-    - name: Update the /etc/hosts file with node name
-      lineinfile:
-        dest: /etc/hosts
-        regexp: '.*{{ item }}$'
-        line: "{{ hostvars[item].ansible_host }} {{item}}"
-        state: present
-        backup: yes
-      register: etchostsupdate
-      when: hostvars[item].ansible_host is defined
-      with_items: "{{ groups.k3s_all }}"

@@ -7,7 +7,7 @@
       file:
         state: absent
         path: /kube-storage/mariadb/data/
-    - name:Delete kube-storage/data/.bootstrap
+    - name: Delete kube-storage/data/.bootstrap
       file:
         state: absent
         path: /kube-storage/mariadb/.bootstrap/

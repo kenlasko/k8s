@@ -3,7 +3,6 @@
     hosts: nuc-nodes
     gather_facts: yes
     tasks:
-
     - name: Update the /etc/hosts file with node name
       tags: etchostsupdate
       become: yes
