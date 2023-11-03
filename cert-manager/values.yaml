@@ -3,3 +3,12 @@ nodeSelector:
   node-type: worker
 prometheus:
   enabled: false
+webhook:
+  nodeSelector:
+    node-type: worker
+cainjector:
+  nodeSelector:
+    node-type: worker
+startupapicheck:
+  nodeSelector:
+    node-type: worker
