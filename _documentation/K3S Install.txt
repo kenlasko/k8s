@@ -41,7 +41,7 @@ ansible-galaxy collection install community.general
 ansible-galaxy collection install kubernetes.core
 pip install kubernetes
 
-# Create SSH key and push to other ndes
+# Create SSH key and push to other nodes
 ssh-keygen -t rsa
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc1
 ssh-copy-id -i ~/.ssh/id_rsa.pub ken@nuc2
