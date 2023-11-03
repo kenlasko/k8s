@@ -1,0 +1,33 @@
+---
+# Preps a Ubuntu workstation for managing K3S remotely
+- hosts: workstation
+  tasks:
+  - name: Install apt-transport-https
+    become: yes
+    become_user: root  
+    ansible.builtin.apt:
+      name: apt-transport-https
+      state: latest
+      update_cache: yes
+  - name: Add Helm signing key
+    ansible.builtin.shell: curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+  - name: Add Helm to apt repo
+    ansible.builtin.shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+  - name: Add KubeCtl signing key
+    become: yes
+    become_user: root    
+    ansible.builtin.shell: curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  - name: Add Kubectl to apt repo
+    ansible.builtin.shell: echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  - name: Install Helm/K3S
+    become: yes
+    become_user: root  
+    ansible.builtin.apt:
+      pkg: 
+      - helm
+      - kubectl
+      - bash-completion
+      state: latest
+      update_cache: yes
+  - name: Add kubectl to bashrc
+    ansible.builtin.shell: echo "source <(kubectl completion bash)" >> ~/.bashrc && source ~/.bashrc

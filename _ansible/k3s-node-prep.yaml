@@ -1,5 +1,6 @@
 ---
-- hosts: k3s_all
+# Installs prerequisites for all K3S nodes
+- hosts: k3s-all
   become: true
   become_user: root
   tasks:

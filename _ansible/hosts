@@ -1,14 +1,18 @@
-[master]
+[workstation]
 localhost ansible_connection=local
 
 [rpi-nodes]
 rpi1     ansible_connection=ssh
 rpi2     ansible_connection=ssh
 
-[nuc-nodes]
+[k3s-bootstrap]
 nuc1     ansible_connection=ssh
+
+[k3s-servers]
 nuc2     ansible_connection=ssh
 nuc3     ansible_connection=ssh
+
+[k3s-workers]
 nuc4     ansible_connection=ssh
 nuc5     ansible_connection=ssh
 nuc6     ansible_connection=ssh
@@ -17,10 +21,12 @@ nuc6     ansible_connection=ssh
 backuppc                 ansible_connection=ssh
 onode1.ucdialplans.com   ansible_connection=ssh
 
-[k3s_all:children]
-nuc-nodes
+[k3s-all:children]
+k3s-bootstrap
+k3s-servers
+k3s-nodes
 
 [everything:children]
 rpi-nodes
-nuc-nodes
+k3s-all
 other-nodes

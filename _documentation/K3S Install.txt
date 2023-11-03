@@ -36,8 +36,10 @@ sudo reboot now
 # Copy k3s folder to ~
 
 # On Kube1
-sudo apt install ansible nano 
+sudo apt install ansible nano pip -y
 ansible-galaxy collection install community.general
+ansible-galaxy collection install kubernetes.core
+pip install kubernetes
 
 # Create SSH key and push to other ndes
 ssh-keygen -t rsa
@@ -55,7 +57,10 @@ sudo mkdir /etc/ansible
 sudo cp ~/k3s/hosts /etc/ansible/hosts
 
 # Run first Ansible script
-ansible-playbook ~/k3s/ansible-k3s-prep.yaml --ask-become-pass
+ansible-playbook ~/k3s/k3s-node-prep.yaml --ask-become-pass
+
+# Install K3S
+ansible-playbook ~/k3s/k3s-node-install.yaml --ask-become-pass
 
 # Create first server
 curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin

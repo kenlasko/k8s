@@ -1,11 +1,23 @@
 ---
-- hosts: master
+# Installs K3S
+- hosts: k3s-bootstrap
+  become: yes
+  become_user: root
   tasks:
     - name: Install K3S on first host
-      ansible.builtin.command: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
+      ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
 
-- hosts: nuc-nodes
+- hosts: k3s-servers
+  become: yes
+  become_user: root
   tasks:
-    - name: Install K3S on other nodes
-      ansible.builtin.command: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.5:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller
-      
+    - name: Install K3S on other servers
+      ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
+
+- hosts: k3s-workers
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install K3S on workers
+      ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
+     
