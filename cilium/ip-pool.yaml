@@ -1,10 +1,8 @@
-# apiVersion: "cilium.io/v2alpha1"
-# kind: CiliumLoadBalancerIPPool
-# metadata:
-#   name: "main-pool"
-# spec:
-#   cidrs:
-#   - cidr: "192.168.1.216/29"
-  # blocks:
-  # - start: "192.168.1.10"
-  #   stop: "192.168.1.16"
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "main-pool"
+spec:
+  blocks:
+  - start: "192.168.1.10"
+    stop: "192.168.1.16"

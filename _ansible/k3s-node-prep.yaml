@@ -1,34 +1,42 @@
 ---
 # Installs prerequisites for all K3S nodes
-- hosts: k3s-all
+- hosts: k3s-workers
   become: true
   become_user: root
   tasks:
-    - name: Install Longhorn prereq - NFS Common
-      ansible.builtin.apt:
-        name: nfs-common
-        state: present
-    - name: Install Longhorn prereq - Open-ISCSI
-      ansible.builtin.apt:
-        name: open-iscsi
-        state: present
-    - name: Install Longhorn prereq - Linux Utils
-      ansible.builtin.apt:
-        name: util-linux
-        state: present
-    - name: Install registry prereq - Apache2 Utils
-      ansible.builtin.apt:
-        name: apache2-utils
-        state: present
-    - name: Add KUBECONFIG environment variable to all hosts
-      ansible.builtin.lineinfile:
-        path: /etc/environment
-        line: KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-    - name: Create /kube-storage folder
-      file:
-        path: /kube-storage
-        state: directory
-    - name: Create /kube-storage/mariadb folder
-      file:
-        path: /kube-storage/mariadb
-        state: directory
+  - name: Install Longhorn prereq - NFS Common
+    ansible.builtin.apt:
+      name: nfs-common
+      state: present
+  - name: Install Longhorn prereq - Open-ISCSI
+    ansible.builtin.apt:
+      name: open-iscsi
+      state: present
+  - name: Install Longhorn prereq - Linux Utils
+    ansible.builtin.apt:
+      name: util-linux
+      state: present
+  - name: Create /kube-storage folder
+    file:
+      path: /kube-storage
+      state: directory
+  - name: Create /kube-storage/mariadb folder
+    file:
+      path: /kube-storage/mariadb
+      state: directory
+- hosts: k3s-servers
+  become: true
+  become_user: root
+  tasks:
+  - name: Install registry prereq - Apache2 Utils
+    ansible.builtin.apt:
+      name: apache2-utils
+      state: present
+- hosts: k3s-all
+  become: true
+  become_user: root
+  tasks:      
+  - name: Add KUBECONFIG environment variable to all hosts
+    ansible.builtin.lineinfile:
+      path: /etc/environment
+      line: KUBECONFIG=/etc/rancher/k3s/k3s.yaml
