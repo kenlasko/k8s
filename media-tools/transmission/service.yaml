@@ -20,11 +20,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: transmission-remotedata-tcp-service
-  name: transmission-remotedata-tcp-service
+    app: transmission-remotedata
+  name: transmission-remotedata
   namespace: media-tools
-  annotations:
-    metallb.universe.tf/allow-shared-ip: "share-12"
 spec:
   type: LoadBalancer
   externalIPs:
@@ -35,25 +33,6 @@ spec:
     protocol: TCP
     targetPort: 36881
     name: remotedata-tcp
-  selector:
-    app: transmission
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: transmission-remotedata-udp-service
-  name: transmission-remotedata-udp-service
-  namespace: media-tools
-  annotations:
-    metallb.universe.tf/allow-shared-ip: "share-12"
-spec:
-  type: LoadBalancer
-  externalIPs:
-  - 192.168.1.12
-  externalTrafficPolicy: Cluster
-  ports:
   - port: 36881
     protocol: UDP
     targetPort: 36881
