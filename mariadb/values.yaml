@@ -34,7 +34,7 @@ nodeAffinityPreset:
 #   readOnly: true
 service:
   type: LoadBalancer
-  externalIPs:
+  loadBalancerIP:
   - 192.168.1.13
 mariadbConfiguration: |-
   [client]

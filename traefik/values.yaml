@@ -45,7 +45,7 @@ service:
   enabled: true
   type: LoadBalancer
   externalTrafficPolicy: Local
-  externalIPs:
+  loadBalancerIP:
   - 192.168.1.10
 
 # Disable prometheus metric service
