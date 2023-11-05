@@ -5,10 +5,15 @@ localhost ansible_connection=local
 rpi1     ansible_connection=ssh
 rpi2     ansible_connection=ssh
 
-[k3s-bootstrap]
+[k3s-bootstrap-first]
 nuc1     ansible_connection=ssh
 
+[k3s-bootstrap-others]
+nuc2     ansible_connection=ssh
+nuc3     ansible_connection=ssh
+
 [k3s-servers]
+nuc1     ansible_connection=ssh
 nuc2     ansible_connection=ssh
 nuc3     ansible_connection=ssh
 
