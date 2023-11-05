@@ -1,47 +1,47 @@
 # With help from https://crt.the-mori.com/2021-09-17-kubernetes-traefik-forward-traffic-external-ip
-####### Radarr #######
 
-# ####### Sonarr #######
+# ####### SABNZBD #######
 
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: sonarr-external-route
-#   namespace: traefik
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#   - match: Host(`sonarr.ucdialplans.com`)
-#     kind: Rule
-#     services:
-#     - name: sonarr-forward
-#       kind: Service
-#       port: 8989
-#   tls:
-#     secretName: traefik-wildcard-cert
-#     options:
-#       name: tls-options-clientauth
-#       namespace: traefik
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sabnzbd-external-route
+  namespace: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`sabnzbd1.ucdialplans.com`)
+    kind: Rule
+    services:
+    - name: sabnzbd-forward
+      kind: Service
+      port: 8085
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
 
 
-# ---
-# kind: Service
-# apiVersion: v1
-# metadata:
-#   name: sonarr-forward
-#   namespace: traefik
-# spec:
-#   type: ExternalName
-#   ports:
-#     - name: sonarr-forward
-#       port: 8989
-#       targetPort: 8989
-#   externalName: 192.168.1.3
-#   selector:
-#     app.kubernetes.io/instance: traefik
-#     app.kubernetes.io/name: traefik
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sabnzbd-forward
+  namespace: traefik
+spec:
+  type: ExternalName
+  ports:
+    - name: sabnzbd-forward
+      port: 8085
+      targetPort: 8085
+  externalName: 192.168.1.3
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
+
 
 # ---
 # kind: IngressRoute
