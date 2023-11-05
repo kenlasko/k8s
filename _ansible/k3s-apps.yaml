@@ -3,12 +3,12 @@
 # Run after k3s-node-* playbooks
 - hosts: workstation
   tasks:
-  - name: Add node label to Lab1
-    shell: kubectl label nodes lab1 node-type=worker
-  - name: Add node label to Lab2
-    shell: kubectl label nodes lab2 node-type=worker
-  - name: Add node label to Lab3
-    shell: kubectl label nodes lab3 node-type=worker
+  - name: Add node label to NUC4
+    shell: kubectl label nodes nuc4 node-type=worker
+  - name: Add node label to NUC5
+    shell: kubectl label nodes nuc5 node-type=worker
+  - name: Add node label to NUC6
+    shell: kubectl label nodes nuc6 node-type=worker
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik
