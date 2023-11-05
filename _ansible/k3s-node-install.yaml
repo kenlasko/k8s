@@ -1,13 +1,13 @@
 ---
 # Installs K3S
-- hosts: k3s-bootstrap
+- hosts: k3s-bootstrap-first
   become: yes
   become_user: root
   tasks:
     - name: Install K3S on first host
       ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
 
-- hosts: k3s-servers
+- hosts: k3s-bootstrap-others
   become: yes
   become_user: root
   tasks:
