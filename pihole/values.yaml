@@ -31,7 +31,7 @@ serviceWeb:
 
 serviceDns:
   mixedService: true
-  loadBalancerIP: 192.168.1.14
+  loadBalancerIP: 192.168.1.16
   type: LoadBalancer
   externalTrafficPolicy: Local
 
