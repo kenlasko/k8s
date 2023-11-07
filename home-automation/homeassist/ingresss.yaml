@@ -45,28 +45,3 @@ spec:
     options:
       name: tls-options-clientauth
       namespace: traefik
-
-
----
-kind: IngressRoute
-apiVersion: traefik.containo.us/v1alpha1
-metadata:
-  name: musicassist
-  namespace: homeassist
-spec:
-  entryPoints: 
-    - websecure
-  routes:
-  - match: Host(`musicassist.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: musicassist-service
-      port: 8095
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
-  tls:
-    secretName: traefik-wildcard-cert
-    options:
-      name: tls-options-clientauth
-      namespace: traefik
