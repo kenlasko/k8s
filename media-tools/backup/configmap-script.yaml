@@ -26,8 +26,6 @@ data:
     echo 'Backing up Plex'
     rm -rf /backup/plex/*
     kubectl exec -n media-tools plex-0 -- tar cf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/PhotoTranscoder/* /config/. | tar xf - -C /backup/plex/
-    echo 'Backing up Grocy'
-    kubectl cp -n homeassist grocy-0:config/. /backup/grocy/.
     echo 'Backup complete!'
 
     
