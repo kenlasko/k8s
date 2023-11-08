@@ -2,7 +2,7 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: hubble
-  namespace: kube-system
+  namespace: cilium
 spec:
   entryPoints: 
     - websecure

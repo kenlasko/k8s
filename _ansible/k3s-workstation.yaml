@@ -29,5 +29,11 @@
       - bash-completion
       state: latest
       update_cache: yes
-  - name: Add kubectl to bashrc
-    ansible.builtin.shell: echo "source <(kubectl completion bash)" >> ~/.bashrc && source ~/.bashrc
+  - name: Add kubectl completion to .bashrc
+    ansible.builtin.lineinfile:
+      path: /home/ken/.bashrc
+      line: 'source <(kubectl completion bash)'
+  - name: Re-initialize .bashrc
+    ansible.builtin.shell: 
+      executable: /bin/bash
+      cmd: source /home/ken/.bashrc

@@ -2,7 +2,7 @@ apiVersion: "cilium.io/v2alpha1"
 kind: CiliumL2AnnouncementPolicy
 metadata:
   name: default-l2-announce
-  namespace: kube-system
+  namespace: cilium
 spec:
   nodeSelector:
     matchExpressions:

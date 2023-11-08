@@ -62,6 +62,11 @@ ansible-playbook ~/k3s/k3s-node-prep.yaml --ask-become-pass
 # Install K3S
 ansible-playbook ~/k3s/k3s-node-install.yaml --ask-become-pass
 
+# Install apps
+ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
+
+
+
 # Create first server
 curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
 

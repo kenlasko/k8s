@@ -3,6 +3,17 @@
 # Run after k3s-node-* playbooks
 - hosts: workstation
   tasks:
+  - name: ensures .kube dir exists
+    file: 
+      path: "/home/ken/.kube"
+      state: directory
+  - name: Copy file with owner and permissions
+    ansible.builtin.copy:
+      src: /etc/rancher/k3s/k3s.yaml
+      dest: /home/ken/.kube/config
+      owner: ken
+      group: ken
+      mode: '0600'
   - name: Add node label to NUC4
     shell: kubectl label nodes nuc4 node-type=worker
   - name: Add node label to NUC5
@@ -44,6 +55,10 @@
     kubernetes.core.helm_repository:
       name: cilium
       repo_url: "https://helm.cilium.io/"
+  - name: Apply Gateway API CRDs
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/cilium/gateway-api-crds.yaml  
   - name: Deploy Cilium
     environment:
       KUBECONFIG: /home/ken/.kube/config
@@ -51,7 +66,7 @@
       name: cilium
       chart_ref: cilium/cilium
       chart_version: "1.15.0"
-      release_namespace: kube-system
+      release_namespace: cilium
       values_files:
       - /home/ken/k3s/cilium/values.yaml
   - name: Add ArgoCD chart repo
@@ -77,8 +92,17 @@
     - "/home/ken/k3s/argocd/02-ingress.yaml"
     - "/home/ken/k3s/argocd/02-repoconfig.yaml"
     - "/home/ken/k3s/argocd/[a-u]*.yaml"
+    ignore_errors: true
   - name: Apply Cilium resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/cilium/[a-u]*.yaml"
+    - "/home/ken/k3s/cilium/[i-r]*.yaml"
+  - name: Apply Cilium secrets
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/cilium/secrets.yaml
+  - name: Apply Cilium gateway
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/cilium/gateway.yaml

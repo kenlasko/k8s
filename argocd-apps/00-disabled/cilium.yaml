@@ -19,7 +19,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: kube-system
+    namespace: cilium
   ignoreDifferences:
   - group: ""
     kind: ConfigMap

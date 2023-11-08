@@ -4,8 +4,15 @@
   become: yes
   become_user: root
   tasks:
-    - name: Install K3S on first host
-      ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
+  - name: Install K3S on first host
+    ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
+  - name: Copy k3s.yaml to .kube/config
+    ansible.builtin.fetch:
+      src: /etc/rancher/k3s/k3s.yaml
+      dest: /home/ken/.kube/config
+      owner: ken
+      group: ken
+      mode: '0600' 
 
 - hosts: k3s-bootstrap-others
   become: yes
@@ -18,6 +25,15 @@
   become: yes
   become_user: root
   tasks:
-    - name: Install K3S on workers
-      ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
-     
+  - name: Install K3S on workers
+    ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
+
+# Post-install work
+- hosts: k3s-servers
+  become: true
+  become_user: root
+  tasks:
+  - name: Copy registries.yaml
+    ansible.builtin.copy:
+      src: /home/ken/k3s/_ansible/registries.yaml
+      dest: /etc/rancher/k3s/registries.yaml

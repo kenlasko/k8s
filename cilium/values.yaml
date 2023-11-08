@@ -35,4 +35,5 @@ gatewayAPI:
   enabled: true
   secretsNamespace:
     create: false
+    name: cilium
     sync: false
