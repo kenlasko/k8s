@@ -33,3 +33,6 @@ hubble:
     enabled: true
 gatewayAPI:
   enabled: true
+  secretsNamespace:
+    create: false
+    sync: false
