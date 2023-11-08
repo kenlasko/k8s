@@ -3,3 +3,9 @@ kind: L2Advertisement
 metadata:
   name: l2-advertise
   namespace: metallb-system
+spec:
+  ipAddressPools:
+  - first-pool
+  nodeSelectors:
+  - matchLabels:
+      node-type: worker

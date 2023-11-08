@@ -17,7 +17,7 @@ k8sClientRateLimit:
   burst: 10
 cluster:
   name: home
-  id: 1
+  id: 0
 l2announcements:
   enabled: true
   leaseDuration: 30s
@@ -31,3 +31,5 @@ hubble:
     enabled: true
   ui:
     enabled: true
+gatewayAPI:
+  enabled: true
