@@ -11,11 +11,13 @@ rootUser:
 mariabackup:
   user: mariabackup
   password: ***REMOVED***
-nodeAffinityPreset:
-  type: hard
-  key: node-type
-  values: 
-  - worker
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
     
 # tls:
 #   enabled: false

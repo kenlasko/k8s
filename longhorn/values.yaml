@@ -8,7 +8,6 @@ defaultSettings:
   defaultLonghornStaticStorageClass: longhorn-high-value
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: node-type:worker
-
   
 longhornManager:
   nodeSelector: 
