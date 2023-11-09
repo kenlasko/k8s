@@ -1,4 +1,0 @@
-controller:
-  # runOnControlPlane: true
-  # nodeSelector:
-  #   node-type: worker
