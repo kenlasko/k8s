@@ -66,6 +66,16 @@ ansible-playbook ~/k3s/k3s-node-install.yaml --ask-become-pass
 ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
 
 
+# Get initial ArgoCD password
+kubectl -n argocd get secret argocd-initial-admin-secret \
+          -o jsonpath="{.data.password}" | base64 -d; echo
+
+
+# Get K3S token
+kubectl -n kube-system get secret api-service-account-secret \
+          -o jsonpath="{.data.token}" | base64 -d; echo
+
+
 
 # Create first server
 curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=wireguard-native --prefer-bundled-bin
@@ -88,29 +98,14 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 source ~/.bashrc
 
 # Set labels
-kubectl label nodes nuc1 server-type=nuc
-kubectl label nodes nuc1 node-type=master
-
-kubectl label nodes nuc2 server-type=nuc
-kubectl label nodes nuc2 node-type=master
-
-kubectl label nodes nuc3 server-type=nuc
-kubectl label nodes nuc3 node-type=master
-
-kubectl label nodes nuc4 server-type=nuc
 kubectl label nodes nuc4 node-type=worker
 kubectl label nodes nuc4 storage=longhorn
 
-kubectl label nodes nuc5 server-type=nuc
 kubectl label nodes nuc5 node-type=worker
 kubectl label nodes nuc5 storage=longhorn
 
-kubectl label nodes nuc6 server-type=nuc
 kubectl label nodes nuc6 node-type=worker
 kubectl label nodes nuc6 storage=longhorn
-
-kubectl label nodes rpi1 server-type=rpi
-kubectl label nodes rpi2 server-type=rpi
 
 kubectl label nodes nuc4 intel.feature.node.kubernetes.io/gpu=true
 kubectl label nodes nuc5 intel.feature.node.kubernetes.io/gpu=true
