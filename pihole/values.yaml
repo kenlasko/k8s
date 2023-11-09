@@ -44,14 +44,13 @@ podDnsConfig:
 
 DNS1: "192.168.1.1"
 DNS2: ""
+
 admin:
   existingSecret: pihole-creds
   passwordKey: "password"
 
 probes:
-  # -- probes.liveness -- Configure the healthcheck for the ingress controller
   liveness:
-    # -- Generate a liveness probe
     enabled: true
     initialDelaySeconds: 60
     failureThreshold: 10
@@ -59,7 +58,6 @@ probes:
     port: http
     scheme: HTTP
   readiness:
-    # -- Generate a readiness probe
     enabled: true
     initialDelaySeconds: 60
     failureThreshold: 3
