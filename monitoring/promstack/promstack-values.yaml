@@ -66,8 +66,13 @@ alertmanager:
     enabled: false
   alertmanagerSpec:
     externalUrl: 'https://alertmanager.ucdialplans.com'
-    nodeSelector: 
-      node-type: "worker"
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
     storage:
       volumeClaimTemplate:
         spec:
@@ -83,8 +88,13 @@ grafana:
   forceDeployDashboards: false
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: America/Toronto
-  nodeSelector: 
-    node-type: "worker"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
   persistence:
     enabled: true
     size: 10Gi
@@ -297,8 +307,13 @@ prometheus:
     retention: 4d
     enableAdminAPI: true
     walCompression: false
-    nodeSelector: 
-      node-type: "worker"
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
     storageSpec:
       volumeClaimTemplate:
         spec:

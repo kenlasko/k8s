@@ -2,5 +2,10 @@ backend:
   persistence:
     storageClass: nfs-client
     size: 20Gi
-  nodeSelector: 
-    node-type: "worker"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist

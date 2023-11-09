@@ -14,8 +14,13 @@ spec:
         spec:
           serviceAccount: mediatools-service-account     # Important lines to add
           serviceAccountName: mediatools-service-account # Important lines to add
-          nodeSelector:
-            node-type: worker
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
           restartPolicy: OnFailure
           volumes:
           - name: backup

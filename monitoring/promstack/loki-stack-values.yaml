@@ -10,8 +10,13 @@ loki:
   requests:
     cpu: 500m
     memory: 512Mi
-  nodeSelector: 
-    node-type: "worker"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
 promtail:
   enabled: false
   config:

@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`alertmanager.ucdialplans.com`) 
     kind: Rule
