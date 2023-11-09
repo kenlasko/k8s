@@ -65,8 +65,8 @@ spec:
               key: password
         resources:
           requests:
-            cpu: 100m
-            memory: 500Mi
+            cpu: 10m
+            memory: 50Mi
       dnsConfig:
         options:
           - name: ndots
