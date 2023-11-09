@@ -89,7 +89,6 @@ dnsmasq:
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
   - cname=duplicati.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
-  - cname=grocy.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
   - cname=headlamp.ucdialplans.com,k3s.ucdialplans.com
@@ -101,7 +100,6 @@ dnsmasq:
   - cname=longhorn.ucdialplans.com,k3s.ucdialplans.com
   - cname=mariadb.ucdialplans.com,k3s.ucdialplans.com
   - cname=media.ucdialplans.com,k3s.ucdialplans.com
-  - cname=musicassist.ucdialplans.com,k3s.ucdialplans.com
   - cname=overseerr.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole.ucdialplans.com,k3s.ucdialplans.com
   - cname=pihole1.ucdialplans.com,rpi1.ucdialplans.com
