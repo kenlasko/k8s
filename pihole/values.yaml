@@ -10,8 +10,13 @@ maxUnavailable: 1
 
 hostname: pihole
 
-nodeSelector:
-  node-type: worker
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
 
 persistentVolumeClaim:
   enabled: true
