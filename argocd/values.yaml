@@ -1,6 +1,10 @@
 global:
-  nodeSelector:
-    node-type: worker
+  affinity:
+    nodeAffinity:
+      type: hard
+      matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
   networkPolicy:
     create: true
     defaultDenyIngress: true
