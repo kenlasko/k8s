@@ -7,5 +7,6 @@ spec:
   ipAddressPools:
   - first-pool
   nodeSelectors:
-  - matchLabels:
-      node-type: worker
+  - matchExpressions:
+    - key: node-role.kubernetes.io/control-plane
+      operator: DoesNotExist
