@@ -11,7 +11,7 @@ spec:
     kind: Rule
     services:
     - name: kubernetes
-      namespace: default
+      namespace: kube-system
       port: 443
       serversTransport: k3s-root
     middlewares:
@@ -29,7 +29,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: ServersTransport
 metadata:
   name: k3s-root
-  namespace: default
+  namespace: kube-system
 spec:
   serverName: k3s.ucdialplans.com
   insecureSkipVerify: true
