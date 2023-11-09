@@ -13,8 +13,13 @@ spec:
         spec:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
-          nodeSelector:
-            node-type: worker
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
           containers:
           - name: mariadb-ucdialplans-statusupdate
             image: bitnami/mariadb:11.0.3-debian-11-r5

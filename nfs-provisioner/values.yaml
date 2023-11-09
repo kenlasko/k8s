@@ -6,5 +6,10 @@ storageClass:
   name: nfs-client
   accessModes: ReadWriteMany
 
-nodeSelector:
-  node-type: worker
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
