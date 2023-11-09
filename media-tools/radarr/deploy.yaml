@@ -27,10 +27,8 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: node-type
-                operator: In
-                values:
-                - worker
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
       containers:
       - name: radarr
         image: linuxserver/radarr:latest
