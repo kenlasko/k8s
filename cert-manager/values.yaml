@@ -10,7 +10,8 @@ affinity:
           operator: DoesNotExist
         - key: kubernetes.io/arch
           operator: In
-          value: amd64
+          values: 
+          - 'amd64'
 webhook:
   affinity:
     nodeAffinity:
@@ -21,7 +22,8 @@ webhook:
             operator: DoesNotExist
           - key: kubernetes.io/arch
             operator: In
-            value: amd64
+            values: 
+            - 'amd64'
 cainjector:
   affinity:
     nodeAffinity:
@@ -32,7 +34,8 @@ cainjector:
             operator: DoesNotExist
           - key: kubernetes.io/arch
             operator: In
-            value: amd64
+            values: 
+            - 'amd64'
 startupapicheck:
   affinity:
     nodeAffinity:
@@ -43,4 +46,5 @@ startupapicheck:
             operator: DoesNotExist
           - key: kubernetes.io/arch
             operator: In
-            value: amd64
+            values: 
+            - 'amd64'

@@ -7,7 +7,8 @@ global:
         operator: DoesNotExist
       - key: kubernetes.io/arch
         operator: In
-        value: 'amd64'
+        values: 
+        - 'amd64'
   networkPolicy:
     create: true
     defaultDenyIngress: true
