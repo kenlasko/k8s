@@ -15,7 +15,7 @@ affinity:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nuc4
+          - nuc5
 resources:
   requests:
     cpu: 100m
