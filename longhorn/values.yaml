@@ -1,40 +1,40 @@
 persistence:
   defaultNodeSelector:
-    node-type: "worker"
+    storage: "longhorn"
 
 defaultSettings:
   backupTarget: "nfs://192.168.1.3:/backup/longhorn"
   backupTargetCredentialSecret: nfs-creds
   defaultLonghornStaticStorageClass: longhorn-high-value
   restoreVolumeRecurringJobs: true
-  systemManagedComponentsNodeSelector: node-type:worker
+  systemManagedComponentsNodeSelector: storage:longhorn
   
 longhornManager:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 longhornDriver:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 longhornDriverDeployer:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 longhornUI:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 longhornConversionWebhook:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 longhornAdmissionWebhook:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 longhornRecoveryBackend:
   nodeSelector: 
-    node-type: "worker"
+    storage: "longhorn"
 
 namespaceOverride: "longhorn"

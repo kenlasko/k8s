@@ -14,12 +14,8 @@
       owner: ken
       group: ken
       mode: '0600'
-  - name: Add node label to NUC4
-    shell: kubectl label nodes nuc4 node-type=worker
-  - name: Add node label to NUC5
-    shell: kubectl label nodes nuc5 node-type=worker
-  - name: Add node label to NUC6
-    shell: kubectl label nodes nuc6 node-type=worker
+  - name: Add node labels for longhorn
+    shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik
