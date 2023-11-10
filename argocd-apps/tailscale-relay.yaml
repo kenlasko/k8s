@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tailscale
+  name: tailscale-relay
   namespace: argocd
 spec:
   project: default
@@ -11,11 +11,11 @@ spec:
     chart: tailscale-relay
     helm:
       valueFiles:
-      - $values/tailscale/values.yaml
+      - $values/tailscale/relay/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: tailscale
+    path: tailscale/relay
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
