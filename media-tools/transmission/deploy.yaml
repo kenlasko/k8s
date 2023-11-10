@@ -23,20 +23,16 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
       affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: plex
-              topologyKey: kubernetes.io/hostname
-            weight: 100     
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'
       containers:
       - name: transmission
         image: linuxserver/transmission:latest

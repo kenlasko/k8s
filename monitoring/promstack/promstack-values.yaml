@@ -95,6 +95,10 @@ grafana:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
   persistence:
     enabled: true
     size: 10Gi
@@ -314,6 +318,10 @@ prometheus:
           - matchExpressions:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - 'amd64'
     storageSpec:
       volumeClaimTemplate:
         spec:
