@@ -10,8 +10,12 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
-        - key: node-role.kubernetes.io/control-plane
-          operator: DoesNotExist
+        # - key: node-role.kubernetes.io/control-plane
+        #   operator: DoesNotExist
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc3
 resources:
   requests:
     cpu: 100m
