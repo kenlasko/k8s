@@ -1,0 +1,15 @@
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
+config:
+  authKey: '***REMOVED***'
+  variables:
+    TS_ROUTES: '10.43.0.0/16,10.42.0.0/16'
