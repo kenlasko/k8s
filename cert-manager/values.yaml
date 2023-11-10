@@ -8,6 +8,9 @@ affinity:
       - matchExpressions:
         - key: node-role.kubernetes.io/control-plane
           operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          value: amd64
 webhook:
   affinity:
     nodeAffinity:
@@ -16,6 +19,9 @@ webhook:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            value: amd64
 cainjector:
   affinity:
     nodeAffinity:
@@ -24,6 +30,9 @@ cainjector:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            value: amd64
 startupapicheck:
   affinity:
     nodeAffinity:
@@ -32,3 +41,6 @@ startupapicheck:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            value: amd64
