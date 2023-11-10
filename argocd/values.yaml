@@ -83,6 +83,10 @@ configs:
       url: https://prometheus-community.github.io/helm-charts
       name: promstack
       type: helm
+    tailscale:
+      url: https://charts.visonneau.fr
+      name: tailscale
+      type: helm
     traefik:
       url: https://helm.traefik.io/traefik
       name: traefik
