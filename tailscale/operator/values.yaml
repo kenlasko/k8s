@@ -1,6 +1,9 @@
 oauth:
   clientId: 'kuszVM5CNTRL'
   clientSecret: '***REMOVED***'
+operatorConfig:
+  hostname: 'tailscale-operator-home'
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
