@@ -16,6 +16,8 @@
       mode: '0600'
   - name: Add node labels for longhorn
     shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
+  - name: Add node labels for GPU
+    shell: kubectl label nodes nuc4 nuc5 nuc6 intel.feature.node.kubernetes.io/gpu=true
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik

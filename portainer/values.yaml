@@ -6,7 +6,7 @@ persistence:
 service:
   type: ClusterIP
 nodeSelector:
-  node-type: worker
+  storage: longhorn
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

@@ -98,13 +98,8 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 source ~/.bashrc
 
 # Set labels
-kubectl label nodes nuc4 node-type=worker
 kubectl label nodes nuc4 storage=longhorn
-
-kubectl label nodes nuc5 node-type=worker
 kubectl label nodes nuc5 storage=longhorn
-
-kubectl label nodes nuc6 node-type=worker
 kubectl label nodes nuc6 storage=longhorn
 
 kubectl label nodes nuc4 intel.feature.node.kubernetes.io/gpu=true
