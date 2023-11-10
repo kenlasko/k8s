@@ -6,6 +6,7 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: sonarr=linuxserver/sonarr:latest
     argocd-image-updater.argoproj.io/sonarr.update-strategy: digest
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:

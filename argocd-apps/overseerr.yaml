@@ -6,6 +6,7 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: overseerr=linuxserver/overseerr:latest
     argocd-image-updater.argoproj.io/overseerr.update-strategy: digest
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:

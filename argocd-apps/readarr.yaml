@@ -6,6 +6,7 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: readarr=linuxserver/readarr:nightly
     argocd-image-updater.argoproj.io/readarr.update-strategy: digest
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   source:
