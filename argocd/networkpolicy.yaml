@@ -6,15 +6,15 @@ metadata:
 spec:
   podSelector: {}
   ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: cloudflare-tunnel
-      ports:
-        - port: 8080
+  - from:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: traefik
+  - from:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          app: cloudflare-tunnel
+    ports:
+    - port: 8080

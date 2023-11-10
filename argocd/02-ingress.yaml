@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - kind: Rule
     match: Host(`argocd.ucdialplans.com`) 
