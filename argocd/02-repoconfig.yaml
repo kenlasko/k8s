@@ -18,8 +18,8 @@ data:
         key: privateKey
   resource.exclusions: |
     - apiGroups:
-        - cilium.io
+      - cilium.io
       kinds:
-        - CiliumIdentity
+      - CiliumIdentity
       clusters:
-        - "*"
+      - "*"
