@@ -13,4 +13,6 @@ config:
   authKey: '***REMOVED***'
   variables:
     TS_ROUTES: '10.43.0.0/16,10.42.0.0/16'
-    HOSTNAME: 'k3s-home'
+hostAliases:
+  hostnames:
+  - 'k3s-home'
