@@ -95,7 +95,7 @@ mariadbConfiguration: |-
   wsrep_gtid_domain_id = 0
   server-id            = 01
   log_slave_updates    = on
-  gtid_domain_id       = 1
+  gtid_domain_id       = 0
 
   ## Caches and Limits
   ##
