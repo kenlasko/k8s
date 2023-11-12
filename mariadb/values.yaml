@@ -37,12 +37,12 @@ affinity:
 # - name: mariadb-certs
 #   mountPath: /bitnami/mariadb/certs
 #   readOnly: true
-service:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
-  annotations:
-    tailscale.com/expose: 'true'
-    tailscale.com/hostname: 'home-mariadb'
+# service:
+#   type: LoadBalancer
+#   loadBalancerClass: tailscale
+#   annotations:
+#     tailscale.com/expose: 'true'
+#     tailscale.com/hostname: 'home-mariadb'
 
 mariadbConfiguration: |-
   [client]
