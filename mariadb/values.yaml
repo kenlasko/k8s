@@ -39,7 +39,6 @@ affinity:
 #   readOnly: true
 service:
   type: LoadBalancer
-  loadBalancerClass: tailscale
   annotations:
     tailscale.com/expose: 'true'
     tailscale.com/hostname: 'home-mariadb'
