@@ -6,7 +6,6 @@ metadata:
   name: mariadb-tailscale
   namespace: mariadb
   annotations:
-    tailscale.com/expose: 'true'
     tailscale.com/hostname: 'home-mariadb'
 spec:
   type: LoadBalancer
