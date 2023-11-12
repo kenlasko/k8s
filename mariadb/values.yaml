@@ -42,7 +42,7 @@ service:
   loadBalancerIP: 192.168.1.13
   annotations:
     tailscale.com/expose: 'true'
-    tailscale.com/hostname: 'mariadb-home'
+    tailscale.com/hostname: 'home-mariadb'
 
 mariadbConfiguration: |-
   [client]
