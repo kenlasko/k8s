@@ -17,4 +17,5 @@ spec:
     targetPort: 3306
     name: db-access
   selector:
-    app: mariadb
+    app.kubernetes.io/instance: mariadb
+    app.kubernetes.io/name: mariadb-galera
