@@ -40,3 +40,7 @@
     ansible.builtin.lineinfile:
       path: /etc/environment
       line: KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+  - name: Set timezone
+    community.general.timezone:
+      name: America/Toronto
+

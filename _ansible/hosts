@@ -27,9 +27,8 @@ backuppc                 ansible_connection=ssh
 onode1.ucdialplans.com   ansible_connection=ssh
 
 [k3s-all:children]
-k3s-bootstrap
 k3s-servers
-k3s-nodes
+k3s-workers
 
 [everything:children]
 rpi-nodes
