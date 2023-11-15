@@ -43,4 +43,10 @@
   - name: Set timezone
     community.general.timezone:
       name: America/Toronto
-
+  - name: Disable swap
+    ansible.builtin.shell: swapoff -a
+  - name: Disable SWAP in fstab
+    replace:
+      path: /etc/fstab
+      regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+      replace: '# \1'
