@@ -18,16 +18,6 @@ configs:
   cm: 
     create: false # Don't create configmap because I do it separately via 02-configmap.yaml
   repositories:
-    k3s-home:
-      url: git@github.com:kenlasko/K3S.git
-      sshPrivateKeySecret:
-        name: github-k3s-private-key
-        key: privateKey
-    k3s-helm:
-      url: git@github.com:kenlasko/helm-charts.git
-      sshPrivateKeySecret:
-        name: github-helm-private-key
-        key: privateKey
     argocd:
       url: https://argoproj.github.io/argo-helm
       name: argocd
