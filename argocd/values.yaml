@@ -24,7 +24,7 @@ repoServer:
 server:
   replicas: 3
 redis-ha:
-  enabled: true
+  enabled: false
   additionalAffinities:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
