@@ -12,10 +12,19 @@ global:
   networkPolicy:
     create: true
     defaultDenyIngress: true
-
 configs:
   params:
     server.insecure: true
+controller:
+  replicas: 3
+redis-ha:
+  enabled: true
+server:
+  replicas: 3
+repoServer:
+  replicas: 3
+
+
   cm: 
     create: false # Don't create configmap because I do it separately via 02-repoconfig.yaml
   repositories:
