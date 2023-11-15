@@ -18,7 +18,7 @@ configs:
 controller:
   replicas: 3
 redis-ha:
-  enabled: false
+  enabled: true
   additionalAffinities:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
