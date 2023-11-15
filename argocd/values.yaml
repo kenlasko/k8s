@@ -79,6 +79,10 @@ redis-ha:
       url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
       name: csi-driver-smb
       type: helm
+    democratic-csi:
+      url: https://democratic-csi.github.io/charts/
+      name: democratic-csi
+      type: helm
     grafana:
       url: https://grafana.github.io/helm-charts
       name: grafana
