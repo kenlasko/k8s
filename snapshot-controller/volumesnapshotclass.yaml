@@ -4,3 +4,5 @@ metadata:
   name: longhorn
 driver: driver.longhorn.io
 deletionPolicy: Retain
+parameters:
+  type: snap
