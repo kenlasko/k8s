@@ -17,6 +17,7 @@ configs:
     server.insecure: true
   cm: 
     create: false # Don't create configmap because I do it separately via 02-configmap.yaml
+  repositories:
     k3s-home:
     - url: git@github.com:kenlasko/K3S.git
       sshPrivateKeySecret:
