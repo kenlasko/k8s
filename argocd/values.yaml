@@ -16,7 +16,7 @@ configs:
   params:
     server.insecure: true
   cm: 
-    create: false # Don't create configmap because I do it separately via 02-repoconfig.yaml
+    create: false # Don't create configmap because I do it separately via 02-configmap.yaml
 controller:
   replicas: 3
 repoServer:
