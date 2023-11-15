@@ -38,10 +38,6 @@ configs:
       url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
       name: csi-driver-smb
       type: helm
-    democratic-csi:
-      url: https://democratic-csi.github.io/charts/
-      name: democratic-csi
-      type: helm
     grafana:
       url: https://grafana.github.io/helm-charts
       name: grafana
@@ -77,6 +73,10 @@ configs:
     pihole:
       url: https://mojo2600.github.io/pihole-kubernetes/
       name: pihole
+      type: helm
+    piraeus-charts:
+      url: https://piraeus.io/helm-charts/
+      name: piraeus-charts
       type: helm
     portainer:
       url: https://portainer.github.io/k8s/

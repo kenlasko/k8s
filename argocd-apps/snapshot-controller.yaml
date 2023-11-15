@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://democratic-csi.github.io/charts/'
-    targetRevision: 0.*
+  - repoURL: 'https://piraeus.io/helm-charts/'
+    targetRevision: 2.*
     chart: snapshot-controller
     helm:
       valueFiles:
