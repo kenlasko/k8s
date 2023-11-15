@@ -10,8 +10,8 @@ global:
         values: 
         - 'amd64'
   networkPolicy:
-    create: false
-    defaultDenyIngress: false
+    create: true
+    defaultDenyIngress: true
 configs:
   params:
     server.insecure: true
