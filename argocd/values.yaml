@@ -10,7 +10,7 @@ global:
         values: 
         - 'amd64'
   networkPolicy:
-    create: true
+    create: false
     defaultDenyIngress: true
 configs:
   params:
