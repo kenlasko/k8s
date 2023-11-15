@@ -17,23 +17,6 @@ configs:
     server.insecure: true
   cm: 
     create: false # Don't create configmap because I do it separately via 02-repoconfig.yaml
-    # annotations:
-    #   repositories: |
-    #     - url: git@github.com:kenlasko/K3S.git
-    #       sshPrivateKeySecret:
-    #         name: github-k3s-private-key
-    #         key: privateKey
-    #     - url: git@github.com:kenlasko/helm-charts.git
-    #       sshPrivateKeySecret:
-    #         name: github-helm-private-key
-    #         key: privateKey
-    #   resource.exclusions: |
-    #     - apiGroups:
-    #       - cilium.io
-    #       kinds:
-    #       - CiliumIdentity
-    #       clusters:
-    #       - "*"
 controller:
   replicas: 3
 repoServer:
@@ -41,7 +24,7 @@ repoServer:
 server:
   replicas: 3
 redis-ha:
-  enabled: false
+  enabled: true
   additionalAffinities:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
