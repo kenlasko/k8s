@@ -6,13 +6,6 @@
   tasks:
   - name: Install K3S on first host
     ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --disable-network-policy --flannel-backend=none
-  - name: Copy k3s.yaml to .kube/config
-    ansible.builtin.fetch:
-      src: /etc/rancher/k3s/k3s.yaml
-      dest: /home/ken/.kube/config
-      owner: ken
-      group: ken
-      mode: '0600' 
 
 - hosts: k3s-bootstrap-others
   become: yes
