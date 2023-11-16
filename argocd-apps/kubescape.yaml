@@ -9,6 +9,11 @@ spec:
   - repoURL: 'https://kubescape.github.io/helm-charts/'
     targetRevision: 1.*
     chart: kubescape-operator
+    helm:
+      valueFiles:
+      - $values/kubescape/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: kubescape
     targetRevision: HEAD
