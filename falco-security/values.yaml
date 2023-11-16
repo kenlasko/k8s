@@ -2,3 +2,5 @@ driver:
   kind: modern-bpf
 falcosidekick:
   enabled: true
+  webui:
+    enabled: true
