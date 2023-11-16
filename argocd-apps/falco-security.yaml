@@ -15,7 +15,7 @@ spec:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: falco
+    path: falco-security
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
