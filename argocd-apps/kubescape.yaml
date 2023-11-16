@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubescape
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://kubescape.github.io/helm-charts/'
+    targetRevision: 1.*
+    chart: kubescape-operator
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: kubescape
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kubescape
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

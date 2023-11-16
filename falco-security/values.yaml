@@ -1,0 +1,4 @@
+driver:
+  kind: modern-bpf
+falcosidekick:
+  enabled: true
