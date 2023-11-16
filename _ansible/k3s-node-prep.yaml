@@ -32,6 +32,10 @@
     ansible.builtin.apt:
       name: apache2-utils
       state: present
+  - name: Create /var/lib/rancher/k3s/server/ folder
+    file:
+      path: /var/lib/rancher/k3s/server/
+      state: directory
   - name: Create pod security admissions file
     copy:
       dest: "/var/lib/rancher/k3s/server/psa.yaml"
