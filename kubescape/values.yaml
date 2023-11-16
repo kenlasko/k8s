@@ -2,6 +2,8 @@ account: 0ffb947a-8799-473d-b761-479c056bcaf5
 accessKey: 8c8c3a80-06a4-45c8-82f5-c7e983f30d04
 server: api.armosec.io
 clusterName: home
+persistence:
+  storageClass: nfs-client
 kubescape:
   affinity:
     nodeAffinity:
