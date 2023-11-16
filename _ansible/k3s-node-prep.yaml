@@ -24,6 +24,7 @@
     file:
       path: /kube-storage/mariadb
       state: directory
+
 - hosts: k3s-servers
   become: true
   become_user: root
@@ -32,14 +33,15 @@
     ansible.builtin.apt:
       name: apache2-utils
       state: present
+
 - hosts: k3s-all
   become: true
   become_user: root
   tasks:      
-  - name: Add KUBECONFIG environment variable to all hosts
-    ansible.builtin.lineinfile:
-      path: /etc/environment
-      line: KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+  - name: Install Kubescape prereq - runc
+    ansible.builtin.apt:
+      name: runc
+      state: present
   - name: Set timezone
     community.general.timezone:
       name: America/Toronto
