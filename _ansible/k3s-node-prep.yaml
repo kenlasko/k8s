@@ -32,6 +32,28 @@
     ansible.builtin.apt:
       name: apache2-utils
       state: present
+  - name: Create pod security admissions file
+    copy:
+      dest: "/var/lib/rancher/k3s/server/psa.yaml"
+      content: |
+        apiVersion: apiserver.config.k8s.io/v1
+        kind: AdmissionConfiguration
+        plugins:
+        - name: PodSecurity
+          configuration:
+            apiVersion: pod-security.admission.config.k8s.io/v1beta1
+            kind: PodSecurityConfiguration
+            defaults:
+              enforce: "restricted"
+              enforce-version: "latest"
+              audit: "restricted"
+              audit-version: "latest"
+              warn: "restricted"
+              warn-version: "latest"
+            exemptions:
+              usernames: []
+              runtimeClasses: []
+              namespaces: [kube-system, cis-operator-system]
 - hosts: k3s-all
   become: true
   become_user: root
@@ -50,3 +72,27 @@
       path: /etc/fstab
       regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
       replace: '# \1'
+  - name: Set kernel parameters - VM Panic on OOM
+    ansible.posix.sysctl:
+      name: vm.panic_on_oom
+      value: '0'
+      sysctl_file: /etc/sysctl.d/90-kubelet.conf
+      state: present
+  - name: Set kernel parameters - mem overcommit
+    ansible.posix.sysctl:
+      name: vm.overcommit_memory
+      value: '1'
+      sysctl_file: /etc/sysctl.d/90-kubelet.conf
+      state: present
+  - name: Set kernel parameters - Kernel panic
+    ansible.posix.sysctl:
+      name: kernel.panic
+      value: '10'
+      sysctl_file: /etc/sysctl.d/90-kubelet.conf
+      state: present
+  - name: Set kernel parameters - Kernel panic on oops
+    ansible.posix.sysctl:
+      name: kernel.panic_on_oops
+      value: '1'
+      sysctl_file: /etc/sysctl.d/90-kubelet.conf
+      state: present
