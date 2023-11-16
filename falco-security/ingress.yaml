@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: falco-ui
+  namespace: falco
+spec:
+  entryPoints: 
+    - websecure
+  routes:
+  - match: Host(`falco.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: falco-security-falcosidekick-ui
+      port: 2802
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
