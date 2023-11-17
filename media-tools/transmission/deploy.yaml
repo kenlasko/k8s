@@ -41,7 +41,7 @@ spec:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           capabilities:
-            drop: ["NET_RAW"]
+            drop: ["all"]
         env:
         - name: PUID
           value: '1000'
