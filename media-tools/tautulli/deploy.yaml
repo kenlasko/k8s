@@ -21,6 +21,9 @@ spec:
         name: tautulli
     spec:
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

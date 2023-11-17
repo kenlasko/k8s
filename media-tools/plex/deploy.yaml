@@ -25,21 +25,10 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: clusterplex-worker
-              topologyKey: kubernetes.io/hostname
-            weight: 50
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: plex
-              topologyKey: kubernetes.io/hostname
-            weight: 100
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
