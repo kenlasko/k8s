@@ -15,6 +15,10 @@ spec:
         app: cloudflare-tunnel
         name: cloudflare-tunnel
     spec:
+      restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

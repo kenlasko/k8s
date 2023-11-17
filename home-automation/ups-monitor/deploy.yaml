@@ -21,6 +21,9 @@ spec:
         name: ups-monitor
     spec:
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       hostNetwork: true
       nodeName: nuc4
       containers:

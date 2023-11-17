@@ -17,6 +17,9 @@ spec:
         name: registry
     spec:
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -36,10 +39,11 @@ spec:
         - containerPort: 5000
         resources:
           requests:
-            cpu: 10m
-            memory: 100Mi
+            cpu: 5m
+            memory: 50Mi
           limits:
-            memory: 150Mi
+            cpu: 15m
+            memory: 100Mi
         livenessProbe:
           httpGet:
             path: /

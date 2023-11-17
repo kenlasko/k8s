@@ -12,6 +12,10 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           serviceAccountName: ps-serviceaccount
           affinity:
             nodeAffinity:
@@ -24,7 +28,6 @@ spec:
                     operator: In
                     values: 
                     - 'amd64'
-          restartPolicy: Never
           volumes:
           - name: garmindata
             nfs:

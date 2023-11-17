@@ -20,9 +20,12 @@ spec:
         app: homeassist
         name: homeassist
     spec:
+      restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      restartPolicy: Always
       serviceAccountName: ha-sa-garminupload
       affinity:
         nodeAffinity:
