@@ -39,8 +39,11 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: 100m
-            memory: 500Mi
+            cpu: 50m
+            memory: 200Mi
+          limits:
+            cpu: 400m
+            memory: 400Mi
         livenessProbe:
           httpGet:
             path: /
