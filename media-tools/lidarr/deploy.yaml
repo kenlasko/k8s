@@ -49,10 +49,10 @@ spec:
           value: '1000'
         resources:
           requests:
-            cpu: 10m
+            cpu: 100m
             memory: 100Mi
           limits:
-            cpu: 50m
+            cpu: 200m
             memory: 200Mi
         livenessProbe:
           httpGet:
