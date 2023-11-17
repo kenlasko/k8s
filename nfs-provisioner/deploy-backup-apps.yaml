@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: backup-nas
+  name: backup-apps
   namespace: nfs-provisioner
 spec:
   schedule: "0 6 * * *" 
@@ -35,18 +35,18 @@ spec:
               path: /backup/
           - configMap:
               items:
-              - key: backup-nas.sh
-                path: backup-nas.sh
-              name: backup-script
+              - key: backup-apps.sh
+                path: backup-apps.sh
+              name: backup-apps-script
               defaultMode: 0555
-            name: backup-script
+            name: backup-apps-script
           containers:
-          - name: backup-nas
+          - name: backup-apps
             image: docker.io/busybox
             args:
             - ash
             - -c
-            - /script/backup-nas.sh
+            - /script/backup-apps.sh
             imagePullPolicy: IfNotPresent
             resources:
               requests:
@@ -60,6 +60,6 @@ spec:
               mountPath: /data
             - name: backup
               mountPath: /backup
-            - name: backup-script
-              mountPath: /script/backup-nas.sh
-              subPath: backup-nas.sh
+            - name: backup-apps-script
+              mountPath: /script/backup-apps.sh
+              subPath: backup-apps.sh

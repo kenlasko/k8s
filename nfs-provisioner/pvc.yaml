@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k3s-backup
+  namespace: nfs-provisioner
+spec:
+  accessModes:
+  - ReadOnlyMany
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: k3s-backup
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Delete
+  local:
+    path: "/var/lib/rancher/k3s/server/db/snapshots/"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists

@@ -1,0 +1,60 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-k3s
+  namespace: nfs-provisioner
+spec:
+  schedule: "0 6 * * *" 
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
+          restartPolicy: Never
+          volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: k3s-backup
+          - name: backup
+            nfs:
+              server: 192.168.1.3
+              path: /share/backup/k3s
+          - configMap:
+              items:
+              - key: backup-k3s.sh
+                path: backup-k3s.sh
+              name: backup-k3s-script
+              defaultMode: 0555
+            name: backup-k3s-script
+          containers:
+          - name: backup-k3s
+            image: docker.io/busybox
+            args:
+            - ash
+            - -c
+            - /script/backup-k3s.sh
+            imagePullPolicy: IfNotPresent
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 100Mi
+              limits:
+                cpu: 1500m
+                memory: 200Mi
+            volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: backup
+              mountPath: /backup
+            - name: backup-k3s-script
+              mountPath: /script/backup-k3s.sh
+              subPath: backup-k3s.sh
