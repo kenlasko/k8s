@@ -37,6 +37,11 @@ spec:
       - name: transmission
         image: linuxserver/transmission:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop: ["all"]
         env:
         - name: PUID
           value: '1000'
