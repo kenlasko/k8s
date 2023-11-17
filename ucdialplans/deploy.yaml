@@ -20,12 +20,6 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-        capabilities:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          runAsNonRoot: true
-          runAsUser: 1000
-          drop: ["all"]
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -41,6 +35,13 @@ spec:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans:latest
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop: ["all"]
         resources:
           requests:
             cpu: 300m
