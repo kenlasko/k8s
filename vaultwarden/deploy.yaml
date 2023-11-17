@@ -38,10 +38,17 @@ spec:
         runAsUser: 1000
         runAsGroup: 3000
         fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: vaultwarden
         image: vaultwarden/server:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop: ["NET_RAW"]
         resources:
           requests:
             cpu: 50m
