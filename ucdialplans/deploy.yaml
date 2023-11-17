@@ -20,6 +20,8 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+                  capabilities:
+            drop: ["all"]
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,8 +42,7 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 1000
-          capabilities:
-            drop: ["all"]
+
         resources:
           requests:
             cpu: 300m
