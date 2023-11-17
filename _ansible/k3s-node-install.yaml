@@ -5,14 +5,14 @@
   become_user: root
   tasks:
   - name: Install K3S on first host
-    ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --disable-network-policy --flannel-backend=none
+    ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --disable-network-policy --flannel-backend=none --kube-apiserver-arg="admission-control-config-file=/var/lib/rancher/k3s/server/psa.yaml"
 
 - hosts: k3s-bootstrap-others
   become: yes
   become_user: root
   tasks:
   - name: Install K3S on other servers
-    ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --disable-network-policy --flannel-backend=none
+    ansible.builtin.shell: curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --disable-network-policy --flannel-backend=none --kube-apiserver-arg="admission-control-config-file=/var/lib/rancher/k3s/server/psa.yaml"
 
 - hosts: k3s-workers
   become: yes
@@ -30,12 +30,7 @@
     ansible.builtin.copy:
       src: /home/ken/k3s/_ansible/registries.yaml
       dest: /etc/rancher/k3s/registries.yaml
-
-- hosts: k3s-all
-  become: true
-  become_user: root
-  tasks:      
-  - name: Add KUBECONFIG environment variable to all hosts
+  - name: Add KUBECONFIG environment variable to servers
     ansible.builtin.lineinfile:
       path: /etc/environment
       line: KUBECONFIG=/etc/rancher/k3s/k3s.yaml

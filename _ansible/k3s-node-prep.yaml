@@ -25,6 +25,7 @@
       path: /kube-storage/mariadb
       state: directory
 
+
 - hosts: k3s-servers
   become: true
   become_user: root
@@ -33,6 +34,33 @@
     ansible.builtin.apt:
       name: apache2-utils
       state: present
+  - name: Create /var/lib/rancher/k3s/server/ folder
+    file:
+      path: /var/lib/rancher/k3s/server/
+      state: directory
+  - name: Create pod security admissions file
+    copy:
+      dest: "/var/lib/rancher/k3s/server/psa.yaml"
+      content: |
+        apiVersion: apiserver.config.k8s.io/v1
+        kind: AdmissionConfiguration
+        plugins:
+        - name: PodSecurity
+          configuration:
+            apiVersion: pod-security.admission.config.k8s.io/v1beta1
+            kind: PodSecurityConfiguration
+            defaults:
+              enforce: "baseline"
+              enforce-version: "latest"
+              audit: "restricted"
+              audit-version: "latest"
+              warn: "restricted"
+              warn-version: "latest"
+            exemptions:
+              usernames: []
+              runtimeClasses: []
+              namespaces: [kube-system, cis-operator-system, cilium, homeassist]
+
 
 - hosts: k3s-all
   become: true
