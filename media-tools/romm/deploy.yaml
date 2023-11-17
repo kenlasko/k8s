@@ -37,6 +37,11 @@ spec:
       - name: romm
         image: zurdi15/romm:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop: ["NET_RAW"]
         env:
         - name: ROMM_DB_DRIVER
           value: 'sqlite'
@@ -46,11 +51,11 @@ spec:
           value: '***REMOVED***'
         resources:
           requests:
-            cpu: 400m
-            memory: 800Mi
+            cpu: 10m
+            memory: 250Mi
           limits:
-            cpu: 1000m
-            memory: 1000Mi
+            cpu: 20m
+            memory: 400Mi
         livenessProbe:
           httpGet:
             path: /

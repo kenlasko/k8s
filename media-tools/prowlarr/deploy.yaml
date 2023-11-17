@@ -37,6 +37,11 @@ spec:
       - name: prowlarr
         image: linuxserver/prowlarr:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop: ["NET_RAW"]
         resources:
           requests:
             cpu: 50m

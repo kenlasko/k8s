@@ -37,6 +37,11 @@ spec:
       - name: lidarr
         image: linuxserver/lidarr:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop: ["NET_RAW"]
         env:
         - name: PUID
           value: '1000'
