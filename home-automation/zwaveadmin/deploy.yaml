@@ -21,6 +21,9 @@ spec:
         name: zwaveadmin
     spec:
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       nodeName: nuc4
       containers:
       - name: zwaveadmin
@@ -31,7 +34,7 @@ spec:
             cpu: 25m
             memory: 200Mi
           limits:
-            cpu: 200m
+            cpu: 400m
             memory: 300Mi
         livenessProbe:
           httpGet:
