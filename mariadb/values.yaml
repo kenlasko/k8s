@@ -21,7 +21,14 @@ affinity:
         - key: kubernetes.io/arch
           operator: In
           values: 
-          - 'amd64'    
+          - 'amd64'
+resources:
+  requests:
+    cpu: 20m
+    memory: 1200Mi
+  limits:
+    cpu: 500m
+    memory: 2000Mi
 # tls:
 #   enabled: false
 #   certificatesSecret: ucdialplans-wildcard-cert

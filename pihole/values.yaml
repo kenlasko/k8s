@@ -22,6 +22,14 @@ affinity:
           values: 
           - 'amd64'
 
+resources:
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  limits:
+    cpu: 300m
+    memory: 150Mi
+
 persistentVolumeClaim:
   enabled: true
   storageClass: nfs-client

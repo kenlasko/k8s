@@ -21,6 +21,14 @@ additionalArguments:
 - "--providers.kubernetesingress.allowexternalnameservices"
 - "--providers.kubernetescrd.allowexternalnameservices"
 
+resources:
+  requests:
+    cpu: 10m
+    memory: 120Mi
+  limits:
+    cpu: 100m
+    memory: 200Mi
+
 ports:
   traefik:
     port: 9000
