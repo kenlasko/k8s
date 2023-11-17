@@ -22,11 +22,6 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
-      securityContext:
-        fsGroupChangePolicy: Always
-        runAsUser: 1000
-        runAsGroup: 100
-        fsGroup: 100
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
