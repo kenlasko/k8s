@@ -22,6 +22,11 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsUser: 1000
+        runAsGroup: 100
+        fsGroup: 100
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -46,7 +51,7 @@ spec:
         - name: PUID
           value: '1000'
         - name: PGID
-          value: '1000'
+          value: '100'
         resources:
           requests:
             cpu: 100m
