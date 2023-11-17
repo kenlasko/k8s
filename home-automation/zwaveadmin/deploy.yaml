@@ -21,9 +21,6 @@ spec:
         name: zwaveadmin
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       nodeName: nuc4
       containers:
       - name: zwaveadmin
