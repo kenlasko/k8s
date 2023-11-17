@@ -38,10 +38,10 @@ spec:
         image: linuxserver/transmission:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           capabilities:
-            drop: ["all"]
+            drop: ["NET_RAW"]
         env:
         - name: PUID
           value: '1000'
