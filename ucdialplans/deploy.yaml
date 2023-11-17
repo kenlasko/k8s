@@ -17,6 +17,9 @@ spec:
         name: ucdialplans
     spec:
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
