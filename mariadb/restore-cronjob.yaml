@@ -12,7 +12,6 @@ spec:
     spec:
       template:
         spec:
-          hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
           affinity:
             nodeAffinity:
