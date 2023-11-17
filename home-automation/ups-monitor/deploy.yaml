@@ -29,8 +29,11 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: 5m
-            memory: 10Mi
+            cpu: 1m
+            memory: 3Mi
+          limits:
+            cpu: 1m
+            memory: 6Mi
         livenessProbe:
           tcpSocket:
             port: 3493

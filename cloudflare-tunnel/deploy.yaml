@@ -36,6 +36,13 @@ spec:
               secretKeyRef:
                 name: admin-token
                 key: token
+          resources:
+            requests:
+              cpu: 10m
+              memory: 40Mi
+            limits:
+              cpu: 50m
+              memory: 80Mi
           args:
             - "tunnel"
             - "--no-autoupdate"
