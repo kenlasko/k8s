@@ -44,6 +44,9 @@ spec:
           value: '1000'
         resources:
           requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
             cpu: 100m
             memory: 500Mi
         livenessProbe:
