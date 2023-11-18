@@ -38,6 +38,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-backup
+  namespace: nfs-provisioner
 spec:
   storageClassName: ""
   volumeName: nfs-backup
@@ -57,7 +58,7 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: 1Gi
+    storage: 100Gi
   accessModes:
   - ReadWriteMany
   persistentVolumeReclaimPolicy:
