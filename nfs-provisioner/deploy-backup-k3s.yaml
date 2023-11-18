@@ -18,12 +18,12 @@ spec:
                 nodeSelectorTerms:
                 - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
-                    operator: Exists
+                    operator: DoesNotExist
           restartPolicy: Never
           volumes:
-          - name: data
-            persistentVolumeClaim:
-              claimName: k3s-backup
+          # - name: data
+          #   persistentVolumeClaim:
+          #     claimName: k3s-backup
           - name: backup
             nfs:
               server: 192.168.1.3
