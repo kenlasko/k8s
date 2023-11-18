@@ -9,5 +9,5 @@ data:
     ######################################
     # Backup K3S etcd to NFS mount script.
     ######################################  
-    sleep 9999m
+
     cp -p `ls -t /data/* | head -2` /backup/
