@@ -5,7 +5,7 @@ metadata:
   name: backup-k3s
   namespace: nfs-provisioner
 spec:
-  schedule: "0 6 * * *" 
+  schedule: "55 5 * * *" 
   suspend: false
   successfulJobsHistoryLimit: 1
   jobTemplate:
