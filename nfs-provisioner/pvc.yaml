@@ -64,7 +64,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   mountOptions:
   - hard
-  - nfsvers=4.1
+  - nfsvers=4.0
   nfs:
     path: /backup/k3s
     server: 192.168.1.3
