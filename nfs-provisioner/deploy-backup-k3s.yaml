@@ -17,6 +17,10 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                 - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: 
+                    - 'nuc1'
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
           restartPolicy: Never
