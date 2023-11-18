@@ -20,7 +20,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values: 
-                    - 'nuc1'
+                    - 'nuc3'
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
           restartPolicy: Never
