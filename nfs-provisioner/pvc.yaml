@@ -61,7 +61,7 @@ spec:
     storage: 100Gi
   accessModes:
   - ReadWriteMany
-  persistentVolumeReclaimPolicy:
+  persistentVolumeReclaimPolicy: Retain
   mountOptions:
   - hard
   - nfsvers=4.1
