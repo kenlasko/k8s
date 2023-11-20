@@ -12,7 +12,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   mountOptions:
   - hard
-  - nfsvers=4.0
+  - nfsvers=4.1
   nfs:
     path: /media
     server: 192.168.1.3
