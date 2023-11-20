@@ -79,7 +79,6 @@ spec:
           server: 192.168.1.3
           path: /appdata/vol/transmission
       - name: media
-        nfs:
-          server: 192.168.1.3
-          path: /media
+        persistentVolumeClaim:
+          claimName: nfs-media
       automountServiceAccountToken: false
