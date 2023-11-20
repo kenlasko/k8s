@@ -4,7 +4,7 @@ kind: PersistentVolume
 metadata:
   name: nfs-media
 spec:
-  storageClassName: ""
+  storageClassName: "nfs"
   capacity:
     storage: 20Ti
   accessModes:
@@ -25,7 +25,7 @@ metadata:
   name: nfs-media
   namespace: media-tools
 spec:
-  storageClassName: ""
+  storageClassName: "nfs"
   volumeName: nfs-media
   accessModes:
   - ReadWriteMany
