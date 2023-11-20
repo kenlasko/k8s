@@ -79,5 +79,5 @@ spec:
             claimName: longhorn-readarr-config-pvc
         - name: media
           persistentVolumeClaim:
-          claimName: nfs-media
+            claimName: nfs-media
       automountServiceAccountToken: false

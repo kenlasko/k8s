@@ -56,7 +56,7 @@ spec:
             claimName: longhorn-plex-config-pvc
         - name: media
           persistentVolumeClaim:
-          claimName: nfs-media
+            claimName: nfs-media
       automountServiceAccountToken: false
       containers:
       - name: plex
