@@ -14,7 +14,7 @@ spec:
   - hard
   - nfsvers=4.0
   nfs:
-    path: /backup/k3s
+    path: /media
     server: 192.168.1.3
     readOnly: false
 
