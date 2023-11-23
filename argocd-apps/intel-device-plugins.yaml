@@ -25,7 +25,7 @@ spec:
     ref: values
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: intel-gpu
+    namespace: media-tools
   ignoreDifferences:
   - group: "*"
     kind: GpuDevicePlugin
