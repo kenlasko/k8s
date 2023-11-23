@@ -19,9 +19,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: keel
+    namespace: kube-system
   syncPolicy:
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
