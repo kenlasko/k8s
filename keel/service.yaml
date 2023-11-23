@@ -4,7 +4,7 @@ metadata:
   labels:
     app: keel
   name: keel-frontend
-  namespace: keel
+  namespace: kube-system
 spec:
   type: ClusterIP
   ports:
