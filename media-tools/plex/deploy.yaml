@@ -69,8 +69,8 @@ spec:
             drop: ["NET_RAW"]
         resources:
           requests:
-            cpu: 100m
-            memory: 1000Mi
+            cpu: 10m
+            memory: 100Mi
             gpu.intel.com/i915: "1" 
           limits:
             cpu: 4000m
