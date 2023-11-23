@@ -59,7 +59,7 @@
             exemptions:
               usernames: []
               runtimeClasses: []
-              namespaces: [kube-system, cilium, homeassist, intel-gpu, longhorn, monitoring, netdata]
+              namespaces: [kube-system, cert-manager, cilium, homeassist, intel-gpu, longhorn, monitoring, netdata]
 
 
 - hosts: k3s-all
