@@ -74,7 +74,7 @@ spec:
             memory: 2Gi
             gpu.intel.com/i915: '1' 
           limits:
-            cpu: 4
+            cpu: '4'
             memory: 6Gi
             gpu.intel.com/i915: '1'
         startupProbe:
