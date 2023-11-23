@@ -1,27 +1,27 @@
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: transmission-service
-  name: transmission-service
-  namespace: media-tools
-spec:
-  type: ClusterIP
-  ports:
-  - port: 9091
-    protocol: TCP
-    targetPort: 9091
-    name: web
-  selector:
-    app: transmission
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: transmission-service
+#   name: transmission-service
+#   namespace: media-tools
+# spec:
+#   type: ClusterIP
+#   ports:
+#   - port: 9091
+#     protocol: TCP
+#     targetPort: 9091
+#     name: web
+#   selector:
+#     app: transmission
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: transmission-remotedata
-  name: transmission-remotedata
+    app: transmission-service
+  name: transmission-service
   namespace: media-tools
 spec:
   type: LoadBalancer
@@ -36,5 +36,9 @@ spec:
     protocol: UDP
     targetPort: 36881
     name: remotedata-udp
+  - port: 9091
+    protocol: TCP
+    targetPort: 9091
+    name: web 
   selector:
     app: transmission
