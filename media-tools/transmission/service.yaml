@@ -15,6 +15,34 @@
 #   selector:
 #     app: transmission
 
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: transmission-service
+#   name: transmission-service
+#   namespace: media-tools
+# spec:
+#   type: LoadBalancer
+#   loadBalancerIP: 192.168.1.12
+#   externalTrafficPolicy: Cluster
+#   ports:
+#   - port: 36881
+#     protocol: TCP
+#     targetPort: 36881
+#     name: remotedata-tcp
+#   - port: 36881
+#     protocol: UDP
+#     targetPort: 36881
+#     name: remotedata-udp
+#   - port: 9091
+#     protocol: TCP
+#     targetPort: 9091
+#     name: web 
+#   selector:
+#     app: transmission
+
 ---
 apiVersion: v1
 kind: Service
@@ -25,20 +53,37 @@ metadata:
   namespace: media-tools
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.12
+  loadBalancerIP: 192.168.1.14
   externalTrafficPolicy: Cluster
-  ports:
-  - port: 36881
-    protocol: TCP
-    targetPort: 36881
-    name: remotedata-tcp
-  - port: 36881
-    protocol: UDP
-    targetPort: 36881
-    name: remotedata-udp
-  - port: 9091
-    protocol: TCP
-    targetPort: 9091
-    name: web 
   selector:
     app: transmission
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/part-of: transmission
+  ports:
+  - port: 9091
+    targetPort: 9091
+    name: web
+    protocol: TCP
+  - name: relay
+    port: 36881
+    protocol: TCP
+    targetPort: 36881
+  - port: 3005
+    targetPort: 3005
+    name: transmission-companion
+  - port: 36881
+    targetPort: 36881
+    name: gdm-32410
+    protocol: UDP
+  - port: 32412
+    targetPort: 32412
+    name: gdm-32412
+    protocol: UDP
+  - port: 32413
+    targetPort: 32413
+    name: gdm-32413
+    protocol: UDP
+  - port: 32414
+    targetPort: 32414
+    name: gdm-32414
+    protocol: UDP

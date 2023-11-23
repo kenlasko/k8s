@@ -14,32 +14,32 @@ spec:
     app.kubernetes.io/name: plex
     app.kubernetes.io/part-of: plex
   ports:
-  - port: 32400
+  - name: pms-web
+    port: 32400
     targetPort: 32400
-    name: pms-web
     protocol: TCP
   - name: relay
     port: 32499
+    targetPort: 32499
     protocol: TCP
-    targetPort: relay
-  - port: 3005
+  - name: plex-companion
+    port: 3005
     targetPort: 3005
-    name: plex-companion
-  - port: 32410
+  - name: gdm-32410
+    port: 32410
     targetPort: 32410
-    name: gdm-32410
     protocol: UDP
-  - port: 32412
+  - name: gdm-32412
+    port: 32412
     targetPort: 32412
-    name: gdm-32412
     protocol: UDP
-  - port: 32413
+  - name: gdm-32413
+    port: 32413
     targetPort: 32413
-    name: gdm-32413
     protocol: UDP
-  - port: 32414
+  - name: gdm-32414
+    port: 32414
     targetPort: 32414
-    name: gdm-32414
     protocol: UDP
     
 
