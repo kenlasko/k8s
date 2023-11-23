@@ -52,10 +52,6 @@
             defaults:
               enforce: "privileged"
               enforce-version: "latest"
-              audit: "restricted"
-              audit-version: "latest"
-              warn: "restricted"
-              warn-version: "latest"
             exemptions:
               usernames: []
               runtimeClasses: []

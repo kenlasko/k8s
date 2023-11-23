@@ -13,16 +13,16 @@ ipam:
     clusterPoolIPv4PodCIDRList: 
     - 10.42.0.0/16
 k8sClientRateLimit:
-  qps: 5
-  burst: 10
+  qps: 50
+  burst: 100
 cluster:
   name: home
   id: 0
 l2announcements:
   enabled: true
-  leaseDuration: 30s
-  leaseRenewDeadline: 10s
-  leaseRetryPeriod: 4s
+  leaseDuration: 60s
+  leaseRenewDeadline: 30s
+  leaseRetryPeriod: 10s
 externalIPs:
   enabled: true
 kubeProxyReplacement: true
