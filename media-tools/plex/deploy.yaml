@@ -25,7 +25,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
-      priorityClassName: high-priority
+      priorityClass: high-priority
       securityContext:
         seccompProfile:
           type: RuntimeDefault
@@ -70,11 +70,11 @@ spec:
             drop: ["NET_RAW"]
         resources:
           requests:
-            cpu: 10m
-            memory: 100Mi
+            cpu: 1000m
+            memory: 2Gi
             gpu.intel.com/i915: "1" 
           limits:
-            cpu: 3000m
+            cpu: 4000m
             memory: 6Gi
             gpu.intel.com/i915: "1" 
         startupProbe:
