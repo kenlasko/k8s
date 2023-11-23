@@ -37,9 +37,9 @@ hubble:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
             - key: kubernetes.io/arch
-                operator: In
-                values: 
-                - 'amd64'
+              operator: In
+              values: 
+              - 'amd64'
   ui:
     enabled: true
     affinity:
@@ -50,9 +50,9 @@ hubble:
             - key: node-role.kubernetes.io/control-plane
               operator: DoesNotExist
             - key: kubernetes.io/arch
-                operator: In
-                values: 
-                - 'amd64'
+              operator: In
+              values: 
+              - 'amd64'
 gatewayAPI:
   enabled: true
   secretsNamespace:
@@ -68,6 +68,6 @@ operator:
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
           - key: kubernetes.io/arch
-                operator: In
-                values: 
-                - 'amd64'
+            operator: In
+            values: 
+            - 'amd64'

@@ -1,19 +1,24 @@
 ---
 # Installs the base apps (Cilium, Traefik, ArgoCD) to get started with installing all other apps
 # Run after k3s-node-* playbooks
+# - hosts: workstation
+#   tasks:
+#   - name: ensures .kube dir exists
+#     file: 
+#       path: "/home/ken/.kube"
+#       state: directory
+# - hosts: k3s-bootstrap-first
+#   tasks:
+#   - name: Copy k3s.yaml file with owner and permissions
+#     ansible.builtin.fetch:
+#       src: /etc/rancher/k3s/k3s.yaml
+#       dest: /home/ken/.kube/config
+#       owner: ken
+#       group: ken
+#       mode: '0600'
+#       flat: true
 - hosts: workstation
   tasks:
-  - name: ensures .kube dir exists
-    file: 
-      path: "/home/ken/.kube"
-      state: directory
-  - name: Copy file with owner and permissions
-    ansible.builtin.copy:
-      src: /etc/rancher/k3s/k3s.yaml
-      dest: /home/ken/.kube/config
-      owner: ken
-      group: ken
-      mode: '0600'
   - name: Add node labels for longhorn
     shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
   - name: Add node labels for GPU
@@ -65,6 +70,7 @@
       chart_ref: cilium/cilium
       chart_version: "1.15.0-pre.2"
       release_namespace: cilium
+      create_namespace: true
       values_files:
       - /home/ken/k3s/cilium/values.yaml
   - name: Add ArgoCD chart repo

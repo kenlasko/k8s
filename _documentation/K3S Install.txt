@@ -57,10 +57,10 @@ sudo mkdir /etc/ansible
 sudo cp ~/k3s/hosts /etc/ansible/hosts
 
 # Run first Ansible script
-ansible-playbook ~/k3s/k3s-node-prep.yaml --ask-become-pass
+ansible-playbook ~/k3s/_ansible/k3s-node-prep.yaml --ask-become-pass
 
 # Install K3S
-ansible-playbook ~/k3s/k3s-node-install.yaml --ask-become-pass
+ansible-playbook ~/k3s/_ansible/k3s-node-install.yaml --ask-become-pass
 
 # Install apps
 ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
