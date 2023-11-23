@@ -59,7 +59,7 @@
             exemptions:
               usernames: []
               runtimeClasses: []
-              namespaces: [kube-system, cis-operator-system, cilium, homeassist]
+              namespaces: [kube-system, cis-operator-system, cilium, homeassist, longhorn, netdata]
 
 
 - hosts: k3s-all
