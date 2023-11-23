@@ -32,9 +32,9 @@ spec:
     protocol: TCP
     targetPort: 36881
     name: remotedata-tcp
-  # - port: 36881
-  #   protocol: UDP
-  #   targetPort: 36881
-  #   name: remotedata-udp
+  - port: 36881
+    protocol: UDP
+    targetPort: 36881
+    name: remotedata-udp
   selector:
     app: transmission
