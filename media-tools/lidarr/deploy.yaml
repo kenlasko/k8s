@@ -22,7 +22,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
-      priorityClass: low-priority
+      priorityClassName: low-priority
       securityContext:
         seccompProfile:
           type: RuntimeDefault
