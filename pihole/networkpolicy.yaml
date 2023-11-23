@@ -1,32 +1,43 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
   name: pihole
   namespace: pihole
 spec:
-  podSelector: {}
-  policyTypes:
-    - Egress
+  endpointSelector: {}
   ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-    - from:
-        - ipBlock:
-            cidr: 192.168.1.0/24
-      ports:
-        - port: 53
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: traefik
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+    - fromCIDRSet:
+        - cidr: 192.168.1.0/24
+      toPorts:
+        - ports:
+            - port: "53"
   egress:
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 80
-        - port: 443
-    - to:
-        - ipBlock:
-            cidr: 192.168.1.0/31
-      ports:
-        - port: 53
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+        - ports:
+            - port: "443"
+    - toCIDRSet:
+        - cidr: 192.168.1.0/31
+      toPorts:
+        - ports:
+            - port: "53"
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
