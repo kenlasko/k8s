@@ -11,6 +11,7 @@ metadata:
 spec:
   replicas: 1
   revisionHistoryLimit: 2
+  priorityClass: low-priority
   selector:
     matchLabels:
       app: transmission

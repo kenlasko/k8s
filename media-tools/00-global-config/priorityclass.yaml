@@ -1,0 +1,28 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 4000000
+globalDefault: false
+description: >-
+  This priority class is reserved for pods that should be prioritized over other pods
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: medium-priority
+value: 3000000
+globalDefault: false
+description: >-
+  This priority class is reserved for pods that should run, but not at the expense of high-priority pods
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: low-priority
+value: 1000000
+globalDefault: false
+description: >-
+  This priority class is reserved for pods that are not used that often and can be pushed out
