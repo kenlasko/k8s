@@ -7,7 +7,7 @@ affinity:
       nodeSelectorTerms:
       - matchExpressions:
         - key: node-role.kubernetes.io/control-plane
-          operator: DoesNotExist
+          operator: Exists
         - key: kubernetes.io/arch
           operator: In
           values: 
@@ -19,7 +19,7 @@ webhook:
         nodeSelectorTerms:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
+            operator: Exists
           - key: kubernetes.io/arch
             operator: In
             values: 
@@ -31,7 +31,7 @@ cainjector:
         nodeSelectorTerms:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
+            operator: Exists
           - key: kubernetes.io/arch
             operator: In
             values: 
@@ -43,7 +43,7 @@ startupapicheck:
         nodeSelectorTerms:
         - matchExpressions:
           - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
+            operator: Exists
           - key: kubernetes.io/arch
             operator: In
             values: 
