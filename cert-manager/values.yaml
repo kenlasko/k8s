@@ -3,6 +3,32 @@ livenessProbe:
   enabled: true
 prometheus:
   enabled: false
+automountServiceAccountToken: false
+serviceAccount:
+  automountServiceAccountToken: false
+volumes:
+- name: serviceaccount-token
+  projected:
+    defaultMode: 0444
+    sources:
+    - serviceAccountToken:
+        expirationSeconds: 3607
+        path: token
+    - configMap:
+        name: kube-root-ca.crt
+        items:
+        - key: ca.crt
+          path: ca.crt
+    - downwardAPI:
+        items:
+        - path: namespace
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+volumeMounts:
+- mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+  name: serviceaccount-token
+  readOnly: true
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -14,7 +40,35 @@ affinity:
           operator: In
           values: 
           - 'amd64'
+
+
 webhook:
+  automountServiceAccountToken: false
+  serviceAccount:
+    automountServiceAccountToken: false
+  volumes:
+  - name: serviceaccount-token
+    projected:
+      defaultMode: 0444
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          name: kube-root-ca.crt
+          items:
+          - key: ca.crt
+            path: ca.crt
+      - downwardAPI:
+          items:
+          - path: namespace
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+  volumeMounts:
+  - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+    name: serviceaccount-token
+    readOnly: true
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -26,7 +80,34 @@ webhook:
             operator: In
             values: 
             - 'amd64'
+
 cainjector:
+  automountServiceAccountToken: false
+  serviceAccount:
+    automountServiceAccountToken: false
+  volumes:
+  - name: serviceaccount-token
+    projected:
+      defaultMode: 0444
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          name: kube-root-ca.crt
+          items:
+          - key: ca.crt
+            path: ca.crt
+      - downwardAPI:
+          items:
+          - path: namespace
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+  volumeMounts:
+  - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+    name: serviceaccount-token
+    readOnly: true
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -38,7 +119,34 @@ cainjector:
             operator: In
             values: 
             - 'amd64'
+
 startupapicheck:
+  automountServiceAccountToken: false
+  serviceAccount:
+    automountServiceAccountToken: false
+  volumes:
+  - name: serviceaccount-token
+    projected:
+      defaultMode: 0444
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          name: kube-root-ca.crt
+          items:
+          - key: ca.crt
+            path: ca.crt
+      - downwardAPI:
+          items:
+          - path: namespace
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+  volumeMounts:
+  - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+    name: serviceaccount-token
+    readOnly: true
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
