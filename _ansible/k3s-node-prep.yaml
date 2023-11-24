@@ -50,7 +50,7 @@
             apiVersion: pod-security.admission.config.k8s.io/v1beta1
             kind: PodSecurityConfiguration
             defaults:
-              enforce: "privileged"
+              enforce: "baseline"
               enforce-version: "latest"
             exemptions:
               usernames: []
