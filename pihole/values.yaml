@@ -32,8 +32,9 @@ resources:
 
 persistentVolumeClaim:
   enabled: true
-  storageClass: nfs-client
-  size: "1Gi"
+  storageClass: nfs
+  existingClaim: pihole-data
+  size: "10Gi"
   accessModes:
     - ReadWriteOnce
 
