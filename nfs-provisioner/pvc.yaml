@@ -1,3 +1,4 @@
+# K3S backup PV/PVC
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -33,6 +34,7 @@ spec:
           operator: Exists
 
 
+# Vol backup PV/PVC
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
