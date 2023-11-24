@@ -20,8 +20,6 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-        capabilities:
-          drop: ["all"]
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
