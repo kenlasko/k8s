@@ -12,6 +12,9 @@ spec:
     helm:
       valueFiles:
       - $values/traefik/values.yaml
+  - repoURL: 'https://helm.traefik.io/traefik'
+    targetRevision: 25.*
+    chart: traefik
     plugin:
       name: kustomized-helm
   - repoURL: 'git@github.com:kenlasko/K3S.git'
