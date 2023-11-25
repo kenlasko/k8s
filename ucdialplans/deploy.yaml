@@ -33,15 +33,14 @@ spec:
         image: registry.ucdialplans.com/ucdialplans:latest
         imagePullPolicy: IfNotPresent
         securityContext:
+          capabilities:
+            drop: ["all"]
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 1000
           seccompProfile:
             type: RuntimeDefault
-          capabilities:
-            drop:
-            - all
         resources:
           requests:
             cpu: 300m
