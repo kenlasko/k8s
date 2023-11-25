@@ -27,8 +27,6 @@ spec:
         runAsUser: 1000
         runAsGroup: 3000
         fsGroup: 2000
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -47,6 +45,10 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
           capabilities:
             drop: ["NET_RAW"]
         resources:
