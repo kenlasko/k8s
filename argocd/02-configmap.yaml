@@ -8,10 +8,13 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   configManagementPlugins: |
-    - name: kustomize-helm
+    - name: kustomized-helm
+      init:
+        command: ["/bin/sh", "-c"]
+        args: ["helm dependency build"]
       generate:
-        command: [ "sh", "-c" ]
-        args: [ "kustomize build --enable-helm" ]
+        command: [sh, -c]
+        args: ["helm template --release-name release-name . > all.yaml && kustomize build"]
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
       sshPrivateKeySecret:
