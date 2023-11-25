@@ -17,9 +17,6 @@ spec:
         name: ucdialplans
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,6 +37,8 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
           capabilities:
             drop: ["all"]
           
