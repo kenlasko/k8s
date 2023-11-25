@@ -4,3 +4,5 @@ metadata:
   name: vaultwarden
   labels:
     name: vaultwarden
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
