@@ -34,7 +34,7 @@ spec:
         imagePullPolicy: IfNotPresent
         securityContext:
           capabilities:
-            drop: ["all"]
+            drop: ["ALL"]
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           runAsNonRoot: true
