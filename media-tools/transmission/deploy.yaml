@@ -24,8 +24,12 @@ spec:
       restartPolicy: Always
       priorityClassName: low-priority
       securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: false
         seccompProfile:
           type: RuntimeDefault
+        capabilities:
+          drop: ["NET_RAW"]
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,12 +44,7 @@ spec:
       containers:
       - name: transmission
         image: linuxserver/transmission:latest
-        imagePullPolicy: Always
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          capabilities:
-            drop: ["NET_RAW"]
+        imagePullPolicy: Always  
         env:
         - name: PUID
           value: '1000'
