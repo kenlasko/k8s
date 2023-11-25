@@ -17,9 +17,6 @@ spec:
         name: registry
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -35,6 +32,15 @@ spec:
       - name: registry
         image: registry:2
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         ports:
         - containerPort: 5000
         resources:
@@ -54,12 +60,11 @@ spec:
         - name: REGISTRY_HTTP_ADDR
           value: "0.0.0.0:5000"
         volumeMounts:
-        - name: volv
+        - name: vaultwarden-data
           mountPath: /var/lib/registry
           subPath: registry
       volumes:
-      - name: volv
-        nfs:
-          server: 192.168.1.3
-          path: /appdata/vol/registry
+      - name: vaultwarden-data
+        persistentVolumeClaim:
+          claimName: vaultwarden-data
       automountServiceAccountToken: false
