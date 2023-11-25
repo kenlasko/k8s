@@ -6,17 +6,17 @@ metadata:
 spec:
   project: default
   sources:
-  # - repoURL: 'https://helm.traefik.io/traefik'
-  #   targetRevision: 25.*
-  #   chart: traefik
-  #   helm:
-  #     valueFiles:
-  #     - $values/traefik/values.yaml
   - repoURL: 'https://helm.traefik.io/traefik'
     targetRevision: 25.*
     chart: traefik
-    plugin:
-      name: kustomize-build-with-helm
+    helm:
+      valueFiles:
+      - $values/traefik/values.yaml
+  # - repoURL: 'https://helm.traefik.io/traefik'
+  #   targetRevision: 25.*
+  #   chart: traefik
+  #   plugin:
+  #     name: kustomize-build-with-helm
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'

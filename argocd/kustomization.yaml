@@ -1,8 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: argocd
-resources:
-- github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.15
-- kustomize-with-helm-configmap.yaml # Adds our configmap
-patches:
-- path: kustomize-with-helm-sidecar.yaml # Adds the sidecar to argocd-repo-server
