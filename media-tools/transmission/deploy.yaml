@@ -46,6 +46,8 @@ spec:
           readOnlyRootFilesystem: false
           capabilities:
             drop: ["ALL"]
+            add:
+            - CAP_CHOWN
         env:
         - name: PUID
           value: '1000'
