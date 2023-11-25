@@ -44,8 +44,12 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
           capabilities:
-            drop: ["NET_RAW"]
+            drop: ["ALL"]
         env:
         - name: PUID
           value: '1000'
