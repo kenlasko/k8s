@@ -16,8 +16,7 @@ spec:
     targetRevision: 25.*
     chart: traefik
     plugin:
-      name: kustomized-helm
-      namespace: argocd
+      name: kustomize-build-with-helm
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
