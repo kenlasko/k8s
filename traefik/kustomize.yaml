@@ -3,13 +3,11 @@ kind: Kustomization
 metadata:
   name: kustomize-security
 namespace: traefik
-resources:
-  - https://raw.githubusercontent.com/argoproj/argocd-example-apps/master/kustomize-guestbook/
 patches:
-  - target:
-      kind: DaemonSet
-      name: traefik
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/securityContext/seccompProfile/type
-        value: RuntimeDefault
+- target:
+    kind: DaemonSet
+    name: traefik
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/securityContext/seccompProfile/type
+      value: RuntimeDefault
