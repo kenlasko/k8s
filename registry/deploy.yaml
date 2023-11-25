@@ -60,11 +60,11 @@ spec:
         - name: REGISTRY_HTTP_ADDR
           value: "0.0.0.0:5000"
         volumeMounts:
-        - name: vaultwarden-data
+        - name: registry-data
           mountPath: /var/lib/registry
           subPath: registry
       volumes:
-      - name: vaultwarden-data
+      - name: registry-data
         persistentVolumeClaim:
-          claimName: vaultwarden-data
+          claimName: registry-data
       automountServiceAccountToken: false
