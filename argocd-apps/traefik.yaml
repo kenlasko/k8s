@@ -13,14 +13,14 @@ spec:
       valueFiles:
       - $values/traefik/values.yaml
     kustomize:
-    patches:
-    - target:
-        kind: DaemonSet
-        name: traefik
-      patch: |-
-        - op: replace
-          path: /spec/template/spec/containers/0/securityContext/seccompProfile/type
-          value: RuntimeDefault
+      patches:
+      - target:
+          kind: DaemonSet
+          name: traefik
+        patch: |-
+          - op: replace
+            path: /spec/template/spec/containers/0/securityContext/seccompProfile/type
+            value: RuntimeDefault
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
