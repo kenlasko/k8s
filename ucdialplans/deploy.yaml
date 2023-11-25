@@ -18,6 +18,8 @@ spec:
     spec:
       restartPolicy: Always
       securityContext:
+        capabilities:
+          drop: ["all"]
         seccompProfile:
           type: RuntimeDefault
       affinity:
@@ -40,8 +42,7 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 1000
-          capabilities:
-            drop: ["all"]
+          
         resources:
           requests:
             cpu: 300m
