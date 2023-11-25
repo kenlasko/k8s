@@ -24,6 +24,15 @@ spec:
           - name: emailupdate
             image: curlimages/curl
             imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
             command:
             - /bin/sh
             - -c
