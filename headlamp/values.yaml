@@ -1,5 +1,4 @@
 securityContext:
-  readOnlyRootFilesystem: true
   capabilities:
     drop: ["ALL"]
   
