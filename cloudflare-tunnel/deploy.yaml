@@ -16,9 +16,6 @@ spec:
         name: cloudflare-tunnel
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -34,6 +31,15 @@ spec:
         - name: cloudflare-tunnel
           image: cloudflare/cloudflared:latest
           imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: ["ALL"]
           env:
           - name: TOKEN
             valueFrom:
