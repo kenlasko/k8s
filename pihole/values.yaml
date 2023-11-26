@@ -10,6 +10,9 @@ maxUnavailable: 1
 
 hostname: pihole
 
+capabilities:
+  drop: ["ALL"]
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
