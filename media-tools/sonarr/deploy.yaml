@@ -50,7 +50,6 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
-            # - "FSETID"
         env:
         - name: PUID
           value: '1000'
