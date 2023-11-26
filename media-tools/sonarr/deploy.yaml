@@ -41,16 +41,18 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          runAsNonRoot: true
-          runAsUser: 1000
           seccompProfile:
             type: RuntimeDefault
-          # capabilities:
-          #   drop: ["ALL"]
-          #   add:
-          #   - "CHOWN"
-          #   - "SETGID"
-          #   - "SETUID"
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "CHROOT"
+            - "FOWNER"
+            - "SETFCAP"
+            - "SETPCAP"
         env:
         - name: PUID
           value: '1000'
