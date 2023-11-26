@@ -33,6 +33,13 @@ spec:
       - name: pihole-sync
         image: mattwebbio/orbital-sync:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         env:
         - name: INTERVAL_MINUTES
           value: '120'
