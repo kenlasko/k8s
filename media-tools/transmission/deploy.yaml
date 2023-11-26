@@ -47,11 +47,13 @@ spec:
             drop: ["ALL"]
             add:
             - "CHOWN"
-        # env:
-        # - name: PUID
-        #   value: '1000'
-        # - name: PGID
-        #   value: '100'
+            - "SETGID"
+            - "SETUID"
+        env:
+        - name: PUID
+          value: '1000'
+        - name: PGID
+          value: '100'
         resources:
           requests:
             cpu: 10m
