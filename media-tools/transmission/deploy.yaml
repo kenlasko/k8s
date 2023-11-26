@@ -46,7 +46,7 @@ spec:
           capabilities:
             drop: ["ALL"]
             add:
-            - "CHOWN"
+            # - "CHOWN"
             - "SETGID"
             - "SETUID"
         env:
