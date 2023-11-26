@@ -12,6 +12,11 @@ hostname: pihole
 
 capabilities:
   drop: ["ALL"]
+  add:
+  - "CHOWN"
+  - "SETGID"
+  - "SETUID"
+  - "DAC_OVERRIDE"
 
 affinity:
   nodeAffinity:
