@@ -22,9 +22,6 @@ spec:
     spec:
       restartPolicy: Always
       priorityClassName: medium-priority
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -43,8 +40,15 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
           capabilities:
-            drop: ["NET_RAW"]
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
         env:
         - name: PUID
           value: '1000'
