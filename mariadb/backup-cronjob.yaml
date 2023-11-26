@@ -23,6 +23,15 @@ spec:
           - name: mariadb-backup
             image: mariadb:11.1.2
             imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1001
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
             env: 
             - name: K3S_ROOT_PW 
               valueFrom: 

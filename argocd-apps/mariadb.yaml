@@ -25,5 +25,9 @@ spec:
     - /data
     kind: Secret
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: restricted
+        pod-security.kubernetes.io/enforce-version: latest
     syncOptions:
     - CreateNamespace=true
