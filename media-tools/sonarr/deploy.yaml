@@ -38,7 +38,17 @@ spec:
       - name: sonarr
         image: linuxserver/sonarr:latest
         imagePullPolicy: Always
-
+        securityContext:
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
         env:
         - name: PUID
           value: '1000'
