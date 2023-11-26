@@ -23,6 +23,15 @@ spec:
           - name: mariadb-ucdialplans-statusupdate
             image: bitnami/mariadb:11.0.3-debian-11-r5
             imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
             env: 
             - name: K3S_ROOT_PW 
               valueFrom: 

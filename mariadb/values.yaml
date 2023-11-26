@@ -11,17 +11,6 @@ rootUser:
 mariabackup:
   user: mariabackup
   password: ***REMOVED***
-containerSecurityContext:
-  enabled: true
-  runAsUser: 1001
-  runAsNonRoot: true
-  privileged: false
-  readOnlyRootFilesystem: false
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop: ["ALL"]
-  seccompProfile:
-    type: "RuntimeDefault"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
