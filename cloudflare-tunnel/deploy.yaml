@@ -31,15 +31,15 @@ spec:
         - name: cloudflare-tunnel
           image: cloudflare/cloudflared:latest
           imagePullPolicy: Always
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: true
-            runAsUser: 1000
-            seccompProfile:
-              type: RuntimeDefault
-            capabilities:
-              drop: ["ALL"]
+          # securityContext:
+          #   allowPrivilegeEscalation: false
+          #   readOnlyRootFilesystem: false
+          #   runAsNonRoot: true
+          #   runAsUser: 1000
+          #   seccompProfile:
+          #     type: RuntimeDefault
+          #   capabilities:
+          #     drop: ["ALL"]
           env:
           - name: TOKEN
             valueFrom:
