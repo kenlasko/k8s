@@ -6,7 +6,7 @@ storageClass:
   name: nfs-client
   accessModes: ReadWriteMany
 
-podSecurityContext:
+securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
   runAsNonRoot: true
