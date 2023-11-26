@@ -1,3 +1,8 @@
+securityContext:
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+  
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
