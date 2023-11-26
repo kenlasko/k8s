@@ -50,7 +50,6 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
-            # - "DAC_READ_SEARCH"
             - "FSETID"
         env:
         - name: PUID
