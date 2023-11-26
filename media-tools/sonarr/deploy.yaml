@@ -49,6 +49,7 @@ spec:
             - "CHOWN"
             - "SETGID"
             - "SETUID"
+            - "FOWNER"
         env:
         - name: PUID
           value: '1000'
