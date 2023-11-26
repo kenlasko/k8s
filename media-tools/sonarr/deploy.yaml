@@ -39,16 +39,16 @@ spec:
         image: linuxserver/sonarr:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           seccompProfile:
             type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-            add:
-            - "CHOWN"
-            - "SETGID"
-            - "SETUID"
+          # capabilities:
+          #   drop: ["ALL"]
+          #   add:
+          #   - "CHOWN"
+          #   - "SETGID"
+          #   - "SETUID"
         env:
         - name: PUID
           value: '1000'
