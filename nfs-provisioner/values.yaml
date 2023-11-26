@@ -6,6 +6,16 @@ storageClass:
   name: nfs-client
   accessModes: ReadWriteMany
 
+podSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
