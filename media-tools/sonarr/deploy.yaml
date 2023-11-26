@@ -49,7 +49,7 @@ spec:
             - "CHOWN"
             - "SETGID"
             - "SETUID"
-            - "FOWNER"
+            - "SYS_ADMIN"
         env:
         - name: PUID
           value: '1000'
