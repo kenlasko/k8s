@@ -31,7 +31,7 @@ defaultRules:
 
 alertmanager:
   fullnameOverride: alertmanager
-  enabled: false
+  enabled: true
   config:
     global:
       smtp_smarthost: 'smtp.sendgrid.net:587'
@@ -45,12 +45,6 @@ alertmanager:
       repeat_interval: 4h
       receiver: 'null'
       routes:
-      - receiver: ha-mediapc-webhook
-        matchers:
-        - alertname = "MediaToolsPodNotReady"
-        - namespace = "media-tools"
-        - severity = "warning"
-        continue: true
       - receiver: 'ken-gmail'
         matchers:
         - severity = "warning"
