@@ -38,6 +38,10 @@ configs:
       url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
       name: csi-driver-smb
       type: helm
+    descheduler:
+      url: https://kubernetes-sigs.github.io/descheduler/
+      name: descheduler
+      type: helm
     falco-security:
       url: https://falcosecurity.github.io/charts
       name: falcosecurity
