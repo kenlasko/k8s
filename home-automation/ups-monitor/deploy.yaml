@@ -24,10 +24,10 @@ spec:
       nodeName: nuc4
       containers:
       - name: ups-monitor
-        image: upshift/nut-upsd  #instantlinux/nut-upsd:latest
+        image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
-          # privileged: true
+          privileged: true
           # runAsNonRoot: true
           # runAsUser: 100
           # runAsGroup: 101
