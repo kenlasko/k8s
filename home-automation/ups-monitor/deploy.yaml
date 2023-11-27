@@ -37,7 +37,10 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-            add: 
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
             - "SYS_PTRACE"
         resources:
           requests:
