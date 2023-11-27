@@ -1,23 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: device-manager
+  name: add-ons
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   sources:
+  # Smarter USB Device Manager
   - repoURL: 'https://geek-cookbook.github.io/charts/'
     targetRevision: 6.*
     chart: smarter-device-manager
     helm:
       valueFiles:
-      - $values/device-manager/values.yaml
+      - $usb-values/add-ons/usb-device-manager/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    ref: values
+    ref: usb-values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: device-manager
+    path: add-ons/usb-device-manager
+    targetRevision: HEAD
+  # KubeAPI service account
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: add-ons/kubeapi-service-account
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
