@@ -27,14 +27,15 @@ spec:
         image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: true
-          readOnlyRootFilesystem: false
-          seccompProfile:
-            type: Unconfined
-          capabilities:
-            # drop: ["ALL"]
-            add:
-            - "ALL"
+          privileged: true
+          # allowPrivilegeEscalation: true
+          # readOnlyRootFilesystem: false
+          # seccompProfile:
+          #   type: Unconfined
+          # capabilities:
+          #   # drop: ["ALL"]
+          #   add:
+          #   - "ALL"
         resources:
           requests:
             cpu: 1m
