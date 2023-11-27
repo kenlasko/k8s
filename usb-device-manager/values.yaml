@@ -1,6 +1,6 @@
 global:
-  nameOverride: smarter-device-manager
-  
+  fullnameOverride: "smarter-device-manager"
+
 config: |
   - devicematch: ^ttyUSB.*$
     nummaxdevices: 5
