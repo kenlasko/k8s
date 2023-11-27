@@ -39,6 +39,7 @@ spec:
             drop: ["ALL"]
             add:
             - "CHOWN"
+            - "FOWNER"
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
