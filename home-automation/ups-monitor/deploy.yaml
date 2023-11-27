@@ -24,7 +24,7 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      hostNetwork: true
+      #hostNetwork: true
       nodeName: nuc4
       containers:
       - name: ups-monitor
