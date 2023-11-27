@@ -40,6 +40,8 @@ spec:
             add:
             - "CHOWN"
             - "FOWNER"
+            - "SETFCAP"
+            - "SETPCAP"
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
