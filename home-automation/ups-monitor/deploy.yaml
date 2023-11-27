@@ -24,7 +24,7 @@ spec:
       nodeName: nuc4
       containers:
       - name: ups-monitor
-        image: gpdm/nut-upsd #instantlinux/nut-upsd:latest
+        image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
           privileged: true
@@ -33,8 +33,8 @@ spec:
           # runAsGroup: 101
           # allowPrivilegeEscalation: true
           # readOnlyRootFilesystem: false
-          # seccompProfile:
-          #   type: Unconfined
+          seccompProfile:
+            type: RuntimeDefault
           # capabilities:
           #   # drop: ["ALL"]
           #   add:
