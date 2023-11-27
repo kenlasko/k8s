@@ -1,0 +1,4 @@
+configuration:
+  forceReboot: true
+  drainTimeout: 120
+  notifyUrl: "smtp://apikey:***REMOVED***@smtp.sendgrid.net:597/?fromAddress=klasko@ucdialplans.com&toAddresses=ken.lasko@gmail.com"

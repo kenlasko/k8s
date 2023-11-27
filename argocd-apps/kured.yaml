@@ -9,14 +9,14 @@ spec:
   - repoURL: 'https://kubereboot.github.io/charts'
     targetRevision: 5.*
     chart: kured
-  #   helm:
-  #     valueFiles:
-  #     - $values/kured/values.yaml
-  # - repoURL: 'git@github.com:kenlasko/K3S.git'
-  #   ref: values
-  # - repoURL: 'git@github.com:kenlasko/K3S.git'
-  #   path: kured
-  #   targetRevision: HEAD
+    helm:
+      valueFiles:
+      - $values/kured/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: kured
+    targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kube-system
