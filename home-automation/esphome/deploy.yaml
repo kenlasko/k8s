@@ -45,7 +45,8 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        resources:
+            add:
+            - "NET_RAW"
         resources:
           requests:
             cpu: 1000m
