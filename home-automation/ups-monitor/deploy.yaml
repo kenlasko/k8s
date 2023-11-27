@@ -21,9 +21,6 @@ spec:
         name: ups-monitor
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       nodeName: nuc4
       containers:
       - name: ups-monitor
@@ -31,6 +28,12 @@ spec:
         imagePullPolicy: Always
         securityContext:
           privileged: true
+          # allowPrivilegeEscalation: false
+          # readOnlyRootFilesystem: false
+          # seccompProfile:
+          #   type: RuntimeDefault
+          # capabilities:
+          #   drop: ["ALL"]
         resources:
           requests:
             cpu: 1m
@@ -53,16 +56,10 @@ spec:
           name: ttyusb0
         - name: ups-monitor-config
           mountPath: /etc/nut
-        - name: tz-config
-          mountPath: /etc/localtime
       volumes:
       - name: ttyusb0
         hostPath:
           path: /dev/ttyUSB#/dev/bus/usb/001/003
       - name: ups-monitor-config
-        nfs:
-          server: 192.168.1.3
-          path: /appdata/vol/ups-monitor
-      - name: tz-config
-        hostPath:
-          path: /usr/share/zoneinfo/Canada/Eastern
+        persistentVolumeClaim:
+          claimName: nfs-***REMOVED***itor

@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 2Gi
   accessModes:
-  - ReadWriteMany
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   mountOptions:
   - hard
@@ -28,7 +28,7 @@ spec:
   storageClassName: "nfs"
   volumeName: nfs-esphome
   accessModes:
-  - ReadWriteMany
+  - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
