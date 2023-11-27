@@ -24,14 +24,13 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      #hostNetwork: true
       nodeName: nuc4
       containers:
       - name: ups-monitor
         image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
-          privileged: false
+          privileged: true
         resources:
           requests:
             cpu: 1m
