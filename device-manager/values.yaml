@@ -1,5 +1,7 @@
 config: |
-  - devicematch: ^tty.*$
+  - devicematch: ^ttyUSB.*$
+    nummaxdevices: 5
+  - devicematch: ^bus.*$
     nummaxdevices: 20
 
 affinity:
