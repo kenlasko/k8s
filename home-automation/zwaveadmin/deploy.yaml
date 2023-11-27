@@ -27,8 +27,8 @@ spec:
         image: zwavejs/zwavejs2mqtt:latest
         imagePullPolicy: Always
         securityContext:
-          # allowPrivilegeEscalation: false
-          # readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
           # runAsNonRoot: true
           # runAsUser: 1000
           seccompProfile:
