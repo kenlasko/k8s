@@ -1,3 +1,5 @@
+global:
+  nameOverride: smarter-device-manager
 config: |
   - devicematch: ^ttyUSB.*$
     nummaxdevices: 5
@@ -9,8 +11,6 @@ securityContext:
     drop: ["ALL"]
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 affinity:
   nodeAffinity:
