@@ -21,9 +21,6 @@ spec:
         name: esphome
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -39,6 +36,16 @@ spec:
       - name: esphome
         image: esphome/esphome:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
         resources:
           requests:
             cpu: 1000m
