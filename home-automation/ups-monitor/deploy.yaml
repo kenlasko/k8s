@@ -27,15 +27,14 @@ spec:
         image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
-          # privileged: true
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           seccompProfile:
             type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-            add:
-            - "CHOWN"
+          # capabilities:
+          #   drop: ["ALL"]
+          #   add:
+          #   - "CHOWN"
         resources:
           requests:
             cpu: 1m
