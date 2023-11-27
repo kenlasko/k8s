@@ -24,7 +24,7 @@ spec:
       nodeName: nuc4
       containers:
       - name: ups-monitor
-        image: shawly/nut:latest  #instantlinux/nut-upsd:latest
+        image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
           privileged: true
@@ -51,15 +51,13 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
-        - name: FIX_OWNERSHIP
-          value: "false"
         - name: API_USER
           value: "***REMOVED***"
         - name: API_PASSWORD
           value: "***REMOVED***"
         volumeMounts:
         - name: ups-monitor-config
-          mountPath: /nut
+          mountPath: /etc/nut
       volumes:
       - name: ups-monitor-config
         persistentVolumeClaim:
