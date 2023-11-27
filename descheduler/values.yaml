@@ -1,3 +1,5 @@
+schedule: "*/5 * * * *"
+
 deschedulerPolicy:
   strategies:
     RemoveDuplicates:
