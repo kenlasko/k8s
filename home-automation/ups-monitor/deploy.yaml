@@ -28,7 +28,7 @@ spec:
         image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
-          privileged: true
+          # privileged: true
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           runAsNonRoot: true
