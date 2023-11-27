@@ -33,5 +33,5 @@ basicauth:
 
 persistence:
   enabled: true
-  storageClass: "nfs-client"
-  size: 1Gi
+  storageClass: "nfs"
+  size: 5Mi
