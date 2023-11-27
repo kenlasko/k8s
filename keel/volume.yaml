@@ -23,7 +23,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-keel
-  namespace: keel
+  namespace: kube-system
 spec:
   storageClassName: "nfs"
   volumeName: nfs-keel
