@@ -34,6 +34,8 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+            add:
+            - "CHOWN"
         resources:
           requests:
             cpu: 1m
