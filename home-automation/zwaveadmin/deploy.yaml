@@ -29,8 +29,6 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          # runAsNonRoot: true
-          # runAsUser: 1000
           seccompProfile:
             type: RuntimeDefault
           capabilities:
@@ -56,18 +54,12 @@ spec:
         volumeMounts:
         - name: zwaveadmin
           mountPath: /usr/src/app/store
-        # - mountPath: /dev/ttyUSB0
-        #   name: ttyusb0
         - name: tz-config
           mountPath: /etc/localtime
       volumes:
       - name: zwaveadmin
-        nfs:
-          server: 192.168.1.3
-          path: /appdata/vol/zwaveadmin
-      # - name: ttyusb0
-      #   hostPath:
-      #     path: /dev/ttyUSB0
+        persistentVolumeClaim:
+          claimName: nfs-zwaveadmin
       - name: tz-config
         hostPath:
           path: /usr/share/zoneinfo/Canada/Eastern

@@ -34,3 +34,40 @@ spec:
     requests:
       storage: 2Gi
 
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-zwaveadmin
+spec:
+  storageClassName: "nfs"
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+  - hard
+  - nfsvers=4.1
+  nfs:
+    path: /appdata/vol/zwaveadmin
+    server: 192.168.1.3
+    readOnly: false
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-zwaveadmin
+  namespace: homeassist
+spec:
+  storageClassName: "nfs"
+  volumeName: nfs-zwaveadmin
+  accessModes:
+  - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+
