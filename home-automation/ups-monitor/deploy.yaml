@@ -21,15 +21,24 @@ spec:
         name: ups-monitor
     spec:
       restartPolicy: Always
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       hostNetwork: true
       nodeName: nuc4
       containers:
       - name: ups-monitor
         image: instantlinux/nut-upsd:latest
         imagePullPolicy: Always
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+            add: 
+            - "SYS_PTRACE"
         resources:
           requests:
             cpu: 1m
@@ -54,8 +63,6 @@ spec:
           mountPath: /etc/nut
         - name: tz-config
           mountPath: /etc/localtime
-        securityContext:
-          privileged: true
       volumes:
       - name: ttyusb0
         hostPath:
