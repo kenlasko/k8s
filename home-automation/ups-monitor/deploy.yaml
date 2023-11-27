@@ -28,9 +28,9 @@ spec:
         imagePullPolicy: Always
         securityContext:
           privileged: true
-          # runAsNonRoot: true
-          # runAsUser: 100
-          # runAsGroup: 101
+          runAsNonRoot: true
+          runAsUser: 100
+          runAsGroup: 101
           # allowPrivilegeEscalation: true
           # readOnlyRootFilesystem: false
           seccompProfile:
