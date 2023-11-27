@@ -102,8 +102,6 @@ spec:
         - name: github-ssh-creds
           mountPath: /root/.ssh
           readOnly: true
-        - name: tz-config
-          mountPath: /etc/localtime
       dnsConfig:
         options:
           - name: ndots
@@ -116,6 +114,3 @@ spec:
         secret:
           secretName: github-ssh-creds
           defaultMode: 0600
-      - name: tz-config
-        hostPath:
-          path: /usr/share/zoneinfo/Canada/Eastern

@@ -54,14 +54,7 @@ spec:
         volumeMounts:
         - name: zwaveadmin
           mountPath: /usr/src/app/store
-        - name: tz-config
-          mountPath: /etc/localtime
       volumes:
       - name: zwaveadmin
         persistentVolumeClaim:
           claimName: nfs-zwaveadmin
-      - name: tz-config
-        hostPath:
-          path: /usr/share/zoneinfo/Canada/Eastern
-
-
