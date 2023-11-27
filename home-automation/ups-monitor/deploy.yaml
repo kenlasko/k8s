@@ -45,6 +45,7 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
+            - "SYS_ADMIN"
             - "SYS_PTRACE"
         resources:
           requests:
