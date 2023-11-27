@@ -41,6 +41,7 @@ spec:
             - "CHOWN"
             - "SETGID"
             - "SETUID"
+            - "DAC_OVERRIDE"
             - "SYS_PTRACE"
         resources:
           requests:
