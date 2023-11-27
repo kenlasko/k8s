@@ -116,9 +116,9 @@ spec:
           server: 192.168.1.3
           path: /appdata/vol/homeassist
       - name: media
-        nfs:
-          server: 192.168.1.3
-          path: /media/music
+        persistentVolumeClaim:
+          claimName: nfs-media
+          namespace: media-tools
       - name: github-ssh-creds
         secret:
           secretName: github-ssh-creds
