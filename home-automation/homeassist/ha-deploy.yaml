@@ -21,15 +21,6 @@ spec:
         name: homeassist
     spec:
       restartPolicy: Always
-      securityContext:
-        allowPrivilegeEscalation: false
-        readOnlyRootFilesystem: false
-        # runAsNonRoot: true
-        # runAsUser: 1001
-        seccompProfile:
-          type: RuntimeDefault
-        capabilities:
-          drop: ["ALL"]
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ha-sa-garminupload
@@ -46,6 +37,15 @@ spec:
       - name: homeassist
         image: ghcr.io/home-assistant/home-assistant:stable
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          # runAsNonRoot: true
+          # runAsUser: 1001
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         resources:
           requests:
             cpu: 150m
@@ -75,6 +75,15 @@ spec:
       - name: hass-configurator
         image: causticlab/hass-configurator-docker:latest
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          # runAsNonRoot: true
+          # runAsUser: 1001
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         env:
         - name: HC_BASEPATH
           value: "/hass-config/"
