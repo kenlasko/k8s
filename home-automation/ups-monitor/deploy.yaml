@@ -26,8 +26,8 @@ spec:
       - name: ups-monitor
         image: gpdm/nut-upsd #instantlinux/nut-upsd:latest
         imagePullPolicy: Always
-        # securityContext:
-          # privileged: true
+        securityContext:
+          privileged: true
           # runAsNonRoot: true
           # runAsUser: 100
           # runAsGroup: 101
