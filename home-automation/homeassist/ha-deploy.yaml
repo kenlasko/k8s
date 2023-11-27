@@ -22,8 +22,14 @@ spec:
     spec:
       restartPolicy: Always
       securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: false
+        # runAsNonRoot: true
+        # runAsUser: 1001
         seccompProfile:
           type: RuntimeDefault
+        capabilities:
+          drop: ["ALL"]
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ha-sa-garminupload
@@ -44,9 +50,11 @@ spec:
           requests:
             cpu: 150m
             memory: 600Mi
+            smarter-devices/ttyUSB1: 1
           limits:
             cpu: 1500m
             memory: 1Gi
+            smarter-devices/ttyUSB1: 1
         livenessProbe:
           httpGet:
             path: /
@@ -60,12 +68,10 @@ spec:
           mountPath: /config
         - name: media
           mountPath: /media
-        - mountPath: /dev/ttyUSB1
-          name: ttyusb
+        # - mountPath: /dev/ttyUSB1
+        #   name: ttyusb
         - name: tz-config
           mountPath: /etc/localtime
-        securityContext:
-          privileged: true
       - name: hass-configurator
         image: causticlab/hass-configurator-docker:latest
         imagePullPolicy: Always
@@ -97,8 +103,6 @@ spec:
           readOnly: true
         - name: tz-config
           mountPath: /etc/localtime
-        securityContext:
-          privileged: true
       dnsConfig:
         options:
           - name: ndots
@@ -116,9 +120,9 @@ spec:
         secret:
           secretName: github-ssh-creds
           defaultMode: 0600
-      - name: ttyusb
-        hostPath:
-          path: /dev/ttyUSB1
+      # - name: ttyusb
+      #   hostPath:
+      #     path: /dev/ttyUSB1
       - name: tz-config
         hostPath:
           path: /usr/share/zoneinfo/Canada/Eastern
