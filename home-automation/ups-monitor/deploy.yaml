@@ -27,7 +27,10 @@ spec:
         image: gpdm/nut-upsd #instantlinux/nut-upsd:latest
         imagePullPolicy: Always
         securityContext:
-          privileged: true
+          # privileged: true
+          runAsNonRoot: true
+          runAsUser: 100
+          runAsGroup: 101
           # allowPrivilegeEscalation: true
           # readOnlyRootFilesystem: false
           # seccompProfile:
