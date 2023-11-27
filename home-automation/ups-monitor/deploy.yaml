@@ -35,18 +35,18 @@ spec:
           # runAsUser: 100
           seccompProfile:
             type: RuntimeDefault
-          # capabilities:
-          #   drop: ["ALL"]
-          #   add:
-          #   - "CHOWN"
-          #   - "FOWNER"
-          #   - "SETFCAP"
-          #   - "SETPCAP"
-          #   - "SETGID"
-          #   - "SETUID"
-          #   - "DAC_OVERRIDE"
-          #   - "SYS_ADMIN"
-          #   - "SYS_PTRACE"
+          capabilities:
+            # drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "FOWNER"
+            - "SETFCAP"
+            - "SETPCAP"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
+            - "SYS_ADMIN"
+            - "SYS_PTRACE"
         resources:
           requests:
             cpu: 1m
