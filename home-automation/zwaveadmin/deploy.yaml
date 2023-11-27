@@ -29,6 +29,8 @@ spec:
       - name: zwaveadmin
         image: zwavejs/zwavejs2mqtt:latest
         imagePullPolicy: Always
+        securityContext:
+          privileged: true
         resources:
           requests:
             cpu: 25m
@@ -52,8 +54,6 @@ spec:
           name: ttyusb0
         - name: tz-config
           mountPath: /etc/localtime
-        securityContext:
-          privileged: true
       volumes:
       - name: zwaveadmin
         nfs:
