@@ -40,8 +40,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          # runAsNonRoot: true
-          # runAsUser: 1001
+          runAsNonRoot: true
+          runAsUser: 1001
+          runAsGroup: 8123
           seccompProfile:
             type: RuntimeDefault
           capabilities:
@@ -78,8 +79,9 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          # runAsNonRoot: true
-          # runAsUser: 1001
+          runAsNonRoot: true
+          runAsUser: 1001
+          runAsGroup: 8123
           seccompProfile:
             type: RuntimeDefault
           capabilities:
