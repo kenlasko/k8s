@@ -21,13 +21,13 @@ data:
         
     tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/backups' --exclude 'data/vol/homeassist/.git' -czvf /backup/vol/backup-$day.tgz /data/vol
 
-    echo
-    echo
-    echo "Backing up pv to backup/pv/backup-$day.tgz"
-    date
-    echo
+    # echo
+    # echo
+    # echo "Backing up pv to backup/pv/backup-$day.tgz"
+    # date
+    # echo
         
-    tar --exclude 'data/pv/media*' --exclude 'data/pv/monitoring*' -czvf /backup/pv/backup-$day.tgz /data/pv
+    # tar --exclude 'data/pv/media*' --exclude 'data/pv/monitoring*' -czvf /backup/pv/backup-$day.tgz /data/pv
 
     # Print end status message.
     echo
