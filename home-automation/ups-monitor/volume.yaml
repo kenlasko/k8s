@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-zwaveadmin
+  name: nfs-***REMOVED***itor
   namespace: homeassist
 spec:
   storageClassName: "nfs"
