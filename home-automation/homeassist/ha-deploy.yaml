@@ -64,8 +64,6 @@ spec:
         volumeMounts:
         - name: homeassist
           mountPath: /config
-        - name: tz-config
-          mountPath: /etc/localtime
       - name: hass-configurator
         image: causticlab/hass-configurator-docker:latest
         imagePullPolicy: Always
