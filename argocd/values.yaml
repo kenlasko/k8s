@@ -42,6 +42,10 @@ configs:
       url: https://falcosecurity.github.io/charts
       name: falcosecurity
       type: helm
+    geek-cookbook:
+      url: https://geek-cookbook.github.io/charts/
+      name: geek-cookbook
+      type: helm
     grafana:
       url: https://grafana.github.io/helm-charts
       name: grafana
