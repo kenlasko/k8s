@@ -9,8 +9,8 @@ securityContext:
     drop: ["ALL"]
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 1000
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 affinity:
   nodeAffinity:
