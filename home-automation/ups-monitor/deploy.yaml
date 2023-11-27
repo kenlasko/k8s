@@ -38,9 +38,11 @@ spec:
           requests:
             cpu: 1m
             memory: 3Mi
+            smarter-devices/bus_usb_001_003: 1
           limits:
             cpu: 1m
             memory: 6Mi
+            smarter-devices/bus_usb_001_003: 1
         livenessProbe:
           tcpSocket:
             port: 3493
@@ -52,14 +54,14 @@ spec:
         - name: API_PASSWORD
           value: "***REMOVED***"
         volumeMounts:
-        - mountPath: /dev/ttyUSB0
-          name: ttyusb0
+        # - mountPath: /dev/ttyUSB0
+        #   name: ttyusb0
         - name: ups-monitor-config
           mountPath: /etc/nut
       volumes:
-      - name: ttyusb0
-        hostPath:
-          path: /dev/ttyUSB#/dev/bus/usb/001/003
+      # - name: ttyusb0
+      #   hostPath:
+      #     path: /dev/ttyUSB#/dev/bus/usb/001/003
       - name: ups-monitor-config
         persistentVolumeClaim:
           claimName: nfs-***REMOVED***itor
