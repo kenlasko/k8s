@@ -70,6 +70,10 @@ configs:
       url: https://kubescape.github.io/helm-charts/
       name: kubescape
       type: helm
+    kured:
+      url: https://kubereboot.github.io/charts
+      name: kured
+      type: helm
     longhorn:
       url: https://charts.longhorn.io
       name: longhorn
