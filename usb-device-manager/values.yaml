@@ -4,6 +4,14 @@ config: |
   - devicematch: ^bus.*$
     nummaxdevices: 20
 
+securityContext:
+  capabilities:
+    drop: ["ALL"]
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
