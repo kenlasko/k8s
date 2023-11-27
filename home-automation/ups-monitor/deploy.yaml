@@ -26,7 +26,7 @@ spec:
       containers:
       - name: ups-monitor
         image: instantlinux/nut-upsd:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           # privileged: true
           allowPrivilegeEscalation: false
