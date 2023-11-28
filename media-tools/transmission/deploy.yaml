@@ -79,9 +79,8 @@ spec:
             value: "1"
       volumes:
       - name: transmission
-        nfs:
-          server: 192.168.1.3
-          path: /appdata/vol/transmission
+        persistentVolumeClaim:
+          claimName: nfs-transmission
       - name: media
         persistentVolumeClaim:
           claimName: nfs-media

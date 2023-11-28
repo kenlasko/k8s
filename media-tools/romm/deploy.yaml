@@ -87,11 +87,9 @@ spec:
           persistentVolumeClaim:
             claimName: longhorn-romm-db-pvc
         - name: romm-library
-          nfs:
-            server: 192.168.1.3
-            path: /appdata/vol/romm/library
+          persistentVolumeClaim:
+            claimName: nfs-romm-library
         - name: romm-logs
-          nfs:
-            server: 192.168.1.3
-            path: /appdata/vol/romm/logs
+          persistentVolumeClaim:
+            claimName: nfs-romm-logs
       automountServiceAccountToken: false
