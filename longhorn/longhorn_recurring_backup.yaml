@@ -8,7 +8,7 @@ spec:
   task: "backup"
   groups:
   - high-value
-  retain: 3
+  retain: 7
   concurrency: 5
   labels:
     job: nightly-backups
