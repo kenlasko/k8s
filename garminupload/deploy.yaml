@@ -14,8 +14,14 @@ spec:
         spec:
           restartPolicy: Never
           securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
             seccompProfile:
               type: RuntimeDefault
+            capabilities:
+              drop: ["ALL"]
           serviceAccountName: ps-serviceaccount
           affinity:
             nodeAffinity:
