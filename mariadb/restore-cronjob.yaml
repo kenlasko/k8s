@@ -53,5 +53,5 @@ spec:
           volumes:
           - name: data
             persistentVolumeClaim:
-              claimName: db-backup-pvc
+              claimName: nfs-mariadb-backup
 
