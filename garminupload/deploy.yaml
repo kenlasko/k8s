@@ -30,9 +30,8 @@ spec:
                     - 'amd64'
           volumes:
           - name: garmindata
-            nfs:
-              server: 192.168.1.3
-              path: /appdata/vol/garmin-upload
+            persistentVolumeClaim:
+              claimName: nfs-garminupload
           - configMap:
               items:
               - key: UploadRides.ps1
