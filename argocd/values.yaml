@@ -54,6 +54,10 @@ configs:
       url: https://grafana.github.io/helm-charts
       name: grafana
       type: helm
+    hashicorp:
+      url: https://helm.releases.hashicorp.com
+      name: hashicorp
+      type: helm  
     headlamp:
       url: https://headlamp-k8s.github.io/headlamp/
       name: headlamp
