@@ -61,6 +61,9 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 15
           failureThreshold: 5
+        env:
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: homeassist
           mountPath: /config
@@ -79,6 +82,8 @@ spec:
           value: "/hass-config/"
         - name: HC_GIT
           value: "True"
+        - name: TZ
+          value: "America/Toronto"
         resources:
           requests:
             cpu: 10m

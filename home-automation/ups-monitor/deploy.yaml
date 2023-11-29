@@ -58,6 +58,8 @@ spec:
           value: "***REMOVED***"
         - name: API_PASSWORD
           value: "***REMOVED***"
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: ups-monitor-config
           mountPath: /etc/nut

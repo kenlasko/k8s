@@ -51,6 +51,8 @@ spec:
         env:
         - name: LOG_NODES
           value: "3,4"
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: zwaveadmin
           mountPath: /usr/src/app/store

@@ -60,6 +60,8 @@ spec:
         env:
         - name: ESPHOME_DASHBOARD_USE_PING
           value: "true"
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: esphome
           mountPath: /config
