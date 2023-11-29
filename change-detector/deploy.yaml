@@ -65,11 +65,49 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
+        - name: WEBDRIVER_URL
+          value: "http://selenium:4444/wd/hub"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
         - name: change-detector-data
           mountPath: /datastore
+      - name: selenium
+        image: selenium/standalone-chrome:4
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+          limits:
+            cpu: 300m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 4444
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        env:
+        - name: VNC_NO_PASSWORD
+          value: "1"
+        - name: SCREEN_WIDTH
+          value: "1920"
+        - name: SCREEN_HEIGHT
+          value: "1000"
+        - name: SCREEN_DEPTH
+          value: "24"
+        - name: TZ
+          value: "America/Toronto"
       automountServiceAccountToken: false
       dnsConfig:
         options:
