@@ -18,9 +18,9 @@ deschedulerPolicy:
         nodeAffinityType:
         - requiredDuringSchedulingIgnoredDuringExecution
     RemovePodsViolatingInterPodAntiAffinity:
-      enabled: true
+      enabled: false
     RemovePodsViolatingTopologySpreadConstraint:
-      enabled: true
+      enabled: false
       params:
         includeSoftConstraints: false
     LowNodeUtilization:
@@ -35,6 +35,14 @@ deschedulerPolicy:
             cpu: 70
             memory: 35
             pods: 35
+          evictableNamespaces:
+            include:
+            - 'cloudflare'
+            - 'pihole'
+            - 'portainer'
+            - 'registry'
+            - 'ucdialplans'
+            - 'vaultwarden' 
   
 affinity:
   nodeAffinity:
