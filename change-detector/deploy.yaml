@@ -67,6 +67,8 @@ spec:
         env:
         - name: WEBDRIVER_URL
           value: "http://selenium:4444/wd/hub"
+        - name: BASE_URL
+          value: "https://changedetector.ucdialplans.com"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
