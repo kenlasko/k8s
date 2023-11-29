@@ -70,6 +70,8 @@ spec:
             secretKeyRef:
               name: pihole-creds
               key: password
+        - name: TZ
+          value: "America/Toronto"
         resources:
           requests:
             cpu: 10m
