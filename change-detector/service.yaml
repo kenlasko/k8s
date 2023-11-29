@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: change-detector
+  name: change-detector
+  namespace: change-detector
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+    name: web
+  selector:
+    app: change-detector

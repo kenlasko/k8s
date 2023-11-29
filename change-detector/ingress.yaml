@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: vaultwarden-ui
+  namespace: vaultwarden
+spec:
+  entryPoints: 
+  - websecure
+  routes:
+  - match: Host(`vaultwarden.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: vaultwarden-ui
+      port: 8087
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-default
+      namespace: traefik

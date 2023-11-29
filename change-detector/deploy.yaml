@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: change-detector
+  namespace: change-detector
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+    keel.sh/approvals: "1"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: change-detector
+  template:
+    metadata:
+      labels:
+        app: change-detector
+        name: change-detector
+    spec:
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'
+      containers:
+      - name: change-detector
+        image: ghcr.io/dgtlmoon/changedetection.io:latest
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+          limits:
+            cpu: 200m
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8087
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        env:
+        - name: TZ
+          value: "America/Toronto"
+        volumeMounts:
+        - name: change-detector-data
+          mountPath: /datastore
+      automountServiceAccountToken: false
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      volumes:
+      - name: change-detector-data
+        persistentVolumeClaim:
+          claimName: change-detector-data
+
