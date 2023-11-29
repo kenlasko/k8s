@@ -45,6 +45,9 @@ spec:
             - /bin/sh
             - -c
             - /script/backup-media-apps.sh
+            env:
+            - name: TZ
+              value: "America/Toronto"
             volumeMounts:
             - name: backup
               mountPath: /backup

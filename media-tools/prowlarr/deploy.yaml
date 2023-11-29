@@ -64,6 +64,9 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5
+        env:
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: prowlarr-config
           mountPath: /config
