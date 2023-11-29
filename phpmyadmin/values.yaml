@@ -12,6 +12,9 @@ affinity:
           operator: In
           values: 
           - 'amd64'
+extraEnvVars:
+- name: TZ
+  value: "America/Toronto"
 extraVolumes:
 - configMap:
     items:

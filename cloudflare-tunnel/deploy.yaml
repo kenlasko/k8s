@@ -46,6 +46,8 @@ spec:
               secretKeyRef:
                 name: admin-token
                 key: token
+          - name: TZ
+            value: "America/Toronto"
           resources:
             requests:
               cpu: 10m

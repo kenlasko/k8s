@@ -32,6 +32,10 @@ affinity:
           values: 
           - 'amd64'
 
+extraEnvVars:
+- name: TZ
+  value: "America/Toronto"
+
 resources:
   requests:
     cpu: 100m

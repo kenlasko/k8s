@@ -20,6 +20,9 @@ primary:
   persistence:
     storageClass: "local-path"
     existingClaim: "mariadb-backup-pvc"
+  extraEnvVars:
+  - name: TZ
+    value: "America/Toronto"
   configuration: |-
     [mysqld]
     skip-name-resolve

@@ -29,6 +29,9 @@ volumeMounts:
 - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
   name: serviceaccount-token
   readOnly: true
+extraEnv:
+- name: TZ
+  value: "America/Toronto"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

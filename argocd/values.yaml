@@ -1,4 +1,7 @@
 global:
+  env:
+  - name: TZ
+    value: "America/Toronto"
   affinity:
     nodeAffinity:
       type: hard

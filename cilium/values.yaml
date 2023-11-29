@@ -25,6 +25,9 @@ l2announcements:
   leaseRetryPeriod: 200ms
 externalIPs:
   enabled: true
+extraEnv:
+- name: TZ
+  value: "America/Toronto"
 kubeProxyReplacement: true
 hubble:
   relay:
