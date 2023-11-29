@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: change-detector
+  name: playwright-chrome
   namespace: change-detector
   annotations:
     keel.sh/policy: force
@@ -14,12 +14,12 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: change-detector
+      app: playwright-chrome
   template:
     metadata:
       labels:
-        app: change-detector
-        name: change-detector
+        app: playwright-chrome
+        name: playwright-chrome
     spec:
       restartPolicy: Always
       securityContext:
@@ -39,41 +39,6 @@ spec:
                 values: 
                 - 'amd64'
       containers:
-      - name: change-detector
-        image: ghcr.io/dgtlmoon/changedetection.io:latest
-        imagePullPolicy: Always
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          runAsNonRoot: true
-          runAsUser: 1000
-          seccompProfile:
-            type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-        # resources:
-        #   requests:
-        #     cpu: 50m
-        #     memory: 300Mi
-        #   limits:
-        #     cpu: 300m
-        #     memory: 500Mi
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 15
-          periodSeconds: 60
-        env:
-        - name: PLAYWRIGHT_DRIVER_URL
-          value: "ws://playwright-chrome:3000/?stealth=1&--disable-web-security=true"
-        - name: BASE_URL
-          value: "https://changedetector.ucdialplans.com"
-        - name: TZ
-          value: "America/Toronto"
-        volumeMounts:
-        - name: change-detector-data
-          mountPath: /datastore
       - name: playwright-chrome
         image: browserless/chrome:latest
         imagePullPolicy: IfNotPresent
