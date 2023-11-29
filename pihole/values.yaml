@@ -33,7 +33,7 @@ affinity:
           - 'amd64'
 
 extraEnvVars:
-- TZ: "America/Toronto"
+  TZ: "America/Toronto"
 
 resources:
   requests:
