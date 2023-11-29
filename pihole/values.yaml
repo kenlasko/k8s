@@ -95,7 +95,7 @@ probes:
 
 dnsmasq:
   customDnsEntries:
-  - address=/myrouter.io/10.0.0.1
+  - address=/myrouter.io/192.168.2.1
   - address=/unifi.ucdialplans.com/192.168.1.1
   - address=/kenpc.ucdialplans.com/192.168.1.2
   - address=/nas01.ucdialplans.com/192.168.1.3  
