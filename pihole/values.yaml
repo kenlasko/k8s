@@ -46,7 +46,7 @@ persistentVolumeClaim:
   existingClaim: pihole-data
   size: "10Gi"
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
 
 serviceDhcp:
   enabled: false

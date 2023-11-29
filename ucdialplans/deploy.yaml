@@ -48,6 +48,9 @@ spec:
           limits:
             cpu: 1000m
             memory: 800Mi
+        env:
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: ucdialplans-nginx
           mountPath: /etc/nginx/sites-enabled/default
