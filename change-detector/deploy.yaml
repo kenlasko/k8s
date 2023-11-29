@@ -56,12 +56,12 @@ spec:
             cpu: 50m
             memory: 300Mi
           limits:
-            cpu: 200m
-            memory: 300Mi
+            cpu: 300m
+            memory: 500Mi
         livenessProbe:
           httpGet:
             path: /
-            port: 8087
+            port: 5000
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
