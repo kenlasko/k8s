@@ -5,7 +5,7 @@ metadata:
   namespace: ucdialplans
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`www.ucdialplans.com`,`ucdialplans.com`) 
     kind: Rule

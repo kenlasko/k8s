@@ -5,7 +5,7 @@ metadata:
   namespace: falco
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`falco.ucdialplans.com`) 
     kind: Rule

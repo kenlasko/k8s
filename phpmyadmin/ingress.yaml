@@ -5,7 +5,7 @@ metadata:
   namespace: mariadb
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`mariadb.ucdialplans.com`) 
     kind: Rule

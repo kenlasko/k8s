@@ -5,7 +5,7 @@ metadata:
   namespace: cloudflare
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`nas01.ucdialplans.com`) 
     kind: Rule

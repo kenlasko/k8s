@@ -5,7 +5,7 @@ metadata:
   namespace: homeassist
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`zwaveadmin.ucdialplans.com`) 
     kind: Rule

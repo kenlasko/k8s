@@ -5,7 +5,7 @@ metadata:
   namespace: longhorn
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`longhorn.ucdialplans.com`) 
     kind: Rule

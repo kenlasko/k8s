@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`keel.ucdialplans.com`) 
     kind: Rule

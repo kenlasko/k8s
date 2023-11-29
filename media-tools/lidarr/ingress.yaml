@@ -5,7 +5,7 @@ metadata:
   namespace: media-tools
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`lidarr.ucdialplans.com`) 
     kind: Rule

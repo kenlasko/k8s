@@ -6,7 +6,7 @@ metadata:
 
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`pihole.ucdialplans.com`) 
     kind: Rule

@@ -5,7 +5,7 @@ metadata:
   namespace: cilium
 spec:
   entryPoints: 
-    - websecure
+  - websecure
   routes:
   - match: Host(`hubble.ucdialplans.com`) 
     kind: Rule
