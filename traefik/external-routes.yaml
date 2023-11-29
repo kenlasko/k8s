@@ -85,6 +85,52 @@ spec:
     app.kubernetes.io/instance: traefik
     app.kubernetes.io/name: traefik
 
+
+
+# ####### WLED Fireplace Right #######
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wled-fp-right-external-route
+  namespace: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`wled-fp-right.ucdialplans.com`)
+    kind: Rule
+    services:
+    - name: wled-fp-right-forward
+      kind: Service
+      port: 80
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
+
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wled-fp-right-forward
+  namespace: traefik
+spec:
+  type: ExternalName
+  ports:
+    - name: wled-fp-right-forward
+      port: 80
+      targetPort: 80
+  externalName: 192.168.1.56
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
+
+
+
 # ---
 # kind: IngressRoute
 # apiVersion: traefik.containo.us/v1alpha1

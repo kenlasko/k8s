@@ -150,6 +150,8 @@ dnsmasq:
   - cname=traefik-rpi2.ucdialplans.com,rpi2.ucdialplans.com
   - cname=transmission.ucdialplans.com,k3s.ucdialplans.com
   - cname=vaultwarden.ucdialplans.com,k3s.ucdialplans.com
+  - cname=wled-fp-left.ucdialplans.com,k3s.ucdialplans.com
+  - cname=wled-fp-right.ucdialplans.com,k3s.ucdialplans.com
   - cname=zwaveadmin.ucdialplans.com,k3s.ucdialplans.com
 
 adlists:
