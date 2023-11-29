@@ -51,13 +51,13 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        resources:
-          requests:
-            cpu: 50m
-            memory: 300Mi
-          limits:
-            cpu: 300m
-            memory: 500Mi
+        # resources:
+        #   requests:
+        #     cpu: 50m
+        #     memory: 300Mi
+        #   limits:
+        #     cpu: 300m
+        #     memory: 500Mi
         livenessProbe:
           httpGet:
             path: /
@@ -86,13 +86,13 @@ spec:
         #     type: RuntimeDefault
         #   capabilities:
         #     drop: ["ALL"]
-        resources:
-          requests:
-            cpu: 50m
-            memory: 300Mi
-          limits:
-            cpu: 300m
-            memory: 500Mi
+        # resources:
+        #   requests:
+        #     cpu: 50m
+        #     memory: 300Mi
+        #   limits:
+        #     cpu: 300m
+        #     memory: 500Mi
         livenessProbe:
           httpGet:
             path: /
@@ -113,7 +113,7 @@ spec:
         - name: CONNECTION_TIMEOUT
           value: "300000"
         - name: MAX_CONCURRENT_SESSIONS
-          value: "10"
+          value: "2"
         - name: CHROME_REFRESH_TIME
           value: "600000"
         - name: DEFAULT_BLOCK_ADS
