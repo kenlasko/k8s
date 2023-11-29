@@ -65,8 +65,8 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
-        - name: WEBDRIVER_URL
-          value: "http://selenium:4444/wd/hub"
+        - name: PLAYWRIGHT_DRIVER_URL
+          value: "ws://playwright-chrome:30000/?stealth=1&--disable-web-security=true"
         - name: BASE_URL
           value: "https://changedetector.ucdialplans.com"
         - name: TZ
@@ -74,8 +74,8 @@ spec:
         volumeMounts:
         - name: change-detector-data
           mountPath: /datastore
-      - name: selenium
-        image: selenium/standalone-chrome:4
+      - name: playwright-chrome
+        image: browserless/chrome:latest
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
@@ -96,7 +96,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 4444
+            port: 3000
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
@@ -108,6 +108,20 @@ spec:
           value: "1000"
         - name: SCREEN_DEPTH
           value: "24"
+        - name: ENABLE_DEBUGGER
+          value: "false"
+        - name: PREBOOT_CHROME
+          value: "true"
+        - name: CONNECTION_TIMEOUT
+          value: "300000"
+        - name: MAX_CONCURRENT_SESSIONS
+          value: "10"
+        - name: CHROME_REFRESH_TIME
+          value: "600000"
+        - name: DEFAULT_BLOCK_ADS
+          value: "true"
+        - name: DEFAULT_STEALTH
+          value: "true"
         - name: TZ
           value: "America/Toronto"
       automountServiceAccountToken: false
