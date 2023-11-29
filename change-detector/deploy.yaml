@@ -100,8 +100,6 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
-        - name: VNC_NO_PASSWORD
-          value: "1"
         - name: SCREEN_WIDTH
           value: "1920"
         - name: SCREEN_HEIGHT
