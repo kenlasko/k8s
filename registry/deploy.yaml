@@ -59,6 +59,8 @@ spec:
         env:
         - name: REGISTRY_HTTP_ADDR
           value: "0.0.0.0:5000"
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: registry-data
           mountPath: /var/lib/registry

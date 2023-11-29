@@ -117,6 +117,8 @@ spec:
             secretKeyRef:
               name: yubico
               key: secret
+        - name: TZ
+          value: "America/Toronto"
         volumeMounts:
         - name: vaultwarden-data
           mountPath: /data
