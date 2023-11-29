@@ -66,7 +66,7 @@ spec:
           periodSeconds: 60
         env:
         - name: PLAYWRIGHT_DRIVER_URL
-          value: "ws://playwright-chrome:30000/?stealth=1&--disable-web-security=true"
+          value: "ws://playwright-chrome:3000/?stealth=1&--disable-web-security=true"
         - name: BASE_URL
           value: "https://changedetector.ucdialplans.com"
         - name: TZ
