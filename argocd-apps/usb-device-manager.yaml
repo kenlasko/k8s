@@ -13,11 +13,11 @@ spec:
     chart: smarter-device-manager
     helm:
       valueFiles:
-      - $values/usb-device-manager/values.yaml
+      - $values/home-automation/usb-device-manager/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: usb-device-manager
+    path: home-automation/usb-device-manager
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
