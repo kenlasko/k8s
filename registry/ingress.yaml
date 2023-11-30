@@ -3,6 +3,9 @@ apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: registry
   namespace: registry
+  annotations:
+    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+    kubernetes.io/ingress.class: traefik
 spec:
   entryPoints: 
   - websecure
