@@ -53,6 +53,10 @@ configs:
       url: https://geek-cookbook.github.io/charts/
       name: geek-cookbook
       type: helm
+    gitea:
+      url: https://dl.gitea.com/charts/
+      name: gitea
+      type: helm
     grafana:
       url: https://grafana.github.io/helm-charts
       name: grafana

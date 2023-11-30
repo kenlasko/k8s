@@ -14,7 +14,7 @@ data:
 
     destination:
       local:
-      - path: backup/bare
+      - path: /backup/bare
         structured: true
         zip: true
         keep: 7
@@ -27,7 +27,7 @@ data:
 
     destination:
       local:
-      - path: backup/full
+      - path: /backup/full
         structured: true
         zip: true
         keep: 7
