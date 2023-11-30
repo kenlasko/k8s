@@ -58,6 +58,9 @@ spec:
             - name: github-backup-conf
               mountPath: /gickup/conf.yml
               subPath: conf.yml
+            - name: github-token
+              mountPath: /gickup/github-token
+              readOnly: true
           dnsConfig:
             options:
               - name: ndots
@@ -72,3 +75,6 @@ spec:
                 path: conf.yml
               name: github-backup-conf
             name: github-backup-conf
+          - name: github-token
+            secret:
+              secretName: github-token
