@@ -18,4 +18,4 @@ data:
         structured: true
         zip: true
         keep: 7
-        bare: false
+        bare: true
