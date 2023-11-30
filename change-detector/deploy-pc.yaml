@@ -46,13 +46,13 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        # resources:
-        #   requests:
-        #     cpu: 50m
-        #     memory: 300Mi
-        #   limits:
-        #     cpu: 300m
-        #     memory: 500Mi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 600Mi
+          limits:
+            cpu: 300m
+            memory: 900Mi
         livenessProbe:
           httpGet:
             path: /
