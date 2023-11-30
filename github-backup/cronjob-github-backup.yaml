@@ -67,7 +67,8 @@ spec:
             persistentVolumeClaim:
               claimName: nfs-github-backup
           - configMap:
-            items:
-            - key: conf.yml
-              path: conf.yml
+              items:
+              - key: conf.yml
+                path: conf.yml
+              name: github-backup-conf
             name: github-backup-conf
