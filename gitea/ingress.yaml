@@ -10,7 +10,7 @@ spec:
   - match: Host(`gitea.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: gitea
+    - name: gitea-http
       port: 3000
     middlewares:
     - name: traefik-security
