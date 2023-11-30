@@ -57,6 +57,9 @@ spec:
             - name: github-token
               mountPath: /gickup/token
               readOnly: true
+            - name: gitlab-token
+              mountPath: /gickup/token
+              readOnly: true
           dnsConfig:
             options:
               - name: ndots
@@ -74,3 +77,6 @@ spec:
           - name: github-token
             secret:
               secretName: github-token
+          - name: gitlab-token
+            secret:
+              secretName: gitlab-token

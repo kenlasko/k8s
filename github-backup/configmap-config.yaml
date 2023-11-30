@@ -19,3 +19,12 @@ data:
         zip: true
         keep: 7
         bare: true
+
+    ---
+    source:
+      github:
+        - token_file: /gickup/token/github-token
+
+    destination:
+      gitlab:
+      - token_file: /gickup/token/gitlab-token
