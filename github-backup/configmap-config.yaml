@@ -10,7 +10,7 @@ data:
   conf.yml: |
     source:
       github:
-        - token: $GITHUB_TOKEN
+        - token: github_pat_***REMOVED***
 
     destination:
       local:
