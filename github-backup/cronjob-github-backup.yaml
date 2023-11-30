@@ -47,10 +47,10 @@ spec:
               value: "America/Toronto"
             resources:
               requests:
-                cpu: 100m
+                cpu: 800m
                 memory: 300Mi
               limits:
-                cpu: 300m
+                cpu: 1200m
                 memory: 300Mi
             volumeMounts:
             - name: github-backup
