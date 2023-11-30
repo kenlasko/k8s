@@ -1,0 +1,22 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: gitea
+  namespace: gitea
+spec:
+  entryPoints: 
+  - websecure
+  routes:
+  - match: Host(`gitea.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: gitea
+      port: 3000
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
