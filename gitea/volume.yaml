@@ -18,18 +18,18 @@ spec:
     server: 192.168.1.3
     readOnly: false
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-gitea
-  namespace: gitea
-spec:
-  storageClassName: "nfs"
-  volumeName: nfs-gitea
-  accessModes:
-  - ReadWriteOnce
-  volumeMode: Filesystem
-  resources:
-    requests:
-      storage: 10Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: nfs-gitea
+#   namespace: gitea
+# spec:
+#   storageClassName: "nfs"
+#   volumeName: nfs-gitea
+#   accessModes:
+#   - ReadWriteOnce
+#   volumeMode: Filesystem
+#   resources:
+#     requests:
+#       storage: 10Gi
