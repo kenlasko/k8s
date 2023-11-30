@@ -33,6 +33,10 @@ spec:
             #     type: RuntimeDefault
             #   capabilities:
             #     drop: ["ALL"]
+            command: 
+            - /bin/sh
+            - -c
+            - sleep 99999
             env:
             - name: GITHUB-TOKEN
               valueFrom:
