@@ -11,7 +11,7 @@ data:
     source:
       github:
         ssh: true
-        sshkey: ~/.ssh/github-sshkey
+        sshkey: /.ssh/github-sshkey
 
     destination:
       local:
