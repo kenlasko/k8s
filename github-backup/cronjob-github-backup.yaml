@@ -34,7 +34,7 @@ spec:
             #   capabilities:
             #     drop: ["ALL"]
             env:
-            - name: github-token
+            - name: GITHUB-TOKEN
               valueFrom:
                 secretKeyRef:
                   name: github-token
