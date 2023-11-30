@@ -44,6 +44,7 @@ gitea:
   config:
     database:
       DB_TYPE: mysql
+      USER: gitea
     session:
       PROVIDER: db
     cache:
