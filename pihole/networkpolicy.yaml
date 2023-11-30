@@ -9,13 +9,24 @@ spec:
     - Egress
   ingress:
     - from:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 53
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: external-dns
+      ports:
+        - port: 80
+    - from:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
               app.kubernetes.io/name: traefik
-    - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
+      ports:
+        - port: 80
   egress:
     - to:
         - ipBlock:
