@@ -54,6 +54,9 @@ spec:
           limits:
             cpu: 200m
             memory: 300Mi
+        env:
+        - name: TZ
+          value: "America/Toronto"
         envFrom:
         - secretRef:
             name: pihole-creds
