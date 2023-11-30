@@ -21,6 +21,18 @@ spec:
       labels:
         app: external-dns
     spec:
+      restartPolicy: Always
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'
       serviceAccountName: external-dns
       containers:
       - name: external-dns
@@ -35,10 +47,6 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        # command:
-        # - /bin/ash
-        # - -c
-        # - sleep 88899
         resources:
           requests:
             cpu: 100m
