@@ -10,7 +10,7 @@ data:
   conf.yml: |
     source:
       github:
-        - token_file: /gickup/token/github-token
+        - token_file: /gickup/tokens/github-token
 
     destination:
       local:
@@ -23,8 +23,8 @@ data:
     ---
     source:
       github:
-        - token_file: /gickup/token/github-token
+        - token_file: /gickup/tokens/github-token
 
     destination:
       gitlab:
-      - token_file: /gickup/token/gitlab-token
+      - token_file: /gickup/tokens/gitlab-token
