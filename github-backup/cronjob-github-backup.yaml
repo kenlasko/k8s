@@ -22,7 +22,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: github-backup
-            image: busybox #buddyspencer/gickup:latest
+            image: buddyspencer/gickup:latest
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
@@ -33,10 +33,10 @@ spec:
                 type: RuntimeDefault
               capabilities:
                 drop: ["ALL"]
-            command: 
-            - /bin/sh
-            - -c
-            - sleep 99999
+            # command: 
+            # - /bin/sh
+            # - -c
+            # - sleep 99999
             env:
             - name: TZ
               value: "America/Toronto"
