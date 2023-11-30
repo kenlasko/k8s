@@ -119,8 +119,10 @@ dnsmasq:
   customCnameEntries:
   - cname=alertmanager.ucdialplans.com,k3s.ucdialplans.com
   - cname=argocd.ucdialplans.com,k3s.ucdialplans.com
+  - cname=changedetector.ucdialplans.com,k3s.ucdialplans.com
   - cname=duplicati.ucdialplans.com,k3s.ucdialplans.com
   - cname=esphome.ucdialplans.com,k3s.ucdialplans.com
+  - cname=gitea.ucdialplans.com,k3s.ucdialplans.com
   - cname=ha.ucdialplans.com,k3s.ucdialplans.com
   - cname=haconfig.ucdialplans.com,k3s.ucdialplans.com
   - cname=headlamp.ucdialplans.com,k3s.ucdialplans.com
