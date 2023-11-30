@@ -14,11 +14,24 @@ data:
 
     destination:
       local:
-      - path: backup
+      - path: backup/bare
         structured: true
         zip: true
         keep: 7
         bare: true
+
+    ---
+    source:
+      github:
+        - token_file: /gickup/tokens/github-token
+
+    destination:
+      local:
+      - path: backup/full
+        structured: true
+        zip: true
+        keep: 7
+        bare: false
 
     ---
     source:
