@@ -45,13 +45,13 @@ spec:
                   key: github-token
             - name: TZ
               value: "America/Toronto"
-            resources:
-              requests:
-                cpu: 800m
-                memory: 300Mi
-              limits:
-                cpu: 1200m
-                memory: 300Mi
+            # resources:
+            #   requests:
+            #     cpu: 800m
+            #     memory: 300Mi
+            #   limits:
+            #     cpu: 1200m
+            #     memory: 300Mi
             volumeMounts:
             - name: github-backup
               mountPath: /backup
