@@ -41,6 +41,13 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
+              app: gitea
+      ports:
+        - port: 3306
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
               app.kubernetes.io/name: traefik
       ports:
         - port: 8080
