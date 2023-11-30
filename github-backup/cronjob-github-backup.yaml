@@ -1,0 +1,73 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: github-backup
+  namespace: github-backup
+spec:
+  schedule: "0 8 * * *" 
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+          restartPolicy: OnFailure
+          containers:
+          - name: github-backup
+            image: buddyspencer/gickup:latest
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            command:
+            - /bin/sh
+            - -c
+            - /gickup/conf.yaml
+            env:
+            - name: github-token
+              valueFrom:
+                secretKeyRef:
+                  name: github-token
+                  key: github-token
+            - name: TZ
+              value: "America/Toronto"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 300Mi
+              limits:
+                cpu: 300m
+                memory: 300Mi
+            volumeMounts:
+            - name: github-backup
+              mountPath: /backup
+            - name: github-backup-conf
+              mountPath: /gickup/conf.yaml
+              subPath: conf.yaml
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "1"
+          volumes:
+          - name: github-backup
+            persistentVolumeClaim:
+              claimName: nfs-github-backup
+          - configMap:
+            items:
+            - key: conf.yaml
+              path: conf.yaml
+            name: github-backup-conf
