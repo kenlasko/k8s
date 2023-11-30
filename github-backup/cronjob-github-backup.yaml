@@ -22,7 +22,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: github-backup
-            image: buddyspencer/gickup:latest
+            image: busybox  #buddyspencer/gickup:latest
             imagePullPolicy: IfNotPresent
             # securityContext:
             #   allowPrivilegeEscalation: false
