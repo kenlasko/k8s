@@ -9,6 +9,8 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
+  replicas: 1
+  revisionHistoryLimit: 2
   strategy:
     type: Recreate
   selector:
@@ -33,10 +35,10 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        command:
-        - /bin/ash
-        - -c
-        - sleep 88899
+        # command:
+        # - /bin/ash
+        # - -c
+        # - sleep 88899
         resources:
           requests:
             cpu: 100m
