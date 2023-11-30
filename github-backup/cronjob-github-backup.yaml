@@ -79,6 +79,6 @@ spec:
             projected:
               sources:
               - secret:
-                name: github-token
+                  name: github-token
               - secret:
-                name: gitlab-token
+                  name: gitlab-token
