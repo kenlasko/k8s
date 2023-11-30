@@ -20,6 +20,13 @@ spec:
             matchLabels:
               app: cloudflare-tunnel
     - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: change-detector
+      ports:
+        - port: 8123
+    - from:
         - podSelector: {}
   egress:
     - to:
