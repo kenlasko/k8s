@@ -24,15 +24,15 @@ spec:
           - name: github-backup
             image: buddyspencer/gickup:latest
             imagePullPolicy: IfNotPresent
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
-              # runAsNonRoot: true
-              # runAsUser: 1000
-              seccompProfile:
-                type: RuntimeDefault
-              capabilities:
-                drop: ["ALL"]
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: false
+            #   # runAsNonRoot: true
+            #   # runAsUser: 1000
+            #   seccompProfile:
+            #     type: RuntimeDefault
+            #   capabilities:
+            #     drop: ["ALL"]
             env:
             - name: github-token
               valueFrom:
