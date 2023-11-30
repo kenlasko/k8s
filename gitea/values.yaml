@@ -46,7 +46,6 @@ gitea:
       DB_TYPE: mysql
       NAME: gitea
       USER: gitea
-      PASSWD: ***REMOVED***
     session:
       PROVIDER: db
     cache:
