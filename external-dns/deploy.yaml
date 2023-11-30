@@ -22,17 +22,17 @@ spec:
       serviceAccountName: external-dns
       containers:
       - name: external-dns
-        image: busybox #registry.k8s.io/external-dns/external-dns:latest
+        image: registry.k8s.io/external-dns/external-dns:latest
         imagePullPolicy: Always
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: false
-        #   runAsNonRoot: true
-        #   runAsUser: 1000
-        #   seccompProfile:
-        #     type: RuntimeDefault
-        #   capabilities:
-        #     drop: ["ALL"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         command:
         - /bin/ash
         - -c
@@ -47,17 +47,17 @@ spec:
         envFrom:
         - secretRef:
             name: pihole-creds
-        # args:
-        # - --source=service
-        # - --source=ingress
-        # # Pihole only supports A/CNAME records so there is no mechanism to track ownership.
-        # # You don't need to set this flag, but if you leave it unset, you will receive warning
-        # # logs when ExternalDNS attempts to create TXT records.
-        # - --registry=noop
-        # # IMPORTANT: If you have records that you manage manually in Pi-hole, set
-        # # the policy to upsert-only so they do not get deleted.
-        # - --policy=upsert-only
-        # - --provider=pihole
-        # - --pihole-server=http://pihole-web.pihole.svc.cluster.local
+        args:
+        - --source=service
+        - --source=ingress
+        # Pihole only supports A/CNAME records so there is no mechanism to track ownership.
+        # You don't need to set this flag, but if you leave it unset, you will receive warning
+        # logs when ExternalDNS attempts to create TXT records.
+        - --registry=noop
+        # IMPORTANT: If you have records that you manage manually in Pi-hole, set
+        # the policy to upsert-only so they do not get deleted.
+        - --policy=upsert-only
+        - --provider=pihole
+        - --pihole-server=http://pihole-web.pihole.svc.cluster.local
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
