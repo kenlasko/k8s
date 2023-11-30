@@ -59,10 +59,10 @@ spec:
               mountPath: /gickup/conf.yml
               subPath: conf.yml
             - name: github-token
-              mountPath: /gickup/tokens
+              mountPath: /gickup/token/
               readOnly: true
             - name: gitlab-token
-              mountPath: /gickup/token
+              mountPath: /gickup/token/
               readOnly: true
           dnsConfig:
             options:
