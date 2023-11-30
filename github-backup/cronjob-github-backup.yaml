@@ -22,7 +22,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: github-backup
-            image: buddyspencer/gickup:latest
+            image: busybox # buddyspencer/gickup:latest
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
@@ -33,11 +33,16 @@ spec:
                 type: RuntimeDefault
               capabilities:
                 drop: ["ALL"]
-            # command: 
-            # - /bin/sh
-            # - -c
-            # - sleep 99999
+            command: 
+            - /bin/sh
+            - -c
+            - sleep 99999
             env:
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-token
+                  key: github-token
             - name: TZ
               value: "America/Toronto"
             resources:
@@ -53,9 +58,6 @@ spec:
             - name: github-backup-conf
               mountPath: /gickup/conf.yml
               subPath: conf.yml
-            - mountPath: "/.ssh"
-              name: github-sshkey
-              readOnly: true
           dnsConfig:
             options:
               - name: ndots
@@ -70,6 +72,3 @@ spec:
                 path: conf.yml
               name: github-backup-conf
             name: github-backup-conf
-          - name: github-sshkey
-            secret:
-              secretName: github-sshkey
