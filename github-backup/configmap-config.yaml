@@ -11,7 +11,7 @@ data:
     source:
       github:
         - token: $GITHUB_TOKEN
-        username: kenlasko
+          username: kenlasko
 
     destination:
       local:
