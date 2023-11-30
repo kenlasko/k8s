@@ -38,11 +38,6 @@ spec:
             # - -c
             # - sleep 99999
             env:
-            - name: GITHUB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: github-token
-                  key: github-token
             - name: TZ
               value: "America/Toronto"
             resources:
@@ -58,6 +53,9 @@ spec:
             - name: github-backup-conf
               mountPath: /gickup/conf.yml
               subPath: conf.yml
+            - mountPath: "~/.ssh/github-sshkey"
+              name: github-sshkey
+              readOnly: true
           dnsConfig:
             options:
               - name: ndots
@@ -72,3 +70,6 @@ spec:
                 path: conf.yml
               name: github-backup-conf
             name: github-backup-conf
+          - name: github-sshkey
+            secret:
+              secretName: ssh-key
