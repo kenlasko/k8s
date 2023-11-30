@@ -33,13 +33,6 @@ spec:
           protocol: UDP
     - to:
         - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: homeassist
-      ports:
-        - port: 8123
-    - to:
-        - namespaceSelector: {}
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
