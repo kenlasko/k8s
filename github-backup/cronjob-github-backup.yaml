@@ -53,7 +53,7 @@ spec:
             - name: github-backup-conf
               mountPath: /gickup/conf.yml
               subPath: conf.yml
-            - mountPath: "/.ssh/github-sshkey"
+            - mountPath: "/.ssh"
               name: github-sshkey
               readOnly: true
           dnsConfig:
