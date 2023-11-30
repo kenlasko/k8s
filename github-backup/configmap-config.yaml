@@ -10,7 +10,7 @@ data:
   conf.yml: |
     source:
       github:
-      - token: $GITHUB-TOKEN
+      - token: $GITHUB_TOKEN
         username: kenlasko
 
     destination:
