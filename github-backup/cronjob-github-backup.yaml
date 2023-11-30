@@ -59,7 +59,7 @@ spec:
               mountPath: /gickup/conf.yml
               subPath: conf.yml
             - name: github-token
-              mountPath: /gickup/github-token
+              mountPath: /gickup
               readOnly: true
           dnsConfig:
             options:
