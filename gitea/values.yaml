@@ -43,7 +43,7 @@ gitea:
     email: 'ken.lasko@gmail.com'
   config:
     database:
-      DB_TYPE: mariadb
+      DB_TYPE: mysql
     session:
       PROVIDER: db
     cache:
