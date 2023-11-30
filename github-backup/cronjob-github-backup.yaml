@@ -64,6 +64,6 @@ spec:
               claimName: nfs-github-backup
           - configMap:
             items:
-            - key: conf.yal
+            - key: conf.yml
               path: conf.yml
             name: github-backup-conf
