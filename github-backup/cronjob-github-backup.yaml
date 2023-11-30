@@ -33,10 +33,6 @@ spec:
                 type: RuntimeDefault
               capabilities:
                 drop: ["ALL"]
-            command:
-            - /bin/sh
-            - -c
-            - /gickup/conf.yaml
             env:
             - name: github-token
               valueFrom:
@@ -56,8 +52,8 @@ spec:
             - name: github-backup
               mountPath: /backup
             - name: github-backup-conf
-              mountPath: /gickup/conf.yaml
-              subPath: conf.yaml
+              mountPath: /gickup/conf.yml
+              subPath: conf.yml
           dnsConfig:
             options:
               - name: ndots
@@ -68,6 +64,6 @@ spec:
               claimName: nfs-github-backup
           - configMap:
             items:
-            - key: conf.yaml
-              path: conf.yaml
+            - key: conf.yal
+              path: conf.yml
             name: github-backup-conf
