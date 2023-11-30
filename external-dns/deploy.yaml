@@ -23,7 +23,7 @@ spec:
       containers:
       - name: external-dns
         image: registry.k8s.io/external-dns/external-dns:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
