@@ -58,11 +58,8 @@ spec:
             - name: github-backup-conf
               mountPath: /gickup/conf.yml
               subPath: conf.yml
-            - name: github-token
-              mountPath: /gickup/token/
-              readOnly: true
-            - name: gitlab-token
-              mountPath: /gickup/token/
+            - name: tokens
+              mountPath: /gickup/tokens/
               readOnly: true
           dnsConfig:
             options:
@@ -78,9 +75,10 @@ spec:
                 path: conf.yml
               name: github-backup-conf
             name: github-backup-conf
-          - name: github-token
-            secret:
-              secretName: github-token
-          - name: gitlab-token
-            secret:
-              secretName: gitlab-token
+          - name: tokens
+            projected:
+              sources:
+              - secret:
+                name: github-token
+              - secret:
+                name: gitlab-token
