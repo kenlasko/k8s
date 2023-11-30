@@ -22,12 +22,12 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: github-backup
-            image: busybox #buddyspencer/gickup:latest
+            image: buddyspencer/gickup:latest
             imagePullPolicy: IfNotPresent
-            command: 
-            - /bin/sh
-            - -c
-            - sleep 99999
+            # command: 
+            # - /bin/sh
+            # - -c
+            # - sleep 99999
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
