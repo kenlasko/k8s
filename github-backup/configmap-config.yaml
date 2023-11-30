@@ -20,6 +20,7 @@ data:
         keep: 7
         bare: true
 
+
     ---
     source:
       github:
@@ -32,3 +33,14 @@ data:
         zip: true
         keep: 7
         bare: false
+
+
+    ---
+    source:
+      github:
+        - token_file: /gickup/tokens/github-token
+
+    destination:
+      gitea:
+      - token_file: /gickup/tokens/gitea-token
+        url: http://gitea-http.gitea.svc.cluster.local:3000

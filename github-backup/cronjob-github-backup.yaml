@@ -82,3 +82,5 @@ spec:
                   name: github-token
               - secret:
                   name: gitlab-token
+              - secret:
+                  name: gitea-token
