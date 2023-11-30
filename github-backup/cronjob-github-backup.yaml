@@ -72,4 +72,4 @@ spec:
             name: github-backup-conf
           - name: github-sshkey
             secret:
-              secretName: ssh-key
+              secretName: github-sshkey
