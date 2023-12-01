@@ -37,8 +37,8 @@ spec:
           readOnlyRootFilesystem: false
         #   runAsNonRoot: true
         #   runAsUser: 1000
-        #   seccompProfile:
-        #     type: RuntimeDefault
+          seccompProfile:
+            type: RuntimeDefault
         #   capabilities:
         #     drop: ["ALL"]
         #     add:
