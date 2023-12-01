@@ -7,27 +7,3 @@ spec:
   podSelector:
     matchLabels:
       app: change-detector
-  ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-      ports:
-        - port: 5000
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: cloudflare-tunnel
-      ports:
-        - port: 5000
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: homeassist
-      ports:
-        - port: 5000
-    - from:
-        - namespaceSelector: {}
