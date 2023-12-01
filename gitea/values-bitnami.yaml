@@ -37,32 +37,13 @@ persistence:
   accessModes: ["ReadWriteOnce"]
   storageClass: nfs
 
-gitea:
-  admin:
-    existingSecret: gitea-creds
-    email: 'ken.lasko@gmail.com'
-  config:
-    database:
-      DB_TYPE: mysql
-      NAME: gitea
-      USER: gitea
-    session:
-      PROVIDER: db
-    cache:
-      ADAPTER: memory
-    queue:
-      TYPE: level
-    indexer:
-      ISSUE_INDEXER_TYPE: bleve
-      REPO_INDEXER_ENABLED: true
-  additionalConfigFromEnvs:
-    - name: GITEA__DATABASE__HOST
-      value: mariadb.mariadb.svc.cluster.local
-    - name: GITEA__DATABASE__PASSWD
-      valueFrom:
-        secretKeyRef:
-          name: gitea-creds
-          key: password
+externalDatabase:
+  host: mariadb.mariadb.svc.cluster.local
+  port: 3306
+  user: gitea
+  database: gitea
+  existingSecret: gitea-creds
+  existingSecretPasswordKey: "db-password"
 
 resources:
   requests:
@@ -74,8 +55,5 @@ resources:
 
 postgresql:
   enabled: false
-redis-cluster:
-  enabled: false
-postgresql-ha:
-  enabled: false
+
 
