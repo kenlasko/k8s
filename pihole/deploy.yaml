@@ -32,22 +32,22 @@ spec:
       - name: pihole
         image: pihole/pihole:latest
         imagePullPolicy: IfNotPresent
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          runAsNonRoot: true
-          runAsUser: 1000
-          seccompProfile:
-            type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-            add:
-            - CHOWN
-            - FOWNER
-            - SETFCAP
-            - SETGID
-            - SETUID
-            - DAC_OVERRIDE
+        # securityContext:
+        #   allowPrivilegeEscalation: false
+        #   readOnlyRootFilesystem: false
+        #   runAsNonRoot: true
+        #   runAsUser: 1000
+        #   seccompProfile:
+        #     type: RuntimeDefault
+        #   capabilities:
+        #     drop: ["ALL"]
+        #     add:
+        #     - CHOWN
+        #     - FOWNER
+        #     - SETFCAP
+        #     - SETGID
+        #     - SETUID
+        #     - DAC_OVERRIDE
         resources:
           requests:
             cpu: 100m
