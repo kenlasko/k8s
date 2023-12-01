@@ -33,13 +33,13 @@ spec:
         image: pihole/pihole:latest
         imagePullPolicy: IfNotPresent
         securityContext:
-          # allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           # runAsNonRoot: true
           # runAsUser: 999
           # runAsGroup: 1000
-          seccompProfile:
-            type: RuntimeDefault
+          # seccompProfile:
+          #   type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
             add:
