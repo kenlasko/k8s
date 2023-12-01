@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-pihole-data
+  name: nfs-pihole-config
 spec:
   storageClassName: "nfs"
   capacity:
@@ -22,11 +22,11 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pihole-data
+  name: nfs-pihole-config
   namespace: pihole
 spec:
   storageClassName: "nfs"
-  volumeName: nfs-pihole-data
+  volumeName: nfs-pihole-config
   accessModes:
   - ReadWriteOnce
   volumeMode: Filesystem
