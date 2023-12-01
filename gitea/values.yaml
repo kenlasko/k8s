@@ -64,6 +64,13 @@ gitea:
           name: gitea-creds
           key: password
 
+resources:
+  requests:
+    cpu: 10m
+    memory: 200Mi
+  limits:
+    cpu: 100m
+    memory: 400Mi
 
 postgresql:
   enabled: false
