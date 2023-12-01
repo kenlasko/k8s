@@ -18,7 +18,6 @@ spec:
     release: pihole
  
 
-
 ---
 apiVersion: v1
 kind: Service
@@ -30,9 +29,6 @@ metadata:
   namespace: pihole
 spec:
   externalTrafficPolicy: Local
-  healthCheckNodePort: 31067
-  internalTrafficPolicy: Cluster
-  ipFamilyPolicy: SingleStack
   loadBalancerIP: 192.168.1.16
   ports:
   - name: dns
