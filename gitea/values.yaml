@@ -4,14 +4,6 @@ containerSecurityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-
-  # Add the SYS_CHROOT capability for root and rootless images if you intend to
-  # run pods on nodes that use the container runtime cri-o. Otherwise, you will
-  # get an error message from the SSH server that it is not possible to read from
-  # the repository.
-  # https://gitea.com/gitea/helm-chart/issues/161
-    # add:
-    # - SYS_CHROOT
   privileged: false
   readOnlyRootFilesystem: true
   runAsGroup: 1000
@@ -40,7 +32,7 @@ persistence:
 gitea:
   admin:
     existingSecret: gitea-creds
-    # email: 'ken.lasko@gmail.com'
+    email: 'ken.lasko@gmail.com'
   config:
     database:
       DB_TYPE: mysql
@@ -58,14 +50,14 @@ gitea:
     indexer:
       ISSUE_INDEXER_TYPE: bleve
       REPO_INDEXER_ENABLED: true
-  additionalConfigFromEnvs:
-    - name: GITEA__DATABASE__HOST
-      value: mariadb.mariadb.svc.cluster.local
-    - name: GITEA__DATABASE__PASSWD
-      valueFrom:
-        secretKeyRef:
-          name: gitea-creds
-          key: password
+  # additionalConfigFromEnvs:
+  #   - name: GITEA__DATABASE__HOST
+  #     value: mariadb.mariadb.svc.cluster.local
+  #   - name: GITEA__DATABASE__PASSWD
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: gitea-creds
+  #         key: password
 
 resources:
   requests:
