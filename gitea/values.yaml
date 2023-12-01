@@ -50,23 +50,23 @@ gitea:
       USER: gitea
       PASSWD: ***REMOVED***
       SCHEMA: gitea
-  #   session:
-  #     PROVIDER: db
-  #   cache:
-  #     ADAPTER: memory
-  #   queue:
-  #     TYPE: level
-  #   indexer:
-  #     ISSUE_INDEXER_TYPE: bleve
-  #     REPO_INDEXER_ENABLED: true
-  # additionalConfigFromEnvs:
-  #   - name: GITEA__DATABASE__HOST
-  #     value: mariadb.mariadb.svc.cluster.local
-  #   - name: GITEA__DATABASE__PASSWD
-  #     valueFrom:
-  #       secretKeyRef:
-  #         name: gitea-creds
-  #         key: password
+    session:
+      PROVIDER: db
+    cache:
+      ADAPTER: memory
+    queue:
+      TYPE: level
+    indexer:
+      ISSUE_INDEXER_TYPE: bleve
+      REPO_INDEXER_ENABLED: true
+  additionalConfigFromEnvs:
+    - name: GITEA__DATABASE__HOST
+      value: mariadb.mariadb.svc.cluster.local
+    - name: GITEA__DATABASE__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: gitea-creds
+          key: password
 
 resources:
   requests:
