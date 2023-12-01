@@ -22,3 +22,10 @@ spec:
               app: cloudflare-tunnel
       ports:
         - port: 5000
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: homeassist
+      ports:
+        - port: 5000
