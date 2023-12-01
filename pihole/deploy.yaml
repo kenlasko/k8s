@@ -32,9 +32,9 @@ spec:
       - name: pihole
         image: pihole/pihole:latest
         imagePullPolicy: IfNotPresent
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: false
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
         #   runAsNonRoot: true
         #   runAsUser: 1000
         #   seccompProfile:
