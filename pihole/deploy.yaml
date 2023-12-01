@@ -1,117 +1,117 @@
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: pihole
-  namespace: pihole
-spec:
-  replicas: 1
-  revisionHistoryLimit: 2
-  selector:
-    matchLabels:
-      app: pihole
-  template:
-    metadata:
-      labels:
-        app: pihole
-        name: pihole
-    spec:
-      restartPolicy: Always
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/control-plane
-                operator: DoesNotExist
-              - key: kubernetes.io/arch
-                operator: In
-                values: 
-                - 'amd64'
-      containers:
-      - name: pihole
-        image: pihole/pihole:latest
-        imagePullPolicy: IfNotPresent
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: false
-        #   runAsNonRoot: true
-        #   runAsUser: 1000
-        #   seccompProfile:
-        #     type: RuntimeDefault
-        #   capabilities:
-        #     drop: ["ALL"]
-        #     add:
-        #     - CHOWN
-        #     - FOWNER
-        #     - SETFCAP
-        #     - SETGID
-        #     - SETUID
-        #     - DAC_OVERRIDE
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 300m
-            memory: 150Mi
-        livenessProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /admin/index.php
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /admin/index.php
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        ports:
-        - containerPort: 80
-          name: http
-          protocol: TCP
-        - containerPort: 53
-          name: dns
-          protocol: TCP
-        - containerPort: 53
-          name: dns-udp
-          protocol: UDP
-        - containerPort: 67
-          name: client-udp
-          protocol: UDP
-        env:
-        - name: WEB_PORT
-          value: '80'
-        - name: VIRTUAL_HOST
-          value: pi.hole
-        - name: WEBPASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: pihole-creds
-        - name: TZ
-          value: America/Toronto
-        - name: PIHOLE_DNS_
-          value: 192.168.1.1
-        volumeMounts:
-        - name: nfs-pihole-config
-          mountPath: /etc/pihole
-        - name: nfs-pihole-dnsmasq
-          mountPath: /etc/dnsmasq.d
-      volumes:
-      - name: nfs-pihole-config
-        persistentVolumeClaim:
-          claimName: nfs-pihole-config
-      - name: nfs-pihole-dnsmasq
-        persistentVolumeClaim:
-          claimName: nfs-pihole-dnsmasq
-      automountServiceAccountToken: false
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: pihole
+#   namespace: pihole
+# spec:
+#   replicas: 1
+#   revisionHistoryLimit: 2
+#   selector:
+#     matchLabels:
+#       app: pihole
+#   template:
+#     metadata:
+#       labels:
+#         app: pihole
+#         name: pihole
+#     spec:
+#       restartPolicy: Always
+#       affinity:
+#         nodeAffinity:
+#           requiredDuringSchedulingIgnoredDuringExecution:
+#             nodeSelectorTerms:
+#             - matchExpressions:
+#               - key: node-role.kubernetes.io/control-plane
+#                 operator: DoesNotExist
+#               - key: kubernetes.io/arch
+#                 operator: In
+#                 values: 
+#                 - 'amd64'
+#       containers:
+#       - name: pihole
+#         image: pihole/pihole:latest
+#         imagePullPolicy: IfNotPresent
+#         # securityContext:
+#         #   allowPrivilegeEscalation: false
+#         #   readOnlyRootFilesystem: false
+#         #   runAsNonRoot: true
+#         #   runAsUser: 1000
+#         #   seccompProfile:
+#         #     type: RuntimeDefault
+#         #   capabilities:
+#         #     drop: ["ALL"]
+#         #     add:
+#         #     - CHOWN
+#         #     - FOWNER
+#         #     - SETFCAP
+#         #     - SETGID
+#         #     - SETUID
+#         #     - DAC_OVERRIDE
+#         resources:
+#           requests:
+#             cpu: 100m
+#             memory: 100Mi
+#           limits:
+#             cpu: 300m
+#             memory: 150Mi
+#         livenessProbe:
+#           failureThreshold: 10
+#           httpGet:
+#             path: /admin/index.php
+#             port: http
+#             scheme: HTTP
+#           initialDelaySeconds: 60
+#           periodSeconds: 10
+#           successThreshold: 1
+#           timeoutSeconds: 5
+#         readinessProbe:
+#           failureThreshold: 3
+#           httpGet:
+#             path: /admin/index.php
+#             port: http
+#             scheme: HTTP
+#           initialDelaySeconds: 60
+#           periodSeconds: 10
+#           successThreshold: 1
+#           timeoutSeconds: 5
+#         ports:
+#         - containerPort: 80
+#           name: http
+#           protocol: TCP
+#         - containerPort: 53
+#           name: dns
+#           protocol: TCP
+#         - containerPort: 53
+#           name: dns-udp
+#           protocol: UDP
+#         - containerPort: 67
+#           name: client-udp
+#           protocol: UDP
+#         env:
+#         - name: WEB_PORT
+#           value: '80'
+#         - name: VIRTUAL_HOST
+#           value: pi.hole
+#         - name: WEBPASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               key: password
+#               name: pihole-creds
+#         - name: TZ
+#           value: America/Toronto
+#         - name: PIHOLE_DNS_
+#           value: 192.168.1.1
+#         volumeMounts:
+#         - name: nfs-pihole-config
+#           mountPath: /etc/pihole
+#         - name: nfs-pihole-dnsmasq
+#           mountPath: /etc/dnsmasq.d
+#       volumes:
+#       - name: nfs-pihole-config
+#         persistentVolumeClaim:
+#           claimName: nfs-pihole-config
+#       - name: nfs-pihole-dnsmasq
+#         persistentVolumeClaim:
+#           claimName: nfs-pihole-dnsmasq
+#       automountServiceAccountToken: false
