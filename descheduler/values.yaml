@@ -1,4 +1,4 @@
-schedule: "*/5 * * * *"
+schedule: "*/15 * * * *"  # Every 15 minutes
 
 deschedulerPolicy:
   strategies:
