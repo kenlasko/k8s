@@ -33,7 +33,7 @@ spec:
         image: pihole/pihole:latest
         imagePullPolicy: IfNotPresent
         securityContext:
-          allowPrivilegeEscalation: false
+          # allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           # runAsNonRoot: true
           # runAsUser: 999
