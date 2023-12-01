@@ -3,7 +3,6 @@ kind: Service
 metadata:
   labels:
     app: pihole
-    app.kubernetes.io/instance: pihole
   name: pihole-web
   namespace: pihole
 spec:
@@ -15,7 +14,6 @@ spec:
     targetPort: http
   selector:
     app: pihole
-    release: pihole
  
 
 ---
@@ -24,7 +22,6 @@ kind: Service
 metadata:
   labels:
     app: pihole
-    app.kubernetes.io/instance: pihole
   name: pihole-dns
   namespace: pihole
 spec:
@@ -32,12 +29,12 @@ spec:
   loadBalancerIP: 192.168.1.16
   ports:
   - name: dns
-    nodePort: 30325
+    nodePort: 53
     port: 53
     protocol: TCP
     targetPort: dns
   - name: dns-udp
-    nodePort: 30325
+    nodePort: 53
     port: 53
     protocol: UDP
     targetPort: dns-udp
