@@ -8,7 +8,7 @@ deschedulerPolicy:
       enabled: true
       params:
         podsHavingTooManyRestarts:
-          podRestartThreshold: 100
+          podRestartThreshold: 20
           includingInitContainers: true
     RemovePodsViolatingNodeTaints:
       enabled: true
@@ -24,7 +24,7 @@ deschedulerPolicy:
       params:
         includeSoftConstraints: false
     LowNodeUtilization:
-      enabled: true
+      enabled: false
       params:
         nodeResourceUtilizationThresholds:
           thresholds:
