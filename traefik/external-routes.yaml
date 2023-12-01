@@ -51,6 +51,9 @@ kind: IngressRoute
 metadata:
   name: wled-fp-left-external-route
   namespace: traefik
+  annotations:
+    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+    kubernetes.io/ingress.class: traefik
 spec:
   entryPoints:
   - websecure
@@ -74,6 +77,9 @@ apiVersion: v1
 metadata:
   name: wled-fp-left-forward
   namespace: traefik
+  annotations:
+    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+    kubernetes.io/ingress.class: traefik
 spec:
   type: ExternalName
   ports:
