@@ -47,6 +47,7 @@ gitea:
       NAME: gitea
       HOST: mariadb.mariadb.svc.cluster.local
       USER: gitea
+      PASSWD: ***REMOVED***
       SCHEMA: gitea
     session:
       PROVIDER: db
