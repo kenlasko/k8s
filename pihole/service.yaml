@@ -7,7 +7,7 @@ metadata:
   name: pihole-web
   namespace: pihole
 spec:
-  internalTrafficPolicy: Cluster
+  type: ClusterIP
   ports:
   - name: http
     port: 80
@@ -16,8 +16,7 @@ spec:
   selector:
     app: pihole
     release: pihole
-  sessionAffinity: None
-  type: ClusterIP
+ 
 
 
 ---

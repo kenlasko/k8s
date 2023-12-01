@@ -1,33 +1,33 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: pihole
-  namespace: pihole
-spec:
-  podSelector: {}
-  policyTypes:
-    - Egress
-  ingress:
-    - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: external-dns
-      ports:
-        - port: 80
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-      ports:
-        - port: 80
-  egress:
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: pihole
+#   namespace: pihole
+# spec:
+#   podSelector: {}
+#   policyTypes:
+#     - Egress
+#   ingress:
+#     - from:
+#         - ipBlock:
+#             cidr: 0.0.0.0/0
+#       ports:
+#         - port: 53
+#     - from:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               app: external-dns
+#       ports:
+#         - port: 80
+#     - from:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               app.kubernetes.io/name: traefik
+#       ports:
+#         - port: 80
+#   egress:
+#     - to:
+#         - ipBlock:
+#             cidr: 0.0.0.0/0
