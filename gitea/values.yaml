@@ -39,9 +39,8 @@ persistence:
 
 gitea:
   admin:
-    username: gitea
     existingSecret: gitea-creds
-    # email: 'ken.lasko@gmail.com'
+    email: 'ken.lasko@gmail.com'
   config:
     database:
       DB_TYPE: mysql
