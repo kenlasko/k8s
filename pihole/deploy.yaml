@@ -40,15 +40,15 @@ spec:
           # runAsGroup: 1000
           # seccompProfile:
           #   type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-            add:
-            - CHOWN
-            - FOWNER
-            - SETFCAP
-            - SETGID
-            - SETUID
-            - DAC_OVERRIDE
+          # capabilities:
+          #   drop: ["ALL"]
+          #   add:
+          #   - CHOWN
+          #   - FOWNER
+          #   - SETFCAP
+          #   - SETGID
+          #   - SETUID
+          #   - DAC_OVERRIDE
         resources:
           requests:
             cpu: 100m
