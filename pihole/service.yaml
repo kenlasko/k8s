@@ -29,12 +29,12 @@ spec:
   loadBalancerIP: 192.168.1.16
   ports:
   - name: dns
-    nodePort: 53
+    nodePort: 30325
     port: 53
     protocol: TCP
     targetPort: dns
   - name: dns-udp
-    nodePort: 53
+    nodePort: 30325
     port: 53
     protocol: UDP
     targetPort: dns-udp
