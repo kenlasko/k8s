@@ -75,19 +75,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 5
-        ports:
-        - containerPort: 80
-          name: http
-          protocol: TCP
-        - containerPort: 53
-          name: dns
-          protocol: TCP
-        - containerPort: 53
-          name: dns-udp
-          protocol: UDP
-        - containerPort: 67
-          name: client-udp
-          protocol: UDP
         env:
         - name: WEB_PORT
           value: '80'
