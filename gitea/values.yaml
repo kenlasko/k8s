@@ -40,7 +40,7 @@ persistence:
 gitea:
   admin:
     existingSecret: gitea-creds
-    email: 'ken.lasko@gmail.com'
+    # email: 'ken.lasko@gmail.com'
   config:
     database:
       DB_TYPE: mysql
