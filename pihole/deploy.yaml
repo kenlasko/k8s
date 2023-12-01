@@ -66,7 +66,7 @@ spec:
             path: /admin/index.php
             port: http
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 5
@@ -76,7 +76,7 @@ spec:
             path: /admin/index.php
             port: http
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 5
