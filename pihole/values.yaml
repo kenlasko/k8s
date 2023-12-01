@@ -57,7 +57,7 @@ extraVolumes:
     claimName: nfs-pihole-dnsmasq
 
 extraVolumeMounts:
-- name: config
+- name: nfs-pihole-dnsmasq
   mountPath: /etc/dnsmasq.d
 
 serviceDhcp:
