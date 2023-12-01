@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pihole-data
+  name: nfs-pihole-data
 spec:
   storageClassName: "nfs"
   capacity:
@@ -14,7 +14,7 @@ spec:
   - hard
   - nfsvers=4.1
   nfs:
-    path: /appdata/vol/pihole
+    path: /appdata/vol/pihole/config
     server: 192.168.1.3
     readOnly: false
 
@@ -22,14 +22,51 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pihole-data
+  name: nfs-pihole-data
   namespace: pihole
 spec:
   storageClassName: "nfs"
-  volumeName: pihole-data
+  volumeName: nfs-pihole-data
   accessModes:
   - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
       storage: 10Gi
+
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pihole-dnsmasq
+spec:
+  storageClassName: "nfs"
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+  - hard
+  - nfsvers=4.1
+  nfs:
+    path: /appdata/vol/pihole/dnsmasq.d
+    server: 192.168.1.3
+    readOnly: false
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pihole-dnsmasq
+  namespace: pihole
+spec:
+  storageClassName: "nfs"
+  volumeName: nfs-pihole-dnsmasq
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi

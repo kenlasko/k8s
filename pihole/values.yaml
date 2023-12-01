@@ -46,10 +46,17 @@ resources:
 persistentVolumeClaim:
   enabled: true
   storageClass: nfs
-  existingClaim: pihole-data
+  existingClaim: nfs-pihole-data
   size: "10Gi"
   accessModes:
   - ReadWriteOnce
+
+customVolumes:
+  enabled: true
+  config:
+    - name: nfs-pihole-dnsmasq
+      persistentVolumeClaim:
+        claimName: nfs-pihole-dnsmasq
 
 serviceDhcp:
   enabled: false
