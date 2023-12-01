@@ -56,6 +56,10 @@ extraVolumes:
   persistentVolumeClaim:
     claimName: nfs-pihole-dnsmasq
 
+extraVolumeMounts:
+- name: config
+  mountPath: /etc/dnsmasq.d
+
 serviceDhcp:
   enabled: false
 
