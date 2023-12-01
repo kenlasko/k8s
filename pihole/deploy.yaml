@@ -55,26 +55,26 @@ spec:
           limits:
             cpu: 300m
             memory: 150Mi
-        livenessProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /admin/index.php
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /admin/index.php
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
+        # livenessProbe:
+        #   failureThreshold: 10
+        #   httpGet:
+        #     path: /admin/index.php
+        #     port: http
+        #     scheme: HTTP
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 5
+        # readinessProbe:
+        #   failureThreshold: 3
+        #   httpGet:
+        #     path: /admin/index.php
+        #     port: http
+        #     scheme: HTTP
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 5
         env:
         - name: WEB_PORT
           value: '80'
