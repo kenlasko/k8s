@@ -52,10 +52,10 @@ spec:
             drop: ["ALL"]
         resources:
           requests:
-            cpu: 100m
+            cpu: 50m
             memory: 200Mi
           limits:
-            cpu: 100m
+            cpu: 800m
             memory: 400Mi
         livenessProbe:
           httpGet:
