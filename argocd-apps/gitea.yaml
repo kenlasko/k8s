@@ -8,14 +8,14 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://dl.gitea.com/charts/'
-    targetRevision: 9.*
-    chart: gitea
-    helm:
-      valueFiles:
-      - $values/gitea/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    ref: values
+  # - repoURL: 'https://dl.gitea.com/charts/'
+  #   targetRevision: 9.*
+  #   chart: gitea
+  #   helm:
+  #     valueFiles:
+  #     - $values/gitea/values.yaml
+  # - repoURL: 'git@github.com:kenlasko/K3S.git'
+  #   ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: gitea
     targetRevision: HEAD
