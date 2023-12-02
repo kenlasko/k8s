@@ -64,11 +64,6 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
-        - name: ADMIN_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: admin-token
-              key: token   
         - name: GITEA__database__DB_TYPE
           value: "mysql"
         - name: GITEA__database__HOST
