@@ -16,3 +16,11 @@ affinity:
           operator: In
           values: 
           - 'amd64'
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 25Mi
+  limits:
+    cpu: 20m
+    memory: 50Mi

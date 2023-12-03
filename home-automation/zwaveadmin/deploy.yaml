@@ -36,11 +36,11 @@ spec:
         resources:
           requests:
             cpu: 25m
-            memory: 200Mi
+            memory: 110Mi
             smarter-devices/ttyUSB0: 1
           limits:
-            cpu: 400m
-            memory: 300Mi
+            cpu: 300m
+            memory: 200Mi
             smarter-devices/ttyUSB0: 1
         livenessProbe:
           httpGet:

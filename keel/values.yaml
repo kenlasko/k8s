@@ -35,3 +35,11 @@ persistence:
   enabled: true
   storageClass: "nfs"
   size: 5Mi
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 32Mi
+  limits:
+    cpu: 150m
+    memory: 60Mi

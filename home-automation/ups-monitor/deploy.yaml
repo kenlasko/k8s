@@ -46,7 +46,7 @@ spec:
             smarter-devices/bus_usb_001_003: 1
           limits:
             cpu: 1m
-            memory: 6Mi
+            memory: 4Mi
             smarter-devices/bus_usb_001_003: 1
         livenessProbe:
           tcpSocket:
