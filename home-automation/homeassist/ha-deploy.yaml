@@ -40,13 +40,16 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          # runAsNonRoot: true
-          # runAsUser: 1000
-          # runAsGroup: 100
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 100
           seccompProfile:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+            add:
+            - CHOWN
+            - SETFCAP
         resources:
           requests:
             cpu: 150m
