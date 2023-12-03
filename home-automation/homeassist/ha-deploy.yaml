@@ -35,7 +35,7 @@ spec:
                 - nuc4
       containers:
       - name: homeassist
-        image: lscr.io/linuxserver/homeassistant:latest  #ghcr.io/home-assistant/home-assistant:stable
+        image: ghcr.io/home-assistant/home-assistant:stable
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -47,11 +47,6 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-            add:
-            - CHOWN
-            - SETGID
-            - SETUID
-            - SETFCAP
         resources:
           requests:
             cpu: 150m
