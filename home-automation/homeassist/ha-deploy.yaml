@@ -35,7 +35,7 @@ spec:
                 - nuc4
       containers:
       - name: homeassist
-        image: ghcr.io/home-assistant/home-assistant:stable
+        image: lscr.io/linuxserver/homeassistant:latest  #ghcr.io/home-assistant/home-assistant:stable
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
