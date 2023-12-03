@@ -49,6 +49,8 @@ spec:
             drop: ["ALL"]
             add:
             - CHOWN
+            - SETGID
+            - SETUID
             - SETFCAP
         resources:
           requests:
