@@ -40,9 +40,6 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          # runAsNonRoot: false
-          # runAsUser: 1000
-          # runAsGroup: 100
           seccompProfile:
             type: RuntimeDefault
           capabilities:
@@ -65,10 +62,6 @@ spec:
           timeoutSeconds: 15
           failureThreshold: 5
         env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "100"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
