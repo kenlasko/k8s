@@ -24,7 +24,7 @@ data:
     kubectl cp -n media-tools sonarr-0:config/Backups/scheduled/. /backup/sonarr/.
     echo 'Deleting old Sonarr backups'
     SONARRCOUNT=$(find /backup/sonarr -type f -mtime -1 | wc -l)
-    if [ $SONARRCOUNT -gt 12]
+    if [ $SONARRCOUNT -gt 12 ]
     then
       find /backup/sonarr/* -mtime +2 -exec rm {} \;
     fi
