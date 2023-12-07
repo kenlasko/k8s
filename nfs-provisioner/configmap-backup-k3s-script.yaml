@@ -9,5 +9,12 @@ data:
     ######################################
     # Backup K3S etcd to NFS mount script.
     ######################################  
-
+    echo 'Backing up K3S etcd'
     cp -p `ls -t /data/* | head -2` /backup/
+
+    echo 'Deleting old K3S etcd backups'
+    COUNT=$(find /backup -type f -mtime -14 | wc -l)
+    if [ $COUNT -gt 12 ]
+    then
+      find /backup/* -mtime +14 -exec rm {} \;
+    fi
