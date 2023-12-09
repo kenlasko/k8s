@@ -65,16 +65,13 @@ ansible-playbook ~/k3s/_ansible/k3s-node-install.yaml --ask-become-pass
 # Install apps
 ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
 
-
 # Get initial ArgoCD password
 kubectl -n argocd get secret argocd-initial-admin-secret \
           -o jsonpath="{.data.password}" | base64 -d; echo
 
-
 # Get K3S token
 kubectl -n kube-system get secret api-service-account-secret \
           -o jsonpath="{.data.token}" | base64 -d; echo
-
 
 
 # Create first server
