@@ -24,7 +24,7 @@ nuc6     ansible_connection=ssh
 
 [other-nodes]
 backuppc                 ansible_connection=ssh
-onode1.ucdialplans.com   ansible_connection=ssh
+onode1.ucdialplans.com   ansible_connection=ssh  ansible_user=ubuntu
 
 [k3s-all:children]
 k3s-servers

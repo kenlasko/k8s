@@ -27,6 +27,9 @@
       - helm
       - kubectl
       - bash-completion
+      - ansible
+      - git
+      - pip
       state: latest
       update_cache: yes
   - name: Add kubectl completion to .bashrc
