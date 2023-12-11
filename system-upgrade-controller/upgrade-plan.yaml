@@ -17,6 +17,7 @@ spec:
   upgrade:
     image: rancher/k3s-upgrade
   channel: https://update.k3s.io/v1-release/channels/stable
+  #version: v1.28.4+k3s2
 
   
 ---
@@ -42,3 +43,4 @@ spec:
   upgrade:
     image: rancher/k3s-upgrade
   channel: https://update.k3s.io/v1-release/channels/stable
+  #version: v1.28.4+k3s2
