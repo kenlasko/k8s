@@ -1,0 +1,80 @@
+#cloud-config
+autoinstall:
+  version: 1
+  shutdown: reboot
+  apt:
+    fallback: abort
+    geoip: true
+    preserve_sources_list: false
+  codecs:
+    install: false
+  drivers:
+    install: false
+  identity:
+    hostname: nucXXX
+    password: $6$0kGhHznX//02hNKp$wRgzWleUNg014QvWo3ATQBohvSdkw29sz3vLN1UyNXYJRjkBvn3inL8dG7hctrHSY4ZyzL27Wv85y3Ek7E0dL0
+    realname: Ken Lasko
+    username: ken
+  packages:
+    - nano
+    - nfs-common
+    - open-iscsi
+    - util-linux
+  kernel:
+    flavor: hwe
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ''
+  locale: en_US.UTF-8
+  source:
+    id: ubuntu-server-minimal
+    search_drivers: false
+  storage:
+    layout:
+      name: direct
+    swap:
+        size: 0
+  ssh:
+    install-server: true
+    authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEApefcMqtTVpCrmVCe/44r0/o1TUnH3T9yawOtgVI7MYUfcvsfkC+77SoK08whqyyWkvTWr6NirRiPlNr9J8EVaxsh2HFUGRAWYGV2OjQGP43+uq9w6FHL1BED9rS54RNEj4eevr3W5Sh9PSlPKqUcfXAhCkxm11vgMY97HBhr52Uj3dmd6PB9Dx8a77GZFxwOYZl4ihIfagj58miS+F7XGiyB/A69lv09v94LOvYB5CFIRNgnmXvaW+aUJs+Ucl11Hb6DBfKRKNHi6brgoOpFdAtYCf8DvyqvgydAZsyH3R9mRHOvOCmD/N02Suy0Fc/u7AC4O7x2YUpI6rKgHbuRjQ== KenPC
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMaEyr89Uih7gj/S5XeZkHDcShAkYkAdQONcWRlMNd7YjOkeUw0POuKZdIR23UepxNj4mjWH/GG25qvl4pOHFEXypBXlElU1PNgiltjulnz5BTBHKgLmyNMhkHCqXIrmH7RANDmtItTRT3ojo79efYxVB1K7KF0usgeKHUJoLoPLrXY0wwgxShFDW9o4jakKxyZ/GQBs0zbMqGqJDehClzmySTK3o8Hzs5mIlsnp4UJlZC0dGaZP0H8BmRkOdSmvbEEk0iCu+tc2UuYPcU4bkOMrdugWaAbv1VCpFpG+vUlE8m1rv4M7DSWrA6UdgfVAT0F+nBQFtwlP618O4woNFJ Pixel2XL
+    allow-pw: false
+  timezone: America/Toronto
+  updates: all
+  late-commands:
+    # Add recommended security features to sysctl
+    - |
+      cat << 'EOF' > /target/etc/sysctl.d/90-kubelet.conf
+      vm.panic_on_oom=0
+      vm.overcommit_memory=1
+      kernel.panic=10
+      kernel.panic_on_oops=1
+      EOF
+    # Add Longhorn multipath blacklist recommendations as per https://longhorn.io/kb/troubleshooting-volume-with-multipath/
+    - |
+      cat << 'EOF' >> /target/etc/multipath.conf
+      blacklist {
+          devnode "^sd[a-z0-9]+"
+      }
+      EOF
+    # Create kube-storage folder for MariaDB
+    - mkdir -p /target/kube-storage/mariadb
+    # Disable swap
+    - curtin in-target --target=/target -- swapoff -a
+    - sed -i 's|/swap.img|#/swap.img|g' /target/etc/fstab
+    - rm /target/swap.img
+    # Get proper hostname from DNS
+    - getent hosts $(ip -o -4 address show scope global | head -n 1 | awk '{print $4}' | awk -F '/' '{print $1}') | awk '{print $2}' | awk -F '.' '{print $1}' > /target/etc/hostname
+runcmd:
+  # Makes install stop at end so it doesn't go into endless reboot/reinstall cycles
+  - |
+    mv /sbin/reboot /sbin/reboot.real
+    install -m 0755 -o root -g root /dev/null /sbin/reboot
+    cat <<EOF > /sbin/reboot
+    #!/usr/bin/env bash
+
+    exit 0
+    EOF
+
