@@ -12,11 +12,18 @@ collectors:
 
 customRules:
   custom-rules.yaml: |-
-    - rule: Example rule
-      desc: Test rule
-      condition: evt.type = execve and proc.name = malicious and proc.pid = 1
-      output: The process %proc.name has used the syscall %evt.type
-      priority: notice
+    - rule: Contact K8S API Server From Container
+      exceptions:
+      - name: allowed_to_contact_api_server
+        fields: [k8s.ns.name, container.name] 
+        comps: [=,=]
+        values:
+        - [headlamp, headlamp]
+        - [monitoring, grafana-sc-dashboard]
+        - [monitoring, grafana-sc-datasources]
+        - [portainer, portainer]
+      append: true
+
 falcosidekick:
   enabled: true
   webui:
