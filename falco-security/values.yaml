@@ -38,6 +38,15 @@ customRules:
         - [pihole, pihole, pihole-FTL]
       append: true
 
+    - rule: Log files were tampered
+      exceptions:
+      - name: allowed_to_tamper
+        fields: [container.name,proc.pname, proc.name] 
+        comps: [=,=,=]
+        values:
+        - [host, k3s-agent, containerd]
+      append: true
+
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
       exceptions:
       - name: allowed_to_do_stdout_stdin
