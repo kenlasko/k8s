@@ -54,6 +54,7 @@ customRules:
         fields: [k8s.ns.name, container.name, proc.name] 
         comps: [=,=,=]
         values:
+        - [argocd, repo-server, argocd-repo-ser]
         - [argocd, repo-server, git]
         - [homeassist, homeassist, ping]
         - [homeassist, homeassist, python3]
