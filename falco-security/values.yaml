@@ -26,7 +26,7 @@ falcosidekick:
         secretKeyRef:
           name: userinfo
           key: userpass
-    webui:
+  webui:
     enabled: true
     affinity: 
       nodeAffinity:
