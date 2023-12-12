@@ -16,7 +16,7 @@ customRules:
       exceptions:
       - name: allowed_to_contact_api_server
         fields: [k8s.ns.name, container.name, proc.name] 
-        comps: [=,=]
+        comps: [=,=,=]
         values:
         - [argocd, repo-server, git]
         - [headlamp, headlamp, headlamp-server]
