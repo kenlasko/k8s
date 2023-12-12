@@ -39,7 +39,7 @@ customRules:
         - [pihole, pihole, pihole-FTL]
       append: true
 
-    - rule: Clear log activities
+    - rule: Clear Log Activities
       exceptions:
       - name: allowed_to_clear
         fields: [container.name,proc.pname, proc.name] 
