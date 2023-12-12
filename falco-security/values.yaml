@@ -10,13 +10,6 @@ collectors:
     enabled: true
     socket: /run/k3s/containerd/containerd.sock
 
-extra:
-  env:
-  - name: FALCOSIDEKICK_UI_USER
-    valueFrom:
-      secretKeyRef:
-        name: userinfo
-        key: userpass
 customRules:
   custom-rules.yaml: |-
     - rule: Example rule
@@ -26,6 +19,12 @@ customRules:
       priority: notice
 falcosidekick:
   enabled: true
+  extraEnv:
+  - name: FALCOSIDEKICK_UI_USER
+    valueFrom:
+      secretKeyRef:
+        name: userinfo
+        key: userpass
   webui:
     enabled: true
     affinity: 
