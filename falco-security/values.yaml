@@ -6,7 +6,12 @@ extra:
     valueFrom:
       secretKeyRef:
         name: userinfo
-        key: userpass   
+        key: userpass
+mounts:
+  volumes:
+  - falco-rules
+  volumeMounts:
+  - falco-rules   
 falcosidekick:
   enabled: true
   webui:
