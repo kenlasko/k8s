@@ -17,7 +17,7 @@ customRules:
       desc: Test rule
       condition: evt.type = execve and proc.name = malicious and proc.pid = 1
       output: The process %proc.name has used the syscall %evt.type
-      priority: 20
+      priority: notice
 falcosidekick:
   enabled: true
   webui:
