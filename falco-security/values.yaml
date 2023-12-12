@@ -15,13 +15,15 @@ customRules:
     - rule: Contact K8S API Server From Container
       exceptions:
       - name: allowed_to_contact_api_server
-        fields: [k8s.ns.name, container.name] 
+        fields: [k8s.ns.name, container.name, proc.name] 
         comps: [=,=]
         values:
-        - [headlamp, headlamp]
-        - [monitoring, grafana-sc-dashboard]
-        - [monitoring, grafana-sc-datasources]
-        - [portainer, portainer]
+        - [argocd, repo-server, git]
+        - [headlamp, headlamp, headlamp-server]
+        - [monitoring, grafana-sc-dashboard, python]
+        - [monitoring, grafana-sc-datasources, python]
+        - [netdata, netdata, curl]
+        - [portainer, portainer, portainer]
       append: true
 
 falcosidekick:
