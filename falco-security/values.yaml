@@ -22,6 +22,7 @@ customRules:
         - [argocd, repo-server, git]
         - [argocd, server, argocd-server]
         - [headlamp, headlamp, headlamp-server]
+        - [longhorn, 24-hour-snapshots, longhorn-manage]
         - [monitoring, grafana-sc-dashboard, python]
         - [monitoring, grafana-sc-datasources, python]
         - [netdata, netdata, curl]
@@ -38,9 +39,9 @@ customRules:
         - [pihole, pihole, pihole-FTL]
       append: true
 
-    - rule: Log files were tampered
+    - rule: Clear log activities
       exceptions:
-      - name: allowed_to_tamper
+      - name: allowed_to_clear
         fields: [container.name,proc.pname, proc.name] 
         comps: [=,=,=]
         values:
