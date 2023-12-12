@@ -14,7 +14,7 @@ extra:
 customRules:
   custom-rules.yaml: |-
     - rule: Example rule
-      description: Test rule
+      desc: Test rule
       condition: evt.type = execve and proc.name = malicious and proc.pid = 1
       output: The process %proc.name has used the syscall %evt.type
 falcosidekick:
