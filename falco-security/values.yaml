@@ -46,6 +46,7 @@ customRules:
         values:
         - [argocd, repo-server, git]
         - [homeassist, homeassist, ping]
+        - [homeassist, homeassist, python3]
         - [longhorn, longhorn-manager, longhorn]
       append: true
 
@@ -56,7 +57,7 @@ falcosidekick:
       address: http://homeassist.homeassist.svc.cluster.local:8123/api/webhook/-H6GkrSTowPZLtenB1zerk1mY
       method: "PUT"
       minimumpriority: debug
-      
+
   webui:
     enabled: true
     user: "kenadmin:U3H7zfWZkPXf*$$he"
