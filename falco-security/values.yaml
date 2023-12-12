@@ -27,6 +27,17 @@ customRules:
         - [netdata, netdata, curl]
         - [portainer, portainer, portainer]
       append: true
+
+    - rule: Drop and execute new binary in container
+      exceptions:
+      - name: allowed_to_execute_new_binary
+        fields: [k8s.ns.name, container.name, proc.name] 
+        comps: [=,=,=]
+        values:
+        - [media-tools, plex, Plex Media Scan]
+        - [pihole, pihole, pihole-FTL]
+      append: true
+
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
       exceptions:
       - name: allowed_to_do_stdout_stdin
