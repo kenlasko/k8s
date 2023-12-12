@@ -4,6 +4,12 @@ collectors:
   enabled: true
   docker:
     enabled: false
+  crio:
+    enabled: false
+  containerd:
+    enabled: true
+    socket: /run/k3s/containerd/containerd.sock
+
 extra:
   env:
   - name: FALCOSIDEKICK_UI_USER
