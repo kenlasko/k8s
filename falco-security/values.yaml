@@ -19,13 +19,14 @@ customRules:
       priority: notice
 falcosidekick:
   enabled: true
-  extraEnv:
-  - name: FALCOSIDEKICK_UI_USER
-    valueFrom:
-      secretKeyRef:
-        name: userinfo
-        key: userpass
-  webui:
+  config:
+    extraEnv:
+    - name: FALCOSIDEKICK_UI_USER
+      valueFrom:
+        secretKeyRef:
+          name: userinfo
+          key: userpass
+    webui:
     enabled: true
     affinity: 
       nodeAffinity:
