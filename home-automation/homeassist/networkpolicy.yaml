@@ -24,6 +24,11 @@ spec:
           podSelector:
             matchLabels:
               app: change-detector
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: falco
       ports:
         - port: 8123
     - from:

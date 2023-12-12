@@ -51,6 +51,12 @@ customRules:
 
 falcosidekick:
   enabled: true
+  config:
+    webhook:
+      address: http://homeassist.homeassist.svc.cluster.local:8123/api/webhook/-H6GkrSTowPZLtenB1zerk1mY
+      method: "PUT"
+      minimumpriority: debug
+      
   webui:
     enabled: true
     user: "kenadmin:U3H7zfWZkPXf*$$he"
