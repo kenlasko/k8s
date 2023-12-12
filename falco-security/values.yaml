@@ -1,5 +1,9 @@
 driver:
   kind: modern-bpf
+collectors:
+  enabled: true
+  docker:
+    enabled: false
 extra:
   env:
   - name: FALCOSIDEKICK_UI_USER
