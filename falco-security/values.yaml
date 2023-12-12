@@ -21,12 +21,7 @@ falcosidekick:
   enabled: true
   webui:
     enabled: true
-    env:
-    - name: FALCOSIDEKICK_UI_USER
-      valueFrom:
-        secretKeyRef:
-          name: userinfo
-          key: userpass
+    user: "kenadmin:U3H7zfWZkPXf*$$he"
     affinity: 
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
