@@ -18,12 +18,24 @@ customRules:
         fields: [k8s.ns.name, container.name, proc.name] 
         comps: [=,=,=]
         values:
+        - [argocd, application-controller, argocd-applicat]
         - [argocd, repo-server, git]
+        - [argocd, server, argocd-server]
         - [headlamp, headlamp, headlamp-server]
         - [monitoring, grafana-sc-dashboard, python]
         - [monitoring, grafana-sc-datasources, python]
         - [netdata, netdata, curl]
         - [portainer, portainer, portainer]
+      append: true
+    - rule: Redirect STDOUT/STDIN to Network Connection in Container
+      exceptions:
+      - name: allowed_to_do_stdout_stdin
+        fields: [k8s.ns.name, container.name, proc.name] 
+        comps: [=,=,=]
+        values:
+        - [argocd, repo-server, git]
+        - [homeassist, homeassist, ping]
+        - [longhorn, longhorn-manager, longhorn]
       append: true
 
 falcosidekick:
