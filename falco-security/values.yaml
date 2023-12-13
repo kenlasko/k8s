@@ -24,6 +24,7 @@ customRules:
         - [argocd, application-controller, argocd-applicat]
         - [argocd, repo-server, git]
         - [argocd, server, argocd-server]
+        - [external-dns, external-dns, external-dns]
         - [headlamp, headlamp, headlamp-server]
         - [longhorn, nightly-backups, longhorn-manage]
         - [longhorn, 24-hour-snapshots, longhorn-manage]
