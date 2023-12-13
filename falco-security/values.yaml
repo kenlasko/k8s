@@ -69,7 +69,7 @@ falcosidekick:
       address: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/-H6GkrSTowPZLtenB1zerk1mY
       #address: https://webhook.site/061014fc-67c0-462f-9a2d-8655876ad513
       method: "PUT"
-      minimumpriority: debug
+      minimumpriority: warning
   affinity: 
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
