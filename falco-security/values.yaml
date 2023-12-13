@@ -36,6 +36,7 @@ customRules:
         comps: [=,=,=]
         values:
         - [media-tools, plex, Plex Media Scan]
+        - [media-tools, plex, Plex Script Hos]
         - [pihole, pihole, pihole-FTL]
       append: true
 
