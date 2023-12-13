@@ -22,7 +22,9 @@ customRules:
         - [argocd, repo-server, git]
         - [argocd, server, argocd-server]
         - [headlamp, headlamp, headlamp-server]
+        - [longhorn, nightly-backups, longhorn-manage]
         - [longhorn, 24-hour-snapshots, longhorn-manage]
+        - [media-tools, backup-media-apps, kubectl]
         - [monitoring, grafana-sc-dashboard, python]
         - [monitoring, grafana-sc-datasources, python]
         - [netdata, netdata, curl]
@@ -37,6 +39,7 @@ customRules:
         values:
         - [media-tools, plex, Plex Media Scan]
         - [media-tools, plex, Plex Script Hos]
+        - [media-tools, plex, Plex Transcoder]
         - [pihole, pihole, pihole-FTL]
       append: true
 
@@ -60,6 +63,15 @@ customRules:
         - [homeassist, homeassist, ping]
         - [homeassist, homeassist, python3]
         - [longhorn, longhorn-manager, longhorn]
+      append: true
+
+    - rule: Run shell untrusted
+      exceptions:
+      - name: allowed_shell
+        fields: [k8s.ns.name, container.name, proc.pname] 
+        comps: [=,=,in]
+        values:
+        - [pihole, pihole, [php-cgi, runuser]]
       append: true
 
 falcosidekick:
