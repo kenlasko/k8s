@@ -41,6 +41,15 @@ spec:
           - name: backup-media-apps
             image: rancher/k3s:v1.27.6-k3s1-amd64
             imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
             command: 
             - /bin/sh
             - -c
