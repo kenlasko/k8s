@@ -9,6 +9,7 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
+  serviceName: pihole
   replicas: 1
   revisionHistoryLimit: 2
   selector:
@@ -20,7 +21,6 @@ spec:
         app: pihole
         name: pihole
     spec:
-      serviceName: pihole
       restartPolicy: Always
       automountServiceAccountToken: false
       affinity:
