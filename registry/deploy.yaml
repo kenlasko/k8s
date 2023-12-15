@@ -17,6 +17,7 @@ spec:
         name: registry
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -69,4 +70,3 @@ spec:
       - name: registry-data
         persistentVolumeClaim:
           claimName: registry-data
-      automountServiceAccountToken: false

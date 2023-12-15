@@ -21,6 +21,7 @@ spec:
         name: pihole
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -110,4 +111,3 @@ spec:
       - name: nfs-pihole-dnsmasq
         persistentVolumeClaim:
           claimName: nfs-pihole-dnsmasq
-      automountServiceAccountToken: false

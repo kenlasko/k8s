@@ -17,6 +17,7 @@ spec:
         name: ucdialplans
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -66,7 +67,6 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 10
           failureThreshold: 3
-      automountServiceAccountToken: false
       dnsConfig:
         options:
         - name: ndots
