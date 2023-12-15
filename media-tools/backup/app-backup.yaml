@@ -42,10 +42,10 @@ spec:
             image: rancher/k3s:v1.27.6-k3s1-amd64
             imagePullPolicy: IfNotPresent
             securityContext:
-              allowPrivilegeEscalation: false
+              # allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
-              # runAsNonRoot: true
-              # runAsUser: 1000
+              runAsNonRoot: true
+              runAsUser: 1000
               seccompProfile:
                 type: RuntimeDefault
               capabilities:
