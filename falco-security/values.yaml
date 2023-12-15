@@ -53,7 +53,7 @@ customRules:
         fields: [k8s.ns.name, container.name, proc.name] 
         comps: [=,=,in]
         values:
-        - [media-tools, plex, [Plex Media Scan, Plex Script Hos, Plex Transcoder]]
+        - [media-tools, plex, [Plex Media Fing, Plex Media Scan, Plex Script Hos, Plex Transcoder]]
         - [pihole, pihole, [pihole-FTL]]
       append: true
 
