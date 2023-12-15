@@ -60,7 +60,7 @@ customRules:
     - rule: Clear Log Activities
       exceptions:
       - name: allowed_to_clear
-        fields: [k8s.ns.name, container.name, proc.pname, proc.name] 
+        fields: [container.name, proc.pname, proc.name] 
         comps: [=,=,=]
         values:
         - [host, k3s-agent, containerd]
