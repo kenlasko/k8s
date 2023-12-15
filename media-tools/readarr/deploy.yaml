@@ -9,8 +9,9 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
+  serviceName: readarr
   replicas: 1
-  revisionHistoryLimit: 2
+  revisionHistoryLimit: 2  
   selector:
     matchLabels:
       app: readarr

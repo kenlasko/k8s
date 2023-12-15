@@ -5,6 +5,7 @@ metadata:
   name: spotify-player
   namespace: media-tools
 spec:
+  serviceName: spotify-player
   replicas: 1
   selector:
     matchLabels:

@@ -5,6 +5,7 @@ metadata:
   name: ucdialplans
   namespace: ucdialplans
 spec:
+  serviceName: ucdialplans
   replicas: 1
   revisionHistoryLimit: 2
   selector:

@@ -9,6 +9,7 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
+  serviceName: prowlarr
   replicas: 1
   revisionHistoryLimit: 2
   selector:
