@@ -22,6 +22,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
+      automountServiceAccountToken: false
       priorityClassName: medium-priority
       affinity:
         nodeAffinity:
@@ -78,4 +79,3 @@ spec:
         - name: prowlarr-config
           persistentVolumeClaim:
             claimName: longhorn-prowlarr-config-pvc
-      automountServiceAccountToken: false

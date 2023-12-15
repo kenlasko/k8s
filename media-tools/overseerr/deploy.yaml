@@ -22,6 +22,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
+      automountServiceAccountToken: false
       priorityClassName: low-priority
       affinity:
         nodeAffinity:
@@ -82,4 +83,3 @@ spec:
         - name: overseerr-config
           persistentVolumeClaim:
             claimName: longhorn-overseerr-config-pvc
-      automountServiceAccountToken: false

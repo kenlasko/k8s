@@ -22,6 +22,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
+      automountServiceAccountToken: false
       priorityClassName: medium-priority
       affinity:
         nodeAffinity:
@@ -87,4 +88,3 @@ spec:
       - name: media
         persistentVolumeClaim:
           claimName: nfs-media
-      automountServiceAccountToken: false

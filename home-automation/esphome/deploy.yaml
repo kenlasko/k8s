@@ -21,6 +21,7 @@ spec:
         name: esphome
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false      
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -69,4 +70,4 @@ spec:
       - name: esphome
         persistentVolumeClaim:
           claimName: nfs-esphome
-      automountServiceAccountToken: false
+

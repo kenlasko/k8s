@@ -25,6 +25,7 @@ spec:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
+      automountServiceAccountToken: false
       priorityClassName: high-priority
       affinity:
         nodeAffinity:
@@ -55,7 +56,6 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: nfs-media
-      automountServiceAccountToken: false
       containers:
       - name: plex
         image: plexinc/pms-docker:plexpass     # ghcr.io/linuxserver/plex:latest  # plexinc/pms-docker:plexpass 

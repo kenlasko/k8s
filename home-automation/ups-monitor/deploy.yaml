@@ -21,6 +21,7 @@ spec:
         name: ups-monitor
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       nodeName: nuc4
       containers:
       - name: ups-monitor

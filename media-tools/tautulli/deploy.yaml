@@ -21,6 +21,7 @@ spec:
         name: tautulli
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       priorityClassName: medium-priority
       affinity:
         nodeAffinity:
@@ -77,4 +78,3 @@ spec:
         - name: tautulli
           persistentVolumeClaim:
             claimName: longhorn-tautulli-pvc
-      automountServiceAccountToken: false
