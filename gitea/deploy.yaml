@@ -41,6 +41,7 @@ spec:
       - name: gitea
         image: gitea/gitea:latest-rootless
         imagePullPolicy: Always
+        automountServiceAccountToken: false
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
@@ -87,7 +88,6 @@ spec:
           mountPath: /var/lib/gitea
         - name: gitea-config
           mountPath: /etc/gitea
-      automountServiceAccountToken: false
       dnsConfig:
         options:
         - name: ndots
