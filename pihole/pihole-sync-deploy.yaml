@@ -9,6 +9,7 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
+  serviceName: pihole-sync
   replicas: 1
   revisionHistoryLimit: 2
   selector:
@@ -45,7 +46,7 @@ spec:
             drop: ["ALL"]
         env:
         - name: INTERVAL_MINUTES
-          value: '128'
+          value: '240'
         - name: SYNC_FLUSHTABLES
           value: 'true'
         - name: UPDATE_GRAVITY
