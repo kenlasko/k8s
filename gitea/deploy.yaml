@@ -23,6 +23,7 @@ spec:
         name: gitea
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -42,7 +43,6 @@ spec:
       - name: gitea
         image: gitea/gitea:latest-rootless
         imagePullPolicy: Always
-        automountServiceAccountToken: false
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
