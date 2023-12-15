@@ -63,8 +63,8 @@ customRules:
         fields: [k8s.ns.name, container.name, proc.pname, proc.name] 
         comps: [=,=,=]
         values:
-        - [*, host, k3s-agent, containerd]
-        - [longhorn, engine-manager, longhorn-instan, tee]
+        - [host, k3s-agent, containerd]
+        - [engine-manager, longhorn-instan, tee]
       append: true
 
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
