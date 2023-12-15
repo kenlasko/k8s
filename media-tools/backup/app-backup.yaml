@@ -12,8 +12,8 @@ spec:
     spec:
       template:
         spec:
-          serviceAccount: mediatools-service-account     # Important lines to add
-          serviceAccountName: mediatools-service-account # Important lines to add
+          serviceAccount: mediatools-service-account
+          serviceAccountName: mediatools-service-account 
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -41,9 +41,9 @@ spec:
           - name: backup-media-apps
             image: rancher/k3s:v1.27.6-k3s1-amd64
             imagePullPolicy: IfNotPresent
-            securityContext:
+            # securityContext:
               # allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
+              # readOnlyRootFilesystem: false
               # runAsNonRoot: true
               # runAsUser: 1000
               # seccompProfile:
