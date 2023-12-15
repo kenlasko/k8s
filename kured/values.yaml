@@ -1,6 +1,7 @@
 configuration:
   forceReboot: true
-  drainTimeout: 120s
+  drainTimeout: 2m
+  lockReleaseDelay: 10m
   notifyUrl: "smtp://apikey:***REMOVED***@smtp.sendgrid.net:587/?fromAddress=klasko@ucdialplans.com&toAddresses=ken.lasko@gmail.com"
 extraEnvVars:
 - name: TZ

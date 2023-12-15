@@ -1,0 +1,2 @@
+# Remove Kured reboot lockout
+kubectl -n kube-system annotate ds kured weave.works/kured-node-lock-
