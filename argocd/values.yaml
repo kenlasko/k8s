@@ -21,6 +21,10 @@ configs:
   cm: 
     create: false # Don't create configmap because I do it separately via 02-configmap.yaml
   repositories:
+    aqua-security:
+      url: https://aquasecurity.github.io/helm-charts/
+      name: aqua
+      type: helm
     argocd:
       url: https://argoproj.github.io/argo-helm
       name: argocd
