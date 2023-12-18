@@ -40,18 +40,18 @@ spec:
       - name: maintainerr
         image: jorenn92/maintainerr:latest  #bug-k8s-connection
         imagePullPolicy: Always
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: false
-        #   seccompProfile:
-        #     type: RuntimeDefault
-        #   capabilities:
-        #     drop: ["ALL"]
-        #     add:
-        #     - "CHOWN"
-        #     - "SETGID"
-        #     - "SETUID"
-        #     - "DAC_OVERRIDE"
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
         env:
         - name: PUID
           value: '1000'
