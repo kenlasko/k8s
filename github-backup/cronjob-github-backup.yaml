@@ -24,15 +24,12 @@ spec:
           - name: github-backup
             image: buddyspencer/gickup:latest
             imagePullPolicy: IfNotPresent
-            # command: 
-            # - /bin/sh
-            # - -c
-            # - sleep 99999
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
               runAsNonRoot: true
               runAsUser: 1000
+              runAsGroup: 100
               seccompProfile:
                 type: RuntimeDefault
               capabilities:
