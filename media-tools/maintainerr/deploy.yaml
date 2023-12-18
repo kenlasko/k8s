@@ -38,7 +38,7 @@ spec:
                 - 'amd64'
       containers:
       - name: maintainerr
-        image: jorenn92/maintainerr:latest
+        image: jorenn92/maintainerr:bug-k8s-connection
         imagePullPolicy: Always
         # securityContext:
         #   allowPrivilegeEscalation: false
