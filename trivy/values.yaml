@@ -1,3 +1,8 @@
+operator:
+  scannerReportTTL: "72h"
+compliance:
+  cron: 0 4 * * *
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
