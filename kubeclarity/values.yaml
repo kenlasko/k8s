@@ -40,8 +40,6 @@ kubeclarity-trivy-server:
 
 kubeclarity-postgresql:
   enabled: false
-  nodeSelector:
-    storage: longhorn
 
 kubeclarity-postgresql-external:
   enabled: true
