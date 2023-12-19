@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://openclarity.github.io/kubeclarity'
-    targetRevision: 0.*
+    targetRevision: "*"
     chart: kubeclarity
     helm:
       valueFiles:
