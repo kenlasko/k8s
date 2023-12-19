@@ -40,6 +40,12 @@ spec:
       ports:
         - port: 3306
     - to:
+        - namespaceSelector:
+            matchLabels:
+              app: registry
+      ports:
+        - port: 443
+    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
