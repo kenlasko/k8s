@@ -1,4 +1,5 @@
 global:
+  openShiftRestricted: true
   nodeSelector:
     storage: longhorn
   affinity:
