@@ -1,3 +1,5 @@
+nodeSelector:
+  storage: longhorn
 global:
   nodeSelector:
     storage: longhorn
