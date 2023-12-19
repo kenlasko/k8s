@@ -18,5 +18,33 @@ scanner:
   scannerList: "grype trivy"
   trivy:
     enabled: true
+
+kubeclarity-grype-server:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
+
 kubeclarity-trivy-server:
   enabled: true
+
+kubeclarity-postgresql:
+  enabled: true
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
