@@ -13,14 +13,16 @@ global:
             operator: In
             values: 
             - 'amd64'
-analyzer:
-  analyzerList: "trivy"
-  trivy:
-    enabled: true
-scanner:
-  scannerList: "trivy"
-  trivy:
-    enabled: true
+
+kubeclarity:
+  analyzer:
+    analyzerList: "trivy"
+    trivy:
+      enabled: true
+  scanner:
+    scannerList: "trivy"
+    trivy:
+      enabled: true
 
 kubeclarity-grype-server:
   affinity:
