@@ -14,11 +14,11 @@ global:
             values: 
             - 'amd64'
 analyzer:
-  analyzerList: "syft gomod trivy"
+  analyzerList: "trivy"
   trivy:
     enabled: true
 scanner:
-  scannerList: "grype trivy"
+  scannerList: "trivy"
   trivy:
     enabled: true
 
