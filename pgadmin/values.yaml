@@ -9,7 +9,7 @@ env:
 serverDefinitions:
   enabled: true
   servers:
-    primary: 
+    firstServer: 
       Name: "Postgres"
       Group: "Servers"
       Port: 5432
