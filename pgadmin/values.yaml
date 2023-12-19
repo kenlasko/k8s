@@ -4,6 +4,15 @@ containerSecurityContext:
 existingSecret: postgres-passwords
 secretKeys:
   pgadminPasswordKey: postgres-admin-pw
+serverDefinitions:
+  enabled: true
+  servers:
+    primary: 
+      Name: "Postgres"
+      Group: "Servers"
+      Port: 5432
+      Username: postgres
+      Host: postgres-postgresql.postgres.svc.cluster.local
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
