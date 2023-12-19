@@ -16,11 +16,11 @@ global:
 
 kubeclarity:
   analyzer:
-    analyzerList: "trivy"
+    analyzerList: "syft gomod trivy"
     trivy:
       enabled: true
   scanner:
-    scannerList: "trivy"
+    scannerList: "grype trivy"
     trivy:
       enabled: true
 
