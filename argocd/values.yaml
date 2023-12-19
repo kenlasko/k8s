@@ -117,6 +117,10 @@ configs:
       url: https://prometheus-community.github.io/helm-charts
       name: promstack
       type: helm
+    runix:
+      url: https://helm.runix.net/
+      name: runix
+      type: helm
     tailscale-operator:
       url: https://jacobcolvin.com/helm-charts
       name: tailscale-operator

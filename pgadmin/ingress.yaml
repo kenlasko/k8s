@@ -1,0 +1,25 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: pgadmin
+  namespace: postgres
+  annotations:
+    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints: 
+  - websecure
+  routes:
+  - match: Host(`pgadmin.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: pgadmin
+      port: 80
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
