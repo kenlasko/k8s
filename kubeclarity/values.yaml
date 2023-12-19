@@ -1,4 +1,6 @@
 global:
+  nodeSelector:
+    storage: longhorn
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
