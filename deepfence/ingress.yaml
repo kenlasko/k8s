@@ -13,7 +13,7 @@ spec:
   - match: Host(`deepfence.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: deepfence
+    - name: deepfence-deepfence-console-ui
       port: 8081
     middlewares:
     - name: traefik-security
