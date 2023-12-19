@@ -50,3 +50,6 @@ kubeclarity-postgresql-external:
     host: postgres-postgresql.postgres.svc.cluster.local
     username: kubeclarity
     existingSecret: postgres-admin-pw
+
+kubeclarity-postgresql-secret:
+  create: false
