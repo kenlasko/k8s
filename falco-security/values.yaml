@@ -29,6 +29,7 @@ customRules:
         - [cloudflare, cloudflare-tunnel, cloudflared]
         - [external-dns, external-dns, external-dns]
         - [headlamp, headlamp, headlamp-server]
+        - [kubeclarity, kubeclarity, backend
         - [longhorn, csi-attacher, csi-attacher]
         - [longhorn, csi-provisioner, csi-provisioner]
         - [longhorn, csi-resizer, csi-resizer]
@@ -78,6 +79,7 @@ customRules:
         - [gitea, gitea, [git]]
         - [homeassist, homeassist, [busybox, git, ping, python3]]
         - [longhorn, longhorn-manager, [longhorn, longhorn-manage]]
+        - [longhorn, engine-manager, [longhorn]]
       append: true
 
     - rule: Run shell untrusted
@@ -86,7 +88,7 @@ customRules:
         fields: [k8s.ns.name, container.name, proc.pname] 
         comps: [=,=,in]
         values:
-        - [pihole, pihole, [php-cgi, runuser]]
+        - [pihole, pihole, [php-cgi, runuser, sudo]]
       append: true
 
 falcosidekick:
