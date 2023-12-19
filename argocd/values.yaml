@@ -49,6 +49,10 @@ configs:
       url: https://kubernetes-sigs.github.io/descheduler/
       name: descheduler
       type: helm
+    deepfence:
+      url: https://deepfence-helm-charts.s3.amazonaws.com/threatmapper
+      name: deepfence
+      type: helm
     falco-security:
       url: https://falcosecurity.github.io/charts
       name: falcosecurity

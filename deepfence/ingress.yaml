@@ -1,0 +1,25 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: deepfence
+  namespace: deepfence
+  annotations:
+    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints: 
+  - websecure
+  routes:
+  - match: Host(`deepfence.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: deepfence
+      port: 8081
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
