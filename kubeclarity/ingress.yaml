@@ -13,7 +13,7 @@ spec:
   - match: Host(`kubeclarity.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: kubeclarity
+    - name: kubeclarity-kubeclarity
       port: 8080
     middlewares:
     - name: traefik-security
