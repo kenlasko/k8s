@@ -77,6 +77,10 @@ configs:
       url: https://charts.keel.sh
       name: keel
       type: helm
+    kubeclarity:
+      url: https://openclarity.github.io/kubeclarity
+      name: kubeclarity
+      type: helm
     kubescape:
       url: https://kubescape.github.io/helm-charts/
       name: kubescape

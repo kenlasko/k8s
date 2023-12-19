@@ -1,0 +1,10 @@
+analyzer:
+  analyzerList: "syft gomod trivy"
+  trivy:
+    enabled: true
+scanner:
+  scannerList: "grype trivy"
+  trivy:
+    enabled: true
+kubeclarity-trivy-server:
+  enabled: true

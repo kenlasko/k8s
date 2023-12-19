@@ -1,27 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: plex-test
+  name: kubeclarity
   namespace: argocd
 spec:
   project: default
   sources:
-  - repoURL: 'https://ressu.github.io/kube-plex'
+  - repoURL: 'https://openclarity.github.io/kubeclarity'
     targetRevision: 0.*
-    chart: kube-plex
+    chart: kubeclarity
     helm:
       valueFiles:
-      - $values/media-tools/plex-test/values.yaml
+      - $values/kubeclarity/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: media-tools/plex-test
+    path: kubeclarity
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: media-tools
+    namespace: kubeclarity
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce-version: latest
     automated:
-      selfHeal: false
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
