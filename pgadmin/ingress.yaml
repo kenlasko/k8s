@@ -13,7 +13,7 @@ spec:
   - match: Host(`pgadmin.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: postgres-postgresql
+    - name: pgadmin-pgadmin4
       port: 80
     middlewares:
     - name: traefik-security
