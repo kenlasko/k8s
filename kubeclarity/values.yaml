@@ -39,6 +39,8 @@ kubeclarity-trivy-server:
 
 kubeclarity-postgresql:
   enabled: true
+  nodeSelector:
+    storage: longhorn
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
