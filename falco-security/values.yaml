@@ -29,7 +29,7 @@ customRules:
         - [cloudflare, cloudflare-tunnel, cloudflared]
         - [external-dns, external-dns, external-dns]
         - [headlamp, headlamp, headlamp-server]
-        - [kubeclarity, kubeclarity, backend
+        - [kubeclarity, kubeclarity, backend]
         - [longhorn, csi-attacher, csi-attacher]
         - [longhorn, csi-provisioner, csi-provisioner]
         - [longhorn, csi-resizer, csi-resizer]
