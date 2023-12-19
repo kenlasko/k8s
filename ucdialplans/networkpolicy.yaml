@@ -40,21 +40,9 @@ spec:
       ports:
         - port: 3306
     - to:
-        - namespaceSelector:
-            matchLabels:
-              app: registry
-      ports:
-        - port: 443
-    - to:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
         - port: 443
         - port: 80
         - port: 587
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-        - port: 80
