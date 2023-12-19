@@ -17,11 +17,11 @@ global:
 kubeclarity-runtime-scan:
   vulnerability-scanner:
     analyzer:
-      analyzerList: "syft gomod trivy"
+      analyzerList: "trivy" #"syft gomod trivy"
       trivy:
         enabled: true
     scanner:
-      scannerList: "grype trivy"
+      scannerList: "trivy"  #"grype trivy"
       trivy:
         enabled: true
 
