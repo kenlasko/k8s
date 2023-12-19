@@ -1,4 +1,6 @@
 kafka:
+  nodeSelector:
+    storage: longhorn
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
