@@ -13,7 +13,7 @@ spec:
   - match: Host(`pgadmin.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: pgadmin
+    - name: http
       port: 80
     middlewares:
     - name: traefik-security
