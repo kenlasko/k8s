@@ -4,6 +4,8 @@ containerSecurityContext:
 existingSecret: postgres-passwords
 secretKeys:
   pgadminPasswordKey: postgres-admin-pw
+env:
+  email: ken.lasko@gmail.com
 serverDefinitions:
   enabled: true
   servers:
