@@ -1,3 +1,6 @@
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
 existingSecret: postgres-passwords
 secretKeys:
   pgadminPasswordKey: postgres-admin-pw
