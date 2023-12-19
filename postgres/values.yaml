@@ -1,0 +1,17 @@
+auth:
+  existingSecret: postgres-passwords
+  secretKeys:
+    adminPasswordKey: postgres-admin-pw
+primary:
+  nodeAffinityPreset:
+    type: hard
+    key: kubernetes.io/hostname
+    values: 
+    - nuc3
+  persistence:
+    enabled: true
+    storageClass: local-path
+    existingClaim: postgres-data
+  extraEnvVars:
+  - name: TZ
+    value: "America/Toronto"
