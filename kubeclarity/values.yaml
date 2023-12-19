@@ -47,4 +47,6 @@ kubeclarity-postgresql:
 kubeclarity-postgresql-external:
   enabled: true
   auth:
+    host: postgres-postgresql.postgres.svc.cluster.local
+    username: kubeclarity
     existingSecret: postgres-admin-pw
