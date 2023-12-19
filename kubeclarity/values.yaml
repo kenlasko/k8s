@@ -14,15 +14,16 @@ global:
             values: 
             - 'amd64'
 
-kubeclarity:
-  analyzer:
-    analyzerList: "syft gomod trivy"
-    trivy:
-      enabled: true
-  scanner:
-    scannerList: "grype trivy"
-    trivy:
-      enabled: true
+kubeclarity-runtime-scan:
+  vulnerability-scanner:
+    analyzer:
+      analyzerList: "syft gomod trivy"
+      trivy:
+        enabled: true
+    scanner:
+      scannerList: "grype trivy"
+      trivy:
+        enabled: true
 
 kubeclarity-grype-server:
   affinity:
