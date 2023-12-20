@@ -22,7 +22,7 @@ spec:
                     operator: DoesNotExist
           containers:
           - name: mariadb-backup
-            image: mariadb:11.1.2
+            image: mariadb:11.2.2
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false

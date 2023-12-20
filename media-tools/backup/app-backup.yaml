@@ -39,7 +39,7 @@ spec:
             name: backup-media-apps-script
           containers:
           - name: backup-media-apps
-            image: rancher/k3s:v1.27.6-k3s1-amd64
+            image: rancher/k3s:v1.28.4-k3s2-amd64
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
