@@ -82,6 +82,8 @@ spec:
             secretKeyRef:
               name: adguard-creds
               key: password
+        - name: CRON
+          value: '*/10 * * * *'              
         - name: TZ
           value: "America/Toronto"
         resources:
