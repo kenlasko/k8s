@@ -27,6 +27,12 @@ spec:
               app.kubernetes.io/name: traefik
       ports:
         - port: 3000
+    - from:
+        - podSelector:
+            matchLabels:
+              app: adguard-sync
+      ports:
+        - port: 3000
   egress:
     - to:
         - ipBlock:
