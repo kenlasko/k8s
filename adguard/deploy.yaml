@@ -34,14 +34,6 @@ spec:
                 operator: In
                 values: 
                 - 'amd64'
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - pihole
       containers:
       - name: adguard
         image: adguard/adguardhome
