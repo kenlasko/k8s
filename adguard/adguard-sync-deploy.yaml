@@ -46,6 +46,7 @@ spec:
           capabilities:
             drop: ["ALL"]
         command:
+        - sh 
         - run
         env:
         - name: ORIGIN_URL
