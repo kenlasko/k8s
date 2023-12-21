@@ -83,7 +83,9 @@ spec:
               name: adguard-creds
               key: password
         - name: CRON
-          value: '*/10 * * * *'              
+          value: '*/10 * * * *'
+        - name: RUNONSTART
+          value: 'true'          
         - name: TZ
           value: "America/Toronto"
         resources:
