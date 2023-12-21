@@ -47,11 +47,11 @@ spec:
             type: RuntimeDefault
         resources:
           requests:
-            cpu: 100m
-            memory: 200Mi
-          limits:
-            cpu: 600m
+            cpu: 150m
             memory: 250Mi
+          limits:
+            cpu: 400m
+            memory: 300Mi
         # ports:
         # - containerPort: 3000
         #   name: http
@@ -84,10 +84,10 @@ spec:
         #     path: /login.html
         #     port: http
         #     scheme: HTTP
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 5
         volumeMounts:
         - name: nfs-adguard-conf
           mountPath: /opt/adguardhome/conf
