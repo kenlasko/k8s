@@ -45,6 +45,8 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+        command:
+        - run
         env:
         - name: ORIGIN_URL
           value: 'http://adguard-web:3000'
