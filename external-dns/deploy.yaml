@@ -87,7 +87,7 @@ spec:
             memory: 100Mi
         env:
         - name: ADGUARD_HOME_URL
-          value: "http://adguard-web.adguard.svc.cluster.local:3000" # Note: URL should be in the format of http://adguard.home:3000/control/
+          value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
         - name: ADGUARD_HOME_PASS
           value: "***REMOVED***"
         - name: ADGUARD_HOME_USER
