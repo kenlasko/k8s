@@ -46,48 +46,22 @@ spec:
           capabilities:
             drop: ["ALL"]
         env:
-        - name: ORIGIN_URL
-          value: 'http://adguard-web:3000'
-        - name: ORIGIN_USERNAME
+        - name: ADGUARD_USERNAME
           valueFrom:
             secretKeyRef:
               name: adguard-creds
               key: username
-        - name: ORIGIN_PASSWORD
+        - name: ADGUARD_PASSWORD
           valueFrom:
             secretKeyRef:
               name: adguard-creds
-              key: password
-        - name: REPLICA_URL
-          value: 'https://adguard-rpi1.ucdialplans.com'
-        - name: REPLICA_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: username
-        - name: REPLICA_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: password
-        - name: REPLICA1_URL
-          value: 'https://adguard-rpi2.ucdialplans.com'
-        - name: REPLICA1_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: username
-        - name: REPLICA1_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: password
-        - name: CRON
-          value: '*/10 * * * *'
-        - name: RUNONSTART
-          value: 'true'          
+              key: password       
         - name: TZ
           value: "America/Toronto"
+        volumeMounts:
+        - name: adguard-sync-config
+          mountPath: /config/adguardhome-sync.yaml
+          subPath: adguardhome-sync.yaml
         resources:
           requests:
             cpu: 10m
@@ -96,3 +70,10 @@ spec:
         options:
           - name: ndots
             value: "1"
+      volumes:
+      - configMap:
+          items:
+          - key: adguardhome-sync.yaml
+            path: adguardhome-sync.yaml
+          name: adguard-sync-config
+        name: adguard-sync-config
