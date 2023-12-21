@@ -52,22 +52,22 @@ spec:
           limits:
             cpu: 300m
             memory: 120Mi
-        ports:
-        - containerPort: 3000
-          name: http
-          protocol: TCP
-        - containerPort: 53
-          name: dns
-          protocol: TCP
-        - containerPort: 53
-          name: dns-udp
-          protocol: UDP
-        - containerPort: 443
-          name: https
-          protocol: TCP
-        - containerPort: 67
-          name: client-udp
-          protocol: UDP
+        # ports:
+        # - containerPort: 3000
+        #   name: http
+        #   protocol: TCP
+        # - containerPort: 53
+        #   name: dns
+        #   protocol: TCP
+        # - containerPort: 53
+        #   name: dns-udp
+        #   protocol: UDP
+        # - containerPort: 443
+        #   name: https
+        #   protocol: TCP
+        # - containerPort: 67
+        #   name: client-udp
+        #   protocol: UDP
         # livenessProbe:
         #   failureThreshold: 10
         #   httpGet:
