@@ -16,7 +16,7 @@ data:
 
     origin:
       # url of the origin instance
-      url: http://adguard-web:3000
+      url: http://adguard-web.adguard.svc.cluster.local:3000
       # apiPath: define an api path if other than "/control"
       insecureSkipVerify: true # disable tls check
       username: $ADGUARD_USERNAME
