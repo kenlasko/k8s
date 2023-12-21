@@ -25,3 +25,10 @@ spec:
               app: pihole
       ports:
         - port: 80
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: adguard
+      ports:
+        - port: 3000
