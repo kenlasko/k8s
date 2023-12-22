@@ -17,6 +17,7 @@ spec:
   type: ExternalName
   externalName: pihole2.ucdialplans.com
 
+---
 kind: "Service"
 apiVersion: "v1"
 metadata:
@@ -26,6 +27,7 @@ spec:
   type: ExternalName
   externalName: adguard-rpi1.ucdialplans.com
 
+---
 kind: "Service"
 apiVersion: "v1"
 metadata:
