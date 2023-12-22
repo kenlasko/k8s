@@ -15,7 +15,7 @@ data:
     runOnStart: true
 
     origin:
-      url: http://adguard-web.adguard.svc.cluster.local:3000
+      url: http://adguard-web:3000
       apiPath: /control
       insecureSkipVerify: true
       username: $ADGUARD_USERNAME

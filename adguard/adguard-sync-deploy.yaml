@@ -47,15 +47,17 @@ spec:
             drop: ["ALL"]
         env:
         - name: ADGUARD_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: username
+          value: 'kenadmin'
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: adguard-creds
+          #     key: username
         - name: ADGUARD_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: password       
+          value: '***REMOVED***'
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: adguard-creds
+          #     key: password       
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
