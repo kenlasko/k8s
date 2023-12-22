@@ -69,7 +69,7 @@ spec:
         # - --provider=pihole
         # - --pihole-server=http://pihole-web.pihole.svc.cluster.local
         - --provider=webhook
-        - --webhook-provider-url=http://localhost:8888     
+        - --webhook-provider-url=http://localhost:8882     
       - name: adguardhome-provider
         image: ghcr.io/zekker6/external-dns-provider-adguard:v0.0.8
         resources:
