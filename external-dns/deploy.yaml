@@ -60,7 +60,7 @@ spec:
           value: "America/Toronto"
         envFrom:
         - secretRef:
-            name: adguard-creds
+            name: pihole-creds
         args:
         - --source=service
         - --source=traefik-proxy
