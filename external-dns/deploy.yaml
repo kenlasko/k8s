@@ -82,15 +82,15 @@ spec:
         env:
         - name: ADGUARD_HOME_URL
           value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
-        - name: ADGUARD_HOME_USER
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: username
-        - name: ADGUARD_HOME_PASS
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: password
+        # - name: ADGUARD_HOME_USER
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: adguard-creds
+        #       key: username
+        # - name: ADGUARD_HOME_PASS
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: adguard-creds
+        #       key: password
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
