@@ -60,7 +60,7 @@ spec:
           value: "America/Toronto"
         envFrom:
         - secretRef:
-            name: pihole-creds
+            name: adguard-creds
         args:
         - --source=service
         - --source=traefik-proxy
@@ -69,29 +69,49 @@ spec:
         # - --provider=pihole
         # - --pihole-server=http://pihole-web.pihole.svc.cluster.local
         - --provider=webhook
-        - --webhook-provider-url=https://webhook.site/9c406ec5-14a5-47d6-a5c1-fa3b32729ca3
-      #   - --webhook-provider-url=http://localhost:8888     
-      # - name: adguardhome-provider
-      #   image: ghcr.io/zekker6/external-dns-provider-adguard:v0.0.8
-      #   resources:
-      #     requests:
-      #       cpu: 50m
-      #       memory: 50Mi
-      #     limits:
-      #       cpu: 150m
-      #       memory: 100Mi
-      #   env:
-      #   - name: ADGUARD_HOME_URL
-      #     value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
-      #   - name: ADGUARD_HOME_USER
-      #     valueFrom:
-      #       secretKeyRef:
-      #         name: adguard-creds
-      #         key: username
-      #   - name: ADGUARD_HOME_PASS
-      #     valueFrom:
-      #       secretKeyRef:
-      #         name: adguard-creds
-      #         key: password
+        - --webhook-provider-url=http://localhost:8888     
+      - name: adguardhome-webhook
+        image:  ghcr.io/muhlba91/external-dns-provider-adguard
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 150m
+            memory: 100Mi
+        ports:
+          - containerPort: 8888
+            name: http
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        env:
+        - name: SERVER_HOST
+          value: "0.0.0.0" 
+        - name: DRY_RUN
+          value: "false" 
+        - name: LOG_LEVEL
+          value: debug
+        - name: ADGUARD_HOME
+          value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
+        - name: ADGUARD_USER
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: username
+        - name: ADGUARD_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: password
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
