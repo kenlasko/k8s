@@ -8,7 +8,9 @@ spec:
   policyTypes:
     - Ingress
     - Egress
-  ingress: []
+  ingress:
+    - from:
+        - podSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
@@ -32,3 +34,5 @@ spec:
               app: adguard
       ports:
         - port: 3000
+    - to:
+        - podSelector: {}
