@@ -17,6 +17,24 @@ spec:
   type: ExternalName
   externalName: pihole2.ucdialplans.com
 
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-adguard-rpi1-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: adguard-rpi1.ucdialplans.com
+
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-adguard-rpi2-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: adguard-rpi2.ucdialplans.com
+
 ---
 kind: "Service"
 apiVersion: "v1"
