@@ -66,9 +66,10 @@ spec:
         - --source=traefik-proxy
         - --registry=noop
         - --policy=upsert-only
-        - --provider=pihole
-        - --pihole-server=http://pihole-web.pihole.svc.cluster.local
-      #   - --provider=webhook
+        # - --provider=pihole
+        # - --pihole-server=http://pihole-web.pihole.svc.cluster.local
+        - --provider=webhook
+        - --webhook-provider-url=https://webhook.site/9c406ec5-14a5-47d6-a5c1-fa3b32729ca3
       #   - --webhook-provider-url=http://localhost:8888     
       # - name: adguardhome-provider
       #   image: ghcr.io/zekker6/external-dns-provider-adguard:v0.0.8

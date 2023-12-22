@@ -8,9 +8,7 @@ spec:
   policyTypes:
     - Ingress
     - Egress
-  ingress:
-    - from:
-        - podSelector: {}
+  ingress: []
   egress:
     - to:
         - namespaceSelector: {}
@@ -35,4 +33,7 @@ spec:
       ports:
         - port: 3000
     - to:
-        - podSelector: {}
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
