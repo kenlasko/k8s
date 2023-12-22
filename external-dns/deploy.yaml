@@ -66,25 +66,25 @@ spec:
         - --source=traefik-proxy
         - --registry=noop
         - --policy=upsert-only
-        - --provider=pihole
-        - --pihole-server=http://pihole-web.pihole.svc.cluster.local
-      #   - --provider=webhook
-      #   - --webhook-provider-url=http://localhost:8888     
-      # - name: adguardhome-provider
-      #   image: ghcr.io/zekker6/external-dns-provider-adguard:v0.0.8
-      #   resources:
-      #     requests:
-      #       cpu: 50m
-      #       memory: 50Mi
-      #     limits:
-      #       cpu: 150m
-      #       memory: 100Mi
-      #   env:
-      #   - name: ADGUARD_HOME_URL
-      #     value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
-      #   - name: ADGUARD_HOME_PASS
-      #     value: "***REMOVED***"
-      #   - name: ADGUARD_HOME_USER
-      #     value: "kenadmin"
+        # - --provider=pihole
+        # - --pihole-server=http://pihole-web.pihole.svc.cluster.local
+        - --provider=webhook
+        - --webhook-provider-url=http://localhost:8888     
+      - name: adguardhome-provider
+        image: ghcr.io/zekker6/external-dns-provider-adguard:v0.0.8
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 150m
+            memory: 100Mi
+        env:
+        - name: ADGUARD_HOME_URL
+          value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
+        - name: ADGUARD_HOME_PASS
+          value: "***REMOVED***"
+        - name: ADGUARD_HOME_USER
+          value: "kenadmin"
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
