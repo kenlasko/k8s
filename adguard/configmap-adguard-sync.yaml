@@ -22,10 +22,10 @@ data:
       password: '***REMOVED***'  #$ADGUARD_PASSWORD
 
     replicas:
-      - url: https://adguard-rpi1.ucdialplans.com'
+      - url: https://adguard-rpi1.ucdialplans.com
         username: kenadmin #$ADGUARD_USERNAME
         password: '***REMOVED***'  #$ADGUARD_PASSWORD
-      - url: https://adguard-rpi2.ucdialplans.com'
+      - url: https://adguard-rpi2.ucdialplans.com
         username: kenadmin #$ADGUARD_USERNAME
         password: '***REMOVED***'  #$ADGUARD_PASSWORD
 
