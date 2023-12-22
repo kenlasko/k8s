@@ -38,16 +38,16 @@ spec:
       - name: external-dns
         image: registry.k8s.io/external-dns/external-dns:v0.14.0
         imagePullPolicy: IfNotPresent
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: false
-        #   runAsNonRoot: true
-        #   runAsUser: 1000
-        #   runAsGroup: 100
-        #   seccompProfile:
-        #     type: RuntimeDefault
-        #   capabilities:
-        #     drop: ["ALL"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         resources:
           requests:
             cpu: 50m
@@ -72,6 +72,17 @@ spec:
         - --webhook-provider-url=http://localhost:8888     
       - name: adguardhome-webhook
         image:  ghcr.io/muhlba91/external-dns-provider-adguard
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         resources:
           requests:
             cpu: 50m
