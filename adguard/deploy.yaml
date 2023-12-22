@@ -78,7 +78,7 @@ spec:
             path: /login.html
             port: http
             scheme: HTTP
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 5
