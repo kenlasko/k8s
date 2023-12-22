@@ -11,7 +11,7 @@ spec:
   - name: adguard-web
     port: 3000
     protocol: TCP
-    targetPort: 3000
+    targetPort: http
   selector:
     app: adguard
  
@@ -29,13 +29,15 @@ spec:
   externalTrafficPolicy: Local
   loadBalancerIP: 192.168.1.15
   ports:
-  - name: dns
+  - name: dns-tcp
+    nodePort: 30725
     port: 53
     protocol: TCP
-    targetPort: 9053
+    targetPort: dns-tcp
   - name: dns-udp
+    nodePort: 30725
     port: 53
     protocol: UDP
-    targetPort: 9053
+    targetPort: dns-udp
   selector:
     app: adguard
