@@ -34,6 +34,11 @@ spec:
     port: 53
     protocol: TCP
     targetPort: dns-tcp
+  - name: dns-tls
+    nodePort: 32725
+    port: 853
+    protocol: TCP
+    targetPort: dns-tls
   - name: dns-udp
     nodePort: 30725
     port: 53

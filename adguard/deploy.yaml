@@ -62,6 +62,9 @@ spec:
         - containerPort: 9053
           name: dns-udp
           protocol: UDP
+        - containerPort: 9853
+          name: dns-tls
+          protocol: TCP
         livenessProbe:
           failureThreshold: 10
           httpGet:
