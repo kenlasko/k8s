@@ -35,7 +35,7 @@ spec:
     protocol: TCP
     targetPort: dns-tcp
   - name: dns-tls
-    nodePort: 38725
+    nodePort: 32725
     port: 853
     protocol: TCP
     targetPort: dns-tls
