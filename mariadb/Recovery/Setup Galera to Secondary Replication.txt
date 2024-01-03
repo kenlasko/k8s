@@ -17,7 +17,8 @@ sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /kube-stora
 # From NAS01 host
 sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-repl-backup.sql
 
-# Then on mariadb-standalone pod command prompt:
+
+# Then on mariadb-standalone/NAS01 container command prompt:
 mariadb -u root -p***REMOVED***
 stop slave;
 
@@ -27,7 +28,7 @@ drop database ucdialplans;
 drop database vaultwarden;
 drop database phpmyadmin;
 
-# Exit to prompt and run
+# Exit to prompt and run on MariaDB-Standalone
 mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
 
 # Then run 
@@ -42,6 +43,25 @@ change master to
     master_use_gtid=slave_pos;
 
 start slave;
+
+
+# Exit to prompt and run on NAS01 MariaDB container
+mariadb -u root -p***REMOVED*** < /backup/mariadb-repl-backup.sql
+
+# Then run 
+mariadb -u root -p***REMOVED***
+set global gtid_slave_pos = "0-1-3853320,1-1-42";
+change master to
+    master_host='192.168.1.13',
+    master_user='replicator',
+    master_password='***REMOVED***',
+    master_port=3306,
+    master_connect_retry=10,
+    master_use_gtid=slave_pos;
+
+start slave;
+
+
 
 # Check status
 show slave status;
