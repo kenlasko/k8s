@@ -10,7 +10,7 @@ spec:
   entryPoints: 
   - websecure
   routes:
-  - match: Host(`www.ucdialplans.com`,`ucdialplans.com`) 
+  - match: Host(`www.ucdialplans.com`) 
     kind: Rule
     services:
     - name: ucdialplans-service
