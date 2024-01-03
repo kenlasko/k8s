@@ -6,18 +6,22 @@ show variables like 'gtid_binlog_pos';
 # Take results from above and set gtid_slave_pos for last step
 
 # From another window on same cluster member:
-mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p***REMOVED*** -B homeassist phpmyadmin ucdialplans vaultwarden > /bitnami/mariadb/data/mariadb-repl-backup.sql
+mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p***REMOVED*** -B gitea homeassist phpmyadmin ucdialplans vaultwarden > /bitnami/mariadb/data/mariadb-repl-backup.sql
 
 # Once done, then unlock from first:
 unlock tables;
 
-# From NUC2 host
+# From NUC3 host
 sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /kube-storage/mariadb/mariadb-repl-backup.sql
+
+# From NAS01 host
+sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-repl-backup.sql
 
 # Then on mariadb-standalone pod command prompt:
 mariadb -u root -p***REMOVED***
 stop slave;
 
+drop database gitea;
 drop database homeassist;
 drop database ucdialplans;
 drop database vaultwarden;
@@ -28,7 +32,7 @@ mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
 
 # Then run 
 mariadb -u root -p***REMOVED***
-set global gtid_slave_pos = "0-1-2358510,1-1-42";
+set global gtid_slave_pos = "0-1-3853320,1-1-42";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
     master_user='replicator',
