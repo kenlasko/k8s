@@ -33,16 +33,16 @@ spec:
     # nodePort: 30725
     port: 53
     protocol: TCP
-    targetPort: 53 #dns-tcp
+    # targetPort: 53 #dns-tcp
   - name: dns-tls
     # nodePort: 32725
     port: 853
     protocol: TCP
-    targetPort: 853 #dns-tls
+    # targetPort: 853 #dns-tls
   - name: dns-udp
     # nodePort: 30725
     port: 53
     protocol: UDP
-    targetPort: 53 #dns-udp
+    # targetPort: 53 #dns-udp
   selector:
     app: adguard
