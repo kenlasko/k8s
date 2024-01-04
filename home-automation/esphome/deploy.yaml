@@ -44,8 +44,8 @@ spec:
           runAsNonRoot: false
           runAsUser: 1000
           runAsGroup: 100
-          seccompProfile:
-            type: RuntimeDefault
+          # seccompProfile:
+          #   type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
             add:
