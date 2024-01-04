@@ -52,19 +52,19 @@ spec:
           limits:
             cpu: 1600m
             memory: 500Mi
-        ports:
-        - containerPort: 3000
-          name: http
-          protocol: TCP
-        - containerPort: 53
-          name: dns-tcp
-          protocol: TCP
-        - containerPort: 53
-          name: dns-udp
-          protocol: UDP
-        - containerPort: 853
-          name: dns-tls
-          protocol: TCP
+        # ports:
+        # - containerPort: 3000
+        #   name: http
+        #   protocol: TCP
+        # - containerPort: 53
+        #   name: dns-tcp
+        #   protocol: TCP
+        # - containerPort: 53
+        #   name: dns-udp
+        #   protocol: UDP
+        # - containerPort: 853
+        #   name: dns-tls
+        #   protocol: TCP
         env:
         - name: TZ
           value: "America/Toronto"
