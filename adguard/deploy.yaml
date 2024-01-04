@@ -38,13 +38,13 @@ spec:
       - name: adguard
         image: adguard/adguardhome
         imagePullPolicy: Always
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          runAsUser: 1000
-          runAsGroup: 100
-          seccompProfile:
-            type: RuntimeDefault
+        # securityContext:
+        #   allowPrivilegeEscalation: false
+        #   readOnlyRootFilesystem: false
+        #   runAsUser: 1000
+        #   runAsGroup: 100
+        #   seccompProfile:
+        #     type: RuntimeDefault
         resources:
           requests:
             cpu: 150m
