@@ -10,8 +10,8 @@ spec:
   ports:
   - name: adguard-web
     port: 3000
+    targetPort: 3000
     protocol: TCP
-    targetPort: http
   selector:
     app: adguard
  
