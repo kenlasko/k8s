@@ -10,8 +10,8 @@ spec:
   ports:
   - name: adguard-web
     port: 3000
-    targetPort: http
     protocol: TCP
+    targetPort: http
   selector:
     app: adguard
  
@@ -24,27 +24,26 @@ metadata:
     app: adguard
   name: adguard-dns
   namespace: adguard
+selector:
+  app: adguard
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
   loadBalancerIP: 192.168.1.16
-  selector:
-    app: adguard
-    app.kubernetes.io/name: adguard
-    app.kubernetes.io/part-of: adguard
   ports:
   - name: dns-tcp
     nodePort: 30725
     port: 53
-    targetPort: dns-tcp
     protocol: TCP
+    targetPort: dns-tcp
+  - name: dns-tls
+    nodePort: 32725
+    port: 853
+    protocol: TCP
+    targetPort: dns-tls
   - name: dns-udp
     nodePort: 30725
     port: 53
-    targetPort: dns-udp
     protocol: UDP
-  - name: dns-tls
-    # nodePort: 32725
-    port: 853
-    targetPort: dns-tls
-    protocol: TCP
+    targetPort: dns-udp
+

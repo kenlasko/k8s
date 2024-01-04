@@ -65,9 +65,6 @@ spec:
         - containerPort: 9853
           name: dns-tls
           protocol: TCP
-        env:
-        - name: TZ
-          value: "America/Toronto"
         livenessProbe:
           failureThreshold: 10
           httpGet:
