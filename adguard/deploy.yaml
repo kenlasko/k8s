@@ -56,13 +56,13 @@ spec:
         - containerPort: 3000
           name: http
           protocol: TCP
-        - containerPort: 53
+        - containerPort: 9053
           name: dns-tcp
           protocol: TCP
-        - containerPort: 53
+        - containerPort: 9053
           name: dns-udp
           protocol: UDP
-        - containerPort: 853
+        - containerPort: 9853
           name: dns-tls
           protocol: TCP
         env:
