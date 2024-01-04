@@ -38,9 +38,9 @@ spec:
       - name: adguard
         image: adguard/adguardhome
         imagePullPolicy: Always
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: false
+        securityContext:
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
         #   runAsUser: 1000
         #   runAsGroup: 100
         #   seccompProfile:
