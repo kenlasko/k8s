@@ -38,18 +38,18 @@ spec:
       - name: esphome
         image: esphome/esphome:latest
         imagePullPolicy: Always
-        # securityContext:
+        securityContext:
         #   allowPrivilegeEscalation: false
         #   readOnlyRootFilesystem: false
         #   runAsNonRoot: true
         #   runAsUser: 1000
         #   runAsGroup: 100
-        #   seccompProfile:
-        #     type: RuntimeDefault
-        #   capabilities:
-        #     drop: ["ALL"]
-        #     add:
-        #     - "NET_RAW"
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "NET_RAW"
         resources:
           requests:
             cpu: 1000m
