@@ -24,8 +24,6 @@ metadata:
     app: adguard
   name: adguard-dns
   namespace: adguard
-selector:
-  app: adguard
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
@@ -46,4 +44,5 @@ spec:
     port: 53
     protocol: UDP
     targetPort: dns-udp
-
+  selector:
+    app: adguard
