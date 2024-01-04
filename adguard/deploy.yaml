@@ -72,7 +72,7 @@ spec:
           failureThreshold: 10
           httpGet:
             path: /login.html
-            port: http
+            port: 3000
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 10
@@ -82,7 +82,7 @@ spec:
           failureThreshold: 3
           httpGet:
             path: /login.html
-            port: http
+            port: 3000
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 10
