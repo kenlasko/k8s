@@ -37,15 +37,19 @@ spec:
     port: 53
     protocol: TCP
     targetPort: dns-tcp
-  - name: dns-tls
-    nodePort: 32725
-    port: 853
-    protocol: TCP
-    targetPort: dns-tls
   - name: dns-udp
     nodePort: 30725
     port: 53
     protocol: UDP
     targetPort: dns-udp
+  - name: dns-tls-443
+    port: 443
+    protocol: TCP
+    targetPort: dns-tls-443
+  - name: dns-tls-853
+    nodePort: 32725
+    port: 853
+    protocol: TCP
+    targetPort: dns-tls-853
   selector:
     app: adguard

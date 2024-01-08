@@ -56,17 +56,17 @@ spec:
         - containerPort: 3000
           name: http
           protocol: TCP
-        - containerPort: 443
-          name: https
-          protocol: TCP
         - containerPort: 53
           name: dns-tcp
           protocol: TCP
         - containerPort: 53
           name: dns-udp
           protocol: UDP
+        - containerPort: 443
+          name: dns-tls-443
+          protocol: TCP
         - containerPort: 853
-          name: dns-tls
+          name: dns-tls-853
           protocol: TCP
         env:
         - name: TZ
