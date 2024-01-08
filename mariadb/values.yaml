@@ -27,7 +27,7 @@ resources:
     cpu: 20m
     memory: 1200Mi
   limits:
-    cpu: 500m
+    cpu: 1000m
     memory: 2000Mi
 # tls:
 #   enabled: false
