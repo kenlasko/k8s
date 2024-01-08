@@ -12,6 +12,21 @@
     shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
   - name: Add node labels for GPU
     shell: kubectl label nodes nuc4 nuc5 nuc6 intel.feature.node.kubernetes.io/gpu=true
+  - name: Add Sealed-Secrets chart repo
+    kubernetes.core.helm_repository:
+      name: bitnami-labs
+      repo_url: "https://bitnami-labs.github.io/sealed-secrets/"
+  - name: Deploy Sealed Secrets
+    kubernetes.core.helm:
+      name: traefik
+      chart_ref: bitnami-labs/sealed-secrets
+      create_namespace: false
+      values_files:
+      - /home/ken/k3s/sealed-secrets/values.yaml
+  - name: Restore private key for sealed secrets
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s-sealed-secrets.yaml
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik
