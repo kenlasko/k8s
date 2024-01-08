@@ -112,6 +112,3 @@ spec:
       - name: wildcard-cert
         secret:
           secretName: wildcard-cert
-      - name: adguard-creds
-        secret: 
-          secretName: adguard-creds

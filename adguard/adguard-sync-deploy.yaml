@@ -33,7 +33,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: adguard-sync
-        image: ghcr.io/bakito/adguardhome-sync
+        image: lscr.io/linuxserver/adguardhome-sync:latest
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -47,17 +47,17 @@ spec:
             drop: ["ALL"]
         env:
         - name: ADGUARD_USERNAME
-          value: 'kenadmin'
-          # valueFrom:
-          #   secretKeyRef:
-          #     name: adguard-creds
-          #     key: username
+          # value: 'kenadmin'
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: username
         - name: ADGUARD_PASSWORD
-          value: '***REMOVED***'
-          # valueFrom:
-          #   secretKeyRef:
-          #     name: adguard-creds
-          #     key: password       
+          # value: '***REMOVED***'
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: password       
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
