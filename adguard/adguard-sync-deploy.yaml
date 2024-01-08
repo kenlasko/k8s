@@ -38,16 +38,13 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          runAsNonRoot: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 100
           seccompProfile:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-            add:
-            - "CHOWN"
-            - "SETGID"
-            - "SETUID"
-            - "DAC_OVERRIDE"
         command: ["/opt/go/adguardhome-sync","run"]
         env:
         - name: PUID
@@ -91,13 +88,9 @@ spec:
               name: adguard-creds
               key: password
         - name: LOG_LEVEL
-          value: 'debug' 
+          value: 'info' 
         - name: TZ
           value: "America/Toronto"
-        # volumeMounts:
-        # - name: adguard-sync-config
-        #   mountPath: /config/adguardhome-sync.yaml
-        #   subPath: adguardhome-sync.yaml
         resources:
           requests:
             cpu: 10m
@@ -106,13 +99,3 @@ spec:
         options:
           - name: ndots
             value: "1"
-      # volumes:
-      # - configMap:
-      #     items:
-      #     - key: adguardhome-sync.yaml
-      #       path: adguardhome-sync.yaml
-      #     name: adguard-sync-config
-      #   name: adguard-sync-config
-      # - name: adguard-creds
-      #   secret: 
-      #     secretName: adguard-creds
