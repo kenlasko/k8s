@@ -48,7 +48,7 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
-        command: ["run"]
+        #command: ["run"]
         env:
         - name: PUID
           value: '1000'
