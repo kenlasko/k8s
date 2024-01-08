@@ -66,7 +66,7 @@ spec:
               name: adguard-creds
               key: password
         - name: REPLICA_URL
-          value: 'https://adguard-rpi1.ucdialplans.com:443'
+          value: "https://adguard-rpi1.ucdialplans.com"
         - name: REPLICA_USERNAME
           valueFrom:
             secretKeyRef:
@@ -77,18 +77,18 @@ spec:
             secretKeyRef:
               name: adguard-creds
               key: password
-        # - name: REPLICA1_URL
-        #   value: 'https://adguard-rpi2.ucdialplans.com:443'
-        # - name: REPLICA1_USERNAME
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: adguard-creds
-        #       key: username
-        # - name: REPLICA1_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: adguard-creds
-        #       key: password
+        - name: REPLICA1_URL
+          value: "https://adguard-rpi2.ucdialplans.com"
+        - name: REPLICA1_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: username
+        - name: REPLICA1_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: password
         - name: LOG_LEVEL
           value: 'debug' 
         - name: TZ
