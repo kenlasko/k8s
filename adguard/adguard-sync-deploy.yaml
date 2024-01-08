@@ -79,3 +79,6 @@ spec:
             path: adguardhome-sync.yaml
           name: adguard-sync-config
         name: adguard-sync-config
+      - name: adguard-creds
+        secret: 
+          secretName: adguard-creds
