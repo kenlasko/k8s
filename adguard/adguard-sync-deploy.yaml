@@ -48,7 +48,7 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
-        command: ["adguardhome-sync run"]
+        command: ["/opt/go/adguardhome-sync run"]
         env:
         - name: PUID
           value: '1000'
