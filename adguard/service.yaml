@@ -14,7 +14,24 @@ spec:
     targetPort: http
   selector:
     app: adguard
- 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguard
+  name: adguard-tls
+  namespace: adguard
+spec:
+  type: ClusterIP
+  ports:
+  - name: adguard-tls
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app: adguard
 
 ---
 apiVersion: v1
