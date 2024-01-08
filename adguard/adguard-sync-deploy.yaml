@@ -51,6 +51,10 @@ spec:
             - "SETUID"
             - "DAC_OVERRIDE"
         env:
+        - name: PUID
+          value: '1000'
+        - name: PGID
+          value: '100'
         - name: ADGUARD_USERNAME
           # value: 'kenadmin'
           valueFrom:
