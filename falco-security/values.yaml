@@ -89,6 +89,7 @@ customRules:
         fields: [k8s.ns.name, container.name, proc.pname] 
         comps: [=,=,in]
         values:
+        - [mariadb, mariadb-galera, [mysqld]]
         - [pihole, pihole, [php-cgi, runuser, sudo]]
       append: true
 
