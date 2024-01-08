@@ -35,14 +35,14 @@ spec:
       - name: adguard-sync
         image: lscr.io/linuxserver/adguardhome-sync:latest
         imagePullPolicy: Always
-        # securityContext:
-        #   allowPrivilegeEscalation: true
-        #   readOnlyRootFilesystem: false
-        #   runAsNonRoot: false
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
         #   runAsUser: 1000
         #   runAsGroup: 100
-        #   seccompProfile:
-        #     type: RuntimeDefault
+          seccompProfile:
+            type: RuntimeDefault
         #   capabilities:
         #     drop: ["ALL"]
         #     add:
@@ -56,13 +56,11 @@ spec:
         - name: PGID
           value: '100'
         - name: ADGUARD_USERNAME
-          # value: 'kenadmin'
           valueFrom:
             secretKeyRef:
               name: adguard-creds
               key: username
         - name: ADGUARD_PASSWORD
-          # value: '***REMOVED***'
           valueFrom:
             secretKeyRef:
               name: adguard-creds
