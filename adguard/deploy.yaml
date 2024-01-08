@@ -99,9 +99,6 @@ spec:
         - name: wildcard-cert
           mountPath: /etc/certs
           readOnly: true
-        - name: adguard-creds
-          mountPath: /var/adguard-creds
-          readOnly: true
       volumes:
       - name: nfs-adguard-conf
         persistentVolumeClaim:
