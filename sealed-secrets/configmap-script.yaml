@@ -9,7 +9,6 @@ data:
 
     echo 'Backing up Sealed Secret key'
     day=$(date +%A)
-    rm -rf /backup/plex/*
     kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml > /backup/sealed-secret-key-$day.yaml
     echo 'Backup complete!'
 
