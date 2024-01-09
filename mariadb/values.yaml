@@ -27,21 +27,6 @@ resources:
   limits:
     cpu: 1000m
     memory: 2000Mi
-# tls:
-#   enabled: false
-#   certificatesSecret: ucdialplans-wildcard-cert
-#   certFilename: tls.crt
-#   certKeyFilename: tls.key
-#   certCAFilename: ca.crt
-# extraVolumes:
-# - name: mariadb-certs
-#   secret:
-#     defaultMode: 288
-#     secretName: ucdialplans-wildcard-cert
-# extraVolumeMounts:
-# - name: mariadb-certs
-#   mountPath: /bitnami/mariadb/certs
-#   readOnly: true
 service:
   type: LoadBalancer
   externalTrafficPolicy: Local
