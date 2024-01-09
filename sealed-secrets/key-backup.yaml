@@ -59,7 +59,7 @@ spec:
               claimName: nfs-k3s-backup
           - configMap:
               items:
-              - key: backup-sealed-secret-key-script
+              - key: backup-sealed-secret-key.sh
                 path: backup-sealed-secret-key.sh
               name: backup-sealed-secret-key-script
               defaultMode: 0555

@@ -26,17 +26,6 @@ spec:
                     values: 
                     - 'amd64'
           restartPolicy: OnFailure
-          volumes:
-          - name: backup
-            persistentVolumeClaim:
-              claimName: nfs-app-backup
-          - configMap:
-              items:
-              - key: backup-media-apps.sh
-                path: backup-media-apps.sh
-              name: backup-media-apps-script
-              defaultMode: 0555
-            name: backup-media-apps-script
           containers:
           - name: backup-media-apps
             image: rancher/k3s:v1.28.5-k3s1-amd64
@@ -64,3 +53,14 @@ spec:
             - name: backup-media-apps-script
               mountPath: /script/backup-media-apps.sh
               subPath: backup-media-apps.sh
+          volumes:
+          - name: backup
+            persistentVolumeClaim:
+              claimName: nfs-app-backup
+          - configMap:
+              items:
+              - key: backup-media-apps.sh
+                path: backup-media-apps.sh
+              name: backup-media-apps-script
+              defaultMode: 0555
+            name: backup-media-apps-script
