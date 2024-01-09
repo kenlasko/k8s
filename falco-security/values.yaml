@@ -30,7 +30,6 @@ customRules:
         - [external-dns, external-dns, external-dns]
         - [headlamp, headlamp, headlamp-server]
         - [intel-gpu, manager, intel_deviceplu]
-        - [kubeclarity, kubeclarity, backend]
         - [longhorn, csi-attacher, csi-attacher]
         - [longhorn, csi-provisioner, csi-provisioner]
         - [longhorn, csi-resizer, csi-resizer]
@@ -98,9 +97,14 @@ falcosidekick:
   config:
     webhook:
       address: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/-H6GkrSTowPZLtenB1zerk1mY
-      #address: https://webhook.site/061014fc-67c0-462f-9a2d-8655876ad513
       method: "PUT"
       minimumpriority: warning
+    extraEnv:
+    - name: FALCOSIDEKICK_UI_USER
+      valueFrom:
+        secretKeyRef:
+          name: userinfo
+          key: userpass
   affinity: 
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -114,7 +118,7 @@ falcosidekick:
             - 'amd64' 
   webui:
     enabled: true
-    user: "kenadmin:U3H7zfWZkPXf*$$he"
+    #user: "kenadmin:U3H7zfWZkPXf*$$he"
     affinity: 
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

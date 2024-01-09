@@ -64,10 +64,6 @@ spec:
         args:
         - --source=service
         - --source=traefik-proxy
-        # - --registry=noop
-        # - --policy=upsert-only
-        # - --provider=pihole
-        # - --pihole-server=http://pihole-web.pihole.svc.cluster.local
         - --provider=webhook
         - --webhook-provider-url=http://localhost:8888     
       - name: adguardhome-webhook
