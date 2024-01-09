@@ -44,9 +44,9 @@ resources:
 #   readOnly: true
 service:
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.13
   externalTrafficPolicy: Local
   annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.13
     tailscale.com/expose: 'true'
     tailscale.com/hostname: 'home-mariadb'
 
