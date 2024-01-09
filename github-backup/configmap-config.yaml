@@ -20,7 +20,6 @@ data:
         keep: 7
         bare: true
 
-
     ---
     source:
       github:
