@@ -2,7 +2,12 @@ configuration:
   forceReboot: true
   drainTimeout: 2m
   lockReleaseDelay: 10m
-  notifyUrl: "smtp://apikey:***REMOVED***@smtp.sendgrid.net:587/?fromAddress=klasko@ucdialplans.com&toAddresses=ken.lasko@gmail.com"
+  #notifyUrl: "smtp://apikey:PASSWORD-REDACTED@smtp.sendgrid.net:587/?fromAddress=klasko@ucdialplans.com&toAddresses=ken.lasko@gmail.com"
 extraEnvVars:
+- name: notifyUrl
+  valueFrom:
+    secretKeyRef:
+      name: keel
+      key: notifyUrl
 - name: TZ
   value: "America/Toronto"
