@@ -43,7 +43,7 @@ spec:
             command: 
             - /bin/sh
             - -c
-            - /script/backup-sealed-secret-key.sh
+            - sleep 5h #/script/backup-sealed-secret-key.sh
             env:
             - name: TZ
               value: "America/Toronto"
