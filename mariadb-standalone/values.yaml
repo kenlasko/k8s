@@ -3,7 +3,7 @@ fullnameOverride: mariadb
 commonLabels:
   networkClass: Database
 auth:
-  rootPassword: "***REMOVED***"
+  existingSecret: mariadb-passwords
 primary:
   nodeAffinityPreset:
     type: hard

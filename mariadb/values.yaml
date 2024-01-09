@@ -7,10 +7,8 @@ podLabels:
 existingSecret: mariadb-passwords 
 rootUser:
   user: root
-  password: ***REMOVED***
 mariabackup:
   user: mariabackup
-  password: ***REMOVED***
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
