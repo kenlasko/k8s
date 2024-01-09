@@ -16,6 +16,10 @@ polling:
 helmProvider:
   enabled: false
 
+secret:
+  name: keel-creds
+  create: false
+
 mail:
   enabled: true
   from: "Keel Updates <keelupdates@ucdialplans.com>"
@@ -24,12 +28,10 @@ mail:
     server: "smtp.sendgrid.net"
     port: 587
     user: "apikey"
-    password: "***REMOVED***"
 
 basicauth:
   enabled: true
   user: "kenadmin"
-  password: "***REMOVED***"
 
 persistence:
   enabled: true
