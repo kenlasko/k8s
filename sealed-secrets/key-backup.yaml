@@ -12,8 +12,8 @@ spec:
     spec:
       template:
         spec:
-          # serviceAccount: mediatools-service-account
-          # serviceAccountName: mediatools-service-account
+          serviceAccount: keybackup-service-account
+          serviceAccountName: keybackup-service-account
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
