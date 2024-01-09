@@ -113,7 +113,6 @@ falcosidekick:
   webui:
     enabled: true
     existingSecret: sidekick-creds
-    #user: "kenadmin:U3H7zfWZkPXf*$$he"
     affinity: 
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
