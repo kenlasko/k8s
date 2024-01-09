@@ -99,12 +99,6 @@ falcosidekick:
       address: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/-H6GkrSTowPZLtenB1zerk1mY
       method: "PUT"
       minimumpriority: warning
-    extraEnv:
-    - name: FALCOSIDEKICK_UI_USER
-      valueFrom:
-        secretKeyRef:
-          name: userinfo
-          key: userpass
   affinity: 
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -118,6 +112,7 @@ falcosidekick:
             - 'amd64' 
   webui:
     enabled: true
+    existingSecret: sidekick-creds
     #user: "kenadmin:U3H7zfWZkPXf*$$he"
     affinity: 
       nodeAffinity:
