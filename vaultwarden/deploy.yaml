@@ -74,16 +74,24 @@ spec:
               name: admin-token
               key: token   
         - name: DATABASE_URL
-          value: "mysql://vaultwarden:***REMOVED***@mariadb.mariadb.svc.cluster.local/vaultwarden"
-          # value: "mysql://vaultwarden:***REMOVED***@mariadb-standalone.mariadb-standalone.svc.cluster.local/vaultwarden"
+          valueFrom:
+            secretKeyRef:
+              name: database-url
+              key: url
         - name: DOMAIN
           value: "https://vaultwarden.ucdialplans.com"
         - name: PUSH_ENABLED
           value: "true"
         - name: PUSH_INSTALLATION_ID
-          value: "***REMOVED***"
+          valueFrom:
+            secretKeyRef:
+              name: push-install
+              key: id
         - name: PUSH_INSTALLATION_KEY
-          value: "***REMOVED***"         
+          valueFrom:
+            secretKeyRef:
+              name: push-install
+              key: key
         - name: ROCKET_PORT
           value: "8087"
         - name: RUST_BACKTRACE
