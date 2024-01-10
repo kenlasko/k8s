@@ -26,7 +26,7 @@
   - name: Restore private key for sealed secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k3s-sealed-secrets.yaml
+      src: /home/ken/sealed-secret-key.yaml
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik
