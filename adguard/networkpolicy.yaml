@@ -35,6 +35,8 @@ spec:
             cidr: 0.0.0.0/0
       ports:
         - port: 53
+        - port: 853
+        - port: 443
   egress:
     - to:
         - ipBlock:

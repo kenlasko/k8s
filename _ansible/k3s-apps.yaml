@@ -23,10 +23,24 @@
       create_namespace: false
       values_files:
       - /home/ken/k3s/sealed-secrets/values.yaml
+  - name: Delete existing sealed secret private key
+    kubernetes.core.k8s:
+      state: absent
+      api_version: v1
+      kind: Secret
+      namespace: kube-system
+      label_selectors: sealedsecrets.bitnami.com/sealed-secrets-key=active
   - name: Restore private key for sealed secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/sealed-secret-key.yaml
+      src: /home/ken/sealed-secrets-key.yaml
+  - name: Delete sealed secret pod
+    kubernetes.core.k8s:
+      state: absent
+      api_version: v1
+      kind: Pod
+      namespace: kube-system
+      label_selectors: app.kubernetes.io/name=sealed-secrets
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik

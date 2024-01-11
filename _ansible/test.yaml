@@ -1,0 +1,11 @@
+---
+- hosts: workstation
+  tasks:
+  - name: Check for existence of saved private key
+    kubernetes.core.k8s:
+      state: present
+      api_version: v1
+      kind: Secret
+      namespace: kube-system
+      label_selectors: sealedsecrets.bitnami.com/sealed-secrets-key=active
+      #name: sealed-secrets-key5l82h
