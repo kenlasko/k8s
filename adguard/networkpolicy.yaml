@@ -23,6 +23,13 @@ spec:
       ports:
         - port: 3000
     - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: cloudflare-tunnel
+      ports:
+        - port: 443
+    - from:
         - podSelector:
             matchLabels:
               app: adguard-sync
@@ -50,4 +57,4 @@ spec:
         - port: 53
           protocol: UDP
     - to:
-        - podSelector: {}
+        - podSelector: {})-
