@@ -26,6 +26,7 @@ customRules:
         - [argocd, notifications-controller, argocd-notifica]
         - [argocd, repo-server, git]
         - [argocd, server, argocd-server]
+        - [cert-manager, cert-manager-webhook, webhook]
         - [cloudflare, cloudflare-tunnel, cloudflared]
         - [external-dns, external-dns, external-dns]
         - [headlamp, headlamp, headlamp-server]

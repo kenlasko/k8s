@@ -100,3 +100,25 @@
       value: '1'
       sysctl_file: /etc/sysctl.d/90-kubelet.conf
       state: present
+  - name: Remove existing resolv.conf symlink
+    ansible.builtin.file:
+      path: /etc/resolv.conf
+      state: absent      
+  - name: Reconfigure resolv.conf to use proper DNS
+    ansible.builtin.file:
+      src: /run/systemd/resolve/resolv.conf
+      dest: /etc/resolv.conf
+      state: link
+  - name: Restart systemd-resolved
+    ansible.builtin.service:
+      name: systemd-resolved
+      state: restarted
+  - name: Disable password login
+    lineinfile: 
+      dest: /etc/ssh/sshd_config.d/50-cloud-init.conf 
+      regexp: '^(#\s*)?PasswordAuthentication '
+      line: 'PasswordAuthentication no'
+  - name: Restart systemd-resolved
+    ansible.builtin.service:
+      name: ssh
+      state: restarted

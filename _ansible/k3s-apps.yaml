@@ -49,7 +49,7 @@
   - name: Apply Traefik secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k3s/traefik/secrets.yaml
+      src: /home/ken/k3s/traefik/sealed-secrets.yaml
   - name: Apply Traefik https redirect
     kubernetes.core.k8s:
       state: present
@@ -92,7 +92,7 @@
   - name: Apply ArgoCD secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k3s/argocd/01-secrets.yaml
+      src: /home/ken/k3s/argocd/01-sealed-secrets.yaml
   - name: Apply ArgoCD K8s resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
