@@ -24,8 +24,10 @@
     file:
       path: /kube-storage/mariadb
       state: directory
-
-
+  - name: Install latest kernel for Plex transcoding
+    ansible.builtin.apt:
+      name: linux-generic-hwe-22.04
+      state: present
 - hosts: k3s-servers
   become: true
   become_user: root

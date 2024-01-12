@@ -1,41 +1,5 @@
-sudo apt update && sudo apt upgrade -y
-sudo apt install nano nfs-common -y
 
-# Upgrade workers to latest kernel for Plex transcoding
-sudo apt install linux-generic-hwe-22.04
-
-# Beelink U59 may need updated network drivers to avoid failures
-https://devicetests.com/ubuntu-network-driver-guide
-
-# Manually assign IP address via netplan (this removes the ucdialplans.com domain from the DNS search, which screws up a lot of containers):
-sudo nano /etc/netplan/00-installer-config.yaml
-
-# Set as per below:
-# This is the network config written by 'subiquity'
-network:
-  ethernets:
-    enp1s0:
-      dhcp4: false
-      addresses: [192.168.1.8/24]
-      routes:
-      - to: default
-        via: 192.168.1.1
-      nameservers:
-        addresses:
-        - 192.168.1.14
-        - 192.168.1.15
-        - 192.168.1.16
-  version: 2
-
-sudo netplan apply 
-
-# Check that resolv.conf shows . for search:
-cat /etc/resolv.conf
-sudo reboot now
-
-# Copy k3s folder to ~
-
-# On Kube1
+# On Workstation
 sudo apt install ansible nano pip -y
 ansible-galaxy collection install community.general
 ansible-galaxy collection install kubernetes.core
@@ -55,6 +19,9 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub ken@rpi2
 # Copy Ansible Hosts
 sudo mkdir /etc/ansible
 sudo cp ~/k3s/hosts /etc/ansible/hosts
+
+# Run workstation prep
+ansible-playbook ~/k3s/_ansible/workstation-prep.yaml --ask-become-pass
 
 # Run first Ansible script
 ansible-playbook ~/k3s/_ansible/k3s-node-prep.yaml --ask-become-pass
@@ -84,12 +51,6 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server h
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
 
 cat /etc/rancher/k3s/k3s.yaml | sed 's/127.0.0.1/192.168.1.4/g'
-
-# Run next Ansible script
-ansible-playbook ~/k3s/ansible-k3s-post.yaml --ask-become-pass
-
-# Restart k3s on each node in turn
-systemctl restart k3s
 
 # Install Autocomplete
 sudo apt install -y bash-completion
@@ -173,9 +134,6 @@ kubectl delete service longhorn-frontend -n longhorn
 kubectl apply -f ~/k3s/longhorn/longhorn-service.yaml
 kubectl apply -f ~/k3s/longhorn/dashboard-ingress.yaml
 
-# Add local-path storage class
-kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.23/deploy/local-path-storage.yaml
-
 # Add Portainer
 helm repo add portainer https://portainer.github.io/k8s/
 helm repo update
@@ -196,10 +154,6 @@ kubectl apply -f ~/k3s/monitoring/helm-ingress-prometheus.yaml
 kubectl apply -f ~/k3s/monitoring/helm-ingress-alertmanager.yaml
 kubectl apply -f ~/k3s/monitoring/helm-ingress-grafana.yaml
 kubectl apply -f ~/k3s/monitoring/grafana-secrets.yaml
-
-# Install Loki
-helm repo add grafana https://grafana.github.io/helm-charts
-helm install -n monitoring loki grafana/loki-stack --values  ~/k3s/monitoring/loki-values.yaml
 
 # Install MariaDB
 helm repo add bitnami https://charts.bitnami.com/bitnami
