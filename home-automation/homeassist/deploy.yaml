@@ -68,44 +68,6 @@ spec:
         volumeMounts:
         - name: homeassist
           mountPath: /config
-      - name: hass-configurator
-        image: causticlab/hass-configurator-docker:latest
-        imagePullPolicy: Always
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          seccompProfile:
-            type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-        env:
-        - name: HC_BASEPATH
-          value: "/hass-config/"
-        - name: HC_GIT
-          value: "True"
-        - name: TZ
-          value: "America/Toronto"
-        resources:
-          requests:
-            cpu: 10m
-            memory: 20Mi
-          limits:
-            cpu: 200m
-            memory: 40Mi
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 3218
-          initialDelaySeconds: 90
-          periodSeconds: 30
-          timeoutSeconds: 10
-          failureThreshold: 3
-        volumeMounts:
-        - name: homeassist
-          mountPath: /hass-config
-        - name: github-ssh-creds
-          mountPath: /root/.ssh
-          readOnly: true
       dnsConfig:
         options:
           - name: ndots
