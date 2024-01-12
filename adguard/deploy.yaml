@@ -96,7 +96,7 @@ spec:
           mountPath: /opt/adguardhome/conf
         - name: nfs-adguard-work
           mountPath: /opt/adguardhome/work
-        - name: wildcard-cert
+        - name: dns-wildcard-cert
           mountPath: /etc/certs
           readOnly: true
       volumes:
@@ -106,6 +106,6 @@ spec:
       - name: nfs-adguard-work
         persistentVolumeClaim:
           claimName: nfs-adguard-work
-      - name: wildcard-cert
+      - name: dns-wildcard-cert
         secret:
-          secretName: wildcard-cert
+          secretName: dns-wildcard-cert
