@@ -26,10 +26,6 @@
   become: true
   become_user: root
   tasks:
-  - name: Copy registries.yaml
-    ansible.builtin.copy:
-      src: /home/ken/k3s/_ansible/registries.yaml
-      dest: /etc/rancher/k3s/registries.yaml
   - name: Add KUBECONFIG environment variable to servers
     ansible.builtin.lineinfile:
       path: /etc/environment

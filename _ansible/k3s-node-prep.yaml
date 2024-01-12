@@ -28,6 +28,7 @@
     ansible.builtin.apt:
       name: linux-generic-hwe-22.04
       state: present
+
 - hosts: k3s-servers
   become: true
   become_user: root
@@ -59,15 +60,10 @@
               runtimeClasses: []
               namespaces: [kube-system, cert-manager, cilium, homeassist, intel-gpu, longhorn, monitoring, netdata]
 
-
 - hosts: k3s-all
   become: true
   become_user: root
   tasks:      
-  - name: Install Kubescape prereq - runc
-    ansible.builtin.apt:
-      name: runc
-      state: present
   - name: Set timezone
     community.general.timezone:
       name: America/Toronto
