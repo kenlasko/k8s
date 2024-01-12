@@ -67,6 +67,7 @@ customRules:
         comps: [=,=,=]
         values:
         - [host, k3s-agent, containerd]
+        - [host, k3s-server, containerd]
         - [engine-manager, longhorn-instan, tee]
       append: true
 
