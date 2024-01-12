@@ -1,65 +1,65 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: adguard
-  namespace: adguard
-spec:
-  podSelector: {}
-  policyTypes:
-    - Egress
-  ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: external-dns
-      ports:
-        - port: 3000
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
-      ports:
-        - port: 3000
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: cloudflare-tunnel
-      ports:
-        - port: 443
-        - port: 3000
-    - from:
-        - podSelector:
-            matchLabels:
-              app: adguard-sync
-      ports:
-        - port: 3000
-    - from:
-        - podSelector: {}
-    - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-        - port: 853
-        - port: 443
-  egress:
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - port: 53
-          protocol: UDP
-    - to:
-        - podSelector: {}
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 80
-        - port: 443
-        - port: 853
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: adguard
+#   namespace: adguard
+# spec:
+#   podSelector: {}
+#   policyTypes:
+#     - Egress
+#   ingress:
+#     - from:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               app: external-dns
+#       ports:
+#         - port: 3000
+#     - from:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               app.kubernetes.io/name: traefik
+#       ports:
+#         - port: 3000
+#     - from:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               app: cloudflare-tunnel
+#       ports:
+#         - port: 443
+#         - port: 3000
+#     - from:
+#         - podSelector:
+#             matchLabels:
+#               app: adguard-sync
+#       ports:
+#         - port: 3000
+#     - from:
+#         - podSelector: {}
+#     - from:
+#         - ipBlock:
+#             cidr: 0.0.0.0/0
+#       ports:
+#         - port: 53
+#         - port: 853
+#         - port: 443
+#   egress:
+#     - to:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               k8s-app: kube-dns
+#       ports:
+#         - port: 53
+#           protocol: UDP
+#     - to:
+#         - podSelector: {}
+#     - to:
+#         - ipBlock:
+#             cidr: 0.0.0.0/0
+#       ports:
+#         - port: 80
+#         - port: 443
+#         - port: 853
