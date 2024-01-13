@@ -18,13 +18,13 @@ deschedulerPolicy:
         nodeAffinityType:
         - requiredDuringSchedulingIgnoredDuringExecution
     RemovePodsViolatingInterPodAntiAffinity:
-      enabled: false
+      enabled: true
     RemovePodsViolatingTopologySpreadConstraint:
-      enabled: false
+      enabled: true
       params:
         includeSoftConstraints: false
     LowNodeUtilization:
-      enabled: false
+      enabled: true
       params:
         nodeResourceUtilizationThresholds:
           thresholds:
