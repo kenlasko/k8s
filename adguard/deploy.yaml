@@ -25,7 +25,7 @@ spec:
       automountServiceAccountToken: false
       affinity:
         nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
+          requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
