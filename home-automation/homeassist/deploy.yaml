@@ -39,20 +39,12 @@ spec:
         image: ghcr.io/home-assistant/home-assistant:stable
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          runAsUser: 1000
-          runAsGroup: 100
-          # fsGroup: 100
           seccompProfile:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-            add:
-            - SETGID
-            - SETUID
-            - CHOWN
-            - DAC_OVERRIDE
         resources:
           requests:
             cpu: 150m
@@ -71,10 +63,6 @@ spec:
           timeoutSeconds: 15
           failureThreshold: 5
         env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "100"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
