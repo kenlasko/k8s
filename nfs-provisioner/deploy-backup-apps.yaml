@@ -64,7 +64,7 @@ spec:
                 memory: 100Mi
               limits:
                 cpu: 1500m
-                memory: 200Mi
+                memory: 400Mi
             volumeMounts:
             - name: data
               mountPath: /data
