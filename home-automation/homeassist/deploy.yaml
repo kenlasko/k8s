@@ -52,7 +52,7 @@ spec:
             - SETGID
             - SETUID
             - CHOWN
-#            - CHROOT
+            - CHROOT
             - DAC_OVERRIDE
         resources:
           requests:
