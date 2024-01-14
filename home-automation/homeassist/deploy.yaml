@@ -39,7 +39,7 @@ spec:
         image: ghcr.io/home-assistant/home-assistant:stable
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
           runAsUser: 1000
           runAsGroup: 100
@@ -52,7 +52,7 @@ spec:
             - SETGID
             - SETUID
             - CHOWN
-            - CHROOT
+#            - CHROOT
             - DAC_OVERRIDE
         resources:
           requests:
