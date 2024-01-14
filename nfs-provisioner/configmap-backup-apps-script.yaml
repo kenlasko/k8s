@@ -19,7 +19,7 @@ data:
     date
     echo
         
-    tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/.git' -czvf /backup/vol/backup-$day.tgz /data/vol
+    tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/.git' --exclude 'data/vol/homeassist/.storage' -czvf /backup/vol/backup-$day.tgz /data/vol
 
     # echo
     # echo
