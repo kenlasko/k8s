@@ -50,6 +50,7 @@ spec:
             drop: ["ALL"]
             add:
             - SETGID
+            - SETUID
             - CHOWN
             - CHROOT
         resources:
