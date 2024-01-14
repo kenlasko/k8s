@@ -52,7 +52,6 @@ spec:
             - SETGID
             - SETUID
             - CHOWN
-#            - CHROOT
             - DAC_OVERRIDE
         resources:
           requests:
@@ -72,6 +71,10 @@ spec:
           timeoutSeconds: 15
           failureThreshold: 5
         env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "100"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
