@@ -53,6 +53,7 @@ spec:
             - SETUID
             - CHOWN
             - CHROOT
+            - DAC_OVERRIDE
         resources:
           requests:
             cpu: 150m
