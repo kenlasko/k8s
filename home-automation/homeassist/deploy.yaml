@@ -51,6 +51,7 @@ spec:
             add:
             - SETGID
             - CHOWN
+            - CHROOT
         resources:
           requests:
             cpu: 150m
