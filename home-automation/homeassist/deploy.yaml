@@ -43,7 +43,7 @@ spec:
           readOnlyRootFilesystem: false
           runAsUser: 1000
           runAsGroup: 100
-          fsGroup: 100
+          # fsGroup: 100
           seccompProfile:
             type: RuntimeDefault
           capabilities:
