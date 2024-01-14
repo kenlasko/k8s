@@ -48,6 +48,8 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+            add:
+            - SETGID
         resources:
           requests:
             cpu: 150m
