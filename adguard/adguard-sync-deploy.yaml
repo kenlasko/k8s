@@ -33,7 +33,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: adguard-sync
-        image: ghcr.io/bakito/adguardhome-sync:v0.5.3
+        image: ghcr.io/bakito/adguardhome-sync:latest
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -63,26 +63,26 @@ spec:
             secretKeyRef:
               name: adguard-creds
               key: password
-        - name: REPLICA_URL
-          value: "https://adguard-rpi1.ucdialplans.com"
-        - name: REPLICA_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: username
-        - name: REPLICA_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: adguard-creds
-              key: password
         - name: REPLICA1_URL
-          value: "https://adguard-rpi2.ucdialplans.com"
+          value: "https://adguard-rpi1.ucdialplans.com"
         - name: REPLICA1_USERNAME
           valueFrom:
             secretKeyRef:
               name: adguard-creds
               key: username
         - name: REPLICA1_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: password
+        - name: REPLICA2_URL
+          value: "https://adguard-rpi2.ucdialplans.com"
+        - name: REPLICA2_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: username
+        - name: REPLICA2_PASSWORD
           valueFrom:
             secretKeyRef:
               name: adguard-creds
