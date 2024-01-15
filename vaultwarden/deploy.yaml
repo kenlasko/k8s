@@ -76,7 +76,7 @@ spec:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: database-url
+              name: database-url  # mysql://vaultwarden:PASSWORD-REDACTED@mariadb.mariadb.svc.cluster.local/vaultwarden
               key: url
         - name: DOMAIN
           value: "https://vaultwarden.ucdialplans.com"
