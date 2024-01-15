@@ -33,7 +33,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: adguard-sync
-        image: ghcr.io/bakito/adguardhome-sync:v0.5.3
+        image: ghcr.io/bakito/adguardhome-sync:v0.5.4
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
