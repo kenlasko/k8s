@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: ucdialplans
+      app: ucdialplans
   policyTypes:
     - Ingress
     - Egress
