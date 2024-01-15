@@ -87,8 +87,10 @@ spec:
             secretKeyRef:
               name: adguard-creds
               key: password
+        - name: PRINT_CONFIG_ONLY
+          value: 'true'
         - name: LOG_LEVEL
-          value: 'debug' 
+          value: 'info' 
         - name: TZ
           value: "America/Toronto"
         resources:
