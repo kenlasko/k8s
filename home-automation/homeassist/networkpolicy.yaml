@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: homeassist
+      app: homeassist
   policyTypes:
     - Ingress
     - Egress
