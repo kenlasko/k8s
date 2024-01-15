@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: garmin-upload
+      app: garmin-upload
   policyTypes:
     - Ingress
     - Egress
