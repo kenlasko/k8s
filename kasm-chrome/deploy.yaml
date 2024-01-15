@@ -38,7 +38,7 @@ spec:
                 - 'amd64'                
       containers:
       - name: kasm-chrome 
-        image: kasmweb/chrome:1.14.0-rolling
+        image: kasmweb/chrome:1.14.0
         imagePullPolicy: Always
         # securityContext:
         #   allowPrivilegeEscalation: false
