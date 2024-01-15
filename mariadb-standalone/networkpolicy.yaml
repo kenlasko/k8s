@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: mariadb-standalone
+      app.kubernetes.io/name: mariadb
   policyTypes:
     - Ingress
     - Egress
