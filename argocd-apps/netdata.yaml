@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://netdata.github.io/helmchart/'
-    targetRevision: 3.*
+    targetRevision: "*"
     chart: netdata 
     helm:
       valueFiles:

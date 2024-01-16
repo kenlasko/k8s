@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://helm.traefik.io/traefik'
-    targetRevision: '*'
+    targetRevision: "*"
     chart: traefik
     helm:
       valueFiles:
