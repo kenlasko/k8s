@@ -24,7 +24,7 @@ deschedulerPolicy:
       params:
         includeSoftConstraints: false
     LowNodeUtilization:
-      enabled: false 
+      enabled: true 
       params:
         nodeResourceUtilizationThresholds:
           thresholds:
