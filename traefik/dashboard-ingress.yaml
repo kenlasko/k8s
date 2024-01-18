@@ -16,4 +16,4 @@ spec:
     - name: api@internal
       kind: TraefikService
   tls:
-    secretName: traefik-wildcard-cert
+    secretName: letsencrypt-wildcard-cert  # traefik-wildcard-cert
