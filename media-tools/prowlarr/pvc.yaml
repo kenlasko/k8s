@@ -9,7 +9,7 @@ spec:
   storageClassName: longhorn-high-value
   resources:
     requests:
-      storage: 250Mi
+      storage: 600Mi
 
 ---
 apiVersion: v1
@@ -18,7 +18,7 @@ metadata:
   name: pvc-prowlarr
 spec:
   capacity:
-    storage: 250Mi
+    storage: 600Mi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
