@@ -9,7 +9,7 @@ spec:
   storageClassName: longhorn-high-value
   resources:
     requests:
-      storage: 500Mi
+      storage: 400Mi
 
 ---
 apiVersion: v1
@@ -18,7 +18,7 @@ metadata:
   name: pvc-romm
 spec:
   capacity:
-    storage: 500Mi
+    storage: 400Mi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
