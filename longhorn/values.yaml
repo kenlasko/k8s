@@ -8,7 +8,10 @@ defaultSettings:
   defaultLonghornStaticStorageClass: longhorn-high-value
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: storage:longhorn
-  
+
+helmPreUpgradeCheckerJob:
+  enabled: false
+    
 longhornManager:
   nodeSelector: 
     storage: "longhorn"
