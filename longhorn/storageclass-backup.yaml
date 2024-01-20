@@ -5,7 +5,7 @@ metadata:
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
 parameters:
   numberOfReplicas: "3"
   staleReplicaTimeout: "30"
