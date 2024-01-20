@@ -18,8 +18,8 @@ global:
 configs:
   params:
     server.insecure: true
-  secret:
-    argocdServerAdminPassword: "$2a$10$zHIXSQ6xmyfd0iwfSv5wPOXfR.OTV3b3M0F5d0JvKr4CQUn2ZTdGq"
+  # secret:
+  #   argocdServerAdminPassword: "$2a$10$zHIXSQ6xmyfd0iwfSv5wPOXfR.OTV3b3M0F5d0JvKr4CQUn2ZTdGq"
   cm: 
     create: false # Don't create configmap because I do it separately via 02-configmap.yaml
   repositories:
