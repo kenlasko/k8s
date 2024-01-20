@@ -85,6 +85,7 @@ kubectl apply -f ~/k3s/traefik/
 
 # Install ArgoCD
 helm repo add argocd https://argoproj.github.io/argo-helm
+helm repo update
 helm install argocd argocd/argo-cd --namespace=argocd --create-namespace --values ~/k3s/argocd/values.yaml
 kubectl apply -f ~/k3s/argocd/
 
