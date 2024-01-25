@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: lidarr
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: lidarr=linuxserver/lidarr:latest
     argocd-image-updater.argoproj.io/lidarr.update-strategy: digest

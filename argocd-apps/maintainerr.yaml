@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: maintainerr
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: maintainerr=jorenn92/maintainerr:latest
     argocd-image-updater.argoproj.io/maintainerr.update-strategy: digest

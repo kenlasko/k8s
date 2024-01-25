@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: prowlarr
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: prowlarr=linuxserver/prowlarr:latest
     argocd-image-updater.argoproj.io/prowlarr.update-strategy: digest

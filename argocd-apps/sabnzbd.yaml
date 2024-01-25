@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: sabnzbd
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: sabnzbd=linuxserver/sabnzbd:latest
     argocd-image-updater.argoproj.io/sabnzbd.update-strategy: digest

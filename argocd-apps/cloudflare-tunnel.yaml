@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: cloudflare-tunnel
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: cloudflare-tunnel=cloudflare/cloudflared:latest
     argocd-image-updater.argoproj.io/esphome.update-strategy: digest
