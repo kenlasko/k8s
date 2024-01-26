@@ -1,0 +1,27 @@
+---
+# Installs the base apps (Cilium, Traefik, ArgoCD) to get started with installing all other apps
+- hosts: workstation
+  tasks:
+  - name: Check for existence of correct Sealed Secret base key
+    kubernetes.core.k8s_info:
+      api_version: v1
+      verify_ssl: no
+      kind: Secret
+      name: sealed-secrets-key5l82h
+      namespace: kube-system
+    register: sealed_secret_key
+  - debug:
+      var: sealed_secret_key.resources[0].metadata.name
+  - debug: 
+      msg: "{{ item.metadata.name }} meets the condition"
+    with_items: "{{ sealed_secret_key.resources }}"
+    when: item.metadata.name != ""
+  - name: Delete sealed secret pod
+    kubernetes.core.k8s:
+      state: absent
+      api_version: v1
+      verify_ssl: no
+      kind: Pod
+      namespace: kube-system
+      label_selectors: app.kubernetes.io/name=sealed-secrets
+    when: sealed_secret_key.resources[0] is not defined  # .metadata.name != "sealed-secrets-key5l82h"
