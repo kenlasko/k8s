@@ -53,26 +53,6 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app: sabnzbd
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: radarr
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: sonarr
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: pihole
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
               app.kubernetes.io/name: prometheus
     - to:
         - podSelector: {}
