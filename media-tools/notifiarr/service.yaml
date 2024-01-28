@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: notifiarr-service
+  name: notifiarr-service
+  namespace: media-tools
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5454
+    protocol: TCP
+    targetPort: 5454
+    name: web
+  selector:
+    app: notifiarr

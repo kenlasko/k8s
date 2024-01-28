@@ -1,0 +1,25 @@
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: notifiarr
+  namespace: media-tools
+  annotations:
+    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints: 
+  - websecure
+  routes:
+  - match: Host(`notifiarr.ucdialplans.com`) 
+    kind: Rule
+    services:
+    - name: notifiarr-service
+      port: 5454
+    middlewares:
+    - name: traefik-security
+      namespace: traefik
+  tls:
+    secretName: traefik-wildcard-cert
+    options:
+      name: tls-options-clientauth
+      namespace: traefik
