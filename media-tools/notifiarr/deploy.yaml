@@ -85,7 +85,7 @@ spec:
       volumes:
         - name: notifiarr-config
           persistentVolumeClaim:
-            claimName: longhorn-notifiarr-config-pvc
+            claimName: nfs-notifiarr
         - name: media
           persistentVolumeClaim:
             claimName: nfs-media
