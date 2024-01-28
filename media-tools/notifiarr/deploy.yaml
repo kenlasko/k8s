@@ -52,6 +52,9 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
+        envFrom:
+        - secretRef:
+            name: notifiarr-secrets
         env:
         - name: PUID
           value: '1000'
