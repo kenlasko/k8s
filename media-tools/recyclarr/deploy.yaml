@@ -62,13 +62,6 @@ spec:
           limits:
             cpu: 700m
             memory: 700Mi
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 5454
-          initialDelaySeconds: 15
-          periodSeconds: 60
-          timeoutSeconds: 5
         volumeMounts:
         - name: recyclarr-config
           mountPath: /config
