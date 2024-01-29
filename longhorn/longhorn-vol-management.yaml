@@ -36,7 +36,7 @@ metadata:
   name: filesystem-trim
   namespace: longhorn
 spec:
-  cron: "0 1 * * ?"
+  cron: "0 1 */3 * ?"
   task: filesystem-trim
   groups:
   - default
