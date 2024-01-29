@@ -50,8 +50,8 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        command:
-        - /app/recyclarr/recyclarr sync
+        # command:
+        # - /app/recyclarr/recyclarr sync
         env:
         - name: TZ
           value: "America/Toronto"
