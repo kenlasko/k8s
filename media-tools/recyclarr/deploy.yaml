@@ -51,7 +51,7 @@ spec:
           capabilities:
             drop: ["ALL"]
         command:
-        - recyclarr sync
+        - /app/recyclarr/recyclarr sync
         env:
         - name: TZ
           value: "America/Toronto"
