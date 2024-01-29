@@ -15,7 +15,7 @@ spec:
   jobTemplate:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
-      restartPolicy: Always
+      restartPolicy: OnFailure
       automountServiceAccountToken: false
       priorityClassName: medium-priority
       affinity:
