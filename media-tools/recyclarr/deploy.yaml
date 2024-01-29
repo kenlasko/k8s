@@ -50,9 +50,6 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-        envFrom:
-        - secretRef:
-            name: recyclarr-secrets
         env:
         - name: TZ
           value: "America/Toronto"
