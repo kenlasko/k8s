@@ -50,9 +50,9 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+        command:
+        - recyclarr sync
         env:
-        - name: RECYCLARR_CREATE_CONFIG
-          value: "true"
         - name: TZ
           value: "America/Toronto"
         resources:
