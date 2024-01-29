@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: CronJob
 metadata:
   name: recyclarr
   namespace: media-tools
@@ -9,17 +9,10 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
-  serviceName: recyclarr
-  replicas: 1
-  revisionHistoryLimit: 2
-  selector:
-    matchLabels:
-      app: recyclarr
-  template:
-    metadata:
-      labels:
-        app: recyclarr
-        name: recyclarr
+  schedule: "@daily" 
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
