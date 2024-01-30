@@ -53,7 +53,8 @@ customRules:
         - [system-upgrade, system-upgrade-controller, system-upgrade-]
         - [tailscale, operator, operator]
         - [tailscale, tailscale, tailscaled]
-      append: true
+      override:
+        condition: append
 
     - rule: Drop and execute new binary in container
       exceptions:
@@ -63,7 +64,8 @@ customRules:
         values:
         - [media-tools, plex, [CrashUploader, Plex Media Fing, Plex Media Scan, Plex Media Serv, Plex Script Hos, Plex Transcoder, Plex Tuner Serv]]
         - [pihole, pihole, [pihole-FTL]]
-      append: true
+      override:
+        condition: append
 
     - rule: Clear Log Activities
       exceptions:
@@ -74,7 +76,8 @@ customRules:
         - [host, k3s-agent, containerd]
         - [host, k3s-server, containerd]
         - [engine-manager, longhorn-instan, tee]
-      append: true
+      override:
+        condition: append
 
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
       exceptions:
@@ -87,7 +90,8 @@ customRules:
         - [homeassist, homeassist, [busybox, git, ping, python3]]
         - [longhorn, longhorn-manager, [longhorn, longhorn-manage]]
         - [longhorn, engine-manager, [longhorn]]
-      append: true
+      override:
+        condition: append
 
     - rule: Run shell untrusted
       exceptions:
@@ -97,7 +101,8 @@ customRules:
         values:
         - [mariadb, mariadb-galera, [mysqld]]
         - [pihole, pihole, [php-cgi, runuser, sudo]]
-      append: true
+      override:
+        condition: append
 
 falcosidekick:
   enabled: true
