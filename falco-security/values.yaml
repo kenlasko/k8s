@@ -74,8 +74,7 @@ customRules:
         - [host, k3s-agent, containerd]
         - [host, k3s-server, containerd]
         - [engine-manager, longhorn-instan, tee]
-      override:
-        condition: append
+      append: true
 
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
       exceptions:
