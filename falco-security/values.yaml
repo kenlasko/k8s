@@ -11,7 +11,8 @@ collectors:
     socket: /run/k3s/containerd/containerd.sock
 falco:
   load_plugins:
-  - k8saudit
+  - k8s-metacollector
+  - k8smeta
   
 customRules:
   custom-rules.yaml: |-
