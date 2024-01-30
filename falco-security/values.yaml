@@ -53,7 +53,8 @@ customRules:
         - [system-upgrade, system-upgrade-controller, system-upgrade-]
         - [tailscale, operator, operator]
         - [tailscale, tailscale, tailscaled]
-      append: true
+      override:
+        condition: append
 
     - rule: Drop and execute new binary in container
       exceptions:
