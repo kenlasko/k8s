@@ -12,7 +12,7 @@ collectors:
 falco:
   load_plugins:
   - k8s-metacollector
-  - k8smeta
+  - k8s-meta
   
 customRules:
   custom-rules.yaml: |-
