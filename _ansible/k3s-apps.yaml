@@ -41,13 +41,13 @@
       kind: Secret
       namespace: kube-system
       label_selectors: sealedsecrets.bitnami.com/sealed-secrets-key=active
-      when: sealed_secret_key.resources[0] is not defined 
+    when: sealed_secret_key.resources[0] is not defined 
   - name: Restore private key for sealed secrets
     kubernetes.core.k8s:
       state: present
       verify_ssl: no
       src: /home/ken/sealed-secrets-key.yaml
-      when: sealed_secret_key.resources[0] is not defined
+    when: sealed_secret_key.resources[0] is not defined
   - name: Delete sealed secret pod
     kubernetes.core.k8s:
       state: absent
@@ -56,7 +56,7 @@
       kind: Pod
       namespace: kube-system
       label_selectors: app.kubernetes.io/name=sealed-secrets
-      when: sealed_secret_key.resources[0] is not defined
+    when: sealed_secret_key.resources[0] is not defined
   - name: Add Traefik chart repo
     kubernetes.core.helm_repository:
       name: traefik
