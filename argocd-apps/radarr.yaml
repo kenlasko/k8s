@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: radarr
   namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: radarr=linuxserver/radarr:latest
     argocd-image-updater.argoproj.io/radarr.update-strategy: digest

@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: readarr
   namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: readarr=linuxserver/readarr:nightly
     argocd-image-updater.argoproj.io/readarr.update-strategy: digest

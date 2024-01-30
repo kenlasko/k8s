@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: sonarr
   namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd-image-updater.argoproj.io/image-list: sonarr=linuxserver/sonarr:latest
     argocd-image-updater.argoproj.io/sonarr.update-strategy: digest

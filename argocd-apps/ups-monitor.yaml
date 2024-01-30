@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: ups-monitor
   namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
