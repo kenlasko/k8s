@@ -6,6 +6,20 @@ prometheus:
 automountServiceAccountToken: false
 serviceAccount:
   automountServiceAccountToken: false
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
+extraEnv:
+- name: TZ
+  value: "America/Toronto"
 volumes:
 - name: serviceaccount-token
   projected:
@@ -29,26 +43,23 @@ volumeMounts:
 - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
   name: serviceaccount-token
   readOnly: true
-extraEnv:
-- name: TZ
-  value: "America/Toronto"
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-        - key: kubernetes.io/arch
-          operator: In
-          values: 
-          - 'amd64'
 
 
 webhook:
   automountServiceAccountToken: false
   serviceAccount:
     automountServiceAccountToken: false
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
   volumes:
   - name: serviceaccount-token
     projected:
@@ -72,22 +83,23 @@ webhook:
   - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
     name: serviceaccount-token
     readOnly: true
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - 'amd64'
+
 
 cainjector:
   automountServiceAccountToken: false
   serviceAccount:
     automountServiceAccountToken: false
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
   volumes:
   - name: serviceaccount-token
     projected:
@@ -111,22 +123,23 @@ cainjector:
   - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
     name: serviceaccount-token
     readOnly: true
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - 'amd64'
+
 
 startupapicheck:
   automountServiceAccountToken: false
   serviceAccount:
     automountServiceAccountToken: false
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
   volumes:
   - name: serviceaccount-token
     projected:
@@ -150,14 +163,3 @@ startupapicheck:
   - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
     name: serviceaccount-token
     readOnly: true
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - 'amd64'
