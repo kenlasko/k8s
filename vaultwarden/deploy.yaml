@@ -70,69 +70,49 @@ spec:
         envFrom:
         - configMapRef:
             name: env-vars
-        env:
-        - name: ADMIN_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: admin-token
-              key: token   
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: database-url  # mysql://vaultwarden:PASSWORD-REDACTED@mariadb.mariadb.svc.cluster.local/vaultwarden
-              key: url
-        # - name: DOMAIN
-        #   value: "https://vaultwarden.ucdialplans.com"
-        # - name: PUSH_ENABLED
-        #   value: "true"
-        - name: PUSH_INSTALLATION_ID
-          valueFrom:
-            secretKeyRef:
-              name: push-install
-              key: id
-        - name: PUSH_INSTALLATION_KEY
-          valueFrom:
-            secretKeyRef:
-              name: push-install
-              key: key
-        # - name: ROCKET_PORT
-        #   value: "8087"
-        # - name: RUST_BACKTRACE
-        #   value: "1"
-        # - name: SIGNUPS_ALLOWED
-        #   value: "false"
-        # - name: SMTP_HOST
-        #   value: "smtp.sendgrid.net"
-        # - name: SMTP_FROM
-        #   value: "bitwarden@ucdialplans.com"
-        # - name: SMTP_PORT
-        #   value: "465"
-        # - name: SMTP_SECURITY
-        #   value: "force_tls"
-        - name: SMTP_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: sendgrid
-              key: username
-        - name: SMTP_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sendgrid
-              key: password
-        # - name: SMTP_AUTH_MECHANISM
-        #   value: "'Login'"
-        - name: YUBICO_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              name: yubico
-              key: client-id
-        - name: YUBICO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: yubico
-              key: secret
-        # - name: TZ
-        #   value: "America/Toronto"
+        - secretRef:
+            name: env-secrets
+        # env:
+        # - name: ADMIN_TOKEN
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: admin-token
+        #       key: token   
+        # - name: DATABASE_URL
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: database-url  # mysql://vaultwarden:PASSWORD-REDACTED@mariadb.mariadb.svc.cluster.local/vaultwarden
+        #       key: url
+        # - name: PUSH_INSTALLATION_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: push-install
+        #       key: id
+        # - name: PUSH_INSTALLATION_KEY
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: push-install
+        #       key: key
+        # - name: SMTP_USERNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: sendgrid
+        #       key: username
+        # - name: SMTP_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: sendgrid
+        #       key: password
+        # - name: YUBICO_CLIENT_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: yubico
+        #       key: client-id
+        # - name: YUBICO_SECRET_KEY
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: yubico
+        #       key: secret
         volumeMounts:
         - name: vaultwarden-data
           mountPath: /data
