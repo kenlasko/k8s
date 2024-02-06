@@ -72,47 +72,6 @@ spec:
             name: env-vars
         - secretRef:
             name: env-secrets
-        # env:
-        # - name: ADMIN_TOKEN
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: admin-token
-        #       key: token   
-        # - name: DATABASE_URL
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: database-url  # mysql://vaultwarden:PASSWORD-REDACTED@mariadb.mariadb.svc.cluster.local/vaultwarden
-        #       key: url
-        # - name: PUSH_INSTALLATION_ID
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: push-install
-        #       key: id
-        # - name: PUSH_INSTALLATION_KEY
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: push-install
-        #       key: key
-        # - name: SMTP_USERNAME
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: sendgrid
-        #       key: username
-        # - name: SMTP_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: sendgrid
-        #       key: password
-        # - name: YUBICO_CLIENT_ID
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: yubico
-        #       key: client-id
-        # - name: YUBICO_SECRET_KEY
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: yubico
-        #       key: secret
         volumeMounts:
         - name: vaultwarden-data
           mountPath: /data
