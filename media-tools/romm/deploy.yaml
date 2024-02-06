@@ -52,13 +52,10 @@ spec:
             - "SETGID"
             - "SETUID"
             - "DAC_OVERRIDE"
+        envFrom:
+        - secretRef:
+            name: romm-env-secrets
         env:
-        - name: ROMM_DB_DRIVER
-          value: 'sqlite'
-        - name: IGDB_CLIENT_ID
-          value: 'nqg5i35sssuvnti85o1gsnxtfk6bel'
-        - name: IGDB_CLIENT_SECRET
-          value: '***REMOVED***'
         - name: TZ
           value: "America/Toronto"
         resources:
