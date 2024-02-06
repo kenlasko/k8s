@@ -67,6 +67,9 @@ spec:
             port: 8087
           initialDelaySeconds: 15
           periodSeconds: 60
+        envFrom:
+        - configMapRef:
+            name: env-vars
         env:
         - name: ADMIN_TOKEN
           valueFrom:
@@ -78,10 +81,10 @@ spec:
             secretKeyRef:
               name: database-url  # mysql://vaultwarden:PASSWORD-REDACTED@mariadb.mariadb.svc.cluster.local/vaultwarden
               key: url
-        - name: DOMAIN
-          value: "https://vaultwarden.ucdialplans.com"
-        - name: PUSH_ENABLED
-          value: "true"
+        # - name: DOMAIN
+        #   value: "https://vaultwarden.ucdialplans.com"
+        # - name: PUSH_ENABLED
+        #   value: "true"
         - name: PUSH_INSTALLATION_ID
           valueFrom:
             secretKeyRef:
@@ -92,20 +95,20 @@ spec:
             secretKeyRef:
               name: push-install
               key: key
-        - name: ROCKET_PORT
-          value: "8087"
-        - name: RUST_BACKTRACE
-          value: "1"
-        - name: SIGNUPS_ALLOWED
-          value: "false"
-        - name: SMTP_HOST
-          value: "smtp.sendgrid.net"
-        - name: SMTP_FROM
-          value: "bitwarden@ucdialplans.com"
-        - name: SMTP_PORT
-          value: "465"
-        - name: SMTP_SECURITY
-          value: "force_tls"
+        # - name: ROCKET_PORT
+        #   value: "8087"
+        # - name: RUST_BACKTRACE
+        #   value: "1"
+        # - name: SIGNUPS_ALLOWED
+        #   value: "false"
+        # - name: SMTP_HOST
+        #   value: "smtp.sendgrid.net"
+        # - name: SMTP_FROM
+        #   value: "bitwarden@ucdialplans.com"
+        # - name: SMTP_PORT
+        #   value: "465"
+        # - name: SMTP_SECURITY
+        #   value: "force_tls"
         - name: SMTP_USERNAME
           valueFrom:
             secretKeyRef:
@@ -116,8 +119,8 @@ spec:
             secretKeyRef:
               name: sendgrid
               key: password
-        - name: SMTP_AUTH_MECHANISM
-          value: "'Login'"
+        # - name: SMTP_AUTH_MECHANISM
+        #   value: "'Login'"
         - name: YUBICO_CLIENT_ID
           valueFrom:
             secretKeyRef:
@@ -128,8 +131,8 @@ spec:
             secretKeyRef:
               name: yubico
               key: secret
-        - name: TZ
-          value: "America/Toronto"
+        # - name: TZ
+        #   value: "America/Toronto"
         volumeMounts:
         - name: vaultwarden-data
           mountPath: /data
