@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 15.*
+    targetRevision: 16.*
     chart: mariadb
     helm:
       valueFiles:
