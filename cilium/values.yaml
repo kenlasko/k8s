@@ -1,5 +1,3 @@
-k8sServiceHost: 127.0.0.1
-k8sServicePort: 6444
 routingMode: native
 ipv4NativeRoutingCIDR: 10.0.0.0/8
 autoDirectNodeRoutes: true
@@ -9,26 +7,28 @@ bpf:
   masquerade: true
 ipam:
   mode: kubernetes
-  operator:
-    clusterPoolIPv4PodCIDRList: 
-    - 10.42.0.0/16
-k8sClientRateLimit:
-  qps: 30
-  burst: 40
 cluster:
   name: home
   id: 0
+loadBalancer:
+  mode: dsr
+  dsrDispatch: geneve
 l2announcements:
   enabled: true
   leaseDuration: 6s
   leaseRenewDeadline: 2s
   leaseRetryPeriod: 200ms
+envoy:
+  enabled: true
+  rollOutPods: true
 externalIPs:
   enabled: true
 extraEnv:
 - name: TZ
   value: "America/Toronto"
 kubeProxyReplacement: true
+k8sServiceHost: localhost
+k8sServicePort: 7445
 hubble:
   relay:
     enabled: true
