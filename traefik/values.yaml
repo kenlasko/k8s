@@ -62,7 +62,7 @@ ports:
 service:
   enabled: true
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.1.10
 
