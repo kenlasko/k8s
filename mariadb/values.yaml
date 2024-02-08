@@ -28,10 +28,10 @@ resources:
     cpu: 1000m
     memory: 2000Mi
 service:
-  # type: LoadBalancer
-  # externalTrafficPolicy: Local
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
   annotations:
-    # metallb.universe.tf/loadBalancerIPs: 192.168.1.13
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.13
     tailscale.com/expose: 'true'
     tailscale.com/hostname: 'home-mariadb'
 
