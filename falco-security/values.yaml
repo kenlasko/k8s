@@ -11,10 +11,6 @@ collectors:
     socket: /run/k3s/containerd/containerd.sock
   kubernetes:
     enabled: true
-# falco:
-#   load_plugins:
-#   - k8s-metacollector
-#   - k8s-meta
   
 customRules:
   custom-rules.yaml: |-
@@ -26,12 +22,14 @@ customRules:
         values:
         - [argocd, application-controller, argocd-applicat]
         - [argocd, applicationset-controller, argocd-applicat]
+        - [argocd, dex-server, argocd-dex]
         - [argocd, notifications-controller, argocd-notifica]
         - [argocd, repo-server, git]
         - [argocd, server, argocd-server]
         - [cert-manager, cert-manager-webhook, webhook]
         - [cloudflare, cloudflare-tunnel, cloudflared]
         - [external-dns, external-dns, external-dns]
+        - [falco, k8s-metacollector, meta-collector]
         - [headlamp, headlamp, headlamp-server]
         - [intel-gpu, manager, intel_deviceplu]
         - [longhorn, csi-attacher, csi-attacher]
