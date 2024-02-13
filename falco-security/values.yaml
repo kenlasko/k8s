@@ -47,6 +47,7 @@ customRules:
         - [monitoring, prometheus, prometheus]
         - [netdata, netdata, curl]
         - [netdata, sd, agent_sd]
+        - [nfs-provisioner, nfs-subdir-external-provisioner, nfs-subdir-exte]
         - [portainer, portainer, portainer]
         - [system-upgrade, system-upgrade-controller, system-upgrade-]
         - [tailscale, operator, operator]
