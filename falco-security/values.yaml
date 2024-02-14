@@ -17,41 +17,24 @@ customRules:
     - rule: Contact K8S API Server From Container
       exceptions:
       - name: allowed_to_contact_api_server
-        fields: [k8s.ns.name, container.name, proc.name] 
+        fields: [k8s.ns.name] 
         comps: [=,=,=]
         values:
-        - [argocd, application-controller, argocd-applicat]
-        - [argocd, applicationset-controller, argocd-applicat]
-        - [argocd, dex-server, argocd-dex]
-        - [argocd, notifications-controller, argocd-notifica]
-        - [argocd, repo-server, git]
-        - [argocd, server, argocd-server]
-        - [cert-manager, cert-manager-webhook, webhook]
-        - [cloudflare, cloudflare-tunnel, cloudflared]
-        - [external-dns, external-dns, external-dns]
-        - [falco, k8s-metacollector, meta-collector]
-        - [headlamp, headlamp, headlamp-server]
-        - [intel-gpu, manager, intel_deviceplu]
-        - [longhorn, csi-attacher, csi-attacher]
-        - [longhorn, csi-provisioner, csi-provisioner]
-        - [longhorn, csi-resizer, csi-resizer]
-        - [longhorn, csi-snapshotter, csi-snapshotter]
-        - [longhorn, longhorn-admission-webhook, longhorn-manage]
-        - [longhorn, longhorn-manager, longhorn-manage]
-        - [longhorn, nightly-backups, longhorn-manage]
-        - [longhorn, 24-hour-snapshots, longhorn-manage]
-        - [media-tools, backup-media-apps, kubectl]
-        - [metallb-system, speaker, speaker]
-        - [monitoring, grafana-sc-dashboard, python]
-        - [monitoring, grafana-sc-datasources, python]
-        - [monitoring, prometheus, prometheus]
-        - [netdata, netdata, curl]
-        - [netdata, sd, agent_sd]
-        - [nfs-provisioner, nfs-subdir-external-provisioner, nfs-subdir-exte]
-        - [portainer, portainer, portainer]
-        - [system-upgrade, system-upgrade-controller, system-upgrade-]
-        - [tailscale, operator, operator]
-        - [tailscale, tailscale, tailscaled]
+        - [argocd]
+        - [cert-manager]
+        - [cloudflare]
+        - [external-dns]
+        - [falco]
+        - [headlamp]
+        - [intel-gpu]
+        - [longhorn]
+        - [metallb-system]
+        - [monitoring]
+        - [netdata]
+        - [nfs-provisioner]
+        - [portainer]
+        - [system-upgrade]
+        - [tailscale]
       override:
         exceptions: append
 
@@ -80,14 +63,13 @@ customRules:
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
       exceptions:
       - name: allowed_to_do_stdout_stdin
-        fields: [k8s.ns.name, container.name, proc.name] 
+        fields: [k8s.ns.name] 
         comps: [=,=,in]
         values:
-        - [argocd, repo-server, [argocd-repo-ser, git]]
-        - [gitea, gitea, [git]]
-        - [homeassist, homeassist, [busybox, git, ping, python3]]
-        - [longhorn, longhorn-manager, [longhorn, longhorn-manage]]
-        - [longhorn, engine-manager, [longhorn]]
+        - [argocd]
+        - [gitea]
+        - [homeassist]
+        - [longhorn]
       override:
         exceptions: append
 
