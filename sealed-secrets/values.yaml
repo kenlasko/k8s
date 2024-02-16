@@ -1,4 +1,5 @@
 fullnameOverride: sealed-secrets-controller
+keyRenewPeriod: 4380h30m  # Half a year
 resources:
   limits: {}
   requests: {}
