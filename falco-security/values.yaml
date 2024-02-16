@@ -58,6 +58,7 @@ customRules:
         - [host, k3s-agent, containerd]
         - [host, k3s-server, containerd]
         - [engine-manager, longhorn-instan, tee]
+        - [instance-manager, longhorn-instan, tee]
       override:
         exceptions: append
 
