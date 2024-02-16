@@ -28,6 +28,7 @@ customRules:
         - [headlamp]
         - [intel-gpu]
         - [longhorn]
+        - [media-tools]
         - [metallb-system]
         - [monitoring]
         - [netdata]
@@ -70,6 +71,7 @@ customRules:
         - [gitea]
         - [homeassist]
         - [longhorn]
+        - [ucdialplans]
       override:
         exceptions: append
 
