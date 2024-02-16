@@ -1,5 +1,5 @@
 fullnameOverride: sealed-secrets-controller
-keyRenewPeriod: 4380h30m  # Half a year
+keyRenewPeriod: 0  # Disable key recycling
 resources:
   limits: {}
   requests: {}
