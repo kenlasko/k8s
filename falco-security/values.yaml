@@ -14,6 +14,19 @@ collectors:
   
 customRules:
   custom-rules.yaml: |-
+    - rule: Clear Log Activities
+      exceptions:
+      - name: allowed_to_clear
+        fields: [container.name, proc.pname, proc.name] 
+        comps: [=,=,=]
+        values:
+        - [host, k3s-agent, containerd]
+        - [host, k3s-server, containerd]
+        - [engine-manager, longhorn-instan, tee]
+        - [instance-manager, longhorn-instan, tee]
+      override:
+        exceptions: append
+
     - rule: Contact K8S API Server From Container
       exceptions:
       - name: allowed_to_contact_api_server
@@ -49,16 +62,13 @@ customRules:
       override:
         exceptions: append
 
-    - rule: Clear Log Activities
+    - rule: Linux Kernel Module Injection Detected
       exceptions:
-      - name: allowed_to_clear
-        fields: [container.name, proc.pname, proc.name] 
+      - name: allowed_injection
+        fields: [k8s.ns.name, container.name, proc.pname] 
         comps: [=,=,=]
         values:
-        - [host, k3s-agent, containerd]
-        - [host, k3s-server, containerd]
-        - [engine-manager, longhorn-instan, tee]
-        - [instance-manager, longhorn-instan, tee]
+        - [longhorn, instance-manager, longhorn]
       override:
         exceptions: append
 
