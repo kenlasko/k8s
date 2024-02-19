@@ -49,6 +49,7 @@ customRules:
         - [portainer]
         - [system-upgrade]
         - [tailscale]
+        - [traefik]
       override:
         exceptions: append
 
