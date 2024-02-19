@@ -20,7 +20,8 @@ spec:
 
   galera:
     enabled: true
-    reuseStorageVolume: true
+    config:
+      reuseStorageVolume: true
 
   service:
     type: LoadBalancer
