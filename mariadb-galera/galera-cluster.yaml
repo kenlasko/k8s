@@ -43,7 +43,7 @@ spec:
     initContainer:
       image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
     config:
-      reuseStorageVolume: false
+      reuseStorageVolume: true
 
   service:
     type: LoadBalancer
