@@ -103,7 +103,7 @@
     kubernetes.core.helm:
       name: cilium
       chart_ref: cilium/cilium
-      chart_version: "1.15.0-rc.1"
+      chart_version: "1.15.1"
       release_namespace: cilium
       create_namespace: true
       values_files:
