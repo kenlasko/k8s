@@ -23,7 +23,7 @@ spec:
       podIndex: 0
       automaticFailover: true
     sst: mariabackup
-    availableWhenDonor: false
+    #availableWhenDonor: false
     galeraLibPath: /usr/lib/galera/libgalera_smm.so
     replicaThreads: 1
     agent:
