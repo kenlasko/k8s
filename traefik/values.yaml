@@ -65,6 +65,7 @@ service:
   externalTrafficPolicy: Cluster
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.1.10
+    io.cilium/lb-ipam-ips: 192.168.1.10
 
 # Disable prometheus metric service
 metrics:
