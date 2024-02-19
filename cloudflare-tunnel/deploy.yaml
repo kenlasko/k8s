@@ -5,7 +5,7 @@ metadata:
   name: cloudflare-tunnel
   namespace: cloudflare
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: cloudflare-tunnel
@@ -27,6 +27,15 @@ spec:
                 operator: In
                 values: 
                 - 'amd64'
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - cloudflare-tunnel
+            topologyKey: kubernetes.io/hostname
       containers:
         - name: cloudflare-tunnel
           image: cloudflare/cloudflared:latest
