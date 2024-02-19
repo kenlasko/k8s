@@ -9,6 +9,7 @@ spec:
     key: mariadb-root-password
 
   volumeClaimTemplate:
+    storageClassName: local-path
     resources:
       requests:
         storage: 10Gi
