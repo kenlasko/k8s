@@ -42,8 +42,8 @@ spec:
     #   podSyncTimeout: 3m
     # initContainer:
     #   image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
-    # config:
-    #   reuseStorageVolume: true
+    config:
+      reuseStorageVolume: true
 
   service:
     type: LoadBalancer
