@@ -21,7 +21,7 @@ spec:
                     operator: DoesNotExist
           containers:
           - name: mariadb-ucdialplans-statusupdate
-            image: bitnami/mariadb:11.0.3-debian-11-r5
+            image: mariadb:11.2.3
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
