@@ -1,30 +1,30 @@
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: Gateway
-# metadata:
-#   name: tls
-#   namespace: cilium
-# spec:
-#   gatewayClassName: cilium
-#   addresses: 
-#   - value: 192.168.1.14
-#   listeners:
-#   - name: http
-#     protocol: HTTP
-#     port: 80
-#     allowedRoutes: 
-#       namespaces:
-#         from: All
-#   - name: https
-#     protocol: HTTPS
-#     port: 443
-#     tls:
-#       certificateRefs:
-#       - kind: Secret
-#         name: letsencrypt-wildcard-cert
-#         namespace: cilium
-#     allowedRoutes: 
-#       namespaces:
-#         from: All
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: tls
+  namespace: cilium
+spec:
+  gatewayClassName: cilium
+  addresses: 
+  - value: "192.168.1.14"
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes: 
+      namespaces:
+        from: All
+  - name: https
+    protocol: HTTPS
+    port: 443
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: letsencrypt-wildcard-cert
+        namespace: cilium
+    allowedRoutes: 
+      namespaces:
+        from: All
 
 # ---
 # apiVersion: gateway.networking.k8s.io/v1
