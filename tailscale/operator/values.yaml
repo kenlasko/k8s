@@ -1,7 +1,5 @@
 operatorConfig:
   hostname: 'tailscale-operator-home'
-  image:
-    tag: 
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

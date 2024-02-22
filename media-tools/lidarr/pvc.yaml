@@ -9,7 +9,7 @@ spec:
   storageClassName: longhorn-high-value
   resources:
     requests:
-      storage: 250Mi
+      storage: 300Mi
 
 ---
 apiVersion: v1
@@ -18,7 +18,7 @@ metadata:
   name: pvc-lidarr
 spec:
   capacity:
-    storage: 250Mi
+    storage: 300Mi
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
