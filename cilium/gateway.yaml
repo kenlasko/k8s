@@ -18,6 +18,7 @@ spec:
     protocol: HTTPS
     port: 443
     tls:
+      mode: Terminate
       certificateRefs:
       - kind: Secret
         name: letsencrypt-wildcard-cert
