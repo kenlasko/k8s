@@ -16,7 +16,6 @@ spec:
     - name: adguard-web
       port: 3000
   tls:
-#    secretName: traefik-wildcard-cert
     options:
       name: tls-options-default
       namespace: traefik

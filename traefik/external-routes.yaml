@@ -19,7 +19,6 @@ spec:
       kind: Service
       port: 8085
   tls:
-    secretName: traefik-wildcard-cert
     options:
       name: tls-options-clientauth
       namespace: traefik
@@ -65,7 +64,6 @@ spec:
       kind: Service
       port: 80
   tls:
-    secretName: traefik-wildcard-cert
     options:
       name: tls-options-clientauth
       namespace: traefik
@@ -112,7 +110,6 @@ spec:
       kind: Service
       port: 80
   tls:
-    secretName: traefik-wildcard-cert
     options:
       name: tls-options-clientauth
       namespace: traefik
@@ -156,7 +153,6 @@ spec:
       kind: Service
       port: 80
   tls:
-    secretName: traefik-wildcard-cert
     options:
       name: tls-options-clientauth
       namespace: traefik
@@ -199,7 +195,6 @@ spec:
 #     - name: traefik-security
 #       namespace: traefik
 #   tls:
-#     secretName: traefik-wildcard-cert
 #     options:
 #       name: tls-options-default
 #       namespace: traefik

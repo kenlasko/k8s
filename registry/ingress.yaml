@@ -15,5 +15,3 @@ spec:
     services:
     - name: registry-service
       port: 5000
-  tls:
-    secretName: traefik-wildcard-cert
