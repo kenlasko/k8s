@@ -11,7 +11,7 @@ metadata:
     io.cilium/lb-ipam-ips: 192.168.1.12
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   ports:
   - port: 36881
     protocol: TCP
