@@ -15,9 +15,9 @@ spec:
     metadata:
       labels:
         app: operator
-      spec:
-        containers:
-            - env:
+    spec:
+      containers:
+          - env:
               - name: OPERATOR_INITIAL_TAGS
                 value: tag:k8s-operator
               - name: OPERATOR_HOSTNAME
@@ -42,17 +42,17 @@ spec:
                 value: "false"
               - name: PROXY_FIREWALL_MODE
                 value: auto
-              image: tailscale/k8s-operator:unstable
-              imagePullPolicy: Always
-              name: operator
-              volumeMounts:
-              - mountPath: /oauth
-                name: oauth
-                readOnly: true
-        nodeSelector:
-          kubernetes.io/os: linux
-        serviceAccountName: operator
-        volumes:
-        - name: oauth
-          secret:
-            secretName: operator-oauth
+            image: tailscale/k8s-operator:unstable
+            imagePullPolicy: Always
+            name: operator
+            volumeMounts:
+            - mountPath: /oauth
+              name: oauth
+              readOnly: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: operator
+      volumes:
+      - name: oauth
+        secret:
+          secretName: operator-oauth
