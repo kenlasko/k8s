@@ -9,8 +9,8 @@ defaultSettings:
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: storage:longhorn
 
-helmPreUpgradeCheckerJob:
-  enabled: false
+preUpgradeChecker:
+  jobEnabled: false
     
 longhornManager:
   nodeSelector: 
