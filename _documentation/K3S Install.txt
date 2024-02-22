@@ -95,7 +95,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 
 
 # Get K3S token
-kubectl -n default get secret api-service-account-secret \
+kubectl -n kube-system get secret api-service-account-secret \
           -o jsonpath="{.data.token}" | base64 -d; echo
 
 # May have to follow this for Longhorn volume creation issues:
