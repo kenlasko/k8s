@@ -56,7 +56,7 @@ k8sServicePort: 6444
 #   hostRoot: /sys/fs/cgroup
 hubble:
   peerService:
-    clusterDomain: {{clusterDomain}}
+    clusterDomain: cluster.local
   relay:
     enabled: true
     affinity:
