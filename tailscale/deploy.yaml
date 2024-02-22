@@ -17,7 +17,7 @@ spec:
         app: operator
     spec:
       containers:
-        env:
+      - env:
         - name: OPERATOR_INITIAL_TAGS
           value: tag:k8s-operator
         - name: OPERATOR_HOSTNAME
