@@ -1,24 +1,24 @@
-kind: IngressRoute
-apiVersion: traefik.io/v1alpha1
-metadata:
-  name: falco-ui
-  namespace: falco
-  annotations:
-    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
-    kubernetes.io/ingress.class: traefik
-spec:
-  entryPoints: 
-  - websecure
-  routes:
-  - match: Host(`falco.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: falco-security-falcosidekick-ui
-      port: 2802
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
-  tls:
-    options:
-      name: tls-options-clientauth
-      namespace: traefik
+# kind: IngressRoute
+# apiVersion: traefik.io/v1alpha1
+# metadata:
+#   name: falco-ui
+#   namespace: falco
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   entryPoints: 
+#   - websecure
+#   routes:
+#   - match: Host(`falco.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: falco-security-falcosidekick-ui
+#       port: 2802
+#     middlewares:
+#     - name: traefik-security
+#       namespace: traefik
+#   tls:
+#     options:
+#       name: tls-options-clientauth
+#       namespace: traefik
