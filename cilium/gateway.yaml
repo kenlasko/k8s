@@ -21,7 +21,7 @@ spec:
       certificateRefs:
       - kind: Secret
         name: letsencrypt-wildcard-cert
-        namespace: traefik
+        namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
