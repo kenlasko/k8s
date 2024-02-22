@@ -17,12 +17,11 @@ spec:
   - name: https
     protocol: HTTPS
     port: 443
-    hostname: "*.ucdialplans.com"
     tls:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: letsencrypt-wildcard-cert
+        name: digicert-wildcard-cert
         namespace: cilium
     allowedRoutes: 
       namespaces:
