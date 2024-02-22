@@ -64,6 +64,10 @@ spec:
         args:
         - --source=service
         - --source=traefik-proxy
+        - --source=gateway-httproute
+        - --source=gateway-tlsroute
+        - --source=gateway-tcproute
+        - --source=gateway-udproute
         - --provider=webhook
         - --webhook-provider-url=http://localhost:8888     
       - name: adguardhome-webhook
