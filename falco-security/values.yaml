@@ -35,6 +35,7 @@ customRules:
         values:
         - [argocd]
         - [cert-manager]
+        - [cilium]
         - [cloudflare]
         - [external-dns]
         - [falco]
