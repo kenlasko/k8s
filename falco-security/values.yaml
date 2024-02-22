@@ -73,6 +73,16 @@ customRules:
       override:
         exceptions: append
 
+    - rule: Packet socket created in container
+      exceptions:
+      - name: allowed_socket_creation
+        fields: [k8s.ns.name, container.name, proc.pname] 
+        comps: [=,=,=]
+        values:
+        - [cilium, cilium-agent, containerd-shim]
+      override:
+        exceptions: append
+
     - rule: Redirect STDOUT/STDIN to Network Connection in Container
       exceptions:
       - name: allowed_to_do_stdout_stdin
