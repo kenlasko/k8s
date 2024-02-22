@@ -6,7 +6,7 @@ metadata:
   namespace: headlamp
 spec:
   parentRefs:
-  - name: tls-gateway
+  - name: tls
     namespace: cilium
     sectionName: https
   hostnames:
