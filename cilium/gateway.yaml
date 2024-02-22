@@ -21,7 +21,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: xxdigicert-wildcard-cert
+        name: digicert-wildcard-cert
         namespace: cilium
     allowedRoutes: 
       namespaces:
