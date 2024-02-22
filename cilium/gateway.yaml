@@ -16,7 +16,7 @@ spec:
         from: All
   - name: https
     protocol: HTTPS
-    port: 444
+    port: 443
     tls:
       certificateRefs:
       - kind: Secret
