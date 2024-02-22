@@ -10,13 +10,9 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "lab-headlamp.ucdialplans.com"
+  - "headlamp.ucdialplans.com"
   rules:
-  - matches:
-    - path:	
-        type: PathPrefix	
-        value: /
-    backendRefs:
+  - backendRefs:
     - name: headlamp
       namespace: headlamp
       group: ""
