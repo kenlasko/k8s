@@ -59,24 +59,24 @@ config:
           password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
     - AdGuard RPi1:
-      icon: adguard.png
-      href: https://adguard-rpi1.ucdialplans.com/
-      description: Ad-blocker
-      widget:
-        type: adguard
-        url: https://adguard-rpi1.ucdialplans.com
-        username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
-        password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+        icon: adguard.png
+        href: https://adguard-rpi1.ucdialplans.com/
+        description: Ad-blocker
+        widget:
+          type: adguard
+          url: https://adguard-rpi1.ucdialplans.com
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
     - AdGuard RPi2:
-      icon: adguard.png
-      href: https://adguard-rpi2.ucdialplans.com/
-      description: Ad-blocker
-      widget:
-        type: adguard
-        url: https://adguard-rpi2.ucdialplans.com
-        username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
-        password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+        icon: adguard.png
+        href: https://adguard-rpi2.ucdialplans.com/
+        description: Ad-blocker
+        widget:
+          type: adguard
+          url: https://adguard-rpi2.ucdialplans.com
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
   - My Third Group:
       - My Third Service:
