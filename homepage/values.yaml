@@ -12,7 +12,7 @@ config:
         description: Media
         widget:
           type: plex
-          url: https://plex.ucdialplans.com/
+          url: http://plex-service.media-tools.svc.cluster.local:32400
           key: TVrjU72muR_HzicM4_7P
 
     - Radarr:
@@ -21,7 +21,7 @@ config:
         description: Movie management
         widget:
           type: radarr
-          url: https://radarr.ucdialplans.com/
+          url: http://radarr-service.media-tools.svc.cluster.local:7878
           key: b794d54744124969a49740988ef892e7
           enableQueue: true
 
@@ -31,7 +31,7 @@ config:
         description: Series management
         widget:
           type: sonarr
-          url: https://sonarr.ucdialplans.com/
+          url: http://sonarr-service.media-tools.svc.cluster.local:8989
           key: 9e24108adc8f4e66810cea782ea9559c
           enableQueue: true
 
