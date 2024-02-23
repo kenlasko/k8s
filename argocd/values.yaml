@@ -73,6 +73,10 @@ configs:
       url: https://headlamp-k8s.github.io/headlamp/
       name: headlamp
       type: helm
+    homepage:
+      url: https://jameswynn.github.io/helm-charts
+      name: homepage
+      type: helm
     intel:
       url: https://intel.github.io/helm-charts/
       name: intel
