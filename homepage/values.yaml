@@ -46,10 +46,37 @@ config:
           url: http://sabnzbd-service.media-tools.svc.cluster.local:8080
           key: "{{HOMEPAGE_VAR_SABNZBD_APIKEY}}"
 
-  - My Second Group:
-      - My Second Service:
-          href: http://localhost/
-          description: Homepage is the best
+
+  - AdGuard Home:
+    - AdGuard K3S:
+        icon: adguard.png
+        href: https://adguard.ucdialplans.com/
+        description: Ad-blocker
+        widget:
+          type: adguard
+          url: http://adguard-web.adguard.svc.cluster.local:3000
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+
+      - AdGuard RPi1:
+        icon: adguard.png
+        href: https://adguard-rpi1.ucdialplans.com/
+        description: Ad-blocker
+        widget:
+          type: adguard
+          url: https://adguard-rpi1.ucdialplans.com
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+
+      - AdGuard RPi2:
+        icon: adguard.png
+        href: https://adguard-rpi2.ucdialplans.com/
+        description: Ad-blocker
+        widget:
+          type: adguard
+          url: https://adguard-rpi2.ucdialplans.com
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
   - My Third Group:
       - My Third Service:
