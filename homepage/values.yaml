@@ -81,3 +81,7 @@ serviceAccount:
 
 # This enables the service account to access the necessary resources
 enableRbac: true
+
+envFrom:
+- secretRef:
+    name: apikeys
