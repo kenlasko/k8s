@@ -27,4 +27,4 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app: homepage
+              app.kubernetes.io/name: homepage
