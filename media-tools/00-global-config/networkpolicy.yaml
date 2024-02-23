@@ -23,3 +23,8 @@ spec:
           podSelector:
             matchLabels:
               app: homeassist
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: homepage
