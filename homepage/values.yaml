@@ -31,7 +31,7 @@ config:
         description: Series management
         widget:
           type: sonarr
-          url: http://sonarr-service.media-tools.svc.cluster.local:8989
+          url: http://sonarr-service.media-tools.svc.cluster.local:8981
           key: 9e24108adc8f4e66810cea782ea9559c
           enableQueue: true
 
