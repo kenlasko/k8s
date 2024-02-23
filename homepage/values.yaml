@@ -38,7 +38,7 @@ config:
           enableQueue: true
 
     - SABNZBD:
-        icon: sabnzdb.png
+        icon: sabnzbd.png
         href: https://sabnzbd.ucdialplans.com/
         description: Usenet downloader
         widget:
