@@ -6,6 +6,15 @@ config:
             href: https://github.com/
   services:
   - Media:
+    - Plex:
+        icon: plex.png
+        href: https://plex.ucdialplans.com/
+        description: Media
+        widget:
+          type: plex
+          url: http://plex-service.media-tools.svc.cluster.local:32400
+          key: TVrjU72muR_HzicM4_7P
+
     - Radarr:
         icon: radarr.png
         href: https://radarr.ucdialplans.com/
