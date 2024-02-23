@@ -5,21 +5,21 @@ config:
           - abbr: GH
             href: https://github.com/
   services:
-  - My First Group:
+  - Media:
     - Radarr:
-      icon: radarr.png
-      href: https://radarr.ucdialplans.com/
-      description: Movie management
-      widget:
-        type: radarr
-        url: http://radarr-service.media-tools.svc.cluster.local:7878
-        key: b794d54744124969a49740988ef892e7
-        enableQueue: true
+        icon: radarr.png
+        href: https://radarr.ucdialplans.com/
+        description: Movie management
+        widget:
+          type: radarr
+          url: http://radarr-service.media-tools.svc.cluster.local:7878
+          key: b794d54744124969a49740988ef892e7
+          enableQueue: true
 
     - Sonarr:
-      icon: sonarr.png
-      href: https://sonarr.ucdialplans.com/
-      description: Series management
+        icon: sonarr.png
+        href: https://sonarr.ucdialplans.com/
+        description: Series management
 
 
   - My Second Group:
