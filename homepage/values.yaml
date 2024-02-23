@@ -49,7 +49,7 @@ config:
 
   - AdGuard Home:
     - AdGuard K3S:
-        icon: adguard.png
+        icon: adguard-home.png
         href: https://adguard.ucdialplans.com/
         description: Ad-blocker
         widget:
@@ -59,7 +59,7 @@ config:
           password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
     - AdGuard RPi1:
-        icon: adguard.png
+        icon: adguard-home.png
         href: https://adguard-rpi1.ucdialplans.com/
         description: Ad-blocker
         widget:
@@ -69,7 +69,7 @@ config:
           password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
 
     - AdGuard RPi2:
-        icon: adguard.png
+        icon: adguard-home.png
         href: https://adguard-rpi2.ucdialplans.com/
         description: Ad-blocker
         widget:
