@@ -13,7 +13,7 @@ config:
         widget:
           type: plex
           url: http://plex-service.media-tools.svc.cluster.local:32400
-          key: TVrjU72muR_HzicM4_7P
+          key: {{HOMEPAGE_VAR_PLEX_APIKEY}}"
 
     - Radarr:
         icon: radarr.png
@@ -22,7 +22,7 @@ config:
         widget:
           type: radarr
           url: http://radarr-service.media-tools.svc.cluster.local:7878
-          key: b794d54744124969a49740988ef892e7
+          key: {{HOMEPAGE_VAR_RADARR_APIKEY}}"
           enableQueue: true
 
     - Sonarr:
@@ -32,9 +32,17 @@ config:
         widget:
           type: sonarr
           url: http://sonarr-service.media-tools.svc.cluster.local:8989
-          key: 9e24108adc8f4e66810cea782ea9559c
+          key: {{HOMEPAGE_VAR_SONARR_APIKEY}}"
           enableQueue: true
 
+    - SABNZBD:
+        icon: sabnzdb.png
+        href: https://sabnzbd.ucdialplans.com/
+        description: Usenet downloader
+        widget:
+          type: sabnzbd
+          url: http://sabnzbd-service.media-tools.svc.cluster.local:8080
+          key: {{HOMEPAGE_VAR_SABNZBD_APIKEY}}"
 
   - My Second Group:
       - My Second Service:
