@@ -20,6 +20,11 @@ config:
         icon: sonarr.png
         href: https://sonarr.ucdialplans.com/
         description: Series management
+        widget:
+          type: sonarr
+          url: http://sonarr-service.media-tools.svc.cluster.local:8989
+          key: 9e24108adc8f4e66810cea782ea9559c
+          enableQueue: true
 
 
   - My Second Group:
