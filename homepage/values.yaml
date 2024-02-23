@@ -1,5 +1,5 @@
 image:
-  tag: latest
+  tag: main
 config:
   bookmarks:
   - Developer:

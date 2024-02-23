@@ -21,6 +21,13 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
+              app.kubernetes.io/name: homepage
+      ports:
+        - port: 3000
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
               app.kubernetes.io/name: traefik
       ports:
         - port: 3000

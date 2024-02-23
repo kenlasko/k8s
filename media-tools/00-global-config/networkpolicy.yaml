@@ -28,3 +28,5 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: homepage
+      ports:
+        - port: 3000
