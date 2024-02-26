@@ -28,8 +28,8 @@ spec:
     # config: 
     #   reuseStorageVolume: true
     agent:
-      image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
-      port: 5555
+      # image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
+      # port: 5555
       kubernetesAuth:
         enabled: true
       gracefulShutdownTimeout: 5s
