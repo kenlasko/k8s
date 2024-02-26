@@ -25,6 +25,8 @@ spec:
       automaticFailover: true
     sst: mariabackup
     replicaThreads: 1
+    podSecurityContext:
+      runAsUser: 0
     # config: 
     #   reuseStorageVolume: true
     agent:
