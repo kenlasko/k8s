@@ -25,8 +25,8 @@ spec:
       automaticFailover: true
     sst: mariabackup
     replicaThreads: 1
-    config: 
-      reuseStorageVolume: true
+    # config: 
+    #   reuseStorageVolume: true
     agent:
       image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
       port: 5555
