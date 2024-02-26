@@ -42,7 +42,7 @@ spec:
             app: homeassist
       toPorts:
         - ports:
-            - port: 3000
+            - port: "3000"
     - fromEndpoints:
         - matchLabels:
             app: adguard-sync
@@ -68,7 +68,7 @@ spec:
             k8s-app: kube-dns
       toPorts:
         - ports:
-            - port: 53
+            - port: "53"
               protocol: UDP
           rules:
             dns:
