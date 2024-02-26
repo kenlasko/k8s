@@ -37,11 +37,11 @@ spec:
       clusterBootstrapTimeout: 10m
       podRecoveryTimeout: 5m
       podSyncTimeout: 5m
-    initContainer:
-      image:
-        repository: ghcr.io/mariadb-operator/init
-        tag: "v0.0.5"
-        pullPolicy: IfNotPresent
+    # initContainer:
+    #   image:
+    #     repository: ghcr.io/mariadb-operator/init
+    #     tag: "v0.0.5"
+    #     pullPolicy: IfNotPresent
     volumeClaimTemplate:
       resources:
         requests:
