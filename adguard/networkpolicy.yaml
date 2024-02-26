@@ -20,6 +20,8 @@ spec:
     - from:
         - podSelector: {}
     - from:
+        - namespaceSelector: {}
+    - from:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
@@ -27,8 +29,7 @@ spec:
           protocol: UDP
         - port: 853
         - port: 443
-    - from:
-        - namespaceSelector: {}
+        - port: 3000
   egress:
     - to:
         - namespaceSelector: {}
