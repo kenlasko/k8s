@@ -104,6 +104,18 @@ spec:
     innodb_autoinc_lock_mode=2
     max_allowed_packet=256M
 
+    ## Replication slave to Galera Cluster
+    server-id         = 04
+    relay-log-index   = slave-relay-bin.index
+    relay-log         = slave-relay-bin
+    gtid_domain_id    = 99
+    log-bin           = slave-bin
+    log-bin-index     = slave-bin.index
+    binlog_format     = mixed 
+    slave-skip-errors = 1451,1452,1032
+    report-host       = galera-replica
+
+
   resources:
     requests:
       cpu: 100m
