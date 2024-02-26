@@ -40,6 +40,13 @@ spec:
         - port: 443
         - port: 3000
     - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: homeassist
+      ports:
+        - port: 3000
+    - from:
         - podSelector:
             matchLabels:
               app: adguard-sync
