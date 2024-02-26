@@ -1,89 +1,89 @@
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: adguard
-  namespace: adguard
-spec:
-  endpointSelector:
-    matchLabels:
-      app: adguard
-  ingress:
-    - fromEndpoints:
-        - matchLabels:
-            app: external-dns
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
-      toPorts:
-        - ports:
-            - port: "3000"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: traefik
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
-      toPorts:
-        - ports:
-            - port: "3000"
-    - fromEndpoints:
-        - matchLabels:
-            app: cloudflare-tunnel
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
-      toPorts:
-        - ports:
-            - port: "443"
-        - ports:
-            - port: "3000"
-    - fromEndpoints:
-        - matchLabels:
-            app: homeassist
-      toPorts:
-        - ports:
-            - port: "3000"
-    - fromEndpoints:
-        - matchLabels:
-            app: adguard-sync
-      toPorts:
-        - ports:
-            - port: "3000"
-    - fromEndpoints:
-        - {}
-    - fromCIDRSet:
-        - cidr: 0.0.0.0/0
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-        - ports:
-            - port: "853"
-        - ports:
-            - port: "443"
-  egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
-    - toEndpoints:
-        - {}
-    - toCIDRSet:
-        - cidr: 0.0.0.0/0
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-        - ports:
-            - port: "80"
-        - ports:
-            - port: "443"
-        - ports:
-            - port: "853"
+# apiVersion: cilium.io/v2
+# kind: CiliumNetworkPolicy
+# metadata:
+#   name: adguard
+#   namespace: adguard
+# spec:
+#   endpointSelector:
+#     matchLabels:
+#       app: adguard
+#   ingress:
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: external-dns
+#           matchExpressions:
+#             - key: io.kubernetes.pod.namespace
+#               operator: Exists
+#       toPorts:
+#         - ports:
+#             - port: "3000"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app.kubernetes.io/name: traefik
+#           matchExpressions:
+#             - key: io.kubernetes.pod.namespace
+#               operator: Exists
+#       toPorts:
+#         - ports:
+#             - port: "3000"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: cloudflare-tunnel
+#           matchExpressions:
+#             - key: io.kubernetes.pod.namespace
+#               operator: Exists
+#       toPorts:
+#         - ports:
+#             - port: "443"
+#         - ports:
+#             - port: "3000"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: homeassist
+#       toPorts:
+#         - ports:
+#             - port: "3000"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: adguard-sync
+#       toPorts:
+#         - ports:
+#             - port: "3000"
+#     - fromEndpoints:
+#         - {}
+#     - fromCIDRSet:
+#         - cidr: 0.0.0.0/0
+#       toPorts:
+#         - ports:
+#             - port: "53"
+#               protocol: UDP
+#         - ports:
+#             - port: "853"
+#         - ports:
+#             - port: "443"
+#   egress:
+#     - toEndpoints:
+#         - matchLabels:
+#             io.kubernetes.pod.namespace: kube-system
+#             k8s-app: kube-dns
+#       toPorts:
+#         - ports:
+#             - port: "53"
+#               protocol: UDP
+#           rules:
+#             dns:
+#               - matchPattern: "*"
+#     - toEndpoints:
+#         - {}
+#     - toCIDRSet:
+#         - cidr: 0.0.0.0/0
+#       toPorts:
+#         - ports:
+#             - port: "53"
+#               protocol: UDP
+#         - ports:
+#             - port: "80"
+#         - ports:
+#             - port: "443"
+#         - ports:
+#             - port: "853"
