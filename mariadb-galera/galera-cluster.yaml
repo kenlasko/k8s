@@ -45,7 +45,7 @@ spec:
     volumeClaimTemplate:
       resources:
         requests:
-          storage: 300Mi
+          storage: 10Gi
       accessModes:
         - ReadWriteOnce
 
