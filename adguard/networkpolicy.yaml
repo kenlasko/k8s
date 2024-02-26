@@ -16,7 +16,7 @@ spec:
               operator: Exists
       toPorts:
         - ports:
-            - port: 3000
+            - port: "3000"
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: traefik
@@ -25,7 +25,7 @@ spec:
               operator: Exists
       toPorts:
         - ports:
-            - port: 3000
+            - port: "3000"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
@@ -34,9 +34,9 @@ spec:
               operator: Exists
       toPorts:
         - ports:
-            - port: 443
+            - port: "443"
         - ports:
-            - port: 3000
+            - port: "3000"
     - fromEndpoints:
         - matchLabels:
             app: homeassist
@@ -48,19 +48,19 @@ spec:
             app: adguard-sync
       toPorts:
         - ports:
-            - port: 3000
+            - port: "3000"
     - fromEndpoints:
         - {}
     - fromCIDRSet:
         - cidr: 0.0.0.0/0
       toPorts:
         - ports:
-            - port: 53
+            - port: "53"
               protocol: UDP
         - ports:
-            - port: 853
+            - port: "853"
         - ports:
-            - port: 443
+            - port: "443"
   egress:
     - toEndpoints:
         - matchLabels:
@@ -79,11 +79,11 @@ spec:
         - cidr: 0.0.0.0/0
       toPorts:
         - ports:
-            - port: 53
+            - port: "53"
               protocol: UDP
         - ports:
-            - port: 80
+            - port: "80"
         - ports:
-            - port: 443
+            - port: "443"
         - ports:
-            - port: 853
+            - port: "853"
