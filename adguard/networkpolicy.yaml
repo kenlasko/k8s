@@ -8,28 +8,7 @@ spec:
     matchLabels:
       app: adguard
   policyTypes:
-    - Ingress
     - Egress
-  ingress:
-    - from:
-        - podSelector:
-            matchLabels:
-              app: adguard-sync
-      ports:
-        - port: 3000
-    - from:
-        - podSelector: {}
-    - from:
-        - namespaceSelector: {}
-    - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-          protocol: UDP
-        - port: 853
-        - port: 443
-        - port: 3000
   egress:
     - to:
         - namespaceSelector: {}
