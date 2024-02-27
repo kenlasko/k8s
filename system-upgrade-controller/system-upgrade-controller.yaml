@@ -10,6 +10,8 @@ kind: ServiceAccount
 metadata:
   name: system-upgrade
   namespace: system-upgrade
+
+  
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
