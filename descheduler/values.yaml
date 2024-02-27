@@ -34,7 +34,7 @@ deschedulerPolicy:
           targetThresholds:
             cpu: 70
             memory: 35
-            pods: 35
+            pods: 40
           evictableNamespaces:
             include:
             - 'adguard'
