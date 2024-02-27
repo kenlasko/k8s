@@ -93,6 +93,7 @@ customRules:
         - [argocd]
         - [gitea]
         - [homeassist]
+        - [kube-system]
         - [longhorn]
         - [ucdialplans]
       override:
