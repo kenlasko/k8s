@@ -3,6 +3,8 @@ kind: Gateway
 metadata:
   name: tls
   namespace: cilium
+  # annotations:
+  #   cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: cilium
   addresses: 
@@ -22,9 +24,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - kind: Secret
-        name: letsencrypt-wildcard-cert
-        namespace: cilium
+        - kind: Secret
+          name: letsencrypt-wildcard-cert
+          namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
