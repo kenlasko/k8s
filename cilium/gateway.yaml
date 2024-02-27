@@ -3,49 +3,47 @@ kind: Gateway
 metadata:
   name: tls
   namespace: cilium
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: cilium
   addresses: 
   - value: 192.168.1.14  # Not currently accepted by Cilium
   listeners:
-  # - name: http
-  #   protocol: HTTP
-  #   port: 80
-  #   hostname: "*.ucdialplans.com"
-  #   allowedRoutes: 
-  #     namespaces:
-  #       from: All
+  - name: http
+    protocol: HTTP
+    port: 80
+    hostname: "*.ucdialplans.com"
+    allowedRoutes: 
+      namespaces:
+        from: All
   - name: https
     protocol: HTTPS
     port: 443
-    hostname: "test-falco.ucdialplans.com"
+    hostname: "*.ucdialplans.com"
     tls:
       mode: Terminate
       certificateRefs:
-        - kind: Secret
-          name: letsencrypt-wildcard-cert
-          namespace: cilium
+      - kind: Secret
+        name: letsencrypt-wildcard-cert
+        namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
 
-# ---
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: HTTPRoute
-# metadata:
-#   name: http-redirect
-#   namespace: cilium
-# spec:
-#   parentRefs:
-#   - name: tls
-#     sectionName: http
-#   hostnames:
-#   - ucdialplans.com
-#   rules:
-#   - filters:
-#     - type: RequestRedirect
-#       requestRedirect:
-#         scheme: https
-#         statusCode: 301
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-redirect
+  namespace: cilium
+spec:
+  parentRefs:
+  - name: tls
+    sectionName: http
+  hostnames:
+  - "*.ucdialplans.com"
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
