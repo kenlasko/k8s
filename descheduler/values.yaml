@@ -24,7 +24,7 @@ deschedulerPolicy:
       params:
         includeSoftConstraints: false
     LowNodeUtilization:
-      enabled: false 
+      enabled: true 
       params:
         nodeResourceUtilizationThresholds:
           thresholds:
@@ -37,8 +37,12 @@ deschedulerPolicy:
             pods: 35
           evictableNamespaces:
             include:
+            - 'adguard'
+            - 'argocd'
             - 'cloudflare'
-            - 'pihole'
+            - 'falco'
+            - 'gitea'
+            - 'headlamp'
             - 'portainer'
             - 'registry'
             - 'ucdialplans'
