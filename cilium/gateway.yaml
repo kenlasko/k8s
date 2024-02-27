@@ -25,9 +25,8 @@ spec:
       mode: Terminate
       certificateRefs:
         - kind: Secret
-          # name: letsencrypt-wildcard-cert
-          # namespace: cilium
-          name: cloudflare-cert
+          name: letsencrypt-wildcard-cert
+          namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
