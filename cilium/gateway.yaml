@@ -23,7 +23,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - kind: Secret
-        name: letsencrypt-wildcard-cert
+        name: letsencrypts-wildcard-cert
         namespace: cilium
     allowedRoutes: 
       namespaces:
