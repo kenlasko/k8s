@@ -18,7 +18,7 @@ spec:
   - name: https
     protocol: HTTPS
     port: 443
-    hostname: "*.ucdialplans.com"
+    hostname: "test-falco.ucdialplans.com"
     tls:
       mode: Terminate
       certificateRefs:
