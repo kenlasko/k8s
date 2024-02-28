@@ -1,5 +1,5 @@
 schedule: "*/15 * * * *"  # Every 15 minutes
-
+priorityClassName: high-priority
 deschedulerPolicy:
   nodeSelector: "storage=longhorn"
   strategies:
@@ -46,6 +46,7 @@ deschedulerPolicy:
             - 'gitea'
             - 'headlamp'
             - 'monitoring'
+            - 'media-tools'
             - 'portainer'
             - 'registry'
             - 'ucdialplans'
