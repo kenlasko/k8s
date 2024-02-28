@@ -55,6 +55,8 @@ k8sServicePort: 6444  # Needs to be 7445 for Talos
 #   autoMount:
 #     enabled: false
 #   hostRoot: /sys/fs/cgroup
+
+
 hubble:
   peerService:
     clusterDomain: cluster.local
@@ -84,12 +86,16 @@ hubble:
               operator: In
               values: 
               - 'amd64'
+
+
 gatewayAPI:
   enabled: true
   secretsNamespace:
     create: false
     name: cilium
-    sync: false
+    sync: true
+
+
 operator:
   affinity:
     nodeAffinity:
