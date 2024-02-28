@@ -1,9 +1,10 @@
 schedule: "*/15 * * * *"  # Every 15 minutes
 
 deschedulerPolicy:
+  nodeSelector: "storage=longhorn"
   strategies:
     RemoveDuplicates:
-      enabled: true
+      enabled: false
     RemovePodsHavingTooManyRestarts:
       enabled: true
       params:
@@ -18,7 +19,7 @@ deschedulerPolicy:
         nodeAffinityType:
         - requiredDuringSchedulingIgnoredDuringExecution
     RemovePodsViolatingInterPodAntiAffinity:
-      enabled: false 
+      enabled: true 
     RemovePodsViolatingTopologySpreadConstraint:
       enabled: false
       params:
@@ -28,12 +29,12 @@ deschedulerPolicy:
       params:
         nodeResourceUtilizationThresholds:
           thresholds:
-            cpu: 70
-            memory: 25
-            pods: 25
+            cpu: 20
+            memory: 20
+            pods: 20
           targetThresholds:
-            cpu: 70
-            memory: 35
+            cpu: 50
+            memory: 40
             pods: 40
           evictableNamespaces:
             include:
