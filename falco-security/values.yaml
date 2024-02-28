@@ -11,6 +11,13 @@ collectors:
     socket: /run/k3s/containerd/containerd.sock
   kubernetes:
     enabled: true
+resources:
+  requests:
+    cpu: 80m
+    memory: 100Mi
+  limits:
+    cpu: 200m
+    memory: 100Mi
   
 customRules:
   custom-rules.yaml: |-
