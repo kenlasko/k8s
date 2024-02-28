@@ -302,7 +302,7 @@ prometheus:
     scrapeInterval: 30s
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
-    retention: 4d
+    retention: 14d
     enableAdminAPI: true
     walCompression: false
     affinity:
