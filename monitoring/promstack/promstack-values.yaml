@@ -286,10 +286,11 @@ prometheusOperator:
   prometheusConfigReloader:
     resources:
       requests:
-        cpu: 200m
-        memory: 50Mi
+        cpu: 20m
+        memory: 30Mi
       limits:
-        memory: 100Mi
+        cpu: 50m
+        memory: 50Mi
 
 prometheus:
   enabled: true
@@ -305,6 +306,13 @@ prometheus:
     retention: 14d
     enableAdminAPI: true
     walCompression: false
+    resources:
+      requests:
+        cpu: 75m
+        memory: 600Mi
+      limits:
+        cpu: 150m
+        memory: 800Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
