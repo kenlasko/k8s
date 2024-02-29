@@ -5,7 +5,7 @@ metadata:
   name: ucdialplans
   namespace: ucdialplans
 spec:
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 2
   selector:
     matchLabels:
@@ -66,6 +66,8 @@ spec:
         - name: ucdialplans-nginx
           mountPath: /etc/nginx/sites-enabled/default
           subPath: default
+        - name: ucdialplans-rulesets
+          mountPath: /var/www/rulesets
         - name: ucdialplans-webconfig
           mountPath: /var/www/web.config
           subPath: web.config
@@ -85,6 +87,9 @@ spec:
         - name: ndots
           value: "1"
       volumes:
+      - name: ucdialplans-rulesets
+        persistentVolumeClaim:
+          claimName: ucdialplans-rulesets
       - configMap:
           items:
           - key: default
