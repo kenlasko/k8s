@@ -51,7 +51,7 @@ spec:
             memory: 7Mi
           limits:
             cpu: 450m
-            memory: 100Mi
+            memory: 200Mi
         livenessProbe:
           httpGet:
             path: /
