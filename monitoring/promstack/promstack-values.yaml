@@ -308,10 +308,10 @@ prometheus:
     walCompression: false
     resources:
       requests:
-        cpu: 75m
+        cpu: 100m
         memory: 600Mi
       limits:
-        cpu: 300m
+        cpu: 500m
         memory: 800Mi
     affinity:
       nodeAffinity:
