@@ -69,6 +69,9 @@ spec:
         - name: ucdialplans-webconfig
           mountPath: /var/www/web.config
           subPath: web.config
+        - name: ucdialplans-codesign
+          mountPath: /app/codesign
+          readOnly: true
         livenessProbe:
           httpGet:
             path: /healthcheck
@@ -94,3 +97,6 @@ spec:
             path: web.config
           name: ucdialplans-webconfig
         name: ucdialplans-webconfig
+      - name: codesign-cert
+        secret:
+          secretName: codesign-cert
