@@ -33,12 +33,9 @@ defaultRules:
 alertmanager:
   fullnameOverride: alertmanager
   enabled: true
-  # alertmanagerSpec:
-  #   alertmanagerConfigNamespaceSelector:
-  #     matchLabels:
-  #         name: monitoring
   config:
     global:
+      resolve_timeout: 5m
       smtp_smarthost: 'smtp.sendgrid.net:587'
       smtp_from: 'AlertManager <alertmanager@ucdialplans.com>'
       smtp_auth_username: 'apikey'
