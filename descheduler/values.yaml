@@ -1,4 +1,4 @@
-schedule: "*/15 * * * *"  # Every 15 minutes
+schedule: "*/30 * * * *"  # Every 15 minutes
 priorityClassName: high-priority
 deschedulerPolicy:
   nodeSelector: "storage=longhorn"
