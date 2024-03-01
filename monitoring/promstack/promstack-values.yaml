@@ -33,6 +33,10 @@ defaultRules:
 alertmanager:
   fullnameOverride: alertmanager
   enabled: true
+  alertmanagerSpec:
+    alertmanagerConfigNamespaceSelector:
+      matchLabels:
+          name: monitoring
   # config:
   #   global:
   #     smtp_smarthost: 'smtp.sendgrid.net:587'
