@@ -41,7 +41,7 @@ spec:
             memory: 110Mi
             smarter-devices/ttyUSB0: 1
           limits:
-            cpu: 300m
+            cpu: 100m
             memory: 200Mi
             smarter-devices/ttyUSB0: 1
         livenessProbe:

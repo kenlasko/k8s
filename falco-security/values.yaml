@@ -16,7 +16,7 @@ resources:
     cpu: 80m
     memory: 100Mi
   limits:
-    cpu: 200m
+    cpu: 180m
     memory: 100Mi
   
 customRules:
