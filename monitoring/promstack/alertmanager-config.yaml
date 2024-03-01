@@ -1,33 +1,33 @@
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: AlertmanagerConfig
-metadata:
-  name: kube-prometheus-stack-alertmanagerconfig
-  namespace: monitoring
-  labels:
-    app.kubernetes.io/instance: promstack-alertmanager
-    app.kubernetes.io/name: alertmanager
-spec:
-  inhibitRules: []
-  route:
-    receiver: "null"
-    routes:
-    - groupBy:
-        - email_to
-      receiver: sendgrid_email
-      matchers:
-      - severity = "warning"
-      groupWait: 5m
-      groupInterval: 10m
-      repeatInterval: 4h
-  receivers:
-  - name: sendgrid_email
-    emailConfigs:
-    - sendResolved: true
-      smarthost: 'smtp.sendgrid.net:587'
-      requireTLS: true
-      authUsername: 'apikey'
-      authPassword:
-        name: alertmanager-secrets
-        key: password
-      from: 'AlertManager <alertmanager@ucdialplans.com>'
-      to: ken.lasko@gmail.com
+# apiVersion: monitoring.coreos.com/v1alpha1
+# kind: AlertmanagerConfig
+# metadata:
+#   name: kube-prometheus-stack-alertmanagerconfig
+#   namespace: monitoring
+#   labels:
+#     app.kubernetes.io/instance: promstack-alertmanager
+#     app.kubernetes.io/name: alertmanager
+# spec:
+#   inhibitRules: []
+#   route:
+#     receiver: "null"
+#     routes:
+#     - groupBy:
+#         - email_to
+#       receiver: sendgrid_email
+#       matchers:
+#       - severity = "warning"
+#       groupWait: 5m
+#       groupInterval: 10m
+#       repeatInterval: 4h
+#   receivers:
+#   - name: sendgrid_email
+#     emailConfigs:
+#     - sendResolved: true
+#       smarthost: 'smtp.sendgrid.net:587'
+#       requireTLS: true
+#       authUsername: 'apikey'
+#       authPassword:
+#         name: alertmanager-secrets
+#         key: password
+#       from: 'AlertManager <alertmanager@ucdialplans.com>'
+#       to: ken.lasko@gmail.com
