@@ -29,32 +29,33 @@ defaultRules:
     prometheus: false
     prometheusOperator: false
 
+
 alertmanager:
   fullnameOverride: alertmanager
   enabled: true
-  config:
-    global:
-      smtp_smarthost: 'smtp.sendgrid.net:587'
-      smtp_from: 'AlertManager <alertmanager@ucdialplans.com>'
-      smtp_auth_username: 'apikey'
-      smtp_auth_password: '***REMOVED***'
-      resolve_timeout: 5m
-    route:
-      group_wait: 5m
-      group_interval: 10m
-      repeat_interval: 4h
-      receiver: 'null'
-      routes:
-      - receiver: 'ken-gmail'
-        matchers:
-        - severity = "warning"
-        continue: false
+  # config:
+  #   global:
+  #     smtp_smarthost: 'smtp.sendgrid.net:587'
+  #     smtp_from: 'AlertManager <alertmanager@ucdialplans.com>'
+  #     smtp_auth_username: 'apikey'
+  #     smtp_auth_password: '***REMOVED***'
+  #     resolve_timeout: 5m
+  #   route:
+  #     group_wait: 5m
+  #     group_interval: 10m
+  #     repeat_interval: 4h
+  #     receiver: 'null'
+  #     routes:
+  #     - receiver: 'ken-gmail'
+  #       matchers:
+  #       - severity = "warning"
+  #       continue: false
 
-    receivers:
-    - name: 'null'
-    - name: ken-gmail
-      email_configs:
-      - to: ken.lasko@gmail.com
+  #   receivers:
+  #   - name: 'null'
+  #   - name: ken-gmail
+  #     email_configs:
+  #     - to: ken.lasko@gmail.com
 
   ingress:
     enabled: false
@@ -75,6 +76,8 @@ alertmanager:
           resources:
             requests:
               storage: 50Gi
+
+
 grafana:
   enabled: true
   fullnameOverride: grafana
@@ -128,8 +131,10 @@ grafana:
   plugins:
     - grafana-piechart-panel
 
+
 kubeApiServer:
   enabled: false
+
 
 kubelet:
   enabled: true
