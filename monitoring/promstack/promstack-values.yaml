@@ -33,10 +33,6 @@ defaultRules:
 alertmanager:
   fullnameOverride: alertmanager
   enabled: true
-  alertmanagerSpec:
-    alertmanagerConfigNamespaceSelector:
-      matchLabels:
-          name: monitoring
   config:
     global:
       resolve_timeout: 5m
@@ -65,6 +61,9 @@ alertmanager:
   ingress:
     enabled: false
   alertmanagerSpec:
+    alertmanagerConfigNamespaceSelector:
+      matchLabels:
+        name: monitoring
     externalUrl: 'https://alertmanager.ucdialplans.com'
     affinity:
       nodeAffinity:
