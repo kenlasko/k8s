@@ -25,9 +25,7 @@ spec:
     - sendResolved: true
       smarthost: 'smtp.sendgrid.net:587'
       requireTLS: true
-      authUsername:
-        name: alertmanager-secrets
-        key: username
+      authUsername: 'apikey'
       authPassword:
         name: alertmanager-secrets
         key: password
