@@ -68,6 +68,7 @@ customRules:
         comps: [=,=,in]
         values:
         - [media-tools, plex, [CrashUploader, Plex Media Fing, Plex Media Scan, Plex Media Serv, Plex Script Hos, Plex Transcoder, Plex Tuner Serv]]
+        - [system-upgrade, upgrade [ln]]
       override:
         exceptions: append
 
