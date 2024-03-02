@@ -61,7 +61,7 @@ alertmanager:
     enabled: false
   alertmanagerSpec:
     secrets:
-      - alertmanager-secrets
+    - alertmanager-secrets
     externalUrl: 'https://alertmanager.ucdialplans.com'
     affinity:
       nodeAffinity:
