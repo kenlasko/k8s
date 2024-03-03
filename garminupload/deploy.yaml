@@ -56,42 +56,9 @@ spec:
               limits:
                 cpu: 300m
                 memory: 300Mi
-            env:
-            - name: GARMIN-USER
-              valueFrom:
-                secretKeyRef:
-                  name: garmin
-                  key: username
-            - name: GARMIN-PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: garmin
-                  key: password
-            - name: Di2StatsUser
-              valueFrom:
-                secretKeyRef:
-                  name: di2stats
-                  key: username
-            - name: Di2StatsPassword
-              valueFrom:
-                secretKeyRef:
-                  name: di2stats
-                  key: password
-            - name: MBTUser
-              valueFrom:
-                secretKeyRef:
-                  name: mybiketraffic
-                  key: username
-            - name: MBTPassword
-              valueFrom:
-                secretKeyRef:
-                  name: mybiketraffic
-                  key: password
-            - name: StravaSecret
-              valueFrom:
-                secretKeyRef:
-                  name: strava
-                  key: secret
+            envFrom:
+            - secretRef:
+                name: garmin-secrets
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
