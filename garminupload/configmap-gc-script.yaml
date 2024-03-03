@@ -181,7 +181,7 @@ data:
     If ((New-TimeSpan -Start (Get-Date) -End $TokenExpires).Ticks -lt 0) {  # Token expired
       # Get new token using refresh token
       Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
-      [string]$StravaSecret = (Get-ChildItem ${env:Strava-Secret}).Value
+      [string]$StravaSecret = (Get-ChildItem env:StravaSecret).Value
 
       $AuthBody = @{
         grant_type = 'refresh_token'

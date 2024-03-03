@@ -87,7 +87,7 @@ spec:
                 secretKeyRef:
                   name: mybiketraffic
                   key: password
-            - name: Strava-Secret
+            - name: StravaSecret
               valueFrom:
                 secretKeyRef:
                   name: strava
