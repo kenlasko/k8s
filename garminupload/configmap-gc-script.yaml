@@ -49,8 +49,8 @@ data:
       $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
       $Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
       $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $InitSessionID, "/", "di2stats.com")))
-      [string]$Di2Stats-User = (Get-ChildItem ${env:Di2Stats-User}).Value
-      [string]$Di2Stats-Password = (Get-ChildItem ${env:Di2Stats-Password}).Value
+      [string]$Di2StatsUser = (Get-ChildItem ${env:Di2Stats-User}).Value
+      [string]$Di2StatsPassword = (Get-ChildItem ${env:Di2Stats-Password}).Value
 
       $Di2Login = Invoke-WebRequest -UseBasicParsing -Uri "https://di2stats.com/login" `
       -Method "POST" `
@@ -69,7 +69,7 @@ data:
         "Upgrade-Insecure-Requests"="1"
       } `
       -ContentType "application/x-www-form-urlencoded" `
-      -Body "_method=POST&data%5BUser%5D%5Busername%5D=$($Di2Stats-User)&data%5BUser%5D%5Bpassword%5D=$($Di2Stats-Password)&data%5BUser%5D%5Bremember_me%5D=0"
+      -Body "_method=POST&data%5BUser%5D%5Busername%5D=$($Di2StatsUser)&data%5BUser%5D%5Bpassword%5D=$($Di2StatsPassword)&data%5BUser%5D%5Bremember_me%5D=0"
 
       Write-Host 'INFO - Getting Di2Stats session cookie'
       $Cookie = $Di2Login.Headers.'Set-Cookie' #[2]
@@ -143,11 +143,11 @@ data:
 
     # MyBikeTraffic Upload
     Write-Host 'INFO - Logging into MyBikeTraffic.com'
-    [string]$MBT-User = (Get-ChildItem ${env:MBT-User}).Value
-    [string]$MBT-Password = (Get-ChildItem ${env:MBT-Password}).Value
+    [string]$MBTUser = (Get-ChildItem ${env:MBT-User}).Value
+    [string]$MBTPassword = (Get-ChildItem ${env:MBT-Password}).Value
 
-    $MBTLoginForm = @{'email' = $MBT-User
-          'password' = $MBT-Password
+    $MBTLoginForm = @{'email' = $MBTUser
+          'password' = $MBTPassword
           }
     $MBTLoginResponse = Invoke-WebRequest -Uri https://www.mybiketraffic.com/auth/login -Form $MBTLoginForm -Method POST -SessionVariable 'MBTSession'
 
