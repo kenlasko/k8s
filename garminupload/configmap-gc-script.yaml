@@ -49,8 +49,8 @@ data:
       $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
       $Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
       $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $InitSessionID, "/", "di2stats.com")))
-      [string]$Di2Stats-User = (Get-ChildItem env:Di2Stats-User).Value
-      [string]$Di2Stats-Password = (Get-ChildItem env:Di2Stats-Password).Value
+      [string]$Di2Stats-User = (Get-ChildItem ${env:Di2Stats-User}).Value
+      [string]$Di2Stats-Password = (Get-ChildItem ${env:Di2Stats-Password}).Value
 
       $Di2Login = Invoke-WebRequest -UseBasicParsing -Uri "https://di2stats.com/login" `
       -Method "POST" `
@@ -143,8 +143,8 @@ data:
 
     # MyBikeTraffic Upload
     Write-Host 'INFO - Logging into MyBikeTraffic.com'
-    [string]$MBT-User = (Get-ChildItem env:MBT-User).Value
-    [string]$MBT-Password = (Get-ChildItem env:MBT-Password).Value
+    [string]$MBT-User = (Get-ChildItem ${env:MBT-User}).Value
+    [string]$MBT-Password = (Get-ChildItem ${env:MBT-Password}).Value
 
     $MBTLoginForm = @{'email' = $MBT-User
           'password' = $MBT-Password
@@ -181,7 +181,7 @@ data:
     If ((New-TimeSpan -Start (Get-Date) -End $TokenExpires).Ticks -lt 0) {  # Token expired
       # Get new token using refresh token
       Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
-      [string]$StravaSecret = (Get-ChildItem env:Strava-Secret).Value
+      [string]$StravaSecret = (Get-ChildItem ${env:Strava-Secret}).Value
 
       $AuthBody = @{
         grant_type = 'refresh_token'
