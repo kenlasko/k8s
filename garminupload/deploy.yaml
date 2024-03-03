@@ -67,22 +67,22 @@ spec:
                 secretKeyRef:
                   name: garmin
                   key: password
-            - name: Di2Stats-User
+            - name: Di2StatsUser
               valueFrom:
                 secretKeyRef:
                   name: di2stats
                   key: username
-            - name: Di2Stats-Password
+            - name: Di2StatsPassword
               valueFrom:
                 secretKeyRef:
                   name: di2stats
                   key: password
-            - name: MBT-User
+            - name: MBTUser
               valueFrom:
                 secretKeyRef:
                   name: mybiketraffic
                   key: username
-            - name: MBT-Password
+            - name: MBTPassword
               valueFrom:
                 secretKeyRef:
                   name: mybiketraffic
