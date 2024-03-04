@@ -113,7 +113,7 @@ spec:
     gtid_domain_id    = 99
     log-bin           = slave-bin
     log-bin-index     = slave-bin.index
-    binlog_format     = mixed 
+    binlog_format     = row 
     slave-skip-errors = 1451,1452,1032
     report-host       = galera-replica
 
