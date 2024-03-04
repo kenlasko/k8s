@@ -30,6 +30,12 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
+      # volumeClaimTemplate:
+      # resources:
+      #   requests:
+      #     storage: 10Gi
+      # accessModes:
+      # - ReadWriteOnce
     agent:
       # image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
       # port: 5555
@@ -47,13 +53,6 @@ spec:
     #     repository: ghcr.io/mariadb-operator/init
     #     tag: "v0.0.5"
     #     pullPolicy: IfNotPresent
-    volumeClaimTemplate:
-      resources:
-        requests:
-          storage: 10Gi
-      accessModes:
-        - ReadWriteOnce
-
   podSecurityContext:
     runAsUser: 0
 
