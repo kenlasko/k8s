@@ -8,13 +8,16 @@ spec:
     name: mariadb-passwords
     key: mariadb-root-password
 
-  volumeClaimTemplate:
+  storage:
+    size: 10Gi
     storageClassName: local-path
-    resources:
-      requests:
-        storage: 10Gi
-    accessModes:
-    - ReadWriteOnce
+    volumeClaimTemplate:
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 10Gi
+      accessModes:
+      - ReadWriteOnce
 
   replicas: 3
 
