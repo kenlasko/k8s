@@ -36,15 +36,7 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
-      # volumeClaimTemplate:
-      # resources:
-      #   requests:
-      #     storage: 10Gi
-      # accessModes:
-      # - ReadWriteOnce
     agent:
-      # image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
-      # port: 5555
       kubernetesAuth:
         enabled: true
       gracefulShutdownTimeout: 5s
@@ -54,11 +46,7 @@ spec:
       clusterBootstrapTimeout: 10m0s
       podRecoveryTimeout: 5m0s
       podSyncTimeout: 5m0s
-    # initContainer:
-    #   image:
-    #     repository: ghcr.io/mariadb-operator/init
-    #     tag: "v0.0.5"
-    #     pullPolicy: IfNotPresent
+
   podSecurityContext:
     runAsUser: 0
 
@@ -112,16 +100,20 @@ spec:
     innodb_autoinc_lock_mode=2
     max_allowed_packet=256M
 
-    ## Replication slave to Galera Cluster
-    server-id         = 04
-    relay-log-index   = slave-relay-bin.index
-    relay-log         = slave-relay-bin
-    gtid_domain_id    = 99
-    log-bin           = slave-bin
-    log-bin-index     = slave-bin.index
-    binlog_format     = row 
-    slave-skip-errors = 1451,1452,1032
-    report-host       = galera-replica
+    ## Binary Logging
+    ##
+    log_bin=mysql-bin
+    expire_logs_days=14
+    # Disabling for performance per http://severalnines.com/blog/9-tips-going-production-galera-cluster-mysql
+    sync_binlog=0
+
+    ## Replication to secondary server
+    ##
+    wsrep_gtid_mode      = on
+    wsrep_gtid_domain_id = 0
+    server-id            = 01
+    log_slave_updates    = on
+    gtid_domain_id       = 0
 
 
   resources:
