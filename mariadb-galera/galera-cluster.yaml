@@ -1,4 +1,4 @@
-apiVersion: mariadb.mmontes.io/v1alpha1
+apiVersion: mariadb.mmontes.io/v1beta1
 kind: MariaDB
 metadata:
   name: mariadb-galera
