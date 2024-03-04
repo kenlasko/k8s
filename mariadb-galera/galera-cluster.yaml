@@ -1,127 +1,127 @@
-apiVersion: mariadb.mmontes.io/v1alpha1
-kind: MariaDB
-metadata:
-  name: mariadb-galera
-  namespace: mariadb-galera
-spec:
-  rootPasswordSecretKeyRef:
-    name: mariadb-passwords
-    key: mariadb-root-password
+# apiVersion: mariadb.mmontes.io/v1alpha1
+# kind: MariaDB
+# metadata:
+#   name: mariadb-galera
+#   namespace: mariadb-galera
+# spec:
+#   rootPasswordSecretKeyRef:
+#     name: mariadb-passwords
+#     key: mariadb-root-password
 
-  volumeClaimTemplate:
-    storageClassName: local-path
-    resources:
-      requests:
-        storage: 10Gi
-    accessModes:
-    - ReadWriteOnce
+#   volumeClaimTemplate:
+#     storageClassName: local-path
+#     resources:
+#       requests:
+#         storage: 10Gi
+#     accessModes:
+#     - ReadWriteOnce
 
-  replicas: 3
+#   replicas: 3
 
-  galera:
-    enabled: true
-    primary:
-      podIndex: 0
-      automaticFailover: true
-    sst: mariabackup
-    replicaThreads: 1
-    config: 
-      reuseStorageVolume: true
-    agent:
-      # image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
-      # port: 5555
-      kubernetesAuth:
-        enabled: true
-      gracefulShutdownTimeout: 5s
-    recovery:
-      enabled: true
-      clusterHealthyTimeout: 3m
-      clusterBootstrapTimeout: 10m
-      podRecoveryTimeout: 5m
-      podSyncTimeout: 5m
-    # initContainer:
-    #   image:
-    #     repository: ghcr.io/mariadb-operator/init
-    #     tag: "v0.0.5"
-    #     pullPolicy: IfNotPresent
-    volumeClaimTemplate:
-      resources:
-        requests:
-          storage: 10Gi
-      accessModes:
-        - ReadWriteOnce
+#   galera:
+#     enabled: true
+#     primary:
+#       podIndex: 0
+#       automaticFailover: true
+#     sst: mariabackup
+#     replicaThreads: 1
+#     config: 
+#       reuseStorageVolume: true
+#     agent:
+#       # image: ghcr.io/mariadb-operator/mariadb-operator:v0.0.26
+#       # port: 5555
+#       kubernetesAuth:
+#         enabled: true
+#       gracefulShutdownTimeout: 5s
+#     recovery:
+#       enabled: true
+#       clusterHealthyTimeout: 3m
+#       clusterBootstrapTimeout: 10m
+#       podRecoveryTimeout: 5m
+#       podSyncTimeout: 5m
+#     # initContainer:
+#     #   image:
+#     #     repository: ghcr.io/mariadb-operator/init
+#     #     tag: "v0.0.5"
+#     #     pullPolicy: IfNotPresent
+#     volumeClaimTemplate:
+#       resources:
+#         requests:
+#           storage: 10Gi
+#       accessModes:
+#         - ReadWriteOnce
 
-  podSecurityContext:
-    runAsUser: 0
+#   podSecurityContext:
+#     runAsUser: 0
 
-  service:
-    type: LoadBalancer
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 192.168.1.14
-      io.cilium/lb-ipam-ips: 192.168.1.14
-  connection:
-    secretName: mariadb-galera-conn
-    secretTemplate:
-      key: dsn
+#   service:
+#     type: LoadBalancer
+#     annotations:
+#       metallb.universe.tf/loadBalancerIPs: 192.168.1.14
+#       io.cilium/lb-ipam-ips: 192.168.1.14
+#   connection:
+#     secretName: mariadb-galera-conn
+#     secretTemplate:
+#       key: dsn
 
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - 'amd64'
-    # podAntiAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #   - labelSelector:
-    #       matchExpressions:
-    #       - key: app.kubernetes.io/instance
-    #         operator: In
-    #         values:
-    #         - mariadb-galera
-    #     topologyKey: "kubernetes.io/hostname"
+#   affinity:
+#     nodeAffinity:
+#       requiredDuringSchedulingIgnoredDuringExecution:
+#         nodeSelectorTerms:
+#         - matchExpressions:
+#           - key: node-role.kubernetes.io/control-plane
+#             operator: DoesNotExist
+#           - key: kubernetes.io/arch
+#             operator: In
+#             values: 
+#             - 'amd64'
+#     # podAntiAffinity:
+#     #   requiredDuringSchedulingIgnoredDuringExecution:
+#     #   - labelSelector:
+#     #       matchExpressions:
+#     #       - key: app.kubernetes.io/instance
+#     #         operator: In
+#     #         values:
+#     #         - mariadb-galera
+#     #     topologyKey: "kubernetes.io/hostname"
 
-  tolerations:
-    - key: "mariadb.mmontes.io/ha"
-      operator: "Exists"
-      effect: "NoSchedule"
+#   tolerations:
+#     - key: "mariadb.mmontes.io/ha"
+#       operator: "Exists"
+#       effect: "NoSchedule"
 
-  podDisruptionBudget:
-    maxUnavailable: 66%
+#   podDisruptionBudget:
+#     maxUnavailable: 66%
 
-  updateStrategy:
-    type: RollingUpdate
+#   updateStrategy:
+#     type: RollingUpdate
 
-  myCnf: |
-    [mariadb]
-    bind-address=*
-    default_storage_engine=InnoDB
-    binlog_format=row
-    innodb_autoinc_lock_mode=2
-    max_allowed_packet=256M
+#   myCnf: |
+#     [mariadb]
+#     bind-address=*
+#     default_storage_engine=InnoDB
+#     binlog_format=row
+#     innodb_autoinc_lock_mode=2
+#     max_allowed_packet=256M
 
-    ## Replication slave to Galera Cluster
-    server-id         = 04
-    relay-log-index   = slave-relay-bin.index
-    relay-log         = slave-relay-bin
-    gtid_domain_id    = 99
-    log-bin           = slave-bin
-    log-bin-index     = slave-bin.index
-    binlog_format     = mixed 
-    slave-skip-errors = 1451,1452,1032
-    report-host       = galera-replica
+#     ## Replication slave to Galera Cluster
+#     server-id         = 04
+#     relay-log-index   = slave-relay-bin.index
+#     relay-log         = slave-relay-bin
+#     gtid_domain_id    = 99
+#     log-bin           = slave-bin
+#     log-bin-index     = slave-bin.index
+#     binlog_format     = mixed 
+#     slave-skip-errors = 1451,1452,1032
+#     report-host       = galera-replica
 
 
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      memory: 1Gi
+#   resources:
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+#     limits:
+#       memory: 1Gi
 
-  metrics:
-    enabled: true
+#   metrics:
+#     enabled: true
