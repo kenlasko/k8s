@@ -41,7 +41,7 @@ spec:
               capabilities:
                 drop: ["ALL"]
             command: 
-            - /bin/sh
+            - /bin/bash
             - -c
             - /script/backup-media-apps.sh
             env:
