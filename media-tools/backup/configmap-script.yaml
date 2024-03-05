@@ -5,11 +5,11 @@ metadata:
   namespace: media-tools
 data:
   backup-media-apps.sh: |
-    #! /bin/bash
+    #! /bin/sh
 
-    APPS=("Lidarr" "Prowlarr" "Radarr" "Readarr" "Sonarr")
+    APPS="Lidarr Prowlarr Radarr Readarr Sonarr"
 
-    for APP in "${APPS[@]}"; do
+    for APP in $APPS; do
         echo "Backing up $APP"
         APPLOW="${APP,,}"  # Convert to lowercase
         kubectl cp -n media-tools "$APPLOW-0:config/Backups/scheduled/." "/backup/$APPLOW/."
