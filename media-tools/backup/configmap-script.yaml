@@ -20,53 +20,8 @@ data:
         fi
     done
 
-    # echo 'Backing up Lidarr'
-    # kubectl cp -n media-tools lidarr-0:config/Backups/scheduled/. /backup/lidarr/.
-    # echo 'Deleting old Lidarr backups'
-    # LIDARRCOUNT=$(find /backup/lidarr -type f -mtime -1 | wc -l)
-    # if [ $LIDARRCOUNT -gt 12 ]
-    # then
-    #   find /backup/lidarr/* -mtime +2 -exec rm {} \;
-    # fi
-
-    # echo 'Backing up Prowlarr'
-    # kubectl cp -n media-tools prowlarr-0:config/Backups/scheduled/. backup/prowlarr/.
-    # echo 'Deleting old Prowlarr backups'
-    # PROWLARRCOUNT=$(find /backup/prowlarr -type f -mtime -1 | wc -l)
-    # if [ $PROWLARRCOUNT -gt 12 ]
-    # then
-    #   find /backup/prowlarr/* -mtime +2 -exec rm {} \;
-    # fi
-
-    # echo 'Backing up Radarr'
-    # kubectl cp -n media-tools radarr-0:config/Backups/scheduled/. /backup/radarr/.
-    # echo 'Deleting old Radarr backups'
-    # RADARRCOUNT=$(find /backup/radarr -type f -mtime -1 | wc -l)
-    # if [ $RADARRCOUNT -gt 12 ]
-    # then
-    #   find /backup/radarr/* -mtime +2 -exec rm {} \;
-    # fi
-
-    # echo 'Backing up Readarr'
-    # kubectl cp -n media-tools readarr-0:config/Backups/scheduled/. /backup/readarr/.
-    # echo 'Deleting old Readarr backups'
-    # READARRCOUNT=$(find /backup/readarr -type f -mtime -1 | wc -l)
-    # if [ $READARRCOUNT -gt 12 ]
-    # then
-    #   find /backup/readarr/* -mtime +2 -exec rm {} \;
-    # fi
-
-    # echo 'Backing up Sonarr'
-    # kubectl cp -n media-tools sonarr-0:config/Backups/scheduled/. /backup/sonarr/.
-    # echo 'Deleting old Sonarr backups'
-    # SONARRCOUNT=$(find /backup/sonarr -type f -mtime -1 | wc -l)
-    # if [ $SONARRCOUNT -gt 12 ]
-    # then
-    #   find /backup/sonarr/* -mtime +2 -exec rm {} \;
-    # fi
-
-    # echo 'Backing up Overseerr'
-    # kubectl cp -n media-tools overseerr-0:config/. /backup/overseerr/.
+    echo 'Backing up Overseerr'
+    kubectl cp -n media-tools overseerr-0:config/. /backup/overseerr/.
 
     echo 'Backing up SABNZBD'
     kubectl cp -n media-tools sabnzbd-0:config/Downloads/. /backup/sabnzbd/.
