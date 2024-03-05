@@ -11,7 +11,7 @@ data:
 
     for APP in $APPS; do
         echo "Backing up $APP"
-        APPLOW="${APP,,}"  # Convert to lowercase
+        APPLOW=$(echo "$APP" | awk '{print tolower($0)}')  # Convert to lowercase
         kubectl cp -n media-tools "$APPLOW-0:config/Backups/scheduled/." "/backup/$APPLOW/."
         echo "Deleting old $APP backups"
         APPCOUNT=$(find "/backup/$APPLOW" -type f -mtime -1 | wc -l)
