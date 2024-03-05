@@ -5,7 +5,7 @@ metadata:
   namespace: media-tools
 data:
   backup-media-apps.sh: |
-    #! /bin/sh
+    #! /bin/bash
 
     APPS=("Lidarr" "Prowlarr" "Radarr" "Readarr" "Sonarr")
 
