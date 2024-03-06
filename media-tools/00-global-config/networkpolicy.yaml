@@ -12,7 +12,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: traefik
+              app.kubernetes.io/name: cilium
     - from:
         - namespaceSelector: {}
           podSelector:
