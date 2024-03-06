@@ -16,7 +16,7 @@ spec:
     - backendRefs:
         - group: ''
           kind: Service
-          name: alertmanager-operated
+          name: promstack-alertmanager
           namespace: monitoring
           port: 9093
           weight: 1

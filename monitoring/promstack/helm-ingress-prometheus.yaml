@@ -13,7 +13,7 @@ spec:
   - match: Host(`prometheus.ucdialplans.com`) 
     kind: Rule
     services:
-    - name: prometheus-operated
+    - name: promstack-prometheus
       port: 9090
     middlewares:
     - name: traefik-security
