@@ -12,7 +12,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app.kubernetes.io/instance: cilium
+              app.kubernetes.io/name: traefik
       ports:
         - port: 8087
     - from:
