@@ -69,7 +69,8 @@ spec:
         - --source=gateway-tcproute
         - --source=gateway-udproute
         - --provider=webhook
-        - --webhook-provider-url=http://localhost:8888     
+        - --webhook-provider-url=http://localhost:8888
+        - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)   
       - name: adguardhome-webhook
         image:  ghcr.io/muhlba91/external-dns-provider-adguard:latest
         imagePullPolicy: IfNotPresent
