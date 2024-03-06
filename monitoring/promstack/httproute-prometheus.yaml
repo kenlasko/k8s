@@ -17,7 +17,6 @@ spec:
   - backendRefs:
     - name: prometheus-operated
       group: ''	
-      kind: Service
       namespace: monitoring
       kind: Service
       port: 9090
