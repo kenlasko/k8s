@@ -7,6 +7,8 @@ metadata:
 spec:
   parentRefs:
   - name: tls
+    group: gateway.networking.k8s.io	
+    kind: Gateway
     namespace: cilium
     sectionName: https
   hostnames:
@@ -14,6 +16,13 @@ spec:
   rules:
   - backendRefs:
     - name: prometheus-operated
+      group: ''	
+      kind: Service
       namespace: monitoring
       kind: Service
       port: 9090
+      weight: 1
+    matches:	
+    - path:	
+        type: PathPrefix	
+        value: /
