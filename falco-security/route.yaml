@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "test-falco.ucdialplans.com"
+  - "falco.ucdialplans.com"
   rules:
   - backendRefs:
     - name: falco-security-falcosidekick-ui
