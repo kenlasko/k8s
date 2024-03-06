@@ -24,12 +24,11 @@ spec:
 
 ---
 apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: BackEndTLSPolicy
+kind: BackendTLSPolicy
 metadata:
   name: k3s-tls-policy
   namespace: default
 spec:
   tls:
     caCertRefs:
-      name: traefik-k3s-ca
-      namespace: kube-system
+      name: k3s-ca
