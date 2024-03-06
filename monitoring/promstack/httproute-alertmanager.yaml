@@ -35,6 +35,8 @@ metadata:
 spec:
   parentRefs:
   - name: tls
+    group: gateway.networking.k8s.io	
+    kind: Gateway
     namespace: cilium
     sectionName: https
   hostnames:
@@ -42,10 +44,13 @@ spec:
   rules:
   - backendRefs:
     - name: alertmanager-operated
+      group: ''	
       namespace: monitoring
       kind: Service
       port: 9093
+      weight: 1
     matches:	
     - headers:	
         - name: Content-Type	
           value: "application/grpc"
+          type: Exact
