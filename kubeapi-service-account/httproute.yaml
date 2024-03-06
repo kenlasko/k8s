@@ -30,6 +30,7 @@ spec:
     kind: HTTPRoute
     name: kube-api
     group: ""
+    namespace: default
   tls:
-    wellKnownCACerts: "System"
-    hostname: test-k3s.ucdialplans.com
+    caCertRefs: 
+      name: kubecert
