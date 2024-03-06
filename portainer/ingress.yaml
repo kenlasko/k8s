@@ -1,8 +1,8 @@
 # kind: IngressRoute
 # apiVersion: traefik.io/v1alpha1
 # metadata:
-#   name: vaultwarden-ui
-#   namespace: vaultwarden
+#   name: portainer
+#   namespace: portainer
 #   annotations:
 #     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
 #     kubernetes.io/ingress.class: traefik
@@ -10,15 +10,15 @@
 #   entryPoints: 
 #   - websecure
 #   routes:
-#   - match: Host(`vaultwarden.ucdialplans.com`) 
+#   - match: Host(`portainer.ucdialplans.com`) 
 #     kind: Rule
 #     services:
-#     - name: vaultwarden-ui
-#       port: 8087
+#     - name: portainer
+#       port: 9000
 #     middlewares:
 #     - name: traefik-security
 #       namespace: traefik
 #   tls:
 #     options:
-#       name: tls-options-default
+#       name: tls-options-clientauth
 #       namespace: traefik
