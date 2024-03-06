@@ -1,29 +1,29 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: plex
-  namespace: media-tools
-spec:
-  podSelector:
-    matchLabels:
-      app: plex
-  ingress:
-    - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 32400
-        - port: 32410
-        - port: 32412
-        - port: 32413
-        - port: 32414
-    - from:
-        - podSelector: {}
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              jobLabel: node-exporter
-      ports:
-        - port: 80
-        - port: 443
+# apiVersion: networking.k8s.io/v1
+# kind: NetworkPolicy
+# metadata:
+#   name: plex
+#   namespace: media-tools
+# spec:
+#   podSelector:
+#     matchLabels:
+#       app: plex
+#   ingress:
+#     - from:
+#         - ipBlock:
+#             cidr: 0.0.0.0/0
+#       ports:
+#         - port: 32400
+#         - port: 32410
+#         - port: 32412
+#         - port: 32413
+#         - port: 32414
+#     - from:
+#         - podSelector: {}
+#     - from:
+#         - namespaceSelector: {}
+#           podSelector:
+#             matchLabels:
+#               jobLabel: node-exporter
+#       ports:
+#         - port: 80
+#         - port: 443
