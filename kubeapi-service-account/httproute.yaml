@@ -33,4 +33,7 @@ spec:
     namespace: default
   tls:
     caCertRefs: 
-      name: kubecert
+      - kind: ConfigMapReference
+        name: kubecert
+        group: ""
+    hostname: test-k3s.ucdialplans.com
