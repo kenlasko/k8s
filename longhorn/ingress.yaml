@@ -1,8 +1,8 @@
 # kind: IngressRoute
 # apiVersion: traefik.io/v1alpha1
 # metadata:
-#   name: keel-frontend
-#   namespace: kube-system
+#   name: longhorn-frontend
+#   namespace: longhorn
 #   annotations:
 #     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
 #     kubernetes.io/ingress.class: traefik
@@ -10,11 +10,11 @@
 #   entryPoints: 
 #   - websecure
 #   routes:
-#   - match: Host(`keel.ucdialplans.com`) 
+#   - match: Host(`longhorn.ucdialplans.com`) 
 #     kind: Rule
 #     services:
-#     - name: keel-frontend
-#       port: 9300
+#     - name: longhorn-frontend
+#       port: 80
 #     middlewares:
 #     - name: traefik-security
 #       namespace: traefik

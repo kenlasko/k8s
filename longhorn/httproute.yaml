@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: longhorn
+  namespace: longhorn
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "longhorn.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: longhorn-frontend
+      namespace: longhorn
+      kind: Service
+      port: 80

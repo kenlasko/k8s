@@ -1,24 +1,24 @@
-kind: IngressRoute
-apiVersion: traefik.io/v1alpha1
-metadata:
-  name: esphome
-  namespace: homeassist
-  annotations:
-    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
-    kubernetes.io/ingress.class: traefik
-spec:
-  entryPoints: 
-  - websecure
-  routes:
-  - match: Host(`esphome.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: esphome-service
-      port: 6052
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
-  tls:
-    options:
-      name: tls-options-clientauth
-      namespace: traefik
+# kind: IngressRoute
+# apiVersion: traefik.io/v1alpha1
+# metadata:
+#   name: esphome
+#   namespace: homeassist
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   entryPoints: 
+#   - websecure
+#   routes:
+#   - match: Host(`esphome.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: esphome-service
+#       port: 6052
+#     middlewares:
+#     - name: traefik-security
+#       namespace: traefik
+#   tls:
+#     options:
+#       name: tls-options-clientauth
+#       namespace: traefik
