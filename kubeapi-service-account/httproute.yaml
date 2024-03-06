@@ -27,8 +27,8 @@ metadata:
   namespace: default
 spec:
   targetRef:
-    kind: HTTPRoute
-    name: kube-api
+    kind: Service
+    name: kubernetes
     group: ""
     namespace: default
   tls:
