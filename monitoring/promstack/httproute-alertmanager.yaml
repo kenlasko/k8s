@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   hostnames:
-    - test-alertmanager.ucdialplans.com
+    - alertmanager.ucdialplans.com
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway

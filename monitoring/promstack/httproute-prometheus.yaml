@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   hostnames:
-    - test-prometheus.ucdialplans.com
+    - prometheus.ucdialplans.com
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
