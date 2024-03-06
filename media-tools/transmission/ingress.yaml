@@ -1,24 +1,24 @@
-kind: IngressRoute
-apiVersion: traefik.io/v1alpha1
-metadata:
-  name: transmission
-  namespace: media-tools
-  annotations:
-    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
-    kubernetes.io/ingress.class: traefik
-spec:
-  entryPoints: 
-    - websecure
-  routes:
-  - match: Host(`transmission.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: transmission-service
-      port: 9091
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
-  tls:
-    options:
-      name: tls-options-default 
-      namespace: traefik
+# kind: IngressRoute
+# apiVersion: traefik.io/v1alpha1
+# metadata:
+#   name: transmission
+#   namespace: media-tools
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   entryPoints: 
+#     - websecure
+#   routes:
+#   - match: Host(`transmission.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: transmission-service
+#       port: 9091
+#     middlewares:
+#     - name: traefik-security
+#       namespace: traefik
+#   tls:
+#     options:
+#       name: tls-options-default 
+#       namespace: traefik
