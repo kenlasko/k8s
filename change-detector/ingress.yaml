@@ -1,24 +1,24 @@
-kind: IngressRoute
-apiVersion: traefik.io/v1alpha1
-metadata:
-  name: change-detector
-  namespace: change-detector
-  annotations:
-    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
-    kubernetes.io/ingress.class: traefik
-spec:
-  entryPoints: 
-  - websecure
-  routes:
-  - match: Host(`changedetector.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: change-detector
-      port: 5000
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
-  tls:
-    options:
-      name: tls-options-clientauth
-      namespace: traefik
+# kind: IngressRoute
+# apiVersion: traefik.io/v1alpha1
+# metadata:
+#   name: change-detector
+#   namespace: change-detector
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   entryPoints: 
+#   - websecure
+#   routes:
+#   - match: Host(`changedetector.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: change-detector
+#       port: 5000
+#     middlewares:
+#     - name: traefik-security
+#       namespace: traefik
+#   tls:
+#     options:
+#       name: tls-options-clientauth
+#       namespace: traefik
