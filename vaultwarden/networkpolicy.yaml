@@ -12,7 +12,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              app.kubernetes.io/part-of: cilium
+              app.kubernetes.io/instance: cilium
       ports:
         - port: 8087
     - from:
