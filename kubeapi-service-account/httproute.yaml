@@ -23,12 +23,13 @@ spec:
         namespace: default
 
 ---
-apiVersion: networking.k8s.io/v1
+apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: BackEndTLSPolicy
 metadata:
   name: k3s-tls-policy
   namespace: default
 spec:
-  rootCARef:
-    name: traefik-k3s-ca
-    namespace: kube-system
+  tls:
+    caCertRefs:
+      name: traefik-k3s-ca
+      namespace: kube-system
