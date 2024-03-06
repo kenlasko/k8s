@@ -8,8 +8,6 @@ spec:
   infrastructure:
     annotations:
       io.cilium/lb-ipam-ips: 192.168.1.14
-  addresses: 
-  - value: 192.168.1.14  # Not currently accepted by Cilium
   listeners:
   - name: http
     protocol: HTTP
@@ -32,21 +30,21 @@ spec:
       namespaces:
         from: All
 
-# ---
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: HTTPRoute
-# metadata:
-#   name: http-redirect
-#   namespace: cilium
-# spec:
-#   parentRefs:
-#   - name: tls
-#     sectionName: http
-#   hostnames:
-#   - "*.ucdialplans.com"
-#   rules:
-#   - filters:
-#     - type: RequestRedirect
-#       requestRedirect:
-#         scheme: https
-#         statusCode: 301
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-redirect
+  namespace: cilium
+spec:
+  parentRefs:
+  - name: tls
+    sectionName: http
+  hostnames:
+  - "*.ucdialplans.com"
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
