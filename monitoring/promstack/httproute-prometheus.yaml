@@ -1,19 +1,26 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: prometheus
   namespace: monitoring
 spec:
-  parentRefs:
-  - name: tls
-    namespace: cilium
-    sectionName: https
   hostnames:
-  - "test-prometheus.ucdialplans.com"
+    - test-prometheus.ucdialplans.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: tls
+      namespace: cilium
+      sectionName: https
   rules:
-  - backendRefs:
-    - name: prometheus-operated
-      namespace: monitoring
-      kind: Service
-      port: 9090
+    - backendRefs:
+        - group: ''
+          kind: Service
+          name: prometheus-operated
+          namespace: monitoring
+          port: 9090
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
