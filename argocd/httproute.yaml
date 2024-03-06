@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "test-argocd.ucdialplans.com"
+  - "argocd.ucdialplans.com"
   rules:
   - backendRefs:
     - name: argocd-server
