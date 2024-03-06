@@ -31,4 +31,4 @@ metadata:
 spec:
   rootCARef:
     name: traefik-k3s-ca
-    namespace: traefik
+    namespace: kube-system
