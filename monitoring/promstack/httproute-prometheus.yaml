@@ -16,7 +16,7 @@ spec:
     - backendRefs:
         - group: ''
           kind: Service
-          name: prometheus-operated
+          name: promstack-prometheus
           namespace: monitoring
           port: 9090
           weight: 1
