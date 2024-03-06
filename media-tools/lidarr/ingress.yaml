@@ -1,24 +1,24 @@
-kind: IngressRoute
-apiVersion: traefik.io/v1alpha1
-metadata:
-  name: lidarr
-  namespace: media-tools
-  annotations:
-    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
-    kubernetes.io/ingress.class: traefik
-spec:
-  entryPoints: 
-  - websecure
-  routes:
-  - match: Host(`lidarr.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: lidarr-service
-      port: 8686
-    middlewares:
-    - name: traefik-security
-      namespace: traefik
-  tls:
-    options:
-      name: tls-options-clientauth
-      namespace: traefik
+# kind: IngressRoute
+# apiVersion: traefik.io/v1alpha1
+# metadata:
+#   name: lidarr
+#   namespace: media-tools
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   entryPoints: 
+#   - websecure
+#   routes:
+#   - match: Host(`lidarr.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: lidarr-service
+#       port: 8686
+#     middlewares:
+#     - name: traefik-security
+#       namespace: traefik
+#   tls:
+#     options:
+#       name: tls-options-clientauth
+#       namespace: traefik
