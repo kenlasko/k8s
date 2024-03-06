@@ -25,3 +25,27 @@ spec:
     - path:	
         type: PathPrefix	
         value: /
+
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: GRPCRoute
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "test-alertmanager.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: alertmanager-operated
+      namespace: monitoring
+      kind: Service
+      port: 9093
+    matches:	
+    - headers:	
+        - name: Content-Type	
+          value: "application/grpc"
