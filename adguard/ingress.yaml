@@ -1,21 +1,21 @@
-kind: IngressRoute
-apiVersion: traefik.io/v1alpha1
-metadata:
-  name: adguard
-  namespace: adguard
-  annotations:
-    external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
-    kubernetes.io/ingress.class: traefik
-spec:
-  entryPoints: 
-  - websecure
-  routes:
-  - match: Host(`adguard.ucdialplans.com`) 
-    kind: Rule
-    services:
-    - name: adguard-web
-      port: 3000
-  tls:
-    options:
-      name: tls-options-default
-      namespace: traefik
+# kind: IngressRoute
+# apiVersion: traefik.io/v1alpha1
+# metadata:
+#   name: adguard
+#   namespace: adguard
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: k3s.ucdialplans.com
+#     kubernetes.io/ingress.class: traefik
+# spec:
+#   entryPoints: 
+#   - websecure
+#   routes:
+#   - match: Host(`adguard.ucdialplans.com`) 
+#     kind: Rule
+#     services:
+#     - name: adguard-web
+#       port: 3000
+#   tls:
+#     options:
+#       name: tls-options-default
+#       namespace: traefik
