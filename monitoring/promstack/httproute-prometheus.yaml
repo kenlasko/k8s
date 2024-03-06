@@ -20,7 +20,7 @@ spec:
       namespace: monitoring
       kind: Service
       port: 9090
-      weight: 1
+      weight: 100
     matches:	
     - path:	
         type: PathPrefix	
