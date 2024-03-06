@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "test-hubble.ucdialplans.com"
+  - "hubble.ucdialplans.com"
   rules:
   - backendRefs:
     - name: hubble-ui
