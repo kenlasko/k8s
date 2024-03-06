@@ -5,6 +5,9 @@ metadata:
   namespace: cilium
 spec:
   gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.1.14
   addresses: 
   - value: 192.168.1.14  # Not currently accepted by Cilium
   listeners:
