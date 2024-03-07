@@ -33,6 +33,6 @@ spec:
   tls:
     caCertRefs: 
       - kind: ConfigMapReference
-        name: kubeapi
+        name: kube-root-ca.crt
         group: ""
     hostname: k3s.ucdialplans.com
