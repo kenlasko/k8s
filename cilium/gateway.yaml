@@ -29,7 +29,20 @@ spec:
     allowedRoutes: 
       namespaces:
         from: All
-  - name: tls-passthrough
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kubeapi
+  namespace: cilium
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.1.14
+  listeners:
+  - name: https
     protocol: TLS
     port: 443
     hostname: "k3s.ucdialplans.com"
@@ -37,7 +50,7 @@ spec:
       mode: Passthrough
     allowedRoutes: 
       namespaces:
-        from: All       
+        from: All
 
 ---
 apiVersion: gateway.networking.k8s.io/v1

@@ -6,9 +6,9 @@ metadata:
   namespace: default
 spec:
   parentRefs:
-  - name: tls
+  - name: kubeapi
     namespace: cilium
-    sectionName: tls-passthrough
+    sectionName: https
   hostnames:
   - "k3s.ucdialplans.com"
   rules:
