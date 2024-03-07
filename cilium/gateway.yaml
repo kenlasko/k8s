@@ -47,7 +47,7 @@ spec:
     port: 443
     hostname: "k3s.ucdialplans.com"
     tls:
-      mode: Passthrough
+      mode: Terminate
     allowedRoutes: 
       namespaces:
         from: All
