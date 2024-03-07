@@ -36,4 +36,5 @@ spec:
       - kind: ConfigMapReference
         name: kube-root-ca.crt
         group: ""
+        namespace: default
     hostname: k3s.ucdialplans.com
