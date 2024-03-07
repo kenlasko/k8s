@@ -13,9 +13,9 @@ spec:
   - "k3s.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: kubernetes
+    - name: k3s-tls-policy
       namespace: default
-      kind: Service
+      kind: BackendTLSPolicy
       port: 443
 
 ---
