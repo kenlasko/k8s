@@ -48,6 +48,10 @@ spec:
     hostname: "k3s.ucdialplans.com"
     tls:
       mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: letsencrypt-wildcard-cert
+        namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
