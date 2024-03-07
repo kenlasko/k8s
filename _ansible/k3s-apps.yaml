@@ -76,39 +76,6 @@
     with_fileglob:
     - "/home/ken/k3s/cert-manager/cloudflare-cert.yaml"
     - "/home/ken/k3s/cert-manager/sealed-secrets.yaml"
-  - name: Add Traefik chart repo
-    kubernetes.core.helm_repository:
-      name: traefik
-      repo_url: "https://helm.traefik.io/traefik"
-  - name: Deploy Traefik
-    kubernetes.core.helm:
-      name: traefik
-      chart_ref: traefik/traefik
-      create_namespace: true
-      release_namespace: traefik
-      verify_ssl: no
-      values_files:
-      - /home/ken/k3s/traefik/values.yaml
-  - name: Apply Traefik resources
-    kubernetes.core.k8s:
-      definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
-    with_fileglob:
-    - "/home/ken/k3s/traefik/tls*.yaml"
-    - "/home/ken/k3s/traefik/dashboard-ingress.yaml"
-    - "/home/ken/k3s/traefik/security-middleware.yaml"
-    - "/home/ken/k3s/traefik/letsencrypt-wildcard.yaml"
-  - name: Apply Traefik secrets
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/traefik/sealed-secrets.yaml
-  - name: Apply Traefik https redirect
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/traefik/https-redirect.yaml
-  - name: Apply Traefik prefix strip middleware
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/traefik/stripprefix-middleware.yaml
   - name: Add Cilium chart repo
     kubernetes.core.helm_repository:
       name: cilium
