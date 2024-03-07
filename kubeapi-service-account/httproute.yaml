@@ -30,6 +30,7 @@ spec:
     name: kubernetes
     group: ""
     namespace: default
+    port: 443
   tls:
     caCertRefs: 
       - kind: ConfigMapReference
