@@ -43,15 +43,15 @@ spec:
       io.cilium/lb-ipam-ips: 192.168.1.14
   listeners:
   - name: https
-    protocol: HTTPS
+    protocol: TLS
     port: 443
     hostname: "k3s.ucdialplans.com"
     tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: letsencrypt-wildcard-cert
-        namespace: cilium
+      mode: Passthrough
+      # certificateRefs:
+      # - kind: Secret
+      #   name: letsencrypt-wildcard-cert
+      #   namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
