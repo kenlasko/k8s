@@ -37,3 +37,24 @@
 #         name: kube-root-ca.crt
 #         group: ""
 #     hostname: test-k3s.ucdialplans.com
+
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: TCPRoute
+metadata:
+  name: kube-api
+  namespace: default
+spec:
+  parentRefs:
+  - name: kubeapi
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "test-k3s.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: kubernetes
+      namespace: default
+      kind: Service
+      port: 443
