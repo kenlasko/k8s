@@ -35,4 +35,4 @@ spec:
       - kind: ConfigMapReference
         name: kubeapi
         group: ""
-    hostname: k3s.mydomain.com
+    hostname: k3s.ucdialplans.com
