@@ -45,7 +45,7 @@ spec:
   - name: https
     protocol: TLS
     port: 443
-    hostname: "test-k3s.ucdialplans.com"
+    hostname: "k3s.ucdialplans.com"
     tls:
       mode: Passthrough
     allowedRoutes: 

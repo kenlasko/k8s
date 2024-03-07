@@ -51,7 +51,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "test-k3s.ucdialplans.com"
+  - "k3s.ucdialplans.com"
   rules:
   - backendRefs:
     - name: kubernetes
