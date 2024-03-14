@@ -21,6 +21,10 @@ data:
         
     tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/.git' --exclude 'data/vol/homeassist/.storage' --exclude 'data/pxeboot/os-images' -czvf /backup/vol/backup-$day.tgz /data/vol /data/pxeboot
 
+    if [ "$dayofmonth" -eq 1 ]; then echo "Creating monthly backup..."; cp /backup/vol/backup-$day.tgz /backup/vol/backup-monthly-$(date +%m).tgz; fi &&
+    
+    case $dayofmonth in 7|14|21|28) echo "Creating weekly backup..."; cp /backup/vol/backup-$day.tgz /backup/vol/backup-weekly-$dayofmonth.tgz; ;; *) ;; esac &&
+
     # echo
     # echo
     # echo "Backing up pv to backup/pv/backup-$day.tgz"
