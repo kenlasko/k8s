@@ -47,11 +47,11 @@ spec:
     port: 443
     hostname: "k3s.ucdialplans.com"
     tls:
-      mode: Terminate  # Passthrough Terminate
-      certificateRefs:
-      - kind: Secret
-        name: letsencrypt-wildcard-cert
-        namespace: cilium
+      mode: Passthrough
+      # certificateRefs:
+      # - kind: Secret
+      #   name: letsencrypt-wildcard-cert
+      #   namespace: cilium
     allowedRoutes: 
       namespaces:
         from: All
