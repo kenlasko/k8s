@@ -12,11 +12,30 @@
     shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
   - name: Add node labels for GPU
     shell: kubectl label nodes nuc4 nuc5 nuc6 intel.feature.node.kubernetes.io/gpu=true
-  - name: Restore private key for sealed secrets
+  - name: Install default sealed secrets certificate
     kubernetes.core.k8s:
       state: present
       verify_ssl: no
       src: /home/ken/default-sealing-key.yaml
+  - name: Add Cilium chart repo
+    kubernetes.core.helm_repository:
+      name: cilium
+      repo_url: "https://helm.cilium.io/"
+  - name: Apply Gateway API CRDs
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/cilium/gateway-api-crds.yaml  
+  - name: Deploy Cilium
+    environment:
+      KUBECONFIG: /home/ken/.kube/config
+    kubernetes.core.helm:
+      name: cilium
+      chart_ref: cilium/cilium
+      chart_version: "1.15.2"
+      release_namespace: cilium
+      create_namespace: true
+      values_files:
+      - /home/ken/k3s/cilium/values.yaml
   - name: Add Sealed-Secrets chart repo
     kubernetes.core.helm_repository:
       name: bitnami-labs
@@ -49,25 +68,7 @@
     with_fileglob:
     - "/home/ken/k3s/cert-manager/cloudflare-cert.yaml"
     - "/home/ken/k3s/cert-manager/sealed-secrets.yaml"
-  - name: Add Cilium chart repo
-    kubernetes.core.helm_repository:
-      name: cilium
-      repo_url: "https://helm.cilium.io/"
-  - name: Apply Gateway API CRDs
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/cilium/gateway-api-crds.yaml  
-  - name: Deploy Cilium
-    environment:
-      KUBECONFIG: /home/ken/.kube/config
-    kubernetes.core.helm:
-      name: cilium
-      chart_ref: cilium/cilium
-      chart_version: "1.15.2"
-      release_namespace: cilium
-      create_namespace: true
-      values_files:
-      - /home/ken/k3s/cilium/values.yaml
+
   - name: Add ArgoCD chart repo
     kubernetes.core.helm_repository:
       name: argocd
