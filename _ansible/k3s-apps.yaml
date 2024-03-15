@@ -12,6 +12,11 @@
     shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
   - name: Add node labels for GPU
     shell: kubectl label nodes nuc4 nuc5 nuc6 intel.feature.node.kubernetes.io/gpu=true
+  - name: Restore private key for sealed secrets
+    kubernetes.core.k8s:
+      state: present
+      verify_ssl: no
+      src: /home/ken/default-sealing-key.yaml
   - name: Add Sealed-Secrets chart repo
     kubernetes.core.helm_repository:
       name: bitnami-labs
@@ -25,38 +30,6 @@
       verify_ssl: no
       values_files:
       - /home/ken/k3s/sealed-secrets/values.yaml
-  - name: Check for existence of correct Sealed Secret base key
-    kubernetes.core.k8s_info:
-      api_version: v1
-      verify_ssl: no
-      kind: Secret
-      name: sealed-secrets-key5l82h
-      namespace: kube-system
-    register: sealed_secret_key
-  - name: Delete existing sealed secret private key
-    kubernetes.core.k8s:
-      state: absent
-      api_version: v1
-      verify_ssl: no
-      kind: Secret
-      namespace: kube-system
-      label_selectors: sealedsecrets.bitnami.com/sealed-secrets-key=active
-    when: sealed_secret_key.resources[0] is not defined 
-  - name: Restore private key for sealed secrets
-    kubernetes.core.k8s:
-      state: present
-      verify_ssl: no
-      src: /home/ken/sealed-secrets-key.yaml
-    when: sealed_secret_key.resources[0] is not defined
-  - name: Delete sealed secret pod
-    kubernetes.core.k8s:
-      state: absent
-      api_version: v1
-      verify_ssl: no
-      kind: Pod
-      namespace: kube-system
-      label_selectors: app.kubernetes.io/name=sealed-secrets
-    when: sealed_secret_key.resources[0] is not defined
   - name: Add Cert-Manager chart repo
     kubernetes.core.helm_repository:
       name: cert-manager
@@ -90,7 +63,7 @@
     kubernetes.core.helm:
       name: cilium
       chart_ref: cilium/cilium
-      chart_version: "1.15.1"
+      chart_version: "1.15.2"
       release_namespace: cilium
       create_namespace: true
       values_files:
