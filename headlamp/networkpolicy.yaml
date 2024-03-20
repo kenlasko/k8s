@@ -12,13 +12,13 @@ spec:
         - ingress
       toPorts:
         - ports:
-            - port: "4466"
+            - port: "80"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
       toPorts:
         - ports:
-            - port: "4466"
+            - port: "80"
   egress:
     - toEndpoints:
         - matchLabels:
