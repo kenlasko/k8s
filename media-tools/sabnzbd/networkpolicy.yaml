@@ -1,52 +1,49 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: portainer
-  namespace: portainer
+  name: sabnzbd
+  namespace: media-tools
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: portainer
+      app: sabnzbd
   ingress:
     - fromEntities:
         - ingress
       toPorts:
         - ports:
-            - port: "9000"
+            - port: "8080"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
       toPorts:
         - ports:
-            - port: "9000"
+            - port: "8080"
+    - fromEndpoints:
+        - matchLabels:
+            app: radarr
+      toPorts:
+        - ports:
+            - port: "8080"
+    - fromEndpoints:
+        - matchLabels:
+            app: sonarr
+      toPorts:
+        - ports:
+            - port: "8080"
+    - fromEndpoints:
+        - matchLabels:
+            app: lidarr
+      toPorts:
+        - ports:
+            - port: "8080"
+    - fromEndpoints:
+        - matchLabels:
+            app: readarr
+      toPorts:
+        - ports:
+            - port: "8080"
   egress:
-    - toCIDRSet:
-        - cidr: 0.0.0.0/0
-      toPorts:
-        - ports:
-            - port: "80"
-        - ports:
-            - port: "443"
-        - ports:
-            - port: "9001"
-    - toCIDRSet:
-        - cidr: 192.168.1.15/32
-      toPorts:
-        - ports:
-            - port: "2375"
-    - toCIDRSet:
-        - cidr: 192.168.1.16/32
-      toPorts:
-        - ports:
-            - port: "2375"
-    - toCIDRSet:
-        - cidr: 192.168.1.3/32
-      toPorts:
-        - ports:
-            - port: "2375"
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -58,3 +55,10 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "1900"
+        - ports:
+            - port: "563"

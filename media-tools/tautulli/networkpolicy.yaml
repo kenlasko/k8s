@@ -1,24 +1,24 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: phpmyadmin
-  namespace: mariadb
+  name: tautulli
+  namespace: media-tools
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: phpmyadmin
+      app: tautulli
   ingress:
     - fromEntities:
         - ingress
       toPorts:
         - ports:
-            - port: "80"
+            - port: "8181"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
       toPorts:
         - ports:
-            - port: "80"
+            - port: "8181"
   egress:
     - toEndpoints:
         - matchLabels:
@@ -33,22 +33,12 @@ spec:
               - matchPattern: "*"
     - toEndpoints:
         - matchLabels:
-            io.kubernetes.pod.namespace: mariadb-standalone
+            app: plex
       toPorts:
         - ports:
-            - port: "3306"
-    - toEndpoints:
-        - {}
-      toPorts:
-        - ports:
-            - port: "3306"
+            - port: "32400"
     - toEntities:
         - world
-      toPorts:
-        - ports:
-            - port: "3306"
-    - toFQDNs:
-        - matchName: www.phpmyadmin.net
       toPorts:
         - ports:
             - port: "443"
