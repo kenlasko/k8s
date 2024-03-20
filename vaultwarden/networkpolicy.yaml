@@ -15,13 +15,6 @@ spec:
   #       - namespaceSelector: {}
   #         podSelector:
   #           matchLabels:
-  #             app.kubernetes.io/part-of: cilium
-  #     ports:
-  #       - port: 8087
-  #   - from:
-  #       - namespaceSelector: {}
-  #         podSelector:
-  #           matchLabels:
   #             app: cloudflare-tunnel
   #     ports:
   #       - port: 8087
