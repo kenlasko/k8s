@@ -19,12 +19,10 @@ spec:
       ports:
         - port: 8087
     - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              reserved: ingress
-      ports:
-        - port: 8087
+      - endpointSelector: {}
+        ingress:
+          - fromEntities:
+              - ingress
   egress:
     - to:
         - namespaceSelector: {}
