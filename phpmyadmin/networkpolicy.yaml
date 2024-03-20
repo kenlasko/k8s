@@ -44,3 +44,8 @@ spec:
       toPorts:
         - ports:
             - port: "3306"
+    - toFQDNs:
+        - matchName: www.phpmyadmin.net
+      toPorts:
+        - ports:
+            - port: "443"
