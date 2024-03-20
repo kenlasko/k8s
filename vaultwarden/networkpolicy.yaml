@@ -10,6 +10,9 @@ spec:
   ingress:
     - fromEntities:
         - ingress
+      toPorts:
+        - ports:
+            - port: "8087"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
