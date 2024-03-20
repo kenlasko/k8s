@@ -1,36 +1,48 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: sonarr
+  name: prowlarr
   namespace: media-tools
 spec:
   endpointSelector:
     matchLabels:
-      app: sonarr
+      app: prowlarr
   ingress:
     - fromEntities:
         - ingress
       toPorts:
         - ports:
-            - port: "8989"
+            - port: "9696"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
       toPorts:
         - ports:
-            - port: "8989"
+            - port: "9696"
     - fromEndpoints:
         - matchLabels:
-            app: overseerr
+            app: radarr
       toPorts:
         - ports:
-            - port: "8989"
+            - port: "9696"
     - fromEndpoints:
         - matchLabels:
-            app: prowlarr
+            app: readarr
       toPorts:
         - ports:
-            - port: "8989"
+            - port: "9696"
+    - fromEndpoints:
+        - matchLabels:
+            app: sonarr
+      toPorts:
+        - ports:
+            - port: "9696"
+    - fromEndpoints:
+        - matchLabels:
+            app: lidarr
+      toPorts:
+        - ports:
+            - port: "9696"
   egress:
     - toEndpoints:
         - matchLabels:
@@ -50,25 +62,25 @@ spec:
             - port: "443"
     - toEndpoints:
         - matchLabels:
-            app: plex
+            app: lidarr
       toPorts:
         - ports:
-            - port: "32400"
+            - port: "8686"
     - toEndpoints:
         - matchLabels:
-            app: prowlarr
+            app: radarr
       toPorts:
         - ports:
-            - port: "9696"
+            - port: "7878"
     - toEndpoints:
         - matchLabels:
-            app: sabnzbd
+            app: readarr
       toPorts:
         - ports:
-            - port: "8080"
+            - port: "8787"
     - toEndpoints:
         - matchLabels:
-            app: transmission
+            app: sonarr
       toPorts:
         - ports:
-            - port: "9091"
+            - port: "8989"
