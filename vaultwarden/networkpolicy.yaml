@@ -27,8 +27,6 @@ spec:
         - port: 8087
     - from:
       - podSelector: {}
-      ports:
-        - port: 8087
   egress:
     - to:
         - namespaceSelector: {}
