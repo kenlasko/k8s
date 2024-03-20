@@ -22,7 +22,7 @@ spec:
         - ipBlock:
             cidr: 0.0.0.0/0
     - from:
-        - namespaceSelector: {}
+        - podSelector: {}
       ports:
         - port: 8087  
   egress:
