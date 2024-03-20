@@ -10,11 +10,6 @@ spec:
     - namespaceSelector: {}
       podSelector:
         matchLabels:
-          app.kubernetes.io/name: traefik
-  - from:
-    - namespaceSelector: {}
-      podSelector:
-        matchLabels:
           app: cloudflare-tunnel
     ports:
     - port: 8080
