@@ -7,6 +7,9 @@ spec:
   endpointSelector:
     matchLabels:
       app: vaultwarden
+  ingress:
+    - fromEntities:
+        - ingress
   egress:
     - toEndpoints:
         - matchLabels:
