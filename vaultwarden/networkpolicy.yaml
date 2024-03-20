@@ -19,12 +19,12 @@ spec:
       ports:
         - port: 8087
     - from:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-    - from:
-        - podSelector: {}
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              reserved: ingress
       ports:
-        - port: 8087  
+        - port: 8087
   egress:
     - to:
         - namespaceSelector: {}
