@@ -1,50 +1,51 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
   name: ucdialplans
   namespace: ucdialplans
 spec:
-  podSelector:
+  endpointSelector:
     matchLabels:
       app: ucdialplans
-  policyTypes:
-    # - Ingress
-    - Egress
-#   ingress:
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app.kubernetes.io/name: traefik
-#       ports:
-#         - port: 8080
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: cloudflare-tunnel
-#       ports:
-#         - port: 8080
+  ingress:
+    - fromEntities:
+        - ingress
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "8080"
   egress:
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - port: 53
-          protocol: UDP
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              networkClass: Database
-      ports:
-        - port: 3306
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-        - port: 80
-        - port: 587
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            networkClass: Database
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "3306"
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"
+        - ports:
+            - port: "587"
