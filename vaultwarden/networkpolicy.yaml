@@ -8,23 +8,25 @@ spec:
     matchLabels:
       app: vaultwarden
   policyTypes:
-    # - Ingress
     - Egress
-  # ingress:
-  #   - from:
-  #       - namespaceSelector: {}
-  #         podSelector:
-  #           matchLabels:
-  #             app.kubernetes.io/part-of: cilium
-  #     ports:
-  #       - port: 8087
-  #   - from:
-  #       - namespaceSelector: {}
-  #         podSelector:
-  #           matchLabels:
-  #             app: cloudflare-tunnel
-  #     ports:
-  #       - port: 8087
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/part-of: cilium
+      ports:
+        - port: 8087
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: cloudflare-tunnel
+      ports:
+        - port: 8087
+    - from:
+      - podSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
