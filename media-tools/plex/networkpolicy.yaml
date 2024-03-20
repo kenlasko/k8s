@@ -1,29 +1,79 @@
-# apiVersion: networking.k8s.io/v1
-# kind: NetworkPolicy
-# metadata:
-#   name: plex
-#   namespace: media-tools
-# spec:
-#   podSelector:
-#     matchLabels:
-#       app: plex
-#   ingress:
-#     - from:
-#         - ipBlock:
-#             cidr: 0.0.0.0/0
-#       ports:
-#         - port: 32400
-#         - port: 32410
-#         - port: 32412
-#         - port: 32413
-#         - port: 32414
-#     - from:
-#         - podSelector: {}
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               jobLabel: node-exporter
-#       ports:
-#         - port: 80
-#         - port: 443
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: plex
+  namespace: media-tools
+spec:
+  endpointSelector:
+    matchLabels:
+      app: plex
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "32400"
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+      toPorts:
+        - ports:
+            - port: "32400"
+    - fromCIDRSet:
+        - cidr: 0.0.0.0/0
+      toPorts:
+        - ports:
+            - port: 32400
+        - ports:
+            - port: 32410
+        - ports:
+            - port: 32412
+        - ports:
+            - port: 32413
+        - ports:
+            - port: 32414
+    - fromEndpoints:
+        - {}
+    - fromEndpoints:
+        - matchLabels:
+            app: tautulli
+      toPorts:
+        - ports:
+            - port: "32400"
+    - fromEndpoints:
+        - matchLabels:
+            app: radarr
+      toPorts:
+        - ports:
+            - port: "32400"
+    - fromEndpoints:
+        - matchLabels:
+            app: sonarr
+      toPorts:
+        - ports:
+            - port: "32400"
+    - fromEndpoints:
+        - matchLabels:
+            app: overseerr
+      toPorts:
+        - ports:
+            - port: "32400"
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "1900"
