@@ -21,6 +21,10 @@ spec:
     - from:
         - ipBlock:
             cidr: 0.0.0.0/0
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 8087  
   egress:
     - to:
         - namespaceSelector: {}
