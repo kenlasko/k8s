@@ -27,13 +27,13 @@ spec:
               operator: Exists
       toPorts:
         - ports:
-            - port: 3306
+            - port: "3306"
     - toCIDRSet:
         - cidr: 0.0.0.0/0
       toPorts:
         - ports:
-            - port: 80
+            - port: "80"
         - ports:
-            - port: 443
+            - port: "443"
         - ports:
-            - port: 465
+            - port: "465"
