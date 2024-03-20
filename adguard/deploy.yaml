@@ -47,8 +47,6 @@ spec:
           runAsGroup: 100
           seccompProfile:
             type: RuntimeDefault
-          # capabilities:
-          #   drop: ["ALL"]
         resources:
           requests:
             cpu: 150m
