@@ -23,15 +23,15 @@ spec:
         - cidr: 0.0.0.0/0
       toPorts:
         - ports:
-            - port: 32400
+            - port: "32400"
         - ports:
-            - port: 32410
+            - port: "32410"
         - ports:
-            - port: 32412
+            - port: "32412"
         - ports:
-            - port: 32413
+            - port: "32413"
         - ports:
-            - port: 32414
+            - port: "32414"
     - fromEndpoints:
         - {}
     - fromEndpoints:
