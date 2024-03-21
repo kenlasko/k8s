@@ -1,31 +1,64 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
   name: adguard
   namespace: adguard
 spec:
-  podSelector:
-    matchLabels:
-      app: adguard
-  policyTypes:
-    - Egress
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "3000"
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+      toPorts:
+        - ports:
+            - port: "3000"
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "53"
+        - ports:
+            - port: "853"
+    - fromEndpoints:
+        - matchLabels:
+            app: external-dns
+            io.kubernetes.pod.namespace: external-dns
+      toPorts:
+        - ports:
+            - port: "3000"
+    - fromEndpoints:
+        - {}
+      toPorts:
+        - ports:
+            - port: "3000"
   egress:
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - port: 53
-          protocol: UDP
-    - to:
-        - podSelector: {}
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 53
-          protocol: UDP
-        - port: 80
-        - port: 443
-        - port: 853
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - {}
+      toPorts:
+        - ports:
+            - port: "3000"
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "853"
+        - ports:
+            - port: "53"
