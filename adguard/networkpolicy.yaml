@@ -24,6 +24,8 @@ spec:
             - port: "53"
         - ports:
             - port: "853"
+        - ports:
+            - port: "3000"
     - fromEndpoints:
         - matchLabels:
             app: external-dns
