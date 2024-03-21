@@ -17,7 +17,7 @@ resources:
     memory: 100Mi
   limits:
     cpu: 180m
-    memory: 100Mi
+    memory: 120Mi
   
 customRules:
   custom-rules.yaml: |-
