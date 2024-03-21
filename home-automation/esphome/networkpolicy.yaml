@@ -45,3 +45,9 @@ spec:
             - port: "8266"
         - ports:
             - port: "6053"
+    - icmps:
+      - fields:
+        - type: 8
+          family: IPv4
+        - type: EchoRequest
+          family: IPv6
