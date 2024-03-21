@@ -32,6 +32,13 @@ spec:
         - ports:
             - port: "3000"
     - fromEndpoints:
+        - matchLabels:
+            app: homeassist
+            io.kubernetes.pod.namespace: homeassist
+      toPorts:
+        - ports:
+            - port: "3000"
+    - fromEndpoints:
         - {}
       toPorts:
         - ports:
