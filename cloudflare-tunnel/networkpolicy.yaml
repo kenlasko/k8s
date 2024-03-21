@@ -23,6 +23,11 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "7844"
     - toFQDNs:
         - matchPattern: "*.argotunnel.com"
       toPorts:
