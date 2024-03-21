@@ -12,6 +12,8 @@ spec:
         - ports:
             - port: "2802"
     - fromEndpoints:
+        - {}
+    - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
       toPorts:
