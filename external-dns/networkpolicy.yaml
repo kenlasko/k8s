@@ -10,6 +10,8 @@ spec:
   ingress:
     - {}
   egress:
+    - toEntities:
+        - cluster
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
