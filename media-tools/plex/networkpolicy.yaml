@@ -33,8 +33,6 @@ spec:
         - ports:
             - port: "32414"
     - fromEndpoints:
-        - {}
-    - fromEndpoints:
         - matchLabels:
             app: tautulli
       toPorts:
