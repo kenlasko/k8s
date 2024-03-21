@@ -23,8 +23,38 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEntities:
-        - world
+    - toFQDNs:
+        - matchPattern: "*.argotunnel.com"
       toPorts:
         - ports:
             - port: "7844"
+    - toFQDNs:
+        - matchPattern: "*.cftunnel.com"
+      toPorts:
+        - ports:
+            - port: "7844"
+    - toFQDNs:
+        - matchName: api.cloudflare.com
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: cftunnel.com
+      toPorts:
+        - ports:
+            - port: "7844"
+    - toFQDNs:
+        - matchName: kenlasko.cloudflareaccess.com
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: pqtunnels.cloudflareresearch.com
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: update.argotunnel.com
+      toPorts:
+        - ports:
+            - port: "443"
