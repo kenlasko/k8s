@@ -8,9 +8,6 @@ spec:
   ingress:
     - fromEntities:
         - ingress
-      toPorts:
-        - ports:
-            - port: "2802"
     - fromEndpoints:
         - {}
     - fromEndpoints:
