@@ -19,33 +19,33 @@ spec:
       toPorts:
         - ports:
             - port: "6052"
-  egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
-    - toEntities:
-        - world
-      toPorts:
-        - ports:
-            - port: "443"
-        - ports:
-            - port: "80"
-    - toCIDRSet:
-        - cidr: 192.168.1.0/24
-      toPorts:
-        - ports:
-            - port: "8266"
-        - ports:
-            - port: "6053"
-    - icmps:
-      - fields:
-        - type: "8"
-          family: IPv4
+  # egress:
+  #   - toEndpoints:
+  #       - matchLabels:
+  #           io.kubernetes.pod.namespace: kube-system
+  #           k8s-app: kube-dns
+  #     toPorts:
+  #       - ports:
+  #           - port: "53"
+  #             protocol: UDP
+  #         rules:
+  #           dns:
+  #             - matchPattern: "*"
+  #   - toEntities:
+  #       - world
+  #     toPorts:
+  #       - ports:
+  #           - port: "443"
+  #       - ports:
+  #           - port: "80"
+  #   - toCIDRSet:
+  #       - cidr: 192.168.1.0/24
+  #     toPorts:
+  #       - ports:
+  #           - port: "8266"
+  #       - ports:
+  #           - port: "6053"
+  #   - icmps:
+  #     - fields:
+  #       - type: "8"
+  #         family: IPv4
