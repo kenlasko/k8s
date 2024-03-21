@@ -1,60 +1,60 @@
-# apiVersion: cilium.io/v2
-# kind: CiliumNetworkPolicy
-# metadata:
-#   name: cloudflare
-#   namespace: cloudflare
-# spec:
-#   endpointSelector:
-#     matchLabels:
-#       app: cloudflare-tunnel
-#   ingress:
-#     - {}
-#   egress:
-#     - toEntities:
-#         - cluster
-#     - toEndpoints:
-#         - matchLabels:
-#             io.kubernetes.pod.namespace: kube-system
-#             k8s-app: kube-dns
-#       toPorts:
-#         - ports:
-#             - port: "53"
-#               protocol: UDP
-#           rules:
-#             dns:
-#               - matchPattern: "*"
-#     - toFQDNs:
-#         - matchPattern: "*.argotunnel.com"
-#       toPorts:
-#         - ports:
-#             - port: "7844"
-#     - toFQDNs:
-#         - matchPattern: "*.cftunnel.com"
-#       toPorts:
-#         - ports:
-#             - port: "7844"
-#     - toFQDNs:
-#         - matchName: api.cloudflare.com
-#       toPorts:
-#         - ports:
-#             - port: "443"
-#     - toFQDNs:
-#         - matchName: cftunnel.com
-#       toPorts:
-#         - ports:
-#             - port: "7844"
-#     - toFQDNs:
-#         - matchName: kenlasko.cloudflareaccess.com
-#       toPorts:
-#         - ports:
-#             - port: "443"
-#     - toFQDNs:
-#         - matchName: pqtunnels.cloudflareresearch.com
-#       toPorts:
-#         - ports:
-#             - port: "443"
-#     - toFQDNs:
-#         - matchName: update.argotunnel.com
-#       toPorts:
-#         - ports:
-#             - port: "443"
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cloudflare
+  namespace: cloudflare
+spec:
+  endpointSelector:
+    matchLabels:
+      app: cloudflare-tunnel
+  ingress:
+    - {}
+  egress:
+    - toEntities:
+        - cluster
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "*.argotunnel.com"
+      toPorts:
+        - ports:
+            - port: "7844"
+    - toFQDNs:
+        - matchPattern: "*.cftunnel.com"
+      toPorts:
+        - ports:
+            - port: "7844"
+    - toFQDNs:
+        - matchName: api.cloudflare.com
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: cftunnel.com
+      toPorts:
+        - ports:
+            - port: "7844"
+    - toFQDNs:
+        - matchName: kenlasko.cloudflareaccess.com
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: pqtunnels.cloudflareresearch.com
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: update.argotunnel.com
+      toPorts:
+        - ports:
+            - port: "443"
