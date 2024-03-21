@@ -17,6 +17,8 @@ spec:
         - ports:
             - port: "2802"
   egress:
+    - toEntities:
+        - cluster
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
