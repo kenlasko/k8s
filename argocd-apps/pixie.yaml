@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://artifacts.px.dev/helm_charts/operator'
     targetRevision: "*"
-    chart: pixie-operator
+    chart: pixie-operator-chart
     helm:
       valueFiles:
       - $values/pixie/values.yaml
