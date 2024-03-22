@@ -28,7 +28,7 @@ spec:
       nodeName: nuc4
       containers:
       - name: zwaveadmin
-        image: zwavejs/zwavejs2mqtt:9.8.0
+        image: zwavejs/zwavejs2mqtt:latest
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
