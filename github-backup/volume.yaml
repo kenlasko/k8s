@@ -23,7 +23,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-github-backup
-  namespace: github-backup
+  namespace: gitea
 spec:
   storageClassName: "nfs"
   volumeName: nfs-github-backup

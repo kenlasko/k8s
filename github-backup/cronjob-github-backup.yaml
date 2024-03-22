@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: github-backup
-  namespace: github-backup
+  namespace: gitea
 spec:
   schedule: "0 8 * * *" 
   suspend: false
@@ -49,13 +49,6 @@ spec:
                   key: github-token
             - name: TZ
               value: "America/Toronto"
-            # resources:
-            #   requests:
-            #     cpu: 800m
-            #     memory: 500Mi
-            #   limits:
-            #     cpu: 1200m
-            #     memory: 300Mi
             volumeMounts:
             - name: github-backup
               mountPath: /backup
@@ -84,7 +77,3 @@ spec:
               sources:
               - secret:
                   name: github-token
-              - secret:
-                  name: gitlab-token
-              - secret:
-                  name: gitea-token
