@@ -33,6 +33,13 @@ spec:
                 type: RuntimeDefault
               capabilities:
                 drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 400m
+                memory: 100Mi
+              limits:
+                cpu: 800m
+                memory: 200Mi
             env: 
             - name: K3S_ROOT_PW 
               valueFrom: 
