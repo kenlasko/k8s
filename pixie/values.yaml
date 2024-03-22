@@ -1,0 +1,13 @@
+olmNamespace: "pixie"
+olmOperatorNamespace: "pixie"
+clusterName: "home"
+pemMemoryLimit: "1Gi"
+pemMemoryRequest: "500Mi"
+pod:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
+      cpu: 500m
+      memory: 1000Mi

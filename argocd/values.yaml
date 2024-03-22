@@ -113,6 +113,10 @@ configs:
       url: https://mojo2600.github.io/pihole-kubernetes/
       name: pihole
       type: helm
+    pixie:
+      url: https://artifacts.px.dev/helm_charts/operator
+      name: pixie-operator
+      type: helm
     portainer:
       url: https://portainer.github.io/k8s/
       name: portainer
