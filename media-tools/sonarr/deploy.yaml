@@ -12,6 +12,8 @@ spec:
   serviceName: sonarr
   replicas: 1
   revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: sonarr

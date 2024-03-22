@@ -11,7 +11,9 @@ metadata:
 spec:
   serviceName: readarr
   replicas: 1
-  revisionHistoryLimit: 2  
+  revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: readarr

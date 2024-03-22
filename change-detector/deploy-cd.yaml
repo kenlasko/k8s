@@ -13,6 +13,8 @@ spec:
   serviceName: change-detector
   replicas: 1
   revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: change-detector
