@@ -1,22 +1,3 @@
-kind: "Service"
-apiVersion: "v1"
-metadata:
-  name: "external-pihole1-service"
-  namespace: cloudflare
-spec:
-  type: ExternalName
-  externalName: pihole1.ucdialplans.com
-
----
-kind: "Service"
-apiVersion: "v1"
-metadata:
-  name: "external-pihole2-service"
-  namespace: cloudflare
-spec:
-  type: ExternalName
-  externalName: pihole2.ucdialplans.com
-
 ---
 kind: "Service"
 apiVersion: "v1"

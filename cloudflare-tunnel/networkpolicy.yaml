@@ -39,6 +39,16 @@ spec:
         - ports:
             - port: "7844"
     - toFQDNs:
+        - matchPattern: "*.ucdialplans.com"
+      toPorts:
+        - ports:
+            - port: "443"
+    - toCIDRSet:
+        - cidr: 192.168.1.0/24
+      toPorts:
+        - ports:
+            - port: "443"
+    - toFQDNs:
         - matchName: api.cloudflare.com
       toPorts:
         - ports:
