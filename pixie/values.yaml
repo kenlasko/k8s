@@ -5,6 +5,8 @@ deployKey: "px-dep-45353b98-21cf-4c03-93b2-9d28366847db"
 pemMemoryLimit: "1Gi"
 pemMemoryRequest: "500Mi"
 pod:
+  nodeSelector:
+    storage: "longhorn"
   resources:
     requests:
       cpu: 100m
