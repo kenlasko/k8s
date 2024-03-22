@@ -7,8 +7,6 @@ metadata:
 spec:
   replicas: 2
   revisionHistoryLimit: 2
-  updateStrategy:
-    type: RollingUpdate
   selector:
     matchLabels:
       app: ucdialplans

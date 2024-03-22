@@ -4,14 +4,12 @@ kind: Deployment
 metadata:
   name: cloudflare-tunnel
   namespace: cloudflare
-  annotations:
+    annotations:
     keel.sh/policy: force
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
   replicas: 2
-  updateStrategy:
-    type: RollingUpdate
   selector:
     matchLabels:
       app: cloudflare-tunnel
