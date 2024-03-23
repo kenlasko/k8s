@@ -3,10 +3,10 @@ db:
   allowArbitraryServer: false
 resources:
   requests:
-    cpu: 35m
+    cpu: 4m
     memory: 100Mi
   limits:
-    cpu: 100m
+    cpu: 20m
     memory: 150Mi  
 affinity:
   nodeAffinity:
