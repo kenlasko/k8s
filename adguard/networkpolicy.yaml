@@ -16,17 +16,6 @@ spec:
       toPorts:
         - ports:
             - port: "3000"
-    - fromEndpoints:
-        - matchLabels:
-            app: cloudflare-tunnel
-      toPorts:
-        - ports:
-            - port: "3000"
-    - fromCIDRSet:
-        - cidr: 192.168.1.0/24
-      toPorts:
-        - ports:
-            - port: "443"
     - fromEntities:
         - world
       toPorts:
