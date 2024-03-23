@@ -46,11 +46,6 @@ spec:
       toPorts:
         - ports:
             - port: "3000"
-    # - fromEndpoints:
-    #     - {}
-      toPorts:
-        - ports:
-            - port: "3000"
   egress:
     - toEndpoints:
         - matchLabels:
