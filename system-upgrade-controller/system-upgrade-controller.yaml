@@ -4,6 +4,8 @@ metadata:
   labels:
     pod-security.kubernetes.io/enforce: privileged
   name: system-upgrade
+
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -93,6 +95,13 @@ spec:
           runAsUser: 65534
           seccompProfile:
             type: RuntimeDefault
+        resources:
+          requests:
+            cpu: 10m
+            memory: 26Mi
+          limits:
+            cpu: 300m
+            memory: 200Mi
         volumeMounts:
         - mountPath: /etc/ssl
           name: etc-ssl
