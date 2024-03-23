@@ -48,6 +48,11 @@ spec:
       toPorts:
         - ports:
             - port: "443"
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "8000"
     - toEndpoints:
         - matchLabels:
             app: plex
