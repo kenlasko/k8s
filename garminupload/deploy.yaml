@@ -5,6 +5,10 @@ metadata:
   name: garmin-upload
   namespace: garmin-upload
 spec:
+  metadata:
+    labels:
+      app: garmin-upload
+      name: garmin-upload
   schedule: "@yearly" 
   suspend: true
   successfulJobsHistoryLimit: 1

@@ -24,6 +24,7 @@ spec:
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
           restartPolicy: Never
+          automountServiceAccountToken: false
           volumes:
           - name: data
             persistentVolumeClaim:

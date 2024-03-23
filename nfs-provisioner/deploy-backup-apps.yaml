@@ -24,6 +24,7 @@ spec:
                     values: 
                     - 'amd64'
           restartPolicy: Never
+          automountServiceAccountToken: false
           volumes:
           - name: data
             nfs:

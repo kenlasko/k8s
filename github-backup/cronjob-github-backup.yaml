@@ -24,6 +24,7 @@ spec:
                   - key: node-role.kubernetes.io/control-plane
                     operator: DoesNotExist
           restartPolicy: OnFailure
+          automountServiceAccountToken: false
           containers:
           - name: github-backup
             image: buddyspencer/gickup:latest

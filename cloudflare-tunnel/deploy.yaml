@@ -20,6 +20,7 @@ spec:
         name: cloudflare-tunnel
     spec:
       restartPolicy: Always
+      automountServiceAccountToken: false
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
