@@ -46,6 +46,13 @@ spec:
           capabilities:
             drop: ["ALL"]
         command: ["/opt/go/adguardhome-sync","run"]
+        resources:
+          requests:
+            cpu: 25m
+            memory: 25Mi
+          limits:
+            cpu: 75m
+            memory: 40Mi
         env:
         - name: PUID
           value: '1000'
