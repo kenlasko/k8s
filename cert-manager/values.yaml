@@ -62,7 +62,7 @@ webhook:
       cpu: 2m
       memory: 11Mi
     limits:
-      cpu: 15m
+      cpu: 20m
       memory: 15Mi  
   affinity:
     nodeAffinity:
