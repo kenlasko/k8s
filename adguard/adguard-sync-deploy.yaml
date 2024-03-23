@@ -48,10 +48,10 @@ spec:
         command: ["/opt/go/adguardhome-sync","run"]
         resources:
           requests:
-            cpu: 25m
-            memory: 25Mi
+            cpu: 10m
+            memory: 30Mi
           limits:
-            cpu: 75m
+            cpu: 50m
             memory: 40Mi
         env:
         - name: PUID
@@ -100,10 +100,6 @@ spec:
           value: 'info' 
         - name: TZ
           value: "America/Toronto"
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
       dnsConfig:
         options:
           - name: ndots
