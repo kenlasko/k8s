@@ -40,7 +40,14 @@ spec:
         - ports:
             - port: "3000"
     - fromEndpoints:
-        - {}
+        - matchLabels:
+            app: cloudflare
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "3000"
+    # - fromEndpoints:
+    #     - {}
       toPorts:
         - ports:
             - port: "3000"
