@@ -64,8 +64,8 @@ spec:
             value: "America/Toronto"
           resources:
             requests:
-              cpu: 10m
-              memory: 40Mi
+              cpu: 6m
+              memory: 45Mi
             limits:
               cpu: 120m
               memory: 60Mi
