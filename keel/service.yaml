@@ -14,3 +14,4 @@ spec:
     name: web
   selector:
     app: keel
+    release: keel
