@@ -36,10 +36,10 @@ spec:
             resources:
               requests:
                 cpu: 400m
-                memory: 100Mi
+                memory: 150Mi
               limits:
                 cpu: 800m
-                memory: 200Mi
+                memory: 300Mi
             env: 
             - name: K3S_ROOT_PW 
               valueFrom: 
