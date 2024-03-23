@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: keel
+    release: keel
   name: keel-frontend
   namespace: kube-system
 spec:
@@ -14,4 +15,3 @@ spec:
     name: web
   selector:
     app: keel
-    release: keel
