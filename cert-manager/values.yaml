@@ -11,7 +11,7 @@ resources:
     cpu: 3m
     memory: 25Mi
   limits:
-    cpu: 12m
+    cpu: 14m
     memory: 30Mi  
 affinity:
   nodeAffinity:
@@ -62,7 +62,7 @@ webhook:
       cpu: 1m
       memory: 11Mi
     limits:
-      cpu: 6m
+      cpu: 8m
       memory: 15Mi  
   affinity:
     nodeAffinity:
