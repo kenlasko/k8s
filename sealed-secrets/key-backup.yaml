@@ -40,6 +40,13 @@ spec:
                 type: RuntimeDefault
               capabilities:
                 drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 200m
+                memory: 400Mi
+              limits:
+                cpu: 200m
+                memory: 400Mi
             command: 
             - /bin/sh
             - -c
