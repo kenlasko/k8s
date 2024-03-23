@@ -48,11 +48,11 @@ spec:
         command: ["/opt/go/adguardhome-sync","run"]
         resources:
           requests:
-            cpu: 5m
+            cpu: 10m
             memory: 30Mi
           limits:
-            cpu: 25m
-            memory: 40Mi
+            cpu: 40m
+            memory: 60Mi
         env:
         - name: PUID
           value: '1000'
