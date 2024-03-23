@@ -48,8 +48,8 @@ spec:
         command: ["/opt/go/adguardhome-sync","run"]
         resources:
           requests:
-            cpu: 10m
-            memory: 30Mi
+            cpu: 5m
+            memory: 25Mi
           limits:
             cpu: 40m
             memory: 60Mi
