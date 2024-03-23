@@ -48,8 +48,8 @@ spec:
       toPorts:
         - ports:
             - port: "443"
-    - toEntities:
-        - world
+    - toFQDNs:
+        - matchName: nas01.ucdialplans.com
       toPorts:
         - ports:
             - port: "8000"
