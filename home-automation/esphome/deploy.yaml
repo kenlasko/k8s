@@ -60,6 +60,14 @@ spec:
             port: 6052
           initialDelaySeconds: 15
           periodSeconds: 120
+        readinessProbe:
+          tcpSocket:
+            port: 6052
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
         env:
         - name: ESPHOME_DASHBOARD_USE_PING
           value: "true"
