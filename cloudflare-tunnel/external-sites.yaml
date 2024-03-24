@@ -37,3 +37,14 @@ metadata:
 spec:
   type: ExternalName
   externalName: nas01.ucdialplans.com
+
+
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "sabnzbd-external-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: sabnzbd2.ucdialplans.com
