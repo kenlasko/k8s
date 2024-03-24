@@ -48,11 +48,6 @@ spec:
       toPorts:
         - ports:
             - port: "443"
-    - toFQDNs:
-        - matchName: nas01.ucdialplans.com
-      toPorts:
-        - ports:
-            - port: "8000"
     - toEndpoints:
         - matchLabels:
             app: plex
