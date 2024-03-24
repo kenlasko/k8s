@@ -66,7 +66,8 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         readinessProbe:
-          tcpSocket:
+          httpGet:
+            path: /
             port: 3000
           initialDelaySeconds: 5
           timeoutSeconds: 1
