@@ -19,22 +19,3 @@ spec:
       namespace: cloudflare
       kind: Service
       port: 8181
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: external-website
-  namespace: cloudflare
-spec:
-  rules:
-  - host: sabnzbd2.domain.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: httpbin   # this can be any service name, it's not relevant for external routes
-            port:
-              number: 8000
