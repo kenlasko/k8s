@@ -3,5 +3,9 @@ keyRenewPeriod: "0"  # Disable key recycling
 skipRecreate: true
 secretName: default-sealing-key
 resources:
-  limits: {}
-  requests: {}
+  requests:
+    cpu: 5m
+    memory: 10Mi
+  limits:
+    cpu: 50m
+    memory: 20Mi
