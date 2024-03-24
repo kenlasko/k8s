@@ -35,7 +35,7 @@ spec:
   - "sabnzbd2.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: external-nas01-service
+    - name: external-sabnzbd-service
       namespace: cloudflare
       kind: Service
       port: 8000
