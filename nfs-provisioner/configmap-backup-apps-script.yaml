@@ -12,6 +12,7 @@ data:
   
     # Create archive filename.
     day=$(date +%A)
+    dayofmonth=$(date +%-d)
     archive_file="nas-backup-$day.tgz"
         
     # Print start status message.
