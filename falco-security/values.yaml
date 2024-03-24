@@ -124,6 +124,13 @@ falcosidekick:
       address: http://homeassist-service.homeassist.svc.cluster.local:8123/api/webhook/-H6GkrSTowPZLtenB1zerk1mY
       method: "PUT"
       minimumpriority: warning
+  resources:
+    requests:
+      cpu: 70m
+      memory: 55Mi
+    limits:
+      cpu: 200m
+      memory: 100Mi
   affinity: 
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

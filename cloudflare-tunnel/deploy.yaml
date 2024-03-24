@@ -66,10 +66,10 @@ spec:
           resources:
             requests:
               cpu: 6m
-              memory: 45Mi
+              memory: 20Mi
             limits:
               cpu: 120m
-              memory: 60Mi
+              memory: 40Mi
           args:
             - "tunnel"
             - "--no-autoupdate"
