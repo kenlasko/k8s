@@ -9,7 +9,7 @@ metadata:
     keel.sh/trigger: poll
     keel.sh/match-tag: "true"
 spec:
-  schedule: "0 8 * * *" 
+  schedule: "0 9 * * *" 
   suspend: false
   successfulJobsHistoryLimit: 1
   jobTemplate:
