@@ -2,3 +2,15 @@ mirrors:
   registry.ucdialplans.com:
     endpoint:
       - "http://registry.ucdialplans.com"
+  docker.io:
+    endpoint:
+      - "http://192.168.1.3:5000"
+  registry.k8s.io:
+    endpoint:
+      - "http://192.168.1.3:5001"
+  gcr.io:
+    endpoint:
+      - "http://192.168.1.3:5002"
+  ghcr.io:
+    endpoint:
+      - "http://192.168.1.3:5003"
