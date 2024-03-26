@@ -68,7 +68,6 @@
     with_fileglob:
     - "/home/ken/k3s/cert-manager/cloudflare-cert.yaml"
     - "/home/ken/k3s/cert-manager/sealed-secrets.yaml"
-
   - name: Add ArgoCD chart repo
     kubernetes.core.helm_repository:
       name: argocd
