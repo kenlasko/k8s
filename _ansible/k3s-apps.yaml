@@ -34,6 +34,7 @@
       chart_version: "1.15.2"
       release_namespace: cilium
       create_namespace: true
+      update_repo_cache: true
       values_files:
       - /home/ken/k3s/cilium/values.yaml
   - name: Add Sealed-Secrets chart repo
@@ -80,15 +81,15 @@
       release_namespace: argocd
       values_files:
       - /home/ken/k3s/argocd/values.yaml
-  - name: Apply ArgoCD secrets
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/argocd/01-sealed-secrets.yaml
+  # - name: Apply ArgoCD secrets
+  #   kubernetes.core.k8s:
+  #     state: present
+  #     src: /home/ken/k3s/argocd/01-sealed-secrets.yaml
   - name: Apply ArgoCD K8s resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/argocd/02-ingress.yaml"
+    - "/home/ken/k3s/argocd/01-sealed-secrets.yaml"
     - "/home/ken/k3s/argocd/02-configmap.yaml"
     - "/home/ken/k3s/argocd/[a-u]*.yaml"
     ignore_errors: true
@@ -96,8 +97,4 @@
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/cilium/[i-r]*.yaml"
-  - name: Apply Cilium secrets
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/cilium/sealed-secrets.yaml
+    - "/home/ken/k3s/cilium/[g-u]*.yaml"
