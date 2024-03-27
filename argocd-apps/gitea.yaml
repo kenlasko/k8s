@@ -11,9 +11,6 @@ spec:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: gitea
     targetRevision: HEAD
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: github-backup
-    targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: gitea
