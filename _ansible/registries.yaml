@@ -14,3 +14,6 @@ mirrors:
   ghcr.io:
     endpoint:
       - "http://192.168.1.3:5003"
+  quay.io:
+    endpoint:
+      - "http://192.168.1.3:5004"

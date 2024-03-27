@@ -1,0 +1,11 @@
+---
+  - name: Copy files to all nodes
+    hosts: k3s-all
+    gather_facts: yes
+    tasks:
+    - name: Copy file
+      become: yes
+      become_user: root
+      copy:
+        src: /home/ken/k3s/_ansible/registries.yaml
+        dest: /etc/rancher/k3s/registries.yaml
