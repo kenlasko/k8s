@@ -67,7 +67,7 @@ spec:
             memory: 100Mi
           limits:
             cpu: 750m
-            memory: 1.5Gi  # Don't go below this. Even though it looks like its not using memory, the pod will get OOMKilled as soon as there's any load.
+            memory: 2.0Gi  # Don't go below this. Even though it looks like its not using memory, the pod will get OOMKilled as soon as there's any load.
         livenessProbe:
           httpGet:
             path: /
