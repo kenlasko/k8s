@@ -24,7 +24,7 @@ data:
 
     if [ "$dayofmonth" -eq 1 ]; then echo "Creating monthly backup..."; cp /backup/vol/backup-$day.tgz /backup/vol/backup-monthly-$(date +%m).tgz; fi &&
     
-    case $dayofmonth in 7|14|21|28) echo "Creating weekly backup..."; cp /backup/vol/backup-$day.tgz /backup/vol/backup-weekly-$dayofmonth.tgz; ;; *) ;; esac &&
+    case $dayofmonth in 7|14|21|28) echo "Creating weekly backup..."; cp -v /backup/vol/backup-$day.tgz /backup/vol/backup-weekly-$dayofmonth.tgz; ;; *) ;; esac &&
 
     # echo
     # echo
