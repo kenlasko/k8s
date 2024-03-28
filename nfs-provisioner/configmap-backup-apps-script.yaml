@@ -20,7 +20,7 @@ data:
     date
     echo
         
-    tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/.git' --exclude 'data/vol/homeassist/.storage' --exclude 'data/pxeboot/os-images' -czvf /backup/vol/backup-$day.tgz /data/vol /data/pxeboot
+    tar --exclude 'data/vol/esphome/.esphome' --exclude 'data/vol/registry' --exclude 'data/vol/homeassist/.git' --exclude 'data/vol/homeassist/.storage' --exclude 'data/pxeboot/os-images' --exclude 'data/vol/ucdialplans' -czvf /backup/vol/backup-$day.tgz /data/vol /data/pxeboot
 
     if [ "$dayofmonth" -eq 1 ]; then echo "Creating monthly backup..."; cp /backup/vol/backup-$day.tgz /backup/vol/backup-monthly-$(date +%m).tgz; fi &&
     
