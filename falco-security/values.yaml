@@ -69,6 +69,16 @@ customRules:
         values:
         - [media-tools, plex, [CrashUploader, Plex Media Fing, Plex Media Scan, Plex Media Serv, Plex Script Hos, Plex Transcoder, Plex Tuner Serv]]
         - [system-upgrade, upgrade, [ln]]
+      - name: allowed_to_execute_new_binary_no_namespace
+        fields: [proc.name, proc.pname] 
+        comps: [in,=]
+        values:
+        - [[awk, basename, cat, grep, ip6tables-legac, iptables-legacy, readlink, sed, timeout, tr, wc], iptables-restor]
+        - [[iptables-restor], kubectl]
+        - [[iptables-nft-sa], sh]
+        - [[sh], timeout]
+        - [[kubectl], upgrade.sh]
+        - [[dirname, ln, which], xtables-set-mod]
       override:
         exceptions: append
 
