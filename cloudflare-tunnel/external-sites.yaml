@@ -38,3 +38,13 @@ spec:
   type: ExternalName
   externalName: nas01.ucdialplans.com
 
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-omni-service"
+  namespace: cloudflare
+spec:
+  type: ExternalName
+  externalName: omni.ucdialplans.com
+
