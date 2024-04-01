@@ -40,7 +40,7 @@ spec:
                 memory: 700Mi
               limits:
                 cpu: 400m
-                memory: 800Mi
+               # memory: 800Mi
             env: 
             - name: K3S_ROOT_PW 
               valueFrom: 

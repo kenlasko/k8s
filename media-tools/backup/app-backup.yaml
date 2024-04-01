@@ -46,7 +46,7 @@ spec:
                 memory: 160Mi
               limits:
                 cpu: 1500m
-                memory: 300Mi
+                #memory: 300Mi
             command: 
             - /bin/sh
             - -c
