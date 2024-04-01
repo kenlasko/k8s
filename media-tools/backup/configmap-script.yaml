@@ -35,9 +35,9 @@ data:
       find /backup/tautulli/* -mtime +2 -exec rm {} \;
     fi
 
-    #echo 'Backing up Plex'
-    #rm -rf /backup/plex/*
-    #kubectl exec -n media-tools plex-0 -- tar cf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/PhotoTranscoder/* /config/. | tar xf - -C /backup/plex/
+    echo 'Backing up Plex'
+    rm -rf /backup/plex/*
+    kubectl exec -n media-tools plex-0 -- tar cf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/. | tar xf - -C /backup/plex/
     echo 'Backup complete!'
 
     
