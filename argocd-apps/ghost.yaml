@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://charts.bitnami.com/bitnami'
     targetRevision: 19.*
-    chart: ghost
+    chart: bitnami/ghost
     helm:
       valueFiles:
       - $values/ghost/values.yaml
@@ -25,5 +25,7 @@ spec:
       labels:
         pod-security.kubernetes.io/enforce: restricted
         pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
