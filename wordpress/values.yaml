@@ -2,14 +2,14 @@ wordpressUsername: kenadmin
 existingSecret: wordpress-creds
 
 podSecurityContext:
-  enabled: true
+  enabled: false
   fsGroupChangePolicy: Always
   sysctls: []
   supplementalGroups: []
   fsGroup: 1000
 
 containerSecurityContext:
-  enabled: true
+  enabled: false
   seLinuxOptions: {}
   runAsUser: 1000
   runAsGroup: 1000
