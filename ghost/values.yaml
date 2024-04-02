@@ -1,7 +1,6 @@
 persistence:
   enabled: false
-  #existingClaim: nfs-ghost-data
-  storageClass: nfs-client
+  existingClaim: nfs-ghost-data
 containerSecurityContext:
   enabled: true
   runAsUser: 1000
