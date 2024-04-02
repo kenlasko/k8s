@@ -1,6 +1,9 @@
 persistence:
   enabled: true
   existingClaim: nfs-ghost-data
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1000
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
