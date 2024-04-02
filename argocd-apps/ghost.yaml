@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://charts.bitnami.com/bitnami'
     targetRevision: 19.*
-    chart: bitnami/ghost
+    chart: ghost
     helm:
       valueFiles:
       - $values/ghost/values.yaml
