@@ -40,6 +40,8 @@ persistence:
   enabled: true
   existingClaim: nfs-wordpress-data
 
+livenessProbe:
+  enabled: false
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
