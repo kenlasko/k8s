@@ -1,0 +1,53 @@
+wordpressUsername: kenadmin
+existingSecret: wordpress-creds
+
+podSecurityContext:
+  enabled: true
+  fsGroupChangePolicy: Always
+  sysctls: []
+  supplementalGroups: []
+  fsGroup: 1000
+
+containerSecurityContext:
+  enabled: true
+  seLinuxOptions: {}
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  privileged: false
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: "RuntimeDefault"
+
+service:
+  type: ClusterIP
+
+mariadb:
+  enabled: false
+externalDatabase:
+  host: mariadb.mariadb.svc.cluster.local
+  port: 3306
+  database: wordpress
+  user: wordpress
+  existingSecret: wordpress-creds
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  existingClaim: nfs-wordpress-data
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
