@@ -59,21 +59,21 @@ spec:
           limits:
             cpu: 50m
             memory: 300Mi
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 2368
-          initialDelaySeconds: 15
-          periodSeconds: 60
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 2368
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
-          periodSeconds: 10
-          successThreshold: 1
-          failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 2368
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 60
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 2368
+        #   initialDelaySeconds: 5
+        #   timeoutSeconds: 1
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   failureThreshold: 3
         env:
         - name: database__client
           value: "mysql"
