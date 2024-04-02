@@ -1,6 +1,9 @@
 persistence:
   enabled: false
   existingClaim: nfs-ghost-data
+podSecurityContext:
+  enabled: true
+  fsGroup: 1000
 containerSecurityContext:
   enabled: true
   runAsUser: 1000
