@@ -6,7 +6,7 @@ resources:
     cpu: 5m
     memory: 100Mi
   limits:
-    cpu: 250m
+    cpu: 350m
     memory: 150Mi  
 affinity:
   nodeAffinity:
