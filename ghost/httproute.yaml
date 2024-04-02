@@ -16,4 +16,4 @@ spec:
     - name: ghost-http
       namespace: ghost
       kind: Service
-      port: 3000
+      port: 2368

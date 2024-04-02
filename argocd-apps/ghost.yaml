@@ -3,17 +3,11 @@ kind: Application
 metadata:
   name: ghost
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   sources:
-  - repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 19.*
-    chart: ghost
-    helm:
-      valueFiles:
-      - $values/ghost/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: ghost
     targetRevision: HEAD
@@ -23,7 +17,7 @@ spec:
   syncPolicy:
     managedNamespaceMetadata:
       labels:
-        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/enforce: restricted
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true

@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ghost
+  namespace: ghost
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+spec:
+  serviceName: ghost
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+        name: ghost
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'
+      containers:
+      - name: ghost
+        image: ghost:5-alpine
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 5m
+            memory: 200Mi
+          limits:
+            cpu: 50m
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 2368
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 2368
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        env:
+        - name: database__client
+          value: "mysql"
+        - name: database__connection__host
+          value: "mariadb.mariadb.svc.cluster.local:3306"
+        - name: database__connection__database
+          value: "ghost"
+        - name: database__connection__user
+          value: "bn_ghost"
+        - name: database__connection__password
+          valueFrom:
+            secretKeyRef:
+              name: ghost-creds
+              key: mysql-password        
+        - name: TZ
+          value: "America/Toronto"
+        volumeMounts:
+        - name: ghost-data
+          mountPath: /var/lib/ghost/content
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      volumes:
+      - name: ghost-data
+        persistentVolumeClaim:
+          claimName: nfs-ghost-data
+
+
