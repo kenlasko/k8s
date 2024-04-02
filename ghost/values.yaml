@@ -20,3 +20,5 @@ externalDatabase:
   database: ghost
   user: bn_ghost
   existingSecret: ghost-creds
+service:
+  type: ClusterIP
