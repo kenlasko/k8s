@@ -1,4 +1,6 @@
-
+persistence:
+  enabled: true
+  existingClaim: nfs-ghost-data
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -10,3 +12,11 @@ affinity:
           operator: In
           values: 
           - 'amd64'
+mysql:
+  enabled: false
+externalDatabase:
+  host: mariadb.mariadb.svc.cluster.local
+  port: 3306
+  database: ghost
+  user: bn_ghost
+  existingSecret: ghost-creds
