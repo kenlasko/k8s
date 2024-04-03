@@ -13,13 +13,13 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   ports:
-  - port: 36881
+  - port: 42615
     protocol: TCP
-    targetPort: 36881
+    targetPort: 42615
     name: remotedata-tcp
-  - port: 36881
+  - port: 42615
     protocol: UDP
-    targetPort: 36881
+    targetPort: 42615
     name: remotedata-udp
   - port: 9091
     protocol: TCP
