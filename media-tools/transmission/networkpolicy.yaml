@@ -1,61 +1,61 @@
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: transmission
-  namespace: media-tools
-spec:
-  endpointSelector:
-    matchLabels:
-      app: transmission
-  ingress:
-    - fromEntities:
-        - ingress
-      toPorts:
-        - ports:
-            - port: "9091"        
-    - fromEntities:
-        - world
-      toPorts:
-        - ports:
-            - port: "36881"
-    - fromEndpoints:
-        - matchLabels:
-            app: radarr
-      toPorts:
-        - ports:
-            - port: "9091"
-    - fromEndpoints:
-        - matchLabels:
-            app: sonarr
-      toPorts:
-        - ports:
-            - port: "9091"
-    - fromEndpoints:
-        - matchLabels:
-            app: readarr
-      toPorts:
-        - ports:
-            - port: "9091"
-    - fromEndpoints:
-        - matchLabels:
-            app: lidarr
-      toPorts:
-        - ports:
-            - port: "9091"
-  egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
-    - toEntities:
-        - world
-      toPorts:
-        - ports:
-            - port: "36881"
+# apiVersion: cilium.io/v2
+# kind: CiliumNetworkPolicy
+# metadata:
+#   name: transmission
+#   namespace: media-tools
+# spec:
+#   endpointSelector:
+#     matchLabels:
+#       app: transmission
+#   ingress:
+#     - fromEntities:
+#         - ingress
+#       toPorts:
+#         - ports:
+#             - port: "9091"        
+#     - fromEntities:
+#         - world
+#       toPorts:
+#         - ports:
+#             - port: "36881"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: radarr
+#       toPorts:
+#         - ports:
+#             - port: "9091"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: sonarr
+#       toPorts:
+#         - ports:
+#             - port: "9091"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: readarr
+#       toPorts:
+#         - ports:
+#             - port: "9091"
+#     - fromEndpoints:
+#         - matchLabels:
+#             app: lidarr
+#       toPorts:
+#         - ports:
+#             - port: "9091"
+#   egress:
+#     - toEndpoints:
+#         - matchLabels:
+#             io.kubernetes.pod.namespace: kube-system
+#             k8s-app: kube-dns
+#       toPorts:
+#         - ports:
+#             - port: "53"
+#               protocol: UDP
+#           rules:
+#             dns:
+#               - matchPattern: "*"
+#     - toEntities:
+#         - world
+#       toPorts:
+#         - ports:
+#             - port: "36881"
