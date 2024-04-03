@@ -318,7 +318,7 @@ prometheus:
         cpu: 100m
         memory: 600Mi
       limits:
-        cpu: 700m
+        cpu: 800m
         memory: 900Mi
     affinity:
       nodeAffinity:
