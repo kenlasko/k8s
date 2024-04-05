@@ -59,12 +59,12 @@ kubectl -n kube-system get secret api-service-account-secret \
 
 ## Create first server
 ```
-curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=none --disable-network-policy  ## --flannel-backend=wireguard-native --prefer-bundled-bin
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --cluster-init --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=none --disable-network-policy 
 ```
 
 ## Add nodes 2/3
 ```
-curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=none --disable-network-policy  ## --flannel-backend=wireguard-native --prefer-bundled-bin
+curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server https://192.168.1.4:6443 --disable servicelb,traefik,local-storage --write-kubeconfig-mode 644 --disable-cloud-controller --flannel-backend=none --disable-network-policy 
 ```
 
 ## Add worker nodes
