@@ -28,7 +28,7 @@ deschedulerPolicy:
       enabled: true 
       params:
         priorityThreshold:
-          name: "low-priority"
+          name: "medium-priority"
         nodeResourceUtilizationThresholds:
           thresholds:
             cpu: 100
