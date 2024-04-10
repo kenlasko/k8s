@@ -27,6 +27,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ha-sa-garminupload
+      priorityClassName: high-priority
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

@@ -24,6 +24,7 @@ spec:
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
+      priorityClassName: medium-priority
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

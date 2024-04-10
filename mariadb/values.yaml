@@ -9,6 +9,7 @@ rootUser:
   user: root
 mariabackup:
   user: mariabackup
+priorityClassName: high-priority
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

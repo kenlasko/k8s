@@ -25,6 +25,7 @@ spec:
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
+      priorityClassName: high-priority
       nodeName: nuc4
       containers:
       - name: ups-monitor

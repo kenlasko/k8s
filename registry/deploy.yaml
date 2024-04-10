@@ -18,6 +18,7 @@ spec:
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
+      priorityClassName: low-priority
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
