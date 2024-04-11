@@ -57,13 +57,13 @@ webhook:
   automountServiceAccountToken: false
   serviceAccount:
     automountServiceAccountToken: false
-  # resources:
-  #   requests:
-  #     cpu: 2m
-  #     memory: 11Mi
-  #   limits:
-  #     cpu: 20m
-  #     memory: 15Mi  
+  resources:
+    requests:
+      cpu: 2m
+      memory: 50Mi
+    limits:
+      cpu: 25m
+      memory: 60Mi  
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
