@@ -76,9 +76,10 @@ customRules:
         - [[awk, basename, cat, grep, ip6tables-legac, iptables-legacy, readlink, sed, timeout, tr, wc], iptables-restor]
         - [[iptables-restor], kubectl]
         - [[iptables-nft-sa], sh]
-        - [[sh], timeout]
+        - [[ip6tables-nft-s,sh], timeout]
         - [[kubectl], upgrade.sh]
         - [[dirname, ln, which], xtables-set-mod]
+        - [[kubectl], containerd-shim]
       override:
         exceptions: append
 
