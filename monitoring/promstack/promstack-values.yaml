@@ -296,7 +296,7 @@ prometheusOperator:
         cpu: 20m
         memory: 30Mi
       limits:
-        cpu: 50m
+        cpu: 70m
         memory: 50Mi
 
 prometheus:
@@ -318,7 +318,7 @@ prometheus:
         cpu: 100m
         memory: 600Mi
       limits:
-        cpu: 800m
+        cpu: 600m
         memory: 900Mi
     affinity:
       nodeAffinity:
