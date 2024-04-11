@@ -70,9 +70,9 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=***REMOVED*** sh -s - server --server h
 ## Add worker nodes
 ```
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.1.4:6443 K3S_TOKEN=***REMOVED*** sh -
-```
 
 cat /etc/rancher/k3s/k3s.yaml | sed 's/127.0.0.1/192.168.1.4/g'
+```
 
 ## Install Autocomplete
 ```
