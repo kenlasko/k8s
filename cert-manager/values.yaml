@@ -8,11 +8,11 @@ serviceAccount:
   automountServiceAccountToken: false
 resources:
   requests:
-    cpu: 5m
-    memory: 50Mi
+    cpu: 3m
+    memory: 25Mi
   limits:
-    cpu: 60m
-    memory: 90Mi  
+    cpu: 40m
+    memory: 50Mi  
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
