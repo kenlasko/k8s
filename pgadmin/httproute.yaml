@@ -13,7 +13,7 @@ spec:
   - "pgadmin.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: pgadmin
+    - name: pgadmin-pgadmin4
       namespace: postgres
       kind: Service
       port: 80
