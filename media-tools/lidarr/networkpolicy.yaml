@@ -43,6 +43,13 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toServices:
+        - k8sService:
+            serviceName: mariadb
+            namespace: mariadb
+      toPorts:
+        - ports:
+            - port: "3306"
     - toEntities:
         - world
       toPorts:
