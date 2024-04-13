@@ -87,7 +87,7 @@ spec:
       volumes:
         - name: lidarr-config
           persistentVolumeClaim:
-            claimName: nfs-lidarr  #longhorn-lidarr-config-pvc
+            claimName: longhorn-lidarr-config-pvc
         - name: media
           persistentVolumeClaim:
             claimName: nfs-media
