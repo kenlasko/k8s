@@ -1,7 +1,7 @@
 auth:
   existingSecret: postgres-passwords
   secretKeys:
-    adminPasswordKey: postgres-admin-pw
+    adminPasswordKey: postgres-admin-pw 
 primary:
   nodeAffinityPreset:
     type: hard
