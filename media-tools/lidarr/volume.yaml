@@ -23,7 +23,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-lidarr
-  namespace: lidarr
+  namespace: media-tools
 spec:
   storageClassName: "nfs"
   volumeName: nfs-lidarr
