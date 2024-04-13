@@ -1,0 +1,28 @@
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+existingSecret: postgres-passwords
+secretKeys:
+  pgadminPasswordKey: postgres-admin-pw
+env:
+  email: ken.lasko@gmail.com
+serverDefinitions:
+  enabled: true
+  servers:
+    firstServer: 
+      Name: "Postgres"
+      Group: "Servers"
+      Port: 5432
+      Username: postgres
+      Host: postgres-postgresql.postgres.svc.cluster.local
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
