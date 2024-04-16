@@ -8,6 +8,10 @@
       state: directory
   - name: Copy k3s.yaml to ~/.kube/config
     shell: scp ken@nuc1:/etc/rancher/k3s/k3s.yaml ~/.kube/config && chmod 0600 ~/.kube/config && sed -i 's/127.0.0.1/192.168.1.4/g' ~/.kube/config
+  - name: Add node labels for longhorn
+    shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
+  - name: Add node labels for GPU
+    shell: kubectl label nodes nuc4 nuc5 nuc6 intel.feature.node.kubernetes.io/gpu=true
   - name: Install default sealed secrets certificate
     kubernetes.core.k8s:
       state: present
