@@ -53,7 +53,6 @@ spec:
   service:
     type: LoadBalancer
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 192.168.1.14
       io.cilium/lb-ipam-ips: 192.168.1.14
   connection:
     secretName: mariadb-galera-conn
