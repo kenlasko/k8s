@@ -8,7 +8,7 @@ configuration:
 
 credentials:      
   useSecret: true
-  name: s3-credentials
+  existingSecret: s3-credentials
 
 affinity:
   nodeAffinity:
