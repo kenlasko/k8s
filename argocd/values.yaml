@@ -137,9 +137,9 @@ configs:
       url: https://pkgs.tailscale.com/helmcharts
       name: tailscale
       type: helm
-    traefik:
-      url: https://helm.traefik.io/traefik
-      name: traefik
+    velero:
+      url: https://vmware-tanzu.github.io/helm-charts/
+      name: velero
       type: helm
 
 # controller:

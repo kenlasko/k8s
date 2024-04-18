@@ -1,0 +1,23 @@
+configuration:
+  backupStorageLocation:
+  - name: qnap
+    provider: aws
+    bucket: kube
+    config:
+      s3Url: http://nas01.ucdialplans.com:8010
+
+credentials:      
+  useSecret: true
+  name: s3-credentials
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
