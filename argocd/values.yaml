@@ -139,7 +139,7 @@ configs:
       type: helm
     velero:
       url: https://vmware-tanzu.github.io/helm-charts/
-      name: velero
+      name: vmware-tanzu
       type: helm
 
 # controller:
