@@ -3,6 +3,7 @@ configuration:
   - name: qnap
     provider: aws
     bucket: kube
+    default: true
     config:
       s3Url: http://nas01.ucdialplans.com:8010
   volumeSnapshotLocation:
