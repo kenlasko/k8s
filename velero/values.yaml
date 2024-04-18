@@ -5,6 +5,12 @@ configuration:
     bucket: kube
     config:
       s3Url: http://nas01.ucdialplans.com:8010
+  volumeSnapshotLocation:
+  - name: qnap
+    provider: aws
+    credential:
+      name: s3-credentials
+      key: cloud
 
 credentials:      
   useSecret: true
