@@ -1,6 +1,6 @@
 configuration:
   backupStorageLocation:
-  - name: qnap
+  - name: default
     provider: aws
     bucket: kube
     default: true
