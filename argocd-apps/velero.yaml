@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://vmware-tanzu.github.io/helm-charts/'
     targetRevision: "*"
-    chart: vmware-tanzu
+    chart: velero
     helm:
       valueFiles:
       - $values/velero/values.yaml
