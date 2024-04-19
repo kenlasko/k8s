@@ -11,9 +11,12 @@ configuration:
   volumeSnapshotLocation:
   - name: qnap
     provider: aws
-    credential:
-      name: s3-credentials
-      key: cloud
+    bucket: kube-vol
+    default: true
+    config:
+      s3Url: http://nas01.ucdialplans.com:8010
+      s3ForcePathStyle: true
+      region: "default"
 
 credentials:      
   useSecret: true
