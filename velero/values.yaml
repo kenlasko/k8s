@@ -6,6 +6,7 @@ configuration:
     default: true
     config:
       s3Url: http://nas01.ucdialplans.com:8010
+      s3ForcePathStyle: false
       region: "default"
   volumeSnapshotLocation:
   - name: qnap
