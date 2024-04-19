@@ -12,6 +12,7 @@ configuration:
   - name: kube
     provider: csi
   features: EnableCSI
+  defaultVolumeSnapshotLocations: csi:kube
 
 credentials:      
   useSecret: true
