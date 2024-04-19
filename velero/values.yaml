@@ -9,14 +9,8 @@ configuration:
       s3ForcePathStyle: true
       region: "default"
   volumeSnapshotLocation:
-  - name: qnap
-    provider: aws
-    bucket: kube-vol
-    default: true
-    config:
-      s3Url: http://nas01.ucdialplans.com:8010
-      s3ForcePathStyle: true
-      region: "default"
+  - name: kube
+    provider: csi
   features: EnableCSI
 
 credentials:      
