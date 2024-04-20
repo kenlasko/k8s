@@ -24,7 +24,7 @@ spec:
         name: homeassist
     spec:
       restartPolicy: Always
-      hostNetwork: true
+      hostNetwork: false
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ha-sa-garminupload
       priorityClassName: high-priority
