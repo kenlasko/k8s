@@ -6,8 +6,8 @@
     - name: Delete kube-storage/data
       file:
         state: absent
-        path: /kube-storage/mariadb/data/
+        path: /var/mariadb/data/
     - name: Delete kube-storage/data/.bootstrap
       file:
         state: absent
-        path: /kube-storage/mariadb/.bootstrap/
+        path: /var/mariadb/.bootstrap/

@@ -24,7 +24,7 @@ spec:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/kube-storage/mariadb"
+    path: "/var/mariadb"
   nodeAffinity:
     required:
       nodeSelectorTerms:

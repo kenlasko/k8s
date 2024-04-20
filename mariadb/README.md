@@ -18,12 +18,12 @@ unlock tables;
 
 From NUC3 host
 ```
-sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /kube-storage/mariadb/mariadb-repl-backup.sql
+sudo scp ken@nuc6:/var/mariadb/data/mariadb-repl-backup.sql /var/mariadb/mariadb-repl-backup.sql
 ```
 
 From NAS01 host
 ```
-sudo scp ken@nuc6:/kube-storage/mariadb/data/mariadb-repl-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-repl-backup.sql
+sudo scp ken@nuc6:/var/mariadb/data/mariadb-repl-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-repl-backup.sql
 ```
 
 Then on mariadb-standalone/NAS01 container command prompt:
