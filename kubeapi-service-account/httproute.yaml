@@ -52,7 +52,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "k3s.ucdialplans.com"
+  - "kube.ucdialplans.com"
   rules:
   - backendRefs:
     - name: kubernetes

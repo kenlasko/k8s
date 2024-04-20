@@ -7,7 +7,7 @@
 #   entryPoints: 
 #     - websecure
 #   routes:
-#   - match: Host(`k3s.ucdialplans.com`) 
+#   - match: Host(`kube.ucdialplans.com`) 
 #     kind: Rule
 #     services:
 #     - name: kubernetes
@@ -30,7 +30,7 @@
 #   name: k3s-root
 #   namespace: default
 # spec:
-#   serverName: k3s.ucdialplans.com
+#   serverName: kube.ucdialplans.com
 #   insecureSkipVerify: true
 #   rootCAsSecrets:
 #   - traefik-k3s-ca
