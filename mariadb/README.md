@@ -1,36 +1,24 @@
 # Setup Replication
-Select the MariaDB pod on one of NUC4-6 and go to command prompt:
+1. Select the MariaDB pod on one of NUC4-6 and go to command prompt:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
+```
+```
 flush tables with read lock;
 show variables like 'gtid_binlog_pos';  
 ```
-Take results from above and set **gtid_slave_pos** for last step
+2. Take results from above and set **gtid_slave_pos** for last step. DO NOT CLOSE WINDOW.
 
-From another window on same cluster member:
-```
-mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p$MARIADB_ROOT_PASSWORD -B gitea homeassist phpmyadmin ucdialplans vaultwarden > /bitnami/mariadb/data/mariadb-repl-backup.sql
-```
-Once done, then unlock from first:
+3. Run mariadb-backup job
+
+4. Once done, then unlock from first window:
 ```
 unlock tables;
 ```
 
-From NUC3 host
+5. If replication was previously enabled, run:
 ```
-sudo scp ken@nuc6:/var/mariadb/data/mariadb-repl-backup.sql /var/mariadb/mariadb-repl-backup.sql
-```
-
-From NAS01 host
-```
-sudo scp ken@nuc6:/var/mariadb/data/mariadb-repl-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-repl-backup.sql
-```
-
-Then on mariadb-standalone/NAS01 container command prompt:
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD
 stop slave;
-
 drop database gitea;
 drop database homeassist;
 drop database ucdialplans;
@@ -38,15 +26,24 @@ drop database vaultwarden;
 drop database phpmyadmin;
 ```
 
-Exit to prompt and run on MariaDB-Standalone
+6. Run **mariadb-restore** from **mariadb-standalone** namespace.
+
+7. From NAS01 host
+```
+sudo cp /share/backup/mariadb/mariadb-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-backup.sql
+```
+
+8. Get to pod shell on NAS01 container and run:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/mariadb-repl-backup.sql
 ```
 
-Then run 
+9. Then run 
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
-set global gtid_slave_pos = "0-1-3853320,1-1-42";
+```
+```
+set global gtid_slave_pos = "0-1-19420";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
     master_user='replicator',
@@ -56,31 +53,6 @@ change master to
     master_use_gtid=slave_pos;
 
 start slave;
-```
-
-Exit to prompt and run on NAS01 MariaDB container
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-repl-backup.sql
-```
-
-Then run 
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD
-set global gtid_slave_pos = "0-1-3853320,1-1-42";
-change master to
-    master_host='192.168.1.13',
-    master_user='replicator',
-    master_password='***REMOVED***',
-    master_port=3306,
-    master_connect_retry=10,
-    master_use_gtid=slave_pos;
-
-start slave;
-```
-
-Check status
-```
-show slave status;
 ```
 
 If you get replication errors, try skipping the error and continuing:
