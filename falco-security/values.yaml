@@ -65,7 +65,7 @@ customRules:
       exceptions:
       - name: allowed_to_execute_new_binary
         fields: [container.name, proc.name] 
-        comps: [=,=,in]
+        comps: [=,in]
         values:
         - [plex, [CrashUploader, Plex Media Fing, Plex Media Scan, Plex Media Serv, Plex Script Hos, Plex Transcoder, Plex Tuner Serv]]
       - name: allowed_to_execute_new_binary_no_namespace
