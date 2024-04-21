@@ -1,0 +1,66 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mariadb-restore
+  namespace: mariadb-standalone
+spec:
+  schedule: "@yearly" 
+  suspend: true
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          dnsPolicy: ClusterFirstWithHostNet
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+          automountServiceAccountToken: false
+          containers:
+          - name: mariadb-backup
+            image: mariadb:11.2.3
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 500m
+                memory: 700Mi
+              limits:
+                cpu: 1500m
+                memory: 1400Mi
+            env: 
+            - name: K3S_ROOT_PW 
+              valueFrom: 
+                secretKeyRef: 
+                  name: mariadb-passwords
+                  key: mariadb-root-password
+            command: 
+            - /bin/sh
+            - -c
+            - echo "$(date +%F_%T) Restoring MariaDB database..." && 
+              mariadb -h mariadb.mariadb-standalone.svc.cluster.local -u root -p$K3S_ROOT_PW < /app/mariadb-backup.sql && 
+              echo "$(date +%F_%T) MariaDB databases have been restored" &&
+              echo "$(date +%F_%T) Finished!"
+            volumeMounts:
+            - name: data
+              mountPath: /app
+          restartPolicy: Never
+          volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: nfs-mariadb-standalone-backup
+

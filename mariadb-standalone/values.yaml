@@ -20,7 +20,7 @@ primary:
       memory: 600Mi
   persistence:
     storageClass: "local-path"
-    existingClaim: "mariadb-backup-pvc"
+    existingClaim: "mariadb-standalone-pvc"
   extraEnvVars:
   - name: TZ
     value: "America/Toronto"

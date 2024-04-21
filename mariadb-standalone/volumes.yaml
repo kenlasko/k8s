@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mariadb-backup-pvc
+  name: mariadb-standalone-pvc
   namespace: mariadb-standalone
 spec:
   accessModes:
@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-mariadb-backup
+  name: pv-mariadb-standalone
 spec:
   storageClassName: local-path
   capacity:
@@ -33,6 +33,43 @@ spec:
           operator: In
           values:
           - nuc3
+
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-mariadb-standalone-backup
+spec:
+  storageClassName: "nfs"
+  capacity:
+    storage: 2.5Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+  - hard
+  - nfsvers=4.1
+  nfs:
+    path: /backup/mariadb
+    server: 192.168.1.3
+    readOnly: false
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-mariadb-standalone-backup
+  namespace: mariadb-standalone
+spec:
+  storageClassName: "nfs"
+  volumeName: nfs-mariadb-standalone-backup
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 2.5Gi
 
 
 
