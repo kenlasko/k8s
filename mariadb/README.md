@@ -7,16 +7,16 @@ mariadb -u root -p$MARIADB_ROOT_PASSWORD
 flush tables with read lock;
 show variables like 'gtid_binlog_pos';  
 ```
-2. Take results from above and set **gtid_slave_pos** for last step. DO NOT CLOSE WINDOW.
+2. Take results from above and set **gtid_slave_pos** for step 7. DO NOT CLOSE WINDOW.
 
-3. Run mariadb-backup job
+3. Run **mariadb-backup** job on **mariadb** namespace
 
-4. Once done, then unlock from first window:
+4. Once done, then unlock tables from first window:
 ```
 unlock tables;
 ```
 
-5. If replication was previously enabled, run:
+5. If replication was previously enabled on secondary, run:
 ```
 stop slave;
 drop database gitea;
