@@ -64,11 +64,10 @@ customRules:
     - rule: Drop and execute new binary in container
       exceptions:
       - name: allowed_to_execute_new_binary
-        fields: [k8s.ns.name, container.name, proc.name] 
+        fields: [container.name, proc.name] 
         comps: [=,=,in]
         values:
-        - [media-tools, plex, [CrashUploader, Plex Media Fing, Plex Media Scan, Plex Media Serv, Plex Script Hos, Plex Transcoder, Plex Tuner Serv]]
-        - [system-upgrade, upgrade, [ln]]
+        - [plex, [CrashUploader, Plex Media Fing, Plex Media Scan, Plex Media Serv, Plex Script Hos, Plex Transcoder, Plex Tuner Serv]]
       - name: allowed_to_execute_new_binary_no_namespace
         fields: [proc.name, proc.pname] 
         comps: [in,=]
