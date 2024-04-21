@@ -1,7 +1,7 @@
 # Setup Replication
-Select the MariaDB pod on NUC6 and go to command prompt:
+Select the MariaDB pod on one of NUC4-6 and go to command prompt:
 ```
-mariadb -u root -p***REMOVED***
+mariadb -u root -p$MARIADB_ROOT_PASSWORD
 flush tables with read lock;
 show variables like 'gtid_binlog_pos';  
 ```
@@ -9,7 +9,7 @@ Take results from above and set **gtid_slave_pos** for last step
 
 From another window on same cluster member:
 ```
-mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p***REMOVED*** -B gitea homeassist phpmyadmin ucdialplans vaultwarden > /bitnami/mariadb/data/mariadb-repl-backup.sql
+mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p$MARIADB_ROOT_PASSWORD -B gitea homeassist phpmyadmin ucdialplans vaultwarden > /bitnami/mariadb/data/mariadb-repl-backup.sql
 ```
 Once done, then unlock from first:
 ```
@@ -28,7 +28,7 @@ sudo scp ken@nuc6:/var/mariadb/data/mariadb-repl-backup.sql /share/appdata/docke
 
 Then on mariadb-standalone/NAS01 container command prompt:
 ```
-mariadb -u root -p***REMOVED***
+mariadb -u root -p$MARIADB_ROOT_PASSWORD
 stop slave;
 
 drop database gitea;
@@ -40,12 +40,12 @@ drop database phpmyadmin;
 
 Exit to prompt and run on MariaDB-Standalone
 ```
-mariadb -u root -p***REMOVED*** < /bitnami/mariadb/mariadb-repl-backup.sql
+mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/mariadb-repl-backup.sql
 ```
 
 Then run 
 ```
-mariadb -u root -p***REMOVED***
+mariadb -u root -p$MARIADB_ROOT_PASSWORD
 set global gtid_slave_pos = "0-1-3853320,1-1-42";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
@@ -60,12 +60,12 @@ start slave;
 
 Exit to prompt and run on NAS01 MariaDB container
 ```
-mariadb -u root -p***REMOVED*** < /backup/mariadb-repl-backup.sql
+mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-repl-backup.sql
 ```
 
 Then run 
 ```
-mariadb -u root -p***REMOVED***
+mariadb -u root -p$MARIADB_ROOT_PASSWORD
 set global gtid_slave_pos = "0-1-3853320,1-1-42";
 change master to
     master_host='192.168.1.13',
