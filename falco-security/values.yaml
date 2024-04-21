@@ -142,7 +142,7 @@ falcosidekick:
       memory: 55Mi
     limits:
       cpu: 200m
-      memory: 100Mi
+      memory: 200Mi
   affinity: 
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
