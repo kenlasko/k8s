@@ -28,17 +28,7 @@ drop database phpmyadmin;
 
 6. Run **mariadb-restore** from **mariadb-standalone** namespace.
 
-7. From NAS01 host
-```
-sudo cp /share/backup/mariadb/mariadb-backup.sql /share/appdata/docker-vol/mariadb/backup/mariadb-backup.sql
-```
-
-8. Get to pod shell on NAS01 container and run:
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/mariadb-repl-backup.sql
-```
-
-9. Then run 
+7. For MariaDB-Standalone, run
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
@@ -46,6 +36,33 @@ mariadb -u root -p$MARIADB_ROOT_PASSWORD
 set global gtid_slave_pos = "0-1-19420";
 change master to
     master_host='mariadb.mariadb.svc.cluster.local',
+    master_user='replicator',
+    master_password='***REMOVED***',
+    master_port=3306,
+    master_connect_retry=10,
+    master_use_gtid=slave_pos;
+
+start slave;
+```
+
+8. From NAS01 host
+```
+sudo cp /share/backup/mariadb/mariadb-backup.sql /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
+```
+
+9. Get to pod shell on NAS01 container and run:
+```
+mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/data/mariadb-backup.sql
+```
+
+10. Then run 
+```
+mariadb -u root -p$MARIADB_ROOT_PASSWORD
+```
+```
+set global gtid_slave_pos = "0-1-19420";
+change master to
+    master_host='192.168.1.13',
     master_user='replicator',
     master_password='***REMOVED***',
     master_port=3306,
