@@ -6,6 +6,7 @@ metadata:
   namespace: mariadb
 spec:
   schedule: "0 */2 * * *"  # Once every 2 hours
+  suspend: true
   successfulJobsHistoryLimit: 1
   jobTemplate:
     spec:
