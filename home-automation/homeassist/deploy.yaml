@@ -48,8 +48,6 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
-            add: 
-            - NET_ADMIN
         resources:
           requests:
             cpu: 150m
