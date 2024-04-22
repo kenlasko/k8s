@@ -55,7 +55,7 @@ spec:
             smarter-devices/ttyUSB1: 1
           limits:
             cpu: 900m
-            memory: 1.4Gi
+            memory: 1400Mi
             smarter-devices/ttyUSB1: 1
         livenessProbe:
           httpGet:
