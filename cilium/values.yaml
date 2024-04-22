@@ -90,7 +90,21 @@ hubble:
       annotations:
         omni-kube-service-exposer.sidero.dev/port: "50080"
         omni-kube-service-exposer.sidero.dev/label: Hubble
-        omni-kube-service-exposer.sidero.dev/icon: H4sICB0B1mQAA25naW54LXN2Z3JlcG8tY29tLnN2ZwBdU8ly2zAMvfcrWPZKwiTANWM5015yyiHdDr1kNLZsa0axvKix8/cFJbvNdCRCEvEAPDxQ8/vLSydem+Op7XeVtGCkaHbLftXuNpX8Pax1kveL+UetxY9919erZiWG/k58+/kgvjb7Xonz+Qyn182RP2DZvyjx0OyaYz30x38o8dhemqP43vfdSWi9+DDnCHFuV8O2ksmY/UWKbdNutsPfz9e2OX/pL5U0wghCvqVgqrtTJbfDsL+bzUrhM0F/3MzQGDPjlHIxH9qhaxbrtmueh7d987zbtLvLfDZtz/f1sBWrSj5aD9klhVswwdfWgLNJXR+GL6sgRwSP6QmRd53yELzCCMmRShCjqyFmLOsWwCiIKS01GJOUA0qZHQUby5ZXlsAGjkv8wmuK00A+gDfxoD1DSREQOm0teBdVgOA4wqdY1i0i+AiG4lOGbFEhg7icZWJIgCMz+It1DA/hYDQXScxVjyyohpCprBt7SswylJze49htVNxQjk6xDuSXTAs12OQgUGLWMRenLj4pTsNb11SSde/uPhmbA2U5e6c3qxBiEdhTOhhO77CIwxvJ55p7NVlN1owX+xkOJhUb3M1OTuShAZpQIoK72mtcSF5bwExLoxECjsqzssgIzdMLB2IdiPViApHbsTwhH1KNkIgFHO2tTOB54pjfXu3k4QLechmK9lCGzfm9s0XbQtmWfqa4NB0Oo1lzVtUsx6wjKxtYBcKSMkJOyGzJBbYxBM0aBypZfdBRJyDCz0zNRjXZKw0D/J75KFApFvPVTt73kv/6b0Lr9bqMp/wziz8W9M/pAwQAAA==
+        omni-kube-service-exposer.sidero.dev/icon: |
+          H4sICL1YJmYAA2h1YmJsZS5zdmcAxVbbbuIwEP0Vy7y0DzG+xLeKIBUK25fVrrTbl32p0hBI1EBQ
+          kkLbr98xgTaQdG9CWiFyOR77zJmxZzIoNwu0TWdVEmDJDUZJnC6SKsBcMYw2abwd5c8BpogiGEY7
+          dJ5mWYBX+SrG6HmZrcoAJ1W1vur3t9st2QqSF4s+p5T2YXE8HCzD8hGlswCnUb66B+z+/gGjsnrJ
+          4gC7Qa96WcdXYbZOQowccLdKK1j1qYyLb+swir+s7kpHBo5g9LK7fuTzcLAOq2Tv41ORXfTeWcNL
+          jMCNz6AmgYkbsL+lr7g/HPQd63Cw2LG35j1cYjeWgytpBfREd6ua/RdV0T+qml06d4v8EfztTehE
+          TkYHwNv7QRQXB25HwQRhWnhM+0RzsYFRwqT8rCzhfhtmXBLBeBs3jAjTtudCE1+27bkVRPK2vfAt
+          kbaN+1QSpTpwxYgWbVwyTQxt41aAvRGw8YnSPPEY99UbyKgh2m+hyieGnaKcU2LMHt0lZlH/G0nt
+          zefzOo/McCRFwpQmQujN/n4L8Oth7gJFWbr23PRWWuNmWpnPrtn0NK2CWN1I65JLQ4SvEJPgr9Ue
+          hMMYD5INTqPmS8IkRIhnDrOoxrzmC0jcWfw4VInexAgqqHO8TWdgf+wXOBedGlk21t10zBBO/Sad
+          +Cs60aab2rGA+B7RGdjFRsNWMEQaWy/QVGc76EyTznyoTlt5fS276YRPLByGc9JN4URAATii4xZK
+          ANurE2fNndVjJWw3XUPduejG9mak6eFIzeJ5ORwU4SwNs0/uFq+qk/IOZTyqi3VUV+siwNAOF3vr
+          D8r7Yfh7Ea7KeV4sXXeoivT5goJrlEjkceVDf3XXHeC6TVnla5TP52VcuX4jfHeG87UX5VkOtL0b
+          637O+SNL1m1Wg2/9qxZ9rPU32qPza4dqawWoFxISZPmvIyDVaQSmaqqnphUBoqXptvyjILi6+tXt
+          vmP5Me4o1tW7qt1jFlbxBWcaGd1oydZsGOWHjnxYHx7rHee+kYY/AW4+6+6GCQAA
 
 gatewayAPI:
   enabled: true
