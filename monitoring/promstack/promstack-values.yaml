@@ -56,7 +56,6 @@ alertmanager:
     - name: ken-gmail
       email_configs:
       - to: ken.lasko@gmail.com
-
   ingress:
     enabled: false
   alertmanagerSpec:
@@ -79,6 +78,31 @@ alertmanager:
             requests:
               storage: 50Gi
 
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50100"
+      omni-kube-service-exposer.sidero.dev/label: Alert Manager
+      omni-kube-service-exposer.sidero.dev/icon: |
+        H4sICNVrJmYAA3Byb21zdGFjay5zdmcAdVVNbxtHDL0H6H+Ybq/rETmcGQ4DK0HqtrnYl3wUaG5C
+        tLWFKlpBEmz//D5ujGSNKAYM7z5zOY+Pj5zL149ftuF+OBw3427ZcaQuDLvP43qzu112Hz/8ddG6
+        cDytduvVdtwNy243dq9fvbj89eIifNxvx9V6WIfT+DK8//tteDfsxz48PDzE4/3tAS/x8/ilD2+H
+        3XBYncbD96hws3kcDuHDOG6P4eICCfFFeNisT3fLrhHtH7twN2xu707fXu83w8Pv4+Oyu6BYAoVU
+        1H+7OXnuAsrZHZfd3em0f7lYOJcHiePhdpGIaIFTnkJePm43u//OBbKZLab/dmF/GI7D4X54c9wP
+        n0/vVqfNuOwebzbrf/DbvXoR8HN5+/Xv9Lxfne7CetndcGqRiDlZT7FWDVdFozCTWHpCqAdkyqkm
+        f/EvapXKKVzhzSxKEaUUZh+mUhGTckthdsAMvWJDFuP0LBaP84TT6+w0f59RmVK0ZpWfiP5Qy/UP
+        yKcwrzhliilpkgxCpLG1VqjOYeNYWiKm0qdUoxrj8Gcoe6ywCU6rOeZEKGUOX81hz9EsFwmcW2QW
+        LTI/7zy56/OwF9OQBWqp9jBOTK0Ws3BdUUtmpZJ/BrO2mJUau0pTkkpSfwbPk5w/cuKiUVE0kuOg
+        lBNrwpmIhqpZ6xy+wqM2zSYFsIsiVQJAaWSUeQJFuNUc8GRWjVA81xJbrSUX+DSj+6yVWs+ForFQ
+        s1AYuTgnD84SmWrBcdDaaq6VtWcpoE/mJBwGG7gJcPb2W26hSmymYIcU0mJirk2D5ljQ1eqxaEEl
+        LsnC1XlYLRqqg4+BslPOmkNz7+LAmiduAqlAolEUKiYkEwlJTUsLWiLUadVAIqXonin2DGWOiVS8
+        jhncSixQFXYLVmA7VNGkR0mwELxrAd2TZMkK97nAVKWoQk0EJzEqtTpcaiOoEphSrMksW18Mnm+l
+        FQbq6YxL3zAImAL4HDaH5VElau2VMcIm2RDL4oRQWV9QRnIP2xyFPLnkivZ4im9wMnS3MjYEZgLp
+        4EJDo2uEwOocEECVoD26j49QnPhagVacsU2wV2CbLFgWmCqhCOKq0gu8hvwMxt7cgpJT6Sv8k1sm
+        akjhjEx8NSlFKhhUcHMUUNXsEmM9NfUV5G2skkV6CEggTL6oOOfJec16+MNIwcInXmPRCoO4xHCj
+        aGuBcbZoNTCGM4WwLXxnwN2a0FLtfU9geYhUxKLnnJSsx05BDWguqGEoYG41ceF9LxVCR2HsiDup
+        YD5axtyJstehGrF1IFFvEmupCUMxR91XuTQc6Sm+wwmVGohCeiRWodzKZNgqKJcnFsmqC+SqZNQ1
+        NUTFvZl88nwS0EiBFOpuQkSepgbCQ/GfoNdweSSMkrRpeCnnRrinvsJaTJ/gBBeEBG86NZ8m7IKc
+        UR4yn11NZ9FPXfh3s90uu9/+eJP/FMbt+cvlwu/Lp2t0gXv00m/oV/8DThm2ppUIAAA=
 
 grafana:
   enabled: true
@@ -98,6 +122,55 @@ grafana:
             operator: In
             values: 
             - 'amd64'
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50101"
+      omni-kube-service-exposer.sidero.dev/label: Grafana
+      omni-kube-service-exposer.sidero.dev/icon: |
+        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
+        THDN/N9s/9b/nNvfr366+B/N5a5TOhYAAA==
   persistence:
     enabled: true
     size: 10Gi
@@ -339,6 +412,32 @@ prometheus:
           resources:
             requests:
               storage: 50Gi
+
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50102"
+      omni-kube-service-exposer.sidero.dev/label: Prometheus
+      omni-kube-service-exposer.sidero.dev/icon: |
+        H4sICNVrJmYAA3Byb21zdGFjay5zdmcAdVVNbxtHDL0H6H+Ybq/rETmcGQ4DK0HqtrnYl3wUaG5C
+        tLWFKlpBEmz//D5ujGSNKAYM7z5zOY+Pj5zL149ftuF+OBw3427ZcaQuDLvP43qzu112Hz/8ddG6
+        cDytduvVdtwNy243dq9fvbj89eIifNxvx9V6WIfT+DK8//tteDfsxz48PDzE4/3tAS/x8/ilD2+H
+        3XBYncbD96hws3kcDuHDOG6P4eICCfFFeNisT3fLrhHtH7twN2xu707fXu83w8Pv4+Oyu6BYAoVU
+        1H+7OXnuAsrZHZfd3em0f7lYOJcHiePhdpGIaIFTnkJePm43u//OBbKZLab/dmF/GI7D4X54c9wP
+        n0/vVqfNuOwebzbrf/DbvXoR8HN5+/Xv9Lxfne7CetndcGqRiDlZT7FWDVdFozCTWHpCqAdkyqkm
+        f/EvapXKKVzhzSxKEaUUZh+mUhGTckthdsAMvWJDFuP0LBaP84TT6+w0f59RmVK0ZpWfiP5Qy/UP
+        yKcwrzhliilpkgxCpLG1VqjOYeNYWiKm0qdUoxrj8Gcoe6ywCU6rOeZEKGUOX81hz9EsFwmcW2QW
+        LTI/7zy56/OwF9OQBWqp9jBOTK0Ws3BdUUtmpZJ/BrO2mJUau0pTkkpSfwbPk5w/cuKiUVE0kuOg
+        lBNrwpmIhqpZ6xy+wqM2zSYFsIsiVQJAaWSUeQJFuNUc8GRWjVA81xJbrSUX+DSj+6yVWs+ForFQ
+        s1AYuTgnD84SmWrBcdDaaq6VtWcpoE/mJBwGG7gJcPb2W26hSmymYIcU0mJirk2D5ljQ1eqxaEEl
+        LsnC1XlYLRqqg4+BslPOmkNz7+LAmiduAqlAolEUKiYkEwlJTUsLWiLUadVAIqXonin2DGWOiVS8
+        jhncSixQFXYLVmA7VNGkR0mwELxrAd2TZMkK97nAVKWoQk0EJzEqtTpcaiOoEphSrMksW18Mnm+l
+        FQbq6YxL3zAImAL4HDaH5VElau2VMcIm2RDL4oRQWV9QRnIP2xyFPLnkivZ4im9wMnS3MjYEZgLp
+        4EJDo2uEwOocEECVoD26j49QnPhagVacsU2wV2CbLFgWmCqhCOKq0gu8hvwMxt7cgpJT6Sv8k1sm
+        akjhjEx8NSlFKhhUcHMUUNXsEmM9NfUV5G2skkV6CEggTL6oOOfJec16+MNIwcInXmPRCoO4xHCj
+        aGuBcbZoNTCGM4WwLXxnwN2a0FLtfU9geYhUxKLnnJSsx05BDWguqGEoYG41ceF9LxVCR2HsiDup
+        YD5axtyJstehGrF1IFFvEmupCUMxR91XuTQc6Sm+wwmVGohCeiRWodzKZNgqKJcnFsmqC+SqZNQ1
+        NUTFvZl88nwS0EiBFOpuQkSepgbCQ/GfoNdweSSMkrRpeCnnRrinvsJaTJ/gBBeEBG86NZ8m7IKc
+        UR4yn11NZ9FPXfh3s90uu9/+eJP/FMbt+cvlwu/Lp2t0gXv00m/oV/8DThm2ppUIAAA=
 
 thanosRuler:
   enabled: false
