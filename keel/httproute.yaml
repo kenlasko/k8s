@@ -13,7 +13,7 @@ spec:
   - "keel.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: keel-frontend
+    - name: keel
       namespace: kube-system
       kind: Service
       port: 9300
