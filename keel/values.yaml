@@ -38,6 +38,8 @@ persistence:
   storageClass: "nfs"
   size: 5Mi
 
+service:
+  enabled: true
 serviceAnnotations:
   omni-kube-service-exposer.sidero.dev/port: "50105"
   omni-kube-service-exposer.sidero.dev/label: Keel
