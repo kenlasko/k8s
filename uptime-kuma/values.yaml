@@ -1,0 +1,18 @@
+persistence:
+  enabled: true
+  claimNameOverwrite: "uptime-kuma-pvc"
+  sizeLimit: 850Mi
+  storageClass: "nfs"
+  annotations: {}
+  labels: {}
+
+podSecurityContext: 
+  fsGroup: 2000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
