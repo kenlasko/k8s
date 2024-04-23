@@ -1,68 +1,70 @@
-# apiVersion: networking.k8s.io/v1
-# kind: NetworkPolicy
-# metadata:
-#   name: homeassist
-#   namespace: homeassist
-# spec:
-#   podSelector:
-#     matchLabels:
-#       app: homeassist
-#   policyTypes:
-#     - Ingress
-#     - Egress
-#   ingress:
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app.kubernetes.io/name: traefik
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: cloudflare-tunnel
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: change-detector
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: falco
-#       ports:
-#         - port: 8123
-#     - from:
-#         - podSelector: {}
-#   egress:
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               k8s-app: kube-dns
-#       ports:
-#         - port: 53
-#           protocol: UDP
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: plex
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app.kubernetes.io/name: prometheus
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: adguard
-#       ports:
-#         - port: 3000
-#     - to:
-#         - podSelector: {}
-#     - to:
-#         - ipBlock:
-#             cidr: 0.0.0.0/0
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: homeassist
+  namespace: homeassist
+spec:
+  podSelector:
+    matchLabels:
+      app: homeassist
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: cloudflare-tunnel
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: change-detector
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: falco
+      ports:
+        - port: 8123
+    - from:
+        - podSelector: {}
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: plex
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: adguard
+      ports:
+        - port: 3000
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: uptime-kuma
+      ports:
+        - port: 80
+    - to:
+        - podSelector: {}
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
