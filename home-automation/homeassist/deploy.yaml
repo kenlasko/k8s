@@ -68,6 +68,9 @@ spec:
         env:
         - name: TZ
           value: "America/Toronto"
+        envFrom:
+        - secretRef:
+            name: kube-auth-token
         volumeMounts:
         - name: homeassist
           mountPath: /config
@@ -79,7 +82,3 @@ spec:
       - name: homeassist
         persistentVolumeClaim:
           claimName: nfs-homeassist
-      - name: github-ssh-creds
-        secret:
-          secretName: github-ssh-creds
-          defaultMode: 0600
