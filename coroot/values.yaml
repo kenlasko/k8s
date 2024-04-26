@@ -26,6 +26,7 @@ corootClusterAgent:
 
 node-agent:
   enabled: true
+  tracesEndpoint: ""
 
 clickhouse:
   affinity:
