@@ -19,14 +19,15 @@ corrootCE:
 
 corootClusterAgent:
   affinity:
-    type: hard
-    matchExpressions:
-    - key: node-role.kubernetes.io/control-plane
-      operator: DoesNotExist
-    - key: kubernetes.io/arch
-      operator: In
-      values: 
-      - 'amd64'
+    nodeAffinity:
+      type: hard
+      matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+      - key: kubernetes.io/arch
+        operator: In
+        values: 
+        - 'amd64'
 
 clickhouse:
   affinity:
