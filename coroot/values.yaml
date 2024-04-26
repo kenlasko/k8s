@@ -29,6 +29,18 @@ corootClusterAgent:
         values: 
         - 'amd64'
 
+clickhouse:
+  affinity:
+    nodeAffinity:
+      type: hard
+      matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+      - key: kubernetes.io/arch
+        operator: In
+        values: 
+        - 'amd64'
+
 prometheus:
   enabled: false
 
