@@ -170,7 +170,7 @@ falcosidekick:
               - 'amd64' 
     redis:
       enabled: true
-      storageSize: "2Gi"
+      #storageSize: "2Gi"
       affinity: 
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
