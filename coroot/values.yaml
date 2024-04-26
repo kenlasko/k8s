@@ -1,4 +1,4 @@
-corrootCE:
+corootCE:
   securityContext:
     capabilities:
       drop:
