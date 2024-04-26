@@ -48,4 +48,3 @@ existingPrometheus:
   service:
     serviceName: promstack-prometheus.monitoring.svc.cluster.local
     servicePort: 9090
-    serviceNamespace: monitoring
