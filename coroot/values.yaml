@@ -25,7 +25,7 @@ corootClusterAgent:
             - 'amd64'
 
 node-agent:
-  enabled: true
+  enabled: false
   tracesEndpoint: ""
 
 clickhouse:
