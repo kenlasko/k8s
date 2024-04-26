@@ -7,8 +7,7 @@ collectors:
   crio:
     enabled: false
   containerd:
-    enabled: true
-    socket: /run/k3s/containerd/containerd.sock
+    enabled: false
   kubernetes:
     enabled: true
 resources:
@@ -155,7 +154,9 @@ falcosidekick:
             - 'amd64' 
   webui:
     enabled: true
+    replicaCount: 1
     existingSecret: sidekick-creds
+
     affinity: 
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -169,6 +170,7 @@ falcosidekick:
               - 'amd64' 
     redis:
       enabled: true
+      storageSize: "2Gi"
       affinity: 
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
