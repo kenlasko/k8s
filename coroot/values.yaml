@@ -32,18 +32,8 @@ corootClusterAgent:
             - 'amd64'
 
 node-agent:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - 'amd64'
-            
+  enabled: false
+
 clickhouse:
   affinity:
     nodeAffinity:
