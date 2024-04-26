@@ -8,38 +8,41 @@ corrootCE:
   runAsUser: 1000
   affinity:
     nodeAffinity:
-      type: hard
-      matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
-      - key: kubernetes.io/arch
-        operator: In
-        values: 
-        - 'amd64'
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
 
 corootClusterAgent:
   affinity:
     nodeAffinity:
-      type: hard
-      matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
-      - key: kubernetes.io/arch
-        operator: In
-        values: 
-        - 'amd64'
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
 
 clickhouse:
   affinity:
     nodeAffinity:
-      type: hard
-      matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
-      - key: kubernetes.io/arch
-        operator: In
-        values: 
-        - 'amd64'
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
 
 prometheus:
   enabled: false
