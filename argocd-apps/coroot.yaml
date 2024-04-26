@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coroot
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://coroot.github.io/helm-charts'
+    targetRevision: "*"
+    chart: coroot
+    helm:
+      valueFiles:
+      - $values/coroot/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: coroot
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: coroot
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
