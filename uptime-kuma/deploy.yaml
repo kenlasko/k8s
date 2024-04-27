@@ -17,14 +17,35 @@ spec:
         app.kubernetes.io/instance: uptime-kuma
         app.kubernetes.io/name: uptime-kuma
     spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
       containers:
-      - env:
-          - name: UPTIME_KUMA_PORT
-            value: '3001'
-          - name: PORT
-            value: '3001'
+      - name: uptime-kuma
         image: 'quay.io/k3rnel-pan1c/uptime-kuma:latest'
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources: {}
+        env:
+        - name: UPTIME_KUMA_PORT
+          value: '3001'
+        - name: PORT
+          value: '3001'
         livenessProbe:
           exec:
             command:
@@ -33,7 +54,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
-        name: uptime-kuma
         ports:
         - containerPort: 3001
           name: http
@@ -47,27 +67,14 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
-        resources: {}
-        securityContext:
-          capabilities:
-            drop:
-            - ALL
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 1000
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /app/data
           name: uptime-storage
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
       schedulerName: default-scheduler
-      automountServiceAccountToken: false
       securityContext:
         fsGroup: 2000
-      # serviceAccount: uptime-kuma
-      # serviceAccountName: uptime-kuma
       terminationGracePeriodSeconds: 30
       volumes:
       - name: uptime-storage
