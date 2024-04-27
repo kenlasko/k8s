@@ -18,20 +18,20 @@ spec:
     server: 192.168.1.3
     readOnly: false
 
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   labels:
-#     app.kubernetes.io/name: uptime-kuma
-#   name: uptime-kuma-pvc
-#   namespace: uptime-kuma
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 850Mi
-#   storageClassName: nfs
-#   volumeMode: Filesystem
-#   volumeName: uptime-kuma-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/name: uptime-kuma
+  name: uptime-kuma-pvc
+  namespace: uptime-kuma
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 850Mi
+  storageClassName: nfs
+  volumeMode: Filesystem
+  volumeName: uptime-kuma-data
