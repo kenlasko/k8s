@@ -21,6 +21,10 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: uptime-kuma
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
     syncOptions:
