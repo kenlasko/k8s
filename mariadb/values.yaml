@@ -35,6 +35,8 @@ service:
     io.cilium/lb-ipam-ips: 192.168.1.13
     tailscale.com/expose: 'true'
     tailscale.com/hostname: 'home-mariadb'
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
 
 networkPolicy:
   enabled: 'true'
