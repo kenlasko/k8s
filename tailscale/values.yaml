@@ -12,14 +12,5 @@ operatorConfig:
             values: 
             - 'amd64'
 proxyConfig:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - 'amd64'
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
