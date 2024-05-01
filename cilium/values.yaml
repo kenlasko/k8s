@@ -55,13 +55,26 @@ cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
-
+resources:
+  requests:
+    cpu: 100m
+    memory: 250Mi
+  limits:
+    cpu: 400m
+    memory: 400Mi
 
 hubble:
   peerService:
     clusterDomain: cluster.local
   relay:
     enabled: true
+    resources:
+      requests:
+        cpu: 15m
+        memory: 25Mi
+      limits:
+        cpu: 50m
+        memory: 50Mi   
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
