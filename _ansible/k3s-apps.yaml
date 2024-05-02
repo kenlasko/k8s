@@ -30,7 +30,7 @@
     kubernetes.core.helm:
       name: cilium
       chart_ref: cilium/cilium
-      chart_version: "1.15.3"
+      chart_version: "1.15.4"
       release_namespace: cilium
       create_namespace: true
       update_repo_cache: true
@@ -80,20 +80,22 @@
       release_namespace: argocd
       values_files:
       - /home/ken/k3s/argocd/values.yaml
-  # - name: Apply ArgoCD secrets
-  #   kubernetes.core.k8s:
-  #     state: present
-  #     src: /home/ken/k3s/argocd/01-sealed-secrets.yaml
+  - name: Apply ArgoCD secrets
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/argocd/sealed-secrets.yaml
   - name: Apply ArgoCD K8s resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/argocd/01-sealed-secrets.yaml"
-    - "/home/ken/k3s/argocd/02-configmap.yaml"
-    - "/home/ken/k3s/argocd/[a-u]*.yaml"
+    - "/home/ken/k3s/argocd/[a-n]*.yaml"
     ignore_errors: true
+  - name: Apply Cilium gateways
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/cilium/gateway.yaml
   - name: Apply Cilium resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/cilium/[g-u]*.yaml"
+    - "/home/ken/k3s/cilium/[h-l]*.yaml"
