@@ -16,7 +16,7 @@ show variables like 'gtid_binlog_pos';
 ```
 unlock tables;
 ```
-5. Connect to NAS01 and rename **/share/backup/mariadb/mariadb-backup-`<dayofweek`>.sql** to **mariadb-backup.sql**
+5. Connect to NAS01 and rename `/share/backup/mariadb/mariadb-backup-<dayofweek>.sql` to `mariadb-backup.sql`
 
 ## MariaDB Standalone Setup
 1. If replication was previously enabled on secondary, run:
@@ -29,7 +29,7 @@ drop database vaultwarden;
 drop database phpmyadmin;
 ```
 
-2. Run **mariadb-restore** from **mariadb-standalone** namespace.
+2. Run `mariadb-restore` from `mariadb-standalone` namespace.
 
 3. Connect to MariaDB-Standalone pod and run:
 ```
