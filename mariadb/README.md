@@ -1,4 +1,5 @@
 # Setup Replication
+## Primary DB Backup
 1. Select the MariaDB pod on one of NUC4-6 and go to command prompt:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
@@ -15,8 +16,10 @@ show variables like 'gtid_binlog_pos';
 ```
 unlock tables;
 ```
+5. Connect to NAS01 and rename **/share/backup/mariadb/mariadb-backup-<dayofweek>.sql** to **mariadb-backup.sql**
 
-5. If replication was previously enabled on secondary, run:
+## MariaDB Standalone Setup
+1. If replication was previously enabled on secondary, run:
 ```
 stop slave;
 drop database gitea;
@@ -26,9 +29,9 @@ drop database vaultwarden;
 drop database phpmyadmin;
 ```
 
-6. Run **mariadb-restore** from **mariadb-standalone** namespace.
+2. Run **mariadb-restore** from **mariadb-standalone** namespace.
 
-7. For MariaDB-Standalone, run
+3. Connect to MariaDB-Standalone pod and run:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
@@ -45,17 +48,26 @@ change master to
 start slave;
 ```
 
-8. From NAS01 host
+## From NAS01 DR Host
+1. From NAS01 host via SSH:
 ```
 sudo cp /share/backup/mariadb/mariadb-backup.sql /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
 ```
-
-9. Get to pod shell on NAS01 container and run:
+2. If replication was previously enabled on secondary, run:
+```
+stop slave;
+drop database gitea;
+drop database homeassist;
+drop database ucdialplans;
+drop database vaultwarden;
+drop database phpmyadmin;
+```
+3. Get to pod shell on NAS01 container via [Portainer](https://portainer.ucdialplans.com) and run:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/data/mariadb-backup.sql
 ```
 
-10. Then run 
+4. Then run 
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
@@ -72,6 +84,43 @@ change master to
 start slave;
 ```
 
+## From ONode1
+1. Copy mariadb-backup.sql from NAS01 to ONode1 **/kube-storage/mariadb/data** using WinSCP or equivalent
+2. If replication was previously enabled on ONode1, run:
+```
+stop slave;
+drop database gitea;
+drop database homeassist;
+drop database ucdialplans;
+drop database vaultwarden;
+drop database phpmyadmin;
+```
+3. Connect to ONode1 via SSH and open shell to MariaDB container.
+```
+kubectl exec -i -t -n mariadb mariadb-0 -c mariadb -- sh -c "clear; (bash || ash || sh)"
+```
+4. Then run
+```
+mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/data/mariadb-backup.sql
+```
+5. Then from SQL command line:
+```
+mariadb -u root -p$MARIADB_ROOT_PASSWORD
+```
+```
+set global gtid_slave_pos = "0-1-19420";
+change master to
+    master_host='100.74.58.124',
+    master_user='replicator',
+    master_password='***REMOVED***',
+    master_port=3306,
+    master_connect_retry=10,
+    master_use_gtid=slave_pos;
+
+start slave;
+```
+
+## Replication Errors?
 If you get replication errors, try skipping the error and continuing:
 ```
 STOP SLAVE;

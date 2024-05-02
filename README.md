@@ -15,7 +15,7 @@ sudo cp ~/k3s/hosts /etc/ansible/hosts
 ## Install Kubernetes
 1. Make sure all Talos nodes are in maintenance mode and are available in Omni, then create cluster:
 ```
-omnictl cluster template sync -f omni/cluster-template-home.yaml
+omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
 2. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
 ```
