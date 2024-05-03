@@ -1,5 +1,0 @@
-# Remove Kured reboot lockout
-kubectl -n kube-system annotate ds kured weave.works/kured-node-lock-
-
-# Revert K3S Upgrade plans to latest stable version
-/home/ken/k3s/system-upgrade-controller/upgrade-plan.yaml
