@@ -52,8 +52,8 @@ spec:
 
   service:
     type: LoadBalancer
-    annotations:
-      io.cilium/lb-ipam-ips: 192.168.1.14
+    # annotations:
+    #   io.cilium/lb-ipam-ips: 192.168.1.14
   connection:
     secretName: mariadb-galera-conn
     secretTemplate:
