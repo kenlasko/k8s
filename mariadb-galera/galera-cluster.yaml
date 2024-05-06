@@ -49,12 +49,13 @@ spec:
       podSyncTimeout: 5m0s
 
   podSecurityContext:
-    runAsUser: 0
+    runAsUser: 1000
 
   service:
     type: LoadBalancer
-    # annotations:
-    #   io.cilium/lb-ipam-ips: 192.168.1.14
+    metadata:
+      annotations:
+        io.cilium/lb-ipam-ips: 192.168.1.15
   connection:
     secretName: mariadb-galera-conn
     secretTemplate:
