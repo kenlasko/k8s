@@ -84,6 +84,10 @@
     kubernetes.core.k8s:
       state: present
       src: /home/ken/k3s/argocd/sealed-secrets.yaml
+  - name: Apply priority classes
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/argocd/priorityclass.yaml
   - name: Apply ArgoCD K8s resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
