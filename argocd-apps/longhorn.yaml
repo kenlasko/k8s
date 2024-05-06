@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: longhorn
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-5"
 spec:
   project: default
   sources:
