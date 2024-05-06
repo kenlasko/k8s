@@ -73,8 +73,6 @@ spec:
             operator: In
             values: 
             - 'amd64'
-      
-
 
   tolerations:
     - key: "mariadb.mmontes.io/ha"
