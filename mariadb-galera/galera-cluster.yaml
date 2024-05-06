@@ -6,6 +6,7 @@ metadata:
 spec:
   image: mariadb:11.3.2
   rootPasswordSecretKeyRef:
+    generate: false
     name: mariadb-passwords
     key: mariadb-root-password
 
