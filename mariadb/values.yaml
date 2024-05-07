@@ -29,7 +29,14 @@ networkPolicy:
   allowExternalEgress: false
   ingressNSPodMatchLabels:
     mariadb-client: "true"
-  # extraIngress:
+  extraIngress:
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              mariadb-client: "true"
+      ports:
+        - port: 3306
   #   - from:
   #       - namespaceSelector: {}
   #         podSelector:
