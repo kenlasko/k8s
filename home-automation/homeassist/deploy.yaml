@@ -22,7 +22,7 @@ spec:
       labels:
         app: homeassist
         name: homeassist
-        networkClass: database
+        mariadb-client: 'true'
     spec:
       restartPolicy: Always
       hostNetwork: true

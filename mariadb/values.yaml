@@ -3,7 +3,7 @@ global:
 namespaceOverride: mariadb
 fullnameOverride: mariadb
 podLabels:
-  networkClass: database
+  mariadb-client: 'true'
 existingSecret: mariadb-passwords 
 rootUser:
   user: root
@@ -28,13 +28,13 @@ networkPolicy:
   allowExternal: false
   allowExternalEgress: false
   ingressNSPodMatchLabels:
-    networkClass: database
+    mariadb-client: 'true'
   # extraIngress:
   #   - from:
   #       - namespaceSelector: {}
   #         podSelector:
   #           matchLabels:
-  #             networkClass: database
+  #             mariadb-client: 'true'
   #     ports:
   #       - port: 3306
   #   - from:
@@ -88,7 +88,7 @@ networkPolicy:
   #       - namespaceSelector: {}
   #         podSelector:
   #           matchLabels:
-  #             networkClass: database
+  #             mariadb-client: 'true'
   #     ports:
   #       - port: 3306
   #   - to:

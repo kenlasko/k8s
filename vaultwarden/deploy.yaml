@@ -21,7 +21,7 @@ spec:
       labels:
         app: vaultwarden
         name: vaultwarden
-        networkClass: database
+        mariadb-client: 'true'
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false

@@ -20,7 +20,7 @@ spec:
       labels:
         app: gitea
         name: gitea
-        networkClass: database
+        mariadb-client: 'true'
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
