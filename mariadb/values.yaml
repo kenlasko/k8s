@@ -64,20 +64,20 @@ networkPolicy:
               app: vaultwarden
       ports:
         - port: 3306
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: ucdialplans
-      ports:
-        - port: 3306
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: gitea
-      ports:
-        - port: 3306
+    # - from:
+    #     - namespaceSelector: {}
+    #       podSelector:
+    #         matchLabels:
+    #           app: ucdialplans
+    #   ports:
+    #     - port: 3306
+    # - from:
+    #     - namespaceSelector: {}
+    #       podSelector:
+    #         matchLabels:
+    #           app: gitea
+    #   ports:
+    #     - port: 3306
     - from:
         - podSelector: {}
     - from:
