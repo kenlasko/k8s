@@ -25,7 +25,7 @@ affinity:
           - 'amd64'
 networkPolicy:
   enabled: true
-  allowExternal: false
+  allowExternal: true
   allowExternalEgress: false
   # ingressNSPodMatchLabels:
   #   mariadb-client: 'true'
