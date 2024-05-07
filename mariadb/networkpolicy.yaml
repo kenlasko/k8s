@@ -63,3 +63,5 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEndpoints:
+        - {}
