@@ -20,6 +20,7 @@ spec:
       labels:
         app: gitea
         name: gitea
+        networkClass: database
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false

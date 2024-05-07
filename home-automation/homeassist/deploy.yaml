@@ -22,6 +22,7 @@ spec:
       labels:
         app: homeassist
         name: homeassist
+        networkClass: database
     spec:
       restartPolicy: Always
       hostNetwork: true

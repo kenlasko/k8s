@@ -15,6 +15,7 @@ spec:
       labels:
         app: ucdialplans
         name: ucdialplans
+        networkClass: database
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false

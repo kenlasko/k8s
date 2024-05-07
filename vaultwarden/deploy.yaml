@@ -21,6 +21,7 @@ spec:
       labels:
         app: vaultwarden
         name: vaultwarden
+        networkClass: database
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
