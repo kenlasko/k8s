@@ -43,9 +43,9 @@ networkPolicy:
   allowExternal: true
   allowExternalEgress: false
   ingressNSMatchLabels:
-    networkClass: database
+    - networkClass: database
   ingressNSPodMatchLabels:
-    networkClass: database
+    - networkClass: database
   # extraIngress:
   #   - from:
   #       - namespaceSelector: {}
