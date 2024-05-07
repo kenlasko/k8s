@@ -1,7 +1,7 @@
 namespaceOverride: mariadb-standalone
 fullnameOverride: mariadb
 commonLabels:
-  networkClass: Database
+  networkClass: database
 auth:
   existingSecret: mariadb-passwords
 primary:
