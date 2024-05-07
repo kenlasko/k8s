@@ -26,8 +26,8 @@ affinity:
 networkPolicy:
   enabled: true
   allowExternal: false
-  allowExternalEgress: true
-  ingressNSMatchLabels:
+  allowExternalEgress: false
+  ingressNSPodMatchLabels:
     mariadb-client: "true"
   # extraIngress:
   #   - from:
