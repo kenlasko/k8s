@@ -11,6 +11,8 @@ spec:
     - Ingress
     - Egress
   ingress:
+    - fromEntities:
+        - ingress
     - from:
         - namespaceSelector: {}
           podSelector:
