@@ -40,14 +40,14 @@ service:
 
 networkPolicy:
   enabled: true
-  allowExternal: true
-  allowExternalEgress: true
+  allowExternal: false
+  allowExternalEgress: false
   extraIngress:
     - from:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              networkClass: Database
+              networkClass: database
       ports:
         - port: 3306
     - from:
@@ -68,7 +68,7 @@ networkPolicy:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              networkClass: Database
+              networkClass: database
       ports:
         - port: 3306
     - to:
