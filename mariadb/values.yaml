@@ -51,6 +51,13 @@ networkPolicy:
       ports:
         - port: 3306
     - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              app: tailscale
+      ports:
+        - port: 3306        
+    - from:
         - podSelector: {}
     - from:
         - ipBlock:
