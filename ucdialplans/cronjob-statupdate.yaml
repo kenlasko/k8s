@@ -11,6 +11,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            networkClass: database
         spec:
           dnsPolicy: ClusterFirstWithHostNet
           affinity:
