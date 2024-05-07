@@ -1,3 +1,5 @@
+commonLabels:
+  mariadb-client: "true"
 db:
   host: ""
   allowArbitraryServer: false
