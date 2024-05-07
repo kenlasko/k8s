@@ -9,49 +9,24 @@ spec:
       app.kubernetes.io/instance: mariadb
   ingress:
     - fromEndpoints:
+        - matchLabels:
+            networkclass: database
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "3306"
+    - fromEndpoints:
         - {}
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: homeassist
-      toPorts:
-        - ports:
-            - port: "3306"
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: gitea
-      toPorts:
-        - ports:
-            - port: "3306"
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: ucdialplans
-      toPorts:
-        - ports:
-            - port: "3306"
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: vautwarden
-      toPorts:
-        - ports:
-            - port: "3306"
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: mariadb-standalone
-      toPorts:
-        - ports:
-            - port: "3306"
-    - fromEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: uptime-kuma
-      toPorts:
-        - ports:
-            - port: "3306"
     - fromCIDRSet:
         - cidr: 192.168.1.3/32
       toPorts:
         - ports:
             - port: "3306"
   egress:
+    - toEndpoints:
+        - {}
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -63,5 +38,3 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEndpoints:
-        - {}
