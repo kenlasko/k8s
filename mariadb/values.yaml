@@ -45,11 +45,11 @@ networkPolicy:
   ingressNSPodMatchLabels:
     networkClass: database
   extraIngress:
-    # - from:
-    #     - namespaceSelector: {}
-    #       podSelector:
-    #         matchLabels:
-    #           networkClass: database
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkClass: database
     #   ports:
     #     - port: 3306
     # - from:
@@ -102,13 +102,13 @@ networkPolicy:
       ports:
         - port: 53
           protocol: UDP
-    # - to:
-    #     - namespaceSelector: {}
-    #       podSelector:
-    #         matchLabels:
-    #           networkClass: database
-    #   ports:
-    #     - port: 3306
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkClass: database
+      ports:
+        - port: 3306
     - to:
         - podSelector: {}
     - to:
