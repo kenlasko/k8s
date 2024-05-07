@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: keel
+  namespace: kube-system
+spec:
+  podSelector:
+    matchLabels:
+      app: keel
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - fromEntities:
+      - ingress
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
