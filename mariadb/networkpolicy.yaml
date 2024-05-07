@@ -1,40 +1,55 @@
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
   name: mariadb
   namespace: mariadb
 spec:
-  endpointSelector:
+  podSelector:
     matchLabels:
       app.kubernetes.io/instance: mariadb
+  policyTypes:
+    - Ingress
+    - Egress
   ingress:
-    - fromEndpoints:
-        - matchLabels:
-            networkclass: database
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
-      toPorts:
-        - ports:
-            - port: "3306"
-    - fromEndpoints:
-        - {}
-    - fromCIDRSet:
-        - cidr: 192.168.1.3/32
-      toPorts:
-        - ports:
-            - port: "3306"
+    - from:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkclass: database
+      ports:
+        - port: 3306
+    - from:
+        - podSelector: {}
+    - from:
+        - ipBlock:
+            cidr: 192.168.1.3/32
+      ports:
+        - port: 3306
   egress:
-    - toEndpoints:
-        - {}
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
+    - to:
+        - podSelector: {}
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              networkclass: database
+      ports:
+        - port: 3306
+    - to:
+        - ipBlock:
+            cidr: 192.168.1.3/32
+      ports:
+        - port: 3306
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
