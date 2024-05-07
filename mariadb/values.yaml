@@ -23,21 +23,6 @@ affinity:
           operator: In
           values: 
           - 'amd64'
-resources:
-  requests:
-    cpu: 20m
-    memory: 1200Mi
-  limits:
-    cpu: 600m
-    memory: 2000Mi
-service:
-  type: LoadBalancer
-  externalTrafficPolicy: Cluster
-  annotations:
-    io.cilium/lb-ipam-ips: 192.168.1.13
-    tailscale.com/expose: 'true'
-    tailscale.com/hostname: 'home-mariadb'
-
 networkPolicy:
   enabled: true
   allowExternal: true
@@ -118,6 +103,22 @@ networkPolicy:
   #           cidr: 192.168.1.3/32
   #     ports:
   #       - port: 3306  
+resources:
+  requests:
+    cpu: 20m
+    memory: 1200Mi
+  limits:
+    cpu: 600m
+    memory: 2000Mi
+service:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  annotations:
+    io.cilium/lb-ipam-ips: 192.168.1.13
+    tailscale.com/expose: 'true'
+    tailscale.com/hostname: 'home-mariadb'
+
+
 
 extraEnvVars:
 - name: TZ
