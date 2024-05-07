@@ -39,9 +39,9 @@ service:
     tailscale.com/hostname: 'home-mariadb'
 
 networkPolicy:
-  enabled: 'true'
-  allowExternal: 'false'
-  allowExternalEgress: 'false'
+  enabled: true
+  allowExternal: false
+  allowExternalEgress: false
   extraIngress:
     - from:
         - namespaceSelector: {}
