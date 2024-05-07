@@ -27,8 +27,8 @@ networkPolicy:
   enabled: true
   allowExternal: false
   allowExternalEgress: false
-  # ingressNSPodMatchLabels:
-  #   mariadb-client: 'true'
+  ingressNSMatchLabels:
+    mariadb-client: "true"
   # extraIngress:
   #   - from:
   #       - namespaceSelector: {}
