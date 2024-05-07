@@ -62,7 +62,7 @@
 #         - namespaceSelector: {}
 #           podSelector:
 #             matchLabels:
-#               mariadb-client: 'true'
+#               mariadb-client: true
 #       ports:
 #         - port: 3306
 #     - to:
