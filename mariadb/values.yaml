@@ -3,7 +3,7 @@ global:
 namespaceOverride: mariadb
 fullnameOverride: mariadb
 podLabels:
-  networkClass: Database
+  networkClass: database
 existingSecret: mariadb-passwords 
 rootUser:
   user: root
