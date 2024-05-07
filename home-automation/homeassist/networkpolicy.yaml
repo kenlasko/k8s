@@ -60,6 +60,13 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
+              networkClass: database
+      ports:
+        - port: 3306
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
               app: uptime-kuma
       ports:
         - port: 80
