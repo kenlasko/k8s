@@ -48,6 +48,11 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
         resources:
           requests:
             cpu: 1000m
