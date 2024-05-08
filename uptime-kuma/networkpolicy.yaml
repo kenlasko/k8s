@@ -15,9 +15,8 @@ spec:
             - port: "3001"
     - fromEntities:
         - cluster
-#        - world
-    - fromEndpoints:
-        - {}
+    # - fromEndpoints:
+    #     - {}
   egress:
     - toEntities:
         - cluster
