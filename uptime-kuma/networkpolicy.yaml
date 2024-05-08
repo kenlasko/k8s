@@ -15,7 +15,16 @@ spec:
             - port: "3001"
     - fromEntities:
         - cluster
+      toPorts:
+        - ports:
+            - port: "80"
+    - fromEntities:
         - world
+      toPorts:
+        - ports:
+            - port: "80"
+    - fromEndpoints:
+        - {}
       toPorts:
         - ports:
             - port: "80"
