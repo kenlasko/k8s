@@ -24,7 +24,7 @@ affinity:
           values: 
           - 'amd64'
 networkPolicy:
-  enabled: true
+  enabled: false
   allowExternal: false
   allowExternalEgress: false
   extraIngress:
