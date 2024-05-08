@@ -37,7 +37,7 @@ deschedulerPolicy:
           targetThresholds:
             cpu: 100
             memory: 100
-            pods: 40
+            pods: 37
           namespaces:
             include:
             - 'adguard'
