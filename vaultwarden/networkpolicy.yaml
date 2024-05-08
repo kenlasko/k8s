@@ -15,7 +15,8 @@ spec:
             - port: "8087"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app: cloudflare
+            io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
             - port: "8087"
