@@ -9,6 +9,9 @@ spec:
   successfulJobsHistoryLimit: 1
   jobTemplate:
     spec:
+      metadata:
+        labels:
+          mariadb-client: 'true'
       template:
         spec:
           dnsPolicy: ClusterFirstWithHostNet
