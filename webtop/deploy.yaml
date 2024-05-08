@@ -57,12 +57,12 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 6052
+            port: 3000
           initialDelaySeconds: 15
           periodSeconds: 120
         readinessProbe:
           tcpSocket:
-            port: 6052
+            port: 3000
           initialDelaySeconds: 5
           timeoutSeconds: 1
           periodSeconds: 10
