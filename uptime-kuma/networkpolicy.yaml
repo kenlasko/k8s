@@ -13,14 +13,13 @@ spec:
       toPorts:
         - ports:
             - port: "3001"
-    - fromEndpoints:
-        - matchLabels:
-            app: homeassist
+    - fromCIDRSet:
+        - cidr: 192.168.1.0/28
       toPorts:
         - ports:
             - port: "80"
-    - fromCIDRSet:
-        - cidr: 192.168.1.0/28
+    - fromEntities:
+        - cluster
       toPorts:
         - ports:
             - port: "80"
