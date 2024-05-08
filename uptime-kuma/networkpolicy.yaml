@@ -16,7 +16,6 @@ spec:
     - fromEndpoints:
         - matchLabels:
             app: homeassist
-            io.kubernetes.pod.namespace: homeassist
       toPorts:
         - ports:
             - port: "80"
