@@ -13,6 +13,13 @@ spec:
       toPorts:
         - ports:
             - port: "3001"
+    - fromEndpoints:
+        - matchLabels:
+            app: homeassist
+            io.kubernetes.pod.namespace: homeassist
+      toPorts:
+        - ports:
+            - port: "3001"
   egress:
     - toEntities:
         - cluster
