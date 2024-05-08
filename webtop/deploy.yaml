@@ -36,7 +36,7 @@ spec:
                 - 'amd64'
       containers:
       - name: webtop
-        image: lscr.io/linuxserver/webtop:ubuntu-icewm
+        image: lscr.io/linuxserver/webtop:ubuntu-openbox
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
