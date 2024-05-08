@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: webtop
+  namespace: webtop
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+spec:
+  serviceName: webtop
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: webtop
+  template:
+    metadata:
+      labels:
+        app: webtop
+        name: webtop
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false      
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'
+      containers:
+      - name: webtop
+        image: lscr.io/linuxserver/webtop:latest
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 6052
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        readinessProbe:
+          tcpSocket:
+            port: 6052
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        env:
+        - name: TZ
+          value: "America/Toronto"
+        volumeMounts:
+        - name: webtop
+          mountPath: /config
+      volumes:
+      - name: webtop
+        persistentVolumeClaim:
+          claimName: nfs-webtop
+
