@@ -19,7 +19,7 @@ spec:
             io.kubernetes.pod.namespace: homeassist
       toPorts:
         - ports:
-            - port: "3001"
+            - port: "80"
   egress:
     - toEntities:
         - cluster
