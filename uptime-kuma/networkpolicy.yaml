@@ -19,6 +19,11 @@ spec:
       toPorts:
         - ports:
             - port: "80"
+    - fromCIDRSet:
+        - cidr: 192.168.1.0/28
+      toPorts:
+        - ports:
+            - port: "80"
   egress:
     - toEntities:
         - cluster
