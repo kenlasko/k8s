@@ -36,7 +36,7 @@ spec:
                 - 'amd64'
       containers:
       - name: webtop
-        image: lscr.io/linuxserver/webtop:ubuntu-openbox
+        image: lscr.io/linuxserver/webtop:ubuntu-mate
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
