@@ -62,7 +62,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              mariadb-client: 'true'
+              app: mariadb
       ports:
         - port: 3306
     - to:
