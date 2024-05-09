@@ -77,8 +77,8 @@ spec:
         volumeMounts:
         - name: transmission
           mountPath: /config
-        - name: media
-          mountPath: /media
+        - name: media-downloads
+          mountPath: /downloads
       dnsConfig:
         options:
           - name: ndots
@@ -87,6 +87,6 @@ spec:
       - name: transmission
         persistentVolumeClaim:
           claimName: nfs-transmission
-      - name: media
+      - name: media-downloads
         persistentVolumeClaim:
-          claimName: nfs-media
+          claimName: nfs-media-downloads
