@@ -36,7 +36,7 @@ spec:
                 - 'amd64'
       containers:
       - name: webtop
-        image: lscr.io/linuxserver/webtop:ubuntu-xfce
+        image: lscr.io/linuxserver/webtop:ubuntu-kde
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: true
@@ -57,7 +57,7 @@ spec:
             #gpu.intel.com/i915: '1' 
           limits:
             cpu: 1000m
-            memory: 900Mi
+            memory: 3000Mi
             #gpu.intel.com/i915: '1'
         livenessProbe:
           httpGet:
