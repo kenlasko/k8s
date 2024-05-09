@@ -78,8 +78,8 @@ spec:
         volumeMounts:
         - name: sabnzbd-config
           mountPath: /config
-        - name: media
-          mountPath: /media
+        - name: media-downloads
+          mountPath: /downloads
       dnsConfig:
         options:
           - name: ndots
@@ -88,6 +88,6 @@ spec:
         - name: sabnzbd-config
           persistentVolumeClaim:
             claimName: longhorn-sabnzbd-config-pvc
-        - name: media
+        - name: media-downloads
           persistentVolumeClaim:
-            claimName: nfs-media
+            claimName: nfs-media-downloads
