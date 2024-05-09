@@ -14,7 +14,11 @@ spec:
         - ports:
             - port: "3001"
     - fromEntities:
-        - cluster
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "3001"
   egress:
     - toEntities:
         - cluster
