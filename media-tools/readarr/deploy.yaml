@@ -22,6 +22,7 @@ spec:
       labels:
         app: readarr
         name: readarr
+        appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always

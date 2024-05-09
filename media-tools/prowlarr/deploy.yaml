@@ -22,6 +22,7 @@ spec:
       labels:
         app: prowlarr
         name: prowlarr
+        appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
