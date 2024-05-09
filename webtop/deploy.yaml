@@ -52,8 +52,13 @@ spec:
             - "DAC_OVERRIDE"
         resources:
           requests:
+            cpu: 500m
+            memory: 750Mi
+            gpu.intel.com/i915: '1' 
+          limits:
             cpu: 1000m
-            memory: 100Mi
+            memory: 900Mi
+            gpu.intel.com/i915: '1'
         livenessProbe:
           httpGet:
             path: /
