@@ -39,7 +39,7 @@ spec:
         image: lscr.io/linuxserver/webtop:ubuntu-kde
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
           seccompProfile:
             type: RuntimeDefault
