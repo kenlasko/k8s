@@ -25,7 +25,7 @@ affinity:
           - 'amd64'
 networkPolicy:
   enabled: true
-  allowExternal: false
+  allowExternal: true
   allowExternalEgress: false
   extraIngress:
     - from:
@@ -40,11 +40,6 @@ networkPolicy:
           podSelector:
             matchLabels:
               tailscale.com/parent-resource: mariadb
-      ports:
-        - port: 3306
-    - from:
-        - ipBlock:
-            cidr: 192.168.1.0/28
       ports:
         - port: 3306
 resources:
