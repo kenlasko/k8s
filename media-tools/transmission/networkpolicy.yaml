@@ -38,6 +38,3 @@ spec:
               - matchPattern: "*"
     - toEntities:
         - world
-      toPorts:
-        - ports:
-            - port: "42615"
