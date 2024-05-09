@@ -21,25 +21,7 @@ spec:
             - port: "8080"
     - fromEndpoints:
         - matchLabels:
-            app: radarr
-      toPorts:
-        - ports:
-            - port: "8080"
-    - fromEndpoints:
-        - matchLabels:
-            app: sonarr
-      toPorts:
-        - ports:
-            - port: "8080"
-    - fromEndpoints:
-        - matchLabels:
-            app: lidarr
-      toPorts:
-        - ports:
-            - port: "8080"
-    - fromEndpoints:
-        - matchLabels:
-            app: readarr
+            appGroup: media-arr
       toPorts:
         - ports:
             - port: "8080"
