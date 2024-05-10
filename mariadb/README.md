@@ -1,3 +1,13 @@
+# Restore databases
+1. On NAS01, go to ```/share/backup/mariadb``` and rename desired backup to ```mariadb-backup.sql```
+2. Run ```mariadb-restore``` CronJob from ```mariadb``` namespace. Do via either ArgoCD or:
+```
+kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-restore
+```
+3. Restore MariaDB user accounts by running SQL commands found in ```mariadb-users.sql``` on ```/share/backup/mariadb```
+    - Make sure to NOT restore last 4 rows (mariadbbackup, mariadb.sys, mysql, monitor)
+4. Restore MariaDB procedures (used for replication checking via Uptime-Kuma and UCDialplans updates)
+
 # Setup Replication
 ## Primary DB Backup
 1. Select the MariaDB pod on one of NUC4-6 and go to command prompt:
