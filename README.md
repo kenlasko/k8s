@@ -56,3 +56,13 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://a
 sudo apt update
 sudo apt install -y kubectl
 ```
+
+## Install K9S on Linux
+```
+curl -sS https://webinstall.dev/k9s | bash
+```
+
+## Install K9S on Windows
+```
+curl.exe -A MS https://webinstall.dev/k9s | powershell
+```
