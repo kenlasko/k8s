@@ -10,7 +10,7 @@
 #     namespace: cilium
 #     sectionName: https
 #   hostnames:
-#   - "k3s.ucdialplans.com"
+#   - "kube.ucdialplans.com"
 #   rules:
 #   - backendRefs:
 #     - name: kubernetes
@@ -36,7 +36,7 @@
 #       - kind: ConfigMapReference
 #         name: kube-root-ca.crt
 #         group: ""
-#     hostname: k3s.ucdialplans.com
+#     hostname: kube.ucdialplans.com
 
 
 
