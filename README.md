@@ -28,17 +28,16 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 
 ## Argo App Install Order
-1. media-tools (defines the priority levels needed for other apps)
-2. nfs-provisioner
-3. mariadb (then follow [MariaDB restore procedures](mariadb/README.md))
-4. longhorn (once up and running, restore volumes)
-5. adguard
-6. external-dns
-
+1. nfs-provisioner
+2. mariadb (then follow [MariaDB restore procedures](mariadb/README.md))
+3. longhorn (once up and running, restore volumes)
+4. adguard
+5. external-dns
+6. media-tools (installs all media apps - ONLY DO AFTER LONGHORN VOLUMES ARE RESTORED)
 
 ## Get Kubernetes token
 ```
-kubectl -n kube-system get secret api-service-account-secret \
+kubectl -n kube-system get secret kubeapi-service-account-secret \
           -o jsonpath="{.data.token}" | base64 -d; echo
 ```
 
