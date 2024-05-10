@@ -26,7 +26,7 @@
 # apiVersion: gateway.networking.k8s.io/v1alpha2
 # kind: BackendTLSPolicy
 # metadata:
-#   name: k3s-tls-policy
+#   name: kube-tls-policy
 #   namespace: default
 # spec:
 #   targetRef:
