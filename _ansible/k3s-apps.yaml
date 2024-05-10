@@ -92,7 +92,7 @@
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/argocd/[a-n]*.yaml"
+    - "/home/ken/k3s/argocd/[a-h]*.yaml"
     ignore_errors: true
   - name: Apply Cilium gateways
     kubernetes.core.k8s:
