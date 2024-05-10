@@ -6,7 +6,7 @@ kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-res
 ```
 3. Restore MariaDB user accounts by running SQL commands found in ```mariadb-users.sql``` on ```/share/backup/mariadb```
     - Make sure to NOT restore last 4 rows (mariadbbackup, mariadb.sys, mysql, monitor)
-4. Restore MariaDB procedures (used for replication checking via Uptime-Kuma and UCDialplans updates)
+4. Restore MariaDB procedures using ```procedures.sql``` file(used for replication checking via Uptime-Kuma and UCDialplans updates)
 
 # Setup Replication
 ## Primary DB Backup
