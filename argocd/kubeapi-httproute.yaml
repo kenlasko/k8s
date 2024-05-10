@@ -1,3 +1,6 @@
+# Provides access to KubeAPI via load balancer instead of directly through node or via Omni
+# Useful in case of issues with Omni
+
 # ---
 # apiVersion: gateway.networking.k8s.io/v1
 # kind: HTTPRoute
