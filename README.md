@@ -41,20 +41,19 @@ kubectl -n kube-system get secret kubeapi-service-account-secret \
           -o jsonpath="{.data.token}" | base64 -d; echo
 ```
 
-
-## Install Autocomplete
-```
-sudo apt install -y bash-completion
-echo "source <(kubectl completion bash)" >> ~/.bashrc
-source ~/.bashrc
-```
-
 ## Install remote admin tools on non-Kubernetes server
 ```
 sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt update
 sudo apt install -y kubectl
+```
+
+## Install Autocomplete
+```
+sudo apt install -y bash-completion
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## Install K9S on Linux
