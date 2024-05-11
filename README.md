@@ -49,7 +49,7 @@ sudo apt update
 sudo apt install -y kubectl
 ```
 
-## Install Autocomplete
+## Install Kubectl Autocomplete
 ```
 sudo apt install -y bash-completion
 echo "source <(kubectl completion bash)" >> ~/.bashrc
