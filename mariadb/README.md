@@ -130,6 +130,26 @@ change master to
 start slave;
 ```
 
+## Uptime-Kuma Procedure
+Re-add this procedure to allow Uptime-Kuma to check replication status
+```
+DELIMITER $$
+CREATE PROCEDURE phpmyadmin.check_replication()
+BEGIN
+    DECLARE rep_status VARCHAR(50);
+    SELECT VARIABLE_VALUE INTO rep_status
+    FROM INFORMATION_SCHEMA.GLOBAL_STATUS
+    WHERE VARIABLE_NAME = 'Slave_running';
+
+    IF rep_status != 'ON' THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Replication is not ON.';
+    ELSE
+	SELECT rep_status;
+    END IF;
+END$$
+```
+
 ## Replication Errors?
 If you get replication errors, try skipping the error and continuing:
 ```
