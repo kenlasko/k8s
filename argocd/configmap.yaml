@@ -15,7 +15,7 @@ data:
     - openid
     - profile
     - email
-  policy.default: role:readonly
+  # policy.default: role:admin
     
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
