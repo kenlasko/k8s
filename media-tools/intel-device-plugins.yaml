@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://intel.github.io/helm-charts/'
-    targetRevision: "*"
+    targetRevision: 0.29.*
     chart: intel-device-plugins-operator
     # helm:
     #   valueFiles:
