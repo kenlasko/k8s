@@ -1,0 +1,26 @@
+---
+# Installs the base apps (Cilium, Traefik, ArgoCD) to get started with installing all other apps
+- hosts: workstation
+  tasks:
+  - name: Add ArgoCD chart repo
+    kubernetes.core.helm_repository:
+      name: argocd
+      repo_url: "https://argoproj.github.io/argo-helm"
+  - name: Deploy ArgoCD
+    kubernetes.core.helm:
+      name: argocd
+      chart_ref: argocd/argo-cd
+      create_namespace: true
+      release_namespace: argocd
+      values_files:
+      - /home/ken/k3s/argocd/values.yaml
+  - name: Apply ArgoCD secrets
+    kubernetes.core.k8s:
+      state: present
+      src: /home/ken/k3s/argocd/sealed-secrets.yaml
+  - name: Apply ArgoCD K8s resources
+    kubernetes.core.k8s:
+      definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
+    with_fileglob:
+    - "/home/ken/k3s/argocd/[a-h]*.yaml"
+    ignore_errors: true
