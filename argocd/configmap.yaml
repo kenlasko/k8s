@@ -11,6 +11,12 @@ data:
     name: Auth0
     clientID: $auth0-secrets:oidc.auth0.clientId
     clientSecret: $auth0-secrets:oidc.auth0.clientSecret
+    requestedScopes:
+    - openid
+    - profile
+    - email
+  policy.default: role:admin
+    
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
       sshPrivateKeySecret:
