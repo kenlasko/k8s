@@ -16,7 +16,9 @@ data:
     - openid
     - profile
     - email
+    - 'https://ucdialplans.com/claims/groups'
   policy.default: role:admin
+  scopes: '[https://ucdialplans.com/claims/groups, email]'
   policy.csv: |
     # let the group membership argocd-admins from OIDC become role:admin - needs to go into the configmap
     g, argocd-admins, role:admin
