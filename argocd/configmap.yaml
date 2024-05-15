@@ -17,6 +17,9 @@ data:
     - profile
     - email
   policy.default: role:admin
+  policy.csv: |
+    # let the group membership argocd-admins from OIDC become role:admin - needs to go into the configmap
+    g, argocd-global-admins, role:admin
     
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
