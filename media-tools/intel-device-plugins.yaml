@@ -16,7 +16,7 @@ spec:
     path: media-tools/intel-gpu/
     targetRevision: HEAD
   - repoURL: 'https://intel.github.io/helm-charts/'
-    targetRevision: "0.29.*"
+    targetRevision: "0.27.1"
     chart: intel-device-plugins-gpu
     helm:
       valueFiles:
