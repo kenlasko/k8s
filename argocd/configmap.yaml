@@ -7,6 +7,10 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
+  oidc.config: |
+    name: Auth0
+    clientID: $auth0-secrets:oidc.auth0.clientId
+    clientSecret: $auth0-secrets:oidc.auth0.clientSecret
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
       sshPrivateKeySecret:
