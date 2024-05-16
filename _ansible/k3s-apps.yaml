@@ -2,10 +2,6 @@
 # Installs the base apps (Cilium, Traefik, ArgoCD) to get started with installing all other apps
 - hosts: workstation
   tasks:
-  - name: Add node labels for longhorn
-    shell: kubectl label nodes nuc4 nuc5 nuc6 storage=longhorn
-  - name: Add node labels for GPU
-    shell: kubectl label nodes nuc4 nuc5 nuc6 intel.feature.node.kubernetes.io/gpu=true
   - name: Install default sealed secrets certificate
     kubernetes.core.k8s:
       state: present
