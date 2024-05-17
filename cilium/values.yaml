@@ -22,7 +22,7 @@ l2announcements:
   leaseRenewDeadline: 2s
   leaseRetryPeriod: 200ms
 envoy:
-  enabled: true
+  enabled: false
   rollOutPods: true
 externalIPs:
   enabled: true
