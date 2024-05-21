@@ -18,9 +18,9 @@ deschedulerPolicy:
         nodeAffinityType:
           - requiredDuringSchedulingIgnoredDuringExecution
     - name: RemovePodsViolatingNodeAffinity
-      args:
-        nodeAffinityType:
-        - requiredDuringSchedulingIgnoredDuringExecution
+      # args:
+      #   nodeAffinityType:
+      #   - requiredDuringSchedulingIgnoredDuringExecution
     - name: RemovePodsViolatingInterPodAntiAffinity
     - name: RemovePodsViolatingTopologySpreadConstraint
       args:
