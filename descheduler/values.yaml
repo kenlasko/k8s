@@ -50,8 +50,8 @@ deschedulerPolicy:
           - 'registry'
           - 'ucdialplans'
           - 'vaultwarden' 
-        priorityThreshold:
-          name: "medium-priority"
+        # priorityThreshold:
+        #   name: "medium-priority"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
