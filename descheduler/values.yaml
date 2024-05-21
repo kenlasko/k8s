@@ -3,6 +3,8 @@ priorityClassName: high-priority
 deschedulerPolicy:
   profiles:
   - name: default
+    nodeAffinityType:
+    - requiredDuringSchedulingIgnoredDuringExecution
     pluginConfig:
     - name : DefaultEvictor
       args:
