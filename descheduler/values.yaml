@@ -35,21 +35,21 @@ deschedulerPolicy:
           cpu: 100
           memory: 100
           pods: 35
-        namespaces:
-          include:
-          - 'adguard'
-          - 'argocd'
-          - 'cloudflare'
-          - 'external-dns'
-          - 'falco'
-          - 'gitea'
-          - 'headlamp'
-          - 'monitoring'
-          - 'media-tools'
-          - 'portainer'
-          - 'registry'
-          - 'ucdialplans'
-          - 'vaultwarden' 
+        # namespaces:
+        #   include:
+        #   - 'adguard'
+        #   - 'argocd'
+        #   - 'cloudflare'
+        #   - 'external-dns'
+        #   - 'falco'
+        #   - 'gitea'
+        #   - 'headlamp'
+        #   - 'monitoring'
+        #   - 'media-tools'
+        #   - 'portainer'
+        #   - 'registry'
+        #   - 'ucdialplans'
+        #   - 'vaultwarden' 
         # priorityThreshold:
         #   name: "medium-priority"
 affinity:
