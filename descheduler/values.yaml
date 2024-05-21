@@ -14,9 +14,9 @@ deschedulerPolicy:
         podRestartThreshold: 10
         includingInitContainers: true
     - name: RemovePodsViolatingNodeTaints
-      args:
-        nodeAffinityType:
-          - requiredDuringSchedulingIgnoredDuringExecution
+      # args:
+      #   nodeAffinityType:
+      #     - requiredDuringSchedulingIgnoredDuringExecution
     - name: RemovePodsViolatingNodeAffinity
       # args:
       #   nodeAffinityType:
