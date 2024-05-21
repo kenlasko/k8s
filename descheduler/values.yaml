@@ -23,8 +23,8 @@ deschedulerPolicy:
       #   - requiredDuringSchedulingIgnoredDuringExecution
     - name: RemovePodsViolatingInterPodAntiAffinity
     - name: RemovePodsViolatingTopologySpreadConstraint
-      args:
-        includeSoftConstraints: false
+      # args:
+      #   includeSoftConstraints: false
     - name: LowNodeUtilization
       args:
         priorityThreshold:
