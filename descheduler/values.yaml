@@ -38,7 +38,7 @@ deschedulerPolicy:
             cpu: 100
             memory: 100
             pods: 37
-          namespaces:
+          evictableNamespaces:
             include:
             - 'adguard'
             - 'argocd'
