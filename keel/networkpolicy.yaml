@@ -14,8 +14,6 @@ spec:
         - ports:
             - port: "9300"
   egress:
-    # - toEndpoints:
-    #     - {}
     - toEntities:
         - world
       toPorts:
