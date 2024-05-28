@@ -17,6 +17,7 @@ spec:
     - toEndpoints:
         - {}
     - toEntities:
+        - cluster
         - world
       toPorts:
         - ports:
