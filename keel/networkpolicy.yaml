@@ -1,32 +1,32 @@
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: keel
-  namespace: kube-system
-spec:
-  endpointSelector:
-    matchLabels:
-      app: keel
-  ingress:
-    - fromEntities:
-        - ingress
-      toPorts:
-        - ports:
-            - port: "9300"
-  egress:
-    - toEndpoints:
-        - matchLabels:
-            io.kubernetes.pod.namespace: kube-system
-            k8s-app: kube-dns
-      toPorts:
-        - ports:
-            - port: "53"
-              protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
-    - toEntities:
-        - world
-      toPorts:
-        - ports:
-            - port: "443"
+# apiVersion: cilium.io/v2
+# kind: CiliumNetworkPolicy
+# metadata:
+#   name: keel
+#   namespace: kube-system
+# spec:
+#   endpointSelector:
+#     matchLabels:
+#       app: keel
+#   ingress:
+#     - fromEntities:
+#         - ingress
+#       toPorts:
+#         - ports:
+#             - port: "9300"
+#   egress:
+#     - toEndpoints:
+#         - matchLabels:
+#             io.kubernetes.pod.namespace: kube-system
+#             k8s-app: kube-dns
+#       toPorts:
+#         - ports:
+#             - port: "53"
+#               protocol: UDP
+#           rules:
+#             dns:
+#               - matchPattern: "*"
+#     - toEntities:
+#         - world
+#       toPorts:
+#         - ports:
+#             - port: "443"
