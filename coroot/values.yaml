@@ -4,8 +4,9 @@ corootCE:
       drop:
       - ALL
     readOnlyRootFilesystem: true
-    #runAsNonRoot: true
   runAsUser: 1000
+  persistentVolume:
+    storageClassName: nfs-client
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
