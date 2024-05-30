@@ -13,10 +13,11 @@ spec:
       toPorts:
         - ports:
             - port: "9300"
-    - fromEndpoints:
-        - {}
     - fromEntities:
         - cluster
+      toPorts:
+        - ports:
+            - port: "9300"
   egress:
     - toEntities:
         - world
