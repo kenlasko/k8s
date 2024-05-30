@@ -13,6 +13,12 @@ spec:
       toPorts:
         - ports:
             - port: "9300"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: omni-kube-service-exposer
+      toPorts:
+        - ports:
+            - port: "9300"
   egress:
     - toEntities:
         - world
