@@ -4,7 +4,7 @@ corootCE:
       drop:
       - ALL
     readOnlyRootFilesystem: true
-    runAsNonRoot: true
+    #runAsNonRoot: true
   runAsUser: 1000
   affinity:
     nodeAffinity:
