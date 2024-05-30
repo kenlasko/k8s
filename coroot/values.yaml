@@ -1,5 +1,5 @@
 corootCE:
-  securityContext: {}
+  securityContext:
     capabilities:
       drop:
       - ALL
