@@ -76,8 +76,8 @@ endpoints:
 - addresses:
     - 192.168.1.23
   # https://github.com/argoproj/argo-cd/issues/15554
-  conditions:
-    ready: true
+  # conditions:
+  #   ready: true
 ports:
 - name: http
   port: 80
