@@ -1,6 +1,6 @@
 ---
-kind: "Service"
-apiVersion: "v1"
+kind: Service
+apiVersion: v1
 metadata:
   name: "external-adguard-rpi1-service"
   namespace: cloudflare
@@ -9,8 +9,8 @@ spec:
   externalName: adguard-rpi1.ucdialplans.com
 
 ---
-kind: "Service"
-apiVersion: "v1"
+kind: Service
+apiVersion: v1
 metadata:
   name: "external-adguard-rpi2-service"
   namespace: cloudflare
@@ -19,8 +19,8 @@ spec:
   externalName: adguard-rpi2.ucdialplans.com
 
 ---
-kind: "Service"
-apiVersion: "v1"
+kind: Service
+apiVersion: v1
 metadata:
   name: "external-unifi-service"
   namespace: cloudflare
@@ -29,8 +29,8 @@ spec:
   externalName: unifi.ucdialplans.com
 
 ---
-kind: "Service"
-apiVersion: "v1"
+kind: Service
+apiVersion: v1
 metadata:
   name: "external-nas01-service"
   namespace: cloudflare
@@ -39,8 +39,8 @@ spec:
   externalName: nas01.ucdialplans.com
 
 ---
-kind: "Service"
-apiVersion: "v1"
+kind: Service
+apiVersion: v1
 metadata:
   name: "external-omni-service"
   namespace: cloudflare
@@ -48,3 +48,57 @@ spec:
   type: ExternalName
   externalName: omni.ucdialplans.com
 
+
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: firepit-speakers
+  namespace: cloudflare
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+
+---
+kind: EndpointSlice
+apiVersion: discovery.k8s.io/v1
+metadata:
+  name: firepit-speakers
+  namespace: cloudflare
+  labels:
+    kubernetes.io/service-name: firepit-speakers
+    endpointslice.kubernetes.io/managed-by: cluster-admins
+addressType: IPv4
+endpoints:
+- addresses:
+    - 192.168.1.23
+  # https://github.com/argoproj/argo-cd/issues/15554
+  conditions:
+    ready: true
+ports:
+- name: http
+  port: 80
+
+---
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: firepit-speakers
+  namespace: cloudflare
+spec:
+  parentRefs:
+    - name: tls
+      namespace: cilium
+  hostnames:
+    - "firepit-speakers-test.ucdialplans.com"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: firepit-speakers
+          port: 80
