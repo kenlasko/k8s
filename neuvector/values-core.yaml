@@ -30,6 +30,8 @@ cve:
               - 'amd64' 
 
 manager:
+  env:
+    ssl: false
   svc:
     type: ClusterIP
   affinity:
