@@ -65,10 +65,6 @@ configs:
   cm: 
     create: false # Don't create configmap because I do it separately via 02-configmap.yaml
   repositories:
-    aqua-security:
-      url: https://aquasecurity.github.io/helm-charts/
-      name: aqua
-      type: helm
     argocd:
       url: https://argoproj.github.io/argo-helm
       name: argocd
@@ -78,7 +74,7 @@ configs:
       name: bitnami
       type: helm
     bitnami-labs:
-      url: https://bitnami-labs.github.io/sealed-secrets/
+      url: https://bitnami-labs.github.io/sealed-secrets
       name: bitnami-labs
       type: helm
     cert-manager:
@@ -86,7 +82,7 @@ configs:
       name: jetstack
       type: helm
     cilium:
-      url: https://helm.cilium.io/
+      url: https://helm.cilium.io
       name: cilium
       type: helm
     coroot:
@@ -98,7 +94,7 @@ configs:
       name: csi-driver-smb
       type: helm
     descheduler:
-      url: https://kubernetes-sigs.github.io/descheduler/
+      url: https://kubernetes-sigs.github.io/descheduler
       name: descheduler
       type: helm
     falco-security:
@@ -106,11 +102,11 @@ configs:
       name: falcosecurity
       type: helm
     geek-cookbook:
-      url: https://geek-cookbook.github.io/charts/
+      url: https://geek-cookbook.github.io/charts
       name: geek-cookbook
       type: helm
     gitea:
-      url: https://dl.gitea.com/charts/
+      url: https://dl.gitea.com/charts
       name: gitea
       type: helm
     grafana:
@@ -118,24 +114,16 @@ configs:
       name: grafana
       type: helm
     headlamp:
-      url: https://headlamp-k8s.github.io/headlamp/
+      url: https://headlamp-k8s.github.io/headlamp
       name: headlamp
       type: helm
-    homepage:
-      url: https://jameswynn.github.io/helm-charts
-      name: homepage
-      type: helm
     intel:
-      url: https://intel.github.io/helm-charts/
+      url: https://intel.github.io/helm-charts
       name: intel
       type: helm
     keel:
       url: https://charts.keel.sh
       name: keel
-      type: helm
-    kured:
-      url: https://kubereboot.github.io/charts
-      name: kured
       type: helm
     longhorn:
       url: https://charts.longhorn.io
@@ -145,25 +133,13 @@ configs:
       url: https://mariadb-operator.github.io/mariadb-operator
       name: mariadb-operator
       type: helm
-    metallb:
-      url: https://metallb.github.io/metallb
-      name: metallb
-      type: helm
-    netdata:
-      url: https://netdata.github.io/helmchart/
-      name: netdata
+    neuvector:
+      url: https://neuvector.github.io/neuvector-helm
+      name: neuvector
       type: helm
     nfs:
-      url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+      url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
       name: nfs-subdir-external-provisioner
-      type: helm
-    pihole:
-      url: https://mojo2600.github.io/pihole-kubernetes/
-      name: pihole
-      type: helm
-    pixie:
-      url: https://artifacts.px.dev/helm_charts/operator
-      name: pixie-operator
       type: helm
     portainer:
       url: https://portainer.github.io/k8s/
@@ -172,10 +148,6 @@ configs:
     promstack:
       url: https://prometheus-community.github.io/helm-charts
       name: promstack
-      type: helm
-    runix:
-      url: https://helm.runix.net/
-      name: runix
       type: helm
     tailscale-operator:
       url: https://jacobcolvin.com/helm-charts
@@ -186,20 +158,14 @@ configs:
       name: tailscale
       type: helm
     uptime-kuma:
-      url: https://k3rnelpan1c-dev.github.io/uptime-kuma-helm/
+      url: https://k3rnelpan1c-dev.github.io/uptime-kuma-helm
       name: uptime-kuma
       type: helm
     velero:
-      url: https://vmware-tanzu.github.io/helm-charts/
+      url: https://vmware-tanzu.github.io/helm-charts
       name: vmware-tanzu
       type: helm
 
-# controller:
-#   replicas: 3
-# repoServer:
-#   replicas: 3
-# server:
-#   replicas: 3
 redis-ha:
   enabled: false
   additionalAffinities:

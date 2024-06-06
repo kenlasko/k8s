@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: neuvector
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://neuvector.github.io/neuvector-helm/'
+    targetRevision: "*"
+    chart: core
+    helm:
+      valueFiles:
+      - $values/neuvector/values-core.yaml
+  - repoURL: 'https://neuvector.github.io/neuvector-helm/'
+    targetRevision: "*"
+    chart: crd
+    helm:
+      valueFiles:
+      - $values/neuvector/values-crd.yaml
+  - repoURL: 'https://neuvector.github.io/neuvector-helm/'
+    targetRevision: "*"
+    chart: monitor
+    helm:
+      valueFiles:
+      - $values/neuvector/values-monitor.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: neuvector
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: neuvector
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

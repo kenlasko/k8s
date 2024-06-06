@@ -1,0 +1,47 @@
+controller:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
+  pvc:
+    enabled: true
+    storageClass: nfs-client
+
+manager:
+  svc:
+    type: ClusterIP
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
+
+scanner:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
+
+crdwebhook:
+  enabled: false
+
