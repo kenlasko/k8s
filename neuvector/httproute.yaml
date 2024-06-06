@@ -16,4 +16,4 @@ spec:
     - name: neuvector-service-webui
       namespace: neuvector
       kind: Service
-      port: 6443
+      port: 8443
