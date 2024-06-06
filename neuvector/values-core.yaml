@@ -14,9 +14,6 @@ controller:
     enabled: true
     storageClass: nfs-client
 
-exporter:
-  enabled: false
-
 manager:
   svc:
     type: ClusterIP
