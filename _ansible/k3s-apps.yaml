@@ -26,7 +26,7 @@
     kubernetes.core.helm:
       name: cilium
       chart_ref: cilium/cilium
-      chart_version: "1.15.5"
+      chart_version: "1.15.6"
       release_namespace: cilium
       create_namespace: true
       update_repo_cache: true
