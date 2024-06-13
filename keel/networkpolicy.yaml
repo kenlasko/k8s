@@ -24,5 +24,7 @@ spec:
       toPorts:
         - ports:
             - port: "443"
+        - ports:
+            - port: "587"
     - toEntities:
         - cluster
