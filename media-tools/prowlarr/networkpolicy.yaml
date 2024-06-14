@@ -84,3 +84,9 @@ spec:
       toPorts:
         - ports:
             - port: "8989"
+    - toEndpoints:
+        - matchLabels:
+            app: sabnzbd
+      toPorts:
+        - ports:
+            - port: "8080"
