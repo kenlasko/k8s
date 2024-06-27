@@ -16,6 +16,7 @@ spec:
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
+            io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
             - port: "8181"
