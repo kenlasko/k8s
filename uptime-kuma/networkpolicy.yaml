@@ -23,9 +23,9 @@ spec:
         - matchLabels:
             app: cloudflare
             io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
-            - port: "80"
+#      toPorts:
+#        - ports:
+#            - port: "80"
   egress:
     - toEntities:
         - cluster
