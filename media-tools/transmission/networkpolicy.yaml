@@ -24,6 +24,13 @@ spec:
       toPorts:
         - ports:
             - port: "9091"
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "9091"
   egress:
     - toEndpoints:
         - matchLabels:
