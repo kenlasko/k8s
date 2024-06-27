@@ -21,11 +21,11 @@ spec:
             - port: "3001"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare
+            app: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
-#      toPorts:
-#        - ports:
-#            - port: "80"
+      toPorts:
+        - ports:
+            - port: "3001"
   egress:
     - toEntities:
         - cluster
