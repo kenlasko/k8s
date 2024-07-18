@@ -11,7 +11,7 @@ affinity:
           - 'amd64'
 
 polling:
-  enabled: true
+  enabled: false
   defaultSchedule: "@every 2h"
 
 helmProvider:
