@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://charts.keel.sh'
-    targetRevision: "*"
+    targetRevision: 1.0.3 #"*"
     chart: keel
     helm:
       valueFiles:
