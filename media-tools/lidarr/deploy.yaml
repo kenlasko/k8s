@@ -6,8 +6,8 @@ metadata:
   namespace: media-tools
   annotations:
     keel.sh/policy: force
-    #keel.sh/match-tag: "true"
-    #keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
 spec:
   serviceName: lidarr
   replicas: 1
