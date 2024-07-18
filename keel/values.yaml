@@ -9,9 +9,10 @@ affinity:
           operator: In
           values: 
           - 'amd64'
+          
 polling:
   enabled: false
-  defaultSchedule: "0 7 * * *" # Daily at 7am GMT
+  defaultSchedule: "@every 2h"
 
 helmProvider:
   enabled: false
