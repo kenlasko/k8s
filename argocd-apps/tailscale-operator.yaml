@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://pkgs.tailscale.com/helmcharts'
-    targetRevision: "*"
+    targetRevision: 0.1.0 #"*"
     chart: tailscale-operator
     helm:
       valueFiles:
