@@ -10,7 +10,7 @@ affinity:
           values: 
           - 'amd64'
 polling:
-  enabled: true
+  enabled: false
   defaultSchedule: "0 7 * * *" # Daily at 7am GMT
 
 helmProvider:
