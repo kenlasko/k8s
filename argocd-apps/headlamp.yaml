@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://headlamp-k8s.github.io/headlamp/'
-    targetRevision: 0.25.0 #"*"
+    targetRevision: 0.24.0 #"*"
     chart: headlamp
     helm:
       valueFiles:
