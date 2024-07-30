@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 17.0.1 #"*"
+    targetRevision: 17.0.3 #"*"
     chart: phpmyadmin
     helm:
       valueFiles:
