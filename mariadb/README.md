@@ -234,15 +234,6 @@ helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mar
 kubectl scale statefulset mariadb -n mariadb --replicas=1
 ```
 
-### Use Ansible to clean persistent folder for all
-```
-ansible-playbook k3s/ansible-clean-db-folders.yaml --ask-become-pass
-```
-
-### Use Ansible to clean persistent folder for one
-```
-ansible-playbook k3s/ansible-clean-db-folders.yaml --limit "nuc2" --ask-become-pass
-```
 
 ### Other
 ```
