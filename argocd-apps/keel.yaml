@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://charts.keel.sh'
-    targetRevision: 1.0.3 #"*"
+    targetRevision: "*"
     chart: keel
     helm:
       valueFiles:
@@ -22,6 +22,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kube-system
-  # syncPolicy:
-  #   automated:
-  #     selfHeal: true
+  syncPolicy:
+    automated:
+      selfHeal: true
