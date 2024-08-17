@@ -50,7 +50,7 @@ spec:
             memory: 150Mi
           limits:
             cpu: 250m
-            memory: 200Mi        
+            memory: 300Mi        
         env:
         - name: UPTIME_KUMA_PORT
           value: '3001'
@@ -82,27 +82,6 @@ spec:
         volumeMounts:
         - mountPath: /app/data
           name: uptime-storage
-      # - name: uptime-kuma-ts
-      #   image: "ghcr.io/tailscale/tailscale:latest"
-      #   imagePullPolicy: Always        
-      #   env:
-      #   - name: TS_HOSTNAME
-      #     value: "uptime-kuma"
-      #   - name: TS_KUBE_SECRET
-      #     value: ""
-      #   - name: KUBERNETES_SERVICE_HOST
-      #     value: ""
-      #   - name: TS_USERSPACE
-      #     value: "false"
-      #   - name: TS_AUTHKEY
-      #     valueFrom:
-      #       secretKeyRef:
-      #         name: ts-authkey
-      #         key: ts-authkey 
-      #   securityContext:
-      #     capabilities:
-      #       add:
-      #       - NET_ADMIN
       securityContext:
         fsGroup: 2000
       terminationGracePeriodSeconds: 30
