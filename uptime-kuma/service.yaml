@@ -15,3 +15,15 @@ spec:
     app.kubernetes.io/name: uptime-kuma
   sessionAffinity: None
   type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: 'mariadb-cloud-egress.tailb7050.ts.net'
+  name: home-egress
+  namespace: uptime-kuma
+spec:
+  externalName: home-egress
+  type: ExternalName
