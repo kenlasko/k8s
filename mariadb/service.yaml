@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/hostname: 'mariadb-mariadb-access.tailb7050.ts.net'
+  name: cloud-tailscale-egress
+spec:
+  externalName: mariadb-cloud-egress
+  type: ExternalName
