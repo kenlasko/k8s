@@ -1,0 +1,2 @@
+nodeSelector:
+  intel.feature.node.kubernetes.io/gpu: true

@@ -7,11 +7,11 @@ spec:
   project: default
   sources:
   - repoURL: 'https://intel.github.io/helm-charts/'
-    targetRevision: 0.30.0 #"*"
+    targetRevision: "*"
     chart: intel-device-plugins-operator
-    # helm:
-    #   valueFiles:
-    #   - $values/media-tools/intel-gpu/values-operator.yaml
+    helm:
+      valueFiles:
+      - $values/media-tools/intel-gpu/values-operator.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: media-tools/intel-gpu/
     targetRevision: HEAD
