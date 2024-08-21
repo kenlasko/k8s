@@ -4,7 +4,7 @@ metadata:
   name: mariadb-galera
   namespace: mariadb-galera
 spec:
-  image: mariadb:11.3.2
+  image: mariadb:11.4.3
   rootPasswordSecretKeyRef:
     generate: false
     name: mariadb-passwords
