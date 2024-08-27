@@ -85,6 +85,10 @@ configs:
       url: https://coroot.github.io/helm-charts
       name: coroot
       type: helm
+    crowdsec:
+      url: https://crowdsecurity.github.io/helm-charts
+      name: crowdsec
+      type: helm
     csi:
       url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
       name: csi-driver-smb
