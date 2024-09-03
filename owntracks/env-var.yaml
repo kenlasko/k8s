@@ -5,5 +5,5 @@ metadata:
   namespace: owntracks
 data:
   OTR_HTTPPREFIX: "https://owntracks.ucdialplans.com"
-  OTR_PORT=0
+  OTR_PORT: "0"
   TZ: "America/Toronto"
