@@ -75,7 +75,7 @@ spec:
         #     name: env-secrets
         volumeMounts:
         - name: owntracks-data
-          mountPath: /data
+          mountPath: /store
       dnsConfig:
         options:
         - name: ndots
