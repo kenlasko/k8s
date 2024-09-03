@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: owntracks
+  name: owntracks-ui
   namespace: owntracks
   annotations:
     keel.sh/policy: force
@@ -10,17 +10,17 @@ metadata:
     keel.sh/match-tag: "true"
     #keel.sh/approvals: "1"
 spec:
-  serviceName: owntracks
+  serviceName: owntracks-ui
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: owntracks
+      app: owntracks-ui
   template:
     metadata:
       labels:
-        app: owntracks
-        name: owntracks
+        app: owntracks-ui
+        name: owntracks-ui
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
@@ -42,8 +42,8 @@ spec:
                 values: 
                 - 'amd64'
       containers:
-      - name: owntracks
-        image: owntracks/recorder:latest
+      - name: owntracks-ui
+        image: owntracks/frontend:latest
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -68,20 +68,12 @@ spec:
             port: 8083
           initialDelaySeconds: 15
           periodSeconds: 60
-        envFrom:
-        - configMapRef:
-            name: env-vars
-        # - secretRef:
-        #     name: env-secrets
-        volumeMounts:
-        - name: owntracks-data
-          mountPath: /store
+        env:
+        - name: SERVER_HOST
+          value: "owntracks-recorder"
+        - name: SERVER_PORT
+          value: "8083"
       dnsConfig:
         options:
         - name: ndots
           value: "1"
-      volumes:
-      - name: owntracks-data
-        persistentVolumeClaim:
-          claimName: owntracks-data
-

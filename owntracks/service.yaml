@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: owntracks
-  name: owntracks-ui
+    app: owntracks-recorder
+  name: owntracks-recorder
   namespace: owntracks
 spec:
   type: ClusterIP
@@ -11,6 +11,25 @@ spec:
   - port: 8083
     protocol: TCP
     targetPort: 8083
+    name: recorder
+  selector:
+    app: owntracks-recorder
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: owntracks-ui
+  name: owntracks-ui
+  namespace: owntracks
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
     name: web
   selector:
-    app: owntracks
+    app: owntracks-ui

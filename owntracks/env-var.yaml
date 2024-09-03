@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: env-vars
-  namespace: owntracks
-data:
-  OTR_HTTPPREFIX: "https://owntracks.ucdialplans.com"
-  OTR_PORT: "0"
-  TZ: "America/Toronto"
