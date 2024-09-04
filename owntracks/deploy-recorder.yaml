@@ -8,7 +8,6 @@ metadata:
     keel.sh/policy: force
     keel.sh/trigger: poll
     keel.sh/match-tag: "true"
-    #keel.sh/approvals: "1"
 spec:
   serviceName: owntracks-recorder
   replicas: 1
@@ -69,8 +68,6 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         env:
-        # - name: "OTR_HTTPHOST"
-        #   value: "owntracks-recorder"
         - name: "OTR_HTTPPREFIX"
           value: "https://owntracks-recorder.ucdialplans.com"
         - name: "OTR_PORT"
