@@ -57,7 +57,7 @@ spec:
             add:
             - "CHOWN"
             - "NET_BIND_SERVICE"
-            # - "SETGID"
+            - "SETGID"
             # - "SETUID"
             # - "DAC_OVERRIDE"
         resources:
