@@ -1,4 +1,5 @@
 persistence:
+  reclaimPolicy: Retain
   recurringJobSelector:
     enable: true
     jobList: '[
