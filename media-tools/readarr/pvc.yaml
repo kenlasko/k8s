@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-high-value
+  storageClassName: longhorn
   resources:
     requests:
       storage: 500Mi
@@ -30,4 +30,4 @@ spec:
       numberOfReplicas: '3'
       staleReplicaTimeout: '30'
     volumeHandle: pvc-readarr
-  storageClassName: longhorn-high-value
+  storageClassName: longhorn
