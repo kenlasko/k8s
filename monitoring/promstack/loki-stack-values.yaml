@@ -52,13 +52,13 @@ promtail:
       cpu: 200m
       memory: 250Mi
   initContainer:
-    - name: init
-      image: docker.io/busybox:1.33
-      imagePullPolicy: IfNotPresent
-      command:
-        - sh
-        - -c
-        - sysctl -w fs.inotify.max_user_instances=512
-      securityContext:
-        privileged: true
+  - name: init
+    image: docker.io/busybox:1.33
+    imagePullPolicy: IfNotPresent
+    command:
+      - sh
+      - -c
+      - sysctl -w fs.inotify.max_user_instances=512
+    securityContext:
+      privileged: true
 
