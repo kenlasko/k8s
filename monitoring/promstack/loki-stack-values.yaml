@@ -1,5 +1,5 @@
 loki:
-  enabled: false
+  enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-client
@@ -22,7 +22,7 @@ loki:
             values: 
             - 'amd64'
 promtail:
-  enabled: false
+  enabled: true
   config:
     snippets:
       extraScrapeConfigs: |
