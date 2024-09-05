@@ -1,4 +1,16 @@
 persistence:
+  recurringJobSelector:
+    enable: true
+    jobList: '[
+        {
+          "name":"high-value",
+          "isGroup":true
+        },
+        {
+          "name":"daily-snapshot",
+          "isGroup":true
+        }
+    ]'
   defaultNodeSelector:
     storage: "longhorn"
 
