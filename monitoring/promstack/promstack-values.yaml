@@ -193,6 +193,7 @@ grafana:
   - name: Loki
     type: loki
     access: proxy
+    editable: true
     isDefault: false
     orgId: 1
     url: http://loki:3100
