@@ -1,4 +1,3 @@
-deschedulerPolicyAPIVersion: "descheduler/v1alpha1"
 schedule: "*/30 * * * *"  # Every 15 minutes
 priorityClassName: high-priority
 deschedulerPolicy:
