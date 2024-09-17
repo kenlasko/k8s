@@ -28,6 +28,7 @@ spec:
   #       path: /backup/mariadb/bootstrap
 
   replicas: 2
+  replicasAllowEvenNumber: true
 
   galera:
     enabled: true
