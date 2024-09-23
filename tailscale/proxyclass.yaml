@@ -5,11 +5,10 @@ metadata:
 spec:
   statefulSet:
     pod:
-      containers:
-        resources:
-          requests:
-          limits:
-            smarter-devices/net_tun: "1"
+      resources:
+        requests:
+        limits:
+          smarter-devices/net_tun: "1"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
