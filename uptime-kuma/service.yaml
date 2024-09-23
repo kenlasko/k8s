@@ -22,7 +22,8 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: "mariadb-cloud-egress.tailb7050.ts.net"
-    tailscale.com/proxy-class: "run-on-worker"
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"  
   name: home-egress
   namespace: uptime-kuma
 spec:
