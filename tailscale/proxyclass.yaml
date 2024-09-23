@@ -16,4 +16,9 @@ spec:
                 operator: In
                 values: 
                 - 'amd64'
-      
+      tailscaleContainer:
+        resources:
+          requests:
+          limits:
+            smarter-devices/net_tun: "1"
+
