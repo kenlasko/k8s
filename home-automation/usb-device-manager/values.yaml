@@ -6,7 +6,8 @@ config: |
     nummaxdevices: 5
   - devicematch: ^bus.*$
     nummaxdevices: 20
-
+  - devicematch: ^\/dev\/net\/tun$
+    nummaxdevices: 10
 securityContext:
   capabilities:
     drop: ["ALL"]
