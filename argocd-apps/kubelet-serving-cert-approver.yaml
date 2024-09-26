@@ -13,6 +13,11 @@ spec:
     directory:
       include: "standalone-install.yaml"
     targetRevision: HEAD
+    kustomize:
+      commonAnnotations:
+        keel.sh/policy: force
+        keel.sh/match-tag: "true"
+        keel.sh/trigger: poll
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kubelet-serving-cert-approver
