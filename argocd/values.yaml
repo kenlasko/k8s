@@ -133,6 +133,10 @@ configs:
       url: https://mariadb-operator.github.io/mariadb-operator
       name: mariadb-operator
       type: helm
+    metrics-server:
+      url: https://kubernetes-sigs.github.io/metrics-server/
+      name: metrics-server
+      type: helm
     neuvector:
       url: https://neuvector.github.io/neuvector-helm
       name: neuvector
