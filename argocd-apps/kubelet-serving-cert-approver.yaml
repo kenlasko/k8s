@@ -13,15 +13,6 @@ spec:
     directory:
       include: "standalone-install.yaml"
     targetRevision: HEAD
-    kustomize:
-      patches:
-        - target:
-            kind: Deployment
-            name: kubelet-serving-cert-approver
-          patch: |-
-            - op: add
-              path: /metadata/annotations/keel.sh/policy
-              value: force
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kubelet-serving-cert-approver
