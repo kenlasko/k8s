@@ -9,7 +9,9 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:alex1989hu/kubelet-serving-cert-approver.git"
-    path: "deploy/standalone-install.yaml"
+    path: "deploy"
+    directory:
+      include: "standalone-install.yaml"
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
