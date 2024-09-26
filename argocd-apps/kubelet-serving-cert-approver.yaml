@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "git@github.com:alex1989hu/kubelet-serving-cert-approver.git"
+    repoURL: "https://github.com/alex1989hu/kubelet-serving-cert-approver.git"
     path: "deploy"
     directory:
       include: "standalone-install.yaml"

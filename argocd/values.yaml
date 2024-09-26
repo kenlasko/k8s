@@ -126,7 +126,7 @@ configs:
       name: keel
       type: helm
     kubelet-serving-cert-approver:
-      url: git@github.com:alex1989hu/kubelet-serving-cert-approver.git
+      url: https://github.com/alex1989hu/kubelet-serving-cert-approver.git
       name: kubelet-serving-cert-approver
       type: git
     longhorn:
