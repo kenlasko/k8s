@@ -63,7 +63,7 @@ configs:
   params:
     server.insecure: true
   cm: 
-    create: false # Don't create configmap because I do it separately via 02-configmap.yaml
+    create: false # Don't create configmap because I do it separately via configmap.yaml
   repositories:
     argocd:
       url: https://argoproj.github.io/argo-helm
@@ -125,6 +125,10 @@ configs:
       url: https://charts.keel.sh
       name: keel
       type: helm
+    kubelet-serving-cert-approver:
+      url: git@github.com:alex1989hu/kubelet-serving-cert-approver.git
+      name: kubelet-serving-cert-approver
+      type: git
     longhorn:
       url: https://charts.longhorn.io
       name: longhorn
