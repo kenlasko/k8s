@@ -50,10 +50,10 @@ spec:
             drop: ["ALL"]
         resources:
           requests:
-            cpu: 25m
+            cpu: 2m
             memory: 40Mi
           limits:
-            cpu: 125m
+            cpu: 100m
             memory: 80Mi
         env:
         - name: TZ
@@ -85,11 +85,11 @@ spec:
             drop: ["ALL"]
         resources:
           requests:
-            cpu: 50m
-            memory: 50Mi
+            cpu: 5m
+            memory: 10Mi
           limits:
-            cpu: 150m
-            memory: 100Mi
+            cpu: 100m
+            memory: 20Mi
         ports:
           - containerPort: 8888
             name: http

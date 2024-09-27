@@ -65,11 +65,11 @@ spec:
             value: "America/Toronto"
           resources:
             requests:
-              cpu: 6m
+              cpu: 5m
               memory: 20Mi
             limits:
-              cpu: 120m
-              memory: 40Mi
+              cpu: 100m
+              memory: 30Mi
           args:
             - "tunnel"
             - "--no-autoupdate"

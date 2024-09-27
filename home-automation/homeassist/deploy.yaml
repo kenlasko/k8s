@@ -51,12 +51,12 @@ spec:
             drop: ["ALL"]
         resources:
           requests:
-            cpu: 150m
-            memory: 600Mi
+            cpu: 100m
+            memory: 700Mi
             smarter-devices/ttyUSB1: 1
           limits:
-            cpu: 900m
-            memory: 1400Mi
+            cpu: 800m
+            memory: 1200Mi
             smarter-devices/ttyUSB1: 1
         livenessProbe:
           httpGet:
