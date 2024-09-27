@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: usb-device-manager
+  name: smarter-device-manager
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "2"
@@ -13,11 +13,11 @@ spec:
     chart: smarter-device-manager
     helm:
       valueFiles:
-      - $values/home-automation/usb-device-manager/values.yaml
+      - $values/smarter-device-manager/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: home-automation/usb-device-manager
+    path: smarter-device-manager
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
