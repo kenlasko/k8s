@@ -55,8 +55,8 @@ serviceAnnotations:
 
 resources:
   requests:
-    cpu: 25m
-    memory: 32Mi
+    cpu: 6m
+    memory: 60Mi
   limits:
-    cpu: 150m
+    cpu: 100m
     memory: 60Mi
