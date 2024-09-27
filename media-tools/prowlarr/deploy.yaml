@@ -57,11 +57,11 @@ spec:
             - "DAC_OVERRIDE"
         resources:
           requests:
-            cpu: 100m
-            memory: 150Mi
+            cpu: 15m
+            memory: 120Mi
           limits:
-            cpu: 400m
-            memory: 250Mi
+            cpu: 350m
+            memory: 200Mi
         livenessProbe:
           httpGet:
             path: /

@@ -4,8 +4,8 @@ skipRecreate: true
 secretName: default-sealing-key
 resources:
   requests:
-    cpu: 5m
-    memory: 10Mi
+    cpu: 1m
+    memory: 16Mi
   limits:
-    cpu: 50m
+    cpu: 40m
     memory: 20Mi

@@ -22,9 +22,9 @@ affinity:
 resources:
   requests:
     cpu: 3m
-    memory: 25Mi
+    memory: 20Mi
   limits:
-    cpu: 200m
-    memory: 40Mi
+    cpu: 150m
+    memory: 30Mi
 
     

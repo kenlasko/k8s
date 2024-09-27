@@ -5,11 +5,11 @@ db:
   allowArbitraryServer: false
 resources:
   requests:
-    cpu: 5m
-    memory: 100Mi
+    cpu: 2m
+    memory: 80Mi
   limits:
-    cpu: 350m
-    memory: 150Mi  
+    cpu: 250m
+    memory: 120Mi  
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
