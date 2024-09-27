@@ -68,7 +68,7 @@ spec:
               cpu: 5m
               memory: 20Mi
             limits:
-              cpu: 100m
+              cpu: 80m
               memory: 30Mi
           args:
             - "tunnel"
