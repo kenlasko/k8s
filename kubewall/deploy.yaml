@@ -24,6 +24,11 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       automountServiceAccountToken: false
+      volumes:
+      - name: kubeconfig
+        secret:
+          secretName: kubeconfig
+          defaultMode: 0444      
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -44,6 +49,11 @@ spec:
             type: RuntimeDefault
           capabilities:
             drop: ["ALL"]
+        volumeMounts:
+        - name: kubeconfig
+          mountPath: /app/kubeconfig
+          subPath: kubeconfig
+          readOnly: true
         resources:
           requests:
             cpu: 50m
