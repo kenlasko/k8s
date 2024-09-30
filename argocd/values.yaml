@@ -157,6 +157,10 @@ configs:
       url: https://prometheus-community.github.io/helm-charts
       name: promstack
       type: helm
+    sealed-secrets-web:
+      url: https://charts.bakito.net
+      name: sealed-secrets-web
+      type: helm
     tailscale-operator:
       url: https://jacobcolvin.com/helm-charts
       name: tailscale-operator
