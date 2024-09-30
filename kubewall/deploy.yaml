@@ -51,7 +51,7 @@ spec:
             drop: ["ALL"]
         volumeMounts:
         - name: kubeconfig
-          mountPath: /.kubewall/kubeconfig
+          mountPath: /.kubewall/kubeconfigs/kubeconfig
           subPath: kubeconfig
           readOnly: true
         resources:
