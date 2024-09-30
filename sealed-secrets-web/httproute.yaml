@@ -13,7 +13,7 @@ spec:
   - "sealedsecrets.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: registry-service
-      namespace: registry
+    - name: sealed-secrets-web
+      namespace: kube-system
       kind: Service
-      port: 5000
+      port: 80
