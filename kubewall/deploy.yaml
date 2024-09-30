@@ -52,7 +52,6 @@ spec:
         volumeMounts:
         - name: kubeconfig
           mountPath: /.kubewall/kubeconfigs
-          #subPath: kubeconfig
           readOnly: true
         resources:
           requests:
