@@ -1,9 +1,9 @@
 containerSecurityContext:
   enabled: true
   allowPrivilegeEscalation: false
-existingSecret: postgres-passwords
+existingSecret: postgres-superadmin
 secretKeys:
-  pgadminPasswordKey: postgres-admin-pw
+  pgadminPasswordKey: password
 env:
   email: ken.lasko@gmail.com
 serverDefinitions:
