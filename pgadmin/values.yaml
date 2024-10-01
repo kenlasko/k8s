@@ -14,7 +14,7 @@ serverDefinitions:
       Group: "Servers"
       Port: 5432
       Username: postgres
-      Host: postgres-postgresql.postgres.svc.cluster.local
+      Host: postgres-rw.postgres.svc.cluster.local
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

@@ -1,0 +1,25 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  instances: 3
+  failoverDelay: 15
+  storage:
+    storageClass: local-path
+    size: 15Gi
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgres-superuser
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
