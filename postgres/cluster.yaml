@@ -18,7 +18,7 @@ spec:
       - selectorType: rw
         serviceTemplate:
           metadata:
-            name: "postgres-rw"
+            name: "postgres-service"
             labels:
               tailscale.com/proxy-class: "run-on-worker"
             annotations:
