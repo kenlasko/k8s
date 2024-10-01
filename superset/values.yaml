@@ -1,6 +1,6 @@
 runAsUser: 1000
 secretEnv:
-  create: false
+  create: true
 supersetNode:
   affinity:
     nodeAffinity:
