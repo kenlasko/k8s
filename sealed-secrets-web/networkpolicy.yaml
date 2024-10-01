@@ -26,5 +26,7 @@ spec:
             dns:
               - matchPattern: "*"
     - toEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: sealed-secrets
+        - {}
+      toPorts:
+        - ports:
+            - port: "443"
