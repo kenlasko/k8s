@@ -32,8 +32,8 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toFQDNs:
-        - matchName: cloud-k3s.ucdialplans.com
+    - toEntities:
+        - world
       toPorts:
         - ports:
             - port: "443"
