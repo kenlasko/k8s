@@ -1,4 +1,4 @@
-fullnameOverride: postgres
+fullnameOverride: postgres-controller
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
