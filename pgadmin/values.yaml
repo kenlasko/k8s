@@ -15,6 +15,7 @@ serverDefinitions:
       Port: 5432
       Username: postgres
       Host: postgres-rw.postgres.svc.cluster.local
+      MaintenanceDB: "postgres"
 persistentVolume:
   enabled: true
   accessModes:
