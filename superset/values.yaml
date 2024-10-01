@@ -1,6 +1,11 @@
 runAsUser: 1000
 secretEnv:
   create: true
+
+configOverrides:
+  secret: |
+    SECRET_KEY = '***REMOVED***'
+
 supersetNode:
   affinity:
     nodeAffinity:
