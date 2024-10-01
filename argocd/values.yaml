@@ -161,6 +161,10 @@ configs:
       url: https://charts.bakito.net
       name: sealed-secrets-web
       type: helm
+    superset:
+      url: https://apache.github.io/superset
+      name: superset
+      type: helm
     tailscale-operator:
       url: https://jacobcolvin.com/helm-charts
       name: tailscale-operator
