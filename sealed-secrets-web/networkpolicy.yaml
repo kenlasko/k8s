@@ -25,3 +25,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: sealed-secrets
