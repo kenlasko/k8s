@@ -15,6 +15,14 @@ serverDefinitions:
       Port: 5432
       Username: postgres
       Host: postgres-rw.postgres.svc.cluster.local
+persistentVolume:
+  enabled: true
+  accessModes:
+  - ReadWriteOnce
+  size: 12Gi
+  storageClassName: "nfs"
+  existingClaim: nfs-pgadmin
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
