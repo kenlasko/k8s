@@ -81,6 +81,10 @@ configs:
       url: https://helm.cilium.io
       name: cilium
       type: helm
+    cloudnative-pg:
+      url: https://cloudnative-pg.github.io/charts
+      name: cnpg
+      type: helm
     coroot:
       url: https://coroot.github.io/helm-charts
       name: coroot

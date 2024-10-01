@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 13.*
-    chart: postgresql
+  - repoURL: 'https://cloudnative-pg.github.io/charts'
+    targetRevision: "*"
+    chart: cnpg
     helm:
       valueFiles:
       - $values/postgres/values.yaml

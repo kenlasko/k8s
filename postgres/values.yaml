@@ -1,17 +1,12 @@
-auth:
-  existingSecret: postgres-passwords
-  secretKeys:
-    adminPasswordKey: postgres-admin-pw 
-primary:
-  nodeAffinityPreset:
-    type: hard
-    key: kubernetes.io/hostname
-    values: 
-    - nuc3
-  persistence:
-    enabled: true
-    storageClass: local-path
-    existingClaim: postgres-data
-  extraEnvVars:
-  - name: TZ
-    value: "America/Toronto"
+fullnameOverride: postgres
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
