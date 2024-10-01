@@ -22,6 +22,8 @@ persistentVolume:
   size: 12Gi
   storageClassName: "nfs"
   existingClaim: nfs-pgadmin
+containerSecurityContext:
+  enabled: true
 
 affinity:
   nodeAffinity:
