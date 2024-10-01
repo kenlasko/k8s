@@ -12,6 +12,18 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
+  managed:
+    services:
+      additional:
+      - selectorType: rw
+        serviceTemplate:
+          metadata:
+            annotations:
+              io.cilium/lb-ipam-ips: 192.168.1.14
+              tailscale.com/expose: 'true'
+              tailscale.com/hostname: 'home-postgres'
+          spec:
+            type: LoadBalancer
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
