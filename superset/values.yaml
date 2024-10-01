@@ -27,6 +27,19 @@ supersetWorker:
             values: 
             - 'amd64'
 
+postgresql:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
+
 redis:
   affinity:
     nodeAffinity:
