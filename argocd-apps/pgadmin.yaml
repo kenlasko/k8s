@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://helm.runix.net/'
-    targetRevision: 1.*
+    targetRevision: "*"
     chart: pgadmin4
     helm:
       valueFiles:
