@@ -14,7 +14,8 @@ spec:
     name: postgres-superuser
   backup:
     barmanObjectStore:
-      destinationPath: "s3://192.168.1.3:8010/postgres@default/"
+      endpointURL: "http://nas01.ucdialplans.com:8010"
+      destinationPath: "postgres"
       s3Credentials:
         accessKeyId:
           name: nas-s3-creds
