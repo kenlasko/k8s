@@ -82,3 +82,7 @@ spec:
       toPorts:
         - ports:
             - port: "9091"
+    - toServices:
+        - k8sService:
+            serviceName: postgres-rw
+            namespace: postgres
