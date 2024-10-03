@@ -120,7 +120,7 @@ mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
 set global gtid_slave_pos = "0-1-19420";
 change master to
-    master_host='100.74.58.124',
+    master_host='mariadb-cloud-egress',
     master_user='replicator',
     master_password='***REMOVED***',
     master_port=3306,
