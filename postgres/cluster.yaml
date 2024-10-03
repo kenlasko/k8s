@@ -15,7 +15,7 @@ spec:
   backup:
     barmanObjectStore:
       endpointURL: "http://nas01.ucdialplans.com:8010"
-      destinationPath: "postgres"
+      destinationPath: "s3://postgres"
       s3Credentials:
         accessKeyId:
           name: nas-s3-creds
