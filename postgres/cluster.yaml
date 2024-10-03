@@ -21,7 +21,7 @@ spec:
           key: ACCESS_KEY_ID
         secretAccessKey:
           name: nas-s3-creds
-          key: ACCESS_SECRET_KEY
+          key: ACCESS_KEY_SECRET
   managed:
     services:
       additional:
