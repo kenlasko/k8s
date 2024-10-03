@@ -12,6 +12,16 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://postgres@default/"
+      s3Credentials:
+        accessKeyId:
+          name: nas-s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: nas-s3-creds
+          key: ACCESS_SECRET_KEY
   managed:
     services:
       additional:
