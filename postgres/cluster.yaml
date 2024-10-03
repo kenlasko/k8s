@@ -13,6 +13,7 @@ spec:
   superuserSecret:
     name: postgres-superuser
   backup:
+    retentionPolicy: "30d"
     barmanObjectStore:
       endpointURL: "http://nas01.ucdialplans.com:8010"
       destinationPath: "s3://postgres"
