@@ -3,7 +3,7 @@
 sudo apt install ansible nano pip -y
 ansible-galaxy collection install community.general
 ansible-galaxy collection install kubernetes.core
-pip install kubernetes
+# pip install kubernetes # don't think its needed now
 ```
 
 ## Copy Ansible Hosts
