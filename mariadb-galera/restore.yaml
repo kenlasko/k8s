@@ -5,7 +5,7 @@
 #   namespace: mariadb-galera
 # spec:
 #   mariaDbRef:
-#     name: primary
+#     name: mariadb
 #     namespace: mariadb-galera
 #   volume:
 #     nfs:
