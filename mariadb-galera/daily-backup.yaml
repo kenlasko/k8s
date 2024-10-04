@@ -3,7 +3,6 @@ kind: Backup
 metadata:
   name: daily-backup
   namespace: mariadb-galera
-  waitForIt: true
 spec:
   mariaDbRef:
     name: mariadb-galera
