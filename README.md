@@ -20,8 +20,10 @@ ssh-add ~/.ssh/id_rsa
 ```
 Copy the contents of id_rsa.pub to Github SSH keys at https://github.com/settings/keys
 
-## Clone repos
+## Configure Git and clone repos
 ```
+git config --global user.email "ken.lasko@gmail.com"
+git config --global user.name "Ken Lasko"
 git clone git@github.com:kenlasko/K3S.git k3s
 git clone git@github.com:kenlasko/k3s-lab.git
 git clone git@github.com:kenlasko/k3s-cloud.git
