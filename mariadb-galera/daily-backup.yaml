@@ -7,6 +7,7 @@ spec:
   mariaDbRef:
     name: mariadb-galera
     namespace: mariadb-galera
+    waitForIt: true
   schedule:
     cron: "45 4 * * *"
     suspend: false
