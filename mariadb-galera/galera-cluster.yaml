@@ -11,13 +11,13 @@ spec:
     key: mariadb-root-password
 
   storage:
-    size: 10Gi
+    size: 18Gi
     storageClassName: local-path
     volumeClaimTemplate:
       storageClassName: local-path
       resources:
         requests:
-          storage: 10Gi
+          storage: 18Gi
       accessModes:
       - ReadWriteOnce
 
