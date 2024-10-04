@@ -33,6 +33,7 @@ git clone git@github.com:kenlasko/omni-public.git
 ```
 
 ## Install Kubectl
+Get kubeconfig from Onedrive Vault and copy to ~/.kube/config
 From https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 ```
 sudo apt-get update
