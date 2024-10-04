@@ -1,44 +1,34 @@
-## On Workstation
+# Workstation Prep
+## Install WSL and supporting tools
+From Windows Terminal:
 ```
-sudo apt install ansible nano pip -y
-ansible-galaxy collection install community.general
-ansible-galaxy collection install kubernetes.core
-# pip install kubernetes # don't think its needed now
-```
-
-## Copy Ansible Hosts
-```
-sudo mkdir /etc/ansible
-sudo cp ~/k3s/_ansible/hosts /etc/ansible/hosts
+wsl --install
 ```
 
-## Install Kubernetes
-1. Make sure all Talos nodes are in maintenance mode and are available in Omni, then create cluster:
+Install Visual Studio Code from Microsoft Store, then install WSL add-on:
 ```
-omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
-```
-2. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
-```
-ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
-```
-3. Get initial ArgoCD password
-```
-kubectl -n argocd get secret argocd-initial-admin-secret \
-          -o jsonpath="{.data.password}" | base64 -d; echo
+https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 ```
 
-## Argo App Install Order
-1. nfs-provisioner
-2. mariadb (then follow [MariaDB restore procedures](mariadb/README.md))
-3. longhorn (once up and running, restore volumes)
-4. adguard
-5. external-dns
-6. media-tools (installs all media apps - ONLY DO AFTER LONGHORN VOLUMES ARE RESTORED)
-
-## Get Kubernetes token
+## Create Github token
+Follow instructions on https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 ```
-kubectl -n kube-system get secret kubeapi-service-account-secret \
-          -o jsonpath="{.data.token}" | base64 -d; echo
+ssh-keygen -t ed25519 -C "ken.lasko@gmail.com"  # Make sure to use 'id_rsa' for name 
+# Start ssh-agent
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+```
+Copy the contents of id_rsa.pub to Github SSH keys at https://github.com/settings/keys
+
+## Install WSL and supporting tools
+From Windows Terminal:
+```
+wsl --install
+```
+
+Install Visual Studio Code from Microsoft Store, then install WSL add-on:
+```
+https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 ```
 
 ## Install remote admin tools on non-Kubernetes server
@@ -96,4 +86,49 @@ fi
 curl -OL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz"
 tar -xvzf kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+```
+
+## Install Ansible
+```
+sudo apt install ansible nano pip -y
+ansible-galaxy collection install community.general
+ansible-galaxy collection install kubernetes.core
+# pip install kubernetes # don't think its needed now
+```
+
+## Copy Ansible Hosts
+```
+sudo mkdir /etc/ansible
+sudo cp ~/k3s/_ansible/hosts /etc/ansible/hosts
+```
+
+# Kubernetes Install
+Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
+## Install Kubernetes
+1. Make sure all Talos nodes are in maintenance mode and are available in Omni, then create cluster:
+```
+omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
+```
+2. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
+```
+ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
+```
+3. Get initial ArgoCD password
+```
+kubectl -n argocd get secret argocd-initial-admin-secret \
+          -o jsonpath="{.data.password}" | base64 -d; echo
+```
+
+## Argo App Install Order
+1. nfs-provisioner
+2. mariadb (then follow [MariaDB restore procedures](mariadb/README.md))
+3. longhorn (once up and running, restore volumes)
+4. adguard
+5. external-dns
+6. media-tools (installs all media apps - ONLY DO AFTER LONGHORN VOLUMES ARE RESTORED)
+
+## Get Kubernetes token
+```
+kubectl -n kube-system get secret kubeapi-service-account-secret \
+          -o jsonpath="{.data.token}" | base64 -d; echo
 ```
