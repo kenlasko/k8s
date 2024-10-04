@@ -20,18 +20,17 @@ ssh-add ~/.ssh/id_rsa
 ```
 Copy the contents of id_rsa.pub to Github SSH keys at https://github.com/settings/keys
 
-## Install WSL and supporting tools
-From Windows Terminal:
+## Clone repos
 ```
-wsl --install
+git clone git@github.com:kenlasko/K3S.git k3s
+git clone git@github.com:kenlasko/k3s-lab.git
+git clone git@github.com:kenlasko/k3s-cloud.git
+git clone git@github.com:kenlasko/omni.git
+git clone git@github.com:kenlasko/docker.git
+git clone git@github.com:kenlasko/omni-public.git
 ```
 
-Install Visual Studio Code from Microsoft Store, then install WSL add-on:
-```
-https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
-```
-
-## Install remote admin tools on non-Kubernetes server
+## Install Kubectl
 From https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 ```
 sudo apt-get update
