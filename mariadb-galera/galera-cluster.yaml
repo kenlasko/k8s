@@ -49,8 +49,8 @@ spec:
       podRecoveryTimeout: 5m0s
       podSyncTimeout: 5m0s
 
-  podSecurityContext:
-    runAsUser: 0
+  # podSecurityContext:
+  #   runAsUser: 0
 
   service:
     type: LoadBalancer
