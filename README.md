@@ -9,7 +9,7 @@ pip install kubernetes
 ## Copy Ansible Hosts
 ```
 sudo mkdir /etc/ansible
-sudo cp ~/k3s/hosts /etc/ansible/hosts
+sudo cp ~/k3s/_ansible/hosts /etc/ansible/hosts
 ```
 
 ## Install Kubernetes
