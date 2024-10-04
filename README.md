@@ -46,7 +46,7 @@ From https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 ```
 sudo apt-get update
 # apt-transport-https may be a dummy package; if so, you can skip that package
-sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg jq
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
 # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
@@ -65,8 +65,8 @@ source ~/.bashrc
 
 ## Alias kubectl to k
 ```
-alias k=kubectl
-complete -F __start_kubectl k
+echo "alias k=kubectl" >> ~/.bashrc
+echo "complete -F __start_kubectl k" >> ~/.bashrc
 ```
 
 ## Install K9S on Linux
@@ -77,4 +77,23 @@ curl -sS https://webinstall.dev/k9s | bash
 ## Install K9S on Windows
 ```
 curl.exe -A MS https://webinstall.dev/k9s | powershell
+```
+
+## Install KubeSeal
+```
+# Make sure jq is installed
+sudo apt install jq -y
+
+# Fetch the latest sealed-secrets version using GitHub API
+KUBESEAL_VERSION=$(curl -s https://api.github.com/repos/bitnami-labs/sealed-secrets/tags | jq -r '.[0].name' | cut -c 2-)
+
+# Check if the version was fetched successfully
+if [ -z "$KUBESEAL_VERSION" ]; then
+    echo "Failed to fetch the latest KUBESEAL_VERSION"
+    exit 1
+fi
+
+curl -OL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz"
+tar -xvzf kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 ```
