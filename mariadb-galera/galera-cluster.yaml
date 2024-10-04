@@ -44,6 +44,7 @@ spec:
       gracefulShutdownTimeout: 5s
     recovery:
       enabled: true
+      minClusterSize: 1
       clusterHealthyTimeout: 3m0s
       clusterBootstrapTimeout: 15m0s
       podRecoveryTimeout: 5m0s
