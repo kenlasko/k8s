@@ -5,7 +5,7 @@ secretName: default-sealing-key
 resources:
   requests:
     cpu: 1m
-    memory: 16Mi
+    memory: 9Mi
   limits:
-    cpu: 40m
-    memory: 20Mi
+    cpu: 35m
+    memory: 15Mi
