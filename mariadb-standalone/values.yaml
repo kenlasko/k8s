@@ -17,7 +17,7 @@ primary:
       memory: 300Mi
     limits:
       cpu: 800m
-      memory: 600Mi
+      memory: 800Mi
   persistence:
     storageClass: "local-path"
     existingClaim: "mariadb-standalone-pvc"
