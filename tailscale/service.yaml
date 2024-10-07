@@ -5,7 +5,7 @@ metadata:
     tailscale.com/proxy-class: "run-on-worker"
   annotations:
     tailscale.com/tailnet-fqdn: 'cloud-keel.tailb7050.ts.net'
-  name: cloud-keel
+  name: cloud-keel-egress
 spec:
   externalName: cloud-keel-egress
   type: ExternalName
