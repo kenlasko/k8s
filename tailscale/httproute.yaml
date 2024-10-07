@@ -13,7 +13,7 @@ spec:
   - "cloud-argocd.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: argocd-tunnel  #cloud-argocd-egress
+    - name: cloud-argocd-egress
       namespace: tailscale
       kind: Service
       port: 8080
