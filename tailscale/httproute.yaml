@@ -16,3 +16,4 @@ spec:
     - name: cloud-keel
       namespace: tailscale
       kind: Service
+      port: 9300
