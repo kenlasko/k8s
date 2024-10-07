@@ -13,7 +13,7 @@ spec:
   - "cloud-keel.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: cloud-keel
+    - name: cloud-keel-egress
       namespace: tailscale
       kind: Service
       port: 9300
