@@ -22,6 +22,9 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: tailscale
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/externalName
   syncPolicy:
     automated:
       selfHeal: true
