@@ -5,5 +5,5 @@ metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'cloud-keel.tailb7050.ts.net'
 spec:
-  externalName: cloud-keel-egress
+  externalName: cloud-keel.ucdialplans.com
   type: ExternalName
