@@ -5,7 +5,22 @@ metadata:
     tailscale.com/proxy-class: "run-on-worker"
   annotations:
     tailscale.com/tailnet-fqdn: 'cloud-keel.tailb7050.ts.net'
+    tailscale.com/expose: 'true'
   name: cloud-keel-egress
 spec:
   externalName: cloud-keel-egress
+  type: ExternalName
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
+  annotations:
+    tailscale.com/tailnet-fqdn: 'cloud-argocd.tailb7050.ts.net'
+    tailscale.com/expose: 'true'
+  name: cloud-argocd-egress
+spec:
+  externalName: cloud-argocd-egress
   type: ExternalName
