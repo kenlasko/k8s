@@ -1,4 +1,5 @@
 global:
+  domain: argocd.ucdialplans.com
   env:
   - name: TZ
     value: "America/Toronto"
