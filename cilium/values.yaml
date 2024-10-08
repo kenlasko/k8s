@@ -152,7 +152,6 @@ gatewayAPI:
     name: cilium
     sync: true
 
-
 operator:
   affinity:
     nodeAffinity:
