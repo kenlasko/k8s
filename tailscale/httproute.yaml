@@ -33,7 +33,7 @@ spec:
   - "cloud-hubble.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: cloud-hubble-egress
+    - name: cloud-hubble-egress-tunnel
       namespace: tailscale
       kind: Service
       port: 80
