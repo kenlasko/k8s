@@ -18,25 +18,25 @@
 #       kind: Service
 #       port: 8080
 
-# ---
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: HTTPRoute
-# metadata:
-#   name: cloud-hubble
-#   namespace: tailscale
-# spec:
-#   parentRefs:
-#   - name: tls
-#     namespace: cilium
-#     sectionName: https
-#   hostnames:
-#   - "cloud-hubble.ucdialplans.com"
-#   rules:
-#   - backendRefs:
-#     - name: cloud-hubble-egress
-#       namespace: tailscale
-#       kind: Service
-#       port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cloud-hubble
+  namespace: tailscale
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "cloud-hubble.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: cloud-hubble-egress
+      namespace: tailscale
+      kind: Service
+      port: 80
 
 # ---
 # apiVersion: gateway.networking.k8s.io/v1

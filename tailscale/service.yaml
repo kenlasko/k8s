@@ -11,18 +11,18 @@
 #   externalName: cloud-argocd-egress
 #   type: ExternalName
 
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   labels:
-#     tailscale.com/proxy-class: "run-on-worker"
-#   annotations:
-#     tailscale.com/tailnet-fqdn: 'cloud-hubble.tailb7050.ts.net'
-#   name: cloud-hubble-egress
-# spec:
-#   externalName: cloud-hubble-egress
-#   type: ExternalName
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
+  annotations:
+    tailscale.com/tailnet-fqdn: 'cloud-hubble.tailb7050.ts.net'
+  name: cloud-hubble-egress
+spec:
+  externalName: cloud-hubble-egress
+  type: ExternalName
 
 # ---
 # apiVersion: v1
