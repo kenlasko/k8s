@@ -12,7 +12,7 @@ spec:
     args: ["tcp-listen:9300,fork,reuseaddr", "tcp-connect:cloud-keel-egress:9300"]
     ports:
     - containerPort: 9300
-  restartPolicy: Never
+  restartPolicy: Always
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
