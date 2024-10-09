@@ -52,3 +52,23 @@ metadata:
 spec:
   externalName: cloud-keel-egress
   type: ExternalName
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cloud-keel
+  namespace: tailscale
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "cloud-keel.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: cloud-keel-egress-tunnel
+      namespace: tailscale
+      kind: Service
+      port: 9300
