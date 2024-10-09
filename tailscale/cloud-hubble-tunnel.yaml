@@ -1,32 +1,47 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: onode1-tunnel
+  name: onode1-egress-tunnel
   namespace: tailscale
   labels:
-    app: onode1-tunnel
+    app: onode1-egress-tunnel
 spec:
   nodeSelector:
     kubernetes.io/hostname: nuc5
   containers:
-  - name: onode1-tunnel
+  - name: onode1-egress-tunnel
     image: alpine/socat
-    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:onode1-egress:80"]
+    args: ["tcp-listen:443,fork,reuseaddr", "tcp-connect:onode1-egress:443"]
     ports:
-    - containerPort: 80
+    - containerPort: 443
   restartPolicy: Never
+
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: onode1-egress
+  name: onode1-egress-tunnel
   namespace: tailscale
 spec:
   selector:
-    app: onode1-egress
+    app: onode1-egress-tunnel
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 443
+    targetPort: 443
   type: ClusterIP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
+  annotations:
+    tailscale.com/tailnet-fqdn: 'onode1.tailb7050.ts.net'
+  name: onode1-egress
+spec:
+  externalName: onode1-egress
+  type: ExternalName
