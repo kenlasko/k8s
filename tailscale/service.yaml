@@ -36,3 +36,17 @@ spec:
 # spec:
 #   externalName: cloud-keel-egress
 #   type: ExternalName
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
+  annotations:
+    tailscale.com/tailnet-fqdn: 'onode1.tailb7050.ts.net'
+  name: onode1-egress
+spec:
+  externalName: onode1-egress
+  type: ExternalName

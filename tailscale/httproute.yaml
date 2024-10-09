@@ -33,7 +33,7 @@ spec:
   - "cloud-hubble.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: cloud-hubble-egress-tunnel
+    - name: onode1-tunnel
       namespace: tailscale
       kind: Service
       port: 80

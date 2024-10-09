@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cloud-hubble-egress-tunnel
+  name: onode1-tunnel
   namespace: tailscale
   labels:
-    app: cloud-hubble-egress-tunnel
+    app: onode1-tunnel
 spec:
   nodeSelector:
     kubernetes.io/hostname: nuc5
   containers:
-  - name: cloud-hubble-egress-tunnel
+  - name: onode1-tunnel
     image: alpine/socat
-    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-hubble-egress:80"]
+    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:onode1-egress:80"]
     ports:
     - containerPort: 80
   restartPolicy: Never
@@ -20,11 +20,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloud-hubble-egress-tunnel
+  name: onode1-egress
   namespace: tailscale
 spec:
   selector:
-    app: cloud-hubble-egress-tunnel
+    app: onode1-egress
   ports:
   - protocol: TCP
     port: 80
