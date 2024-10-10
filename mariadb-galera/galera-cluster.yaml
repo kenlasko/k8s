@@ -4,7 +4,6 @@ metadata:
   name: mariadb
   namespace: mariadb-galera
 spec:
-  image: mariadb:11.4.3
   rootPasswordSecretKeyRef:
     generate: false
     name: mariadb-passwords
@@ -38,6 +37,12 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
+      volumeClaimTemplate:
+        resources:
+          requests:
+            storage: 18Gi
+        accessModes:
+          - ReadWriteOnce
     agent:
       kubernetesAuth:
         enabled: true
@@ -45,10 +50,11 @@ spec:
     recovery:
       enabled: true
       minClusterSize: 1
-      clusterHealthyTimeout: 3m0s
-      clusterBootstrapTimeout: 15m0s
-      podRecoveryTimeout: 5m0s
-      podSyncTimeout: 5m0s
+      clusterMonitorInterval: 10s
+      clusterHealthyTimeout: 30s
+      clusterBootstrapTimeout: 10m
+      podRecoveryTimeout: 5m
+      podSyncTimeout: 5m
 
   service:
     type: LoadBalancer
@@ -66,7 +72,7 @@ spec:
       key: dsn
 
   affinity:
-    antiAffinityEnabled: false
+    antiAffinityEnabled: true
     # nodeAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
     #     nodeSelectorTerms:
