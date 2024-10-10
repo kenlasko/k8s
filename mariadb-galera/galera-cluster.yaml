@@ -10,8 +10,6 @@ spec:
     key: mariadb-root-password
 
   storage:
-    size: 18Gi
-    storageClassName: local-path
     volumeClaimTemplate:
       storageClassName: local-path
       resources:
@@ -37,10 +35,10 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
-    # agent:
-    #   kubernetesAuth:
-    #     enabled: true
-    #   gracefulShutdownTimeout: 5s
+    agent:
+      kubernetesAuth:
+        enabled: true
+      gracefulShutdownTimeout: 5s
     recovery:
       enabled: true
       minClusterSize: 1
@@ -55,28 +53,28 @@ spec:
         tailscale.com/expose: 'true'
         tailscale.com/hostname: 'home-mariadb-galera'
 
-  # connection:
-  #   secretName: mariadb-galera-conn
-  #   secretTemplate:
-  #     key: dsn
+  connection:
+    secretName: mariadb-galera-conn
+    secretTemplate:
+      key: dsn
 
   affinity:
     antiAffinityEnabled: true
-    # nodeAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #     nodeSelectorTerms:
-    #     - matchExpressions:
-    #       - key: node-role.kubernetes.io/control-plane
-    #         operator: DoesNotExist
-    #       - key: kubernetes.io/arch
-    #         operator: In
-    #         values: 
-    #         - 'amd64'
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - 'amd64'
 
-  # tolerations:
-  #   - key: "mariadb.mmontes.io/ha"
-  #     operator: "Exists"
-  #     effect: "NoSchedule"
+  tolerations:
+    - key: "mariadb.mmontes.io/ha"
+      operator: "Exists"
+      effect: "NoSchedule"
 
   podDisruptionBudget:
     maxUnavailable: 66%

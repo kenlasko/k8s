@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: 'https://mariadb-operator.github.io/mariadb-operator'
-    targetRevision: 0.34.0
+    targetRevision: 0.31.0
     chart: mariadb-operator
     helm:
       valueFiles:
