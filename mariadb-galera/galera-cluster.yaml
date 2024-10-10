@@ -43,10 +43,10 @@ spec:
             storage: 18Gi
         accessModes:
           - ReadWriteOnce
-    agent:
-      kubernetesAuth:
-        enabled: true
-      gracefulShutdownTimeout: 5s
+    # agent:
+    #   kubernetesAuth:
+    #     enabled: true
+    #   gracefulShutdownTimeout: 5s
     recovery:
       enabled: true
       minClusterSize: 1
@@ -61,10 +61,10 @@ spec:
         tailscale.com/expose: 'true'
         tailscale.com/hostname: 'home-mariadb-galera'
 
-  connection:
-    secretName: mariadb-galera-conn
-    secretTemplate:
-      key: dsn
+  # connection:
+  #   secretName: mariadb-galera-conn
+  #   secretTemplate:
+  #     key: dsn
 
   affinity:
     antiAffinityEnabled: true
@@ -79,16 +79,16 @@ spec:
     #         values: 
     #         - 'amd64'
 
-  tolerations:
-    - key: "mariadb.mmontes.io/ha"
-      operator: "Exists"
-      effect: "NoSchedule"
+  # tolerations:
+  #   - key: "mariadb.mmontes.io/ha"
+  #     operator: "Exists"
+  #     effect: "NoSchedule"
 
   podDisruptionBudget:
     maxUnavailable: 66%
 
   updateStrategy:
-    type: RollingUpdate
+    # type: RollingUpdate
     autoUpdateDataPlane: true
 
   # myCnf: |
