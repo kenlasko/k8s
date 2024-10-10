@@ -37,12 +37,6 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
-      volumeClaimTemplate:
-        resources:
-          requests:
-            storage: 18Gi
-        accessModes:
-          - ReadWriteOnce
     # agent:
     #   kubernetesAuth:
     #     enabled: true
