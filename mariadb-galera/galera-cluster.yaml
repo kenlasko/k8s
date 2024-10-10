@@ -79,9 +79,9 @@ spec:
   podDisruptionBudget:
     maxUnavailable: 66%
 
-  updateStrategy:
-    # type: RollingUpdate
-    autoUpdateDataPlane: true
+  # updateStrategy:
+  #   # type: RollingUpdate
+  #   autoUpdateDataPlane: true
 
   # myCnf: |
   #   [mariadb]
