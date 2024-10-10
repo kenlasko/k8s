@@ -12,9 +12,9 @@ spec:
     helm:
       valueFiles:
       - $values/mariadb-galera/values.yaml
-  - repoURL: 'https://mariadb-operator.github.io/mariadb-operator'
-    chart: mariadb-operator-crds
-    targetRevision: 0.0.31
+  # - repoURL: 'https://mariadb-operator.github.io/mariadb-operator'
+  #   chart: mariadb-operator-crds
+  #   targetRevision: 0.0.31
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
