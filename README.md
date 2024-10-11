@@ -124,7 +124,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo groupadd docker
 sudo usermod -aG docker $USER
 newgrp docker
-docker loginJSON arguments recommended for CMD to prevent unintended behavior related to OS signals
+docker login
 ```
 
 ## Enable multi-arch container builds
