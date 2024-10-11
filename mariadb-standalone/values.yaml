@@ -16,7 +16,7 @@ primary:
       cpu: 20m
       memory: 300Mi
     limits:
-      cpu: 800m
+      cpu: 900m
       memory: 800Mi
   persistence:
     storageClass: "local-path"
