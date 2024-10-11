@@ -5,7 +5,7 @@ metadata:
   name: oci-host-creator
   namespace: oci-host-creator
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: oci-host-creator
