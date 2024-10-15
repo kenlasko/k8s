@@ -95,13 +95,22 @@ sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 sudo apt install ansible nano pip -y
 ansible-galaxy collection install community.general
 ansible-galaxy collection install kubernetes.core
-# pip install kubernetes # don't think its needed now
+pip install kubernetes
 ```
 
 ## Copy Ansible Hosts
 ```
 sudo mkdir /etc/ansible
 sudo cp ~/k3s/_ansible/hosts /etc/ansible/hosts
+```
+
+## Install Helm
+```
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
 ```
 
 # Install Docker for container building
