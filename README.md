@@ -1,4 +1,6 @@
-# [Workstation Prep Instructions](WORKSTATION.md)
+# Prerequisites 
+[Workstation Prep Instructions](WORKSTATION.md)
+[NAS file/folder locations](NASCONFIG.md)
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
@@ -18,12 +20,14 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 
 ## Argo App Install Order
+I'm working on using SyncWaves to automate this, but in the meantime follow these general procedures for app install order.
 1. nfs-provisioner
 2. mariadb (then follow [MariaDB restore procedures](mariadb/README.md))
 3. longhorn (once up and running, restore volumes)
 4. adguard
 5. external-dns
 6. media-tools (installs all media apps - ONLY DO AFTER LONGHORN VOLUMES ARE RESTORED)
+7. Everything else
 
 ## Get Kubernetes token
 ```
