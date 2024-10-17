@@ -1,4 +1,4 @@
-# Workstation Prep
+# Windows Workstation Prep
 ## Install WSL and supporting tools
 From Windows Terminal:
 ```
