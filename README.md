@@ -1,5 +1,6 @@
 # Prerequisites 
 [Workstation Prep Instructions](WORKSTATION.md)
+
 [NAS file/folder locations](NASCONFIG.md)
 
 # Kubernetes Install
