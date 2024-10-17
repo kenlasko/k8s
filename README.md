@@ -1,4 +1,4 @@
-#[Workstation Prep Instructions](WORKSTATION.md)
+# [Workstation Prep Instructions](WORKSTATION.md)
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
