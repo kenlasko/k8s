@@ -14,10 +14,10 @@ This folder stores all the data used by applications. Most applications use stan
 ```
 /share/appdata
 ├── container-station-data  # QNAP Container Station
-├── docker-vol				# Docker volume data for Container Station
-├── pv						# NFS operator data
-├── pxeboot					# PXEBoot data for Matchbox
-└── vol						# NFS appdata (pre-created base folders)
+├── docker-vol				      # Docker volume data for Container Station
+├── pv						          # NFS operator data
+├── pxeboot					        # PXEBoot data for Matchbox
+└── vol						          # NFS appdata (pre-created base folders)
 ```
 
 Apps that currently use the appdata folder are:
