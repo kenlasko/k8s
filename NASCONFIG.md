@@ -78,4 +78,4 @@ mkdir apps github k3s longhorn mariadb nas omni vol
 ```
 
 # PXEBoot Configuration
-Installing the Talos OS on cluster members is handled by Matchbox via PXE. 
+Installing the Talos OS on cluster members is handled by Matchbox via PXE. Follow the [PXEBoot instructions](https://github.com/kenlasko/pxeboot) to setup.
