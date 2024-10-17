@@ -1,10 +1,10 @@
 # Introduction
 This cluster makes heavy use of NAS resources for storing stateful files that play well with NFS. For workloads that don't work with NFS (such as SQLLite databases), Longhorn is used.
 
-This document helps define the configuration of storage used in this Kubernetes cluster
+This document helps define the configuration of storage used in this Kubernetes cluster.
 
 # Base Folders
-These are the base folders used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
+These are the base folde/88888*rs used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
 * **appdata** - used for application storage
 * **backup** - used for backup data
 * **media** - used for media (movies/TV/music etc)
@@ -71,3 +71,11 @@ This folder stores data created by backup processes, such as Longhorn and manual
 ├── omni        # SideroLabs Omni cluster management
 └── vol         # appdata/vol
 ```
+
+To create these folders on a fresh install:
+```
+mkdir apps github k3s longhorn mariadb nas omni vol
+```
+
+# PXEBoot Configuration
+Installing the Talos OS on cluster members is handled by Matchbox via PXE. 

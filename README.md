@@ -1,7 +1,7 @@
 # Prerequisites 
 [Workstation Prep Instructions](WORKSTATION.md)
 
-[NAS file/folder locations](NASCONFIG.md)
+[NAS Configuration](NASCONFIG.md)
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
