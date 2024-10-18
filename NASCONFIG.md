@@ -34,7 +34,7 @@ Apps that currently use the `appdata/vol` folder are:
 * [gitea](/gitea)
 * [homeassist](/home-automation/homeassist)
 * [keel](/keel)
-* [nectar](/nectar)
+* [nectar-ps](/nectar-ps)
 * [pgadmin](/pgadmin)
 * [portainer](/portainer)
 * [recyclarr](/media-tools/recyclarr)
