@@ -106,6 +106,10 @@ configs:
       url: https://falcosecurity.github.io/charts
       name: falcosecurity
       type: helm
+    fluentbit:
+      url: https://fluent.github.io/helm-charts
+      name: fluent
+      type: helm
     geek-cookbook:
       url: https://geek-cookbook.github.io/charts
       name: geek-cookbook
