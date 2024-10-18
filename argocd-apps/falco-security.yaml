@@ -11,7 +11,13 @@ spec:
     chart: falco
     helm:
       valueFiles:
-      - $values/falco-security/values.yaml
+      - $values/falco-security/values-falco.yaml
+  - repoURL: 'https://fluent.github.io/helm-charts'
+    targetRevision: "*"
+    chart: fluent-bit
+    helm:
+      valueFiles:
+      - $values/falco/values-fluentbit.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
