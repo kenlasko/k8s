@@ -4,7 +4,7 @@ This cluster makes heavy use of NAS resources for storing stateful files that pl
 This document helps define the configuration of storage used in this Kubernetes cluster.
 
 # Base Folders
-These are the base folde/88888*rs used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
+These are the base folders used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
 * **appdata** - used for application storage
 * **backup** - used for backup data
 * **media** - used for media (movies/TV/music etc)
