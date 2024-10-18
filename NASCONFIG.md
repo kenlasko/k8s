@@ -29,7 +29,7 @@ Apps that currently use the `appdata/pv` folder are:
 This folder stores all the files used for network booting (PXE) into [Talos OS](https://www.siderolabs.com/platform/talos-os-for-kubernetes/). Installing the Talos OS on cluster members is handled by [Matchbox](https://github.com/poseidon/matchbox) via PXE. Follow the [PXEBoot instructions](https://github.com/kenlasko/pxeboot) to setup.
 
 ### appdata/vol
-These folders are used for most apps that don't have SQLLite databases (Longhorn is used for workloads with SQLLite DBs). The cluster uses PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.
+These folders are used for most apps that don't have SQLLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.
 Apps that currently use the `appdata/vol` folder are:
 * [adguard](/adguard)
 * [esphome](/home-automation/esphome)
@@ -56,7 +56,7 @@ mkdir adguard esphome garmin-upload gitea homeassist keel nectar pgadmin portain
 ```
 
 ## Backup
-This folder stores data created by backup processes, such as Longhorn and manual backup scripts, such as:
+This folder stores data created by backup processes, such as Longhorn and manual backup scripts:
 * [Github Repo Backup](/gitea/configmap-github-backup.yaml)
 * [MariaDB Backup](/mariadb/backup-cronjob.yaml)
 * [Media Apps](/media-tools/backup)
