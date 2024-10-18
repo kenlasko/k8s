@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://fluent.github.io/helm-charts'
     targetRevision: "*"
-    chart: fluent
+    chart: fluentbit
     helm:
       valueFiles:
       - $values/fluentbit/values.yaml
