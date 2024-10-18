@@ -25,6 +25,9 @@ These folders are used by apps that make use of the [NFS Subdir Provisioner](htt
 Apps that currently use the `appdata/pv` folder are:
 * [alertmanager/grafana/loki/prometheus](/monitoring)
 
+### appdata/pxeboot
+This folder stores all the files used for network booting (PXE) into [Talos OS](https://www.siderolabs.com/platform/talos-os-for-kubernetes/). Installing the Talos OS on cluster members is handled by [Matchbox](https://github.com/poseidon/matchbox) via PXE. Follow the [PXEBoot instructions](https://github.com/kenlasko/pxeboot) to setup.
+
 ### appdata/vol
 These folders are used for most apps that don't have SQLLite databases (Longhorn is used for workloads with SQLLite DBs). The cluster uses PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.
 Apps that currently use the `appdata/vol` folder are:
@@ -76,6 +79,3 @@ To create these folders on a fresh install:
 ```
 mkdir apps github k3s longhorn mariadb nas omni vol
 ```
-
-# PXEBoot Configuration
-Installing the Talos OS on cluster members is handled by Matchbox via PXE. Follow the [PXEBoot instructions](https://github.com/kenlasko/pxeboot) to setup.
