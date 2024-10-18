@@ -1,3 +1,8 @@
+# With Talos, it's not yet possible to configure this endpoint, but fortunately for us, these audit logs are written as files in the /var/log/audit/kube/ folder of the master nodes.
+# We'll use Fluent Bit to parse these files and forward them to the k8saudit plugin.
+
+# From https://falco.org/blog/deploy-falco-talos-cluster/
+
 podAnnotations:
   fluentbit.io/exclude: 'true'
 
