@@ -16,10 +16,6 @@
     kubernetes.core.helm_repository:
       name: cilium
       repo_url: "https://helm.cilium.io/"
-  - name: Apply Gateway API CRDs
-    kubernetes.core.k8s:
-      state: present
-      src: /home/ken/k3s/cilium/gateway-api-crds.yaml  
   - name: Deploy Cilium
     environment:
       KUBECONFIG: /home/ken/.kube/config
