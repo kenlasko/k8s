@@ -64,6 +64,7 @@ alertmanager:
     - name: slack-webhook
       slack_configs:
       - channel: home_updates
+        send_resolved: true
   ingress:
     enabled: false
   alertmanagerSpec:
