@@ -102,6 +102,10 @@ configs:
       url: https://kubernetes-sigs.github.io/descheduler
       name: descheduler
       type: helm
+    fairwinds:
+      url: https://charts.fairwinds.com/stable
+      name: vpa
+      type: helm
     falco-security:
       url: https://falcosecurity.github.io/charts
       name: falcosecurity

@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vertical-pod-autoscaler
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://charts.fairwinds.com/stable'
+    targetRevision: "*"
+    chart: vpa
+    helm:
+      valueFiles:
+      - $values/vertical-pod-autoscaler/values.yaml
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    ref: values
+  - repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: vertical-pod-autoscaler
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      selfHeal: true
