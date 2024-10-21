@@ -12,6 +12,22 @@
       state: present
       verify_ssl: no
       src: /home/ken/global-sealed-secrets-key.yaml
+  - name: Add Cilium chart repo
+    kubernetes.core.helm_repository:
+      name: cilium
+      repo_url: "https://helm.cilium.io/"
+  - name: Deploy Cilium
+    environment:
+      KUBECONFIG: /home/ken/.kube/config
+    kubernetes.core.helm:
+      name: cilium
+      chart_ref: cilium/cilium
+      chart_version: "1.16.3"
+      release_namespace: cilium
+      create_namespace: true
+      update_repo_cache: true
+      values_files:
+      - /home/ken/k3s/cilium/values.yaml
   - name: Add Sealed-Secrets chart repo
     kubernetes.core.helm_repository:
       name: bitnami-labs
