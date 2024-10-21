@@ -35,6 +35,7 @@ alertmanager:
   enabled: true
   config:
     global:
+      slack_api_url_file: /etc/alertmanager/secrets/alertmanager-secrets/slack_webhook 
       smtp_smarthost: 'smtp.sendgrid.net:587'
       smtp_from: 'AlertManager <alertmanager@ucdialplans.com>'
       smtp_auth_username: 'apikey'
@@ -61,8 +62,8 @@ alertmanager:
       email_configs:
       - to: ken.lasko@gmail.com
     - name: slack-webhook
-      webhook_configs:
-      -url_file: /etc/alertmanager/secrets/alertmanager-secrets/slack_webhook 
+      slack_configs:
+      - channel: home_updates
   ingress:
     enabled: false
   alertmanagerSpec:
