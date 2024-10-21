@@ -63,7 +63,7 @@ alertmanager:
       - to: ken.lasko@gmail.com
     - name: slack-webhook
       slack_configs:
-      - channel: home_updates
+      - channel: home-alerts
         send_resolved: true
   ingress:
     enabled: false
