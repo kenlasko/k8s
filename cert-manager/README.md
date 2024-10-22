@@ -6,5 +6,7 @@ Cert-Manager creates LetsEncrypt certificates for web services provided by the C
 * A `*.ucdialplans.com` wildcard certificate for all web services
 * A `*.dns.ucdialplans.com` wildcard certificate for [AdGuard Home](/adguard) private DNS
 
+The `ucdialplans.com` domain is hosted on [Cloudflare](https://dash.cloudflare.com/login) and utilizes the Cloudflare DNS1 solver for proving ownership and approving certificates.
+
 ## Intel GPU Operator Certificates
 The [Intel GPU operator](/media-tools/intel-gpu) uses self-signed certificates for its GPU pod resources.
