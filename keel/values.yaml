@@ -21,6 +21,9 @@ secret:
   name: keel-creds
   create: false
 
+webhook:
+  enabled: true
+
 mail:
   enabled: true
   from: "Keel Updates <keelupdates@ucdialplans.com>"
