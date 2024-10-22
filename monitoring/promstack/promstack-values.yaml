@@ -50,7 +50,7 @@ alertmanager:
       - receiver: 'ken-gmail'
         matchers:
         - severity = "warning"
-        continue: false
+        continue: true
       - receiver: 'slack-webhook'
         matchers:
         - severity = "warning"
