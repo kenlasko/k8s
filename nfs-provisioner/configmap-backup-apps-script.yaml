@@ -24,7 +24,6 @@ data:
     --exclude 'data/vol/esphome/.esphome' \
     --exclude 'data/vol/registry' \
     --exclude 'data/vol/homeassist/.git' \
-    --exclude 'data/vol/homeassist/.storage' \
     --exclude 'data/vol/transmission/blocklists' \
     --exclude 'data/vol/ucdialplans' \
     -czvf /backup/vol/backup-$day.tgz /data/vol /data/pxeboot
