@@ -27,7 +27,7 @@ Apps that basically everything else depends on:
 * [AdGuard Home](/adguard)
 * [External DNS](/external-dns)
 * [Home Assistant](/home-automation/homeassist)
-* [Smarter Device Manager][/smarter-device-manager]
+* [Smarter Device Manager](/smarter-device-manager)
 * [UCDialplans](/ucdialplans)
 * [UPS Monitor](/home-automation/ups-monitor)
 * [VaultWarden](/vaultwarden)
