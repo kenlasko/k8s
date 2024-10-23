@@ -1,3 +1,6 @@
+# Notification level (debug, info, success, warn, error, fatal)
+notificationLevel: debug
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
