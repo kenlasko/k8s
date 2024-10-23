@@ -1,5 +1,5 @@
 # Introduction
-[Cert-Manager](https://github.com/cert-manager/cert-manager) is used to generate certificates for [web services provided by Cilium Gateway API](/cilium) and the [Intel GPU operator](/media-tools/intel-gpu)
+[Cert-Manager](https://github.com/cert-manager/cert-manager) is used to generate certificates for web services provided by [Cilium Gateway API](/cilium) and the [Intel GPU operator](/media-tools/intel-gpu)
 
 ## Web Services Certificates
 Cert-Manager creates LetsEncrypt certificates for web services provided by the Cilium Gateway API. Generally, there are two certificates widely in use:

@@ -1,0 +1,2 @@
+# Introduction
+Cloudflared Tunnel allows me to expose web services to the Internet without having to open any ports on my Unifi firewall. This is much preferred, as Cloudflare provides security and protection for services.
