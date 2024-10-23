@@ -1,0 +1,2 @@
+# Summary
+[PHPMyAdmin](https://www.phpmyadmin.net/) is a web-based tool for managing MariaDB databases. With this tool, I am able to manage all my home-based MariaDB servers (MariaDB Galera cluster, MariaDB standalone, MariaDB on NAS).
