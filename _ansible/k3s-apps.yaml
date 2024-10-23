@@ -2,11 +2,11 @@
 # Installs the base apps (Cilium, Traefik, ArgoCD) to get started with installing all other apps
 - hosts: workstation
   tasks:
-  - name: Install default sealed secrets certificate
-    kubernetes.core.k8s:
-      state: present
-      verify_ssl: no
-      src: /home/ken/default-sealing-key.yaml
+  # - name: Install default sealed secrets certificate
+  #   kubernetes.core.k8s:
+  #     state: present
+  #     verify_ssl: no
+  #     src: /home/ken/default-sealing-key.yaml
   - name: Install original sealed secrets certificate
     kubernetes.core.k8s:
       state: present

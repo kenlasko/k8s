@@ -10,14 +10,14 @@ All databases are replicated to 3 Kubernetes nodes using Galera for high-availab
 This will eventually be replaced by the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) once all the issues have been sorted out.
 
 # Restore databases
-1. On NAS01, go to ```/share/backup/mariadb``` and rename desired backup to ```mariadb-backup.sql```
-2. Run ```mariadb-restore``` CronJob from ```mariadb``` namespace. Do via either ArgoCD or:
+1. On NAS01, go to `/share/backup/mariadb` and rename desired backup to `mariadb-backup.sql`
+2. Run `mariadb-restore` CronJob from `mariadb` namespace. Do via either ArgoCD or:
 ```
 kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-restore
 ```
-3. Restore MariaDB user accounts by running SQL commands found in ```mariadb-users.sql``` on ```/share/backup/mariadb```
+3. Restore MariaDB user accounts by running SQL commands found in `mariadb-users.sql` on `/share/backup/mariadb`
     - Make sure to NOT restore last 4 rows (mariadbbackup, mariadb.sys, mysql, monitor)
-4. Restore MariaDB procedures using ```procedures.sql``` file(used for replication checking via Uptime-Kuma and UCDialplans updates)
+4. Restore MariaDB procedures using `procedures.sql` file  on `/share/backup/mariadb` (used for replication checking via Uptime-Kuma and UCDialplans updates)
 
 # Setup Replication
 ## Primary DB Backup
