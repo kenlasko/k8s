@@ -15,6 +15,19 @@ Apps that basically everything else depends on:
 * [Cloudflare Tunnel](/cloudflare-tunnel)
 * [Longhorn](/longhorn)
 * [MariaDB](/mariadb)
+* [PHPMyAdmin](/phpmyadmin)
 * [Registry](/registry)
+
+
+## Sync Wave 2
+* [AdGuard Home](/adguard)
+* [External DNS](/external-dns)
+* [Home Assistant](/home-automation/homeassist)
+* [Smarter Device Manager][/smarter-device-manager]
 * [UCDialplans](/ucdialplans)
-* []
+* [UPS Monitor](/home-automation/ups-monitor)
+* [VaultWarden](/vaultwarden)
+* [ZWave Admin](/home-automation/zwaveadmin)
+
+## Sync Wave 5
+* 
