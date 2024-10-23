@@ -1,5 +1,6 @@
 # Notification level (debug, info, success, warn, error, fatal)
 notificationLevel: debug
+debug: true
 
 affinity:
   nodeAffinity:
