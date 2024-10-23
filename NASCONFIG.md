@@ -1,5 +1,5 @@
 # Introduction
-This cluster makes heavy use of NAS resources for storing stateful files that play well with NFS. For workloads that don't work with NFS (such as SQLLite databases), Longhorn is used.
+This cluster makes heavy use of NAS resources for storing stateful files that play well with NFS. For workloads that don't work with NFS (such as SQLite databases), Longhorn is used.
 
 This document helps define the configuration of storage used in this Kubernetes cluster.
 
@@ -29,7 +29,7 @@ Apps that currently use the `appdata/pv` folder are:
 This folder stores all the files used for network booting (PXE) into [Talos OS](https://www.siderolabs.com/platform/talos-os-for-kubernetes/). Installing the Talos OS on cluster members is handled by [Matchbox](https://github.com/poseidon/matchbox) via PXE. Follow the [PXEBoot instructions](https://github.com/kenlasko/pxeboot) to setup.
 
 ### appdata/vol
-These folders are used for most apps that don't have SQLLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.
+These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.
 Apps that currently use the `appdata/vol` folder are:
 * [adguard](/adguard)
 * [esphome](/home-automation/esphome)

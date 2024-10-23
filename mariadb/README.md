@@ -1,3 +1,14 @@
+# Introduction
+[MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
+* [Gitea](/gitea)
+* [Home Assistant](/home-automation/homeassist)
+* [UCDialplans](/ucdialplans)
+* [VaultWarden](/vaultwarden)
+
+All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance(/mariadb-standalone)], should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a remote MariaDB instance running in Oracle Cloud.
+
+This will eventually be replaced by the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) once all the issues have been sorted out.
+
 # Restore databases
 1. On NAS01, go to ```/share/backup/mariadb``` and rename desired backup to ```mariadb-backup.sql```
 2. Run ```mariadb-restore``` CronJob from ```mariadb``` namespace. Do via either ArgoCD or:
@@ -95,8 +106,7 @@ start slave;
 ```
 
 ## From ONode1
-1. Copy mariadb-backup.sql from NAS01 to ONode1 **/kube-storage/mariadb/data** using WinSCP or equivalent
-2. If replication was previously enabled on ONode1, run:
+1. If replication was previously enabled on cloud, run:
 ```
 stop slave;
 drop database gitea;
@@ -105,15 +115,10 @@ drop database ucdialplans;
 drop database vaultwarden;
 drop database phpmyadmin;
 ```
-3. Connect to ONode1 via SSH and open shell to MariaDB container.
-```
-kubectl exec -i -t -n mariadb mariadb-0 -c mariadb -- sh -c "clear; (bash || ash || sh)"
-```
-4. Then run
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/data/mariadb-backup.sql
-```
-5. Then from SQL command line:
+2. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
+3. Run `mariadb-restore` from `mariadb` namespace.
+
+4. Connect to MariaDB pod and run (or do it from PHPMyAdmin):
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
@@ -129,6 +134,8 @@ change master to
 
 start slave;
 ```
+
+5. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
 
 ## Uptime-Kuma Procedure
 Re-add this procedure to allow Uptime-Kuma to check replication status

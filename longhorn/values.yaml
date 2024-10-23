@@ -1,3 +1,7 @@
+global:
+  nodeSelector:
+    storage: "longhorn"
+    
 persistence:
   reclaimPolicy: Retain
   recurringJobSelector:
