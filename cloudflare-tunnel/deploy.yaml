@@ -81,6 +81,8 @@ spec:
             - --token
             - "$(TOKEN)"
           livenessProbe:
+            # Cloudflared has a /ready endpoint which returns 200 if and only if
+            # it has an active connection to the edge.
             httpGet:
               path: /ready
               port: 2000
