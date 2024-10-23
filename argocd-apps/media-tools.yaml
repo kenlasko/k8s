@@ -25,7 +25,5 @@ spec:
       labels:
         pod-security.kubernetes.io/enforce: baseline
         pod-security.kubernetes.io/enforce-version: latest
-    automated:
-      selfHeal: true
     syncOptions:
-    - CreateNamespace=false
+    - CreateNamespace=true

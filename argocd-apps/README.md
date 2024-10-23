@@ -3,6 +3,11 @@ This folder contains the Argo CD application definitions for most of the Kuberne
 
 It is starting to make use of [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to ensure that apps like [MariaDB databases](/mariadb) are up before the apps that depend on them (like [Gitea](/gitea), [VaultWarden](/vaultwarden) and others). The lower the number, the earlier in the process the app gets deployed.
 
+Most of the Helm chart managed applications are set to auto-update to newer versions by way of setting `spec.sources.targetRevision: "*"`. A few (like Argo CD), are set to only upgrade minor revisions. Manually managed apps (without Helm charts) are updated via [Keel](/keel). The exceptions include:
+* [Cilium](/cilium)
+* [Longhorn](/longhorn)
+* [MariaDB](/mariadb)
+
 ## Sync Wave -5
 Apps that basically everything else depends on:
 * [Cert Manager](/cert-manager)
@@ -18,7 +23,6 @@ Apps that basically everything else depends on:
 * [PHPMyAdmin](/phpmyadmin)
 * [Registry](/registry)
 
-
 ## Sync Wave 2
 * [AdGuard Home](/adguard)
 * [External DNS](/external-dns)
@@ -29,5 +33,19 @@ Apps that basically everything else depends on:
 * [VaultWarden](/vaultwarden)
 * [ZWave Admin](/home-automation/zwaveadmin)
 
-## Sync Wave 5
-* 
+## Sync Wave 10
+* [Descheduler](/descheduler)
+* [ESPHome](/home-automation/esphome)
+* [Gitea](/gitea)
+* [Headlamp](/headlamp)
+* [Keel](/keel)
+* [MariaDB Standalone](/mariadb-standalone)
+* [Metrics Server](/metrics-server)
+* [Portainer](/portainer)
+* [Uptime Kuma](/uptime-kuma)
+
+## Sync Wave 15
+* [Alert Manager/Grafana/Prometheus/Loki](/promstack)
+
+## Sync Wave 99
+* [Media Tools](/media-tools)
