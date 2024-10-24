@@ -30,7 +30,7 @@ spec:
     kustomize:
       patches:
         - target:
-            kind: ReplicaSet
+            kind: Deployment
             name: snapshot-controller
           patch: |-
             - op: add
