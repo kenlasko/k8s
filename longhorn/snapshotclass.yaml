@@ -1,8 +1,18 @@
 kind: VolumeSnapshotClass
 apiVersion: snapshot.storage.k8s.io/v1
 metadata:
-  name: longhorn
+  name: longhorn-backup
 driver: driver.longhorn.io
 deletionPolicy: Delete
 parameters:
   type: bak
+
+---
+kind: VolumeSnapshotClass
+apiVersion: snapshot.storage.k8s.io/v1
+metadata:
+  name: longhorn-snapshot
+driver: driver.longhorn.io
+deletionPolicy: Delete
+parameters:
+  type: snap
