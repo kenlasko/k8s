@@ -4,7 +4,7 @@ metadata:
   name: kustomize-smarter-device-manager
 namespace: kube-system
 # resources:
-#   - https://github.com/argoproj/argocd-example-apps//kustomize-guestbook/
+#   - https://github.com/argoproj/argocd-example-apps/kustomize-guestbook/
 patches:
   - target:
       kind: DaemonSet
