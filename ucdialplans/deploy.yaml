@@ -89,9 +89,9 @@ spec:
         - name: ndots
           value: "1"
       volumes:
-      - name: ucdialplans-rulesets
+      - name: nfs-ucdialplans
         persistentVolumeClaim:
-          claimName: ucdialplans-rulesets
+          claimName: nfs-ucdialplans
       - configMap:
           items:
           - key: default
