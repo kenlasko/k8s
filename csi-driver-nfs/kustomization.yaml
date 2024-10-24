@@ -7,8 +7,8 @@ patches:
 - target:
   kind: Deployment
   name: snapshot-controller
-patch: |-
-  - op: add
-    path: /spec/template/spec/nodeSelector
-    value:
-      storage: "longhorn"
+  patch: |-
+    - op: add
+      path: /spec/template/spec/nodeSelector
+      value:
+        storage: "longhorn"
