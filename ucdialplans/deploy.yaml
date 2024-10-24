@@ -68,7 +68,7 @@ spec:
         - name: ucdialplans-nginx
           mountPath: /etc/nginx/sites-enabled/default
           subPath: default
-        - name: ucdialplans-rulesets
+        - name: nfs-ucdialplans
           mountPath: /var/www/rulesets
         - name: ucdialplans-webconfig
           mountPath: /var/www/web.config
