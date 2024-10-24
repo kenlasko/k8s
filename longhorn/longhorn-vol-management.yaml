@@ -12,6 +12,8 @@ spec:
   concurrency: 5
   labels:
     job: nightly-backups
+  parameters:
+    full-backup-interval: "4"
 
 ---
 apiVersion: longhorn.io/v1beta1
