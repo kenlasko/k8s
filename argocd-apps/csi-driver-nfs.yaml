@@ -14,6 +14,16 @@ spec:
     helm:
       valueFiles:
       - $values/csi-driver-nfs/values.yaml
+    kustomize:
+      patches:
+      - target:
+          kind: Deployment
+          name: snapshot-controller
+        patch: |-
+          - op: add
+            path: /spec/template/spec/nodeSelector
+            value:
+              storage: "longhorn"
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
