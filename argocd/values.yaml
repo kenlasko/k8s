@@ -94,10 +94,14 @@ configs:
       url: https://crowdsecurity.github.io/helm-charts
       name: crowdsec
       type: helm
-    csi:
-      url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
-      name: csi-driver-smb
+    csi-driver-nfs:
+      url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+      name: csi-driver-nfs
       type: helm
+    # csi-smb:
+    #   url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+    #   name: csi-driver-smb
+    #   type: helm
     descheduler:
       url: https://kubernetes-sigs.github.io/descheduler
       name: descheduler
