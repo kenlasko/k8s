@@ -2,5 +2,5 @@ controller:
   defaultOnDeletePolicy: retain
 externalSnapshotter:
   enabled: true
-storageClass:
-  create: true
+# storageClass:
+#   create: true
