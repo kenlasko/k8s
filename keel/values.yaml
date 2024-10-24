@@ -25,9 +25,6 @@ secret:
   name: keel-creds
   create: false
 
-# webhook:
-#   enabled: true
-
 mail:
   enabled: true
   from: "Keel Updates <keelupdates@ucdialplans.com>"
@@ -43,7 +40,7 @@ basicauth:
 
 persistence:
   enabled: true
-  storageClass: "nfs"
+  storageClass: nfs-csi
   size: 5Mi
 
 service:
