@@ -27,6 +27,16 @@ spec:
   - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter.git'
     path: deploy/kubernetes/snapshot-controller
     targetRevision: v7.0.2
+    kustomize:
+      patches:
+        - target:
+            kind: ReplicaSet
+            name: snapshot-controller
+          patch: |-
+            - op: add
+              path: /spec/template/spec/nodeSelector
+              value:
+                storage: "longhorn"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: longhorn
