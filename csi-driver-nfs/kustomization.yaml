@@ -5,8 +5,8 @@ metadata:
 namespace: kube-system
 patches:
 - target:
-  kind: Deployment
-  name: snapshot-controller
+    kind: Deployment
+    name: snapshot-controller
   patch: |-
     - op: add
       path: /spec/template/spec/nodeSelector
