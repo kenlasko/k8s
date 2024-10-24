@@ -19,6 +19,14 @@ spec:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     path: longhorn
     targetRevision: HEAD
+  # The following are for enabling CSI snapshot support, as per
+  # https://longhorn.io/docs/1.7.2/snapshots-and-backups/csi-snapshot-support/enable-csi-snapshot-support/
+  - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter.git'
+    path: client/config/crd
+    targetRevision: v7.0.2
+  - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter.git'
+    path: deploy/kubernetes/snapshot-controller
+    targetRevision: v7.0.2
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: longhorn
