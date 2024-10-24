@@ -3,12 +3,11 @@ kind: Kustomization
 metadata:
   name: kustomize-csi-snapshotter
 namespace: kube-system
-# resources:
-#   - https://github.com/argoproj/argocd-example-apps//kustomize-guestbook/
 patches:
   - target:
       kind: ReplicaSet
       name: snapshot-controller
+      namespace: kube-system
     patch: |-
       - op: add
         path: /spec/template/spec/nodeSelector
