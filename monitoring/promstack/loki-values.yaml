@@ -1,6 +1,6 @@
 backend:
   persistence:
-    storageClass: nfs-csi
+    storageClass: nfs-csi-dynamic
     size: 20Gi
   affinity:
     nodeAffinity:

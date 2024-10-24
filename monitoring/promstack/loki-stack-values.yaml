@@ -4,7 +4,7 @@ loki:
   enabled: true
   persistence:
     enabled: true
-    storageClassName: nfs-csi
+    storageClassName: nfs-csi-dynamic
     size: 20Gi
   limits:
     cpu: 1000m
