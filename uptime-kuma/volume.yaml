@@ -28,7 +28,7 @@ metadata:
   name: nfs-uptime-kuma
   namespace: uptime-kuma
 spec:
-  storageClassName: nfs
+  storageClassName: nfs-csi
   volumeName: nfs-uptime-kuma
   accessModes:
     - ReadWriteOnce
