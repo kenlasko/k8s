@@ -45,7 +45,7 @@ spec:
                 memory: 300Mi
               limits:
                 cpu: 800m
-                memory: 500Mi
+                memory: 800Mi
             env:
             - name: GITHUB_TOKEN
               valueFrom:

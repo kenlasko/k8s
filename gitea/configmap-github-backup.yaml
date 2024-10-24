@@ -24,8 +24,6 @@ data:
     source:
       github:
         - token_file: /gickup/tokens/github-token
-          exclude:
-            - pxeboot
 
     destination:
       local:
