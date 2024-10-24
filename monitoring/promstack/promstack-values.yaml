@@ -81,7 +81,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs-client
+          storageClassName: nfs-csi-dynamic
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -183,7 +183,7 @@ grafana:
   persistence:
     enabled: true
     size: 10Gi
-    storageClassName: nfs-client
+    storageClassName: nfs-csi-dynamic
     accessModes: ["ReadWriteMany"]
   serviceMonitor:
     enabled: false
@@ -420,7 +420,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs-client
+          storageClassName: nfs-csi-dynamic
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:

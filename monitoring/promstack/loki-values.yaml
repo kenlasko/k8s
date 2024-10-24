@@ -1,6 +1,6 @@
 backend:
   persistence:
-    storageClass: nfs-client
+    storageClass: nfs-csi
     size: 20Gi
   affinity:
     nodeAffinity:
