@@ -25,7 +25,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/name: uptime-kuma
-  name: uptime-kuma-pvc
+  name: nfs-uptime-kuma
   namespace: uptime-kuma
 spec:
   storageClassName: nfs
