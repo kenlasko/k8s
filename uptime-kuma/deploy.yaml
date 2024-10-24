@@ -88,7 +88,7 @@ spec:
       volumes:
       - name: uptime-storage
         persistentVolumeClaim:
-          claimName: uptime-kuma-pvc
+          claimName: nfs-uptime-kuma
   updateStrategy:
     rollingUpdate:
       partition: 0

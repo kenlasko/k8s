@@ -2,8 +2,8 @@ image:
   pullPolicy: Always
 persistence:
   size: 1Gi
-  storageClass: nfs
-  existingClaim: portainer-data
+  storageClass: nfs-csi
+  existingClaim: nfs-portainer
 service:
   type: ClusterIP
 nodeSelector:

@@ -75,14 +75,14 @@ spec:
         - secretRef:
             name: env-secrets
         volumeMounts:
-        - name: vaultwarden-data
+        - name: nfs-vaultwarden
           mountPath: /data
       dnsConfig:
         options:
         - name: ndots
           value: "1"
       volumes:
-      - name: vaultwarden-data
+      - name: nfs-vaultwarden
         persistentVolumeClaim:
-          claimName: vaultwarden-data
+          claimName: nfs-vaultwarden
 

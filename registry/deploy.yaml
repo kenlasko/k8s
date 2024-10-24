@@ -65,10 +65,10 @@ spec:
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
-        - name: registry-data
+        - name: nfs-registry
           mountPath: /var/lib/registry
           subPath: registry
       volumes:
-      - name: registry-data
+      - name: nfs-registry
         persistentVolumeClaim:
-          claimName: registry-data
+          claimName: nfs-registry
