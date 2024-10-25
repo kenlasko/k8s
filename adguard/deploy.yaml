@@ -5,6 +5,7 @@ metadata:
   name: adguard
   namespace: adguard
   annotations:
+    backup.velero.io/backup-volumes: nfs-adguard-conf,nfs-adguard-work
     keel.sh/policy: force
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
