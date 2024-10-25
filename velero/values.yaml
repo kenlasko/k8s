@@ -1,6 +1,6 @@
 configuration:
   backupStorageLocation:
-  - name: default
+  - name: nas-s3
     provider: aws
     bucket: kube
     default: true
@@ -12,7 +12,8 @@ configuration:
   - name: nas-s3
     provider: csi
   features: EnableCSI
-  defaultVolumeSnapshotLocations: csi:kube
+  defaultBackupStorageLocation: nas-s3
+  defaultVolumeSnapshotLocations: nas-s3
 
 credentials:      
   useSecret: true
