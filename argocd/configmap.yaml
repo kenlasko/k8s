@@ -37,6 +37,13 @@ data:
       - CiliumIdentity
       clusters:
       - "*"
+    - apiGroups:
+      - velero.io
+      kinds:
+      - Backup
+      - Restore
+      clusters:
+      - "*"
   resource.customizations: |
     argoproj.io/Application:
       health.lua: |
