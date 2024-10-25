@@ -1,10 +1,10 @@
-
-
 ---
 kind: VolumeSnapshotClass
 apiVersion: snapshot.storage.k8s.io/v1
 metadata:
   name: longhorn-backup
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
 driver: driver.longhorn.io
 deletionPolicy: Delete
 parameters:
@@ -19,3 +19,13 @@ driver: driver.longhorn.io
 deletionPolicy: Delete
 parameters:
   type: snap
+
+---
+kind: VolumeSnapshotClass
+apiVersion: snapshot.storage.k8s.io/v1
+metadata:
+  name: nfs
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
+driver: nfs.csi.k8s.io
+deletionPolicy: Delete
