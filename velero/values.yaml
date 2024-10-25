@@ -13,7 +13,7 @@ configuration:
     provider: csi
   features: EnableCSI
   defaultBackupStorageLocation: nas-s3
-  defaultVolumeSnapshotLocations: nas-s3
+  defaultVolumeSnapshotLocations: csi:nas-s3
 
 credentials:      
   useSecret: true
