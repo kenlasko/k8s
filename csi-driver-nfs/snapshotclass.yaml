@@ -6,7 +6,7 @@ metadata:
   labels:
     velero.io/csi-volumesnapshot-class: "true"
 driver: driver.longhorn.io
-deletionPolicy: Delete
+deletionPolicy: Retain
 parameters:
   type: bak
 
@@ -16,7 +16,7 @@ apiVersion: snapshot.storage.k8s.io/v1
 metadata:
   name: longhorn-snapshot
 driver: driver.longhorn.io
-deletionPolicy: Delete
+deletionPolicy: Retain
 parameters:
   type: snap
 
@@ -28,4 +28,4 @@ metadata:
   labels:
     velero.io/csi-volumesnapshot-class: "true"
 driver: nfs.csi.k8s.io
-deletionPolicy: Delete
+deletionPolicy: Retain
