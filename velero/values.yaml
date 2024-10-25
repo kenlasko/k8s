@@ -9,7 +9,7 @@ configuration:
       s3ForcePathStyle: true
       region: "default"
   volumeSnapshotLocation:
-  - name: kube
+  - name: nas-s3
     provider: csi
   features: EnableCSI
   defaultVolumeSnapshotLocations: csi:kube
