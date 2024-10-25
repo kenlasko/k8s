@@ -82,6 +82,10 @@ configs:
       url: https://helm.cilium.io
       name: cilium
       type: helm
+    cloudcasa:
+      url: https://catalogicsoftware.github.io/cloudcasa-helmchart
+      name: cloudcasa-repo
+      type: helm
     cloudnative-pg:
       url: https://cloudnative-pg.github.io/charts
       name: cnpg
