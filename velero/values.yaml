@@ -16,6 +16,7 @@ configuration:
   defaultVolumeSnapshotLocations: csi:nas-s3
 
 deployNodeAgent: true
+defaultSnapshotMoveData: true
 
 credentials:      
   useSecret: true
