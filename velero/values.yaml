@@ -14,9 +14,10 @@ configuration:
   features: EnableCSI
   defaultBackupStorageLocation: nas-s3
   defaultVolumeSnapshotLocations: csi:nas-s3
+  defaultSnapshotMoveData: true
+
 
 deployNodeAgent: true
-defaultSnapshotMoveData: true
 
 credentials:      
   useSecret: true
