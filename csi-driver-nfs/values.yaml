@@ -14,5 +14,3 @@ controller:
 
 externalSnapshotter:
   enabled: true
-# storageClass:
-#   create: true
