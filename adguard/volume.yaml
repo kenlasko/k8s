@@ -6,7 +6,7 @@ metadata:
   annotations:
     pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
 spec:
-  storageClassName: nfs-csi-appdata
+  storageClassName: nfs-csi
   capacity:
     storage: 1Gi
   accessModes:
@@ -14,10 +14,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/appdata/vol/adguard/conf
+    volumeHandle: 192.168.1.3/vol/adguard/conf
     volumeAttributes:
       server: 192.168.1.3
-      share: /vol/adguard/conf
+      share: /appdata/vol/adguard/conf
 
 ---
 apiVersion: v1
@@ -26,7 +26,7 @@ metadata:
   name: nfs-adguard-conf
   namespace: adguard
 spec:
-  storageClassName: nfs-csi-appdata
+  storageClassName: nfs-csi
   volumeName: nfs-adguard-conf
   accessModes:
   - ReadWriteOnce
@@ -43,7 +43,7 @@ metadata:
   annotations:
     pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
 spec:
-  storageClassName: nfs-csi-appdata
+  storageClassName: nfs-csi
   capacity:
     storage: 10Gi
   accessModes:
@@ -54,7 +54,7 @@ spec:
     volumeHandle: 192.168.1.3/appdata/vol/adguard/work 
     volumeAttributes:
       server: 192.168.1.3
-      share: /vol/adguard/work 
+      share: /appdata/vol/adguard/work 
 
 ---
 apiVersion: v1
@@ -63,7 +63,7 @@ metadata:
   name: nfs-adguard-work
   namespace: adguard
 spec:
-  storageClassName: nfs-csi-appdata
+  storageClassName: nfs-csi
   volumeName: nfs-adguard-work
   accessModes:
   - ReadWriteOnce
