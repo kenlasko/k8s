@@ -22,6 +22,8 @@ nodeAgent:
     runAsUser: 0
   containerSecurityContext:
     privileged: true
+    allowPrivilegeEscalation: true
+    readOnlyRootFilesystem: false
 
 credentials:      
   useSecret: true
