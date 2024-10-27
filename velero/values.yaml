@@ -15,11 +15,11 @@ configuration:
   defaultBackupStorageLocation: nas-s3
   defaultVolumeSnapshotLocations: csi:nas-s3
   defaultSnapshotMoveData: true
+  extraArgs:
+  - --node-agent-configmap=node-agent
 
 deployNodeAgent: true
 nodeAgent:
-  extraArgs:
-  - --node-agent-configmap=node-agent
   podSecurityContext:
     runAsUser: 0
   containerSecurityContext:
