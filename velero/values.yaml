@@ -48,9 +48,3 @@ affinity:
           operator: In
           values: 
           - 'amd64'
-
-configMaps:
-  backupPVC:
-    storage-class-1:
-      storageClass: nfs-csi-dynamic
-      readOnly: false
