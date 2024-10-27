@@ -18,6 +18,8 @@ configuration:
 
 deployNodeAgent: true
 nodeAgent:
+  extraArgs:
+  - --node-agent-configmap=node-agent
   podSecurityContext:
     runAsUser: 0
   containerSecurityContext:
