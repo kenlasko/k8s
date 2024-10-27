@@ -20,6 +20,8 @@ deployNodeAgent: true
 nodeAgent:
   podSecurityContext:
     runAsUser: 0
+  containerSecurityContext:
+    runAsUser: 0
 
 credentials:      
   useSecret: true
