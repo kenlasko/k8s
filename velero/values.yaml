@@ -15,8 +15,6 @@ configuration:
   defaultBackupStorageLocation: nas-s3
   defaultVolumeSnapshotLocations: csi:nas-s3
   defaultSnapshotMoveData: true
-  extraArgs:
-  - --node-agent-configmap=node-agent
 
 deployNodeAgent: true
 nodeAgent:
