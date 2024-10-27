@@ -17,6 +17,9 @@ configuration:
   defaultSnapshotMoveData: true
 
 deployNodeAgent: true
+nodeAgent:
+  podSecurityContext:
+    runAsUser: 0
 
 credentials:      
   useSecret: true
