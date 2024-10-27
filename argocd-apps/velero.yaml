@@ -12,6 +12,16 @@ spec:
     helm:
       valueFiles:
       - $values/velero/values.yaml
+    kustomize:
+      patches:
+      - target:
+          kind: daemonSet
+          name: node-agent
+        patch: |-
+          - op: add
+            path: /spec/template/spec/containers/args
+            value:
+              "--node-agent-configmap=node-agent"
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
