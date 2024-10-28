@@ -55,7 +55,6 @@ alertmanager:
         matchers:
         - severity = "warning"
         continue: false
-
     receivers:
     - name: 'null'
     - name: ken-gmail
