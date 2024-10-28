@@ -18,7 +18,7 @@ configuration:
     config:
       s3Url: https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/appdata
       s3ForcePathStyle: true
-      region: "default"
+      region: auto
     credential:
       name: cloudflare-s3-credentials
       key: cloud
