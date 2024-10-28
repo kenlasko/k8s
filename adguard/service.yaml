@@ -3,6 +3,9 @@ kind: Service
 metadata:
   labels:
     app: adguard
+    annotations:
+      tailscale.com/expose: 'true'
+      tailscale.com/hostname: 'home-adguard'
   name: adguard-web
   namespace: adguard
 spec:
