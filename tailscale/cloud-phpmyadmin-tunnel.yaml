@@ -65,7 +65,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "cloud-phpmyadmin.ucdialplans.com"
+  - "cloud-mariadb.ucdialplans.com"
   rules:
   - backendRefs:
     - name: cloud-phpmyadmin-egress-tunnel
