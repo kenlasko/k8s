@@ -10,7 +10,13 @@ configuration:
       region: "default"
   volumeSnapshotLocation:
   - name: nas-s3
-    provider: csi
+    provider: aws
+    bucket: kube
+    default: true
+    config:
+      s3Url: http://nas01.ucdialplans.com:8010
+      s3ForcePathStyle: true
+      region: "default"
   features: EnableCSI
   defaultBackupStorageLocation: nas-s3
   defaultVolumeSnapshotLocations: csi:nas-s3
