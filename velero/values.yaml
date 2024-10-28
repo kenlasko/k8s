@@ -8,6 +8,9 @@ configuration:
       s3Url: http://nas01.ucdialplans.com:8010
       s3ForcePathStyle: true
       region: "default"
+    credential:
+      name: s3-credentials
+      key: cloud
   volumeSnapshotLocation:
   - name: nas-s3
     provider: csi
