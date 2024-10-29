@@ -39,7 +39,7 @@ data:
     echo 'Deleting old Plex backup'
     rm -rf /backup/plex/*
     echo 'Backing up Plex'
-    kubectl exec -n media-tools plex-0 -- tar cf plex.tar --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/.
+    kubectl exec -n media-tools plex-0 -- tar czf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/. > /backup/plex/plex.tar.gz
     echo 'Backup complete!'
 
     
