@@ -36,8 +36,9 @@ data:
       find /backup/tautulli/* -mtime +2 -exec rm {} \;
     fi
 
-    echo 'Backing up Plex'
+    echo 'Deleting old Plex backup'
     rm -rf /backup/plex/*
+    echo 'Backing up Plex'
     kubectl exec -n media-tools plex-0 -- tar cf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/.
     echo 'Backup complete!'
 
