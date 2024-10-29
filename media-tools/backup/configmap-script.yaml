@@ -38,7 +38,7 @@ data:
 
     echo 'Backing up Plex'
     rm -rf /backup/plex/*
-    kubectl exec -n media-tools plex-0 -- tar cf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/. | tar xf - -C /backup/plex/
+    kubectl exec -n media-tools plex-0 -- tar cf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/.
     echo 'Backup complete!'
 
     
