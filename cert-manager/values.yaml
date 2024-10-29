@@ -59,10 +59,10 @@ webhook:
     automountServiceAccountToken: false
   resources:
     requests:
-      cpu: 2m
+      cpu: 3m
       memory: 12Mi
     limits:
-      cpu: 25m
+      cpu: 50m
       memory: 20Mi
   affinity:
     nodeAffinity:
