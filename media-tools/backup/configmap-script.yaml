@@ -21,7 +21,8 @@ data:
     done
 
     echo 'Backing up Overseerr'
-    kubectl cp -n media-tools overseerr-0:config/. /backup/overseerr/.
+    kubectl cp -n media-tools overseerr-0:config/db/. /backup/overseerr/db/.
+    kubectl cp -n media-tools overseerr-0:config/settings.json /backup/overseerr/settings.json
 
     echo 'Backing up SABNZBD'
     kubectl cp -n media-tools sabnzbd-0:config/Downloads/. /backup/sabnzbd/.
