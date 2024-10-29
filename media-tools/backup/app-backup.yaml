@@ -63,7 +63,7 @@ spec:
           volumes:
           - name: backup
             persistentVolumeClaim:
-              claimName: nfs-app-backup
+              claimName: nfs-media-app-backup
           - configMap:
               items:
               - key: backup-media-apps.sh

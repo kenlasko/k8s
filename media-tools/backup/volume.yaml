@@ -27,7 +27,7 @@ metadata:
   namespace: media-tools
 spec:
   storageClassName: nfs-csi
-  volumeName: nfs-app-backup
+  volumeName: nfs-media-app-backup
   accessModes:
   - ReadWriteOnce
   resources:
