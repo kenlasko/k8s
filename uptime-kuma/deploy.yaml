@@ -33,17 +33,17 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: uptime-kuma
-        image: 'louislam/uptime-kuma:1'
+        image: 'quay.io/k3rnel-pan1c/uptime-kuma:latest'
         imagePullPolicy: Always
-        # securityContext:
-        #   allowPrivilegeEscalation: false
-        #   readOnlyRootFilesystem: true
-        #   runAsNonRoot: true
-        #   runAsUser: 1000
-        #   seccompProfile:
-        #     type: RuntimeDefault
-        #   capabilities:
-        #     drop: ["ALL"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
         resources:
           requests:
             cpu: 40m
