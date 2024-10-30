@@ -33,7 +33,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: uptime-kuma
-        image: 'quay.io/k3rnel-pan1c/uptime-kuma:latest'
+        image: 'louislam/uptime-kuma:1'
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
