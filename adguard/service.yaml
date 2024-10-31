@@ -67,8 +67,8 @@ metadata:
     tailscale.com/proxy-class: "run-on-worker"
   annotations:
     tailscale.com/tailnet-fqdn: 'cloud-adguard.tailb7050.ts.net'
-  name: cloud-egress
+  name: cloud-adguard-egress
   namespace: adguard
 spec:
-  externalName: cloud-egress
+  externalName: cloud-adguard-egress
   type: ExternalName
