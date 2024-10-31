@@ -9,7 +9,7 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: cloudflare-tunnel
