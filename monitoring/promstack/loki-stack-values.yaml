@@ -1,17 +1,17 @@
 loki:
-  image:
-    tag: 2.9.3
+  # image:
+  #   tag: 2.9.3
   enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-csi-dynamic
     size: 20Gi
-  limits:
-    cpu: 1000m
-    memory: 2048Mi
   requests:
+    cpu: 100m
+    memory: 150Mi
+  limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 500Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -25,6 +25,12 @@ loki:
             - 'amd64'
 promtail:
   enabled: true
+  requests:
+    cpu: 250m
+    memory: 100Mi
+  limits:
+    cpu: 750m
+    memory: 150Mi
   # config:
   #   snippets:
   #     extraScrapeConfigs: |
