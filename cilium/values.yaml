@@ -109,6 +109,22 @@ hubble:
               operator: In
               values: 
               - 'amd64'
+    backend:
+      resources:
+        requests:
+          cpu: 250m
+          memory: 50Mi
+        limits:
+          cpu: 750m
+          memory: 100Mi
+    frontend:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 5Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
     service:
       annotations:
         omni-kube-service-exposer.sidero.dev/port: "50080"
