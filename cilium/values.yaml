@@ -4,7 +4,6 @@ routingMode: native             # Original
 # tunnelProtocol: geneve            # New
 ipv4NativeRoutingCIDR: 10.0.0.0/9
 autoDirectNodeRoutes: true      # Original
-tunnel: disabled                # Original
 bpf:
   hostRouting: true
   masquerade: true
