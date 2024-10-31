@@ -58,3 +58,16 @@ spec:
     targetPort: dns-tls-853
   selector:
     app: adguard
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tailscale.com/proxy-class: "enable-tun"
+  annotations:
+    tailscale.com/tailnet-fqdn: 'cloud-adguard.tailb7050.ts.net'
+  name: cloud-adguard
+spec:
+  externalName: cloud-adguard
+  type: ExternalName
