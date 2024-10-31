@@ -1,9 +1,12 @@
+# Rows commented with Native vs Tunnel need to be enabled/disabled en mass to change from Native (preferred) to Tunnel
+# Used to require tunnel routing because source IP wasn't getting passed to apps like AdGuard. Native seems to be working as of 2024-10-31
+
 rollOutCiliumPods: true
-routingMode: native             # Original
-# routingMode: tunnel               # New
-# tunnelProtocol: geneve            # New
+routingMode: native                 # Native
+# routingMode: tunnel               # Tunnel
+# tunnelProtocol: geneve            # Tunnel
 ipv4NativeRoutingCIDR: 10.0.0.0/9
-autoDirectNodeRoutes: true      # Original
+autoDirectNodeRoutes: true          # Native
 bpf:
   hostRouting: true
   masquerade: true
@@ -12,18 +15,17 @@ ipam:
 cluster:
   name: home
   id: 0
-# loadBalancer:                     # New
-#   mode: dsr                       # New
-#   dsrDispatch: geneve             # New
+# loadBalancer:                     # Tunnel
+#   mode: dsr                       # Tunnel
+#   dsrDispatch: geneve             # Tunnel
 l2announcements:
   enabled: true
   leaseDuration: 6s
   leaseRenewDeadline: 2s
   leaseRetryPeriod: 200ms
 envoy:
-  enabled: true
+  enabled: true                     # True for Native, optional for Tunnel
   rollOutPods: true
-  
 externalIPs:
   enabled: true
 extraEnv:
