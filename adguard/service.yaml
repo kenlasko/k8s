@@ -68,6 +68,7 @@ metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'cloud-adguard.tailb7050.ts.net'
   name: cloud-adguard
+  namespace: adguard
 spec:
   externalName: cloud-adguard
   type: ExternalName
