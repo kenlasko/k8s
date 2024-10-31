@@ -1,6 +1,10 @@
 # Provides access to KubeAPI via load balancer instead of directly through node or via Omni
 # Useful in case of issues with Omni
 
+
+# This option doesn't work yet, because Cilium doesn't support BackendTLSPolicy yet
+# See https://github.com/cilium/cilium/issues/31352
+
 # ---
 # apiVersion: gateway.networking.k8s.io/v1
 # kind: HTTPRoute
