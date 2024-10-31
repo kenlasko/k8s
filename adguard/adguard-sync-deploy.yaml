@@ -94,6 +94,18 @@ spec:
             secretKeyRef:
               name: adguard-creds
               key: password
+        - name: REPLICA3_URL
+          value: "https://cloud-adguard.ucdialplans.com"
+        - name: REPLICA3_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: username
+        - name: REPLICA3_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: adguard-creds
+              key: password
         - name: CRON
           value: '*/5 * * * *' 
         - name: LOG_LEVEL
