@@ -69,7 +69,7 @@ spec:
               memory: 20Mi
             limits:
               cpu: 70m
-              memory: 30Mi
+              memory: 50Mi
           command:
             - cloudflared
             - tunnel
