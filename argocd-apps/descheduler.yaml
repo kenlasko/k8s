@@ -12,7 +12,6 @@ spec:
     targetRevision: "*"
     chart: descheduler
     helm:
-      version: v3
       valueFiles:
       - $values/descheduler/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
