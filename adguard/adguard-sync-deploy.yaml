@@ -95,7 +95,7 @@ spec:
               name: adguard-creds
               key: password
         - name: REPLICA3_URL
-          value: "http://cloud-adguard:3000"
+          value: "http://cloud-adguard-egress:3000"
         - name: REPLICA3_USERNAME
           valueFrom:
             secretKeyRef:
