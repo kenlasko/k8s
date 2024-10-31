@@ -163,6 +163,13 @@ gatewayAPI:
     sync: true
 
 operator:
+    requests:
+      cpu: 10m
+      memory: 140Mi
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
