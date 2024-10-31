@@ -1,10 +1,10 @@
 rollOutCiliumPods: true
-# routingMode: native             # Original
-routingMode: tunnel               # New
-tunnelProtocol: geneve            # New
+routingMode: native             # Original
+# routingMode: tunnel               # New
+# tunnelProtocol: geneve            # New
 ipv4NativeRoutingCIDR: 10.0.0.0/9
-# autoDirectNodeRoutes: true      # Original
-# tunnel: disabled                # Original
+autoDirectNodeRoutes: true      # Original
+tunnel: disabled                # Original
 bpf:
   hostRouting: true
   masquerade: true
@@ -13,16 +13,16 @@ ipam:
 cluster:
   name: home
   id: 0
-loadBalancer:                     # New
-  mode: dsr                       # New
-  dsrDispatch: geneve             # New
+# loadBalancer:                     # New
+#   mode: dsr                       # New
+#   dsrDispatch: geneve             # New
 l2announcements:
   enabled: true
   leaseDuration: 6s
   leaseRenewDeadline: 2s
   leaseRetryPeriod: 200ms
 envoy:
-  enabled: false
+  enabled: true
   rollOutPods: true
 externalIPs:
   enabled: true
