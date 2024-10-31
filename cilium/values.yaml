@@ -23,6 +23,7 @@ l2announcements:
 envoy:
   enabled: true
   rollOutPods: true
+  
 externalIPs:
   enabled: true
 extraEnv:
