@@ -24,7 +24,7 @@ l2announcements:
   leaseRenewDeadline: 2s
   leaseRetryPeriod: 200ms
 envoy:
-  enabled: true                     # True for Native, optional for Tunnel
+  enabled: false                     # True for Native, optional for Tunnel
   rollOutPods: true
   resources:
     requests:
