@@ -163,10 +163,10 @@ gatewayAPI:
     sync: true
 
 operator:
+  resources:
     requests:
       cpu: 10m
       memory: 140Mi
-  resources:
     limits:
       cpu: 100m
       memory: 200Mi
