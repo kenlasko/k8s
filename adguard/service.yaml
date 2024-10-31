@@ -67,8 +67,8 @@ metadata:
     tailscale.com/proxy-class: "enable-tun"
   annotations:
     tailscale.com/tailnet-fqdn: 'cloud-adguard.tailb7050.ts.net'
-  name: cloud-adguard
+  name: cloud-egress
   namespace: adguard
 spec:
-  externalName: cloud-adguard
+  externalName: cloud-egress
   type: ExternalName
