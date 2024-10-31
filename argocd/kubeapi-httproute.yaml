@@ -9,7 +9,7 @@ metadata:
   namespace: default
 spec:
   parentRefs:
-  - name: kubeapi
+  - name: tls
     namespace: cilium
     sectionName: https
   hostnames:
