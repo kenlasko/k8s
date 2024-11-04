@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://charts.keel.sh'
+  - repoURL: 'https://keel-hq.github.io/keel'
     targetRevision: "*"
     chart: keel
     helm:

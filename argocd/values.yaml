@@ -102,10 +102,6 @@ configs:
       url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
       name: csi-driver-nfs
       type: helm
-    # csi-smb:
-    #   url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
-    #   name: csi-driver-smb
-    #   type: helm
     descheduler:
       url: https://kubernetes-sigs.github.io/descheduler
       name: descheduler
@@ -143,7 +139,7 @@ configs:
       name: intel
       type: helm
     keel:
-      url: https://charts.keel.sh
+      url: https://keel-hq.github.io/keel
       name: keel
       type: helm
     kubelet-serving-cert-approver:
