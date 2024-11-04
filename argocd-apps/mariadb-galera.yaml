@@ -8,7 +8,7 @@ spec:
   sources:
   - repoURL: 'https://mariadb-operator.github.io/mariadb-operator'
     chart: mariadb-operator
-    targetRevision: 0.31.0
+    targetRevision: 0.35.1
     helm:
       valueFiles:
       - $values/mariadb-galera/values.yaml
