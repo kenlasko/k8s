@@ -58,8 +58,8 @@ spec:
             cpu: 25m
             memory: 75Mi
           limits:
-            cpu: 3000m
-            memory: 350Mi        
+            cpu: 300m
+            memory: 500Mi        
         ports:
         - containerPort: 7080
           name: http
