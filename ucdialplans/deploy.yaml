@@ -5,7 +5,7 @@ metadata:
   name: ucdialplans
   namespace: ucdialplans
 spec:
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 2
   selector:
     matchLabels:
