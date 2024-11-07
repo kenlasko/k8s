@@ -67,6 +67,8 @@ spec:
           timeoutSeconds: 15
           failureThreshold: 5
         env:
+        - name: PYTHONPATH
+          value: "/config/deps/"
         - name: TZ
           value: "America/Toronto"
         envFrom:
