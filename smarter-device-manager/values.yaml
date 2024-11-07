@@ -13,7 +13,13 @@ securityContext:
     drop: ["ALL"]
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
-
+resources:
+  requests:
+    cpu: 1m
+    memory: 15Mi
+  limits:
+    cpu: 10m
+    memory: 20Mi
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
