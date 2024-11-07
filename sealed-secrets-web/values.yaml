@@ -1,6 +1,13 @@
 sealedSecrets:
   namespace: kube-system
   serviceName: sealed-secrets-controller
+resources:
+  requests:
+    cpu: 1m
+    memory: 50Mi
+  limits:
+    cpu: 1m
+    memory: 50Mi
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
