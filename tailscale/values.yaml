@@ -1,6 +1,13 @@
 installCRDs: true    # Don't override newer CRDs
 operatorConfig:
   hostname: 'tailscale-operator-home'
+  resources:
+    requests:
+      cpu: 10m
+      memory: 40Mi
+    limits:
+      cpu: 80m
+      memory: 50Mi  
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
