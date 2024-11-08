@@ -1,0 +1,118 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: gitea
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "DELETE"
+    - "CREATE"
+    - "DROP"
+    - "REFERENCES"
+    - "INDEX"
+    - "ALTER"
+    - "CREATE TEMPORARY TABLES"
+    - "LOCK TABLES"
+    - "EXECUTE"
+    - "CREATE VIEW"
+    - "SHOW VIEW"
+    - "CREATE ROUTINE"
+    - "ALTER ROUTINE"
+    - "EVENT"
+    - "TRIGGER"
+    - "DELETE HISTORY"
+  database: "gitea"
+  table: "*"
+  username: gitea
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: homeassist
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "DELETE"
+    - "CREATE"
+    - "DROP"
+    - "REFERENCES"
+    - "INDEX"
+    - "ALTER"
+    - "CREATE VIEW"
+    - "SHOW VIEW"
+    - "TRIGGER"
+    - "DELETE HISTORY"
+  database: "homeassist"
+  table: "*"
+  username: homeassist
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: vaultwarden
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "DELETE"
+    - "CREATE"
+    - "DROP"
+    - "INDEX"
+    - "ALTER"
+  database: "vaultwarden"
+  table: "*"
+  username: vaultwarden
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-rulesets
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "DELETE"
+  database: "ucdialplans"
+  table: "Rulesets"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-customdialdules
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "CustomDialRules"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
