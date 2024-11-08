@@ -16,13 +16,13 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
-  name: homeassist
+  name: gitea
 spec:
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
     name: maria-passwords
-    key: homeassist-password
+    key: gitea-password
   maxUserConnections: 20
   host: "%"
   cleanupPolicy: Delete
@@ -31,13 +31,13 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
-  name: homeassist
+  name: ucdialplans
 spec:
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
     name: maria-passwords
-    key: homeassist-password
+    key: ucdialplans-password
   maxUserConnections: 20
   host: "%"
   cleanupPolicy: Delete 
@@ -46,13 +46,13 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
-  name: homeassist
+  name: uptime-kuma
 spec:
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
     name: maria-passwords
-    key: homeassist-password
+    key: uptimekuma-password
   maxUserConnections: 20
   host: "%"
   cleanupPolicy: Delete 
@@ -61,13 +61,13 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
-  name: homeassist
+  name: vaultwarden
 spec:
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
     name: maria-passwords
-    key: homeassist-password
+    key: vaultwarden-password
   maxUserConnections: 20
   host: "%"
   cleanupPolicy: Delete 
