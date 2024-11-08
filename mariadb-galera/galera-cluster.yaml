@@ -43,9 +43,9 @@ spec:
     recovery:
       enabled: true
       minClusterSize: 1
-      # forceClusterBootstrapInPod: "mariadb-galera-0"
+      # forceClusterBootstrapInPod: "mariadb-0"
       clusterMonitorInterval: 10s
-      clusterHealthyTimeout: 5m0s
+      clusterHealthyTimeout: 45s
       clusterBootstrapTimeout: 20m0s
       podRecoveryTimeout: 5m0s
       podSyncTimeout: 5m0s
