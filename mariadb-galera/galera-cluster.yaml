@@ -42,7 +42,7 @@ spec:
       gracefulShutdownTimeout: 5s
     recovery:
       enabled: true
-      minClusterSize: 0
+      minClusterSize: 1
       # forceClusterBootstrapInPod: "mariadb-0"
       clusterMonitorInterval: 10s
       clusterHealthyTimeout: 45s
