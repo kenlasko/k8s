@@ -42,6 +42,11 @@ spec:
     recovery:
       enabled: true
       minClusterSize: 1
+      clusterMonitorInterval: 10s
+      clusterHealthyTimeout: 5m
+      clusterBootstrapTimeout: 10m
+      podRecoveryTimeout: 5m
+      podSyncTimeout: 5m
 
   service:
     type: LoadBalancer
@@ -79,32 +84,33 @@ spec:
   podDisruptionBudget:
     maxUnavailable: 66%
 
-  # updateStrategy:
-  #   # type: RollingUpdate
-  #   autoUpdateDataPlane: true
+  updateStrategy:
+    type: RollingUpdate
+    autoUpdateDataPlane: true
 
-  # myCnf: |
-  #   [mariadb]
-  #   bind-address=*
-  #   default_storage_engine=InnoDB
-  #   binlog_format=row
-  #   innodb_autoinc_lock_mode=2
-  #   max_allowed_packet=256M
+  myCnf: |
+    [mariadb]
+    bind-address=*
+    default_storage_engine=InnoDB
+    binlog_format=row
+    innodb_autoinc_lock_mode=2
+    innodb_buffer_pool_size=1024M
+    max_allowed_packet=256M 
 
-  #   ## Binary Logging
-  #   ##
-  #   log_bin=mysql-bin
-  #   expire_logs_days=14
-  #   # Disabling for performance per http://severalnines.com/blog/9-tips-going-production-galera-cluster-mysql
-  #   sync_binlog=0
+    ## Binary Logging
+    ##
+    log_bin=mysql-bin
+    expire_logs_days=14
+    # Disabling for performance per http://severalnines.com/blog/9-tips-going-production-galera-cluster-mysql
+    sync_binlog=0
 
-  #   ## Replication to secondary server
-  #   ##
-  #   wsrep_gtid_mode      = on
-  #   wsrep_gtid_domain_id = 0
-  #   server-id            = 01
-  #   log_slave_updates    = on
-  #   gtid_domain_id       = 0
+    ## Replication to secondary server
+    ##
+    wsrep_gtid_mode      = on
+    wsrep_gtid_domain_id = 0
+    server-id            = 01
+    log_slave_updates    = on
+    gtid_domain_id       = 0
 
 
   resources:
