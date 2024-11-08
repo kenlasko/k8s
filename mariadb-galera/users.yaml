@@ -6,7 +6,67 @@ spec:
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
-    name: bob-password
+    name: maria-passwords
+    key: homeassist-password
+  maxUserConnections: 20
+  host: "%"
+  cleanupPolicy: Delete
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: homeassist
+spec:
+  mariaDbRef:
+    name: mariadb
+  passwordSecretKeyRef:
+    name: maria-passwords
+    key: homeassist-password
+  maxUserConnections: 20
+  host: "%"
+  cleanupPolicy: Delete
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: homeassist
+spec:
+  mariaDbRef:
+    name: mariadb
+  passwordSecretKeyRef:
+    name: maria-passwords
+    key: homeassist-password
+  maxUserConnections: 20
+  host: "%"
+  cleanupPolicy: Delete 
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: homeassist
+spec:
+  mariaDbRef:
+    name: mariadb
+  passwordSecretKeyRef:
+    name: maria-passwords
+    key: homeassist-password
+  maxUserConnections: 20
+  host: "%"
+  cleanupPolicy: Delete 
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: homeassist
+spec:
+  mariaDbRef:
+    name: mariadb
+  passwordSecretKeyRef:
+    name: maria-passwords
     key: homeassist-password
   maxUserConnections: 20
   host: "%"
