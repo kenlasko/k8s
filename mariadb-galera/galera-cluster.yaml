@@ -39,14 +39,14 @@ spec:
     agent:
       kubernetesAuth:
         enabled: true
-      gracefulShutdownTimeout: 5s
+      gracefulShutdownTimeout: 10s
     recovery:
       enabled: true
       minClusterSize: 1
       # forceClusterBootstrapInPod: "mariadb-0"
       clusterMonitorInterval: 10s
       clusterHealthyTimeout: 45s
-      clusterBootstrapTimeout: 20m0s
+      clusterBootstrapTimeout: 10m0s
       podRecoveryTimeout: 5m0s
       podSyncTimeout: 5m0s
 
