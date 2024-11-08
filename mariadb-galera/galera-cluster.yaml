@@ -41,7 +41,7 @@ spec:
         enabled: true
       gracefulShutdownTimeout: 5s
     recovery:
-      enabled: false
+      enabled: true
       minClusterSize: 1
       # forceClusterBootstrapInPod: "mariadb-galera-0"
       clusterMonitorInterval: 10s
@@ -117,10 +117,11 @@ spec:
 
   resources:
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 20m
+      memory: 1200Mi
     limits:
-      memory: 1Gi
+      cpu: 600m
+      memory: 4000Mi
 
   metrics:
     enabled: true
