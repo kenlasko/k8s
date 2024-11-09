@@ -2,7 +2,7 @@
 
 # This script will set grastate.dat safetoboostrap to 1 for enabling a Galera cluster
 
-FILE_PATH="/host/var/mariadb-galera/storage/grastate.dat"
+FILE_PATH="/host/var/mariadb/storage/grastate.dat"
 
 kubectl debug node/$1 -it --image='nicolaka/netshoot' -n kube-system -- /bin/sh -c "sed -i -e 's/safe_to_bootstrap: 0/safe_to_bootstrap: 1/' $FILE_PATH; exit"
 # Delete debugger pod after completion

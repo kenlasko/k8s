@@ -2,11 +2,11 @@
 # kind: Restore
 # metadata:
 #   name: test-restore
-#   namespace: mariadb-galera
+#   namespace: mariadb
 # spec:
 #   mariaDbRef:
 #     name: mariadb
-#     namespace: mariadb-galera
+#     namespace: mariadb
 #   volume:
 #     nfs:
 #       server: 192.168.1.3

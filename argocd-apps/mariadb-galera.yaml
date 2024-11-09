@@ -22,7 +22,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: mariadb-galera
+    namespace: mariadb
   ignoreDifferences:
   - jsonPointers:
     - /data

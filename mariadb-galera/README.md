@@ -177,7 +177,7 @@ SHOW SLAVE STATUS;
 ```
 
 # Recovery Procedures
-From https://artifacthub.io/packages/helm/bitnami/mariadb-galera
+From https://artifacthub.io/packages/helm/bitnami/mariadb
 
 ## Zero nodes with safe_to_bootstrap
 
@@ -189,7 +189,7 @@ Delete all PV/PVCs for MariaDB, then:
 ```
 kubectl apply -f /home/ken/k3s/mariadb/pv.yaml
 
-helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
+helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=  \
 --set galera.bootstrap.forceBootstrap=true \
@@ -206,9 +206,9 @@ kubectl scale statefulset mariadb -n mariadb --replicas=0
 
 helm uninstall -n mariadb mariadb
 
-helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera
+helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb
 
-helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera --set rootUser.password=***REMOVED*** --set galera.mariabackup.password=***REMOVED*** --set podManagementPolicy=Parallel
+helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb --set rootUser.password=***REMOVED*** --set galera.mariabackup.password=***REMOVED*** --set podManagementPolicy=Parallel
 ```
 
 
@@ -221,7 +221,7 @@ Delete all PV/PVCs for MariaDB, then:
 ```
 kubectl apply -f /home/ken/k3s/mariadb/pv.yaml
 
-helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
+helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
@@ -238,7 +238,7 @@ Wait a bit
 kubectl scale statefulset mariadb -n mariadb --replicas=0
 helm uninstall -n mariadb mariadb
 
-helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
+helm install -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED*** 
 ```
@@ -253,13 +253,13 @@ kubectl scale statefulset mariadb -n mariadb --replicas=1
 
 ### Other
 ```
-helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb-galera \
+helm upgrade -n mariadb mariadb -f /home/ken/k3s/mariadb/values.yaml bitnami/mariadb \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED***
 ```
 
 ```
-helm upgrade --namespace mariadb mariadb oci://registry-1.docker.io/bitnamicharts/mariadb-galera \
+helm upgrade --namespace mariadb mariadb oci://registry-1.docker.io/bitnamicharts/mariadb \
       --set rootUser.password=$(kubectl get secret --namespace mariadb mariadb -o jsonpath="{.data.mariadb-root-password}" | base64 -d) \
-      --set galera.mariabackup.password=$(kubectl get secret --namespace mariadb mariadb -o jsonpath="{.data.mariadb-galera-mariabackup-password}" | base64 -d)
+      --set galera.mariabackup.password=$(kubectl get secret --namespace mariadb mariadb -o jsonpath="{.data.mariadb-mariabackup-password}" | base64 -d)
 ```
