@@ -218,23 +218,6 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
-  name: ucdialplans-emaillog
-spec:
-  mariaDbRef:
-    name: mariadb
-  privileges:
-    - "SELECT"
-    - "INSERT"
-  database: "ucdialplans"
-  table: "EmailLog"
-  username: "UCDialplans_WebSite"
-  grantOption: true
-  host: "%"
-
----
-apiVersion: k8s.mariadb.com/v1alpha1
-kind: Grant
-metadata:
   name: ucdialplans-infocache
 spec:
   mariaDbRef:
