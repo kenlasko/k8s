@@ -415,3 +415,19 @@ spec:
   username: "UCDialplans_Website"
   grantOption: true
   host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: replicator
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "REPLICATION SLAVE"
+  database: "*.*"
+  table: "Users"
+  username: replicator
+  grantOption: true
+  host: "%"
