@@ -82,7 +82,6 @@ spec:
   grantOption: true
   host: "%"
 
-
 ---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
@@ -95,7 +94,7 @@ spec:
     - "SELECT"
   database: "ucdialplans"
   table: "AreaCodes"
-  username: "UCDialplans_WebSite"
+  username: ucdialplans
   grantOption: true
   host: "%"
 
