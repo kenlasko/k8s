@@ -1,0 +1,77 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mariadb-backup
+  namespace: mariadb-galera
+spec:
+  schedule: "30 5 * * *"  # Start at 1am every day
+  suspend: true
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            mariadb-client: 'true'
+        spec:
+          dnsPolicy: ClusterFirstWithHostNet
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+          automountServiceAccountToken: false
+          containers:
+          - name: mariadb-backup
+            image: mariadb:11.4.3
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 350m
+                memory: 700Mi
+              limits:
+                cpu: 400m
+               # memory: 800Mi
+            env: 
+            - name: K3S_ROOT_PW 
+              valueFrom: 
+                secretKeyRef: 
+                  name: mariadb-passwords 
+                  key: mariadb-root-password
+            command: 
+            - /bin/sh
+            - -c
+            - day=$(date +%A) &&
+              dayofmonth=$(date +%-d) &&
+              echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
+              mariadb -B -N -h mariadb.mariadb.svc.cluster.local -uroot -p$K3S_ROOT_PW -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user != 'debian-sys-maint' AND user != 'root' AND user != ''" mysql > /app/mariadb-users.txt &&
+              while read line; do mariadb -B -N -h mariadb.mariadb.svc.cluster.local -uroot -p$K3S_ROOT_PW -e "SHOW GRANTS FOR $line"; done < /app/mariadb-users.txt > /app/mariadb-users.sql &&
+              sed -i 's/$/;/' /app/mariadb-users.sql &&
+              echo "$(date +%F_%T) Backing up MariaDB databases..." &&
+              for i in $(seq 1 10); do [ $i -gt 1 ] && echo "Retrying in 15s"; sleep 15; mariadb-dump -h mariadb.mariadb.svc.cluster.local -u root -p$K3S_ROOT_PW -B gitea homeassist phpmyadmin ucdialplans vaultwarden > /app/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
+              if [ "$dayofmonth" -eq 1 ]; then echo "Creating monthly backup..."; cp /app/mariadb-backup-$day.sql /app/mariadb-backup-monthly-$(date +%m).sql; fi &&
+              case $dayofmonth in 7|14|21|28) echo "Creating weekly backup..."; cp /app/mariadb-backup-$day.sql /app/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
+              echo "Copying backup to bootstrap folder..."; rm /app/bootstrap/*; cp /app/mariadb-backup-$day.sql /app/bootstrap/backup.$(date +"%Y-%m-%dT%H:%M:%SZ").sql &&
+              echo "$(date +%F_%T) MariaDB databases have been backed up."
+            volumeMounts:
+            - name: data
+              mountPath: /app
+          restartPolicy: Never #OnFailure
+          volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: nfs-galera-backup
