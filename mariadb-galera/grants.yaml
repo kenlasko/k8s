@@ -82,6 +82,322 @@ spec:
   grantOption: true
   host: "%"
 
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-areacodes
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "AreaCodes"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-areacodes-nz
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "AreaCodes_NZ"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-customdialdules
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "CustomDialRules"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-customtrunkrules
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "CustomTrunkRules"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-dialrules
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "DialRules"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-dialrules-local
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "DialRules_Local"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-emaillog
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+  database: "ucdialplans"
+  table: "EmailLog"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-extensions
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "DELETE"
+  database: "ucdialplans"
+  table: "Extensions"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-emaillog
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+  database: "ucdialplans"
+  table: "EmailLog"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-infocache
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "UPDATE"
+  database: "ucdialplans"
+  table: "InfoCache"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-infocache-countries
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "InfoCache_Top10_Countries"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-infocache-regions
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "InfoCache_Top10_Regions"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-languages
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "Languages"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-nanpa-lec
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+  database: "ucdialplans"
+  table: "NANPA_LEC"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-nanpa-npa
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+  database: "ucdialplans"
+  table: "NANPA_NPA"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-nanpa-prefix
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+  database: "ucdialplans"
+  table: "NANPA_Prefix"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-premiumnumbers
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "SELECT"
+  database: "ucdialplans"
+  table: "PremiumNumbers"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-regexrange
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "INSERT"
+  database: "ucdialplans"
+  table: "RegexRange"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: ucdialplans-rnlookup
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "INSERT"
+  database: "ucdialplans"
+  table: "RNLookup"
+  username: "UCDialplans_WebSite"
+  grantOption: true
+  host: "%"
+
 ---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
@@ -105,14 +421,15 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
-  name: ucdialplans-customdialdules
+  name: ucdialplans-users
 spec:
   mariaDbRef:
     name: mariadb
   privileges:
     - "SELECT"
+    - "INSERT"
   database: "ucdialplans"
-  table: "CustomDialRules"
+  table: "Users"
   username: "UCDialplans_WebSite"
   grantOption: true
   host: "%"
