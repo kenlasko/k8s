@@ -427,7 +427,7 @@ spec:
   privileges:
     - "REPLICATION SLAVE"
   database: "*.*"
-  table: "Users"
+  # table: "Users"
   username: replicator
   grantOption: true
   host: "%"
