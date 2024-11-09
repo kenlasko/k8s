@@ -21,9 +21,11 @@ spec:
   # Only use during initial load when the local databases on disk aren't available
   bootstrapFrom:
     volume:
-      nfs:
-        server: 192.168.1.3
-        path: /backup/mariadb/bootstrap
+      persistentVolumeClaim: 
+        claimName: nfs-galera-backup
+      # nfs:
+      #   server: 192.168.1.3
+      #   path: /backup/mariadb/bootstrap
 
   replicas: 3
 
@@ -61,7 +63,7 @@ spec:
         tailscale.com/hostname: 'home-mariadb'
 
   connection:
-    secretName: mariadb-conn
+    secretName: mariadb-galera-conn
     secretTemplate:
       key: dsn
 
