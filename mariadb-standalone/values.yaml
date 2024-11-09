@@ -50,7 +50,7 @@ primary:
     log-bin           = slave-bin
     log-bin-index     = slave-bin.index
     binlog_format     = row
-    slave-skip-errors = 1451,1452,1032
+    slave-skip-errors = 1451,1452,1032,1133
     report-host       = k3s-replica
 
     [client]
