@@ -1,4 +1,5 @@
-schedule: "30 */2 * * *"  # Every hour at 30 min past
+kind: Deployment
+# schedule: "30 */2 * * *"  # Every hour at 30 min past
 priorityClassName: high-priority
 deschedulerPolicy:
   nodeSelector: "storage=longhorn"
