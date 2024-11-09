@@ -33,6 +33,7 @@ kind: User
 metadata:
   name: ucdialplans
 spec:
+  name: "UCDialplans_Website"
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
