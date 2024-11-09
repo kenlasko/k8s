@@ -426,7 +426,7 @@ spec:
     name: mariadb
   privileges:
     - "REPLICATION SLAVE"
-  database: "*.*"
+  # database: "*"
   # table: "Users"
   username: replicator
   grantOption: true
