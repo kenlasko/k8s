@@ -137,8 +137,8 @@ start slave;
 
 5. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
 
-## Uptime-Kuma Procedure
-Re-add this procedure to allow Uptime-Kuma to check replication status
+## Post-Replication Uptime Kuma Config
+Uptime Kuma relies on checking the results of a procedure to validate replication. Execute the following SQL statements on each MariaDB remote instance:
 ```
 DELIMITER $$
 CREATE PROCEDURE phpmyadmin.check_replication()
@@ -155,6 +155,8 @@ BEGIN
 	SELECT rep_status;
     END IF;
 END$$
+
+GRANT EXECUTE ON PROCEDURE `phpmyadmin`.`check_replication` TO `uptime-kuma`@`%`;
 ```
 
 ## Replication Errors?
