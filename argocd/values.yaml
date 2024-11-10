@@ -14,8 +14,8 @@ global:
         values: 
         - 'amd64'
   networkPolicy:
-    create: true
-    defaultDenyIngress: true
+    create: false
+    defaultDenyIngress: false
 server:
   service:
     annotations:
