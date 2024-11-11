@@ -13,6 +13,8 @@ spec:
     directory:
       include: "standalone-install.yaml"
     targetRevision: HEAD
+    directory:
+      exclude: '*_DISABLED.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kubelet-serving-cert-approver

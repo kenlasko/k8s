@@ -13,6 +13,8 @@ spec:
     repoURL: 'git@github.com:kenlasko/K3S.git'
     path: media-tools/prowlarr
     targetRevision: HEAD
+    directory:
+      exclude: '*_DISABLED.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: media-tools
