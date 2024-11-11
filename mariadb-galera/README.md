@@ -7,7 +7,7 @@
 
 All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance(/mariadb-standalone)], should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a remote MariaDB instance running in Oracle Cloud.
 
-This uses the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) instead of the original, less-resilient Bitnami MariaDB Helm chart.
+This uses the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) instead of the original, more manual Bitnami MariaDB Helm chart. Information about that deployment can be found [here](/mariadb)
 
 # Initial build from backup (no databases on nodes)
 Use this method if there isn't an available local database source on the nodes. This is likely only occuring during a new cluster build. We can recover from backup, which requires a backup exists in the NAS on /share/backup/mariadb
@@ -42,7 +42,7 @@ END$$
 If the database files exist on the nodes (under /var/mariadb), we can use the Operator recovery procedures to recover the databases.
 1. Ensure the `bootstrapFrom` is commented out in [galera-cluster.yaml](galera-cluster.yaml)
 2. Check the status of the databases on the nodes by running the [mariadb-showgrastate.sh](scripts/mariadb-showgrastate.yaml) script from a computer connected to the cluster
-3. Use the [mariadb-bootstrap.sh](scripts/mariadb-bootstrap.yaml) script to set `safe_to_bootstrap: 1` in `/host/var/mariadb/storage/grastate.dat` on the most appropriate node
+3. Use the [mariadb-bootstrap.sh](scripts/mariadb-bootstrap.yaml) script to set `safe_to_bootstrap: 1` in `/host/var/mariadb/storage/grastate.dat` on the most appropriate node with the highest sequence number.
 4. Deploy the cluster via ArgoCD. The Operator will build a new cluster using the database files on the existing nodes.
 
 
@@ -56,7 +56,7 @@ mariadb -u root -p$MARIADB_ROOT_PASSWORD
 flush tables with read lock;
 show variables like 'gtid_binlog_pos';  
 ```
-2. Take results from above and set `gtid_slave_pos` for replication config on other hosts. **DO NOT CLOSE WINDOW!**
+2. Take the value of `gtid_binlog_pos` and set `gtid_slave_pos` for replication config on other hosts (see below). **DO NOT CLOSE WINDOW!**
 
 3. Run `mariadb-backup` job on `mariadb` namespace
 
