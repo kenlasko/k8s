@@ -94,7 +94,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-galera-backup
-  namespace: mariadb
+  namespace: mariadb-galera
 spec:
   storageClassName: nfs-csi
   volumeName: nfs-galera-backup
