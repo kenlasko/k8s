@@ -19,7 +19,24 @@ Use this method if there isn't an available local database source on the nodes. 
       persistentVolumeClaim: 
         claimName: nfs-galera-backup
 ```
-2. Deploy the cluster via ArgoCD. The Operator will build a new cluster and automatically restore the latest database.
+2. Deploy the cluster via ArgoCD. The Operator will build a new cluster and automatically restore the latest database as long as there aren't any databases files existing. Use [mariadb-volreset.sh](scripts/mariadb-volreset.yaml) to clear out
+3. Manually add UCDialplans procedure, as there isn't currently a way to do this automatically
+```
+DELIMITER $$
+CREATE PROCEDURE ucdialplans.InfoCache_Update()
+BEGIN
+        UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT(SELECT COUNT(ac.ID) FROM ucdialplans.AreaCodes ac) + (SELECT COUNT(acnz.ID) FROM ucdialplans.AreaCodes_NZ acnz) + (SELECT Count(DISTINCT np.City) FROM ucdialplans.NANPA_Prefix np)) WHERE ic.`Attribute` = 'TotalRegions';
+        UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT COUNT(rs.ID) FROM ucdialplans.Rulesets rs) WHERE ic.`Attribute` = 'TotalRulesets';
+        UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT COUNT(u.UserID) FROM ucdialplans.Users u) WHERE ic.`Attribute` = 'TotalUsers';
+
+        DELETE FROM ucdialplans.InfoCache_Top10_Countries;
+        INSERT INTO ucdialplans.InfoCache_Top10_Countries (Country, Rulesets) SELECT dr.CountryName as Country, COUNT(*) as Rulesets FROM ucdialplans.Rulesets rs INNER JOIN ucdialplans.DialRules dr ON dr.CountryID = rs.CountryID GROUP BY dr.CountryName ORDER BY Count(*) DESC LIMIT 10;
+
+        DELETE FROM ucdialplans.InfoCache_Top10_Regions;
+        INSERT INTO ucdialplans.InfoCache_Top10_Regions (City, CountryID, Frequency) SELECT City, CountryID, COUNT(*) as Frequency FROM Rulesets GROUP BY City, CountryID ORDER BY count(*) DESC LIMIT 10;
+END$$
+```
+
 
 # Recover from disaster (databases available on nodes)
 If the database files exist on the nodes (under /var/mariadb), we can use the Operator recovery procedures to recover the databases.
@@ -27,6 +44,7 @@ If the database files exist on the nodes (under /var/mariadb), we can use the Op
 2. Check the status of the databases on the nodes by running the [mariadb-showgrastate.sh](scripts/mariadb-showgrastate.yaml) script from a computer connected to the cluster
 3. Use the [mariadb-bootstrap.sh](scripts/mariadb-bootstrap.yaml) script to set `safe_to_bootstrap: 1` in `/host/var/mariadb/storage/grastate.dat` on the most appropriate node
 4. Deploy the cluster via ArgoCD. The Operator will build a new cluster using the database files on the existing nodes.
+
 
 # Setup Replication
 ## Primary DB Backup

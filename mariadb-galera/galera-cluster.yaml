@@ -18,11 +18,11 @@ spec:
       accessModes:
       - ReadWriteOnce
 
-  # Only use during initial load when the local databases on disk aren't available
-  bootstrapFrom:
-    volume:
-      persistentVolumeClaim: 
-        claimName: nfs-galera-backup
+  # # Only use during initial load when the local databases on disk aren't available
+  # bootstrapFrom:
+  #   volume:
+  #     persistentVolumeClaim: 
+  #       claimName: nfs-galera-backup
 
   replicas: 3
 
