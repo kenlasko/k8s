@@ -3,7 +3,7 @@
 # This script will set safe_to_bootstrap on all nodes
 
 NODES=("nuc4" "nuc5" "nuc6")
-FILE_PATH="/host/var/mariadb-galera/storage/grastate.dat"
+FILE_PATH="/host/var/mariadb/storage/grastate.dat"
 
 for NODE_NAME in "${NODES[@]}"; do
         kubectl debug node/$NODE_NAME -it --image='nicolaka/netshoot' -n kube-system -- /bin/sh -c "sed -i -e 's/safe_to_bootstrap: 0/safe_to_bootstrap: 1/' $FILE_PATH; exit"

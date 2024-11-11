@@ -13,11 +13,11 @@ This uses the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-ope
 Use this method if there isn't an available local database source on the nodes. This is likely only occuring during a new cluster build. We can recover from backup, which requires a backup exists in the NAS on /share/backup/mariadb
 1. Simply uncomment the `bootstrapFrom` section from the [galera-cluster.yaml](galera-cluster.yaml)
 ```
-  # bootstrapFrom:
-  #   volume:
-  #     nfs:
-  #       server: 192.168.1.3
-  #       path: /backup/mariadb/bootstrap
+  # Only use during initial load when the local databases on disk aren't available
+  bootstrapFrom:
+    volume:
+      persistentVolumeClaim: 
+        claimName: nfs-galera-backup
 ```
 2. Deploy the cluster via ArgoCD. The Operator will build a new cluster and automatically restore the latest database.
 

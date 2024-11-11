@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: mariadb-backup
-  namespace: mariadb-galera
+  namespace: mariadb
 spec:
   schedule: "30 5 * * *"  # Start at 1am every day
   suspend: true
