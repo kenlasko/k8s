@@ -18,13 +18,13 @@ spec:
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: mariadb-galera-test
+    path: mariadb-galera
     targetRevision: HEAD
     directory:
       exclude: '*_DISABLED.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: mariadb-galera
+    namespace: mariadb
   ignoreDifferences:
   - jsonPointers:
     - /data
