@@ -1,7 +1,7 @@
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Backup
 metadata:
-  name: daily-backup
+  name: bi-hourly-backup
   namespace: mariadb
 spec:
   mariaDbRef:
@@ -9,9 +9,9 @@ spec:
     namespace: mariadb
     waitForIt: true
   schedule:
-    cron: "30 7 * * *" 
+    cron: "45 */2 * * *" 
     suspend: false
-  maxRetention: 336h # 14 days
+  maxRetention: 7h
   storage:
     volume:
       persistentVolumeClaim:
