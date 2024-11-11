@@ -192,7 +192,5 @@ If you get replication errors, try skipping the error and continuing:
 STOP SLAVE;
 SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;
 START SLAVE;
-SELECT SLEEP(5);
-SHOW SLAVE STATUS;
 ```
 
