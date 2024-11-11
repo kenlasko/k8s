@@ -74,4 +74,4 @@ spec:
           volumes:
           - name: data
             persistentVolumeClaim:
-              claimName: nfs-mariadb-backup
+              claimName: nfs-mariadb-standalone-backup
