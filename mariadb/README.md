@@ -5,9 +5,9 @@
 * [UCDialplans](/ucdialplans)
 * [VaultWarden](/vaultwarden)
 
-All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance(/mariadb-standalone)], should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a remote MariaDB instance running in Oracle Cloud.
+All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance](/mariadb-standalone), should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a remote MariaDB instance running in Oracle Cloud.
 
-This will eventually be replaced by the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) once all the issues have been sorted out.
+This has been replaced by the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator). Repo information can be found [here](/mariadb-galera)
 
 # Restore databases
 1. On NAS01, go to `/share/backup/mariadb` and rename desired backup to `mariadb-backup.sql`
