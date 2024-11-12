@@ -30,7 +30,7 @@ configuration:
     use-volume-snapshots: false
     default: false
     config:
-      s3Url: https://kenlasko.compat.objectstorage.ca-toronto-1.oraclecloud.com
+      s3Url: https://kenlasko.compat.objectstorage.ca-toronto-1.oraclecloud.com/appdata
       s3ForcePathStyle: true
       region: 'ca-toronto-1'
       checksumAlgorithm: ''
