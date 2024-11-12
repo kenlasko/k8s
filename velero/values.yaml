@@ -23,6 +23,20 @@ configuration:
     credential:
       name: cloudflare-s3-credentials
       key: cloud
+  - name: oracle-s3
+    provider: aws
+    bucket: velero
+    prefix: oracle-cloudnative
+    use-volume-snapshots: false
+    default: false
+    config:
+      s3Url: https://oracle-cloudnative.compat.objectstorage.ca-toronto-1.oraclecloud.com
+      s3ForcePathStyle: true
+      region: ca-toronto-1
+      checksumAlgorithm: ''
+    credential:
+      name: oracle-s3-credentials
+      key: cloud
   volumeSnapshotLocation:
   - name: nas-s3
     provider: csi
