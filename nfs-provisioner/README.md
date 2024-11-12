@@ -1,4 +1,0 @@
-# Summary
-The [NFS Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) automates the creation of NFS folders on the NAS for use with PV/PVCs. Its only used for workloads that don't support direct PV/PVC attachment (like the [Promstack](/monitoring) Helm chart). 
-
-The reason why I don't use this for all my workloads is because everytime you create a new workload (like after a cluster rebuild), the provisioner will create a new volume. You can copy the contents from the original but this is time-consuming. When using statically-named PVs/PVCs that directly attach to NFS storage, the workload will re-use the original NFS volume. 
