@@ -9,7 +9,7 @@ spec:
     namespace: mariadb
     waitForIt: true
   schedule:
-    cron: "30 7 * * *" 
+    cron: "15 7 * * *" 
     suspend: false
   maxRetention: 336h # 14 days
   storage:
