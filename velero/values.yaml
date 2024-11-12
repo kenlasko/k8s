@@ -25,7 +25,7 @@ configuration:
       key: cloud
   - name: oracle-s3
     provider: aws
-    bucket: velero
+    bucket: appdata
     prefix: kenlasko
     use-volume-snapshots: false
     default: false
