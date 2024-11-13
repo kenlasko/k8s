@@ -14,7 +14,7 @@ spec:
     targetRevision: 0.36.0
     helm:
       valueFiles:
-      - $values/mariadb-galera-test/values.yaml
+      - $values/mariadb-galera/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
