@@ -18,14 +18,15 @@ moverSecurityContext:
 
 affinity:
   nodeAffinity:
-    type: hard
-    matchExpressions:
-    - key: node-role.kubernetes.io/control-plane
-      operator: DoesNotExist
-    - key: kubernetes.io/arch
-      operator: In
-      values: 
-      - 'amd64'
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - 'amd64'
 
 resources:
   requests:
