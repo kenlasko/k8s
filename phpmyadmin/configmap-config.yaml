@@ -145,7 +145,7 @@ data:
     * Possible values: 25, 50, 100, 250, 500
     * default = 25
     */
-    //$cfg['MaxRows'] = 50;
+    //$cfg['MaxRows'] = 100;
 
     /**
     * Disallow editing of binary fields
@@ -212,3 +212,4 @@ data:
     */
     $cfg['AllowArbitraryServer'] = false;
     $cfg['LoginCookieValidity'] = 7200;
+    $cfg['session.gc_maxlifetime'] = 7200;
