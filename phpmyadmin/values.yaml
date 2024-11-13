@@ -31,7 +31,13 @@ extraVolumes:
       path: config.inc.php
     name: phpmyadmin-config
   name: phpmyadmin-config
+- configMap:
+    items:
+    - key: php.ini
+      path: php.ini
+    name: phpmyadmin-phpconfig
+  name: phpmyadmin-phpconfig
 extraVolumeMounts:
-- name: phpmyadmin-config
-  mountPath: /opt/bitnami/phpmyadmin/config.inc.php
-  subPath: config.inc.php
+- name: phpmyadmin-phpconfig
+  mountPath: /opt/bitnami/php/etc/php.ini
+  subPath: php.ini
