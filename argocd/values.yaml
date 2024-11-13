@@ -70,6 +70,10 @@ configs:
       url: https://argoproj.github.io/argo-helm
       name: argocd
       type: helm
+    backube:
+      url: https://backube.github.io/helm-charts
+      name: backube
+      type: helm
     bitnami:
       url: https://charts.bitnami.com/bitnami
       name: bitnami
