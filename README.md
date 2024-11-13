@@ -40,3 +40,10 @@ I'm working on using SyncWaves to automate this, but in the meantime follow thes
 kubectl -n kube-system get secret kubeapi-service-account-secret \
           -o jsonpath="{.data.token}" | base64 -d; echo
 ```
+
+# Handy commands to know
+## Check for open port without tools
+```
+(echo > /dev/tcp/<servicename>/<port>) >/dev/null 2>&1 \
+    && echo "It's up" || echo "It's down"
+```

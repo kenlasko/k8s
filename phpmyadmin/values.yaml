@@ -3,6 +3,10 @@ commonLabels:
 db:
   host: ""
   allowArbitraryServer: false
+service:
+  annotations:
+    tailscale.com/expose: 'true'
+    tailscale.com/hostname: 'phpmyadmin'
 resources:
   requests:
     cpu: 2m
