@@ -1,8 +1,9 @@
 global:
   nodeSelector:
     storage: "longhorn"
-    
-persistence:
+
+# Configures the default Longhorn StorageClass
+persistence:  
   reclaimPolicy: Retain
   recurringJobSelector:
     enable: true
@@ -25,8 +26,9 @@ defaultSettings:
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: storage:longhorn
 
+# Required when using ArgoCD
 preUpgradeChecker:
-  jobEnabled: false
+  jobEnabled: false  
     
 longhornManager:
   nodeSelector: 
