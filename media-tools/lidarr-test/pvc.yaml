@@ -4,7 +4,7 @@ metadata:
   name: longhorn-lidarr-test-config-pvc
   namespace: media-tools
 labels:
-  csi-backup: true
+  csi-backup: "true"
 spec:
   accessModes:
     - ReadWriteOnce
