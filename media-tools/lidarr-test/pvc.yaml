@@ -15,23 +15,23 @@ spec:
     requests:
       storage: 300Mi
 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pvc-lidarr-test
-spec:
-  capacity:
-    storage: 300Mi
-  volumeMode: Filesystem
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: driver.longhorn.io
-    fsType: ext4
-    volumeAttributes:
-      numberOfReplicas: '3'
-      staleReplicaTimeout: '30'
-    volumeHandle: pvc-lidarr-test
-  storageClassName: longhorn
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: pvc-lidarr-test
+# spec:
+#   capacity:
+#     storage: 300Mi
+#   volumeMode: Filesystem
+#   accessModes:
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   csi:
+#     driver: driver.longhorn.io
+#     fsType: ext4
+#     volumeAttributes:
+#       numberOfReplicas: '3'
+#       staleReplicaTimeout: '30'
+#     volumeHandle: pvc-lidarr-test
+#   storageClassName: longhorn
