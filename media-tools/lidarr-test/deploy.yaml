@@ -62,16 +62,6 @@ spec:
           value: '100'
         - name: TZ
           value: "America/Toronto"
-        - name: DBUSER
-          valueFrom:
-            secretKeyRef:
-              name: postgres-lidarr-test
-              key: username          
-        - name: DBPASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-lidarr-test
-              key: password 
         resources:
           requests:
             cpu: 10m

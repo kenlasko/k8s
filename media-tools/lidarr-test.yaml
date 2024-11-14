@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lidarr-test
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: lidarr=linuxserver/lidarr:latest
+    argocd-image-updater.argoproj.io/lidarr.update-strategy: digest
+    argocd.argoproj.io/sync-wave: "99"
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:kenlasko/K3S.git'
+    path: media-tools/lidarr-test
+    targetRevision: HEAD
+    directory:
+      exclude: '*_DISABLED.yaml'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: media-tools
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
