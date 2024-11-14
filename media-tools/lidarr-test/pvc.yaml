@@ -3,8 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: longhorn-lidarr-test-config-pvc
   namespace: media-tools
-labels:
-  csi-backup: "true"
+  labels:
+    csi-backup: "true"
 spec:
   accessModes:
     - ReadWriteOnce
