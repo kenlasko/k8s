@@ -41,7 +41,7 @@ spec:
                 - 'amd64'                
       containers:
       - name: lidarr-test
-        image: linuxserver/lidarr-test:latest
+        image: linuxserver/lidarr:latest
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
