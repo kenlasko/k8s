@@ -7,6 +7,10 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
+  dataSource:
+    name: lidarr-backup
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
   resources:
     requests:
       storage: 300Mi

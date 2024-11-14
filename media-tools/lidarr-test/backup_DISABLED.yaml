@@ -1,9 +1,9 @@
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshot
 metadata:
-  name: lidarr-test-backup
+  name: lidarr-backup
   namespace: media-tools
 spec:
   volumeSnapshotClassName: longhorn-backup
   source:
-    persistentVolumeClaimName: pvc-lidarr-test
+    persistentVolumeClaimName: longhorn-lidarr-test-config-pvc
