@@ -7,4 +7,11 @@ The only thing that remains are Longhorn volumes, which are used for my [media](
 
 I can eliminate the manual process by switching backups to use [CSI volume snapshotting](https://kubernetes.io/docs/concepts/storage/volume-snapshots/). This allows me to automatically restore a volume without manual intervention. To take advantage of this, we first must backup using volume snapshots. Since Longhorn volumes use a CSI driver, this is pretty straightforward and is handled via [CSI Drivers](/csi-drivers). The second thing is a scheduling tool, which is where [SnapScheduler](https://github.com/backube/snapscheduler) comes in. 
 
-SnapScheduler will automatically backup any volumes that meet the desired criteria. 
+SnapScheduler will automatically backup any volumes that meet the desired criteria. I have a [default schedule](schedule.yaml) that will backup any volume that has the label `csi-backup: "true"`. Once this is done, then application restores can be done by adding a `.spec/datasource` section to the PVC volume definition like the one below, and removing any PV definition:
+```
+  dataSource:
+    name: lidarr-backup
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+```
+When the application starts up, if the PV doesn't exist, one will be created and restored from the backup automatically.
