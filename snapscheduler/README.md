@@ -1,5 +1,5 @@
 # Introduction
-Since everything in the cluster is declaratively managed via GitHub/ArgoCD, I don't need a full cluster backup solution like Velero. Should a disaster befall my cluster, all I need to do is bootstrap it via Ansible and let ArgoCD handle everything else. The only things that need backups are the persistent volumes.
+Since everything in the cluster is declaratively managed via GitHub/ArgoCD, I don't need a full cluster backup solution like Velero. Should a disaster befall my cluster, all I need to do is bootstrap it via [Omni](https://github.com/kenlasko/omni) and [Ansible](/_ansible) and let [ArgoCD](/argocd) handle everything else. The only things that need backups are the persistent volumes.
 
 For all the volumes on the NAS, I use the NAS built-in backup utilities to backup those volumes as well as sync those backups to Onedrive for cases where the NAS also has a disaster. In the future, I may look at a different strategy where I directly backup to the cloud, so I won't be reliant on the NAS being functional and workload volumes restored before bootstrapping a new cluster. For that, I will consider [Volsync](https://github.com/backube/volsync). I have a [test setup](/volsync) I'm working on for that.
 
