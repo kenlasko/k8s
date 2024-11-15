@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: csi-driver-nfs
+  name: csi-drivers
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -10,14 +10,14 @@ spec:
   sources:
   - repoURL: 'https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts'
     targetRevision: "*"
-    chart: csi-driver-nfs
+    chart: csi-drivers
     helm:
       valueFiles:
-      - $values/csi-driver-nfs/values.yaml
+      - $values/csi-drivers/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
   - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: csi-driver-nfs
+    path: csi-drivers
     targetRevision: HEAD
     directory:
       exclude: '*_DISABLED.yaml'
