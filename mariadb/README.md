@@ -1,4 +1,4 @@
-> :warning: **DEPRECATED**: This has been removed in favour of the more customizable [MariaDB Operator](/mariadb-operator)
+> :warning: **DEPRECATED**: This has been removed in favour of the more customizable [MariaDB Operator](/mariadb-galera)
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
 * [Gitea](/gitea)
