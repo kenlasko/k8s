@@ -4,3 +4,5 @@ The [CSI Driver for NFS](https://github.com/kubernetes-csi/csi-driver-nfs) is a 
 There are two storageClasses:
 * nfs-csi           - for static-named NFS volumes. Holds most volumes for applications. Daily backups
 * nfs-csi-dynamic   - for dynamically-named NFS volumes. Used only for [Promstack](/monitoring) apps. No backups
+
+Using CSI drivers allow for using a wide variety of cluster backup solutions such as Velero. Snapshot classes are added for NFS. We also add CSI volume snapshot classes that we can use to create CSI volume snapshots in Longhorn. These allow for fully automated cluster builds without manual volume restores. See (/snapscheduler) for more information.
