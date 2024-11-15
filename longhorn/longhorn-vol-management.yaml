@@ -46,3 +46,19 @@ spec:
   concurrency: 2
   labels:
     job: filesystem-trim
+
+---
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: snapshot-cleanup
+  namespace: longhorn
+spec:
+  cron: "20 7 * * *"
+  task: snapshot-cleanup
+  groups:
+  - default
+  retain: 0
+  concurrency: 2
+  labels:
+    job: snapshot-cleanup 
