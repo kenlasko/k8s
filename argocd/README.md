@@ -18,7 +18,7 @@ The [media-tools](/media-tools) group of applications are all related to media, 
 
 # Adding a new Helm chart installation
 1. Edit [values.yaml](/argocd/values.yaml) and add a Helm repository under `configs.repositories`
-2. Create an Argo CD application in [/argocd-apps] using an existing yaml as a template
+2. Create an Argo CD application in [argocd-apps](/argocd-apps) using an existing yaml as a template
 
 # Troubleshooting
 ## ArgoCD apps showing as `Unknown`
