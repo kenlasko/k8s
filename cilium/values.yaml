@@ -1,4 +1,4 @@
-# Rows commented with Native vs Tunnel need to be enabled/disabled en mass to change from Native (preferred) to Tunnel
+# Rows commented with Native vs Tunnel need to be enabled/disabled en mass to change from Native routing (preferred) to Tunnel
 # Used to require tunnel routing because source IP wasn't getting passed to apps like AdGuard. Native seems to be working as of 2024-10-31
 
 rollOutCiliumPods: true
