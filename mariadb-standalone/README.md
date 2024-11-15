@@ -1,5 +1,5 @@
 # Introduction
-This serves as a realtime backup for the [MariaDB Galera cluster](/mariadb) running in the same cluster. It's intended for a situation where the Galera cluster is completely destroyed (usually because of something I've done). Since I've gotten a hang of running the cluster, this instance has seen very little use and may eventually be decommissioned.
+This serves as a realtime backup for the [MariaDB Galera cluster](/mariadb-galera) running in the same cluster. It's intended for a situation where the Galera cluster is completely destroyed (usually because of something I've done). Since I've gotten a hang of running the cluster, this instance has seen very little use and may eventually be decommissioned, although I actually used it for a restore source just the other week (2024-Nov).
 
 # Replication Setup
 ## Primary DB Backup
