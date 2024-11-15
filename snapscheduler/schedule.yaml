@@ -9,7 +9,7 @@ spec:
   retention:
     expires: "168h"
     maxCount: 5
-  schedule: "25 7 * * *"
+  schedule: "25 */2 * * *"
   claimSelector:
     matchLabels:
       csi-backup: "true"
