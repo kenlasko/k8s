@@ -12,27 +12,28 @@ Most of the Helm chart managed applications are set to auto-update to newer vers
 
 ## Sync Wave -5
 Apps that basically everything else depends on:
+* [Argo CD](/argocd)
 * [Cert Manager](/cert-manager)
 * [Cilium](/cilium)
+* [CSI Drivers](/csi-drivers)
 * [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
-* [NFS Provisioner](/nfs-provisioner)
 * [Sealed Secrets](/sealed-secrets)
 
 ## Sync Wave 1
 * [Cloudflare Tunnel](/cloudflare-tunnel)
 * [Longhorn](/longhorn)
-* [MariaDB](/mariadb)
+* [MariaDB](/mariadb-galera)
 * [PHPMyAdmin](/phpmyadmin)
 * [Registry](/registry)
+* [SnapScheduler](/snapscheduler)
 
 ## Sync Wave 2
 * [AdGuard Home](/adguard)
 * [External DNS](/external-dns)
-* [Home Assistant](/home-automation/homeassist)
 * [Smarter Device Manager](/smarter-device-manager)
+* [Tailscale Operator](/tailscale)
 * [UCDialplans](/ucdialplans)
 * [UPS Monitor](/home-automation/ups-monitor)
-* [VaultWarden](/vaultwarden)
 * [ZWave Admin](/home-automation/zwaveadmin)
 
 ## Sync Wave 10
@@ -40,14 +41,17 @@ Apps that basically everything else depends on:
 * [ESPHome](/home-automation/esphome)
 * [Gitea](/gitea)
 * [Headlamp](/headlamp)
+* [Home Assistant](/home-automation/homeassist)
 * [Keel](/keel)
 * [MariaDB Standalone](/mariadb-standalone)
 * [Metrics Server](/metrics-server)
 * [Portainer](/portainer)
 * [Uptime Kuma](/uptime-kuma)
+* [VaultWarden](/vaultwarden)
 
 ## Sync Wave 15
 * [Alert Manager/Grafana/Prometheus/Loki](/promstack)
+* [Sealed Secrets Web](/sealed-secrets-web)
 
 ## Sync Wave 99
 * [Media Tools](/media-tools)
