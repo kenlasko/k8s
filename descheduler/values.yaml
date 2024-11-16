@@ -55,7 +55,14 @@ deschedulerPolicy:
             - 'registry'
             - 'ucdialplans'
             - 'vaultwarden' 
-  
+resources:
+  requests:
+    cpu: 2m
+    memory: 70Mi
+  limits:
+    cpu: 50m
+    memory: 150Mi
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
