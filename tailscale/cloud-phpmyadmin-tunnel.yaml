@@ -12,14 +12,14 @@ spec:
     args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-phpmyadmin-egress:80"]
     ports:
     - containerPort: 80
+    resources:
+      requests:
+        cpu: 1m
+        memory: 5Mi
+      limits:
+        cpu: 50m
+        memory: 10Mi
   restartPolicy: Always
-  resources:
-    requests:
-      cpu: 1m
-      memory: 5Mi
-    limits:
-      cpu: 50m
-      memory: 10Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

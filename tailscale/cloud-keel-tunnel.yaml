@@ -12,14 +12,14 @@ spec:
     args: ["tcp-listen:9300,fork,reuseaddr", "tcp-connect:cloud-keel-egress:9300"]
     ports:
     - containerPort: 9300
+    resources:
+      requests:
+        cpu: 1m
+        memory: 5Mi
+      limits:
+        cpu: 50m
+        memory: 10Mi
   restartPolicy: Always
-  resources:
-    requests:
-      cpu: 1m
-      memory: 5Mi
-    limits:
-      cpu: 50m
-      memory: 10Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
