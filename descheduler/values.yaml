@@ -26,13 +26,13 @@ deschedulerPolicy:
         - name: LowNodeUtilization
           args:
             thresholds:
-              cpu: 100
-              memory: 100
-              pods: 25
+              cpu: 20
+              memory: 20
+              pods: 20
             targetThresholds:
-              cpu: 100
-              memory: 100
-              pods: 33
+              cpu: 50
+              memory: 50
+              pods: 50
             evictableNamespaces:
               exclude:
               - homeassist
