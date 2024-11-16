@@ -32,6 +32,8 @@ deschedulerPolicy:
             cpu: 100
             memory: 100
             pods: 33
+          priorityThreshold:
+            name: "medium-priority"
           evictableNamespaces:
             include:
             - 'adguard'
@@ -51,7 +53,7 @@ deschedulerPolicy:
       balance:
         enabled:
           - RemoveDuplicates
-          - RemovePodsViolatingTopologySpreadConstraint
+          #- RemovePodsViolatingTopologySpreadConstraint
           - LowNodeUtilization
       deschedule:
         enabled:
