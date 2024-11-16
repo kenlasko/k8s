@@ -74,3 +74,12 @@ affinity:
           operator: In
           values: 
           - 'amd64'
+
+livenessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /healthz
+    port: 10258
+    scheme: HTTPS
+  initialDelaySeconds: 30
+  periodSeconds: 15
