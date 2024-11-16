@@ -13,6 +13,13 @@ spec:
     ports:
     - containerPort: 8087
   restartPolicy: Always
+  resources:
+    requests:
+      cpu: 1m
+      memory: 5Mi
+    limits:
+      cpu: 50m
+      memory: 10Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
