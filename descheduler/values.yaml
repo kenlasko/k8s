@@ -34,20 +34,11 @@ deschedulerPolicy:
               memory: 100
               pods: 33
             evictableNamespaces:
-              include:
-              - 'adguard'
-              - 'argocd'
-              - 'cloudflare'
-              - 'external-dns'
-              - 'falco'
-              - 'gitea'
-              - 'headlamp'
-              - 'monitoring'
-              - 'media-tools'
-              - 'portainer'
-              - 'registry'
-              - 'ucdialplans'
-              - 'vaultwarden' 
+              exclude:
+              - homeassist
+              - mariadb
+              - mariadb-standalone
+              - intel-gpu 
       plugins:
         balance:
           enabled:
