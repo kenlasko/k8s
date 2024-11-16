@@ -9,7 +9,8 @@ driver: driver.longhorn.io
 deletionPolicy: Retain
 parameters:
   type: bak
-
+  full-backup-interval: 4
+  
 ---
 kind: VolumeSnapshotClass
 apiVersion: snapshot.storage.k8s.io/v1
