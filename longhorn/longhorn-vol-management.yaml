@@ -54,7 +54,7 @@ metadata:
   name: snapshot-cleanup
   namespace: longhorn
 spec:
-  cron: "20 7 * * *"
+  cron: "22 * * * *"
   task: snapshot-cleanup
   groups:
   - default
