@@ -7,7 +7,7 @@ spec:
   cron: "0 5 * * *"
   task: backup
   groups:
-  - high-value
+  - default
   retain: 7
   concurrency: 5
   labels:
@@ -25,7 +25,7 @@ spec:
   cron: "0 17 * * ?"
   task: snapshot
   groups:
-  - daily-snapshot
+  - default
   retain: 2
   concurrency: 2
   labels:
