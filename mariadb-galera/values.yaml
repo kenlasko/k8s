@@ -1,3 +1,10 @@
+resources:
+  requests:
+    cpu: 10m
+    memory: 60Mi
+  limits:
+    cpu: 100m
+    memory: 100Mi
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -17,6 +24,13 @@ webhook:
       issuerRef:
         kind: ClusterIssuer
         name: letsencrypt-prod
+  resources:
+    requests:
+      cpu: 1m
+      memory: 15Mi
+    limits:
+      cpu: 100m
+      memory: 30Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -31,6 +45,13 @@ webhook:
 
 certController:
   enabled: true
+  resources:
+    requests:
+      cpu: 1m
+      memory: 16Mi
+    limits:
+      cpu: 100m
+      memory: 30Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
