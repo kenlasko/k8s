@@ -27,3 +27,5 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
+    syncOptions:
+    - ServerSideApply=true
