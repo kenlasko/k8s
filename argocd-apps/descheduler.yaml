@@ -16,11 +16,11 @@ spec:
       - $values/descheduler/values.yaml
   - repoURL: 'git@github.com:kenlasko/K3S.git'
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: descheduler
-    targetRevision: HEAD
-    directory:
-      exclude: '*_DISABLED.yaml'
+  # - repoURL: 'git@github.com:kenlasko/K3S.git'
+  #   path: descheduler
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: '*_DISABLED.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kube-system
