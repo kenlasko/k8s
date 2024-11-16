@@ -27,14 +27,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 
 ## Argo App Install Order
-I'm working on using SyncWaves to automate this, but in the meantime follow these general procedures for app install order.
-1. nfs-provisioner
-2. mariadb (then follow [MariaDB restore procedures](mariadb/README.md))
-3. longhorn (once up and running, restore volumes)
-4. adguard
-5. external-dns
-6. media-tools (installs all media apps - ONLY DO AFTER LONGHORN VOLUMES ARE RESTORED)
-7. Everything else
+ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
 
 ## Get Kubernetes token
 ```
