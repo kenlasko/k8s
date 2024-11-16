@@ -4,57 +4,116 @@ deschedulingInterval: 120m
 priorityClassName: high-priority
 deschedulerPolicy:
   nodeSelector: "storage=longhorn"
-  strategies:
-    RemoveDuplicates:
-      enabled: true
-    RemovePodsHavingTooManyRestarts:
-      enabled: true
-      params:
-        podsHavingTooManyRestarts:
-          podRestartThreshold: 10
-          includingInitContainers: true
-    RemovePodsViolatingNodeTaints:
-      enabled: true
-    RemovePodsViolatingNodeAffinity:
-      enabled: true
-      params:
-        nodeAffinityType:
-        - requiredDuringSchedulingIgnoredDuringExecution
-    RemovePodsViolatingInterPodAntiAffinity:
-      enabled: true 
-    RemovePodsViolatingTopologySpreadConstraint:
-      enabled: false
-      params:
-        includeSoftConstraints: false
-    LowNodeUtilization:
-      enabled: true 
-      params:
-        priorityThreshold:
-          name: "medium-priority"
-        nodeResourceUtilizationThresholds:
-          thresholds:
-            cpu: 100
-            memory: 100
-            pods: 20
-          targetThresholds:
-            cpu: 100
-            memory: 100
-            pods: 33
-          evictableNamespaces:
-            include:
-            - 'adguard'
-            - 'argocd'
-            - 'cloudflare'
-            - 'external-dns'
-            - 'falco'
-            - 'gitea'
-            - 'headlamp'
-            - 'monitoring'
-            - 'media-tools'
-            - 'portainer'
-            - 'registry'
-            - 'ucdialplans'
-            - 'vaultwarden' 
+  profiles:
+    - name: default
+      pluginConfig:
+        - name: DefaultEvictor
+          args:
+            ignorePvcPods: true
+            evictLocalStoragePods: true
+        - name: RemoveDuplicates
+        - name: RemovePodsHavingTooManyRestarts
+          args:
+            podRestartThreshold: 100
+            includingInitContainers: true
+        - name: RemovePodsViolatingNodeAffinity
+          args:
+            nodeAffinityType:
+            - requiredDuringSchedulingIgnoredDuringExecution
+        - name: RemovePodsViolatingNodeTaints
+        - name: RemovePodsViolatingInterPodAntiAffinity
+        - name: RemovePodsViolatingTopologySpreadConstraint
+        - name: LowNodeUtilization
+          args:
+            thresholds:
+              cpu: 100
+              memory: 100
+              pods: 20
+            targetThresholds:
+              cpu: 100
+              memory: 100
+              pods: 33
+            evictableNamespaces:
+              include:
+              - 'adguard'
+              - 'argocd'
+              - 'cloudflare'
+              - 'external-dns'
+              - 'falco'
+              - 'gitea'
+              - 'headlamp'
+              - 'monitoring'
+              - 'media-tools'
+              - 'portainer'
+              - 'registry'
+              - 'ucdialplans'
+              - 'vaultwarden' 
+      plugins:
+        balance:
+          enabled:
+            - RemoveDuplicates
+            - RemovePodsViolatingTopologySpreadConstraint
+            - LowNodeUtilization
+        deschedule:
+          enabled:
+            - RemovePodsHavingTooManyRestarts
+            - RemovePodsViolatingNodeTaints
+            - RemovePodsViolatingNodeAffinity
+            - RemovePodsViolatingInterPodAntiAffinity
+
+  # # old method
+  # strategies:
+  #   RemoveDuplicates:
+  #     enabled: true
+  #   RemovePodsHavingTooManyRestarts:
+  #     enabled: true
+  #     params:
+  #       podsHavingTooManyRestarts:
+  #         podRestartThreshold: 10
+  #         includingInitContainers: true
+  #   RemovePodsViolatingNodeTaints:
+  #     enabled: true
+  #   RemovePodsViolatingNodeAffinity:
+  #     enabled: true
+  #     params:
+  #       nodeAffinityType:
+  #       - requiredDuringSchedulingIgnoredDuringExecution
+  #   RemovePodsViolatingInterPodAntiAffinity:
+  #     enabled: true 
+  #   RemovePodsViolatingTopologySpreadConstraint:
+  #     enabled: false
+  #     params:
+  #       includeSoftConstraints: false
+  #   LowNodeUtilization:
+  #     enabled: true 
+  #     params:
+  #       priorityThreshold:
+  #         name: "medium-priority"
+  #       nodeResourceUtilizationThresholds:
+  #         thresholds:
+  #           cpu: 100
+  #           memory: 100
+  #           pods: 20
+  #         targetThresholds:
+  #           cpu: 100
+  #           memory: 100
+  #           pods: 33
+  #         evictableNamespaces:
+  #           include:
+  #           - 'adguard'
+  #           - 'argocd'
+  #           - 'cloudflare'
+  #           - 'external-dns'
+  #           - 'falco'
+  #           - 'gitea'
+  #           - 'headlamp'
+  #           - 'monitoring'
+  #           - 'media-tools'
+  #           - 'portainer'
+  #           - 'registry'
+  #           - 'ucdialplans'
+  #           - 'vaultwarden' 
+
 resources:
   requests:
     cpu: 2m
