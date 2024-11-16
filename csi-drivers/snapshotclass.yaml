@@ -9,7 +9,7 @@ driver: driver.longhorn.io
 deletionPolicy: Retain
 parameters:
   type: bak
-  full-backup-interval: 4
+  full-backup-interval: "4"
   
 ---
 kind: VolumeSnapshotClass
