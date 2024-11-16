@@ -36,6 +36,7 @@ deschedulerPolicy:
             evictableNamespaces:
               exclude:
               - homeassist
+              - kube-system
               - mariadb
               - mariadb-standalone
               - intel-gpu 
