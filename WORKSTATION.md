@@ -89,7 +89,9 @@ fi
 curl -OL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz"
 tar -xvzf kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+rm kubeseal*
 ```
+Copy `sealed-secret-signing-key.crt` from OneDrive Vault `/certificates` folder to `/home/ken`
 
 ## Install Ansible
 ```
@@ -146,10 +148,5 @@ Follow https://docs.docker.com/engine/storage/containerd/
 
 Finally, install Docker extension for Visual Studio and restart VSCode
 
-## Install Velero CLI
-```
-wget https://github.com/vmware-tanzu/velero/releases/download/v1.14.1/velero-v1.14.1-linux-amd64.tar.gz
-tar -xvf velero-v1.14.1-linux-amd64.tar.gz
-cp velero-v1.14.1-linux-amd64/velero /usr/local/bin/velero
-rm -rf velero-v1.14.1-linux-amd64*
-```
+## Install Omni/Talos Tools
+Install tools as per [Omni installation instructions](https://github.com/kenlasko/omni)
