@@ -58,10 +58,10 @@ deschedulerPolicy:
 resources:
   requests:
     cpu: 2m
-    memory: 70Mi
+    memory: 16Mi
   limits:
     cpu: 50m
-    memory: 150Mi
+    memory: 100Mi
 
 affinity:
   nodeAffinity:
