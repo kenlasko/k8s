@@ -6,7 +6,7 @@
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
 ## Install Kubernetes
-1. Copy `default-sealing-key.yaml` and `global-sealed-secrets-key.yaml` to `/home/ken`
+1. Copy `default-sealing-key.yaml` and `global-sealed-secrets-key.yaml` from Onedrive Vault `certificates` folder to `/home/ken`
 2. Make sure all Talos nodes are in maintenance mode and appearing in Omni, then create cluster:
 ```
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
