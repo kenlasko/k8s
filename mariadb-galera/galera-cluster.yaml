@@ -121,6 +121,3 @@ spec:
     limits:
       cpu: 600m
       memory: 4000Mi
-
-  metrics:
-    enabled: false
