@@ -6,20 +6,21 @@
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
 ## Install Kubernetes
-1. Make sure all Talos nodes are in maintenance mode and appearing in Omni, then create cluster:
+1. Copy `default-sealing-key.yaml` and `global-sealed-secrets-key.yaml` to `/home/ken`
+2. Make sure all Talos nodes are in maintenance mode and appearing in Omni, then create cluster:
 ```
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
-2. Set the proper context with kubectl and verify you see the expected nodes
+3. Set the proper context with kubectl and verify you see the expected nodes
 ```
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-3. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
+4. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
 ```
 ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
 ```
-4. Get initial ArgoCD password
+5. Get initial ArgoCD password
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret \
           -o jsonpath="{.data.password}" | base64 -d; echo
