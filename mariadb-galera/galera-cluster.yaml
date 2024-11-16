@@ -123,4 +123,4 @@ spec:
       memory: 4000Mi
 
   metrics:
-    enabled: true
+    enabled: false
