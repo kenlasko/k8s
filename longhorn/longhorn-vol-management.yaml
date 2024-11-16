@@ -62,3 +62,19 @@ spec:
   concurrency: 2
   labels:
     job: snapshot-cleanup 
+
+---
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: snapshot-delete
+  namespace: longhorn
+spec:
+  cron: "28 * * * *"
+  task: snapshot-delete
+  groups:
+  - default
+  retain: 7
+  concurrency: 2
+  labels:
+    job: snapshot-delete 
