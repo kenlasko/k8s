@@ -25,6 +25,7 @@ deschedulerPolicy:
         - name: RemovePodsViolatingTopologySpreadConstraint
         - name: LowNodeUtilization
           args:
+            useDeviationThresholds: true
             thresholds:
               cpu: 25
               memory: 25
