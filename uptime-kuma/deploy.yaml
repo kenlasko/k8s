@@ -50,7 +50,7 @@ spec:
             memory: 120Mi
           limits:
             cpu: 280m
-            memory: 200Mi        
+            memory: 250Mi        
         env:
         - name: UPTIME_KUMA_PORT
           value: '3001'
