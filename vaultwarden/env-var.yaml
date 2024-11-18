@@ -5,6 +5,7 @@ metadata:
   namespace: vaultwarden
 data:
   DOMAIN: "https://vaultwarden.ucdialplans.com"
+  EXPERIMENTAL_CLIENT_FEATURE_FLAGS: "ssh-key-vault-item,ssh-agent"
   PUSH_ENABLED: "true"
   ROCKET_PORT: "8087"
   RUST_BACKTRACE: "1"
