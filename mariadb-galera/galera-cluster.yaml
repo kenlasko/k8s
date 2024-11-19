@@ -19,10 +19,10 @@ spec:
       - ReadWriteOnce
 
   # # Only use during initial load when the local databases on disk aren't available
-  # bootstrapFrom:
-  #   volume:
-  #     persistentVolumeClaim: 
-  #       claimName: nfs-galera-backup-hourly
+  bootstrapFrom:
+    volume:
+      persistentVolumeClaim: 
+        claimName: nfs-galera-backup-hourly
 
   replicas: 3
 
