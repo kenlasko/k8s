@@ -20,9 +20,9 @@ cluster:
 #   dsrDispatch: geneve             # Tunnel
 l2announcements:
   enabled: true
-  leaseDuration: 6s
-  leaseRenewDeadline: 2s
-  leaseRetryPeriod: 200ms
+  leaseDuration: 15s
+  leaseRenewDeadline: 5s
+  leaseRetryPeriod: 2s
 envoy:
   enabled: false 
   rollOutPods: true
