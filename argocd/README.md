@@ -26,3 +26,7 @@ Restart ArgoCD pods in this order:
 1. argocd-dex-server
 2. argocd-application-controller
 3. argocd-server
+
+# Other Info
+## Temporarily Disabling Updates
+When going on vacation, its prudent to disable auto-updates of Helm-based resources. These can be denoted by the asterisk in the `Target Revision` field. Instead of manually updating the `Target Revision` field, you can set `timeout.reconciliation: 0s` in [configmap.yaml][/configmap.yaml]
