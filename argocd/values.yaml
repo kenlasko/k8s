@@ -206,6 +206,8 @@ configs:
 notifications:
   enabled: true
   argocdUrl: "https://argocd.ucdialplans.com"
+  secret:
+    create: false
   notifiers:
     service.slack: |
       token: $slack-token
