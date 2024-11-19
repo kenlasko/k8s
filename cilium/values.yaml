@@ -3,11 +3,11 @@
 # Ideally, we'd be using native routing with ExternalTrafficPolicy: Local but L2 Announcements don't currently work with local routes.
 
 rollOutCiliumPods: true
-# routingMode: native                 # Native
-routingMode: tunnel               # Tunnel
-tunnelProtocol: geneve            # Tunnel
+routingMode: native                 # Native
+# routingMode: tunnel               # Tunnel
+# tunnelProtocol: geneve            # Tunnel
 ipv4NativeRoutingCIDR: 10.0.0.0/9
-# autoDirectNodeRoutes: true          # Native
+autoDirectNodeRoutes: true          # Native
 bpf:
   hostRouting: true
   masquerade: true
@@ -18,7 +18,7 @@ cluster:
   id: 0
 loadBalancer:                     # Tunnel
   mode: dsr                       # Tunnel
-  dsrDispatch: geneve             # Tunnel
+  # dsrDispatch: geneve             # Tunnel
 l2announcements:
   enabled: true
   leaseDuration: 15s
