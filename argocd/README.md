@@ -29,4 +29,4 @@ Restart ArgoCD pods in this order:
 
 # Other Info
 ## Temporarily Disabling Updates
-When going on vacation, its prudent to disable auto-updates of Helm-based resources. These can be denoted by the asterisk in the `Target Revision` field. Instead of manually updating the `Target Revision` field, you can set `timeout.reconciliation: 0s` in [configmap.yaml][/configmap.yaml]
+When going on vacation, its prudent to disable auto-updates of Helm-based resources. These can be denoted by the asterisk in the `Target Revision` field. Instead of manually updating the `Target Revision` field, you can set `timeout.reconciliation: 0s` in [configmap.yaml](/configmap.yaml)
