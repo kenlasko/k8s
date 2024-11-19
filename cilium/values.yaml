@@ -23,7 +23,7 @@ l2announcements:
   leaseDuration: 6s
   leaseRenewDeadline: 2s
   leaseRetryPeriod: 200ms
-devices: eth[0-9]
+#devices: eth[0-9]
 envoy:
   enabled: false 
   rollOutPods: true
