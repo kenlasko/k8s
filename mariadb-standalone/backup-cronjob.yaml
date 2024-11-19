@@ -65,7 +65,7 @@ spec:
               for i in $(seq 1 10); do [ $i -gt 1 ] && echo "Retrying in 15s"; sleep 15; mariadb-dump -h mariadb.mariadb-standalone.svc.cluster.local -u root -p$K3S_ROOT_PW -B gitea homeassist phpmyadmin ucdialplans vaultwarden > /app/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
               if [ "$dayofmonth" -eq 1 ]; then echo "Creating monthly backup..."; cp /app/mariadb-backup-$day.sql /app/mariadb-backup-monthly-$(date +%m).sql; fi &&
               case $dayofmonth in 7|14|21|28) echo "Creating weekly backup..."; cp /app/mariadb-backup-$day.sql /app/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
-              echo "Copying backup to bootstrap folder..."; rm /app/bootstrap/*; cp /app/mariadb-backup-$day.sql /app/bootstrap/backup.$(date +"%Y-%m-%dT%H:%M:%SZ").sql &&
+              echo "Copying backup to bootstrap folder..."; rm /app/bootstrap/*; cp /app/mariadb-backup-$day.sql /app/hourly/backup.$(date +"%Y-%m-%dT%H:%M:%SZ").sql &&
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data

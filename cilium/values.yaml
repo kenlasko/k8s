@@ -16,8 +16,8 @@ ipam:
 cluster:
   name: home
   id: 0
-loadBalancer:                     # Tunnel
-  mode: dsr                       # Tunnel
+loadBalancer:                     # Tunnel/Native
+  mode: dsr                       # Tunnel/Native
   # dsrDispatch: geneve             # Tunnel
 l2announcements:
   enabled: true
