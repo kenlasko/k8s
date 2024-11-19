@@ -9,7 +9,7 @@ metadata:
     io.cilium/lb-ipam-ips: 192.168.1.11
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   selector:
     app: plex
     app.kubernetes.io/name: plex

@@ -1,5 +1,6 @@
 # Rows commented with Native vs Tunnel need to be enabled/disabled en mass to change from Native routing (preferred) to Tunnel
-# Tunnel routing is currently required for workloads like AdGuard because it needs Local routing (for source IP validation) and L2 Announcements don't reliably work with local routes
+# Tunnel routing is currently required for workloads like AdGuard because it needs source IP info and is only available via Tunnel routing with ExternalTrafficPolicy: Cluster 
+# Ideally, we'd be using native routing with ExternalTrafficPolicy: Local but L2 Announcements don't currently work with local routes.
 
 rollOutCiliumPods: true
 # routingMode: native                 # Native

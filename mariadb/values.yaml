@@ -51,7 +51,7 @@ resources:
     memory: 4000Mi
 service:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   annotations:
     io.cilium/lb-ipam-ips: 192.168.1.13
     tailscale.com/expose: 'true'
