@@ -220,10 +220,10 @@ notifications:
       - on-sync-failed
       - on-sync-status-unknown
     # subscription for updates
-    - recipients:
-      - slack:home-argocd-updates
-      triggers:
-      - on-sync-succeeded
+    # - recipients:
+    #   - slack:home-argocd-updates
+    #   triggers:
+    #   - on-sync-succeeded
     
   templates:
     template.app-created: |
