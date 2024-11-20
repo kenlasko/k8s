@@ -47,7 +47,7 @@ spec:
                 cpu: 400m
                # memory: 800Mi
             env: 
-            - name: MARIADB_ROOT_PW 
+            - name: MARIADB_ROOT_PASSWORD 
               valueFrom: 
                 secretKeyRef: 
                   name: mariadb-passwords 
@@ -57,14 +57,16 @@ spec:
             - -c
             - day=$(date +%A) &&
               dayofmonth=$(date +%-d) &&
+              echo "$(date +%F_%T) Obtaining current value of gtid_binlog_pos..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "show variables like 'gtid_binlog_pos';" mysql | awk '{print $2}' > /app/mariadb-gtid-pos.txt
               echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
-              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PW -e "SHOW DATABASES WHERE \`Database\` NOT IN ('information_schema','mysql','performance_schema','sys');" mysql > /app/mariadb-databases.txt &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW DATABASES WHERE \`Database\` NOT IN ('information_schema','mysql','performance_schema','sys');" mysql > /app/mariadb-databases.txt &&
               DB_LIST=$(tr '\n' ' ' < /app/mariadb-databases.txt) &&
-              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PW -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user NOT IN ('debian-sys-maint','root','mariadb.sys','mariadbbackup','mariadb-metrics','monitor','mysql','replicator','')" mysql > /app/mariadb-users.txt &&
-              while read line; do mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PW -e "SHOW GRANTS FOR $line"; done < /app/mariadb-users.txt > /app/mariadb-users.sql &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user NOT IN ('debian-sys-maint','root','mariadb.sys','mariadbbackup','mariadb-metrics','monitor','mysql','')" mysql > /app/mariadb-users.txt &&
+              while read line; do mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW GRANTS FOR $line"; done < /app/mariadb-users.txt > /app/mariadb-users.sql &&
               sed -i 's/$/;/' /app/mariadb-users.sql &&
               echo "$(date +%F_%T) Backing up MariaDB databases..." &&
-              for i in $(seq 1 10); do [ $i -gt 1 ] && echo "Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PW -B $DB_LIST > /app/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
+              for i in $(seq 1 10); do [ $i -gt 1 ] && echo "Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -B $DB_LIST > /app/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
               if [ "$dayofmonth" -eq 1 ]; then echo "Creating monthly backup..."; cp /app/mariadb-backup-$day.sql /app/mariadb-backup-monthly-$(date +%m).sql; fi &&
               case $dayofmonth in 7|14|21|28) echo "Creating weekly backup..."; cp /app/mariadb-backup-$day.sql /app/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
               echo "Copying backup to hourly folder..."; cp /app/mariadb-backup-$day.sql /app/hourly/backup.$(date +"%Y-%m-%dT%H:%M:%SZ").sql &&

@@ -34,7 +34,6 @@ show variables like 'gtid_binlog_pos';
 ```
 unlock tables;
 ```
-5. Connect to NAS01 and rename `/share/backup/mariadb/mariadb-backup-<dayofweek>.sql` to `mariadb-backup.sql`
 
 ## MariaDB Standalone Setup
 1. Run `mariadb-restore` from `mariadb-standalone` namespace.
