@@ -31,7 +31,7 @@ drop database vaultwarden;
 drop database phpmyadmin;
 ```
 
-2. Run `mariadb-restore` from `mariadb-standalone` namespace. This will restore the newest backup
+2. Run `mariadb-restore` from `mariadb-standalone` namespace. This will restore the newest available database backup along with user accounts and grants and procedures.
 
 3. Connect to MariaDB-Standalone pod and run (or use PHPMyAdmin, if available):
 ```

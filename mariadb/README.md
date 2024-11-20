@@ -11,13 +11,10 @@ All databases are replicated to 3 Kubernetes nodes using Galera for high-availab
 This has been replaced by the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator). Repo information can be found [here](/mariadb-galera)
 
 # Restore databases
-1. Run `mariadb-restore` CronJob from `mariadb` namespace. This will restore the newest available backup. Do via either ArgoCD or:
+Run `mariadb-restore` CronJob from `mariadb` namespace. This will restore the newest available database backup along with user accounts and grants and procedures. Do via either ArgoCD or:
 ```
 kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-restore
 ```
-2. Restore MariaDB user accounts by running SQL commands found in `mariadb-users.sql` on `/share/backup/mariadb`
-    - Make sure to NOT restore last 4 rows (mariadbbackup, mariadb.sys, mysql, monitor)
-3. Restore MariaDB procedures using `procedures.sql` file  on `/share/backup/mariadb` (used for replication checking via Uptime-Kuma and UCDialplans updates)
 
 # Setup Replication
 ## Primary DB Backup
