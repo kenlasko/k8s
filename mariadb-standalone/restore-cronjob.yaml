@@ -51,8 +51,9 @@ spec:
             command: 
             - /bin/sh
             - -c
-            - echo "$(date +%F_%T) Restoring MariaDB database..." && 
-              mariadb -h mariadb.mariadb-standalone.svc.cluster.local -u root -p$K3S_ROOT_PW < /app/mariadb-backup.sql && 
+            - newest_sql_file=$(ls -t /app/*.sql 2>/dev/null | head -n 1) &&
+              echo "$(date +%F_%T) Restoring MariaDB databases from $newest_sql_file..." && 
+              mariadb -h mariadb.mariadb-standalone.svc.cluster.local -u root -p$K3S_ROOT_PW < $newest_sql_file && 
               echo "$(date +%F_%T) MariaDB databases have been restored" &&
               echo "$(date +%F_%T) Finished!"
             volumeMounts:
