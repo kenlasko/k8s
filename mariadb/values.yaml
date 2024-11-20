@@ -175,6 +175,10 @@ mariadbConfiguration: |-
   [mariadb]
   plugin_load_add=auth_pam
 
+extraVolumes:
+- name: nfs-mariadb-backup
+  persistentVolumeClaim:
+    claimName: nfs-mariadb-backup
 extraVolumeMounts:
 - name: nfs-mariadb-backup
   mountPath: /backup
