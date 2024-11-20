@@ -57,23 +57,23 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Dropping existing MariaDB databases..." &&
-              DB_LIST=$(tr '\n' ' ' < /app/mariadb-databases.txt) &&
+              DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
               SQL_CMD="STOP SLAVE; "; for DB in $DB_LIST; do SQL_CMD="$SQL_CMD DROP DATABASE IF EXISTS \`$DB\`;" done &&
               mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -e "$SQL_CMD" &&
-              newest_sql_file=$(ls -t /app/*.sql 2>/dev/null | head -n 1) &&
+              newest_sql_file=$(ls -t /backup/*.sql 2>/dev/null | head -n 1) &&
               echo "$(date +%F_%T) Restoring MariaDB databases from $newest_sql_file..." && 
               mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < $newest_sql_file && 
               echo "$(date +%F_%T) MariaDB databases have been restored" &&
               echo "$(date +%F_%T) Restoring users and procedures..." &&
-              mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /app/procedures.sql &&
-              mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /app/mariadb-users.sql &&
+              mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/procedures.sql &&
+              mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Enabling replication..." &&
-              GTID_POS=$(cat /app/mariadb-gtid-pos.txt) &&
+              GTID_POS=$(cat /backup/mariadb-gtid-pos.txt) &&
               mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -e "set global gtid_slave_pos = '$GTID_POS'; change master to master_host='mariadb.mariadb.svc.cluster.local', master_user='replicator', master_password='$MARIADB_REPLICATOR_PASSWORD', master_port=3306, master_connect_retry=10, master_use_gtid=slave_pos; start slave;" &&
               echo "$(date +%F_%T) Finished!"
             volumeMounts:
             - name: data
-              mountPath: /app
+              mountPath: /backup
           restartPolicy: Never
           volumes:
           - name: data

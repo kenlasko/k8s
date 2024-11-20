@@ -1,6 +1,6 @@
 global:
   storageClass: local-path
-namespaceOverride: mariadb
+namespaceOverride: mariadb-test
 fullnameOverride: mariadb
 podLabels:
   mariadb-client: 'true'
@@ -55,7 +55,7 @@ service:
   annotations:
     io.cilium/lb-ipam-ips: 192.168.1.13
     tailscale.com/expose: 'true'
-    tailscale.com/hostname: 'home-mariadb'
+    tailscale.com/hostname: 'home-mariadb-test'
 
 extraEnvVars:
 - name: TZ
@@ -174,4 +174,31 @@ mariadbConfiguration: |-
 
   [mariadb]
   plugin_load_add=auth_pam
-  
+
+extraVolumes:
+- name: backup
+  nfs:
+    server: 192.168.1.3
+    path: /backup/mariadb
+extraVolumeMounts:
+- name: backup
+  mountPath: /backup
+  readOnly: false
+
+initdbScripts:
+  initial_bootstrap.sh: |
+    #!/bin/sh
+    if [[ $(hostname) == *-0  ]]; then
+      echo "First node"
+      DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt)
+      NEWEST_SQL_FILE=$(ls -t /backup/*.sql 2>/dev/null | head -n 1)
+      echo "$(date +%F_%T) Restoring MariaDB databases from $NEWEST_SQL_FILE..."
+      mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < $NEWEST_SQL_FILE && 
+      echo "$(date +%F_%T) MariaDB databases have been restored" &&
+      echo "$(date +%F_%T) Restoring users and procedures..." &&
+      mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/procedures.sql &&
+      mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-users.sql &&
+      echo "$(date +%F_%T) Finished!"
+    else
+      echo "Not first node. Exiting script."
+    fi

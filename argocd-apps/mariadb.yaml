@@ -23,7 +23,7 @@ spec:
       exclude: '*_DISABLED.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: mariadb
+    namespace: mariadb-test
   ignoreDifferences:
   - jsonPointers:
     - /data
