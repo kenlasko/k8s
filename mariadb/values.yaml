@@ -28,20 +28,20 @@ networkPolicy:
   allowExternal: true
   allowExternalEgress: false
   extraIngress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              mariadb-client: "true"
-      ports:
-        - port: 3306
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              tailscale.com/parent-resource: mariadb-test
-      ports:
-        - port: 3306
+  - from:
+      - namespaceSelector: {}
+        podSelector:
+          matchLabels:
+            mariadb-client: "true"
+    ports:
+      - port: 3306
+  - from:
+      - namespaceSelector: {}
+        podSelector:
+          matchLabels:
+            tailscale.com/parent-resource: mariadb-test
+    ports:
+      - port: 3306
 resources:
   requests:
     cpu: 20m
@@ -175,13 +175,8 @@ mariadbConfiguration: |-
   [mariadb]
   plugin_load_add=auth_pam
 
-extraVolumes:
-- name: backup
-  nfs:
-    server: 192.168.1.3
-    path: /backup/mariadb
 extraVolumeMounts:
-- name: backup
+- name: nfs-mariadb-backup
   mountPath: /backup
   readOnly: false
 
