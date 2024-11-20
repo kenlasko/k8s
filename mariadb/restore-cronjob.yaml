@@ -56,7 +56,7 @@ spec:
             - -c
             - echo "$(date +%F_%T) Dropping existing MariaDB databases..." &&
               DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
-              SQL_CMD=""; for DB in $DB_LIST do SQL_CMD="$SQL_CMD DROP DATABASE IF EXISTS \`$DB\`;" done &&
+              SQL_CMD=""; for DB in $DB_LIST; do SQL_CMD="$SQL_CMD DROP DATABASE IF EXISTS \`$DB\`;"; done &&
               mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -e "$SQL_CMD" &&
               newest_sql_file=$(ls -t /backup/*.sql 2>/dev/null | head -n 1) &&
               echo "$(date +%F_%T) Restoring MariaDB databases from $newest_sql_file..." && 
