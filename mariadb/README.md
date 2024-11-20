@@ -37,19 +37,8 @@ unlock tables;
 5. Connect to NAS01 and rename `/share/backup/mariadb/mariadb-backup-<dayofweek>.sql` to `mariadb-backup.sql`
 
 ## MariaDB Standalone Setup
-1. If replication was previously enabled on secondary, run:
-```
-stop slave;
-drop database gitea;
-drop database homeassist;
-drop database ucdialplans;
-drop database vaultwarden;
-drop database phpmyadmin;
-```
-
-2. Run `mariadb-restore` from `mariadb-standalone` namespace.
-
-3. Connect to MariaDB-Standalone pod and run:
+1. Run `mariadb-restore` from `mariadb-standalone` namespace.
+2. Connect to MariaDB-Standalone pod and run:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
@@ -69,9 +58,10 @@ start slave;
 ## From NAS01 DR Host
 1. From NAS01 host via SSH:
 ```
-sudo cp /share/backup/mariadb/mariadb-backup.sql /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
+newest_sql_file=$(ls -t /share/backup/mariadb/*.sql 2>/dev/null | head -n 1)
+sudo cp $newest_sql_file /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
 ```
-2. If replication was previously enabled on secondary, run:
+2. If replication was previously enabled on NAS01, run:
 ```
 stop slave;
 drop database gitea;
