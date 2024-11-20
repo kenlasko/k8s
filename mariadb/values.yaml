@@ -39,7 +39,7 @@ networkPolicy:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              tailscale.com/parent-resource: mariadb
+              tailscale.com/parent-resource: mariadb-test
       ports:
         - port: 3306
 resources:
