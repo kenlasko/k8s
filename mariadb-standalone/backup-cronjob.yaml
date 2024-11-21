@@ -58,7 +58,7 @@ spec:
             - day=$(date +%A) &&
               dayofmonth=$(date +%-d) &&
               echo "$(date +%F_%T) Obtaining current value of gtid_binlog_pos..." &&
-              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "show variables like 'gtid_binlog_pos';" mysql | awk '{print $2}' > /backup/mariadb-gtid-pos.txt
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "show variables like 'gtid_binlog_pos';" mysql | awk '{print $2}' > /backup/mariadb-gtid-pos.txt &&
               echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
               mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW DATABASES WHERE \`Database\` NOT IN ('information_schema','mysql','performance_schema','sys');" mysql > /backup/mariadb-databases.txt &&
               DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
