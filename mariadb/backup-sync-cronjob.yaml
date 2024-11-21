@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: mariadb-sync-backup
+  name: mariadb-backup-sync
   namespace: mariadb-test
 spec:
   schedule: "@yearly" 
