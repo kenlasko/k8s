@@ -17,6 +17,11 @@ kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-res
 ```
 
 # Setup Replication
+The [database-sync.sh](/mariadb/scripts/database-sync.sh) script automates the backup, restore and sync config for all Kubernetes-based MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
+```
+./k3s/mariadb/scripts/database-sync.sh
+```
+
 ## Primary DB Backup
 Run `mariadb-backup-sync` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
 ```
