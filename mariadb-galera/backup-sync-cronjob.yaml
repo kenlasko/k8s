@@ -2,10 +2,11 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: mariadb-backup
-  namespace: mariadb-test
+  name: mariadb-sync-backup
+  namespace: mariadb
 spec:
-  schedule: "30 5 * * *"  # Start at 1am every day
+  schedule: "@yearly" 
+  suspend: true
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
@@ -56,6 +57,11 @@ spec:
             - -c
             - day=$(date +%A) &&
               dayofmonth=$(date +%-d) &&
+              echo "$(date +%F_%T) Locking databases for sync backup..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "flush tables with read lock;"
+              echo "$(date +%F_%T) Obtaining current value of gtid_binlog_pos..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "show variables like 'gtid_binlog_pos';" mysql | awk '{print $2}' > /backup/mariadb-gtid-pos.txt &&
+              echo "$(date +%F_%T) gtid_binlog_pos is $(cat /backup/mariadb-gtid-pos.txt)" &&
               echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
               mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW DATABASES WHERE \`Database\` NOT IN ('information_schema','mysql','performance_schema','sys');" mysql > /backup/mariadb-databases.txt &&
               DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
@@ -64,9 +70,7 @@ spec:
               sed -i 's/$/;/' /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Backing up MariaDB databases..." &&
               for i in $(seq 1 10); do [ $i -gt 1 ] && echo "$(date +%F_%T) Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -B $DB_LIST > /backup/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
-              if [ "$dayofmonth" -eq 1 ]; then echo "$(date +%F_%T) Creating monthly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-monthly-$(date +%m).sql; fi &&
-              case $dayofmonth in 7|14|21|28) echo "$(date +%F_%T) Creating weekly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
-              echo "$(date +%F_%T) Copying backup to MariaDB Operator format..."; cp /backup/mariadb-backup-$day.sql /backup/backup.$(date +"%Y-%m-%dT%H:%M:%SZ").sql &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "unlock tables;"
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data
