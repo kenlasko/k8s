@@ -42,11 +42,6 @@ networkPolicy:
             tailscale.com/parent-resource: mariadb-test
     ports:
       - port: 3306
-  - from:
-    - ipBlock:
-        cidr: 0.0.0.0/0
-    ports:
-      - port: 3306  
   extraEgress:
   - to:
     - ipBlock:
