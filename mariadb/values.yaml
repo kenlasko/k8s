@@ -48,6 +48,15 @@ networkPolicy:
         cidr: 192.168.1.3/32
     ports:
       - port: 3306
+  - to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: mariadb-standalone
+        podSelector:
+          matchLabels:
+            app: mariadb
+    ports:
+      - port: 3306
 resources:
   requests:
     cpu: 20m
