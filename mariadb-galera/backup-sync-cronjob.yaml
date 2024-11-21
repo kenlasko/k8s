@@ -58,7 +58,7 @@ spec:
             - day=$(date +%A) &&
               dayofmonth=$(date +%-d) &&
               echo "$(date +%F_%T) Locking databases for sync backup..." &&
-              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "flush tables with read lock;"
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "flush tables with read lock;" &&
               echo "$(date +%F_%T) Obtaining current value of gtid_binlog_pos..." &&
               mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "show variables like 'gtid_binlog_pos';" mysql | awk '{print $2}' > /backup/mariadb-gtid-pos.txt &&
               echo "$(date +%F_%T) gtid_binlog_pos is $(cat /backup/mariadb-gtid-pos.txt)" &&
