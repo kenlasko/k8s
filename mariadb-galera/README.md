@@ -47,6 +47,11 @@ If the database files exist on the nodes (under /var/mariadb), we can use the Op
 
 
 # Setup Replication
+The [database-sync.sh](/mariadb/scripts/database-sync.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
+```
+./k3s/mariadb/scripts/database-sync.sh
+```
+
 ## Primary DB Backup
 Run `mariadb-backup-sync` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
 ```
@@ -69,10 +74,17 @@ kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-restore-syn
 
 
 ## From NAS01 DR Host
+Should be able to run the `mariadb-restore-nas01` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
+```
+kubectl create job -n mariadb --from=cronjob/mariadb-restore-nas01 mariadb-restore-sync-nas01
+```
+
+If it doesn't work, use the manual method below.
+
 1. From NAS01 host via SSH:
 ```
-newest_sql_file=$(ls -t /share/backup/mariadb/*.sql 2>/dev/null | head -n 1)
-sudo cp $newest_sql_file /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
+NEWEST_SQL_FILE=$(ls -t /backup/mariadb-backup-*.sql /backup/backup.*.sql 2>/dev/null | head -n 1)
+sudo cp $NEWEST_SQL_FILE /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
 ```
 2. If replication was previously enabled on NAS01, run:
 ```
@@ -111,5 +123,6 @@ If you get replication errors, try skipping the error and continuing:
 STOP SLAVE;
 SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;
 START SLAVE;
+SELECT SLEEP(5);
+SHOW SLAVE STATUS;
 ```
-

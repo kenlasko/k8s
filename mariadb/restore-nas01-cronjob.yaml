@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: mariadb-restore
-  namespace: mariadb-standalone
+  name: mariadb-restore-nas01
+  namespace: mariadb-test
 spec:
   schedule: "@yearly" 
   suspend: true
@@ -11,6 +11,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            mariadb-client: 'true'
         spec:
           dnsPolicy: ClusterFirstWithHostNet
           affinity:
@@ -48,15 +51,10 @@ spec:
                 secretKeyRef: 
                   name: mariadb-passwords
                   key: mariadb-root-password
-            - name: MARIADB_REPLICATOR_PASSWORD 
-              valueFrom: 
-                secretKeyRef: 
-                  name: mariadb-passwords
-                  key: mariadb-replicator-password
             command: 
             - /bin/sh
             - -c
-            - SERVER="mariadb"; MASTER_HOST="mariadb.mariadb.svc.cluster.local" &&
+            - SERVER="192.168.1.3"; MASTER_HOST="192.168.1.13" &&
               echo "$(date +%F_%T) Dropping existing MariaDB databases..." &&
               DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
               SQL_CMD=""; for DB in $DB_LIST; do SQL_CMD="$SQL_CMD DROP DATABASE IF EXISTS \`$DB\`;"; done &&
@@ -80,5 +78,5 @@ spec:
           volumes:
           - name: data
             persistentVolumeClaim:
-              claimName: nfs-mariadb-standalone-backup
+              claimName: nfs-mariadb-backup
 

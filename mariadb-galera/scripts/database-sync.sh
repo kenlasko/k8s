@@ -3,7 +3,7 @@
 # This script is to be run after the primary database cluster is up and running. 
 
 # Set namespace and job names
-BACKUP_NAMESPACE="mariadb-test"
+BACKUP_NAMESPACE="mariadb"
 BACKUP_JOB_NAME="mariadb-backup-sync"
 RESTORE_JOB_NAME="mariadb-restore-sync"
 
