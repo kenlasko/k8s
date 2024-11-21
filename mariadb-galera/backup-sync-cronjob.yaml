@@ -65,11 +65,12 @@ spec:
               echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
               mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW DATABASES WHERE \`Database\` NOT IN ('information_schema','mysql','performance_schema','sys');" mysql > /backup/mariadb-databases.txt &&
               DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
-              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user NOT IN ('debian-sys-maint','healthcheck','mariadb.sys','mariadbbackup','mariadb-metrics','monitor','mysql','root','')" mysql > /backup/mariadb-users.txt &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user NOT IN ('debian-sys-maint','healthcheck','mariadb.sys','mariabackup','mariadbbackup','mariadb-metrics','monitor','mysql','root','')" mysql > /backup/mariadb-users.txt &&
               while read line; do mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW GRANTS FOR $line"; done < /backup/mariadb-users.txt > /backup/mariadb-users.sql &&
               sed -i 's/$/;/' /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Backing up MariaDB databases..." &&
               for i in $(seq 1 10); do [ $i -gt 1 ] && echo "$(date +%F_%T) Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -B $DB_LIST > /backup/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
+              echo "$(date +%F_%T) Unlocking databases..." &&
               mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "unlock tables;" &&
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
