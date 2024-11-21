@@ -175,14 +175,14 @@ mariadbConfiguration: |-
   [mariadb]
   plugin_load_add=auth_pam
 
-# extraVolumes:
-# - name: nfs-mariadb-backup
-#   persistentVolumeClaim:
-#     claimName: nfs-mariadb-backup
-# extraVolumeMounts:
-# - name: nfs-mariadb-backup
-#   mountPath: /docker-entrypoint-initdb.d
-#   readOnly: false
+extraVolumes:
+- name: nfs-mariadb-backup
+  persistentVolumeClaim:
+    claimName: nfs-mariadb-backup
+extraVolumeMounts:
+- name: nfs-mariadb-backup
+  mountPath: /backup
+  readOnly: false
 
 # initdbScripts:
 #   initial_bootstrap.sh: |
