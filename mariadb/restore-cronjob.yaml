@@ -63,7 +63,7 @@ spec:
               mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < $NEWEST_SQL_FILE && 
               echo "$(date +%F_%T) MariaDB databases have been restored" &&
               echo "$(date +%F_%T) Restoring procedures..." &&
-              mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -e /backup/mariadb-procedures.sql &&
+              mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-procedures.sql &&
               echo "$(date +%F_%T) Restoring users..." &&
               mariadb -h mariadb -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Finished!"
