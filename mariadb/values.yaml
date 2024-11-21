@@ -50,7 +50,7 @@ networkPolicy:
       - port: 3306
   - to:
       - ipBlock:
-          cidr: 0.0.0.0/32
+          cidr: 0.0.0.0/0
     ports:
       - port: 3306
   - to:
