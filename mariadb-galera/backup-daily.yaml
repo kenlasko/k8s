@@ -15,7 +15,7 @@ spec:
   storage:
     volume:
       persistentVolumeClaim:
-        claimName: nfs-galera-backup-daily
+        claimName: nfs-galera-backup
   affinity:
     antiAffinityEnabled: false
     nodeAffinity:

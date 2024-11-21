@@ -108,75 +108,75 @@ spec:
       storage: 100Gi
 
 
-# Separate volumes for daily and hourly backups
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-galera-backup-daily
-  annotations:
-    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
-spec:
-  storageClassName: nfs-csi
-  capacity:
-    storage: 90Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/backup/mariadb/daily
-    volumeAttributes:
-      server: 192.168.1.3
-      share: /backup/mariadb/daily
+# # Separate volumes for daily and hourly backups
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: nfs-galera-backup-daily
+#   annotations:
+#     pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+# spec:
+#   storageClassName: nfs-csi
+#   capacity:
+#     storage: 90Gi
+#   accessModes:
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   csi:
+#     driver: nfs.csi.k8s.io
+#     volumeHandle: 192.168.1.3/backup/mariadb/daily
+#     volumeAttributes:
+#       server: 192.168.1.3
+#       share: /backup/mariadb/daily
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-galera-backup-daily
-  namespace: mariadb
-spec:
-  storageClassName: nfs-csi
-  volumeName: nfs-galera-backup-daily
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 90Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: nfs-galera-backup-daily
+#   namespace: mariadb
+# spec:
+#   storageClassName: nfs-csi
+#   volumeName: nfs-galera-backup-daily
+#   accessModes:
+#   - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 90Gi
 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-galera-backup-hourly
-  annotations:
-    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
-spec:
-  storageClassName: nfs-csi
-  capacity:
-    storage: 80Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/backup/mariadb/hourly
-    volumeAttributes:
-      server: 192.168.1.3
-      share: /backup/mariadb/hourly
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: nfs-galera-backup-hourly
+#   annotations:
+#     pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+# spec:
+#   storageClassName: nfs-csi
+#   capacity:
+#     storage: 80Gi
+#   accessModes:
+#   - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   csi:
+#     driver: nfs.csi.k8s.io
+#     volumeHandle: 192.168.1.3/backup/mariadb/hourly
+#     volumeAttributes:
+#       server: 192.168.1.3
+#       share: /backup/mariadb/hourly
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-galera-backup-hourly
-  namespace: mariadb
-spec:
-  storageClassName: nfs-csi
-  volumeName: nfs-galera-backup-hourly
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 80Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: nfs-galera-backup-hourly
+#   namespace: mariadb
+# spec:
+#   storageClassName: nfs-csi
+#   volumeName: nfs-galera-backup-hourly
+#   accessModes:
+#   - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 80Gi

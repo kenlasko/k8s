@@ -22,7 +22,7 @@ spec:
   # bootstrapFrom:
   #   volume:
   #     persistentVolumeClaim: 
-  #       claimName: nfs-galera-backup-hourly
+  #       claimName: nfs-galera-backup
 
   replicas: 3
 
