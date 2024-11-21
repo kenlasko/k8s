@@ -70,7 +70,7 @@ spec:
               sed -i 's/$/;/' /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Backing up MariaDB databases..." &&
               for i in $(seq 1 10); do [ $i -gt 1 ] && echo "$(date +%F_%T) Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -B $DB_LIST > /backup/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
-              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "unlock tables;"
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "unlock tables;" &&
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data
