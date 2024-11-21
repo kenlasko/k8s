@@ -50,20 +50,20 @@ If the database files exist on the nodes (under /var/mariadb), we can use the Op
 ## Primary DB Backup
 Run `mariadb-backup-sync` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
 ```
-kubectl create job -n mariadb --from=cronjob/mariadb-backup-sync mariadb-initial-backup
+kubectl create job -n mariadb --from=cronjob/mariadb-backup-sync mariadb-backup-sync
 ```
 
 ## MariaDB Standalone Setup
 Run `mariadb-restore` job from `mariadb-standalone` namespace on Home cluster. Do via either ArgoCD or:
 ```
-kubectl create job -n mariadb-standalone --from=cronjob/mariadb-restore mariadb-initial-restore
+kubectl create job -n mariadb-standalone --from=cronjob/mariadb-restore mariadb-restore-sync
 ```
 
 ## MariaDB Cloud Setup
 1. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
 2. Run `mariadb-restore` job from `mariadb` namespace on Cloud cluster. Do via either ArgoCD or:
 ```
-kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-restore
+kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-restore-sync
 ```
 3. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
 

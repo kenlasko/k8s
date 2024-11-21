@@ -5,11 +5,11 @@ This serves as a realtime backup for the [MariaDB Galera cluster](/mariadb-galer
 ## Primary DB Backup
 Run `mariadb-backup-sync` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
 ```
-kubectl create job -n mariadb --from=cronjob/mariadb-backup-sync mariadb-initial-backup
+kubectl create job -n mariadb --from=cronjob/mariadb-backup-sync mariadb-backup-sync
 ```
 
 ## MariaDB Standalone Setup
 Run `mariadb-restore` job from `mariadb-standalone` namespace on Home cluster. Do via either ArgoCD or:
 ```
-kubectl create job -n mariadb-standalone --from=cronjob/mariadb-restore mariadb-initial-restore
+kubectl create job -n mariadb-standalone --from=cronjob/mariadb-restore mariadb-restore-sync
 ```
