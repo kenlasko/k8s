@@ -57,7 +57,7 @@ networkPolicy:
       - namespaceSelector: {}
         podSelector:
           matchLabels:
-            app: mariadb
+            app.kubernetes.io/name: mariadb
     ports:
       - port: 3306
 resources:
