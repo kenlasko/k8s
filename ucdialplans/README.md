@@ -6,4 +6,4 @@ It is accessible to the world via Cloudflare Tunnel.
 # Prerequisites
 ## Database
 * Requires access to `ucdialplans` database on MariaDB via `UCDialplans_Website` user account. 
-* Requires [InfoCache_Update](/mariadb/procedures.yaml) procedure for periodically updating website usage numbers. 
+* Requires [InfoCache_Update](/mariadb/mariadb-procedures.sql) procedure for periodically updating website usage numbers. 
