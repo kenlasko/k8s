@@ -71,7 +71,7 @@ spec:
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data
-              mountPath: /app
+              mountPath: /backup
           restartPolicy: Never #OnFailure
           volumes:
           - name: data
