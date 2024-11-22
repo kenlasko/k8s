@@ -51,6 +51,11 @@ spec:
                 secretKeyRef: 
                   name: mariadb-passwords
                   key: mariadb-root-password
+            - name: MARIADB_REPLICATOR_PASSWORD 
+              valueFrom: 
+                secretKeyRef: 
+                  name: mariadb-passwords
+                  key: mariadb-replicator-password
             - name: MARIADB_PROCEDURES
               valueFrom:
                 configMapKeyRef:
