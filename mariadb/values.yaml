@@ -1,6 +1,6 @@
 global:
   storageClass: local-path
-namespaceOverride: mariadb-test
+namespaceOverride: mariadb
 fullnameOverride: mariadb
 podLabels:
   mariadb-client: 'true'
@@ -39,7 +39,7 @@ networkPolicy:
       - namespaceSelector: {}
         podSelector:
           matchLabels:
-            tailscale.com/parent-resource: mariadb-test
+            tailscale.com/parent-resource: mariadb
     ports:
       - port: 3306
   extraEgress:
@@ -73,7 +73,7 @@ service:
   annotations:
     io.cilium/lb-ipam-ips: 192.168.1.15
     tailscale.com/expose: 'true'
-    tailscale.com/hostname: 'home-mariadb-test'
+    tailscale.com/hostname: 'home-mariadb'
 
 extraEnvVars:
 - name: TZ

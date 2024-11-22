@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mariadb-procedures
-  namespace: mariadb-test
+  namespace: mariadb
 data:
   mariadb-procedures: |
     DELIMITER $$
