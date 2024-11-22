@@ -3,7 +3,7 @@
 # This script will show the contents of grastate.dat on all nodes. Used for Galera cluster recovery
 
 NODES=("nuc4" "nuc5" "nuc6")
-FILE_PATH="/host/var/mariadb/storage/grastate.dat"
+FILE_PATH="/host/var/mariadb/data/grastate.dat"
 
 for NODE_NAME in "${NODES[@]}"; do
         echo "===================== $NODE_NAME ====================="

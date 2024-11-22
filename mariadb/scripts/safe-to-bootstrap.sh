@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# This script will delete the contents of a given folder on all the selected nodes. Used for clearing out mariadb folders before a new cluster build
+# This script will set 'safe_to_bootstrap' on the selected node (or all)
 
 NODES=("nuc4" "nuc5" "nuc6")
-FOLDER_PATH="/host/var/mariadb"
+FILE_PATH="/host/var/mariadb/data/grastate.dat"
 
-# Function to clean up the folder on a given node
-clean_node() {
+# Function to set 'safe_to_bootstrap' on a given node
+set_bootstrap() {
   local NODE_NAME=$1
-  echo "Cleaning folder $FOLDER_PATH on node $NODE_NAME..."
-  kubectl debug node/$NODE_NAME -it --image='nicolaka/netshoot' -n kube-system -- /bin/sh -c "rm -rf $FOLDER_PATH/* $FOLDER_PATH/.* 2>/dev/null; exit"
+  echo "Setting 'safe_to_bootstrap' on node $NODE_NAME..."
+  kubectl debug node/$NODE_NAME -it --image='nicolaka/netshoot' -n kube-system -- /bin/sh -c "sed -i -e 's/safe_to_bootstrap: 0/safe_to_bootstrap: 1/' $FILE_PATH; exit"
   # Delete debugger pod after completion
   kubectl get pods -n kube-system --no-headers=true | awk '/node-debugger/{print $1}' | xargs kubectl delete -n kube-system pod
 }
@@ -18,7 +18,7 @@ clean_node() {
 if [ "$#" -eq 1 ]; then
   SPECIFIC_NODE=$1
   if [[ " ${NODES[@]} " =~ " ${SPECIFIC_NODE} " ]]; then
-    clean_node "$SPECIFIC_NODE"
+    set_bootstrap "$SPECIFIC_NODE"
   else
     echo "Error: Node $SPECIFIC_NODE is not in the list of known nodes (${NODES[*]})."
     exit 1
@@ -28,7 +28,7 @@ else
   read -p "No node specified. Do you want to run against all nodes (${NODES[*]})? [y/N] " CONFIRM
   if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
     for NODE_NAME in "${NODES[@]}"; do
-      clean_node "$NODE_NAME"
+      set_bootstrap "$NODE_NAME"
     done
   else
     echo "Operation canceled."

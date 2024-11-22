@@ -1,3 +1,5 @@
+> :warning: **DEPRECATED**: This has been removed in favour of the more reliable [Bitnami MariaDB Galera Helm Chart](/mariadb). The Operator has proven to be finicky in production and I've had a fair bit of downtime trying to resolve various issues.
+
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
 * [Gitea](/gitea)
