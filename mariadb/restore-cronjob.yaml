@@ -51,6 +51,11 @@ spec:
                 secretKeyRef: 
                   name: mariadb-passwords
                   key: mariadb-root-password
+            - name: MARIADB_PROCEDURES
+              valueFrom:
+                configMapKeyRef:
+                  name: mariadb-procedures
+                  key: mariadb-procedures
             command: 
             - /bin/sh
             - -c
@@ -64,7 +69,7 @@ spec:
               mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD < $NEWEST_SQL_FILE && 
               echo "$(date +%F_%T) MariaDB databases have been restored" &&
               echo "$(date +%F_%T) Restoring procedures..." &&
-              mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-procedures.sql &&
+              mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD -e "$MARIADB_PROCEDURES" &&
               echo "$(date +%F_%T) Restoring users..." &&
               mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Finished!"

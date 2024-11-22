@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-procedures
+  namespace: mariadb-standalone
+data:
+  mariadb-procedures: |
+    DELIMITER $$
+    CREATE PROCEDURE phpmyadmin.check_replication()
+    BEGIN
+        DECLARE rep_status VARCHAR(50);
+        SELECT VARIABLE_VALUE INTO rep_status
+        FROM INFORMATION_SCHEMA.GLOBAL_STATUS
+        WHERE VARIABLE_NAME = 'Slave_running';
+
+        IF rep_status != 'ON' THEN
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Replication is not ON.';
+        ELSE
+      SELECT rep_status;
+        END IF;
+    END$$
+
+    DELIMITER $$
+    CREATE PROCEDURE ucdialplans.InfoCache_Update()
+    BEGIN
+            UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT(SELECT COUNT(ac.ID) FROM ucdialplans.AreaCodes ac) + (SELECT COUNT(acnz.ID) FROM ucdialplans.AreaCodes_NZ acnz) + (SELECT Count(DISTINCT np.City) FROM ucdialplans.NANPA_Prefix np)) WHERE ic.`Attribute` = 'TotalRegions';
+            UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT COUNT(rs.ID) FROM ucdialplans.Rulesets rs) WHERE ic.`Attribute` = 'TotalRulesets';
+            UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT COUNT(u.UserID) FROM ucdialplans.Users u) WHERE ic.`Attribute` = 'TotalUsers';
+
+            DELETE FROM ucdialplans.InfoCache_Top10_Countries;
+            INSERT INTO ucdialplans.InfoCache_Top10_Countries (Country, Rulesets) SELECT dr.CountryName as Country, COUNT(*) as Rulesets FROM ucdialplans.Rulesets rs INNER JOIN ucdialplans.DialRules dr ON dr.CountryID = rs.CountryID GROUP BY dr.CountryName ORDER BY Count(*) DESC LIMIT 10;
+
+            DELETE FROM ucdialplans.InfoCache_Top10_Regions;
+            INSERT INTO ucdialplans.InfoCache_Top10_Regions (City, CountryID, Frequency) SELECT City, CountryID, COUNT(*) as Frequency FROM Rulesets GROUP BY City, CountryID ORDER BY count(*) DESC LIMIT 10;
+    END$$
