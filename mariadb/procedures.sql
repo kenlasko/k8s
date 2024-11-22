@@ -14,7 +14,7 @@ BEGIN
     END IF;
 END$$
 
-DELIMITER ;
+DELIMITER $$
 CREATE PROCEDURE ucdialplans.InfoCache_Update()
 BEGIN
         UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT(SELECT COUNT(ac.ID) FROM ucdialplans.AreaCodes ac) + (SELECT COUNT(acnz.ID) FROM ucdialplans.AreaCodes_NZ acnz) + (SELECT Count(DISTINCT np.City) FROM ucdialplans.NANPA_Prefix np)) WHERE ic.`Attribute` = 'TotalRegions';
@@ -26,4 +26,4 @@ BEGIN
 
         DELETE FROM ucdialplans.InfoCache_Top10_Regions;
         INSERT INTO ucdialplans.InfoCache_Top10_Regions (City, CountryID, Frequency) SELECT City, CountryID, COUNT(*) as Frequency FROM Rulesets GROUP BY City, CountryID ORDER BY count(*) DESC LIMIT 10;
-END
+END$$
