@@ -74,7 +74,7 @@ spec:
               mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD < /backup/mariadb-users.sql &&
               echo "$(date +%F_%T) Enabling replication..." &&
               GTID_POS=$(cat /backup/mariadb-gtid-pos.txt) &&
-              mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD -e "set global gtid_slave_pos = '$GTID_POS'; change master to master_host='$MASTER_HOST', master_user='replicator', master_password='$MARIADB_REPLICATOR_PASSWORD', master_port=3306, master_connect_retry=10, master_use_gtid=slave_pos; start slave;" &&
+              mariadb -h $SERVER -u root -p$MARIADB_ROOT_PASSWORD -e "stop slave; set global gtid_slave_pos = '$GTID_POS'; change master to master_host='$MASTER_HOST', master_user='replicator', master_password='$MARIADB_REPLICATOR_PASSWORD', master_port=3306, master_connect_retry=10, master_use_gtid=slave_pos; start slave;" &&
               echo "$(date +%F_%T) Finished!"
             volumeMounts:
             - name: data
