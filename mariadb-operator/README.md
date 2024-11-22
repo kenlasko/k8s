@@ -49,7 +49,7 @@ If the database files exist on the nodes (under /var/mariadb), we can use the Op
 
 
 # Setup Replication
-The [database-sync.sh](/mariadb/scripts/database-sync.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
+The sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
 ```
 ./k3s/mariadb/scripts/database-sync.sh
 ```
