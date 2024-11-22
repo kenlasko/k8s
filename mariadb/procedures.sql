@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE PROCEDURE phpmyadmin.check_replication()
+CREATE PROCEDURE IF NOT EXISTS phpmyadmin.check_replication()
 BEGIN
     DECLARE rep_status VARCHAR(50);
     SELECT VARIABLE_VALUE INTO rep_status
@@ -15,7 +15,7 @@ BEGIN
 END$$
 
 DELIMITER $$
-CREATE PROCEDURE ucdialplans.InfoCache_Update()
+CREATE PROCEDURE IF NOT EXISTS ucdialplans.InfoCache_Update()
 BEGIN
         UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT(SELECT COUNT(ac.ID) FROM ucdialplans.AreaCodes ac) + (SELECT COUNT(acnz.ID) FROM ucdialplans.AreaCodes_NZ acnz) + (SELECT Count(DISTINCT np.City) FROM ucdialplans.NANPA_Prefix np)) WHERE ic.`Attribute` = 'TotalRegions';
         UPDATE ucdialplans.InfoCache ic SET ic.Value = (SELECT COUNT(rs.ID) FROM ucdialplans.Rulesets rs) WHERE ic.`Attribute` = 'TotalRulesets';
