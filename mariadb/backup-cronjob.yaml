@@ -5,8 +5,8 @@ metadata:
   name: mariadb-backup
   namespace: mariadb
 spec:
-  schedule: "30 5 * * *"  # Start at 1am every day
-  suspend: true
+  schedule: "30 5 * * *"  # Start at 1:30am every day
+  suspend: false
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
