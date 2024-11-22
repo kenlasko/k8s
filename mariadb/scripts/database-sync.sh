@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script will setup replication between the primary Galera cluster and the mariadb-standalone and cloud mariadb instances
+# This script will setup replication between the primary Galera cluster and all secondary database instances (standalone, NAS, cloud)
 # This script is to be run after the primary database cluster is up and running. 
 
 # Set namespace and job names
