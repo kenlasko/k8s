@@ -52,6 +52,7 @@ Apps that currently use the `appdata/vol` folder are:
 
 To create these folders on a fresh install (may not be necessary, depending on how the data is restored):
 ```
+cd /share/appdata
 mkdir adguard esphome garmin-upload gitea homeassist keel nectar pgadmin portainer recyclarr registry romm transmission ucdialplans ups-monitor uptime-kuma vaultwarden zwaveadmin
 ```
 
@@ -77,5 +78,6 @@ This folder stores data created by backup processes, such as Longhorn and manual
 
 To create these folders on a fresh install:
 ```
+cd /share/backup
 mkdir apps github k3s longhorn mariadb nas omni vol
 ```

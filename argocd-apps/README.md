@@ -22,7 +22,7 @@ Apps that basically everything else depends on:
 ## Sync Wave 1
 * [Cloudflare Tunnel](/cloudflare-tunnel)
 * [Longhorn](/longhorn)
-* [MariaDB](/mariadb-galera)
+* [MariaDB](/mariadb)
 * [PHPMyAdmin](/phpmyadmin)
 * [Registry](/registry)
 * [SnapScheduler](/snapscheduler)

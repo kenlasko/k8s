@@ -1,13 +1,29 @@
-# Prerequisites 
+# Introduction
+This is the Git repository that contains all the configuration for my home-based Kubernetes cluster.
+
+This cluster is built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for cluster management.
+
+My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require hardware that is specific to certain named nodes. The manifests are configured for this. For example:
+* [Plex](/media-tools/plex) requires nodes with Intel GPUs for transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
+* [Home Assistant](/home-automation/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor.
+* [MariaDB](/mariadb) requires local storage, which is available on NUC4-NUC6.
+* [Longhorn](/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
+
+# Prerequisites
+SideroLabs Omni must be ready to go. Installation steps are in the repository link below:
+[Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
+
+You will need a workstation (preferably Linux-based) with several tools to get things rolling:
 [Workstation Prep Instructions](WORKSTATION.md)
 
+Most of the workloads use NAS-based storage for persistent data. This doc shows the configuration for the various things that need to be ready before the cluster can be spun up:
 [NAS Configuration](NASCONFIG.md)
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
 ## Install Kubernetes
 1. Copy `default-sealing-key.yaml` and `global-sealed-secrets-key.yaml` from Onedrive Vault `certificates` folder to `/home/ken`
-2. Make sure all Talos nodes are in maintenance mode and appearing in Omni, then create cluster:
+2. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com), then create cluster:
 ```
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
