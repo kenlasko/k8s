@@ -53,6 +53,7 @@ kubectl -n kube-system get secret kubeapi-service-account-secret \
 
 # Handy commands to know
 ## Check for open port without tools
+Many container images do not have any tools like `nc` to check network port connectivity. This handy command will allow you to do that with just `echo`
 ```
 (echo > /dev/tcp/<servicename>/<port>) >/dev/null 2>&1 \
     && echo "It's up" || echo "It's down"
