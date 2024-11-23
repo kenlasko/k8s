@@ -1,4 +1,6 @@
 # Windows Workstation Prep
+These instructions are for configuring Linux-based tools in an Ubuntu Windows Subsystem for Linux (WSL) virtual machine. If you are using a native machine, you can skip the WSL-specific bits
+
 ## Install WSL and supporting tools
 From Windows Terminal:
 ```
