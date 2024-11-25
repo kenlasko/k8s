@@ -12,4 +12,4 @@ If you need to bootstrap a new cluster after the loss of the primary, run `maria
 ```
 kubectl create job -n mariadb-standalone --from=cronjob/mariadb-backup-sync mariadb-backup-sync
 ```
-Once done, run `mariadb-restore` on the fresh primary cluster and then run the sync bootstrap script to re-sync all remote instances.
+Once done, run `mariadb-restore` on the fresh primary cluster and then run the sync bootstrap script to re-sync all remote instances. Follow the steps [here](https://github.com/kenlasko/K3S/blob/main/mariadb/README.md#initial-bootstrapping)
