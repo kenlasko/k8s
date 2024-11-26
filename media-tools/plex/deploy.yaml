@@ -77,12 +77,12 @@ spec:
             - "DAC_OVERRIDE"
         resources:
           requests:
-            cpu: 500m
-            memory: 750Mi
+            cpu: 100m
+            memory: 1000Mi
             gpu.intel.com/i915: '1' 
           limits:
-            cpu: 2000m
-            memory: 1400Mi
+            cpu: 2500m
+            memory: 1500Mi
             gpu.intel.com/i915: '1'
         startupProbe:
           httpGet:
