@@ -18,6 +18,7 @@ The [sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the
 ```
 ./k3s/mariadb/scripts/sync-bootstrap.sh
 ```
+For the script to fully work, you must have a valid `kubeconfig` file with both Home and Cloud instances
 
 ## Primary DB Backup
 Run `mariadb-backup-sync` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
