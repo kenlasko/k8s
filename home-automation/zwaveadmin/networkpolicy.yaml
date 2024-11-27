@@ -25,7 +25,6 @@ spec:
       toPorts:
         - ports:
             - port: "443"
-        - ports:
             - port: "5353"
     - toEndpoints:
         - matchLabels:
