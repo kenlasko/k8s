@@ -59,6 +59,8 @@ spec:
           value: '1000'
         - name: PGID
           value: '100'
+        - name: DT_ENV
+          value: 'selfhosted'
         - name: TZ
           value: "America/Toronto"
         resources:
