@@ -1,79 +1,81 @@
-# apiVersion: networking.k8s.io/v1
-# kind: NetworkPolicy
-# metadata:
-#   name: homeassist
-#   namespace: homeassist
-# spec:
-#   podSelector:
-#     matchLabels:
-#       app: homeassist
-#   policyTypes:
-#     - Ingress
-#     - Egress
-#   ingress:
-#     - fromEntities:
-#         - ingress
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: cloudflare-tunnel
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: change-detector
-#     - from:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: falco
-#       ports:
-#         - port: 8123
-#     - from:
-#         - podSelector: {}
-#   egress:
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               k8s-app: kube-dns
-#       ports:
-#         - port: 53
-#           protocol: UDP
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: plex
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app.kubernetes.io/name: prometheus
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: adguard
-#       ports:
-#         - port: 3000
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: mariadb
-#       ports:
-#         - port: 3306
-#     - to:
-#         - namespaceSelector: {}
-#           podSelector:
-#             matchLabels:
-#               app: uptime-kuma
-#       ports:
-#         - port: 80
-#     - to:
-#         - podSelector: {}
-#     - to:
-#         - ipBlock:
-#             cidr: 0.0.0.0/0
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: homeassist
+  namespace: homeassist
+spec:
+  endpointSelector:
+    matchLabels:
+      app: homeassist
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8123"
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "8123"
+    - fromEndpoints:
+        - {}
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: prometheus
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+    - toEndpoints:
+        - matchLabels:
+            app: adguard
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "3000"
+    - toEndpoints:
+        - matchLabels:
+            app: mariadb
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "3306"
+    - toEndpoints:
+        - matchLabels:
+            app: plex
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+    - toEndpoints:
+        - matchLabels:
+            app: uptime-kuma
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "80"
+    - toEndpoints:
+        - {}
+    - toEntities:
+        - world
