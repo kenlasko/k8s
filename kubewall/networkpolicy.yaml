@@ -8,13 +8,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: kubewall
   ingress:
-    - fromEndpoints:
-        - matchLabels:
-            app: cloudflare-tunnel
-            io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
-            - port: "7080"
     - fromEntities:
         - ingress
       toPorts:
@@ -32,9 +25,3 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEntities:
-        - world
-      toPorts:
-        - ports:
-            - port: "443"
-            - port: "6443"
