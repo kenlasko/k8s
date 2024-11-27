@@ -12,28 +12,28 @@ spec:
         - ingress
       toPorts:
         - ports:
-            - port: 8091     
+            - port: "8091"        
     - fromEndpoints:
         - matchLabels:
             app: homeassist
       toPorts:
         - ports:
-            - port: 3000
+            - port: "3000"
   egress:
     - toEntities:
         - world
       toPorts:
         - ports:
-            - port: 443
+            - port: "443"
         - ports:
-            - port: 5353
+            - port: "5353"
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
       toPorts:
         - ports:
-            - port: 53
+            - port: "53"
               protocol: UDP
           rules:
             dns:
