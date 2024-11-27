@@ -13,12 +13,6 @@ spec:
       toPorts:
         - ports:
             - port: "3000"
-    - fromEndpoints:
-        - matchLabels:
-            app: cloudflare-tunnel
-      toPorts:
-        - ports:
-            - port: "3000"
   egress:
     - toEndpoints:
         - matchLabels:
