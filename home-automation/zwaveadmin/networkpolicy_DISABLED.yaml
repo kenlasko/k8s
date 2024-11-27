@@ -15,12 +15,6 @@ spec:
             - port: "8091"        
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
-      toPorts:
-        - ports:
-            - port: "8091"
-    - fromEndpoints:
-        - matchLabels:
             app: homeassist
       toPorts:
         - ports:
