@@ -68,9 +68,9 @@ spec:
             port: 8080
           initialDelaySeconds: 15
           periodSeconds: 60
-        # envFrom:
-        # - configMapRef:
-        #     name: env-vars
+        envFrom:
+        - configMapRef:
+            name: env-vars
         # - secretRef:
         #     name: env-secrets
         volumeMounts:
