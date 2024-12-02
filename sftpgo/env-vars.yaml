@@ -14,4 +14,4 @@ data:
   SFTPGO_SMTP__FROM: "sftpgo@ucdialplans.com"
   SFTPGO_SMTP__ENCRYPTION: "1"
   SFTPGO_SMTP__AUTH_TYPE: "1"
-  
+  SFTPGO_SMTP__DEBUG: "1"
