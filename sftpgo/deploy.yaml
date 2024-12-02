@@ -71,8 +71,8 @@ spec:
         envFrom:
         - configMapRef:
             name: env-vars
-        # - secretRef:
-        #     name: env-secrets
+        - secretRef:
+            name: env-secrets
         volumeMounts:
         - name: nfs-sftpgo-config
           mountPath: /var/lib/sftpgo
