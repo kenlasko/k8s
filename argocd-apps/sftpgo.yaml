@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: projectsend
+  name: sftpgo
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "10"
@@ -9,13 +9,13 @@ spec:
   project: default
   source:
     repoURL: 'git@github.com:kenlasko/K3S.git'
-    path: projectsend
+    path: sftpgo
     targetRevision: HEAD
     directory:
       exclude: '*_DISABLED.yaml'
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: projectsend
+    namespace: sftpgo
   syncPolicy:
     managedNamespaceMetadata:
       labels:

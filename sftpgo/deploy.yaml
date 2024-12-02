@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: projectsend
-  namespace: projectsend
+  name: sftpgo
+  namespace: sftpgo
   annotations:
     keel.sh/policy: force
     keel.sh/trigger: poll
     keel.sh/match-tag: "true"
 spec:
-  serviceName: projectsend
+  serviceName: sftpgo
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: projectsend
+      app: sftpgo
   template:
     metadata:
       labels:
-        app: projectsend
-        name: projectsend
+        app: sftpgo
+        name: sftpgo
         mariadb-client: 'true'
     spec:
       restartPolicy: Always
@@ -42,8 +42,8 @@ spec:
                 values: 
                 - 'amd64'
       containers:
-      - name: projectsend
-        image: lscr.io/linuxserver/projectsend:latest
+      - name: sftpgo
+        image: drakkan/sftpgo:latest
         imagePullPolicy: Always
         securityContext:
           # allowPrivilegeEscalation: false
@@ -65,7 +65,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           initialDelaySeconds: 15
           periodSeconds: 60
         # envFrom:
@@ -74,14 +74,14 @@ spec:
         # - secretRef:
         #     name: env-secrets
         volumeMounts:
-        - name: nfs-projectsend-config
-          mountPath: /config
-        - name: nfs-projectsend-data
-          mountPath: /data         
+        - name: nfs-sftpgo-config
+          mountPath: /var/lib/sftpgo
+        - name: nfs-sftpgo-data
+          mountPath: /srv/sftpgo        
       volumes:
-      - name: nfs-projectsend-config
+      - name: nfs-sftpgo-config
         persistentVolumeClaim:
-          claimName: nfs-projectsend-config
-      - name: nfs-projectsend-data
+          claimName: nfs-sftpgo-config
+      - name: nfs-sftpgo-data
         persistentVolumeClaim:
-          claimName: nfs-projectsend-data
+          claimName: nfs-sftpgo-data

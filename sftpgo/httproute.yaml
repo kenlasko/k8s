@@ -2,18 +2,18 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: projectsend
-  namespace: projectsend
+  name: sftpgo
+  namespace: sftpgo
 spec:
   parentRefs:
   - name: tls
     namespace: cilium
     sectionName: https
   hostnames:
-  - "projectsend.ucdialplans.com"
+  - "sftpgo.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: projectsend-ui
-      namespace: projectsend
+    - name: sftpgo-ui
+      namespace: sftpgo
       kind: Service
       port: 80
