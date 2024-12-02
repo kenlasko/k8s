@@ -26,7 +26,7 @@ spec:
       automountServiceAccountToken: false
       priorityClassName: medium-priority
       securityContext:
-        runAsNonRoot: true
+        # runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 3000
         fsGroup: 2000
@@ -46,9 +46,9 @@ spec:
         image: lscr.io/linuxserver/projectsend:latest
         imagePullPolicy: Always
         securityContext:
-          allowPrivilegeEscalation: false
+          # allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
-          runAsNonRoot: true
+          # runAsNonRoot: true
           runAsUser: 1000
           runAsGroup: 3000
           seccompProfile:
