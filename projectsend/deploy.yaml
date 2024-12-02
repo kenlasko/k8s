@@ -68,11 +68,11 @@ spec:
             port: 80
           initialDelaySeconds: 15
           periodSeconds: 60
-        envFrom:
-        - configMapRef:
-            name: env-vars
-        - secretRef:
-            name: env-secrets
+        # envFrom:
+        # - configMapRef:
+        #     name: env-vars
+        # - secretRef:
+        #     name: env-secrets
         volumeMounts:
         - name: nfs-projectsend-config
           mountPath: /config
