@@ -11,7 +11,7 @@ data:
   SFTPGO_DATA_PROVIDER__SSLMODE: "0"
   SFTPGO_SMTP__HOST: "smtp.sendgrid.net"
   SFTPGO_SMTP__PORT: "587"
-  SFTPGO_SMTP__FROM: "sftpgo@ucdialplans.com"
+  SFTPGO_SMTP__FROM: "SFTPGo <sftpgo@ucdialplans.com>"
   SFTPGO_SMTP__ENCRYPTION: "1"
   SFTPGO_SMTP__AUTH_TYPE: "1"
   SFTPGO_SMTP__DEBUG: "1"
