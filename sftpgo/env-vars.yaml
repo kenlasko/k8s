@@ -9,3 +9,7 @@ data:
   SFTPGO_DATA_PROVIDER__PORT: "3306"
   SFTPGO_DATA_PROVIDER__HOST: "mariadb.mariadb.svc.cluster.local"
   SFTPGO_DATA_PROVIDER__SSLMODE: "0"
+  SFTPGO_SMTP__HOST: "smtp.sendgrid.net"
+  SFTPGO_SMTP__PORT: "587"
+  SFTPGO_SMTP__FROM: "sftpgo@ucdialplans.com"
+  SFTPGO_SMTP__ENCRYPTION: "1"
