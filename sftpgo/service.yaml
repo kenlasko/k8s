@@ -26,8 +26,11 @@ metadata:
     app: sftpgo
   name: sftpgo-ftp
   namespace: sftpgo
+  annotations:
+    io.cilium/lb-ipam-ips: 192.168.1.15
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
   ports:
   - port: 2022
     protocol: TCP
