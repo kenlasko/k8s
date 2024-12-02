@@ -25,11 +25,11 @@ spec:
       restartPolicy: Always
       automountServiceAccountToken: false
       priorityClassName: medium-priority
-      securityContext:
-        # runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 3000
-        fsGroup: 2000
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 1000
+      #   runAsGroup: 3000
+      #   fsGroup: 2000
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -49,10 +49,10 @@ spec:
           # allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
           # runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 3000
-          seccompProfile:
-            type: RuntimeDefault
+          # runAsUser: 1000
+          # runAsGroup: 3000
+          # seccompProfile:
+          #   type: RuntimeDefault
           # capabilities:
           #   drop: ["ALL"]
         # resources:
