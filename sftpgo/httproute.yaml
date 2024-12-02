@@ -16,4 +16,4 @@ spec:
     - name: sftpgo-ui
       namespace: sftpgo
       kind: Service
-      port: 80
+      port: 8080
