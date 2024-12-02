@@ -1,25 +1,25 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: vaultwarden
-  namespace: vaultwarden
+  name: sftpgo
+  namespace: sftpgo
 spec:
   endpointSelector:
     matchLabels:
-      app: vaultwarden
+      app: sftpgo
   ingress:
     - fromEntities:
         - ingress
       toPorts:
         - ports:
-            - port: "8087"
+            - port: "8080"
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
-            - port: "8087"
+            - port: "8080"
   egress:
     - toEndpoints:
         - matchLabels:
