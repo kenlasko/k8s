@@ -5,7 +5,7 @@ This cluster is built on Sidero Lab's [Talos OS](https://github.com/siderolabs/t
 
 My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require hardware that is specific to certain named nodes. The manifests are configured for this. For example:
 * [Plex](/media-tools/plex) requires nodes with Intel GPUs for transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
-* [Home Assistant](/home-automation/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor.
+* [Home Assistant](/home-automation/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
 * [MariaDB](/mariadb) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
