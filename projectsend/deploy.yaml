@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: projectsend
+  namespace: projectsend
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+spec:
+  serviceName: projectsend
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: projectsend
+  template:
+    metadata:
+      labels:
+        app: projectsend
+        name: projectsend
+        mariadb-client: 'true'
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      priorityClassName: medium-priority
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'
+      containers:
+      - name: projectsend
+        image: lscr.io/linuxserver/projectsend:latest
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 3000
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        # resources:
+        #   requests:
+        #     cpu: 1m
+        #     memory: 130Mi
+        #   limits:
+        #     cpu: 120m
+        #     memory: 150Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        envFrom:
+        - configMapRef:
+            name: env-vars
+        - secretRef:
+            name: env-secrets
+        volumeMounts:
+        - name: nfs-projectsend-config
+          mountPath: /config
+        - name: nfs-projectsend-data
+          mountPath: /data         
+      volumes:
+      - name: nfs-projectsend-config
+        persistentVolumeClaim:
+          claimName: nfs-projectsend-config
+      - name: nfs-projectsend-data
+        persistentVolumeClaim:
+          claimName: nfs-projectsend-data
