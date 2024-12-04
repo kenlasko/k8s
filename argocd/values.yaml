@@ -36,10 +36,10 @@ dex:
   resources:
     requests:
       cpu: 5m
-      memory: 20Mi
+      memory: 40Mi
     limits:
       cpu: 100m
-      memory: 40Mi
+      memory: 50Mi
 redis:
   resources:
     requests:
