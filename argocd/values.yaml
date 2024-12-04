@@ -27,10 +27,10 @@ applicationSet:
 controller:
   resources:
     requests:
-      cpu: 5m
+      cpu: 250m
       memory: 500Mi
     limits:
-      cpu: 100m
+      cpu: 600m
       memory: 900Mi
 dex:
   resources:
