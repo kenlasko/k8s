@@ -51,10 +51,10 @@ redis:
 repoServer:
   resources:
     requests:
-      cpu: 100m
+      cpu: 200m
       memory: 500Mi
     limits:
-      cpu: 500m
+      cpu: 800m
       memory: 800Mi
 server:
   resources:
