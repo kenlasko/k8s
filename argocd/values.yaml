@@ -20,18 +20,18 @@ applicationSet:
   resources:
     requests:
       cpu: 1m
-      memory: 500Mi
+      memory: 30Mi
     limits:
       cpu: 100m
-      memory: 800Mi
+      memory: 60Mi
 controller:
   resources:
     requests:
-      cpu: 200m
-      memory: 40Mi
+      cpu: 5m
+      memory: 500Mi
     limits:
-      cpu: 600m
-      memory: 60Mi
+      cpu: 100m
+      memory: 900Mi
 dex:
   resources:
     requests:
