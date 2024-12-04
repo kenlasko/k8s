@@ -6,7 +6,7 @@ metadata:
   name: plex-service
   namespace: media-tools
   annotations:
-    io.cilium/lb-ipam-ips: 192.168.1.11
+    lbipam.cilium.io/ips: 192.168.1.11
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
