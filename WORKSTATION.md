@@ -152,3 +152,19 @@ Finally, install Docker extension for Visual Studio and restart VSCode
 
 ## Install Omni/Talos Tools
 Install tools as per [Omni installation instructions](https://github.com/kenlasko/omni)
+
+## Install Popeye Kubernetes Resource Linter
+```
+POPEYE_VERSION=$(curl -s https://api.github.com/repos/derailed/popeye/tags | jq -r '.[0].name' | cut -c 2-)
+
+# Check if the version was fetched successfully
+if [ -z "$POPEYE_VERSION" ]; then
+    echo "Failed to fetch the latest POPEYE_VERSION"
+    exit 1
+fi
+
+curl -OL "https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_linux_amd64.tar.gz"
+tar -xzf popeye_linux_amd64.tar.gz
+sudo mv popeye /usr/local/bin
+rm popeye*
+```
