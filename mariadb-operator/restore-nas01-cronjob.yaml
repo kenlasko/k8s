@@ -54,7 +54,7 @@ spec:
             command: 
             - /bin/sh
             - -c
-            - SERVER="192.168.1.3"; MASTER_HOST="192.168.1.13" &&
+            - SERVER="192.168.1.3"; MASTER_HOST="192.168.1.12" &&
               echo "$(date +%F_%T) Dropping existing MariaDB databases..." &&
               DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
               SQL_CMD=""; for DB in $DB_LIST; do SQL_CMD="$SQL_CMD DROP DATABASE IF EXISTS \`$DB\`;"; done &&
