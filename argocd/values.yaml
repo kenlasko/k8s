@@ -16,7 +16,46 @@ global:
   networkPolicy:
     create: false
     defaultDenyIngress: false
+controller:
+  resources:
+    requests:
+      cpu: 5m
+      memory: 40Mi
+    limits:
+      cpu: 100m
+      memory: 60Mi
+dex:
+  resources:
+    requests:
+      cpu: 5m
+      memory: 20Mi
+    limits:
+      cpu: 100m
+      memory: 40Mi
+redis:
+  resources:
+    requests:
+      cpu: 15m
+      memory: 30Mi
+    limits:
+      cpu: 200m
+      memory: 60Mi
+repoServer:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
+      cpu: 500m
+      memory: 800Mi
 server:
+  resources:
+    requests:
+      cpu: 4m
+      memory: 100Mi
+    limits:
+      cpu: 100m
+      memory: 150Mi
   service:
     annotations:
       omni-kube-service-exposer.sidero.dev/port: "50104"
