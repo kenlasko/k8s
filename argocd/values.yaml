@@ -27,43 +27,51 @@ applicationSet:
 controller:
   resources:
     requests:
-      cpu: 250m
+      cpu: 200m
       memory: 500Mi
     limits:
-      cpu: 600m
+      cpu: 750m
       memory: 900Mi
 dex:
   resources:
     requests:
-      cpu: 5m
-      memory: 40Mi
+      cpu: 1m
+      memory: 42Mi
     limits:
-      cpu: 100m
+      cpu: 120m
       memory: 50Mi
+notifications:
+  resources:
+    requests:
+      cpu: 1m
+      memory: 32Mi
+    limits:
+      cpu: 120m
+      memory: 60Mi
 redis:
   resources:
     requests:
       cpu: 15m
-      memory: 30Mi
+      memory: 20Mi
     limits:
-      cpu: 200m
-      memory: 60Mi
+      cpu: 180m
+      memory: 50Mi
 repoServer:
   resources:
     requests:
-      cpu: 200m
-      memory: 500Mi
+      cpu: 100m
+      memory: 200Mi
     limits:
-      cpu: 800m
+      cpu: 900m
       memory: 1200Mi
 server:
   resources:
     requests:
       cpu: 4m
-      memory: 100Mi
+      memory: 30Mi
     limits:
       cpu: 100m
-      memory: 150Mi
+      memory: 100Mi
   service:
     annotations:
       omni-kube-service-exposer.sidero.dev/port: "50104"
