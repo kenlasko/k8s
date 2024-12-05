@@ -20,17 +20,17 @@ applicationSet:
   resources:
     requests:
       cpu: 1m
-      memory: 30Mi
+      memory: 25Mi
     limits:
       cpu: 100m
-      memory: 60Mi
+      memory: 50Mi
 controller:
   resources:
     requests:
       cpu: 200m
       memory: 500Mi
     limits:
-      cpu: 750m
+      cpu: 900m
       memory: 900Mi
 dex:
   resources:
@@ -52,10 +52,10 @@ redis:
   resources:
     requests:
       cpu: 15m
-      memory: 20Mi
+      memory: 15Mi
     limits:
-      cpu: 180m
-      memory: 50Mi
+      cpu: 160m
+      memory: 40Mi
 repoServer:
   resources:
     requests:
