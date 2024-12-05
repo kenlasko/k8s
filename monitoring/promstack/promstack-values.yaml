@@ -70,6 +70,13 @@ alertmanager:
     secrets:
     - alertmanager-secrets
     externalUrl: 'https://alertmanager.ucdialplans.com'
+    resources:
+      requests:
+        cpu: 4m
+        memory: 30Mi
+      limits:
+        cpu: 100m
+        memory: 80Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
