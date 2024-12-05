@@ -31,7 +31,7 @@ controller:
       memory: 500Mi
     limits:
       cpu: 900m
-      memory: 900Mi
+      memory: 1000Mi
 dex:
   resources:
     requests:
