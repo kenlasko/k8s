@@ -11,6 +11,7 @@ spec:
     sectionName: https
   hostnames:
   - "ha.ucdialplans.com"
+  - "ha-ext.ucdialplans.com"
   rules:
   - backendRefs:
     - name: homeassist-service
