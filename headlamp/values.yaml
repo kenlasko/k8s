@@ -20,7 +20,7 @@ affinity:
 resources:
   requests:
     cpu: 1m
-    memory: 30Mi
-  limits:
-    cpu: 60m
     memory: 50Mi
+  limits:
+    cpu: 70m
+    memory: 60Mi
