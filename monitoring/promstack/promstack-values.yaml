@@ -126,6 +126,13 @@ grafana:
   forceDeployDashboards: false
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: America/Toronto
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      cpu: 200m
+      memory: 200Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
