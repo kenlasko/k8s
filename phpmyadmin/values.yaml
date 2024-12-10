@@ -10,10 +10,10 @@ service:
 resources:
   requests:
     cpu: 2m
-    memory: 80Mi
-  # limits:
-  #   cpu: 250m
-  #   memory: 120Mi  
+    memory: 140Mi
+  limits:
+    cpu: 250m
+    memory: 200Mi  
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
