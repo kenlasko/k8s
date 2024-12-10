@@ -26,7 +26,7 @@ spec:
     persistentVolumeClaimName: longhorn-lidarr-test-config-pvc
 ```
 
-In the PVC definition, add a `dataSource` section with the appropriate config. If there's a PV definition to set the PV name, delete it. 
+In the PVC definition, add a `dataSource` section with the appropriate config. If there's a PV definition to set the PV name, delete it. As long as there's a CSI backup available, the volume will be automatically restored.
 This works well, but I lose the nice PV names of `pvc-<servicename>` that I'm currently using and it uses the standard `pvc-<GUID>` format.
 ```
 apiVersion: v1
@@ -46,3 +46,5 @@ spec:
     requests:
       storage: 300Mi
 ```
+
+One thing I'm not sure of is how this works on a new cluster. Presumably, I would need to backup and restore the backup objects so the CSI driver will know there's a PV backup to restore (not sure if that sentence makeS sense)
