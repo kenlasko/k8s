@@ -69,10 +69,10 @@ cgroup:
 resources:
   requests:
     cpu: 100m
-    memory: 250Mi
+    memory: 350Mi
   limits:
-    cpu: 500m
-    memory: 400Mi
+    cpu: 600m
+    memory: 500Mi
 
 hubble:
   peerService:
@@ -82,10 +82,10 @@ hubble:
     resources:
       requests:
         cpu: 15m
-        memory: 25Mi
+        memory: 50Mi
       limits:
-        cpu: 50m
-        memory: 50Mi   
+        cpu: 75m
+        memory: 75Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
