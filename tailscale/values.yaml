@@ -4,10 +4,10 @@ operatorConfig:
   resources:
     requests:
       cpu: 10m
-      memory: 40Mi
+      memory: 50Mi
     limits:
       cpu: 80m
-      memory: 50Mi  
+      memory: 60Mi  
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
