@@ -66,10 +66,10 @@ spec:
           resources:
             requests:
               cpu: 5m
-              memory: 20Mi
+              memory: 41Mi
             limits:
               cpu: 70m
-              memory: 50Mi
+              memory: 60Mi
           command:
             - cloudflared
             - tunnel
