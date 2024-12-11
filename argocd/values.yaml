@@ -59,10 +59,10 @@ redis:
 repoServer:
   resources:
     requests:
-      cpu: 100m
-      memory: 200Mi
+      cpu: 10m
+      memory: 150Mi
     limits:
-      cpu: 1000m
+      cpu: 1200m
       memory: 2000Mi
 server:
   resources:
