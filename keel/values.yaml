@@ -60,7 +60,7 @@ serviceAnnotations:
 resources:
   requests:
     cpu: 6m
-    memory: 60Mi
+    memory: 52Mi
   limits:
     cpu: 100m
-    memory: 60Mi
+    memory: 70Mi
