@@ -1,5 +1,10 @@
+substitutions:
+  ha_device_name: basement_storage_light
+  dns_name: basement-storage-light
+  friendly_name: Basement Storage 
+
 esphome:
-  name: equipment_room_light
+  name: ${dns_name}
   platform: ESP8266
   board: esp01_1m
 
@@ -8,10 +13,11 @@ wifi:
   password: !secret wifi_pass
   power_save_mode: none
   fast_connect: on
-  use_address: equipment_room_light.ucdialplans.com
+  use_address: ${dns_name}
 
 # Enable logging
 logger:
+  level: INFO
 
 # Enable Home Assistant API
 api:
@@ -22,9 +28,10 @@ time:
     id: homeassistant_time
 
 ota:
+- platform: esphome
 
-web_server:
-  port: 80
+# web_server:
+#   port: 80
 
 status_led:
   pin:
@@ -36,6 +43,7 @@ binary_sensor:
   pin:
     number: GPIO4
     inverted: True
+    allow_other_uses: True
   id: sensor
   internal: True
 
@@ -44,9 +52,9 @@ binary_sensor:
     number: GPIO13
     inverted: True
   id: button
-  name: Equipment Room Button
+  name: ${friendly_name} Button
   on_press:
-    - switch.toggle: equipment_room_light
+    - switch.toggle: ${ha_device_name}
   internal: True
 
 light:
@@ -62,6 +70,7 @@ output:
   pin:
     number: GPIO4
     inverted: True
+    allow_other_uses: True
 
 switch:
 - platform: gpio
@@ -72,11 +81,11 @@ switch:
   internal: True
 
 - platform: restart
-  name: Equipment Room REBOOT
+  name: ${friendly_name} REBOOT
 
 - platform: template
-  name: Equipment Room Light
-  id: equipment_room_light
+  name: ${friendly_name} Light
+  id: ${ha_device_name}
   lambda: |-
     if (id(sensor).state) {
       return false;

@@ -1,9 +1,10 @@
 substitutions:
-  device_name: smoke_detectors 
+  device_name: smoke_detectors
+  dns_name: smoke-detectors
   friendly_name: Smoke Detectors
 
 esphome:
-  name: ${device_name}
+  name: ${dns_name}
   platform: ESP8266
   board: esp01_1m
 
@@ -12,11 +13,11 @@ wifi:
   password: !secret wifi_pass
   power_save_mode: none
   fast_connect: on
-  use_address: ${device_name}.ucdialplans.com
+  use_address: ${dns_name}
 
 # Enable logging
 logger:
-  level: info
+  level: INFO
   
 # Enable Home Assistant API
 api:
@@ -27,9 +28,10 @@ time:
     id: homeassistant_time
 
 ota:
+- platform: esphome
 
-web_server:
-  port: 80
+# web_server:
+#   port: 80
 
 # Device Specific Config
 binary_sensor:
@@ -39,16 +41,15 @@ binary_sensor:
       #mode: INPUT_PULLUP
       #inverted: True
     name: ${friendly_name}
-    id: smoke_detectors
+    id: ${device_name}
 
 text_sensor:
   - platform: template
     name: Smoke Detector Status
-    
     lambda: |-
       if (id(smoke_detectors).state == false) {
         return {"OK"};
       }
-      else if (id(smoke_detectors).state == true) {
+      else {
         return {"FIRE!"};
       }

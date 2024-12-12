@@ -1,9 +1,10 @@
 substitutions:
-  device_name: front_bedroom_light 
+  device_name: front_bedroom_light
+  dns_name: front-bedroom-light
   friendly_name: Front Bedroom 
 
 esphome:
-  name: ${device_name}
+  name: ${dns_name}
   platform: ESP8266
   board: esp01_1m
 
@@ -12,10 +13,11 @@ wifi:
   password: !secret wifi_pass
   power_save_mode: none
   fast_connect: on
-  use_address: ${device_name}.ucdialplans.com
+  use_address: ${dns_name}
 
 # Enable logging
 logger:
+  level: INFO
 
 # Enable Home Assistant API
 api:
@@ -26,9 +28,10 @@ time:
     id: homeassistant_time
 
 ota:
+- platform: esphome
 
-web_server:
-  port: 80
+# web_server:
+#   port: 80
 
 status_led:
   pin:
@@ -40,6 +43,7 @@ binary_sensor:
   pin:
     number: GPIO4
     inverted: True
+    allow_other_uses: True
   id: sensor
   internal: True
 
@@ -66,6 +70,7 @@ output:
   pin:
     number: GPIO4
     inverted: True
+    allow_other_uses: True
 
 switch:
 - platform: gpio

@@ -1,9 +1,10 @@
 substitutions:
   device_name: main_floor_water_cold_shutoff
+  dns_name: main-floor-water-cold-shutoff
   friendly_name: Main Floor Water Cold
 
 esphome:
-  name: ${device_name}
+  name: ${dns_name}
   platform: ESP8266
   board: esp01_1m
   esp8266_restore_from_flash: true
@@ -13,31 +14,33 @@ wifi:
   password: !secret wifi_pass
   power_save_mode: none
   fast_connect: on
-  use_address: ${device_name}.ucdialplans.com
+  use_address: ${dns_name}
 
 # Enable logging
 logger:
+  level: INFO
 
 # Enable Home Assistant API
 api:
 
 ota:
+- platform: esphome
 
-web_server:
-  port: 80
+# web_server:
+#   port: 80
   
 binary_sensor:
   - platform: gpio
     pin:
       number: GPIO12
       mode: INPUT_PULLUP
-      inverted: False
-      
+      inverted: True
+      allow_other_uses: True
     name: "Button"
     id: button
     internal: True
     on_press:
-      - switch.toggle: relay_template
+      - switch.toggle: ${device_name}
 
 status_led:
   pin:
@@ -53,29 +56,21 @@ output:
     id: valve_gpio5
     pin:
       number: GPIO13
-      inverted: False
+      inverted: True
 
 switch:
   - platform: gpio
-    pin: GPIO0
-    id: relay
-    restore_mode: RESTORE_DEFAULT_ON
-  - platform: template
+    pin:
+      number: GPIO12
+      allow_other_uses: True
     name: ${friendly_name}
-    id: relay_template
-    icon: 'mdi:pipe'
-    lambda: |-
-      if (id(relay).state) {
-        return true;
-      } else {
-        return false;
-      }
-    turn_on_action:
-      - light.turn_on: valve_status_light
-      - switch.turn_on: relay
-    turn_off_action:
+    id: ${device_name}
+    icon: mdi:pipe-valve
+    restore_mode: RESTORE_DEFAULT_ON
+    on_turn_on:
       - light.turn_off: valve_status_light
-      - switch.turn_off: relay
+    on_turn_off:
+      - light.turn_on: valve_status_light
 
   - platform: restart
     name: "${friendly_name} Restart"

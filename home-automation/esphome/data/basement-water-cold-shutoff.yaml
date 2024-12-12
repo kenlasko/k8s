@@ -1,0 +1,76 @@
+substitutions:
+  device_name: basement_water_cold_shutoff
+  dns_name: basement-water-cold-shutoff
+  friendly_name: Basement Water Cold
+
+esphome:
+  name: ${dns_name}
+  platform: ESP8266
+  board: esp01_1m
+  esp8266_restore_from_flash: true
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
+  power_save_mode: none
+  fast_connect: on
+  use_address: ${dns_name}
+
+# Enable logging
+logger:
+  level: INFO
+
+# Enable Home Assistant API
+api:
+
+ota:
+- platform: esphome
+
+# web_server:
+#   port: 80
+  
+binary_sensor:
+- platform: gpio
+  pin:
+    number: GPIO12
+    mode: INPUT_PULLUP
+    inverted: True
+    allow_other_uses: True
+  name: "Button"
+  id: button
+  internal: True
+  on_press:
+    - switch.toggle: ${device_name}
+
+status_led:
+  pin:
+    number: GPIO4
+
+light:
+- platform: binary
+  id: valve_status_light
+  output: valve_gpio5
+
+output:
+- platform: gpio
+  id: valve_gpio5
+  pin:
+    number: GPIO13
+    inverted: True
+
+switch:
+- platform: gpio
+  pin: 
+    number: GPIO12
+    allow_other_uses: True
+  name: ${friendly_name}
+  id: ${device_name}
+  icon: mdi:pipe-valve
+  restore_mode: RESTORE_DEFAULT_ON
+  on_turn_on:
+    - light.turn_off: valve_status_light
+  on_turn_off:
+    - light.turn_on: valve_status_light
+
+- platform: restart
+  name: "${friendly_name} Restart"

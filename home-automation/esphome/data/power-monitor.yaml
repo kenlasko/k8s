@@ -7,7 +7,7 @@ substitutions:
   gain_voltage: '7305'
 
 esphome:
-  name: power_monitor
+  name: "power-monitor"
   platform: ESP32
   board: nodemcu-32s
    
@@ -16,18 +16,19 @@ wifi:
   password: !secret wifi_pass
   power_save_mode: none
   fast_connect: on
-  use_address: power_monitor.ucdialplans.com
+  use_address: power-monitor
 
 # Enable logging
 logger:
-  level: warn
+  level: INFO
 
 api:
 
 ota:
+- platform: esphome
 
-web_server:
-  port: 80
+# web_server:
+#   port: 80
 
 spi:
   clk_pin: 18
