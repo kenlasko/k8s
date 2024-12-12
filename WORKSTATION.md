@@ -153,7 +153,23 @@ Finally, install Docker extension for Visual Studio and restart VSCode
 ## Install Omni/Talos Tools
 Install tools as per [Omni installation instructions](https://github.com/kenlasko/omni)
 
+## Install Kubent
+[Kube No Trouble](https://github.com/doitintl/kube-no-trouble) is a handy way to check cluster readiness for new Kubernetes versions. 
+
+To install:
+```
+sh -c "$(curl -sSL https://git.io/install-kubent)"
+```
+
+To use against the current Kube context:
+```
+kubent
+```
+
 ## Install Popeye Kubernetes Resource Linter
+[Popeye](https://github.com/derailed/popeye) is a utility that scans live Kubernetes clusters and reports potential issues with deployed resources and configurations.
+
+To install:
 ```
 POPEYE_VERSION=$(curl -s https://api.github.com/repos/derailed/popeye/tags | jq -r '.[0].name' | cut -c 2-)
 
@@ -167,4 +183,9 @@ curl -OL "https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION
 tar -xzf popeye_linux_amd64.tar.gz
 sudo mv popeye /usr/local/bin
 rm popeye*
+```
+
+Basic usage (outputs results to HTML file):
+```
+popeye -o html > popeye.html
 ```
