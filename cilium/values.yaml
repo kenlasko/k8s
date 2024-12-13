@@ -85,7 +85,7 @@ hubble:
         memory: 50Mi
       limits:
         cpu: 75m
-        memory: 75Mi
+        memory: 80Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
