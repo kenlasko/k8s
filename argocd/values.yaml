@@ -177,6 +177,10 @@ configs:
       url: https://fluent.github.io/helm-charts
       name: fluent
       type: helm
+    gateway-api-crds:
+      url: https://github.com/kubernetes-sigs/gateway-api.git
+      name: gateway-api-crds
+      type: git
     geek-cookbook:
       url: https://geek-cookbook.github.io/charts
       name: geek-cookbook
