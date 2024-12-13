@@ -51,8 +51,8 @@ spec:
     - /data/ca.crt
     - /data/ca.key
   syncPolicy:
-    # automated:
-    #   selfHeal: true
+    automated:
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
   info:
