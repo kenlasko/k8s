@@ -1,0 +1,1 @@
+[Fluent Bit](https://github.com/fluent/fluent-bit) is a fast Log, Metrics and Traces Processor and Forwarder for Linux, Windows, Embedded Linux, MacOS and BSD family operating systems. This was used in conjunction with [Falco](/falco-security) to provide security monitoring for my cluster. Since I'm not using Falco, FluentBit isn't required either.

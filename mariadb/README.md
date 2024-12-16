@@ -5,7 +5,7 @@
 * [UCDialplans](/ucdialplans)
 * [VaultWarden](/vaultwarden)
 
-All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance](/mariadb-standalone), should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a [remote MariaDB instance running in Oracle Cloud](https://github.com/kenlasko/k3s-cloud/mariadb).
+All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance](/mariadb-standalone), should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a [remote MariaDB instance running in Oracle Cloud](https://github.com/kenlasko/k3s-cloud/tree/main/mariadb).
 
 # Initial Bootstrapping
 Run `mariadb-restore` CronJob from `mariadb` namespace. This will restore the newest available database backup along with user accounts and grants and procedures. Do via either ArgoCD or:
