@@ -69,10 +69,10 @@ cgroup:
 resources:
   requests:
     cpu: 100m
-    memory: 350Mi
+    memory: 450Mi
   limits:
     cpu: 600m
-    memory: 500Mi
+    memory: 600Mi
 
 hubble:
   peerService:
