@@ -1,0 +1,70 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: lidarr
+  namespace: media-tools
+spec:
+  podSelector:
+    matchLabels:
+      app: lidarr
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: overseerr
+      ports:
+        - port: 8686
+    - from:
+        - podSelector:
+            matchLabels:
+              app: prowlarr
+      ports:
+        - port: 8686
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              mariadb-client: "true"
+      ports:
+        - port: 3306
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
+    - to:
+        - podSelector:
+            matchLabels:
+              app: plex
+      ports:
+        - port: 32400
+    - to:
+        - podSelector:
+            matchLabels:
+              app: prowlarr
+      ports:
+        - port: 9696
+    - to:
+        - podSelector:
+            matchLabels:
+              app: sabnzbd
+      ports:
+        - port: 8080
+    - to:
+        - podSelector:
+            matchLabels:
+              app: transmission
+      ports:
+        - port: 9091
