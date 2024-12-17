@@ -28,7 +28,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: backup-media-apps
-            image: rancher/k3s:v1.28.8-k3s1-amd64
+            image: bitnami/kubectl:latest
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
