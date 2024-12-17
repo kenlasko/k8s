@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ddns-updater
+  namespace: cloudflare
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
+spec:
+  serviceName: ddns-updater
+  replicas: 1
+  revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: ddns-updater
+  template:
+    metadata:
+      labels:
+        app: ddns-updater
+        name: ddns-updater
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      priorityClassName: low-priority
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - 'amd64'                
+      containers:
+      - name: ddns-updater
+        image: ghcr.io/qdm12/ddns-updater:latest
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        env:
+        - name: CONFIG_FILEPATH
+          value: '/updater/config/config.json'
+        - name: RESOLVER_ADDRESS
+          value: '1.1.1.1:53'
+        - name: TZ
+          value: "America/Toronto"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            cpu: 250m
+            memory: 300Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: ddns-updater-config
+          mountPath: /updater/config
+          readOnly: true
+        - name: nfs-ddns-updater
+          mountPath: /updater/data
+      volumes:
+      - name: ddns-updater-config
+        secret:
+          secretName: ddns-updater-config
+      - name: nfs-ddns-updater
+        persistentVolumeClaim:
+          claimName: nfs-ddns-updater

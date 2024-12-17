@@ -155,6 +155,26 @@ Finally, install Docker extension for Visual Studio and restart VSCode
 ## Install Omni/Talos Tools
 Install tools as per [Omni installation instructions](https://github.com/kenlasko/omni)
 
+## Install Cilium/Hubble CLI Tools
+```
+sudo apt install golang-go 
+CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+GOOS=$(go env GOOS)
+GOARCH=$(go env GOARCH)
+curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
+sha256sum --check cilium-${GOOS}-${GOARCH}.tar.gz.sha256sum
+sudo tar -C /usr/local/bin -xzvf cilium-${GOOS}-${GOARCH}.tar.gz
+rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
+
+HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+HUBBLE_ARCH=amd64
+if [ "$(uname -m)" = "aarch64" ]; then HUBBLE_ARCH=arm64; fi
+curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+sha256sum --check hubble-linux-${HUBBLE_ARCH}.tar.gz.sha256sum
+sudo tar xzvfC hubble-linux-${HUBBLE_ARCH}.tar.gz /usr/local/bin
+rm hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+```
+
 ## Install Kubent
 [Kube No Trouble](https://github.com/doitintl/kube-no-trouble) is a handy way to check cluster readiness for new Kubernetes versions. 
 

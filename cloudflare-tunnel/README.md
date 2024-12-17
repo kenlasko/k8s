@@ -1,6 +1,8 @@
 # Introduction
 [Cloudflared Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deploy-tunnels/deployment-guides/kubernetes/) allows me to expose web services to the Internet without having to open any ports on my Unifi firewall. This is much preferred, as Cloudflare provides security and protection for services. Follow the steps in the above link to get it installed. 
 
+This application consists of the Cloudflared Tunnel app and a [DDNS-Updater](https://github.com/qdm12/ddns-updater) to publish my external IP to both Cloudflare and DuckDNS.
+
 # Application Deployment
 Exposing a service to the Internet requires two Cloudflare objects:
 * a public hostname exposed through the tunnel that connects to the relevent Kubernetes service

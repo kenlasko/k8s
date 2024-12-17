@@ -8,7 +8,11 @@ spec:
     matchLabels:
       app: cloudflare-tunnel
   ingress:
-    - {}
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8000"
   egress:
     - toEntities:
         - cluster
