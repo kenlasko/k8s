@@ -24,7 +24,7 @@ spec:
       exclude: '*_DISABLED.yaml'
   - repoURL: "https://github.com/kubernetes-sigs/gateway-api.git"
     path: "config/crd/experimental"
-    targetRevision: "v1.1.0"
+    targetRevision: "v1.2.0"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cilium
