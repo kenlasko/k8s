@@ -1,73 +1,88 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
   name: lidarr
   namespace: media-tools
 spec:
-  podSelector:
+  endpointSelector:
     matchLabels:
       app: lidarr
-  policyTypes:
-    - Ingress
-    - Egress
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: cilium
-        - podSelector:
-            matchLabels:
-              app: overseerr
-      ports:
-        - port: 8686
-    - from:
-        - podSelector:
-            matchLabels:
-              app: prowlarr
-      ports:
-        - port: 8686
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8686"        
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "8686"
+    - fromEndpoints:
+        - matchLabels:
+            app: overseerr
+      toPorts:
+        - ports:
+            - port: "8686"
+    - fromEndpoints:
+        - matchLabels:
+            app: prowlarr
+      toPorts:
+        - ports:
+            - port: "8686"
   egress:
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - port: 53
-          protocol: UDP
-    - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              mariadb-client: "true"
-      ports:
-        - port: 3306
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-      ports:
-        - port: 443
-    - to:
-        - podSelector:
-            matchLabels:
-              app: plex
-      ports:
-        - port: 32400
-    - to:
-        - podSelector:
-            matchLabels:
-              app: prowlarr
-      ports:
-        - port: 9696
-    - to:
-        - podSelector:
-            matchLabels:
-              app: sabnzbd
-      ports:
-        - port: 8080
-    - to:
-        - podSelector:
-            matchLabels:
-              app: transmission
-      ports:
-        - port: 9091
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            mariadb-client: 'true'
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "3306"
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "443"
+    - toEndpoints:
+        - matchLabels:
+            app: plex
+      toPorts:
+        - ports:
+            - port: "32400"
+    - toEndpoints:
+        - matchLabels:
+            app: prowlarr
+      toPorts:
+        - ports:
+            - port: "9696"
+    - toEndpoints:
+        - matchLabels:
+            app: sabnzbd
+      toPorts:
+        - ports:
+            - port: "8080"
+    - toEndpoints:
+        - matchLabels:
+            app: transmission
+      toPorts:
+        - ports:
+            - port: "9091"
+    - toServices:
+        - k8sService:
+            serviceName: postgres-rw
+            namespace: postgres
