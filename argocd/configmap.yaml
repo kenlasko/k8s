@@ -24,7 +24,7 @@ data:
   # Application reconciliation timeout is the max amount of time required to discover if a new manifests version got
   # published to the repository. Reconciliation by timeout is disabled if timeout is set to 0. Three minutes by default.
   # > Note: argocd-repo-server deployment must be manually restarted after changing the setting.
-  timeout.reconciliation: 180s
+  timeout.reconciliation: 0s
   repositories: |
     - url: git@github.com:kenlasko/K3S.git
       sshPrivateKeySecret:
