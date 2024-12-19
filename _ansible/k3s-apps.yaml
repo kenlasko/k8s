@@ -1,4 +1,6 @@
 ---
+- name: Change kubectl context to home
+  command: kubectl config use-context home
 # Installs the base apps (Cilium, SealedSecrets, CertManager, ArgoCD) to get started with installing all other apps
 - name: Install Cilium
   ansible.builtin.import_playbook: cilium.yaml
