@@ -27,3 +27,15 @@ spec:
   syncPolicy:
     automated:
       null #temporarily disabled for vacation
+  patches:
+    - target:
+        kind: Deployment
+        name: keel
+      patch: |-
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: keel
+          namespace: kube-system
+        spec:
+          replicas: 0
