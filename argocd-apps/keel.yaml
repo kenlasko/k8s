@@ -27,12 +27,14 @@ spec:
   syncPolicy:
     automated:
       null #temporarily disabled for vacation
-  patchesStrategicMerge:
-  - |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
+  patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
       name: keel
       namespace: kube-system
-    spec:
-      replicas: 3
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 0
