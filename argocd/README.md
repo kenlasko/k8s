@@ -29,4 +29,4 @@ Restart ArgoCD pods in this order:
 
 # Other Info
 ## Temporarily Disabling Updates
-When going on vacation, its prudent to disable auto-updates of Helm-based resources. These can be denoted by the asterisk in the `Target Revision` field. Instead of manually updating the `Target Revision` field, you can set `timeout.reconciliation: 0s` in [configmap.yaml](configmap.yaml)
+When going on vacation, its prudent to disable auto-updates of resources. This can be relatively easily done en-masse by doing a `Find in Folder` in VSCode for `selfHeal: true` with `null #temporarily disabled for vacation`. The comment helps to avoid accidentally replacing nulls from other manifests when reverting. To resume auto-updates, do the opposite.
