@@ -15,6 +15,5 @@ spec:
   syncPolicy:
     automated:
       null #temporarily disabled for vacation
-      prune: true
     syncOptions:
     - CreateNamespace=true
