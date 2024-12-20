@@ -10,6 +10,7 @@ ipv4NativeRoutingCIDR: 10.0.0.0/9
 autoDirectNodeRoutes: true          # Native
 bpf:
   hostRouting: true
+  hostLegacyRouting: true
   masquerade: true
 ipam:
   mode: kubernetes
