@@ -29,4 +29,4 @@ Restart ArgoCD pods in this order:
 
 # Other Info
 ## Temporarily Disabling Updates
-When going on vacation, its prudent to disable auto-updates of resources. This can be relatively easily done en-masse by doing a `Find in Folder` in VSCode for `selfHeal: true` with `null #temporarily disabled for vacation`. The comment helps to avoid accidentally replacing nulls from other manifests when reverting. To resume auto-updates, do the opposite.
+When going on vacation, its prudent to disable auto-updates of resources. This can be relatively easily done en-masse by doing a `Find in Folder` in VSCode for `selfHeal: true` with `null #temporarily disabled for vacation`. The comment helps to avoid accidentally replacing nulls from other manifests when reverting. Make sure to exclude `README.md` or else it will screw up this document. To resume auto-updates, do the opposite.
