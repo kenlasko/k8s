@@ -1,5 +1,16 @@
 resources:
   - keel.yaml
 
-patchesStrategicMerge:
-  - keel-replicas-patch.yaml
+patches:
+  - target:
+      kind: Deployment
+      name: keel
+      namespace: kube-system
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: keel
+        namespace: kube-system
+      spec:
+        replicas: 0
