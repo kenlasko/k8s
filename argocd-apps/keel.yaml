@@ -28,14 +28,17 @@ spec:
     automated:
       null #temporarily disabled for vacation
   patches:
-    - target:
-        kind: Deployment
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: keel
+      namespace: kube-system
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
         name: keel
-      patch: |-
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: keel
-          namespace: kube-system
-        spec:
-          replicas: 0
+        namespace: kube-system
+      spec:
+        replicas: 0
