@@ -21,20 +21,11 @@ spec:
     targetRevision: HEAD
     directory:
       exclude: '*_DISABLED.yaml'
+    kustomize:
+      namePrefix: keel-
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kube-system
   syncPolicy:
     automated:
       null #temporarily disabled for vacation
-  patchesJson6902:
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: keel
-      namespace: kube-system
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 0

@@ -1,0 +1,5 @@
+resources:
+  - keel.yaml
+
+patchesStrategicMerge:
+  - keel-replicas-patch.yaml
