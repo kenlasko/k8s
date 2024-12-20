@@ -21,8 +21,6 @@ spec:
     targetRevision: HEAD
     directory:
       exclude: '*_DISABLED.yaml'
-    kustomize:
-      namePrefix: keel-
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kube-system
