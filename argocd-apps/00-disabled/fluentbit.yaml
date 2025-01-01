@@ -24,4 +24,4 @@ spec:
     namespace: kube-system
   syncPolicy:
     automated:
-      null #temporarily disabled for vacation
+      selfHeal: true

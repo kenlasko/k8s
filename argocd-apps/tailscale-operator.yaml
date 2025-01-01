@@ -30,6 +30,6 @@ spec:
     kind: Service
   syncPolicy:
     automated:
-      null #temporarily disabled for vacation
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true

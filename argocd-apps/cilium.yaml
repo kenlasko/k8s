@@ -52,7 +52,7 @@ spec:
     - /data/ca.key
   syncPolicy:
     automated:
-      null #temporarily disabled for vacation
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
   info:

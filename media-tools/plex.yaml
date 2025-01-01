@@ -18,6 +18,6 @@ spec:
     namespace: media-tools
   syncPolicy:
     automated:
-      null #temporarily disabled for vacation
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
