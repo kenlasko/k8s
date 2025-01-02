@@ -8,19 +8,19 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: media-tools
     targetRevision: HEAD
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: media-tools/00-global-config
     targetRevision: HEAD
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: media-tools/backup
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: media-tools
   syncPolicy:
     managedNamespaceMetadata:

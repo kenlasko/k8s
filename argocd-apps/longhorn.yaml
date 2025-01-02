@@ -8,25 +8,25 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://charts.longhorn.io'
+  - repoURL: "https://charts.longhorn.io"
     targetRevision: 1.7.2
     chart: longhorn
     helm:
       valueFiles:
       - $values/longhorn/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: longhorn
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   # # The following are for enabling CSI snapshot support, as per
   # # https://longhorn.io/docs/1.7.2/snapshots-and-backups/csi-snapshot-support/enable-csi-snapshot-support/
-  # - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter.git'
+  # - repoURL: "https://github.com/kubernetes-csi/external-snapshotter.git"
   #   path: client/config/crd
   #   targetRevision: v7.0.2
-  # - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter.git'
+  # - repoURL: "https://github.com/kubernetes-csi/external-snapshotter.git"
   #   path: deploy/kubernetes/snapshot-controller
   #   targetRevision: v7.0.2
   #   kustomize:
@@ -40,7 +40,7 @@ spec:
   #             value:
   #               storage: "longhorn"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: longhorn
   syncPolicy:
     syncOptions:

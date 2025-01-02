@@ -8,21 +8,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://backube.github.io/helm-charts'
+  - repoURL: "https://backube.github.io/helm-charts"
     targetRevision: "*"
     chart: snapscheduler
     helm:
       valueFiles:
       - $values/snapscheduler/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: snapscheduler
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: snapscheduler
   syncPolicy:
     managedNamespaceMetadata:

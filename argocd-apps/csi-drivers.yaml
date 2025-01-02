@@ -8,21 +8,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts'
+  - repoURL: "https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts"
     targetRevision: "*"
     chart: csi-driver-nfs
     helm:
       valueFiles:
       - $values/csi-drivers/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: csi-drivers
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: kube-system
   syncPolicy:
     automated:

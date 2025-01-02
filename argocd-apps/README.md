@@ -3,7 +3,7 @@ This folder contains the Argo CD application definitions for most of the Kuberne
 
 It is starting to make use of [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to ensure that apps like [MariaDB databases](/mariadb) are up before the apps that depend on them (like [Gitea](/gitea), [VaultWarden](/vaultwarden) and others). The lower the number, the earlier in the process the app gets deployed.
 
-The [00-disabled](/argocd-apps/00-disabled) folder is used to put applications that I don't want to use anymore, but might want to in the future.
+The [00-disabled](/argocd-apps/00-disabled) folder is used to put applications that I don"t want to use anymore, but might want to in the future.
 
 Most of the Helm chart managed applications are set to auto-update to newer versions by way of setting `spec.sources.targetRevision: "*"`. A few (like Argo CD), are set to only upgrade minor revisions. Manually managed apps (without Helm charts) are updated via [Keel](/keel). The exceptions include:
 * [Cilium](/cilium)

@@ -8,23 +8,23 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://prometheus-community.github.io/helm-charts'
+  - repoURL: "https://prometheus-community.github.io/helm-charts"
     targetRevision: 67.1.0
     chart: kube-prometheus-stack
     helm:
       valueFiles:
       - $values/monitoring/promstack/promstack-values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: monitoring/promstack
     directory:
       recurse: true
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: monitoring
   syncPolicy:
     syncOptions:

@@ -1,4 +1,4 @@
-# Doesn't work on Talos 
+# Doesn"t work on Talos 
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -8,21 +8,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://coroot.github.io/helm-charts'
+  - repoURL: "https://coroot.github.io/helm-charts"
     targetRevision: "*"
     chart: coroot
     helm:
       valueFiles:
       - $values/coroot/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: coroot
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: coroot
   syncPolicy:
     managedNamespaceMetadata:

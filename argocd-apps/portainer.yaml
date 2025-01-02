@@ -8,21 +8,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://portainer.github.io/k8s/'
+  - repoURL: "https://portainer.github.io/k8s/"
     targetRevision: "*"
     chart: portainer
     helm:
       valueFiles:
       - $values/portainer/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: portainer
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: portainer
   syncPolicy:
     managedNamespaceMetadata:

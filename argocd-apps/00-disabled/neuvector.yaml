@@ -8,33 +8,33 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://neuvector.github.io/neuvector-helm/'
+  - repoURL: "https://neuvector.github.io/neuvector-helm/"
     targetRevision: "*"
     chart: core
     helm:
       valueFiles:
       - $values/neuvector/values-core.yaml
-  - repoURL: 'https://neuvector.github.io/neuvector-helm/'
+  - repoURL: "https://neuvector.github.io/neuvector-helm/"
     targetRevision: "*"
     chart: crd
     helm:
       valueFiles:
       - $values/neuvector/values-crd.yaml
-  - repoURL: 'https://neuvector.github.io/neuvector-helm/'
+  - repoURL: "https://neuvector.github.io/neuvector-helm/"
     targetRevision: "*"
     chart: monitor
     helm:
       valueFiles:
       - $values/neuvector/values-monitor.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: neuvector
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: neuvector
   syncPolicy:
     managedNamespaceMetadata:

@@ -8,21 +8,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://pkgs.tailscale.com/helmcharts'
+  - repoURL: "https://pkgs.tailscale.com/helmcharts"
     targetRevision: "*"
     chart: tailscale-operator
     helm:
       valueFiles:
       - $values/tailscale/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: tailscale
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: tailscale
   ignoreDifferences:
   - jsonPointers:

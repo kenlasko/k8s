@@ -6,11 +6,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:kenlasko/K3S.git'
+    repoURL: "git@github.com:kenlasko/K3S.git"
     path: nectar-ps
     targetRevision: HEAD
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: nectar-ps
   ignoreDifferences:
   - group: batch

@@ -6,21 +6,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://vmware-tanzu.github.io/helm-charts/'
+  - repoURL: "https://vmware-tanzu.github.io/helm-charts/"
     targetRevision: "*"
     chart: velero
     helm:
       valueFiles:
       - $values/velero/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: velero
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: velero
   syncPolicy:
     managedNamespaceMetadata:

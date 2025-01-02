@@ -8,16 +8,16 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://grafana.github.io/helm-charts'
+  - repoURL: "https://grafana.github.io/helm-charts"
     chart: loki-stack
     targetRevision: "*"
     helm:
       valueFiles:
       - $values/monitoring/promstack/loki-stack-values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: monitoring
   syncPolicy:
     syncOptions:

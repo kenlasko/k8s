@@ -6,11 +6,11 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:kenlasko/K3S.git'
+    repoURL: "git@github.com:kenlasko/K3S.git"
     path: oci-host-creator
     targetRevision: HEAD
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: oci-host-creator
   syncPolicy:
     automated:

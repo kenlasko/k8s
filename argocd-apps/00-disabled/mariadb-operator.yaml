@@ -8,24 +8,24 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://mariadb-operator.github.io/mariadb-operator'
+  - repoURL: "https://mariadb-operator.github.io/mariadb-operator"
     chart: mariadb-operator-crds
     targetRevision: 0.36.0
-  - repoURL: 'https://mariadb-operator.github.io/mariadb-operator'
+  - repoURL: "https://mariadb-operator.github.io/mariadb-operator"
     chart: mariadb-operator
     targetRevision: 0.36.0
     helm:
       valueFiles:
       - $values/mariadb-operator/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: mariadb-operator
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: mariadb-operator
   ignoreDifferences:
   - jsonPointers:

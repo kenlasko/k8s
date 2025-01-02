@@ -6,21 +6,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://fluent.github.io/helm-charts'
+  - repoURL: "https://fluent.github.io/helm-charts"
     targetRevision: "*"
     chart: fluent-bit
     helm:
       valueFiles:
       - $values/fluentbit/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: fluentbit
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: kube-system
   syncPolicy:
     automated:
