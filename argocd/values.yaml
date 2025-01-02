@@ -39,7 +39,7 @@ dex:
       memory: 42Mi
     limits:
       cpu: 120m
-      memory: 60Mi
+      memory: 100Mi
 notifications:
   resources:
     requests:
