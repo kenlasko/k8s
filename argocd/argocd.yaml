@@ -8,19 +8,19 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://argoproj.github.io/argo-helm'
+  - repoURL: "https://argoproj.github.io/argo-helm"
     targetRevision: 7.*
     chart: argo-cd
     helm:
       valueFiles:
       - $values/argocd/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: argocd
     targetRevision: HEAD
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: argocd
   syncPolicy:
     automated:

@@ -17,7 +17,7 @@ data:
   #   - profile
   #   - email
   # policy.default: role:admin
-  # scopes: '[https://ucdialplans.com/claims/groups, email]'
+  # scopes: "[https://ucdialplans.com/claims/groups, email]"
   # policy.csv: |
   #   g, argocd-admins, role:admin
 
