@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'oci://registry-1.docker.io/bitnamicharts'
+  - repoURL: 'registry-1.docker.io/bitnamicharts'
     targetRevision: 20.2.1
     chart: mariadb
     helm:
