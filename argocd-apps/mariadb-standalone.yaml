@@ -8,21 +8,21 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'registry-1.docker.io/bitnamicharts'
+  - repoURL: "registry-1.docker.io/bitnamicharts"
     targetRevision: 20.2.1
     chart: mariadb
     helm:
       valueFiles:
       - $values/mariadb-standalone/values.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: mariadb-standalone
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
+      exclude: "*_DISABLED.yaml"
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: mariadb-standalone
   syncPolicy:
     managedNamespaceMetadata:
