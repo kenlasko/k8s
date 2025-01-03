@@ -97,7 +97,7 @@ hubble:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64'
+              - "amd64"
   ui:
     enabled: true
     affinity:
@@ -110,7 +110,7 @@ hubble:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64'
+              - "amd64"
     backend:
       resources:
         requests:
@@ -198,4 +198,4 @@ operator:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"

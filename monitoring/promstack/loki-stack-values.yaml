@@ -23,7 +23,7 @@ loki:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 promtail:
   enabled: true
   resources:

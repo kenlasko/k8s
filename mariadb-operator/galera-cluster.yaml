@@ -56,7 +56,7 @@ spec:
         tailscale.com/proxy-class: "run-on-worker"
       annotations:
         lbipam.cilium.io/ips: 192.168.1.12
-        tailscale.com/expose: 'true'
+        tailscale.com/expose: "true"
         tailscale.com/hostname: 'home-mariadb'
 
   connection:
@@ -75,7 +75,7 @@ spec:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
   tolerations:
     - key: "mariadb.mmontes.io/ha"

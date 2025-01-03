@@ -15,7 +15,7 @@ affinity:
         - key: kubernetes.io/arch
           operator: In
           values: 
-          - 'amd64'
+          - "amd64"
 metrics: 
   enabled: false
 
@@ -43,7 +43,7 @@ webhook:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
 certController:
   enabled: true
@@ -64,4 +64,4 @@ certController:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"

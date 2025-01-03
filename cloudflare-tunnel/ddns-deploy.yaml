@@ -37,7 +37,7 @@ spec:
               - key: kubernetes.io/arch
                 operator: In
                 values: 
-                - 'amd64'                
+                - "amd64"                
       containers:
       - name: ddns-updater
         image: ghcr.io/qdm12/ddns-updater:latest
@@ -54,9 +54,9 @@ spec:
             drop: ["ALL"]
         env:
         - name: CONFIG_FILEPATH
-          value: '/updater/config/config.json'
+          value: "/updater/config/config.json"
         - name: RESOLVER_ADDRESS
-          value: '1.1.1.1:53'
+          value: "1.1.1.1:53"
         - name: TZ
           value: "America/Toronto"
         resources:

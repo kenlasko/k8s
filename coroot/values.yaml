@@ -17,7 +17,7 @@ corootCE:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
 corootClusterAgent:
   affinity:
@@ -30,7 +30,7 @@ corootClusterAgent:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
 node-agent:
   enabled: true
@@ -46,7 +46,7 @@ clickhouse:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
 prometheus:
   enabled: false

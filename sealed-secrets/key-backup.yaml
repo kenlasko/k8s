@@ -24,7 +24,7 @@ spec:
                   - key: kubernetes.io/arch
                     operator: In
                     values: 
-                    - 'amd64'
+                    - "amd64"
           restartPolicy: OnFailure
           containers:
           - name: backup-sealed-secret-key

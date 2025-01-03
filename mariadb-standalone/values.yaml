@@ -1,7 +1,7 @@
 namespaceOverride: mariadb-standalone
 fullnameOverride: mariadb
 commonLabels:
-  mariadb-client: 'true'
+  mariadb-client: "true"
 auth:
   existingSecret: mariadb-passwords
 primary:

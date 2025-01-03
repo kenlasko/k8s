@@ -5,7 +5,7 @@ db:
   allowArbitraryServer: false
 service:
   annotations:
-    tailscale.com/expose: 'true'
+    tailscale.com/expose: "true"
     tailscale.com/hostname: 'phpmyadmin'
 resources:
   requests:
@@ -24,7 +24,7 @@ affinity:
         - key: kubernetes.io/arch
           operator: In
           values: 
-          - 'amd64'
+          - "amd64"
 extraEnvVars:
 - name: TZ
   value: "America/Toronto"

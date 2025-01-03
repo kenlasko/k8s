@@ -38,7 +38,7 @@ spec:
               - key: intel.feature.node.kubernetes.io/gpu
                 operator: In
                 values:
-                - 'true'
+                - "true"
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
             preference:

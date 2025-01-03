@@ -143,7 +143,7 @@ grafana:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   service:
     annotations:
       omni-kube-service-exposer.sidero.dev/port: "50101"
@@ -406,7 +406,7 @@ prometheusOperator:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   
   prometheusConfigReloader:
     resources:
@@ -449,7 +449,7 @@ prometheus:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64'
+              - "amd64"
     storageSpec:
       volumeClaimTemplate:
         spec:

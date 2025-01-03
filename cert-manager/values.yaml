@@ -23,7 +23,7 @@ affinity:
         - key: kubernetes.io/arch
           operator: In
           values: 
-          - 'amd64'
+          - "amd64"
 featureGates: "ExperimentalGatewayAPISupport=true"
 extraEnv:
 - name: TZ
@@ -74,7 +74,7 @@ webhook:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   volumes:
   - name: serviceaccount-token
     projected:
@@ -121,7 +121,7 @@ cainjector:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   volumes:
   - name: serviceaccount-token
     projected:
@@ -161,7 +161,7 @@ startupapicheck:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   volumes:
   - name: serviceaccount-token
     projected:

@@ -13,7 +13,7 @@ spec:
       template:
         metadata:
           labels:
-            mariadb-client: 'true'
+            mariadb-client: "true"
         spec:
           dnsPolicy: ClusterFirstWithHostNet
           affinity:

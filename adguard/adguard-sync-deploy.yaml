@@ -55,11 +55,11 @@ spec:
             memory: 60Mi
         env:
         - name: PUID
-          value: '1000'
+          value: "1000"
         - name: PGID
-          value: '100'
+          value: "100"
         - name: ORIGIN_URL
-          value: 'http://adguard-web:3000'
+          value: "http://adguard-web:3000"
         - name: ORIGIN_USERNAME
           valueFrom:
             secretKeyRef:
@@ -107,9 +107,9 @@ spec:
               name: adguard-creds
               key: password
         - name: CRON
-          value: '*/5 * * * *' 
+          value: "*/5 * * * *" 
         - name: LOG_LEVEL
-          value: 'info' 
+          value: "info" 
         - name: TZ
           value: "America/Toronto"
       dnsConfig:

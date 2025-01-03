@@ -5,7 +5,7 @@ metadata:
   namespace: cilium
 spec:
   dnsNames:
-  - '*.ucdialplans.com'
+  - "*.ucdialplans.com"
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod

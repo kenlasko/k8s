@@ -10,7 +10,7 @@ controller:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   pvc:
     enabled: true
     storageClass: nfs-client
@@ -27,7 +27,7 @@ cve:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64' 
+              - "amd64" 
 
 manager:
   env:
@@ -44,7 +44,7 @@ manager:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
 scanner:
   affinity:
@@ -57,7 +57,7 @@ scanner:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 
 crdwebhook:
   enabled: false

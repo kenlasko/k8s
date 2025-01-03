@@ -20,7 +20,7 @@ spec:
       labels:
         app: gitea
         name: gitea
-        mariadb-client: 'true'
+        mariadb-client: "true"
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
@@ -38,7 +38,7 @@ spec:
               - key: kubernetes.io/arch
                 operator: In
                 values: 
-                - 'amd64'
+                - "amd64"
       containers:
       - name: gitea
         image: gitea/gitea:latest-rootless

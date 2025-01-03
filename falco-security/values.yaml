@@ -44,7 +44,7 @@ falcosidekick:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64' 
+            - "amd64" 
   webui:
     enabled: true
     replicaCount: 1
@@ -65,7 +65,7 @@ falcosidekick:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64' 
+              - "amd64" 
     redis:
       enabled: true
       #storageSize: "2Gi"
@@ -79,7 +79,7 @@ falcosidekick:
               - key: kubernetes.io/arch
                 operator: In
                 values: 
-                - 'amd64' 
+                - "amd64" 
 
 
 falcoctl:

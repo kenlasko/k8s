@@ -4,7 +4,7 @@
 # From https://falco.org/blog/deploy-falco-talos-cluster/
 
 podAnnotations:
-  fluentbit.io/exclude: 'true'
+  fluentbit.io/exclude: "true"
 
 daemonSetVolumes:
 - name: varlog

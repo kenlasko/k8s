@@ -9,7 +9,7 @@ recommender:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 updater:
   affinity:
     nodeAffinity:
@@ -21,7 +21,7 @@ updater:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 admissioncontroller:
   affinity:
     nodeAffinity:
@@ -33,7 +33,7 @@ admissioncontroller:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   mutatingWebhookConfiguration:
     affinity:
       nodeAffinity:
@@ -45,4 +45,4 @@ admissioncontroller:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64'
+              - "amd64"

@@ -18,7 +18,7 @@ operatorConfig:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
 proxyConfig:
   defaultProxyClass: "run-on-worker"
   labels:

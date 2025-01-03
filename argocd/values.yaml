@@ -12,7 +12,7 @@ global:
       - key: kubernetes.io/arch
         operator: In
         values: 
-        - 'amd64'
+        - "amd64"
   networkPolicy:
     create: false
     defaultDenyIngress: false
@@ -611,7 +611,7 @@ redis-ha:
           - key: kubernetes.io/arch
             operator: In
             values: 
-            - 'amd64'
+            - "amd64"
   haproxy:
     additionalAffinities:
       nodeAffinity:
@@ -623,4 +623,4 @@ redis-ha:
             - key: kubernetes.io/arch
               operator: In
               values: 
-              - 'amd64'
+              - "amd64"

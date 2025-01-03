@@ -3,7 +3,7 @@ global:
 namespaceOverride: mariadb
 fullnameOverride: mariadb
 podLabels:
-  mariadb-client: 'true'
+  mariadb-client: "true"
 existingSecret: mariadb-passwords 
 rootUser:
   user: root
@@ -22,7 +22,7 @@ affinity:
         - key: kubernetes.io/arch
           operator: In
           values: 
-          - 'amd64'
+          - "amd64"
 networkPolicy:
   enabled: true
   allowExternal: true
@@ -77,7 +77,7 @@ service:
   externalTrafficPolicy: Cluster
   annotations:
     lbipam.cilium.io/ips: 192.168.1.12
-    tailscale.com/expose: 'true'
+    tailscale.com/expose: "true"
     tailscale.com/hostname: 'home-mariadb'
 
 extraEnvVars:
