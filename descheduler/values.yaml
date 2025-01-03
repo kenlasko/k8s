@@ -41,85 +41,18 @@ deschedulerPolicy:
               - mariadb
               - mariadb-standalone
               - intel-gpu
-        - name: HighNodeUtilization
-          args:
-            thresholds:
-              cpu: 60
-              memory: 60
-              pods: 60
-            evictableNamespaces:
-              exclude:
-              - homeassist
-              - kube-system
-              - mariadb
-              - mariadb-standalone
-              - intel-gpu
       plugins:
         balance:
           enabled:
             - RemoveDuplicates
             - RemovePodsViolatingTopologySpreadConstraint
             - LowNodeUtilization
-            - HighNodeUtilization
         deschedule:
           enabled:
             - RemovePodsHavingTooManyRestarts
             - RemovePodsViolatingNodeTaints
             - RemovePodsViolatingNodeAffinity
             - RemovePodsViolatingInterPodAntiAffinity
-
-  # # old method
-  # strategies:
-  #   RemoveDuplicates:
-  #     enabled: true
-  #   RemovePodsHavingTooManyRestarts:
-  #     enabled: true
-  #     params:
-  #       podsHavingTooManyRestarts:
-  #         podRestartThreshold: 10
-  #         includingInitContainers: true
-  #   RemovePodsViolatingNodeTaints:
-  #     enabled: true
-  #   RemovePodsViolatingNodeAffinity:
-  #     enabled: true
-  #     params:
-  #       nodeAffinityType:
-  #       - requiredDuringSchedulingIgnoredDuringExecution
-  #   RemovePodsViolatingInterPodAntiAffinity:
-  #     enabled: true 
-  #   RemovePodsViolatingTopologySpreadConstraint:
-  #     enabled: false
-  #     params:
-  #       includeSoftConstraints: false
-  #   LowNodeUtilization:
-  #     enabled: true 
-  #     params:
-  #       priorityThreshold:
-  #         name: "medium-priority"
-  #       nodeResourceUtilizationThresholds:
-  #         thresholds:
-  #           cpu: 100
-  #           memory: 100
-  #           pods: 20
-  #         targetThresholds:
-  #           cpu: 100
-  #           memory: 100
-  #           pods: 33
-  #         evictableNamespaces:
-  #           include:
-  #           - 'adguard'
-  #           - 'argocd'
-  #           - 'cloudflare'
-  #           - 'external-dns'
-  #           - 'falco'
-  #           - 'gitea'
-  #           - 'headlamp'
-  #           - 'monitoring'
-  #           - 'media-tools'
-  #           - 'portainer'
-  #           - 'registry'
-  #           - 'ucdialplans'
-  #           - 'vaultwarden' 
 
 resources:
   requests:
@@ -139,7 +72,7 @@ affinity:
         - key: kubernetes.io/arch
           operator: In
           values: 
-          - 'amd64'
+          - "amd64"
 
 livenessProbe:
   failureThreshold: 3
