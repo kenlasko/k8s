@@ -14,7 +14,7 @@ deschedulerPolicy:
         - name: RemoveDuplicates
         - name: RemovePodsHavingTooManyRestarts
           args:
-            podRestartThreshold: 100
+            podRestartThreshold: 10
             includingInitContainers: true
         - name: RemovePodsViolatingNodeAffinity
           args:
@@ -40,13 +40,27 @@ deschedulerPolicy:
               - kube-system
               - mariadb
               - mariadb-standalone
-              - intel-gpu 
+              - intel-gpu
+        - name: HighNodeUtilization
+          args:
+            thresholds:
+              cpu: 60
+              memory: 60
+              pods: 60
+            evictableNamespaces:
+              exclude:
+              - homeassist
+              - kube-system
+              - mariadb
+              - mariadb-standalone
+              - intel-gpu
       plugins:
         balance:
           enabled:
             - RemoveDuplicates
             - RemovePodsViolatingTopologySpreadConstraint
             - LowNodeUtilization
+            - HighNodeUtilization
         deschedule:
           enabled:
             - RemovePodsHavingTooManyRestarts
