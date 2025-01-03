@@ -44,10 +44,10 @@ notifications:
   resources:
     requests:
       cpu: 1m
-      memory: 32Mi
+      memory: 110Mi
     limits:
       cpu: 120m
-      memory: 60Mi
+      memory: 150Mi
 redis:
   resources:
     requests:
