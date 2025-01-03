@@ -20,7 +20,7 @@ spec:
       labels:
         app: sftpgo
         name: sftpgo
-        mariadb-client: 'true'
+        mariadb-client: "true"
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false
@@ -40,7 +40,7 @@ spec:
               - key: kubernetes.io/arch
                 operator: In
                 values: 
-                - 'amd64'
+                - "amd64"
       containers:
       - name: sftpgo
         image: drakkan/sftpgo:latest
