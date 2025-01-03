@@ -16,7 +16,7 @@ spec:
   rules:
   - backendRefs:
     - name: grafana
-      group: ''	
+      group: ""	
       namespace: monitoring
       kind: Service
       port: 80

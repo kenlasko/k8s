@@ -1,6 +1,6 @@
 installCRDs: true    # Don't override newer CRDs
 operatorConfig:
-  hostname: 'tailscale-operator-home'
+  hostname: "tailscale-operator-home"
   resources:
     requests:
       cpu: 10m

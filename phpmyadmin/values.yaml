@@ -6,7 +6,7 @@ db:
 service:
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: 'phpmyadmin'
+    tailscale.com/hostname: "phpmyadmin"
 resources:
   requests:
     cpu: 2m

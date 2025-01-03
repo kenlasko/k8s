@@ -14,7 +14,7 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - group: ''
+        - group: ""
           kind: Service
           name: promstack-alertmanager
           namespace: monitoring

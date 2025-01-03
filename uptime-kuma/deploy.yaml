@@ -33,7 +33,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: uptime-kuma
-        image: 'quay.io/k3rnel-pan1c/uptime-kuma:latest'
+        image: "quay.io/k3rnel-pan1c/uptime-kuma:latest"
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -53,9 +53,9 @@ spec:
             memory: 500Mi        
         env:
         - name: UPTIME_KUMA_PORT
-          value: '3001'
+          value: "3001"
         - name: PORT
-          value: '3001'
+          value: "3001"
         livenessProbe:
           exec:
             command:

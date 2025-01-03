@@ -37,7 +37,7 @@ spec:
             annotations:
               #lbipam.cilium.io/ips: 192.168.1.15
               tailscale.com/expose: "true"
-              tailscale.com/hostname: 'home-postgres'
+              tailscale.com/hostname: "home-postgres"
           spec:
             type: LoadBalancer
   affinity:

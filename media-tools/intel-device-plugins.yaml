@@ -6,27 +6,27 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'https://intel.github.io/helm-charts/'
+  - repoURL: "https://intel.github.io/helm-charts/"
     targetRevision: "*"
     chart: intel-device-plugins-operator
     helm:
       valueFiles:
       - $values/media-tools/intel-gpu/values-operator.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     path: media-tools/intel-gpu/
     targetRevision: HEAD
     directory:
-      exclude: '*_DISABLED.yaml'
-  - repoURL: 'https://intel.github.io/helm-charts/'
+      exclude: "*_DISABLED.yaml"
+  - repoURL: "https://intel.github.io/helm-charts/"
     targetRevision: "*"
     chart: intel-device-plugins-gpu
     helm:
       valueFiles:
       - $values/media-tools/intel-gpu/values-gpu.yaml
-  - repoURL: 'git@github.com:kenlasko/K3S.git'
+  - repoURL: "git@github.com:kenlasko/K3S.git"
     ref: values
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: intel-gpu
   ignoreDifferences:
   - group: "*"

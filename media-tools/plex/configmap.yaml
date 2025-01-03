@@ -38,8 +38,8 @@
 # data:
 #   VERSION: docker
 #   TZ: America/Toronto
-#   PGID: '1000'
-#   PUID: '1000'
+#   PGID: "1000"
+#   PUID: "1000"
 #   DOCKER_MODS: 'ghcr.io/pabloromeo/clusterplex_dockermod:latest'
 #   ORCHESTRATOR_URL: 'http://clusterplex-orchestrator:3500'
 #   PMS_SERVICE: "plex-service"
@@ -74,8 +74,8 @@
 #     app.kubernetes.io/part-of: plex
 # data:
 #   TZ: America/Toronto
-#   PGID: '1000'
-#   PUID: '1000'
+#   PGID: "1000"
+#   PUID: "1000"
 #   VERSION: docker
 #   #DOCKER_MODS: 'ghcr.io/pabloromeo/clusterplex_worker_dockermod:latest'
 #   ORCHESTRATOR_URL: 'http://clusterplex-orchestrator:3500'

@@ -57,9 +57,9 @@ spec:
             - "DAC_OVERRIDE"
         env:
         - name: PUID
-          value: '1000'
+          value: "1000"
         - name: PGID
-          value: '100'
+          value: "100"
         - name: TZ
           value: "America/Toronto"
         resources:

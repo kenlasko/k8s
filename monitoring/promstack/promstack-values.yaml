@@ -36,27 +36,27 @@ alertmanager:
   config:
     global:
       slack_api_url_file: /etc/alertmanager/secrets/alertmanager-secrets/slack_webhook 
-      smtp_smarthost: 'smtp.sendgrid.net:587'
-      smtp_from: 'AlertManager <alertmanager@ucdialplans.com>'
-      smtp_auth_username: 'apikey'
+      smtp_smarthost: "smtp.sendgrid.net:587"
+      smtp_from: "AlertManager <alertmanager@ucdialplans.com>"
+      smtp_auth_username: "apikey"
       smtp_auth_password_file: /etc/alertmanager/secrets/alertmanager-secrets/smtp_auth_password
       resolve_timeout: 5m
     route:
       group_wait: 5m
       group_interval: 10m
       repeat_interval: 4h
-      receiver: 'null'
+      receiver: "null"
       routes:
-      - receiver: 'slack-webhook'
+      - receiver: "slack-webhook"
         matchers:
         - severity = "warning"
         continue: false
-      - receiver: 'ken-gmail'
+      - receiver: "ken-gmail"
         matchers:
         - severity = "warning"
         continue: false
     receivers:
-    - name: 'null'
+    - name: "null"
     - name: ken-gmail
       email_configs:
       - to: ken.lasko@gmail.com
@@ -69,7 +69,7 @@ alertmanager:
   alertmanagerSpec:
     secrets:
     - alertmanager-secrets
-    externalUrl: 'https://alertmanager.ucdialplans.com'
+    externalUrl: "https://alertmanager.ucdialplans.com"
     resources:
       requests:
         cpu: 4m
@@ -220,9 +220,9 @@ grafana:
     url: http://loki:3100
     version: 1
     jsonData:
-      httpHeaderName1: 'Accept'
+      httpHeaderName1: "Accept"
     secureJsonData:
-      httpHeaderValue1: '*/*'
+      httpHeaderValue1: "*/*"
   
   # extraConfigmapMounts:
   # - name: grafana-alerts

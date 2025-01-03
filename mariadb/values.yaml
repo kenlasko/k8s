@@ -78,7 +78,7 @@ service:
   annotations:
     lbipam.cilium.io/ips: 192.168.1.12
     tailscale.com/expose: "true"
-    tailscale.com/hostname: 'home-mariadb'
+    tailscale.com/hostname: "home-mariadb"
 
 extraEnvVars:
 - name: TZ

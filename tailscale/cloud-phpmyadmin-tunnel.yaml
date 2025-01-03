@@ -54,7 +54,7 @@ metadata:
   labels:
     tailscale.com/proxy-class: "run-on-worker"
   annotations:
-    tailscale.com/tailnet-fqdn: 'cloud-phpmyadmin.tailb7050.ts.net'
+    tailscale.com/tailnet-fqdn: "cloud-phpmyadmin.tailb7050.ts.net"
   name: cloud-phpmyadmin-egress
 spec:
   externalName: cloud-phpmyadmin-egress

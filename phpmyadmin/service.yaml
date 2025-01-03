@@ -5,7 +5,7 @@ metadata:
   labels:
     tailscale.com/proxy-class: "run-on-worker"
   annotations:
-    tailscale.com/tailnet-fqdn: 'cloud-mariadb.tailb7050.ts.net'
+    tailscale.com/tailnet-fqdn: "cloud-mariadb.tailb7050.ts.net"
   name: cloud-mariadb-egress
   namespace: mariadb
 spec:

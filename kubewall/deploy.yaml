@@ -38,7 +38,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: kubewall
-        image: 'ghcr.io/kubewall/kubewall:latest'
+        image: "ghcr.io/kubewall/kubewall:latest"
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false

@@ -28,8 +28,8 @@ spec:
     driver: driver.longhorn.io
     fsType: ext4
     volumeAttributes:
-      numberOfReplicas: '3'
-      staleReplicaTimeout: '30'
+      numberOfReplicas: "3"
+      staleReplicaTimeout: "30"
     volumeHandle: pvc-sabnzbd
   storageClassName: longhorn
   
