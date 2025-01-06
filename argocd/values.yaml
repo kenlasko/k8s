@@ -40,14 +40,6 @@ dex:
     limits:
       cpu: 120m
       memory: 100Mi
-notifications:
-  resources:
-    requests:
-      cpu: 1m
-      memory: 110Mi
-    limits:
-      cpu: 120m
-      memory: 150Mi
 redis:
   resources:
     requests:
@@ -265,6 +257,13 @@ configs:
 
 notifications:
   enabled: true
+  resources:
+    requests:
+      cpu: 1m
+      memory: 110Mi
+    limits:
+      cpu: 120m
+      memory: 150Mi
   argocdUrl: "https://argocd.ucdialplans.com"
   secret:
     create: false
