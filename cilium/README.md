@@ -14,3 +14,11 @@ Cilium is initially installed via [Ansible script](/_ansible), and maintained/up
 Cilium requires that the [Gateway API](https://gateway-api.sigs.k8s.io/) CRDs are installed prior to enabling Cilium. This is done in two places:
 * In `extraManifests` in the [Talos/Omni cluster definition](https://github.com/kenlasko/omni/blob/main/patches/cluster.yaml)
 * In ArgoCD, via the [Cilium application definition](https://github.com/kenlasko/K3S/blob/main/argocd-apps/cilium.yaml)
+
+# BGP Configuration
+The UDM Pro is assigned ASN 64512 and the cluster uses ASN 65000 using the subnet `192.168.9.0/24` subnet.
+
+1. Apply the [udm-kubecluster-bgp.conf](/cilium/udm-kubecluster-bgp.conf)[^1] to the UDM Pro. This is done in https://unifi.ucdialplans.com/network/default/settings/routing/bgp
+2. The rest should be automatically applied via Cilium config
+
+[^1]: Adapted from https://medium.com/@scaluch/unifi-os-4-1-and-kubernetes-loadbalancer-822b1dd4d745
