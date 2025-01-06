@@ -173,6 +173,10 @@ curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/downl
 sha256sum --check hubble-linux-${HUBBLE_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC hubble-linux-${HUBBLE_ARCH}.tar.gz /usr/local/bin
 rm hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+
+# Set default namespace for Cilium commands in .bashrc
+echo "alias cilium='cilium --namespace=cilium'" >> ~/.bashrc
+. ~/.bashrc
 ```
 
 ## Install Kubent
