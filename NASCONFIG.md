@@ -3,6 +3,9 @@ This cluster makes heavy use of NAS resources for storing stateful files that pl
 
 This document helps define the configuration of storage used in this Kubernetes cluster.
 
+# Connectivity
+The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like Velero and SnapScheduler. See the application definition for [CSI Drivers](/csi-drivers) for more information. 
+
 # Base Folders
 These are the base folders used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
 * **appdata** - used for application storage
@@ -10,7 +13,7 @@ These are the base folders used for the cluster. These are visible in the cluste
 * **media** - used for media (movies/TV/music etc)
 
 ## Appdata
-This folder stores all the data used by applications. Most applications use standard NFS folders (stored under `/appdata/vol`), which have to be pre-defined for use by PV/PVCs. A few use the [NFS Subdir Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner), which automatically creates folders. These are stored under `/appdata/pv` However, these folder names are not terribly readable, and are only used for workloads that can't use the predefined PV/PVC option. These are also folders that don't require backup as they just store log and performance metrics.
+This folder stores all the data used by applications. Most applications use statically-defined NFS folders (stored under `/appdata/vol`), which have to be pre-defined for use by PV/PVCs. A few use dynamically provisioned NFS folders. These are stored under `/appdata/pv` However, these folder names are not terribly readable, and are only used for workloads that can't use the predefined PV/PVC option. These are also folders that don't require backup as they just store log and performance metrics.
 ```
 /share/appdata
 ├── container-station-data  # QNAP Container Station
