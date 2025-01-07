@@ -61,5 +61,5 @@ metadata:
   name: "bgp-pool"
 spec:
   blocks:
-  - start: "192.168.9.2"
-    stop: "192.168.9.254"
+  - start: "192.168.10.2"
+    stop: "192.168.10.254"
