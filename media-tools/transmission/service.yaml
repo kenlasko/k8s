@@ -9,8 +9,6 @@ metadata:
   namespace: media-tools
   annotations:
     lbipam.cilium.io/ips: 192.168.10.12
-    # lbipam.cilium.io/sharing-key: share-11
-    # lbipam.cilium.io/sharing-cross-namespace: "cilium,media-tools"
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster

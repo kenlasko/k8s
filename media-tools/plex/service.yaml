@@ -3,12 +3,11 @@ kind: Service
 metadata:
   labels:
     app: plex-service
+    routing-mode: bgp
   name: plex-service
   namespace: media-tools
   annotations:
-    lbipam.cilium.io/ips: 192.168.1.11
-    lbipam.cilium.io/sharing-key: share-11
-    lbipam.cilium.io/sharing-cross-namespace: "cilium,media-tools"
+    lbipam.cilium.io/ips: 192.168.10.11
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
