@@ -25,8 +25,8 @@ metadata:
 spec:
   timers:
     holdTimeSeconds: 15
-    keepAliveTimeSeconds: 3
-  ebgpMultihop: 2
+    keepAliveTimeSeconds: 5
+  # ebgpMultihop: 2
   gracefulRestart:
     enabled: true
     restartTimeSeconds: 15
