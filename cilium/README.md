@@ -15,10 +15,14 @@ Cilium requires that the [Gateway API](https://gateway-api.sigs.k8s.io/) CRDs ar
 * In `extraManifests` in the [Talos/Omni cluster definition](https://github.com/kenlasko/omni/blob/main/patches/cluster.yaml)
 * In ArgoCD, via the [Cilium application definition](https://github.com/kenlasko/K3S/blob/main/argocd-apps/cilium.yaml)
 
-# BGP Configuration
-The UDM Pro is assigned ASN 64512 and the cluster uses ASN 65000 using the subnet `192.168.9.0/24` subnet.
+# Service Routing via BGP
+Externally accessible services use BGP to advertise the IPs. Previously, the cluster used L2Announcements via ARP, which does not do load balancing and is slow to respond to inaccessible nodes. Cilium is used to advertise all LoadBalancer services to the UDM Pro router using the worker nodes as next hops. The services are assigned IPs in the `192.168.10.0/24` subnet.
 
-1. Apply the [udm-kubecluster-bgp.conf](/cilium/udm-kubecluster-bgp.conf)[^1] to the UDM Pro. This is done in https://unifi.ucdialplans.com/network/default/settings/routing/bgp
-2. The rest should be automatically applied via Cilium config
+The UDM Pro is assigned ASN 64512 and the cluster uses ASN 65000.
+
+## BGP Configuration
+1. Apply the [udm-kubecluster-bgp.conf](/cilium/udm-kubecluster-bgp.conf)[^1] to the UDM Pro. This is done in https://unifi.ucdialplans.com/network/default/settings/routing/bgp.
+2. Make sure a network exists for the `192.168.10.0/24` subnet. This is done in https://unifi.ucdialplans.com/network/default/settings/networks
+3. The rest should be automatically applied via Cilium config. The settings are defined in [bgp-config.yaml](/cilium/bgp-config.yaml).
 
 [^1]: Adapted from https://medium.com/@scaluch/unifi-os-4-1-and-kubernetes-loadbalancer-822b1dd4d745
