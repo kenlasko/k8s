@@ -157,7 +157,7 @@ Install tools as per [Omni installation instructions](https://github.com/kenlask
 
 ## Install Cilium/Hubble CLI Tools
 ```
-sudo apt install golang-go 
+sudo apt install golang-go -y
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 GOOS=$(go env GOOS)
 GOARCH=$(go env GOARCH)
