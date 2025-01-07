@@ -4,6 +4,8 @@ deschedulingInterval: 120m
 priorityClassName: high-priority
 deschedulerPolicy:
   nodeSelector: "storage=longhorn"
+  metricsCollector:
+    enabled: true
   profiles:
     - name: default
       pluginConfig:
@@ -25,6 +27,8 @@ deschedulerPolicy:
         - name: RemovePodsViolatingTopologySpreadConstraint
         - name: LowNodeUtilization
           args:
+            metricsUtilization:
+              metricsServer: true
             useDeviationThresholds: false
             thresholds:
               cpu: 25
