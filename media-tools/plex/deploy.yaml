@@ -106,7 +106,7 @@ spec:
         - name: HOSTNAME
           value: plex.ucdialplans.com
         - name: ADVERTISE_IP
-          value: "http://192.168.1.11:32400/"
+          value: "http://192.168.10.11:32400/"
         - name: PLEX_UID
           value: "1000"
         - name: PLEX_GID

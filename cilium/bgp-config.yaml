@@ -50,9 +50,9 @@ spec:
     service:
       addresses:
       - LoadBalancerIP
-    selector:
-      matchExpressions:
-      - { key: routing-mode, operator: In, values: [ bgp ] }
+    # selector:
+    #   matchExpressions:
+    #   - { key: routing-mode, operator: In, values: [ bgp ] }
 
 ---
 apiVersion: "cilium.io/v2alpha1"

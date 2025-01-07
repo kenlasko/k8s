@@ -3,7 +3,6 @@ kind: Service
 metadata:
   labels:
     app: plex-service
-    routing-mode: bgp
   name: plex-service
   namespace: media-tools
   annotations:

@@ -76,7 +76,7 @@ service:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   annotations:
-    lbipam.cilium.io/ips: 192.168.1.12
+    lbipam.cilium.io/ips: 192.168.10.10
     tailscale.com/expose: "true"
     tailscale.com/hostname: "home-mariadb"
 
