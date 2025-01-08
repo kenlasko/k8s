@@ -25,11 +25,6 @@ cluster:
 loadBalancer:
   mode: dsr
   # dsrDispatch: geneve             # Tunnel
-l2announcements:
-  enabled: true
-  leaseDuration: 15s
-  leaseRenewDeadline: 5s
-  leaseRetryPeriod: 2s
 envoy:
   enabled: false 
   rollOutPods: true
