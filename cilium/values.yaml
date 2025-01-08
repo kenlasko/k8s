@@ -1,13 +1,7 @@
-# Rows commented with Native vs Tunnel need to be enabled/disabled en mass to change from Native routing (preferred) to Tunnel
-# Tunnel routing used to be required for workloads like AdGuard because it needed source IP info and was only available via Tunnel routing with ExternalTrafficPolicy: Cluster
-# It appears that native routing works without Geneve (just had to keep dsrDispatch enabled)
-
 rollOutCiliumPods: true
-routingMode: native                 # Native
-# routingMode: tunnel               # Tunnel
-# tunnelProtocol: geneve            # Tunnel
+routingMode: native
 ipv4NativeRoutingCIDR: 10.0.0.0/9
-autoDirectNodeRoutes: true          # Native
+autoDirectNodeRoutes: true
 bpf:
   hostRouting: true
   hostLegacyRouting: true           # Needed to get around an issue introduced in Cilium 1.16.5. See https://github.com/cilium/cilium/issues/36737
@@ -22,9 +16,6 @@ ipam:
 cluster:
   name: home
   id: 0
-loadBalancer:
-  mode: dsr
-  # dsrDispatch: geneve             # Tunnel
 envoy:
   enabled: false 
   rollOutPods: true
