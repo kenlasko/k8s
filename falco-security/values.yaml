@@ -128,8 +128,8 @@ customRules:
         fields: [container.name, proc.pname, proc.name] 
         comps: [=,=,=]
         values:
-        - [host, k3s-agent, containerd]
-        - [host, k3s-server, containerd]
+        - [host, k8s-agent, containerd]
+        - [host, k8s-server, containerd]
         - [engine-manager, longhorn-instan, tee]
         - [instance-manager, longhorn-instan, tee]
       override:

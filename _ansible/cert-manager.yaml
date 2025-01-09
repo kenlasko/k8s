@@ -14,10 +14,10 @@
       create_namespace: true
       release_namespace: cert-manager
       values_files:
-      - /home/ken/k3s/cert-manager/values.yaml
+      - /home/ken/k8s/cert-manager/values.yaml
   - name: Apply Cert-Manager resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/cert-manager/cloudflare-cert.yaml"
-    - "/home/ken/k3s/cert-manager/sealed-secrets.yaml"
+    - "/home/ken/k8s/cert-manager/cloudflare-cert.yaml"
+    - "/home/ken/k8s/cert-manager/sealed-secrets.yaml"

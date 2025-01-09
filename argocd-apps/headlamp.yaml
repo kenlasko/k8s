@@ -14,9 +14,9 @@ spec:
     helm:
       valueFiles:
       - $values/headlamp/values.yaml
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: headlamp
     targetRevision: HEAD
     directory:

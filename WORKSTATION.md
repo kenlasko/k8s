@@ -26,9 +26,9 @@ Copy the contents of id_rsa.pub to Github SSH keys at https://github.com/setting
 ```
 git config --global user.email "ken.lasko@gmail.com"
 git config --global user.name "Ken Lasko"
-git clone git@github.com:kenlasko/K3S.git k3s
-git clone git@github.com:kenlasko/k3s-lab.git
-git clone git@github.com:kenlasko/k3s-cloud.git
+git clone git@github.com:kenlasko/k8s.git k8s
+git clone git@github.com:kenlasko/k8s-lab.git
+git clone git@github.com:kenlasko/k8s-cloud.git
 git clone git@github.com:kenlasko/omni.git
 git clone git@github.com:kenlasko/docker.git
 git clone git@github.com:kenlasko/omni-public.git
@@ -108,7 +108,7 @@ pip install kubernetes
 
 # Copy Ansible Hosts
 sudo mkdir /etc/ansible
-sudo cp ~/k3s/_ansible/hosts /etc/ansible/hosts
+sudo cp ~/k8s/_ansible/hosts /etc/ansible/hosts
 ```
 
 ## Install Helm

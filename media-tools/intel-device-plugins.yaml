@@ -12,7 +12,7 @@ spec:
     helm:
       valueFiles:
       - $values/media-tools/intel-gpu/values-operator.yaml
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: media-tools/intel-gpu/
     targetRevision: HEAD
     directory:
@@ -23,7 +23,7 @@ spec:
     helm:
       valueFiles:
       - $values/media-tools/intel-gpu/values-gpu.yaml
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   destination:
     server: "https://kubernetes.default.svc"

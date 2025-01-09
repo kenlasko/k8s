@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: uptime-kuma
     targetRevision: HEAD
     directory:

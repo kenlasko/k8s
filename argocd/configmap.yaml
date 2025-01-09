@@ -22,9 +22,9 @@ data:
   #   g, argocd-admins, role:admin
 
   repositories: |
-    - url: git@github.com:kenlasko/K3S.git
+    - url: git@github.com:kenlasko/k8s.git
       sshPrivateKeySecret:
-        name: github-k3s-private-key
+        name: github-k8s-private-key
         key: privateKey
     - url: git@github.com:kenlasko/helm-charts.git
       sshPrivateKeySecret:

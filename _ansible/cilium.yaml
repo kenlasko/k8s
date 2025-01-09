@@ -17,13 +17,13 @@
       create_namespace: true
       update_repo_cache: true
       values_files:
-      - /home/ken/k3s/cilium/values.yaml
+      - /home/ken/k8s/cilium/values.yaml
   - name: Apply Cilium gateways
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k3s/cilium/gateway.yaml
+      src: /home/ken/k8s/cilium/gateway.yaml
   - name: Apply Cilium resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/cilium/[h-l]*.yaml"
+    - "/home/ken/k8s/cilium/[h-l]*.yaml"

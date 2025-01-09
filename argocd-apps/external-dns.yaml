@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "git@github.com:kenlasko/K3S.git"
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: external-dns
     targetRevision: HEAD
     directory:

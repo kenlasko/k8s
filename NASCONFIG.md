@@ -71,7 +71,7 @@ This folder stores data created by backup processes, such as Longhorn and manual
 /share/backup
 ├── apps        # Media apps
 ├── github      # Github repo
-├── k3s         # Sealed Secret backup
+├── k8s         # Sealed Secret backup
 ├── longhorn    # Done from within Longhorn
 ├── mariadb     # MariaDB
 ├── nas         # QNAP backup
@@ -82,7 +82,7 @@ This folder stores data created by backup processes, such as Longhorn and manual
 To create these folders on a fresh install:
 ```
 cd /share/backup
-mkdir apps github k3s longhorn mariadb nas omni vol
+mkdir apps github k8s longhorn mariadb nas omni vol
 ```
 
 # Backing up the NAS

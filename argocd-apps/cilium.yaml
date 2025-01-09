@@ -15,9 +15,9 @@ spec:
     helm:
       valueFiles:
       - $values/cilium/values.yaml
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: cilium
     targetRevision: HEAD
     directory:

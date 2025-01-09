@@ -63,7 +63,7 @@ spec:
           volumes:
           - name: backup
             persistentVolumeClaim:
-              claimName: nfs-k3s-backup
+              claimName: nfs-k8s-backup
           - configMap:
               items:
               - key: backup-sealed-secret-key.sh

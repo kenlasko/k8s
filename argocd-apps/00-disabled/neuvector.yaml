@@ -26,9 +26,9 @@ spec:
     helm:
       valueFiles:
       - $values/neuvector/values-monitor.yaml
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
-  - repoURL: "git@github.com:kenlasko/K3S.git"
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: neuvector
     targetRevision: HEAD
     directory:

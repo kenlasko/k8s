@@ -13,18 +13,18 @@
       create_namespace: true
       release_namespace: argocd
       values_files:
-      - /home/ken/k3s/argocd/values.yaml
+      - /home/ken/k8s/argocd/values.yaml
   - name: Apply ArgoCD secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k3s/argocd/sealed-secrets.yaml
+      src: /home/ken/k8s/argocd/sealed-secrets.yaml
   - name: Apply priority classes
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k3s/argocd/priorityclass.yaml
+      src: /home/ken/k8s/argocd/priorityclass.yaml
   - name: Apply ArgoCD K8s resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k3s/argocd/[a-h]*.yaml"
+    - "/home/ken/k8s/argocd/[a-h]*.yaml"
     ignore_errors: true
