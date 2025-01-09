@@ -31,7 +31,8 @@ Restart ArgoCD pods in this order:
 ## Temporarily Disabling Updates
 When going on vacation, its prudent to disable auto-updates of resources. This can be relatively easily done en-masse by doing a `Find in Folder` in VSCode for `selfHeal: true` with `null #temporarily disabled for vacation`. The comment helps to avoid accidentally replacing nulls from other manifests when reverting. Make sure to exclude `README.md` or else it will screw up this document. To resume auto-updates, do the opposite.
 
-## Get Kubernetes token
+## Get Initial Password
+When ArgoCD is first installed, it auto-generates the admin password. Running this command will get the initial password so you can login for the first time.
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret \
           -o jsonpath="{.data.password}" | base64 -d; echo
