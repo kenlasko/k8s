@@ -8,7 +8,7 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
 spec:
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
