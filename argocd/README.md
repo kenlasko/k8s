@@ -33,6 +33,6 @@ When going on vacation, its prudent to disable auto-updates of resources. This c
 
 ## Get Kubernetes token
 ```
-kubectl -n kube-system get secret kubeapi-service-account-secret \
-          -o jsonpath="{.data.token}" | base64 -d; echo
+kubectl -n argocd get secret argocd-initial-admin-secret \
+          -o jsonpath="{.data.password}" | base64 -d; echo
 ```
