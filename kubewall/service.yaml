@@ -28,10 +28,10 @@ metadata:
 spec:
   internalTrafficPolicy: Cluster
   ports:
-    - name: http
-      port: 7080
-      protocol: TCP
-      targetPort: http
+  - name: http
+    port: 7080
+    protocol: TCP
+    targetPort: http
   selector:
     app.kubernetes.io/instance: kubewall
     app.kubernetes.io/name: kubewall

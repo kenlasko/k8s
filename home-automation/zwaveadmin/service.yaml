@@ -10,11 +10,11 @@ spec:
   ports:
   - port: 3000
     protocol: TCP
-    targetPort: 3000
+    targetPort: zwave
     name: zwave
   - port: 8091
     protocol: TCP
-    targetPort: 8091
+    targetPort: http
     name: web
   selector:
     app: zwaveadmin
