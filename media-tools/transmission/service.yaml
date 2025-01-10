@@ -14,15 +14,15 @@ spec:
   ports:
   - port: 42615
     protocol: TCP
-    targetPort: 42615
+    targetPort: remotedata-tcp
     name: remotedata-tcp
   - port: 42615
     protocol: UDP
-    targetPort: 42615
+    targetPort: remotedata-udp
     name: remotedata-udp
   - port: 9091
     protocol: TCP
-    targetPort: 9091
+    targetPort: http
     name: web 
   selector:
     app: transmission

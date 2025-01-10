@@ -67,10 +67,20 @@ spec:
           limits:
             cpu: 100m
             memory: 200Mi
+        ports:
+        - containerPort: 9091
+          name: http
+          protocol: TCP
+        - containerPort: 42615
+          name: remotedata-tcp
+          protocol: TCP
+        - containerPort: 42615
+          name: remotedata-udp
+          protocol: UDP
         livenessProbe:
           httpGet:
             path: /
-            port: 9091
+            port: http
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5

@@ -68,10 +68,14 @@ spec:
           limits:
             cpu: 1000m
             memory: 2.0Gi  # Don't go below this. Even though it looks like its not using memory, the pod will get OOMKilled as soon as there's any load.
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
         livenessProbe:
           httpGet:
             path: /
-            port: 8080
+            port: http
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5

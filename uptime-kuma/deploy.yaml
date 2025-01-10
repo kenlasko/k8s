@@ -56,6 +56,10 @@ spec:
           value: "3001"
         - name: PORT
           value: "3001"
+        ports:
+        - containerPort: 3001
+          name: http
+          protocol: TCP
         livenessProbe:
           exec:
             command:
@@ -64,10 +68,6 @@ spec:
           periodSeconds: 30
           successThreshold: 1
           timeoutSeconds: 5
-        ports:
-        - containerPort: 3001
-          name: http
-          protocol: TCP
         readinessProbe:
           failureThreshold: 3
           httpGet:

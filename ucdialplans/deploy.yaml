@@ -76,10 +76,14 @@ spec:
         - name: codesign-cert
           mountPath: /app/codesign
           readOnly: true
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
         livenessProbe:
           httpGet:
             path: /healthcheck
-            port: 8080
+            port: http
           initialDelaySeconds: 60
           periodSeconds: 30
           timeoutSeconds: 10

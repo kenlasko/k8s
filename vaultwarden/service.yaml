@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8087
     protocol: TCP
-    targetPort: 8087
+    targetPort: http
     name: web
   selector:
     app: vaultwarden

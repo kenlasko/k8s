@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8181
     protocol: TCP
-    targetPort: 8181
+    targetPort: http
     name: web
   selector:
     app: tautulli

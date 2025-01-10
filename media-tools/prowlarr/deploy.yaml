@@ -62,10 +62,14 @@ spec:
           limits:
             cpu: 350m
             memory: 200Mi
+        ports:
+        - containerPort: 9696
+          name: http
+          protocol: TCP
         livenessProbe:
           httpGet:
             path: /
-            port: 9696
+            port: http
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5

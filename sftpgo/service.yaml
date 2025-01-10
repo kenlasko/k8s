@@ -12,7 +12,7 @@ spec:
   ports:
   - port: 8080
     protocol: TCP
-    targetPort: 8080
+    targetPort: http
     name: web
   selector:
     app: sftpgo
@@ -34,7 +34,7 @@ spec:
   ports:
   - port: 2022
     protocol: TCP
-    targetPort: 2022
+    targetPort: ftp
     name: ftp
   selector:
     app: sftpgo

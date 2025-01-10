@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8787
     protocol: TCP
-    targetPort: 8787
+    targetPort: http
     name: web
   selector:
     app: readarr
