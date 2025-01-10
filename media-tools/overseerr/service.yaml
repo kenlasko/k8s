@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 5055
     protocol: TCP
-    targetPort: 5055
+    targetPort: http
     name: web
   selector:
     app: overseerr

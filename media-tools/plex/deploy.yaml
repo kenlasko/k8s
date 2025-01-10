@@ -91,17 +91,31 @@ spec:
             port: 32400
           failureThreshold: 90
           periodSeconds: 15
+        ports:
+        - name: pms-web
+          containerPort: 32400
+        - name: relay
+          containerPort: 32499
+        - name: plex-companion
+          containerPort: 3005
+        - name: gdm-32410
+          containerPort: 32410
+          protocol: UDP
+        - name: gdm-32412
+          containerPort: 32412
+          protocol: UDP
+        - name: gdm-32413
+          containerPort: 32413
+          protocol: UDP
+        - name: gdm-32414
+          containerPort: 32414
+          protocol: UDP
         livenessProbe:
           httpGet:
             path: /identity
-            port: 32400
+            port: pms-web
           initialDelaySeconds: 15
           periodSeconds: 120
-        ports:
-          - name: pms-web
-            containerPort: 32400
-          - name: relay
-            containerPort: 32499
         env:
         - name: HOSTNAME
           value: plex.ucdialplans.com

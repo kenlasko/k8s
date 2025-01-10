@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 5454
     protocol: TCP
-    targetPort: 5454
+    targetPort: http
     name: web
   selector:
     app: notifiarr

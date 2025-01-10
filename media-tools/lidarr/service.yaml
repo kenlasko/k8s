@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8686
     protocol: TCP
-    targetPort: 8686
+    targetPort: http
     name: web
   selector:
     app: lidarr
