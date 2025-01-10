@@ -216,5 +216,5 @@ rm popeye*
 
 Basic usage (outputs results to HTML file):
 ```
-popeye -o html > popeye.html
+popeye -A -o html > popeye.html
 ```
