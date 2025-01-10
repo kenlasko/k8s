@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 8123
     protocol: TCP
-    targetPort: 8123
+    targetPort: http
     name: ha-web
   selector:
     app: homeassist

@@ -58,10 +58,13 @@ spec:
             cpu: 800m
             memory: 1200Mi
             smarter-devices/ttyUSB1: 1
+        ports:
+        - containerPort: 8123
+          name: http
         livenessProbe:
           httpGet:
             path: /
-            port: 8123
+            port: http
           initialDelaySeconds: 90
           periodSeconds: 30
           timeoutSeconds: 15

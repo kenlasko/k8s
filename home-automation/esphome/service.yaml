@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 6052
     protocol: TCP
-    targetPort: 6052
+    targetPort: http
     name: web
   selector:
     app: esphome

@@ -62,17 +62,17 @@ spec:
             memory: 300Mi
         ports:
         - containerPort: 3000
-          name: web
+          name: http
         livenessProbe:
           httpGet:
             path: /
-            port: web
+            port: http
           initialDelaySeconds: 45
           periodSeconds: 60
         readinessProbe:
           httpGet:
             path: /
-            port: web
+            port: http
           initialDelaySeconds: 45
           timeoutSeconds: 1
           periodSeconds: 10

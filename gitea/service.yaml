@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 3000
     protocol: TCP
-    targetPort: web
+    targetPort: http
     name: web
   selector:
     app: gitea

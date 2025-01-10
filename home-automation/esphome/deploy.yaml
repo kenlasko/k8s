@@ -54,15 +54,18 @@ spec:
           requests:
             cpu: 1000m
             memory: 100Mi
+        ports:
+        - containerPort: 6052
+          name: http
         livenessProbe:
           httpGet:
             path: /
-            port: 6052
+            port: http
           initialDelaySeconds: 15
           periodSeconds: 120
         readinessProbe:
           tcpSocket:
-            port: 6052
+            port: http
           initialDelaySeconds: 5
           timeoutSeconds: 1
           periodSeconds: 10
