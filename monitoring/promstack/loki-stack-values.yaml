@@ -6,7 +6,7 @@ loki:
     enabled: true
     storageClassName: nfs-csi-dynamic
     size: 20Gi
-  analytics: |
+  analytics: 
     reporting_enabled: false
     usage_stats_url: ""
 
