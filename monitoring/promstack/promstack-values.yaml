@@ -126,6 +126,8 @@ grafana:
   forceDeployDashboards: false
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: America/Toronto
+  envFromConfigMaps:
+  - name: grafana-env
   resources:
     requests:
       cpu: 10m
