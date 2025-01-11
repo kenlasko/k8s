@@ -1,12 +1,10 @@
 loki:
-  # image:
-  #   tag: 2.9.3
   enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-csi-dynamic
     size: 20Gi
-  analytics: |
+  analytics:
     reporting_enabled: false
     usage_stats_url: ""
 
