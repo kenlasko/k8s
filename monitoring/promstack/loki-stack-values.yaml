@@ -5,7 +5,7 @@ loki:
     storageClassName: nfs-csi-dynamic
     size: 20Gi
   analytics:
-    reporting_enabled: false
+    reporting_enabled: "false"
     usage_stats_url: ""
 
   resources:
