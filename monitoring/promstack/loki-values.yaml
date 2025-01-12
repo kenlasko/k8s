@@ -4,27 +4,27 @@ loki:
     reporting_enabled: "false"
     usage_stats_url: ""
 
-singleBinary:
-  replicas: 1
-  persistence:
-    enabled: true
-    storageClassName: nfs-csi-dynamic
-    size: 20Gi
-  resources:
-    requests:
-      cpu: 7m
-      memory: 125Mi
-    limits:
-      cpu: 120m
-      memory: 300Mi
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
+# singleBinary:
+#   replicas: 1
+#   persistence:
+#     enabled: true
+#     storageClassName: nfs-csi-dynamic
+#     size: 20Gi
+#   resources:
+#     requests:
+#       cpu: 7m
+#       memory: 125Mi
+#     limits:
+#       cpu: 120m
+#       memory: 300Mi
+#   affinity:
+#     nodeAffinity:
+#       requiredDuringSchedulingIgnoredDuringExecution:
+#         nodeSelectorTerms:
+#         - matchExpressions:
+#           - key: node-role.kubernetes.io/control-plane
+#             operator: DoesNotExist
+#           - key: kubernetes.io/arch
+#             operator: In
+#             values: 
+#             - "amd64"
