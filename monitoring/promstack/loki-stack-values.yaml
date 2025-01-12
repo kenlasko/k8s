@@ -7,6 +7,11 @@ loki:
   analytics:
     reporting_enabled: "false"
     usage_stats_url: ""
+  extraEnv:
+  - name: LOKI_ANALYTICS_REPORTING_ENABLED
+    value: "false"
+  - name: LOKI_ANALYTICS_USAGE_STATS_URL
+    value: ""
 
   resources:
     requests:
