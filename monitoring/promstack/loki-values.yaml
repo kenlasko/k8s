@@ -25,6 +25,11 @@ loki:
   analytics:
     reporting_enabled: false
     usage_stats_url: ""
+  memcached:
+    chunk_cache:
+      enabled: false
+    results_cache:
+      enabled: false
 
 singleBinary:
   replicas: 1
