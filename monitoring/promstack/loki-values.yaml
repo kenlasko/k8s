@@ -7,7 +7,7 @@ loki:
     configs:
     - from: "2024-04-01"
       store: tsdb
-      #object_store: filesystem
+      object_store: filesystem
       schema: v13
       index:
         prefix: loki_index_
@@ -21,9 +21,9 @@ loki:
     enable_api: true
   storage:
     type: filesystem
-  analytics:
-    reporting_enabled: "false"
-    usage_stats_url: ""
+  # analytics:
+  #   reporting_enabled: "false"
+  #   usage_stats_url: ""
 
 singleBinary:
   replicas: 1
