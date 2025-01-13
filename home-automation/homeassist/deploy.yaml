@@ -55,7 +55,7 @@ spec:
             memory: 700Mi
             smarter-devices/ttyUSB1: 1
           limits:
-            cpu: 800m
+            cpu: 1000m
             memory: 1200Mi
             smarter-devices/ttyUSB1: 1
         ports:
