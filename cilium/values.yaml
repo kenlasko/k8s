@@ -59,10 +59,10 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 resources:
   requests:
-    cpu: 100m
+    cpu: 90m
     memory: 180Mi
   limits:
-    cpu: 625m
+    cpu: 700m
     memory: 250Mi
 
 hubble:
