@@ -51,6 +51,15 @@ singleBinary:
             - "amd64"
 
 # Zero out replica counts of other deployment modes
+monitoring:
+  lokiCanary:
+    enabled: false
+gateway:
+  enabled: false
+test:
+  enabled: false
+selfMonitoring:
+  enabled: false
 backend:
   replicas: 0
 read:
