@@ -21,9 +21,9 @@ loki:
     enable_api: true
   storage:
     type: filesystem
-  # analytics:
-  #   reporting_enabled: "false"
-  #   usage_stats_url: ""
+  analytics: |
+    reporting_enabled: "false"
+    usage_stats_url: ""
 
 singleBinary:
   replicas: 1
