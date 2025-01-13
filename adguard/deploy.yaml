@@ -50,10 +50,10 @@ spec:
             type: RuntimeDefault
         resources:
           requests:
-            cpu: 100m
+            cpu: 40m
             memory: 150Mi
           limits:
-            cpu: 1500m
+            cpu: 2000m
             memory: 250Mi
         ports:
         - containerPort: 3000
