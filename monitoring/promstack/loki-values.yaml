@@ -1,5 +1,7 @@
 deploymentMode: SingleBinary
 loki:
+  storage:
+    type: filesystem
   analytics:
     reporting_enabled: "false"
     usage_stats_url: ""
