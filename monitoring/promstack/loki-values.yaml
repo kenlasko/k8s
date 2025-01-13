@@ -21,7 +21,7 @@ loki:
     enable_api: true
   storage:
     type: filesystem
-  analytics: |
+  analytics:
     reporting_enabled: false
     usage_stats_url: ""
 
