@@ -62,7 +62,7 @@ resources:
     cpu: 90m
     memory: 180Mi
   limits:
-    cpu: 900m
+    cpu: 1000m
     memory: 250Mi
 
 hubble:
