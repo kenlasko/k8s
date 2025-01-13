@@ -1,3 +1,4 @@
+fullnameOverride: promtail
 resources:
   requests:
     cpu: 40m
