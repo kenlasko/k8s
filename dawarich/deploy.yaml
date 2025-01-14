@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dawarich
+  namespace: dawarich
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+spec:
+  serviceName: dawarich
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: dawarich
+  template:
+    metadata:
+      labels:
+        app: dawarich
+        name: dawarich
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false      
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - "amd64"
+      containers:
+      - name: dawarich
+        image: dawarich/dawarich:latest
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+        #   runAsNonRoot: true
+        #   runAsUser: 1000
+        #   runAsGroup: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 100Mi
+        ports:
+        - containerPort: 3000
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 120
+        readinessProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        env:
+        - name: ESPHOME_DASHBOARD_USE_PING
+          value: "true"
+        - name: TZ
+          value: "America/Toronto"
+        volumeMounts:
+        - name: dawarich
+          mountPath: /config
+      volumes:
+      - name: dawarich
+        persistentVolumeClaim:
+          claimName: nfs-dawarich
+
