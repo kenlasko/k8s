@@ -1,0 +1,24 @@
+global:
+  defaultStorageClass: nfs-csi
+  storageClass: nfs-csi
+architecture: standalone
+auth:
+  enabled: false
+persistence:
+  enabled: true
+  existingClaim: nfs-redis
+replica:
+  replicaCount: 1
+  revisionHistoryLimit: 3
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - "amd64"
