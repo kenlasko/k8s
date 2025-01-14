@@ -25,6 +25,7 @@ persistentVolume:
   existingClaim: nfs-pgadmin
 containerSecurityContext:
   enabled: true
+  allowPrivilegeEscalation: false
 
 affinity:
   nodeAffinity:
