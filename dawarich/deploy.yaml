@@ -69,11 +69,11 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           failureThreshold: 3
-        env:
-        - name: ESPHOME_DASHBOARD_USE_PING
-          value: "true"
-        - name: TZ
-          value: "America/Toronto"
+        envFrom:
+        - configMapRef:
+            name: env-vars
+        - secretRef:
+            name: postgres-creds
         volumeMounts:
         - name: dawarich
           mountPath: /config

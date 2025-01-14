@@ -5,15 +5,13 @@ metadata:
   namespace: dawarich
 data:
   RAILS_ENV: production
-  REDIS_URL: redis://dawarich_redis:6379/0
-  DATABASE_HOST: dawarich_db
+  REDIS_URL: redis://redis-master.redis.svc.cluster.local:6379/0
+  DATABASE_HOST: postgres-rw.postgres.svc.cluster.local
   DATABASE_PORT: 5432
-  DATABASE_USERNAME: postgres
-  DATABASE_PASSWORD: password
-  DATABASE_NAME: dawarich_production
+  DATABASE_NAME: dawarich
   MIN_MINUTES_SPENT_IN_CITY: 60
   APPLICATION_HOSTS: localhost,::1,127.0.0.1
-  TIME_ZONE: Europe/London
+  TIME_ZONE: America/Toronto
   APPLICATION_PROTOCOL: http
   DISTANCE_UNIT: km
   PROMETHEUS_EXPORTER_ENABLED: false
