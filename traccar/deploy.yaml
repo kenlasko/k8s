@@ -72,11 +72,6 @@ spec:
             port: http
           initialDelaySeconds: 15
           periodSeconds: 60
-        envFrom:
-        - configMapRef:
-            name: env-vars
-        - secretRef:
-            name: env-secrets
         volumeMounts:
         - name: nfs-traccar
           mountPath: /opt/traccar
