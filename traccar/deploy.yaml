@@ -66,6 +66,9 @@ spec:
         - containerPort: 8082
           name: http
           protocol: TCP
+        - containerPort: 5055
+          name: tracker
+          protocol: TCP
         # livenessProbe:
         #   httpGet:
         #     path: /
