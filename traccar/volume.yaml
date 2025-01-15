@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-traccar
+  name: nfs-traccar-logs
   annotations:
     pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
 spec:
@@ -14,22 +14,58 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/appdata/vol/traccar
+    volumeHandle: 192.168.1.3/appdata/vol/traccar/logs
     volumeAttributes:
       server: 192.168.1.3
-      share: /appdata/vol/traccar
+      share: /appdata/vol/traccar/logs
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-traccar
+  name: nfs-traccar-logs
   namespace: traccar
 spec:
   storageClassName: nfs-csi
-  volumeName: nfs-traccar
+  volumeName: nfs-traccar-logs
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
       storage: 50Mi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-traccar-conf
+  annotations:
+    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+spec:
+  storageClassName: nfs-csi
+  capacity:
+    storage: 10Mi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: 192.168.1.3/appdata/vol/traccar/conf
+    volumeAttributes:
+      server: 192.168.1.3
+      share: /appdata/vol/traccar/conf
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-traccar-conf
+  namespace: traccar
+spec:
+  storageClassName: nfs-csi
+  volumeName: nfs-traccar-conf
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi

@@ -73,9 +73,14 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
         volumeMounts:
-        - name: nfs-traccar
-          mountPath: /opt/traccar
+        - name: nfs-traccar-conf
+          mountPath: /opt/traccar/conf
+        - name: nfs-traccar-logs
+          mountPath: /opt/traccar/logs
       volumes:
-      - name: nfs-traccar
+      - name: nfs-traccar-conf
         persistentVolumeClaim:
-          claimName: nfs-traccar
+          claimName: nfs-traccar-conf
+      - name: nfs-traccar-logs
+        persistentVolumeClaim:
+          claimName: nfs-traccar-logs
