@@ -10,7 +10,7 @@ metadata:
     keel.sh/match-tag: "true"
 spec:
   serviceName: traccar
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
