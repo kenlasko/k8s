@@ -1,0 +1,86 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: traccar
+  namespace: traccar
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+spec:
+  serviceName: traccar
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: traccar
+  template:
+    metadata:
+      labels:
+        app: traccar
+        name: traccar
+        mariadb-client: "true"
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      priorityClassName: medium-priority
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 1000
+      #   runAsGroup: 3000
+      #   fsGroup: 2000
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - "amd64"
+      containers:
+      - name: traccar
+        image: traccar/traccar:latest
+        imagePullPolicy: Always
+        securityContext:
+          # allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          # runAsNonRoot: true
+          # runAsUser: 1000
+          # runAsGroup: 3000
+          # seccompProfile:
+          #   type: RuntimeDefault
+          # capabilities:
+          #   drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 1m
+            memory: 60Mi
+          limits:
+            cpu: 120m
+            memory: 150Mi
+        ports:
+        - containerPort: 8082
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 60
+        envFrom:
+        - configMapRef:
+            name: env-vars
+        - secretRef:
+            name: env-secrets
+        volumeMounts:
+        - name: nfs-traccar
+          mountPath: /opt/traccar
+      volumes:
+      - name: nfs-traccar
+        persistentVolumeClaim:
+          claimName: nfs-traccar

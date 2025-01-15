@@ -1,0 +1,18 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: traccar
+  name: traccar-ui
+  namespace: traccar
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8082
+    protocol: TCP
+    targetPort: http
+    name: web
+  selector:
+    app: traccar

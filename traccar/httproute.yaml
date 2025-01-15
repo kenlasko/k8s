@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: traccar
+  namespace: traccar
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "traccar.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: traccar-ui
+      namespace: traccar
+      kind: Service
+      port: 8082
