@@ -78,12 +78,7 @@ spec:
         volumeMounts:
         - name: nfs-traccar-conf
           mountPath: /opt/traccar/conf
-        - name: nfs-traccar-logs
-          mountPath: /opt/traccar/logs
       volumes:
       - name: nfs-traccar-conf
         persistentVolumeClaim:
           claimName: nfs-traccar-conf
-      - name: nfs-traccar-logs
-        persistentVolumeClaim:
-          claimName: nfs-traccar-logs
