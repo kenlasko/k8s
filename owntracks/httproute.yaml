@@ -1,0 +1,39 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: owntracks-recorder
+  namespace: owntracks
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "owntracks-recorder.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: owntracks-recorder
+      namespace: owntracks
+      kind: Service
+      port: 8083
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: owntracks-ui
+  namespace: owntracks
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "owntracks.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: owntracks-ui
+      namespace: owntracks
+      kind: Service
+      port: 80
