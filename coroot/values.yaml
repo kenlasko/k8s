@@ -6,7 +6,7 @@ corootCE:
     readOnlyRootFilesystem: true
   runAsUser: 1000
   persistentVolume:
-    storageClassName: nfs-client
+    storageClassName: csi-nfs-dynamic
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
