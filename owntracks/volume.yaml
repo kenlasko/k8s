@@ -4,7 +4,7 @@ kind: PersistentVolume
 metadata:
   name: owntracks-data
 spec:
-  storageClassName: "nfs"
+  storageClassName: nfs-csi
   capacity:
     storage: 120Gi
   accessModes:
@@ -25,7 +25,7 @@ metadata:
   name: owntracks-data
   namespace: owntracks
 spec:
-  storageClassName: "nfs"
+  storageClassName: nfs-csi
   volumeName: owntracks-data
   accessModes:
   - ReadWriteOnce
@@ -40,7 +40,7 @@ kind: PersistentVolume
 metadata:
   name: owntracks-ui
 spec:
-  storageClassName: "nfs"
+  storageClassName: nfs-csi
   capacity:
     storage: 5Mi
   accessModes:
@@ -61,7 +61,7 @@ metadata:
   name: owntracks-ui
   namespace: owntracks
 spec:
-  storageClassName: "nfs"
+  storageClassName: nfs-csi
   volumeName: owntracks-ui
   accessModes:
   - ReadWriteOnce
