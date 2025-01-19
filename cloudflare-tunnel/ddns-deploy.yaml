@@ -40,7 +40,7 @@ spec:
                 - "amd64"                
       containers:
       - name: ddns-updater
-        image: ghcr.io/qdm12/ddns-updater:latest
+        image: ghcr.io/qdm12/ddns-updater:2.9.0
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false

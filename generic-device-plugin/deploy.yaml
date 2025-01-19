@@ -21,7 +21,7 @@ spec:
       - operator: "Exists"
         effect: "NoSchedule"
       containers:
-      - image: squat/generic-device-plugin
+      - image: docker.io/squat/generic-device-plugin:latest
         args:
         - --device
         - |
