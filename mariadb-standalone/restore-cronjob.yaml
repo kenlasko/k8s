@@ -23,7 +23,7 @@ spec:
           automountServiceAccountToken: false
           containers:
           - name: mariadb-backup
-            image: mariadb:11.4.4
+            image: mariadb:11.6.2
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
