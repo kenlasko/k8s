@@ -41,7 +41,7 @@ spec:
       containers:
       - name: ddns-updater
         image: ghcr.io/qdm12/ddns-updater:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

@@ -40,8 +40,8 @@ spec:
                 - "amd64"
       containers:
       - name: romm
-        image: zurdi15/romm:latest
-        imagePullPolicy: Always
+        image: docker.io/rommapp/romm:3.7.2
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

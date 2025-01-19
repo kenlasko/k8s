@@ -39,8 +39,8 @@ spec:
                 - "amd64"
       containers:
       - name: tautulli
-        image: tautulli/tautulli:latest
-        imagePullPolicy: Always
+        image: docker.io/tautulli/tautulli:v2.15.1
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

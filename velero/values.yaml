@@ -61,7 +61,7 @@ credentials:
 initContainers:
 - name: velero-plugin-for-aws
   image: velero/velero-plugin-for-aws:latest
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
   volumeMounts:
   - mountPath: /target
     name: plugins

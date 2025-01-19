@@ -44,7 +44,7 @@ spec:
       containers:
         - name: cloudflare-tunnel
           image: cloudflare/cloudflared:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false

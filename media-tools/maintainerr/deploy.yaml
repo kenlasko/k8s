@@ -40,8 +40,8 @@ spec:
                 - "amd64"
       containers:
       - name: maintainerr
-        image: jorenn92/maintainerr:latest  #bug-k8s-connection
-        imagePullPolicy: Always
+        image: docker.io/jorenn92/maintainerr:2.8.0
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

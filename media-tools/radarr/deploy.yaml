@@ -41,8 +41,8 @@ spec:
                 - "amd64"
       containers:
       - name: radarr
-        image: linuxserver/radarr:latest
-        imagePullPolicy: Always
+        image: docker.io/linuxserver/radarr:5.17.2
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

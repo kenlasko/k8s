@@ -37,8 +37,8 @@ spec:
                 - 'amd64'
       containers:
       - name: owntracks-ui
-        image: owntracks/frontend:latest
-        imagePullPolicy: Always
+        image: docker.io/owntracks/frontend:2.15.3
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

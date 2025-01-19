@@ -40,8 +40,8 @@ spec:
                 - "amd64"
       containers:
       - name: sabnzbd
-        image: linuxserver/sabnzbd:latest
-        imagePullPolicy: Always
+        image: docker.io/linuxserver/sabnzbd:4.4.1
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

@@ -43,8 +43,8 @@ spec:
                 - "amd64"
       containers:
       - name: sftpgo
-        image: drakkan/sftpgo:latest
-        imagePullPolicy: Always
+        image: docker.io/drakkan/sftpgo:v2.6.4
+        imagePullPolicy: IfNotPresent
         securityContext:
           # allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

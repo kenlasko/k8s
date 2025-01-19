@@ -42,8 +42,8 @@ spec:
                 - 'amd64'
       containers:
       - name: owntracks-recorder
-        image: owntracks/recorder:latest
-        imagePullPolicy: Always
+        image: docker.io/owntracks/recorder:0.9.9
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

@@ -40,8 +40,8 @@ spec:
                 - "amd64"
       containers:
       - name: notifiarr
-        image: golift/notifiarr:latest
-        imagePullPolicy: Always
+        image: docker.io/golift/notifiarr:0.8
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

@@ -37,7 +37,7 @@ spec:
       containers:
       - name: dawarich
         image: dawarich/dawarich:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

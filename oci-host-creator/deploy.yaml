@@ -18,7 +18,7 @@ spec:
       containers:
       - name: oci-host-creator
         image: registry.ucdialplans.com/oci-watcher
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 50m

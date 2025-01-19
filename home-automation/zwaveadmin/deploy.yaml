@@ -30,7 +30,7 @@ spec:
       containers:
       - name: zwaveadmin
         image: zwavejs/zwave-js-ui:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

@@ -37,7 +37,7 @@ spec:
       containers:
       - name: esphome
         image: esphome/esphome:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

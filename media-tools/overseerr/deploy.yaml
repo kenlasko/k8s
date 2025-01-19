@@ -40,8 +40,8 @@ spec:
                 - "amd64"
       containers:
       - name: overseerr
-        image: linuxserver/overseerr:latest
-        imagePullPolicy: Always
+        image: docker.io/linuxserver/overseerr:1.33.2
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

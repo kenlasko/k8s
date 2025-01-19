@@ -37,7 +37,7 @@ spec:
       containers:
       - name: change-detector
         image: ghcr.io/dgtlmoon/changedetection.io:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

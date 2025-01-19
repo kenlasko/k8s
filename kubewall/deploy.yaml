@@ -39,7 +39,7 @@ spec:
       containers:
       - name: kubewall
         image: "ghcr.io/kubewall/kubewall:latest"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

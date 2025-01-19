@@ -38,8 +38,8 @@ spec:
                 - "amd64"
       containers:
       - name: adguard
-        image: adguard/adguardhome
-        imagePullPolicy: Always
+        image: docker.io/adguard/adguardhome:v0.107.55
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

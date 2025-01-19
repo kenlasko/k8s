@@ -42,7 +42,7 @@ spec:
       containers:
       - name: gitea
         image: gitea/gitea:latest-rootless
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

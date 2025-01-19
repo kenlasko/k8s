@@ -40,8 +40,8 @@ spec:
                 - "amd64"
       containers:
       - name: transmission
-        image: linuxserver/transmission:latest
-        imagePullPolicy: Always
+        image: docker.io/linuxserver/transmission:4.0.6
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

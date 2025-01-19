@@ -43,8 +43,8 @@ spec:
                 - "amd64"
       containers:
       - name: traccar
-        image: traccar/traccar:latest
-        imagePullPolicy: Always
+        image: docker.io/traccar/traccar:6.6
+        imagePullPolicy: IfNotPresent
         securityContext:
           # allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

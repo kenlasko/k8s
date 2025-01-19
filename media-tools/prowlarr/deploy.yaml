@@ -41,8 +41,8 @@ spec:
                 - "amd64"
       containers:
       - name: prowlarr
-        image: linuxserver/prowlarr:latest
-        imagePullPolicy: Always
+        image: docker.io/linuxserver/prowlarr:1.29.2
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

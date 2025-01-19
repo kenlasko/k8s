@@ -41,7 +41,7 @@ spec:
       containers:
       - name: homeassist
         image: ghcr.io/home-assistant/home-assistant:stable
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false

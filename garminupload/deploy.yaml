@@ -38,7 +38,7 @@ spec:
           containers:
           - name: garmin-upload
             image: registry.ucdialplans.com/garmin-upload
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
