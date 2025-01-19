@@ -27,7 +27,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: mariadb-ucdialplans-statusupdate
-            image: mariadb:11.6.2
+            image: docker.io/mariadb:11.6.2
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false

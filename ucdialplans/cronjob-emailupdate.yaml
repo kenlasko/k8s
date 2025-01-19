@@ -23,7 +23,7 @@ spec:
           automountServiceAccountToken: false
           containers:
           - name: emailupdate
-            image: curlimages/curl
+            image: docker.io/curlimages/curl:8.11.1
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
