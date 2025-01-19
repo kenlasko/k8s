@@ -8,7 +8,8 @@ metadata:
 spec:
   containers:
   - name: cloud-keel-egress-tunnel
-    image: alpine/socat
+    image: alpine/socat:1.8.0.1
+    imagePullPolicy: IfNotPresent
     args: ["tcp-listen:9300,fork,reuseaddr", "tcp-connect:cloud-keel-egress:9300"]
     ports:
     - containerPort: 9300

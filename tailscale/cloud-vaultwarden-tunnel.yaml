@@ -8,7 +8,8 @@ metadata:
 spec:
   containers:
   - name: cloud-vaultwarden-egress-tunnel
-    image: alpine/socat
+    image: alpine/socat:1.8.0.1
+    imagePullPolicy: IfNotPresent
     args: ["tcp-listen:8087,fork,reuseaddr", "tcp-connect:cloud-vaultwarden-egress:8087"]
     ports:
     - containerPort: 8087
