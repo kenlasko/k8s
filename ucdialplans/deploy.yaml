@@ -43,8 +43,6 @@ spec:
       containers:
       - name: ucdialplans
         image: docker.io/kenlasko/ucdialplans:latest
-        imagePullSecrets:
-        - name: dockerhub-creds
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
@@ -90,6 +88,8 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 10
           failureThreshold: 3
+      imagePullSecrets:
+      - name: dockerhub-creds
       dnsConfig:
         options:
         - name: ndots
