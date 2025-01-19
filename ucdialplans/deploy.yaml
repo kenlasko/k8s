@@ -43,7 +43,9 @@ spec:
       containers:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans:latest
-        imagePullPolicy: Always
+        imagePullSecrets:
+        - name: dockerhub-creds
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
