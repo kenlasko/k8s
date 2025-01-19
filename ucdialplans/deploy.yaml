@@ -42,7 +42,7 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
       - name: ucdialplans
-        image: registry.ucdialplans.com/ucdialplans:latest
+        image: docker.io/kenlasko/ucdialplans:tagname
         imagePullSecrets:
         - name: dockerhub-creds
         imagePullPolicy: IfNotPresent
