@@ -3,7 +3,6 @@
   "extends": [
     "config:base"
   ],
-  "fileMatch": ["_ansible/.+\\.yaml$"],
   "argocd": {
     "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$"]
   },
