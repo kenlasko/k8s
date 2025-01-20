@@ -10,7 +10,7 @@
     {
       "managers": ["kubernetes"],
       "packageNames": ["docker.io/linuxserver/overseerr"],
-      "matchCurrentAge": "< 1 year"
+      "allowedVersions": "<=9.9"
     }
   ]
 }
