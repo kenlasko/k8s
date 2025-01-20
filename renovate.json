@@ -3,7 +3,7 @@
   "extends": [
     "config:base"
   ],
-  "ansible": {
+  {
     "fileMatch": ["_ansible/.+\\.yaml$"]
   },
   "argocd": {
