@@ -8,8 +8,8 @@ metadata:
     keel.sh/policy: force
     keel.sh/match-tag: "true"
     keel.sh/trigger: poll
-  labels:
-    renovate-autoupdate: "true"
+  # labels:
+  #   renovate-autoupdate: "true"
 spec:
   serviceName: lidarr-test
   replicas: 1
@@ -43,7 +43,7 @@ spec:
                 - "amd64"                
       containers:
       - name: lidarr-test
-        image: docker.io/linuxserver/lidarr:2.8.2
+        image: docker.io/linuxserver/lidarr:2.8.1
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
