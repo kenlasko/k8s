@@ -3,10 +3,6 @@
   "extends": [
     "config:base"
   ],
-  "labels": ["renovate-autoupdate"],
-  "automerge": true,
-  "automergeType": "branch",
-  "ignoreTests": true,
   "argocd": {
     "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$","argocd/.+\\.yaml$"]
   },
@@ -17,7 +13,11 @@
     {
       "managers": ["kubernetes"],
       "packageNames": ["docker.io/linuxserver/lidarr"],
-      "allowedVersions": "<=7.9"
+      "allowedVersions": "<=7.9",
+      "labels": ["renovate-autoupdate"],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true
     },
     {
       "managers": ["kubernetes"],
