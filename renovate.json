@@ -3,11 +3,14 @@
   "extends": [
     "config:base"
   ],
-  "kubernetes": {
-    "fileMatch": ["deploy","cronjob","tunnel"]
+  "ansible": {
+    "fileMatch": ["_ansible/.+\\.yaml$"]
   },
   "argocd": {
     "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$"]
+  },
+  "kubernetes": {
+    "fileMatch": ["deploy","cronjob","tunnel"]
   },
   "packageRules": [
     {
