@@ -4,8 +4,6 @@ metadata:
   name: tautulli
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: tautulli=tautulli/tautulli:latest
-    argocd-image-updater.argoproj.io/tautulli.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

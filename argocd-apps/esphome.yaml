@@ -4,8 +4,6 @@ metadata:
   name: esphome
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: esphome=esphome/esphome:latest
-    argocd-image-updater.argoproj.io/esphome.update-strategy: digest
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default

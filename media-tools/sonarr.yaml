@@ -4,8 +4,6 @@ metadata:
   name: sonarr
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: sonarr=linuxserver/sonarr:latest
-    argocd-image-updater.argoproj.io/sonarr.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

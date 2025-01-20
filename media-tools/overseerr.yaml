@@ -4,8 +4,6 @@ metadata:
   name: overseerr
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: overseerr=linuxserver/overseerr:latest
-    argocd-image-updater.argoproj.io/overseerr.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

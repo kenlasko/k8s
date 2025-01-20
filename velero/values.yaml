@@ -60,7 +60,7 @@ credentials:
 
 initContainers:
 - name: velero-plugin-for-aws
-  image: velero/velero-plugin-for-aws:latest
+  image: docker.io/velero/velero-plugin-for-aws:v1.11.1
   imagePullPolicy: IfNotPresent
   volumeMounts:
   - mountPath: /target

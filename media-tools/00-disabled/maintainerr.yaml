@@ -4,8 +4,6 @@ metadata:
   name: maintainerr
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: maintainerr=jorenn92/maintainerr:latest
-    argocd-image-updater.argoproj.io/maintainerr.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

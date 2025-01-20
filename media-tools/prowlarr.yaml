@@ -4,8 +4,6 @@ metadata:
   name: prowlarr
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: prowlarr=linuxserver/prowlarr:latest
-    argocd-image-updater.argoproj.io/prowlarr.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

@@ -4,8 +4,6 @@ metadata:
   name: sabnzbd
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: sabnzbd=linuxserver/sabnzbd:latest
-    argocd-image-updater.argoproj.io/sabnzbd.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

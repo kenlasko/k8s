@@ -4,8 +4,6 @@ metadata:
   name: romm
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: romm=zurdi15/romm:latest
-    argocd-image-updater.argoproj.io/romm.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

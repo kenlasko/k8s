@@ -4,8 +4,6 @@ metadata:
   name: lidarr
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: lidarr=linuxserver/lidarr:latest
-    argocd-image-updater.argoproj.io/lidarr.update-strategy: digest
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default

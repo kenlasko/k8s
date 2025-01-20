@@ -4,8 +4,6 @@ metadata:
   name: external-dns
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: externaldns=registry.k8s.io/external-dns/external-dns:latest
-    argocd-image-updater.argoproj.io/externaldns.update-strategy: digest
     argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
