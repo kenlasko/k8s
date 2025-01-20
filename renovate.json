@@ -11,6 +11,12 @@
   },
   "packageRules": [
     {
+      "excludePackageNames": ["git@github.com:kenlasko/k8s.git"],
+      "managers": ["argocd"],
+      "matchPackagePatterns": ["^git@github.com:kenlasko/k8s.git"],
+      "enabled": false
+    },
+    {
       "managers": ["kubernetes"],
       "packageNames": ["docker.io/linuxserver/lidarr"],
       "allowedVersions": "<=7.9"
