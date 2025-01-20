@@ -92,7 +92,7 @@ spec:
             cpu: 100m
             memory: 20Mi
         ports:
-          - containerPort: 8888
+          - containerPort: 8080
             name: http
         livenessProbe:
           httpGet:
