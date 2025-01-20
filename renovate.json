@@ -6,7 +6,7 @@
   "labels": ["renovate-autoupdate"],
   "automerge": true,
   "automergeType": "branch",
-  "requiredStatusChecks": [],
+  "ignoreTests": true,
   "argocd": {
     "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$","argocd/.+\\.yaml$"]
   },
