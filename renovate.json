@@ -12,12 +12,15 @@
   "packageRules": [
     {
       "managers": ["kubernetes"],
-      "packageNames": ["docker.io/linuxserver/lidarr"],
-      "allowedVersions": "<=7.9",
       "labels": ["renovate-autoupdate"],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
+    },
+    {
+      "managers": ["kubernetes"],
+      "packageNames": ["docker.io/linuxserver/lidarr"],
+      "allowedVersions": "<=7.9"
     },
     {
       "managers": ["kubernetes"],
