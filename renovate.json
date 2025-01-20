@@ -11,8 +11,8 @@
   },
   "packageRules": [
     {
-      "excludePackageNames": ["git@github.com:kenlasko/k8s.git"],
       "managers": ["argocd"],
+      "excludePackageNames": ["git@github.com:kenlasko/k8s.git"],
       "matchPackagePatterns": ["^git@github.com:kenlasko/k8s.git"],
       "enabled": false
     },

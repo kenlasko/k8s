@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://geek-cookbook.github.io/charts/"
-    targetRevision: "*"
+    targetRevision: 6.5.2
     chart: smarter-device-manager
     helm:
       valueFiles:

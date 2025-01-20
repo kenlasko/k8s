@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://intel.github.io/helm-charts/"
-    targetRevision: "*"
+    targetRevision: 0.31.1
     chart: intel-device-plugins-operator
     helm:
       valueFiles:
@@ -18,7 +18,7 @@ spec:
     directory:
       exclude: "*_DISABLED.yaml"
   - repoURL: "https://intel.github.io/helm-charts/"
-    targetRevision: "*"
+    targetRevision: 0.31.1
     chart: intel-device-plugins-gpu
     helm:
       valueFiles:

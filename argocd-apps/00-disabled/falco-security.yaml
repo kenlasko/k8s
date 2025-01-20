@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://falcosecurity.github.io/charts"
-    targetRevision: "*"
+    targetRevision: 4.17.2
     chart: falco
     helm:
       valueFiles:
