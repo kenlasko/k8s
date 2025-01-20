@@ -5,5 +5,12 @@
     ],
     "kubernetes": {
       "fileMatch": ["deploy","cronjob","tunnel"]
-    }
-  }
+    },
+  "packageRules": [
+      {
+          "managers": ["kubernetes"],
+          "packageNames": ["docker.io/linuxserver/overseerr"],
+          "versioning": "semver"
+      }
+  ]
+}
