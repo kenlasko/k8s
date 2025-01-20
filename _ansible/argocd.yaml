@@ -2,6 +2,19 @@
 # Installs ArgoCD Helm chart with all added manifests
 - hosts: workstation
   tasks:
+  - name: Read ArgoCD ArgoCD Application YAML
+    slurp:
+      src: "/home/ken/k8s/argocd/argocd.yaml"
+    register: argocd_yaml_content
+  - name: Parse YAML content
+    set_fact:
+      argocd_yaml: "{{ argocd_yaml_content.content | b64decode | from_yaml }}"
+  - name: Extract ArgoCD version
+    set_fact:
+      argocd_version: "{{ argocd_yaml.spec.sources[0].targetRevision }}"
+  - name: Display ArgoCD version
+    debug:
+      msg: "The ArgoCD version specified in the ArgoCD YAML is: {{ argocd_version }}"
   - name: Change kubectl context to home
     command: kubectl config use-context home
   - name: Add ArgoCD chart repo
@@ -12,6 +25,7 @@
     kubernetes.core.helm:
       name: argocd
       chart_ref: argocd/argo-cd
+      chart_version: "{{ argocd_version }}"
       create_namespace: true
       release_namespace: argocd
       values_files:
