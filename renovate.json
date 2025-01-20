@@ -9,8 +9,14 @@
   "packageRules": [
     {
       "managers": ["kubernetes"],
+      "packagePatterns": ["^StatefulSet"],
+      "excludePackageNames": ["*"],
+      "enabled": false
+    }, 
+    {
+      "managers": ["kubernetes"],
       "packageNames": ["docker.io/linuxserver/lidarr"],
-      "allowedVersions": "<=9.9"
+      "allowedVersions": "<=7.9"
     },
     {
       "managers": ["kubernetes"],
