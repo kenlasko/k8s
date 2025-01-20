@@ -2,6 +2,19 @@
 # Installs Cilium Helm chart with all added manifests
 - hosts: workstation
   tasks:
+  - name: Read Cilium ArgoCD Application YAML
+    slurp:
+      src: "/home/ken/k8s/argocd-apps/cilium.yaml"
+    register: argocd_yaml_content
+  - name: Parse YAML content
+    set_fact:
+      argocd_yaml: "{{ argocd_yaml_content.content | b64decode | from_yaml }}"
+  - name: Extract Cilium version
+    set_fact:
+      cilium_version: "{{ argocd_yaml.spec.sources[0].targetRevision }}"
+  - name: Display Cilium version
+    debug:
+      msg: "The Cilium version specified in the ArgoCD YAML is: {{ cilium_version }}"
   - name: Add Cilium chart repo
     kubernetes.core.helm_repository:
       name: cilium
@@ -12,7 +25,7 @@
     kubernetes.core.helm:
       name: cilium
       chart_ref: cilium/cilium
-      chart_version: "1.16.5"
+      chart_version: "{{ cilium_version }}"
       release_namespace: cilium
       create_namespace: true
       update_repo_cache: true
