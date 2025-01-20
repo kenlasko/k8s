@@ -4,6 +4,6 @@
       "config:base"
     ],
     "kubernetes": {
-      "fileMatch": ["deploy","cronjob"]
+      "fileMatch": ["deploy","cronjob","tunnel"]
     }
   }
