@@ -4,7 +4,10 @@
     "config:recommended"
   ],
   "argocd": {
-    "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$","argocd/.+\\.yaml$"]
+    "fileMatch": [
+      "argocd-apps/.+\\.yaml$",
+      "media-tools/[^/].+\\.yaml$",
+      "argocd/.+\\.yaml$"]
   },
   "kubernetes": {
     "fileMatch": ["deploy","cronjob","tunnel"]
