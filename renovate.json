@@ -10,7 +10,8 @@
       {
           "managers": ["kubernetes"],
           "packageNames": ["docker.io/linuxserver/overseerr"],
-          "versioning": "semver"
+          "versioning": "semver",
+          "ignoreVersions": ["^202\\..*"]
       }
   ]
 }
