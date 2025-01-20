@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://cloudnative-pg.github.io/charts"
-    targetRevision: "*"
+    targetRevision: 0.22.1
     chart: cloudnative-pg
     helm:
       valueFiles:
