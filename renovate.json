@@ -13,7 +13,9 @@
     {
       "managers": ["kubernetes"],
       "matchPackageNames": [
-        "**/!(lidarr|pgadmin4|cloudnative-pg)"
+        "**/!(lidarr)",
+        "**/!(pgadmin4)",
+        "**/!(cloudnative-pg)"
       ],
       "automerge": true,
       "automergeType": "branch",
