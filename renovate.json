@@ -9,7 +9,17 @@
   "packageRules": [
     {
       "managers": ["kubernetes"],
+      "packageNames": ["docker.io/linuxserver/lidarr"],
+      "allowedVersions": "<=9.9"
+    },
+    {
+      "managers": ["kubernetes"],
       "packageNames": ["docker.io/linuxserver/overseerr"],
+      "allowedVersions": "<=9.9"
+    },
+    {
+      "managers": ["kubernetes"],
+      "packageNames": ["docker.io/linuxserver/transmission"],
       "allowedVersions": "<=9.9"
     }
   ]
