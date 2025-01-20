@@ -11,6 +11,11 @@
   },
   "packageRules": [
     {
+      "managers": ["ansible"],
+      "fileMatch": ["^_ansible/.*\\.y(a)?ml$"],
+      "matchManagers": ["ansible"]
+    },
+    {
       "managers": ["argocd"],
       "excludePackageNames": ["git@github.com:kenlasko/k8s.git"],
       "matchPackagePatterns": ["^git@github.com:kenlasko/k8s.git"],
