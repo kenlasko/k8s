@@ -2,6 +2,8 @@
 # Installs Cert-Manager Helm chart with all added manifests
 - hosts: workstation
   tasks:
+  - name: Change kubectl context to home
+    command: kubectl config use-context home
   - name: Add Cert-Manager chart repo
     kubernetes.core.helm_repository:
       name: cert-manager
