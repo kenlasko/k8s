@@ -4,6 +4,6 @@
       "config:base"
     ],
     "kubernetes": {
-      "fileMatch": ["deploy.yaml"]
+      "fileMatch": ["^deploy.*\\.yaml"]
     }
   }
