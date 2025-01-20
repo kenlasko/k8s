@@ -1,16 +1,16 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-      "config:base"
-    ],
-    "kubernetes": {
-      "fileMatch": ["deploy","cronjob","tunnel"]
-    },
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "kubernetes": {
+    "fileMatch": ["deploy","cronjob","tunnel"]
+  },
   "packageRules": [
-      {
-          "managers": ["kubernetes"],
-          "packageNames": ["docker.io/linuxserver/overseerr"],
-          "matchCurrentVersion": "<=2000.0.0"
-      }
+    {
+      "managers": ["kubernetes"],
+      "packageNames": ["docker.io/linuxserver/overseerr"],
+      "matchCurrentAge": "< 1 year"
+    }
   ]
 }
