@@ -10,7 +10,7 @@
       {
           "managers": ["kubernetes"],
           "packageNames": ["docker.io/linuxserver/overseerr"],
-          "matchCurrentVersion": "<=2025.0.0"
+          "matchCurrentVersion": "<=2000.0.0"
       }
   ]
 }
