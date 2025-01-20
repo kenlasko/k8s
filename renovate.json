@@ -4,23 +4,12 @@
     "config:base"
   ],
   "argocd": {
-    "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$"]
+    "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$","argocd/.+\\.yaml$"]
   },
   "kubernetes": {
     "fileMatch": ["deploy","cronjob","tunnel"]
   },
   "packageRules": [
-    {
-      "managers": ["ansible"],
-      "fileMatch": ["^_ansible/.*\\.y(a)?ml$"],
-      "matchManagers": ["ansible"]
-    },
-    {
-      "managers": ["argocd"],
-      "excludePackageNames": ["git@github.com:kenlasko/k8s.git"],
-      "matchPackagePatterns": ["^git@github.com:kenlasko/k8s.git"],
-      "enabled": false
-    },
     {
       "managers": ["kubernetes"],
       "packageNames": ["docker.io/linuxserver/lidarr"],
