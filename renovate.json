@@ -4,6 +4,6 @@
       "config:base"
     ],
     "kubernetes": {
-      "fileMatch": ["\\.yaml$"]
+      "fileMatch": ["^(deploy|cronjob|tunnel).*\\.yaml$"]
     }
   }
