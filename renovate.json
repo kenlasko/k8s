@@ -12,7 +12,9 @@
   "packageRules": [
     {
       "managers": ["kubernetes"],
-      "labels": ["renovate-autoupdate"],
+      "matchPackageNames": [
+        "!lidarr"
+      ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
