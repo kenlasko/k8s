@@ -9,8 +9,7 @@
   "packageRules": [
     {
       "managers": ["kubernetes"],
-      "packagePatterns": ["^StatefulSet"],
-      "excludePackageNames": ["*"],
+      "packageNames": ["^StatefulSet"],
       "enabled": false
     }, 
     {
