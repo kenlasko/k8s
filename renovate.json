@@ -6,6 +6,9 @@
   "kubernetes": {
     "fileMatch": ["deploy","cronjob","tunnel"]
   },
+  "argocd": {
+    "fileMatch": ["argocd-apps/.+\\.yaml$","media-tools/.+\\.yaml$"]
+  },
   "packageRules": [
     {
       "managers": ["kubernetes"],
