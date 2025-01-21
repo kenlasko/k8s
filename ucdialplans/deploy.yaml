@@ -42,7 +42,7 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
       - name: ucdialplans
-        image: docker.io/kenlasko/ucdialplans:3.2.9
+        image: docker.io/kenlasko/ucdialplans:3.2.11
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
