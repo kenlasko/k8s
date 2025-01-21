@@ -17,7 +17,7 @@
     {
       "managers": ["argocd","kubernetes"],
       "matchPackageNames": [
-        "**/!(cilium|galera|lidarr|longhorn|stack)"
+        "**/!(cilium|galera|longhorn|stack)"
       ],
       "automerge": true,
       "automergeType": "branch",
