@@ -4,6 +4,7 @@
     "config:recommended",
     ":rebaseStalePrs"
   ],
+  "enabledManagers": ["argocd", "kubernetes"],
   "argocd": {
     "fileMatch": [
       "argocd-apps/.+\\.yaml$",
