@@ -13,6 +13,14 @@
   "kubernetes": {
     "fileMatch": ["deploy","cronjob","tunnel"]
   },
+  "hostRules": [
+    {
+      "hostType": "docker",
+      "matchHost": "docker.io",
+      "username": "kenlasko",
+      "password": "{{ secrets.DOCKER_CREDS }}"
+    }
+  ],
   "packageRules": [
     {
       "managers": ["argocd","kubernetes"],
