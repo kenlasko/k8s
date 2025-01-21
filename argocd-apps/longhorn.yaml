@@ -43,5 +43,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: longhorn
   syncPolicy:
+    automated:
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true

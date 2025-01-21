@@ -33,5 +33,7 @@ spec:
       labels:
         pod-security.kubernetes.io/enforce: restricted
         pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
