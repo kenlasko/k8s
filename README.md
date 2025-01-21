@@ -10,7 +10,7 @@ My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as 
 * [Longhorn](/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
 ## Software Updates
-All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version and let ArgoCD handle the actual upgrade.
+All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
 
 The configuration for Renovate is stored in [renovate.json](/renovate.json)
 
