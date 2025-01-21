@@ -21,24 +21,6 @@ spec:
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
-  # # The following are for enabling CSI snapshot support, as per
-  # # https://longhorn.io/docs/1.7.2/snapshots-and-backups/csi-snapshot-support/enable-csi-snapshot-support/
-  # - repoURL: "https://github.com/kubernetes-csi/external-snapshotter.git"
-  #   path: client/config/crd
-  #   targetRevision: v7.0.2
-  # - repoURL: "https://github.com/kubernetes-csi/external-snapshotter.git"
-  #   path: deploy/kubernetes/snapshot-controller
-  #   targetRevision: v7.0.2
-  #   kustomize:
-  #     patches:
-  #       - target:
-  #           kind: Deployment
-  #           name: snapshot-controller
-  #         patch: |-
-  #           - op: add
-  #             path: /spec/template/spec/nodeSelector
-  #             value:
-  #               storage: "longhorn"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: longhorn
