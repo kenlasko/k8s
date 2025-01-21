@@ -41,7 +41,7 @@ spec:
                 - "amd64"                
       containers:
       - name: lidarr-test
-        image: docker.io/linuxserver/lidarr:2.4.2
+        image: docker.io/linuxserver/lidarr:2.8.2
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
