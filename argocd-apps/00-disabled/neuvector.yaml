@@ -9,19 +9,19 @@ spec:
   project: default
   sources:
   - repoURL: "https://neuvector.github.io/neuvector-helm/"
-    targetRevision: "*"
+    targetRevision: 2.8.4
     chart: core
     helm:
       valueFiles:
       - $values/neuvector/values-core.yaml
   - repoURL: "https://neuvector.github.io/neuvector-helm/"
-    targetRevision: "*"
+    targetRevision: 2.8.4
     chart: crd
     helm:
       valueFiles:
       - $values/neuvector/values-crd.yaml
   - repoURL: "https://neuvector.github.io/neuvector-helm/"
-    targetRevision: "*"
+    targetRevision: 2.8.4
     chart: monitor
     helm:
       valueFiles:

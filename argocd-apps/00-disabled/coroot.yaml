@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://coroot.github.io/helm-charts"
-    targetRevision: "*"
+    targetRevision: 1.7.3
     chart: coroot
     helm:
       valueFiles:

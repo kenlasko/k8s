@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://backube.github.io/helm-charts"
-    targetRevision: "*"
+    targetRevision: 3.4.0
     chart: snapscheduler
     helm:
       valueFiles:
