@@ -1,4 +1,4 @@
-# NOTE: Deprecated in favour of [Renovate]
+# NOTE: Deprecated in favour of [Renovate](/README.md#Sofware%20Updates
 # Summary
 [Keel](https://github.com/keel-hq/keel) is a tool for automatically updating the images used by pods. It handles any image that isn't managed via Helm. Every **2 hours**, Keel will check for updated images for all monitored apps. If an update is found, Keel will delete the pod, which should trigger a pull of the newer image. This assumes `imagePullPolicy: Always`. 
 
