@@ -19,7 +19,6 @@ This folder stores all the data used by applications. Most applications use stat
 ├── container-station-data  # QNAP Container Station
 ├── docker-vol              # Docker volume data for Container Station
 ├── pv                      # NFS Subdir Provisioner data
-├── pxeboot                 # PXEBoot data for Matchbox
 └── vol                     # NFS appdata (pre-created base folders)
 ```
 
@@ -28,8 +27,6 @@ These folders are used by apps that make use of the [NFS Subdir Provisioner](htt
 Apps that currently use the `appdata/pv` folder are:
 * [alertmanager/grafana/loki/prometheus](/monitoring)
 
-### appdata/pxeboot
-This folder stores all the files used for network booting (PXE) into [Talos OS](https://www.siderolabs.com/platform/talos-os-for-kubernetes/). Installing the Talos OS on cluster members is handled by [Matchbox](https://github.com/poseidon/matchbox) via PXE. Follow the [PXEBoot instructions](https://github.com/kenlasko/pxeboot) to setup.
 
 ### appdata/vol
 These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.

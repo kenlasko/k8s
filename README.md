@@ -9,7 +9,18 @@ My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as 
 * [MariaDB](/mariadb) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
-# Prerequisites
+## Software Updates
+All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version and let ArgoCD handle the actual upgrade.
+
+Renovate is set to automatically and silently upgrade every software package EXCEPT for the following:
+* Cilium
+* Longhorn
+* MariaDB
+* kube-prometheus-stack
+
+When upgrades for the above packages are found, Renovate will create a pull request that has to be manually approved (or denied). Once approved, ArgoCD manages the actual upgrade as with any other software.
+
+# Cluster Installation Prerequisites
 SideroLabs Omni must be ready to go. Installation steps are in the repository link below:
 [Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
 
@@ -21,22 +32,24 @@ Most of the workloads use NAS-based storage for persistent data. This doc shows 
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
+
 ## Install Kubernetes
 1. Copy `default-sealing-key.yaml` and `global-sealed-secrets-key.yaml` from Onedrive Vault `certificates` folder to `/home/ken`
-2. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com), then create cluster:
+2. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
+3. Create cluster via `omnictl`:
 ```
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
-3. Set the proper context with kubectl and verify you see the expected nodes
+4. Set the proper context with kubectl and verify you see the expected nodes
 ```
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-4. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
+5. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
 ```
 ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
 ```
-5. Get initial ArgoCD password
+6. Get initial ArgoCD password
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret \
           -o jsonpath="{.data.password}" | base64 -d; echo
