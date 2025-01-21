@@ -12,6 +12,8 @@ My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as 
 ## Software Updates
 All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version and let ArgoCD handle the actual upgrade.
 
+The configuration for Renovate is stored in [renovate.json](/renovate.json)
+
 Renovate is set to automatically and silently upgrade every software package EXCEPT for the following:
 * Cilium
 * Longhorn
