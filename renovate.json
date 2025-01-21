@@ -16,7 +16,7 @@
     {
       "managers": ["argocd","kubernetes"],
       "matchPackageNames": [
-        "**/!(lidarr|pgadmin4|cloudnative-pg)"
+        "**/!(cilium|lidarr|longhorn|mariadb)"
       ],
       "automerge": true,
       "automergeType": "branch",
