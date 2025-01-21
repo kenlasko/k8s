@@ -31,7 +31,7 @@ spec:
                 - "amd64"
       containers:
       - name: playwright-chrome
-        image: docker.io/browserless/chrome:latest
+        image: docker.io/browserless/chrome:1.61.0-chrome-stable
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
