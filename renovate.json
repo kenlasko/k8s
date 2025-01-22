@@ -4,15 +4,23 @@
     "config:recommended",
     ":rebaseStalePrs"
   ],
-  "enabledManagers": ["argocd", "kubernetes"],
+  "enabledManagers": [
+    "argocd",
+    "kubernetes"
+  ],
   "argocd": {
     "fileMatch": [
       "argocd-apps/.+\\.yaml$",
       "media-tools/[^/]+\\.yaml$",
-      "argocd/.+\\.yaml$"]
+      "argocd/.+\\.yaml$"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["deploy","cronjob","tunnel"]
+    "fileMatch": [
+      "deploy",
+      "cronjob",
+      "tunnel"
+    ]
   },
   "hostRules": [
     {
@@ -24,7 +32,10 @@
   ],
   "packageRules": [
     {
-      "managers": ["argocd","kubernetes"],
+      "matchManagers": [
+        "argocd",
+        "kubernetes"
+      ],
       "matchPackageNames": [
         "**/!(cilium|mariadb-galera|longhorn|kube-prometheus-stack)"
       ],
@@ -33,18 +44,30 @@
       "ignoreTests": true
     },
     {
-      "managers": ["kubernetes"],
-      "packageNames": ["docker.io/linuxserver/lidarr"],
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "docker.io/linuxserver/lidarr"
+      ],
       "allowedVersions": "<=7.9"
     },
     {
-      "managers": ["kubernetes"],
-      "packageNames": ["docker.io/linuxserver/overseerr"],
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "docker.io/linuxserver/overseerr"
+      ],
       "allowedVersions": "<=9.9"
     },
     {
-      "managers": ["kubernetes"],
-      "packageNames": ["docker.io/linuxserver/transmission"],
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "docker.io/linuxserver/transmission"
+      ],
       "allowedVersions": "<=9.9"
     }
   ]
