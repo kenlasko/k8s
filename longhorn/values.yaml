@@ -21,10 +21,14 @@ persistence:
     storage: "longhorn"
 
 defaultSettings:
+  allowVolumeCreationWithDegradedAvailability: false
   backupTarget: "nfs://192.168.1.3:/backup/longhorn"  #s3://longhorn@default/
   backupTargetCredentialSecret: nfs-creds   #s3-creds
+  defaultDataLocality: "best-effort"
+  freezeFilesystemForSnapshot: true
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: storage:longhorn
+  
 
 # Required when using ArgoCD
 preUpgradeChecker:
