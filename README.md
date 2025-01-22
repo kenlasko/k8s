@@ -53,8 +53,7 @@ ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
 ```
 6. Get initial ArgoCD password
 ```
-kubectl -n argocd get secret argocd-initial-admin-secret \
-          -o jsonpath="{.data.password}" | base64 -d; echo
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
 ## Argo App Install Order
@@ -62,14 +61,12 @@ ArgoCD sync-waves should install apps in the correct order. The full list of app
 
 ## Get Kubernetes token
 ```
-kubectl -n kube-system get secret kubeapi-service-account-secret \
-          -o jsonpath="{.data.token}" | base64 -d; echo
+kubectl -n kube-system get secret kubeapi-service-account-secret -o jsonpath="{.data.token}" | base64 -d; echo
 ```
 
 # Handy commands to know
 ## Check for open port without tools
 Many container images do not have any tools like `nc` to check network port connectivity. This handy command will allow you to do that with just `echo`
 ```
-(echo > /dev/tcp/<servicename>/<port>) >/dev/null 2>&1 \
-    && echo "It's up" || echo "It's down"
+(echo > /dev/tcp/<servicename>/<port>) >/dev/null 2>&1 && echo "It's up" || echo "It's down"
 ```
