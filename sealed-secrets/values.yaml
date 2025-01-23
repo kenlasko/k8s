@@ -7,5 +7,5 @@ resources:
     cpu: 1m
     memory: 9Mi
   limits:
-    cpu: 200m
+    # cpu: 200m
     memory: 15Mi

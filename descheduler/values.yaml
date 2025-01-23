@@ -63,7 +63,7 @@ resources:
     cpu: 2m
     memory: 16Mi
   limits:
-    cpu: 50m
+    # cpu: 50m
     memory: 100Mi
 
 affinity:

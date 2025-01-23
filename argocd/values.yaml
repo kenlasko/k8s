@@ -22,7 +22,7 @@ applicationSet:
       cpu: 1m
       memory: 25Mi
     limits:
-      cpu: 200m
+      # cpu: 200m
       memory: 50Mi
 controller:
   resources:
@@ -30,7 +30,7 @@ controller:
       cpu: 200m
       memory: 500Mi
     limits:
-      cpu: 1500m
+      # cpu: 1500m
       memory: 1500Mi
 dex:
   resources:
@@ -38,7 +38,7 @@ dex:
       cpu: 1m
       memory: 42Mi
     limits:
-      cpu: 300m
+      # cpu: 300m
       memory: 100Mi
 redis:
   resources:
@@ -46,7 +46,7 @@ redis:
       cpu: 15m
       memory: 15Mi
     limits:
-      cpu: 160m
+      # cpu: 160m
       memory: 40Mi
 repoServer:
   resources:
@@ -54,7 +54,7 @@ repoServer:
       cpu: 10m
       memory: 150Mi
     limits:
-      cpu: 1200m
+      # cpu: 1200m
       memory: 2000Mi
 server:
   resources:
@@ -62,7 +62,7 @@ server:
       cpu: 4m
       memory: 30Mi
     limits:
-      cpu: 200m
+      # cpu: 200m
       memory: 200Mi
   service:
     annotations:
@@ -262,7 +262,7 @@ notifications:
       cpu: 1m
       memory: 110Mi
     limits:
-      cpu: 300m
+      # cpu: 300m
       memory: 150Mi
   argocdUrl: "https://argocd.ucdialplans.com"
   secret:

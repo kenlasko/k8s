@@ -6,7 +6,7 @@ operatorConfig:
       cpu: 10m
       memory: 50Mi
     limits:
-      cpu: 80m
+      # cpu: 80m
       memory: 60Mi  
   affinity:
     nodeAffinity:

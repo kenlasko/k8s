@@ -41,7 +41,7 @@ singleBinary:
       cpu: 7m
       memory: 125Mi
     limits:
-      cpu: 120m
+      # cpu: 120m
       memory: 300Mi
   affinity:
     nodeAffinity:

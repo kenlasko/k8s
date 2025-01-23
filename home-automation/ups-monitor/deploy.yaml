@@ -50,7 +50,7 @@ spec:
             memory: 3Mi
             smarter-devices/bus_usb_001_003: 1
           limits:
-            cpu: 1m
+            # cpu: 1m
             memory: 4Mi
             smarter-devices/bus_usb_001_003: 1
         livenessProbe:

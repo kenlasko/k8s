@@ -33,5 +33,5 @@ resources:
     cpu: 100m
     memory: 64Mi
   limits:
-    cpu: 1000m
+    # cpu: 1000m
     memory: 1Gi

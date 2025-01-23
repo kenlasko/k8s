@@ -68,7 +68,7 @@ spec:
               cpu: 5m
               memory: 41Mi
             limits:
-              cpu: 100m
+              # cpu: 100m
               memory: 60Mi
           command:
             - cloudflared

@@ -3,7 +3,7 @@ resources:
     cpu: 10m
     memory: 60Mi
   limits:
-    cpu: 100m
+    # cpu: 100m
     memory: 100Mi
 affinity:
   nodeAffinity:
@@ -31,7 +31,7 @@ webhook:
       cpu: 1m
       memory: 15Mi
     limits:
-      cpu: 100m
+      # cpu: 100m
       memory: 30Mi
   affinity:
     nodeAffinity:
@@ -52,7 +52,7 @@ certController:
       cpu: 1m
       memory: 16Mi
     limits:
-      cpu: 100m
+      # cpu: 100m
       memory: 30Mi
   affinity:
     nodeAffinity:

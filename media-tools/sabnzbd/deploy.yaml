@@ -66,7 +66,7 @@ spec:
             cpu: 2m
             memory: 100Mi
           limits:
-            cpu: 1000m
+            # cpu: 1000m
             memory: 2.0Gi  # Don't go below this. Even though it looks like its not using memory, the pod will get OOMKilled as soon as there's any load.
         ports:
         - containerPort: 8080

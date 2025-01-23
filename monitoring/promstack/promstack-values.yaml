@@ -75,7 +75,7 @@ alertmanager:
         cpu: 4m
         memory: 30Mi
       limits:
-        cpu: 100m
+        # cpu: 100m
         memory: 80Mi
     affinity:
       nodeAffinity:
@@ -133,7 +133,7 @@ grafana:
       cpu: 10m
       memory: 100Mi
     limits:
-      cpu: 200m
+      # cpu: 200m
       memory: 200Mi
   affinity:
     nodeAffinity:
@@ -396,7 +396,7 @@ prometheusOperator:
       cpu: 3m
       memory: 32Mi
     limits:
-      cpu: 80m
+      # cpu: 80m
       memory: 50Mi
   affinity:
     nodeAffinity:
@@ -416,7 +416,7 @@ prometheusOperator:
         cpu: 5m
         memory: 30Mi
       limits:
-        cpu: 80m
+        # cpu: 80m
         memory: 50Mi
 
 
@@ -439,7 +439,7 @@ prometheus:
         cpu: 70m
         memory: 450Mi
       limits:
-        cpu: 600m
+        # cpu: 600m
         memory: 1100Mi
     affinity:
       nodeAffinity:

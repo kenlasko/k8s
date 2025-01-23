@@ -44,7 +44,7 @@ spec:
                 cpu: 200m
                 memory: 400Mi
               limits:
-                cpu: 200m
+                # cpu: 200m
                 memory: 400Mi
             env: 
             - name: k8s_ROOT_PW 

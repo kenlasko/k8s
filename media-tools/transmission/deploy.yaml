@@ -65,7 +65,7 @@ spec:
             cpu: 3m
             memory: 35Mi
           limits:
-            cpu: 100m
+            # cpu: 100m
             memory: 200Mi
         ports:
         - containerPort: 9091

@@ -16,7 +16,7 @@ resources:
     cpu: 80m
     memory: 100Mi
   limits:
-    cpu: 300m
+    # cpu: 300m
     memory: 120Mi
 
 
@@ -32,7 +32,7 @@ falcosidekick:
       cpu: 70m
       memory: 55Mi
     limits:
-      cpu: 200m
+      # cpu: 200m
       memory: 250Mi
   affinity: 
     nodeAffinity:
