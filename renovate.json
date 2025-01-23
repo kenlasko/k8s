@@ -41,7 +41,8 @@
       ],
       "automerge": true,
       "automergeType": "branch",
-      "ignoreTests": true
+      "ignoreTests": true,
+      "minimumReleaseAge": "1 day"
     },
     {
       "matchManagers": [
@@ -57,16 +58,8 @@
         "kubernetes"
       ],
       "matchPackageNames": [
-        "docker.io/linuxserver/overseerr"
-      ],
-      "allowedVersions": "<=9.9"
-    },
-    {
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "matchPackageNames": [
-        "docker.io/linuxserver/transmission"
+        "**/overseerr",
+        "**/transmission"
       ],
       "allowedVersions": "<=9.9"
     }
