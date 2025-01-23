@@ -12,8 +12,8 @@ data:
     <configuration>
       <system.web>
         <httpCookies httpOnlyCookies="true" requireSSL="true" />
-        <httpRuntime targetFramework="4.6" enableVersionHeader="false" />
-        <compilation targetFramework="4.6" />
+        <httpRuntime targetFramework="4.8" enableVersionHeader="false" />
+        <compilation targetFramework="4.8" />
         <pages>
           <namespaces>
             <add namespace="System" />
