@@ -42,8 +42,8 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
       - name: ucdialplans
-        image: docker.io/kenlasko/ucdialplans:14.5.4
-        imagePullPolicy: Always
+        image: docker.io/kenlasko/ucdialplans:14.5.1
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
