@@ -36,9 +36,6 @@
         "argocd",
         "kubernetes"
       ],
-      "matchPackageNames": [
-        "**/**"
-      ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
@@ -49,11 +46,11 @@
         "kubernetes"
       ],
       "matchPackageNames": [
-        "**/cilium",
-        "**/csi-driver-nfs",
+        "cilium",
+        "csi-driver-nfs",
         "**/gateway-api.git",
-        "**/kube-prometheus-stack",
-        "**/longhorn",
+        "kube-prometheus-stack",
+        "longhorn",
         "**/mariadb-galera"
       ],
       "automerge": false
