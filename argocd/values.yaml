@@ -39,7 +39,7 @@ dex:
       memory: 42Mi
     limits:
       # cpu: 300m
-      memory: 150Mi
+      memory: 200Mi
 redis:
   resources:
     requests:
