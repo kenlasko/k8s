@@ -36,9 +36,24 @@
         "argocd",
         "kubernetes"
       ],
+      "matchUpdateTypes": [
+        "minor", 
+        "patch"
+      ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
+    },
+    {
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "**/home-assistant"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ]
     },
     {
       "matchManagers": [
