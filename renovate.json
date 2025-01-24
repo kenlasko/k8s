@@ -57,18 +57,6 @@
     },
     {
       "matchManagers": [
-        "argocd"
-      ],
-      "matchPackageNames": [
-        "kube-prometheus-stack"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor"
-      ]
-    },
-    {
-      "matchManagers": [
         "argocd",
         "kubernetes"
       ],
