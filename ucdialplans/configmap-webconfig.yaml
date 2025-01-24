@@ -27,8 +27,8 @@ data:
             <add namespace="MySqlConnector" />
           </namespaces>
         </pages>
-        <sessionState timeout="60" />
-        <customErrors mode="Off" defaultRedirect="https://www.ucdialplans.com/errorpage.html" />
+        <sessionState timeout="30" />
+        <customErrors mode="On" defaultRedirect="https://www.ucdialplans.com/errorpage.html" />
       </system.web>
       <system.webServer>
         <security>
@@ -48,7 +48,7 @@ data:
         </httpProtocol>
         <staticContent>
           <mimeMap fileExtension=".ps1" mimeType="file/download" />
-          <clientCache cacheControlMode="UseMaxAge" cacheControlMaxAge="01:00:00" />
+          <clientCache cacheControlMode="UseMaxAge" cacheControlMaxAge="7.00:00:00" />
         </staticContent>
         <urlCompression doDynamicCompression="true" />
         <httpRedirect enabled="false" destination="https://www.ucdialplans.com" exactDestination="true" />

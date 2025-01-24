@@ -64,6 +64,9 @@ spec:
         env:
         - name: TZ
           value: "America/Toronto"
+        envFrom:
+        - secretRef:
+            name: ucdialplans-db-credentials
         volumeMounts:
         - name: ucdialplans-nginx
           mountPath: /etc/nginx/sites-enabled/default
