@@ -37,11 +37,26 @@
         "kubernetes"
       ],
       "matchPackageNames": [
-        "**/!(cilium|csi-driver-nfs|gateway-api.git|mariadb-galera|longhorn|kube-prometheus-stack)"
+        "**/**"
       ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
+    },
+    {
+      "matchManagers": [
+        "argocd",
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "**/cilium",
+        "**/csi-driver-nfs",
+        "**/gateway-api.git",
+        "**/kube-prometheus-stack",
+        "**/longhorn",
+        "**/mariadb-galera"
+      ],
+      "automerge": false
     },
     {
       "matchManagers": [
