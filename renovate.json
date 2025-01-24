@@ -46,17 +46,6 @@
     },
     {
       "matchManagers": [
-        "kubernetes"
-      ],
-      "matchPackageNames": [
-        "**/home-assistant"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ]
-    },
-    {
-      "matchManagers": [
         "argocd",
         "kubernetes"
       ],
