@@ -59,8 +59,7 @@ data:
         </DbProviderFactories>
       </system.data>
       <connectionStrings>
-        <add connectionString="server=mariadb.mariadb.svc.cluster.local;database=ucdialplans;uid=UCDialplans_Website;pwd=***REMOVED***; Convert Zero Datetime=True" name="UCDialplansDB" providerName="MySqlConnector" />
-        <!--<add connectionString="server=mariadb.mariadb-standalone.svc.cluster.local;database=ucdialplans;uid=UCDialplans_Website;pwd=***REMOVED***; Convert Zero Datetime=True" name="UCDialplansDB" providerName="MySqlConnector" />-->
+        <add connectionString="server=[DB_SERVER];database=[DB_DATABASE];uid=[DB_USERNAME];pwd=[DB_PASSWORD]; Convert Zero Datetime=True" name="UCDialplansDB" providerName="MySqlConnector" />
       </connectionStrings>
       <appSettings>
         <add key="webPages:Version" value="3.0" />
