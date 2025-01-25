@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts"
-    targetRevision: 4.9.0
+    targetRevision: v4.10.0
     chart: csi-driver-nfs
     helm:
       valueFiles:
