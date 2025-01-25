@@ -51,7 +51,6 @@
       ],
       "matchPackageNames": [
         "cilium",
-        "csi-driver-nfs",
         "**/gateway-api.git",
         "longhorn",
         "**/mariadb-galera"
