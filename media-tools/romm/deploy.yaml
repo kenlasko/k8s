@@ -40,7 +40,7 @@ spec:
                 - "amd64"
       containers:
       - name: romm
-        image: docker.io/rommapp/romm:3.7.2
+        image: docker.io/rommapp/romm:3.7.3
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
