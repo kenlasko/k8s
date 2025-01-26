@@ -41,7 +41,7 @@ spec:
                 - "amd64"
       containers:
       - name: readarr
-        image: docker.io/linuxserver/readarr:0.4.10-nightly
+        image: docker.io/linuxserver/readarr:0.4.11-nightly
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
