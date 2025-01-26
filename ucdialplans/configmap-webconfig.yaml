@@ -59,7 +59,7 @@ data:
         </DbProviderFactories>
       </system.data>
       <connectionStrings>
-        <add connectionString="server=[DB_SERVER];database=[DB_DATABASE];uid=[DB_USERNAME];pwd=[DB_PASSWORD]; Convert Zero Datetime=True" name="UCDialplansDB" providerName="MySqlConnector" />
+        <add connectionString="server={0};database={1};uid={2};pwd={3};ConvertZeroDateTime=True;" name="UCDialplansDB" providerName="MySqlConnector" />
       </connectionStrings>
       <appSettings>
         <add key="webPages:Version" value="3.0" />
