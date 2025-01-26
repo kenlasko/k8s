@@ -55,7 +55,7 @@ spec:
             drop: ["ALL"]
         resources:
           requests:
-            cpu: 4m
+            cpu: 3m
             memory: 200Mi
           limits:
             # cpu: 300m
