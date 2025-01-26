@@ -40,7 +40,7 @@ spec:
             drop: ["ALL"]
         resources:
           requests:
-            cpu: 25m
+            cpu: 3m
             memory: 110Mi
             smarter-devices/ttyUSB0: 1
           limits:

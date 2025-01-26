@@ -21,7 +21,7 @@ affinity:
           - "amd64"
 resources:
   requests:
-    cpu: 3m
+    cpu: 2m
     memory: 25Mi
   limits:
     # cpu: 400m

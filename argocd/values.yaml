@@ -51,7 +51,7 @@ redis:
 repoServer:
   resources:
     requests:
-      cpu: 10m
+      cpu: 5m
       memory: 150Mi
     limits:
       # cpu: 1200m
@@ -259,7 +259,7 @@ notifications:
   enabled: true
   resources:
     requests:
-      cpu: 1m
+      cpu: 2m
       memory: 110Mi
     limits:
       # cpu: 300m

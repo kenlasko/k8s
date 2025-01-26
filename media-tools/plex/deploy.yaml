@@ -77,7 +77,7 @@ spec:
             - "DAC_OVERRIDE"
         resources:
           requests:
-            cpu: 5m
+            cpu: 10m
             memory: 1000Mi
             gpu.intel.com/i915: "1" 
           limits:
