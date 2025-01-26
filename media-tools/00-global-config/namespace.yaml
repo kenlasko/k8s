@@ -1,7 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: media-tools
-  labels:
-    pod-security.kubernetes.io/enforce: baseline
-    pod-security.kubernetes.io/enforce-version: latest
