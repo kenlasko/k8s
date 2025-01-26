@@ -19,7 +19,7 @@ loki:
       memory: 125Mi
     limits:
       # cpu: 120m
-      memory: 300Mi
+      memory: 400Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
