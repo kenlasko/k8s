@@ -29,7 +29,7 @@ spec:
       nodeName: nuc4
       containers:
       - name: zwaveadmin
-        image: docker.io/zwavejs/zwave-js-ui:9.29.1
+        image: docker.io/zwavejs/zwave-js-ui:9.30.0
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
