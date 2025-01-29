@@ -43,7 +43,7 @@ spec:
       containers:
       - name: ucdialplans
         image: docker.io/kenlasko/ucdialplans:14.5.8
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
