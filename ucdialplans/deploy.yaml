@@ -17,7 +17,7 @@ spec:
         name: ucdialplans
         mariadb-client: "true"
     spec:
-      restartPolicy: Always
+      restartPolicy: IfNotPresent
       automountServiceAccountToken: false
       priorityClassName: high-priority
       affinity:
