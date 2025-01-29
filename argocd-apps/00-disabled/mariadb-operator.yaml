@@ -10,7 +10,7 @@ spec:
   sources:
   - repoURL: "https://mariadb-operator.github.io/mariadb-operator"
     chart: mariadb-operator-crds
-    targetRevision: 0.37.0
+    targetRevision: 0.37.1
   - repoURL: "https://mariadb-operator.github.io/mariadb-operator"
     chart: mariadb-operator
     targetRevision: 0.37.1
