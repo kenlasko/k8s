@@ -7,9 +7,10 @@ From Windows Terminal:
 wsl --install
 ```
 
-Install Visual Studio Code from Microsoft Store, then install WSL extension:
+Install Visual Studio Code from Microsoft Store, then install required extensions:
 ```
 https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
+https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
 ```
 
 ## Create Github token
