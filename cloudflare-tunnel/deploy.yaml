@@ -43,7 +43,7 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
         - name: cloudflare-tunnel
-          image: docker.io/cloudflare/cloudflared:2025.1.0
+          image: docker.io/cloudflare/cloudflared:2025.1.1
           imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
