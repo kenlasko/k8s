@@ -1,0 +1,528 @@
+---
+# roles/workstation_prep/tasks/main.yml
+- name: "Workstation Prep - Initial Setup"
+  block:
+    - name: **Note: WSL and VS Code Installation are manual steps.**
+      debug:
+        msg: "Please ensure WSL and Visual Studio Code with required extensions (Remote-WSL, Terraform) are installed manually as per instructions."
+
+    - name: **Note: GitHub Token creation is a semi-manual step.**
+      debug:
+        msg: "The playbook will generate an SSH key. You need to manually add the public key to your GitHub account."
+
+    - name: Generate SSH key for Github (id_rsa - important for naming)
+      community.crypto.openssh_keypair:
+        path: ~/.ssh/id_rsa
+        type: ed25519
+        comment: "ken.lasko@gmail.com"
+      become: false # Runs as user
+
+    - name: Get public key content
+      slurp:
+        src: ~/.ssh/id_rsa.pub
+      register: ssh_public_key
+      become: false # Runs as user
+
+    - name: Display Public Key - **MANUALLY ADD THIS TO GITHUB**
+      debug:
+        msg: "Public SSH Key (id_rsa.pub - add to Github SSH Keys): {{ ssh_public_key.content | b64decode }}"
+
+  tags:
+    - workstation_prep
+    - initial_setup
+
+- name: "Configure Git and Clone Repositories"
+  block:
+    - name: Configure Git Global Email
+      git_config:
+        name: user.email
+        value: "ken.lasko@gmail.com"
+        scope: global
+      become: false # Runs as user
+
+    - name: Configure Git Global Name
+      git_config:
+        name: user.name
+        value: "Ken Lasko"
+        scope: global
+      become: false # Runs as user
+
+    - name: Clone k8s repository
+      git:
+        repo: "git@github.com:kenlasko/k8s.git"
+        dest: "~/k8s"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+    - name: Clone k8s-lab repository
+      git:
+        repo: "git@github.com:kenlasko/k8s-lab.git"
+        dest: "~/k8s-lab"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+    - name: Clone k8s-cloud repository
+      git:
+        repo: "git@github.com:kenlasko/k8s-cloud.git"
+        dest: "~/k8s-cloud"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+    - name: Clone omni repository
+      git:
+        repo: "git@github.com:kenlasko/omni.git"
+        dest: "~/omni"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+    - name: Clone docker repository
+      git:
+        repo: "git@github.com:kenlasko/docker.git"
+        dest: "~/docker"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+    - name: Clone omni-public repository
+      git:
+        repo: "git@github.com:kenlasko/omni-public.git"
+        dest: "~/omni-public"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+    - name: Clone pxeboot repository
+      git:
+        repo: "git@github.com:kenlasko/pxeboot.git"
+        dest: "~/pxeboot"
+        version: main # or specify branch
+        accept_hostkey: yes
+      become: false # Runs as user
+
+  tags:
+    - workstation_prep
+    - git_config
+    - git_clone
+
+- name: "Install Kubectl"
+  block:
+    - name: Add Kubernetes apt key
+      apt_key:
+        url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
+        keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        state: present
+
+    - name: Add Kubernetes apt repository
+      apt_repository:
+        repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /
+        state: present
+        filename: kubernetes
+
+    - name: Install kubectl
+      apt:
+        name: kubectl
+        state: present
+
+  tags:
+    - workstation_prep
+    - kubectl
+
+- name: "Install Kubectl Autocomplete and Alias"
+  block:
+    - name: Ensure bash-completion is installed (already checked in prereqs but idempotent)
+      apt:
+        name: bash-completion
+        state: present
+
+    - name: Add kubectl completion to .bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "source <(kubectl completion bash)"
+        create: yes
+      become: false # Runs as user
+
+    - name: Alias kubectl to k in .bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "alias k=kubectl"
+        create: yes
+      become: false # Runs as user
+
+    - name: Add kubectl alias completion to .bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "complete -F __start_kubectl k"
+        create: yes
+      become: false # Runs as user
+
+    - name: Source .bashrc to apply changes immediately
+      shell: source ~/.bashrc
+      become: false # Runs as user
+
+  tags:
+    - workstation_prep
+    - kubectl_autocomplete
+    - kubectl_alias
+
+- name: "Install K9S on Linux"
+  block:
+    - name: Install K9S using webinstall
+      shell: curl -sS https://webinstall.dev/k9s | bash
+      become: false # Runs as user
+      args:
+        executable: /bin/bash # Ensure bash is used
+
+  tags:
+    - workstation_prep
+    - k9s
+
+- name: "Install KubeSeal"
+  block:
+    - name: Get KubeSeal architecture
+      command: dpkg --print-architecture
+      register: kubeseal_arch
+
+    - name: Fetch latest sealed-secrets version from GitHub API
+      uri:
+        url: https://api.github.com/repos/bitnami-labs/sealed-secrets/tags
+        return_content: yes
+        status_code: 200
+      register: github_tags_response
+      become: false # Runs as user
+
+    - name: Set KubeSeal version from GitHub API response
+      set_fact:
+        kubeseal_version: "{{ github_tags_response.json | json_query('[0].name') | regex_replace('^v', '') }}"
+      when: github_tags_response.status == 200
+
+    - name: Debug KubeSeal Version
+      debug:
+        msg: "KubeSeal Version: {{ kubeseal_version }}"
+      when: kubeseal_version is defined
+
+    - name: Download KubeSeal binary
+      get_url:
+        url: "https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch.stdout }}.tar.gz"
+        dest: "/tmp/"
+        checksum: "sha256:https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch.stdout }}.tar.gz.sha256sum"
+
+    - name: Extract KubeSeal binary
+      unarchive:
+        src: "/tmp/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch.stdout }}.tar.gz"
+        dest: "/tmp/"
+        include: "kubeseal"
+        creates: "/tmp/kubeseal"
+
+    - name: Install KubeSeal binary to /usr/local/bin
+      copy:
+        src: "/tmp/kubeseal"
+        dest: /usr/local/bin/kubeseal
+        mode: 0755
+        remote_src: yes
+
+    - name: Remove temporary KubeSeal files
+      file:
+        path: "/tmp/kubeseal*"
+        state: absent
+
+    - name: **Note: Manually copy sealed-secret-signing-key.crt**
+      debug:
+        msg: "Please manually copy 'sealed-secret-signing-key.crt' from OneDrive Vault '/certificates' folder to '/home/ken' (or your user's home directory)."
+
+  tags:
+    - workstation_prep
+    - kubeseal
+
+- name: "Install Terraform"
+  block:
+    - name: Get Hashicorp GPG key
+      get_url:
+        url: https://apt.releases.hashicorp.com/gpg
+        dest: /tmp/hashicorp.gpg
+
+    - name: Import Hashicorp GPG key
+      apt_key:
+        file: /tmp/hashicorp.gpg
+        keyring: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+        state: present
+
+    - name: Add Hashicorp repository
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_lsb.codename }} main
+        state: present
+        filename: hashicorp
+
+    - name: Install Terraform
+      apt:
+        name: terraform
+        state: present
+
+    - name: Terraform install autocomplete (bash)
+      shell: terraform -install-autocomplete
+      become: false # Runs as user
+
+  tags:
+    - workstation_prep
+    - terraform
+
+- name: "Install Helm"
+  block:
+    - name: Download Helm signing key
+      get_url:
+        url: https://baltocdn.com/helm/signing.asc
+        dest: /tmp/helm.asc
+
+    - name: Add Helm apt key
+      apt_key:
+        file: /tmp/helm.asc
+        keyring: /usr/share/keyrings/helm.gpg
+        state: present
+
+    - name: Add Helm apt repository
+      apt_repository:
+        repo: deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
+        state: present
+        filename: helm-stable-debian
+
+    - name: Install Helm
+      apt:
+        name: helm
+        state: present
+
+  tags:
+    - workstation_prep
+    - helm
+
+- name: "Install Docker"
+  block:
+    - name: Add Docker's official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        keyring: /etc/apt/keyrings/docker.asc
+        state: present
+
+    - name: Add Docker apt repository
+      apt_repository:
+        repo: deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+        state: present
+        filename: docker
+
+    - name: Install Docker packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: **Note: Docker Login and newgrp docker are manual steps after playbook**
+      debug:
+        msg: "After running the playbook, you need to run 'newgrp docker' and 'docker login' in your terminal manually."
+
+  tags:
+    - workstation_prep
+    - docker
+
+- name: "Enable multi-arch container builds"
+  block:
+    - name: Install qemu-formats for multi-arch docker builds
+      shell: docker run --privileged --rm tonistiigi/binfmt --install all
+      become: false # docker command runs as user
+
+  tags:
+    - workstation_prep
+    - docker_multiarch
+
+- name: "Install Cilium/Hubble CLI Tools"
+  block:
+    - name: Get Cilium CLI version
+      uri:
+        url: https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt
+        return_content: yes
+        status_code: 200
+      register: cilium_version_response
+      become: false # Runs as user
+
+    - name: Set Cilium CLI version
+      set_fact:
+        cilium_cli_version: "{{ cilium_version_response.content | trim }}"
+      when: cilium_version_response.status == 200
+
+    - name: Debug Cilium CLI Version
+      debug:
+        msg: "Cilium CLI Version: {{ cilium_cli_version }}"
+      when: cilium_cli_version is defined
+
+    - name: Determine GOOS and GOARCH
+      command: go env GOOS
+      register: goos_output
+      become: false # Runs as user
+    - command: go env GOARCH
+      register: goarch_output
+      become: false # Runs as user
+
+    - name: Set GOOS and GOARCH facts
+      set_fact:
+        goos: "{{ goos_output.stdout | trim }}"
+        goarch: "{{ goarch_output.stdout | trim }}"
+
+    - name: Download Cilium CLI
+      get_url:
+        url: "https://github.com/cilium/cilium-cli/releases/download/{{ cilium_cli_version }}/cilium-{{ goos }}-{{ goarch }}.tar.gz"
+        dest: /tmp/
+        checksum: "sha256:https://github.com/cilium/cilium-cli/releases/download/{{ cilium_cli_version }}/cilium-{{ goos }}-{{ goarch }}.tar.gz.sha256sum"
+
+    - name: Extract Cilium CLI binary
+      unarchive:
+        src: "/tmp/cilium-{{ goos }}-{{ goarch }}.tar.gz"
+        dest: /usr/local/bin/
+        creates: /usr/local/bin/cilium
+        remote_src: yes
+
+    - name: Remove Cilium CLI archive
+      file:
+        path: "/tmp/cilium-{{ goos }}-{{ goarch }}.tar.gz*"
+        state: absent
+
+    - name: Get Hubble CLI version
+      uri:
+        url: https://raw.githubusercontent.com/cilium/hubble/master/stable.txt
+        return_content: yes
+        status_code: 200
+      register: hubble_version_response
+      become: false # Runs as user
+
+    - name: Set Hubble CLI version
+      set_fact:
+        hubble_version: "{{ hubble_version_response.content | trim }}"
+      when: hubble_version_response.status == 200
+
+    - name: Debug Hubble CLI Version
+      debug:
+        msg: "Hubble CLI Version: {{ hubble_version }}"
+      when: hubble_version is defined
+
+    - name: Determine Hubble ARCH
+      set_fact:
+        hubble_arch: "amd64"
+      when: ansible_architecture == "x86_64"
+      set_fact:
+        hubble_arch: "arm64"
+      when: ansible_architecture == "aarch64"
+
+    - name: Download Hubble CLI
+      get_url:
+        url: "https://github.com/cilium/hubble/releases/download/{{ hubble_version }}/hubble-linux-{{ hubble_arch }}.tar.gz"
+        dest: /tmp/
+        checksum: "sha256:https://github.com/cilium/hubble/releases/download/{{ hubble_version }}/hubble-linux-{{ hubble_arch }}.tar.gz.sha256sum"
+
+    - name: Extract Hubble CLI binary
+      unarchive:
+        src: "/tmp/hubble-linux-{{ hubble_arch }}.tar.gz"
+        dest: /usr/local/bin/
+        creates: /usr/local/bin/hubble
+        remote_src: yes
+
+    - name: Remove Hubble CLI archive
+      file:
+        path: "/tmp/hubble-linux-{{ hubble_arch }}.tar.gz*"
+        state: absent
+
+    - name: Set default namespace for Cilium commands in .bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "alias cilium='cilium --namespace=cilium'"
+        create: yes
+      become: false # Runs as user
+
+    - name: Source .bashrc again to apply cilium alias
+      shell: source ~/.bashrc
+      become: false # Runs as user
+
+  tags:
+    - workstation_prep
+    - cilium_hubble
+
+- name: "Install Kubent"
+  block:
+    - name: Install Kubent using install script
+      shell: sh -c "$(curl -sSL https://git.io/install-kubent)"
+      become: false # Runs as user
+      args:
+        executable: /bin/bash # Ensure bash is used
+
+  tags:
+    - workstation_prep
+    - kubent
+
+- name: "Install Popeye Kubernetes Resource Linter"
+  block:
+    - name: Fetch latest Popeye version from GitHub API
+      uri:
+        url: https://api.github.com/repos/derailed/popeye/tags
+        return_content: yes
+        status_code: 200
+      register: popeye_tags_response
+      become: false # Runs as user
+
+    - name: Set Popeye version from GitHub API response
+      set_fact:
+        popeye_version: "{{ popeye_tags_response.json | json_query('[0].name') | regex_replace('^v', '') }}"
+      when: popeye_tags_response.status == 200
+
+    - name: Debug Popeye Version
+      debug:
+        msg: "Popeye Version: {{ popeye_version }}"
+      when: popeye_version is defined
+
+    - name: Get Popeye architecture (using same as kubeseal for consistency)
+      command: dpkg --print-architecture
+      register: popeye_arch
+
+    - name: Download Popeye binary
+      get_url:
+        url: "https://github.com/derailed/popeye/releases/download/v{{ popeye_version }}/popeye_linux_{{ popeye_arch.stdout }}.tar.gz"
+        dest: "/tmp/"
+        checksum: "sha256:https://github.com/derailed/popeye/releases/download/v{{ popeye_version }}/popeye_linux_{{ popeye_arch.stdout }}.tar.gz.sha256sum"
+
+    - name: Extract Popeye binary
+      unarchive:
+        src: "/tmp/popeye_linux_{{ popeye_arch.stdout }}.tar.gz"
+        dest: "/tmp/"
+        include: "popeye"
+        creates: "/tmp/popeye"
+
+    - name: Install Popeye binary to /usr/local/bin
+      copy:
+        src: "/tmp/popeye"
+        dest: /usr/local/bin/popeye
+        mode: 0755
+        remote_src: yes
+
+    - name: Remove temporary Popeye files
+      file:
+        path: "/tmp/popeye*"
+        state: absent
+
+  tags:
+    - workstation_prep
+    - popeye
+
+- name: "Install Omni/Talos Tools - **MANUAL STEP**"
+  debug:
+    msg: "Please follow the Omni installation instructions manually from [Omni installation instructions](https://github.com/kenlasko/omni) to install Omni/Talos tools. This is currently not automated in this playbook."
+  tags:
+    - workstation_prep
+    - omni_talos

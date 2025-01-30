@@ -1,0 +1,65 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Ensure apt is updated
+      apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget)
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - jq
+          - bash-completion
+          - wget
+          - software-properties-common # Required for add-apt-repository
+          - git # For git clone
+          - nano # Optional editor
+          - pip # For ansible python modules and kubernetes python library
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install golang-go for Cilium/Hubble
+      apt:
+        name: golang-go
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install Ansible itself, if not already present (for playbook to run)
+      apt:
+        name: ansible
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install python3-pip for ansible python modules
+      apt:
+        name: python3-pip
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install Ansible collections
+      command: ansible-galaxy collection install community.general kubernetes.core
+      become: false # galaxy command runs as user
+
+    - name: Install kubernetes python library for ansible
+      pip:
+        name: kubernetes
+        state: present
+      become: false # pip command runs as user
+
+
+  roles:
+    - workstation_prep
+
+---
+- hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - workstation_post_config
