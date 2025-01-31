@@ -99,6 +99,50 @@
           mode: 0755
         become: false
 
+      - name: Set OS and ARCH facts
+        set_fact:
+          os_name: "{{ ansible_system | lower }}"
+          architecture: "{{ ansible_architecture | replace('x86_64', 'amd64') | regex_replace('(arm)(64)?.*', '\\1\\2') | regex_replace('aarch64$', 'arm64') }}"
+          krew_filename: "krew-{{ os_name }}_{{ architecture }}"
+          krew_download_url: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_filename }}.tar.gz"
+
+      - name: Download krew tar.gz
+        get_url:
+          url: "{{ krew_download_url }}"
+          dest: "/tmp/{{ krew_filename }}.tar.gz"
+          checksum: no 
+
+      - name: Extract krew tar.gz
+        unarchive:
+          src: "{{ temp_dir.path }}/{{ krew_filename }}.tar.gz"
+          dest: "{{ temp_dir.path }}"
+          remote_src: yes
+
+      - name: Install krew
+        command:
+          cmd: "./{{ krew_filename }} install krew"
+          chdir: "{{ temp_dir.path }}"
+
+      - name: Add Krew path to ~/.bashrc
+        lineinfile:
+          path: "~/.bashrc"
+          line: 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"'
+          state: present
+          create: yes
+
+      - name: Source ~/.bashrc to update PATH (for current session)
+        shell:
+          executable: /bin/bash
+          cmd: source ~/.bashrc
+        become_user: "{{ ansible_user }}" # Ensure it runs as the user
+
+      - name: Install OIDC-Login in Kubectl
+        command:
+          cmd: kubectl krew install oidc-login
+        environment:
+          PATH: "{{ lookup('env', 'PATH') }}:{{ lookup('env', 'HOME') }}/.krew/bin"
+        become_user: "{{ ansible_user }}" # Ensure it runs as the user
+
     tags:
       - workstation_prep
       - kubectl_autocomplete
