@@ -110,14 +110,14 @@
 
       - name: Extract krew tar.gz
         unarchive:
-          src: "{{ temp_dir.path }}/{{ krew_filename }}.tar.gz"
-          dest: "{{ temp_dir.path }}"
+          src: "/tmp/{{ krew_filename }}.tar.gz"
+          dest: "/tmp"
           remote_src: yes
 
       - name: Install krew
         command:
           cmd: "./{{ krew_filename }} install krew"
-          chdir: "{{ temp_dir.path }}"
+          chdir: "/tmp"
 
       - name: Add Krew path to ~/.bashrc
         lineinfile:
