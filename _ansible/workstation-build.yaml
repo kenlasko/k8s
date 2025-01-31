@@ -2,6 +2,7 @@
 - hosts: localhost
   connection: local
   become: true
+  gather_facts: true
   tasks:
   - name: Determine architecture for multi-arch binaries
     set_fact:
@@ -10,6 +11,7 @@
     set_fact:
       os_arch: "arm64"
     when: ansible_architecture == "aarch64"
+    register: "os_arch"
   - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget)
     apt:
       name:
