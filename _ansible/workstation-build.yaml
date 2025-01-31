@@ -255,15 +255,15 @@
       - workstation_prep
       - docker
 
-  - name: "Enable multi-arch container builds"
-    block:
-      - name: Install qemu-formats for multi-arch docker builds
-        shell: docker run --privileged --rm tonistiigi/binfmt --install all
-        become: false # docker command runs as user
+  # - name: "Enable multi-arch container builds"
+  #   block:
+  #     - name: Install qemu-formats for multi-arch docker builds
+  #       shell: docker run --privileged --rm tonistiigi/binfmt --install all
+  #       become: false # docker command runs as user
 
-    tags:
-      - workstation_prep
-      - docker_multiarch
+  #   tags:
+  #     - workstation_prep
+  #     - docker_multiarch
 
   - name: "Install Cilium/Hubble CLI Tools"
     block:
