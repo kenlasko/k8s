@@ -86,6 +86,12 @@
           create: yes
         become: false # Runs as user
 
+      - name: Install kubeconfig
+        copy:
+          src: "./kubeconfig"
+          dest: ~/.kube/config
+          mode: 0755
+
     tags:
       - workstation_prep
       - kubectl_autocomplete
@@ -220,11 +226,6 @@
           url: https://download.docker.com/linux/ubuntu/gpg
           keyring: /etc/apt/keyrings/docker.gpg
           state: present
-
-      - name: DEBUG
-        set_fact:
-          os_arch: "amd64"
-        when: ansible_architecture == "x86_64"
 
       - name: Add Docker apt repository
         apt_repository:
