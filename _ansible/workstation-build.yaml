@@ -230,6 +230,7 @@
           file: /tmp/docker.asc
           keyring: /etc/apt/keyrings/docker.asc
           state: present
+          ignore_errors: true
 
       - name: DEBUG
         set_fact:
