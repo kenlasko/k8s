@@ -220,11 +220,17 @@
 
   - name: "Install Docker"
     block:
+      - name: Ensure keyrings directory exists
+        file:
+          path: /etc/apt/keyrings
+          state: directory
+          mode: '0755'
+
       - name: Add Docker's official GPG key
-        apt_key:
+        get_url:
           url: https://download.docker.com/linux/ubuntu/gpg
-          keyring: /etc/apt/keyrings/docker.asc
-          state: present
+          dest: /etc/apt/trusted.gpg.d/docker.gpg
+          mode: '0644'
 
       - name: Add Docker apt repository
         apt_repository:
