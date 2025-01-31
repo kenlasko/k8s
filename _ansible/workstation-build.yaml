@@ -107,7 +107,6 @@
         get_url:
           url: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_filename }}.tar.gz"
           dest: "/tmp/{{ krew_filename }}.tar.gz"
-          checksum: no 
 
       - name: Extract krew tar.gz
         unarchive:
