@@ -90,12 +90,14 @@
         file:
           path: ~/.kube
           state: directory
+        become: false
 
       - name: Install kubeconfig
         copy:
           src: "./kubeconfig"
           dest: ~/.kube/config
           mode: 0755
+        become: false
 
     tags:
       - workstation_prep
