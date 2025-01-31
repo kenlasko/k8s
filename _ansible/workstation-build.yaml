@@ -220,15 +220,10 @@
 
   - name: "Install Docker"
     block:
-      - name: Download Docker signing key
-        get_url:
-          url: https://download.docker.com/linux/ubuntu/gpg
-          dest: /tmp/docker.asc
-
       - name: Add Docker apt key
         apt_key:
-          file: /tmp/docker.asc
-          keyring: /usr/share/keyrings/docker.gpg
+          url: https://download.docker.com/linux/ubuntu/gpg
+          keyring: /etc/apt/keyrings/docker.gpg
           state: present
 
       - name: DEBUG
@@ -238,7 +233,7 @@
 
       - name: Add Docker apt repository
         apt_repository:
-          repo: deb [arch={{ os_arch }} signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+          repo: deb [arch={{ os_arch }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
           state: present
           filename: docker
 
