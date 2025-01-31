@@ -228,7 +228,7 @@
       - name: Add Docker apt key
         apt_key:
           file: /tmp/docker.asc
-          keyring: /usr/share/keyrings/docker.asc
+          keyring: /etc/apt/keyrings/docker.asc
           state: present
 
       - name: DEBUG
