@@ -18,7 +18,7 @@
     set_fact:
       os_arch: "unknown"
     when: os_arch is not defined
-    
+
   - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget)
     apt:
       name:
@@ -176,9 +176,15 @@
           name: terraform
           state: present
 
-      - name: Terraform install autocomplete (bash)
+      - name: Check if Terraform autocomplete is installed (bash)
+        stat:
+          path: "/home/ken/.bashrc"
+        register: bashrc_stat
+
+      - name: Install Terraform autocomplete (bash)
         shell: terraform -install-autocomplete
-        become: false # Runs as user
+        become: false
+        when: "'# terraform autocomplete' not in bashrc_stat.stat.contents"
 
     tags:
       - workstation_prep
