@@ -230,9 +230,13 @@
           dest: /etc/apt/keyrings/docker.asc
           state: present
 
+      - name: Show codename
+        debug:
+          msg: "{{ ansible_lsb.codename }}"
+          
       - name: Add Docker apt repository
         apt_repository:
-          repo: deb [arch={{ os_arch }} signed-by=signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable
+          repo: deb [arch={{ os_arch }} signed-by=signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
           state: present
           filename: docker
 
