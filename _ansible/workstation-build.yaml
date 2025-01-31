@@ -230,10 +230,11 @@
           dest: /etc/apt/keyrings/docker.asc
           state: present
 
-      - name: Show codename
-        debug:
-          msg: "{{ ansible_lsb.codename }}"
-          
+      - name: Set os_arch for amd64
+        set_fact:
+          os_arch: "amd64"
+        when: ansible_architecture == "x86_64"
+
       - name: Add Docker apt repository
         apt_repository:
           repo: deb [arch={{ os_arch }} signed-by=signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
