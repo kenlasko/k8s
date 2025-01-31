@@ -54,10 +54,6 @@
           create: yes
         become: false # Runs as user
 
-      - name: Source .bashrc to apply changes immediately
-        shell: source ~/.bashrc
-        become: false # Runs as user
-
     tags:
       - workstation_prep
       - kubectl_autocomplete
@@ -103,7 +99,6 @@
         get_url:
           url: "https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch.stdout }}.tar.gz"
           dest: "/tmp/"
-          checksum: "sha256:https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-{{ kubeseal_version }}-linux-{{ kubeseal_arch.stdout }}.tar.gz.sha256sum"
 
       - name: Extract KubeSeal binary
         unarchive:
