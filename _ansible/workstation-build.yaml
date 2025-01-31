@@ -21,7 +21,7 @@
       os_arch: "unknown"
     when: os_arch is not defined
     
-  - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget)
+  - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget, golang-go)
     apt:
       name:
         - apt-transport-https
@@ -364,6 +364,7 @@
       - name: Source .bashrc again to apply cilium alias
         shell: source ~/.bashrc
         become: false # Runs as user
+        ignore_errors: true
 
     tags:
       - workstation_prep
