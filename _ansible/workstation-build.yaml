@@ -406,7 +406,6 @@
         get_url:
           url: "https://github.com/derailed/popeye/releases/download/v{{ popeye_version }}/popeye_linux_{{ os_arch }}.tar.gz"
           dest: "/tmp/"
-          checksum: "sha256:https://github.com/derailed/popeye/releases/download/v{{ popeye_version }}/popeye_linux_{{ os_arch }}.tar.gz.sha256sum"
 
       - name: Extract Popeye binary
         unarchive:
