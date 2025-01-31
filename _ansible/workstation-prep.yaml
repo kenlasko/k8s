@@ -22,6 +22,7 @@
           - git # For git clone
           - nano # Optional editor
           - pip # For ansible python modules and kubernetes python library
+          - python3-pip
         state: present
       when: ansible_os_family == 'Debian'
 

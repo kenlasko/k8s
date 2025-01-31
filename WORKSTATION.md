@@ -12,6 +12,11 @@ Install Visual Studio Code from Microsoft Store, then install required extension
 https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
 ```
+## Install Ansible and Base Prerequisites
+```
+sudo apt update
+sudo apt install nano git ssh -y
+```
 
 ## Create Github token
 Follow instructions on https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
@@ -38,7 +43,7 @@ git clone git@github.com:kenlasko/pxeboot.git
 
 ## Install Ansible
 ```
-sudo apt install ansible nano pip -y
+sudo apt install ansible pip python3-all -y
 ansible-galaxy collection install community.general
 ansible-galaxy collection install kubernetes.core
 pip install kubernetes
