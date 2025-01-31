@@ -177,7 +177,7 @@
           state: present
 
       - name: Check if Terraform autocomplete is already installed
-        shell: grep -q 'complete -C /usr/bin/terraform terraform' ~/.bashrc
+        shell: source ~/.bashrc && grep -q 'complete -C /usr/bin/terraform terraform' ~/.bashrc || true
         register: terraform_autocomplete_installed
         ignore_errors: true
 
