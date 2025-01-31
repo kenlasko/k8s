@@ -52,7 +52,3 @@
         name: kubernetes
         state: present
       become: false # pip command runs as user
-
-
-  roles:
-    - workstation_prep

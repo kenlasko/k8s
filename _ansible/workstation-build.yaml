@@ -1,113 +1,6 @@
 ---
 # roles/workstation_prep/tasks/main.yml
-- name: "Workstation Prep - Initial Setup"
-  block:
-    - name: **Note: WSL and VS Code Installation are manual steps.**
-      debug:
-        msg: "Please ensure WSL and Visual Studio Code with required extensions (Remote-WSL, Terraform) are installed manually as per instructions."
-
-    - name: **Note: GitHub Token creation is a semi-manual step.**
-      debug:
-        msg: "The playbook will generate an SSH key. You need to manually add the public key to your GitHub account."
-
-    - name: Generate SSH key for Github (id_rsa - important for naming)
-      community.crypto.openssh_keypair:
-        path: ~/.ssh/id_rsa
-        type: ed25519
-        comment: "ken.lasko@gmail.com"
-      become: false # Runs as user
-
-    - name: Get public key content
-      slurp:
-        src: ~/.ssh/id_rsa.pub
-      register: ssh_public_key
-      become: false # Runs as user
-
-    - name: Display Public Key - **MANUALLY ADD THIS TO GITHUB**
-      debug:
-        msg: "Public SSH Key (id_rsa.pub - add to Github SSH Keys): {{ ssh_public_key.content | b64decode }}"
-
-  tags:
-    - workstation_prep
-    - initial_setup
-
-- name: "Configure Git and Clone Repositories"
-  block:
-    - name: Configure Git Global Email
-      git_config:
-        name: user.email
-        value: "ken.lasko@gmail.com"
-        scope: global
-      become: false # Runs as user
-
-    - name: Configure Git Global Name
-      git_config:
-        name: user.name
-        value: "Ken Lasko"
-        scope: global
-      become: false # Runs as user
-
-    - name: Clone k8s repository
-      git:
-        repo: "git@github.com:kenlasko/k8s.git"
-        dest: "~/k8s"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-    - name: Clone k8s-lab repository
-      git:
-        repo: "git@github.com:kenlasko/k8s-lab.git"
-        dest: "~/k8s-lab"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-    - name: Clone k8s-cloud repository
-      git:
-        repo: "git@github.com:kenlasko/k8s-cloud.git"
-        dest: "~/k8s-cloud"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-    - name: Clone omni repository
-      git:
-        repo: "git@github.com:kenlasko/omni.git"
-        dest: "~/omni"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-    - name: Clone docker repository
-      git:
-        repo: "git@github.com:kenlasko/docker.git"
-        dest: "~/docker"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-    - name: Clone omni-public repository
-      git:
-        repo: "git@github.com:kenlasko/omni-public.git"
-        dest: "~/omni-public"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-    - name: Clone pxeboot repository
-      git:
-        repo: "git@github.com:kenlasko/pxeboot.git"
-        dest: "~/pxeboot"
-        version: main # or specify branch
-        accept_hostkey: yes
-      become: false # Runs as user
-
-  tags:
-    - workstation_prep
-    - git_config
-    - git_clone
-
+tasks:
 - name: "Install Kubectl"
   block:
     - name: Add Kubernetes apt key
@@ -229,7 +122,7 @@
         path: "/tmp/kubeseal*"
         state: absent
 
-    - name: **Note: Manually copy sealed-secret-signing-key.crt**
+    - name: Manually copy sealed-secret-signing-key.crt
       debug:
         msg: "Please manually copy 'sealed-secret-signing-key.crt' from OneDrive Vault '/certificates' folder to '/home/ken' (or your user's home directory)."
 
@@ -327,7 +220,7 @@
         groups: docker
         append: yes
 
-    - name: **Note: Docker Login and newgrp docker are manual steps after playbook**
+    - name: Docker Login and newgrp docker are manual steps after playbook
       debug:
         msg: "After running the playbook, you need to run 'newgrp docker' and 'docker login' in your terminal manually."
 
