@@ -125,6 +125,7 @@
           line: 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"'
           state: present
           create: yes
+        become: false
 
       - name: Source ~/.bashrc to update PATH (for current session)
         shell:
