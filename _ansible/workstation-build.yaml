@@ -5,13 +5,16 @@
   gather_facts: true
   tasks:
   - name: Determine architecture for multi-arch binaries
-    set_fact:
-      os_arch: "amd64"
-    when: ansible_architecture == "x86_64"
-    set_fact:
-      os_arch: "arm64"
-    when: ansible_architecture == "aarch64"
-    register: "os_arch"
+    block:
+      - set_fact:
+          os_arch: "amd64"
+        when: ansible_architecture == "x86_64"
+      - set_fact:
+          os_arch: "arm64"
+        when: ansible_architecture == "aarch64"
+    first_found:
+      - var: os_arch
+      - default: "unknown"
   - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget)
     apt:
       name:
