@@ -101,13 +101,11 @@
 
       - name: Set OS and ARCH facts
         set_fact:
-          os_name: "{{ ansible_system | lower }}"
-          krew_filename: "krew-{{ os_name }}_{{ os_arch }}"
-          krew_download_url: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_filename }}.tar.gz"
+          krew_filename: "krew-{{ ansible_system | lower }}_{{ os_arch }}"
 
       - name: Download krew tar.gz
         get_url:
-          url: "{{ krew_download_url }}"
+          url: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_filename }}.tar.gz"
           dest: "/tmp/{{ krew_filename }}.tar.gz"
           checksum: no 
 
