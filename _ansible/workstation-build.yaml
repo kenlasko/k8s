@@ -86,6 +86,11 @@
           create: yes
         become: false # Runs as user
 
+      - name: Create .kube directory
+        file:
+          path: ~/.kube
+          state: directory
+
       - name: Install kubeconfig
         copy:
           src: "./kubeconfig"
