@@ -228,9 +228,8 @@
       - name: Add Docker apt key
         apt_key:
           file: /tmp/docker.asc
-          keyring: /etc/apt/keyrings/docker.asc
+          keyring: /usr/share/keyrings/docker.gpg
           state: present
-          ignore_errors: true
 
       - name: DEBUG
         set_fact:
@@ -239,7 +238,7 @@
 
       - name: Add Docker apt repository
         apt_repository:
-          repo: deb [arch={{ os_arch }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+          repo: deb [arch={{ os_arch }} signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
           state: present
           filename: docker
 
