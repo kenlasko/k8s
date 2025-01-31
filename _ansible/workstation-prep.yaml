@@ -56,10 +56,3 @@
 
   roles:
     - workstation_prep
-
----
-- hosts: localhost
-  connection: local
-  become: true
-  roles:
-    - workstation_post_config
