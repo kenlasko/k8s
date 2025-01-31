@@ -3,6 +3,8 @@
   connection: local
   become: true
   gather_facts: true
+  vars:
+    ansible_user: ken
   tasks:
   - name: Set os_arch for amd64
     set_fact:
@@ -154,14 +156,10 @@
 
   - name: "Install Terraform"
     block:
-      - name: Get Hashicorp GPG key
-        get_url:
-          url: https://apt.releases.hashicorp.com/gpg
-          dest: /tmp/hashicorp.gpg
 
       - name: Import Hashicorp GPG key
         apt_key:
-          file: /tmp/hashicorp.gpg
+          url: https://apt.releases.hashicorp.com/gpg
           keyring: /usr/share/keyrings/hashicorp-archive-keyring.gpg
           state: present
 
@@ -192,14 +190,10 @@
 
   - name: "Install Helm"
     block:
-      - name: Download Helm signing key
-        get_url:
-          url: https://baltocdn.com/helm/signing.asc
-          dest: /tmp/helm.asc
 
       - name: Add Helm apt key
         apt_key:
-          file: /tmp/helm.asc
+          url: https://baltocdn.com/helm/signing.asc
           keyring: /usr/share/keyrings/helm.gpg
           state: present
 
@@ -339,7 +333,6 @@
         debug:
           msg: "Hubble CLI Version: {{ hubble_version }}"
         when: hubble_version is defined
-
 
 
       - name: Download Hubble CLI
