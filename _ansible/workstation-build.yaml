@@ -230,7 +230,7 @@
           dest: /etc/apt/keyrings/docker.asc
           state: present
 
-      - name: Set os_arch for amd64
+      - name: DEBUG
         set_fact:
           os_arch: "amd64"
         when: ansible_architecture == "x86_64"
