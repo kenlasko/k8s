@@ -84,8 +84,8 @@ kubectl krew install oidc-login
 
 
 
-# Manual instructions
-If the Ansible script doesn't work, here are the manual steps to get everything installed
+# Manual instructions (ONLY IF ANSIBLE DOESN'T WORK)
+For reference, or if the Ansible script doesn't work, here are the manual steps to get everything installed.
 ## Install Terraform
 ```
 # Get the Hashicorp GPG key
