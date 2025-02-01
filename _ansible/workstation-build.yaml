@@ -461,24 +461,28 @@
           path: ~/.config/omni
           state: directory
           mode: 0755 # Optional: Set directory permissions
+        become: false
 
       - name: Create ~/.talos directory
         file:
           path: ~/.talos
           state: directory
           mode: 0755 # Optional: Set directory permissions
+        become: false
 
       - name: Copy omniconfig.yaml to ~/.config/omni/config
         copy:
           src: ~/k8s/_ansible/resources/omniconfig.yaml
           dest: ~/.config/omni/config
           mode: 0644 # Optional: Set file permissions
+        become: false
 
       - name: Copy talosconfig.yaml to ~/.talos/config
         copy:
           src: ~/k8s/_ansible/resources/talosconfig.yaml
           dest: ~/.talos/config
-          mode: 0644 # Optional: Set file permissions        
+          mode: 0644 # Optional: Set file permissions
+        become: false      
 
   - name: "Install Omni/Talos Tools - **MANUAL STEP**"
     debug:
