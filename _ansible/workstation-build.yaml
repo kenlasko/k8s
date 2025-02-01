@@ -102,34 +102,6 @@
           mode: 0755
         become: false
 
-      - name: Set OS and ARCH facts
-        set_fact:
-          krew_filename: "krew-{{ ansible_system | lower }}_{{ os_arch }}"
-
-      - name: Download krew tar.gz
-        get_url:
-          url: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_filename }}.tar.gz"
-          dest: "/tmp/{{ krew_filename }}.tar.gz"
-
-      - name: Extract krew tar.gz
-        unarchive:
-          src: "/tmp/{{ krew_filename }}.tar.gz"
-          dest: "/tmp"
-          remote_src: yes
-
-      - name: Install krew
-        command:
-          cmd: "./{{ krew_filename }} install krew"
-          chdir: "/tmp"
-
-      - name: Add Krew path to ~/.bashrc
-        lineinfile:
-          path: "~/.bashrc"
-          line: 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"'
-          state: present
-          create: yes
-        become: false
-
       - name: Source ~/.bashrc to update PATH (for current session)
         shell:
           executable: /bin/bash
