@@ -60,8 +60,27 @@ ansible-playbook ~/k8s/_ansible/workstation-build.yaml --ask-become-pass
 source ~/.bashrc
 ```
 
-## Install Omni/Talos Tools
-Install tools as per [Omni installation instructions](https://github.com/kenlasko/omni)
+## Final Manual Change
+A few things can't be done via Ansible script, like installing Krew
+```
+source ~/.bashrc
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
+
+# Add Krew path to ~/.bashrc
+echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+# Install OIDC-Login in Kubectl
+kubectl krew install oidc-login
+```
 
 
 

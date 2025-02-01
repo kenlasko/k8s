@@ -453,7 +453,7 @@
       - name: Make omnictl executable
         file:
           path: /usr/local/bin/omnictl
-          mode: u+x
+          mode: 0755
         become: true # Changing permissions in /usr/local/bin needs sudo
 
       - name: Create ~/.config/omni directory
