@@ -50,9 +50,23 @@ pip install kubernetes
 
 # Copy Ansible Hosts
 sudo mkdir /etc/ansible
-sudo cp ~/k8s/_ansible/hosts /etc/ansible/hosts
+sudo cp ~/k8s/_ansible/resources/hosts /etc/ansible/hosts
 ```
 
+## Run Ansible script to install tools
+This will install almost everything needed to start working with Kubernetes on the workstation.
+```
+ansible-playbook ~/k8s/_ansible/workstation-build.yaml --ask-become-pass
+source ~/.bashrc
+```
+
+## Install Omni/Talos Tools
+Install tools as per [Omni installation instructions](https://github.com/kenlasko/omni)
+
+
+
+# Manual instructions
+If the Ansible script doesn't work, here are the manual steps to get everything installed
 ## Install Terraform
 ```
 # Get the Hashicorp GPG key

@@ -94,7 +94,7 @@
 
       - name: Install kubeconfig
         copy:
-          src: "./kubeconfig"
+          src: "./resources/kubeconfig"
           dest: ~/.kube/config
           mode: 0755
         become: false
@@ -369,11 +369,6 @@
           create: yes
         become: false # Runs as user
 
-      - name: Source .bashrc again to apply cilium alias
-        shell: source ~/.bashrc
-        become: false # Runs as user
-        ignore_errors: true
-
     tags:
       - workstation_prep
       - cilium_hubble
@@ -437,6 +432,53 @@
     tags:
       - workstation_prep
       - popeye
+
+  - name: "Install Omni/Talos Tools"
+    block:
+      - name: Remove old version of talosctl if present
+        file:
+          path: /usr/local/bin/talosctl
+          state: absent
+        ignore_errors: yes # Don't fail if talosctl doesn't exist
+
+      - name: Install latest version of talosctl
+        shell:
+          curl -sL https://talos.dev/install | sh
+
+      - name: Move and rename omnictl binary
+        command:
+          cmd: mv ~/k8s/_ansible/resources/omnictl-linux-{{ os_arch }} /usr/local/bin/omnictl
+        become: true # Moving to /usr/local/bin needs sudo
+
+      - name: Make omnictl executable
+        file:
+          path: /usr/local/bin/omnictl
+          mode: u+x
+        become: true # Changing permissions in /usr/local/bin needs sudo
+
+      - name: Create ~/.config/omni directory
+        file:
+          path: ~/.config/omni
+          state: directory
+          mode: 0755 # Optional: Set directory permissions
+
+      - name: Create ~/.talos directory
+        file:
+          path: ~/.talos
+          state: directory
+          mode: 0755 # Optional: Set directory permissions
+
+      - name: Copy omniconfig.yaml to ~/.config/omni/config
+        copy:
+          src: ~/k8s/_ansible/resources/omniconfig.yaml
+          dest: ~/.config/omni/config
+          mode: 0644 # Optional: Set file permissions
+
+      - name: Copy talosconfig.yaml to ~/.talos/config
+        copy:
+          src: ~/k8s/_ansible/resources/talosconfig.yaml
+          dest: ~/.talos/config
+          mode: 0644 # Optional: Set file permissions        
 
   - name: "Install Omni/Talos Tools - **MANUAL STEP**"
     debug:
