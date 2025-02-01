@@ -447,7 +447,7 @@
 
       - name: Move and rename omnictl binary
         command:
-          cmd: mv ~/k8s/_ansible/resources/omnictl-linux-{{ os_arch }} /usr/local/bin/omnictl
+          cmd: mv /home/ken/k8s/_ansible/resources/omnictl-linux-{{ os_arch }} /usr/local/bin/omnictl
         become: true # Moving to /usr/local/bin needs sudo
 
       - name: Make omnictl executable
