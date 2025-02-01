@@ -116,7 +116,7 @@
 
       - name: Install krew
         command:
-          cmd: "/tmp/{{ krew_filename }} install krew"
+          cmd: "./{{ krew_filename }} install krew"
           chdir: "/tmp"
 
       - name: Add Krew path to ~/.bashrc
