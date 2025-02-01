@@ -12,7 +12,7 @@ Install Visual Studio Code from Microsoft Store, then install required extension
 https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
 ```
-## Install Ansible and Base Prerequisites
+## Install Base Prerequisites
 ```
 sudo apt update
 sudo apt install nano git ssh -y
@@ -82,6 +82,18 @@ source ~/.bashrc
 kubectl krew install oidc-login
 ```
 
+## Important Connection Note
+If you are connecting via SSH to the terminal (ie not via WSL), add the following to your ```~/.ssh/config``` on your local machine you're using to connect to `myhost`
+```
+Host myhost
+  LocalForward 8000 127.0.0.1:8000
+  LocalForward 18000 127.0.0.1:18000
+```
+Or alternatively, connect directly via SSH using:
+```
+ssh -i "~/.ssh/id_rsa" ken@rpi1. -L 8000:localhost:8000
+```
+Otherwise, Omni authentication won't work in kubectl. This isn't an issue if connecting directly to the cluster
 
 
 # Manual instructions (ONLY IF ANSIBLE DOESN'T WORK)
