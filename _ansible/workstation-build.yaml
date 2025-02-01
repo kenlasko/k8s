@@ -5,6 +5,9 @@
   gather_facts: true
   vars:
     ansible_user: ken
+  roles:
+    - role: andrewrothstein.kubectl
+    - role: cnygaard.kubectl_krew
   tasks:
   - name: Set os_arch for amd64
     set_fact:
