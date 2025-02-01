@@ -35,6 +35,17 @@
         - golang-go
       state: present
     when: ansible_os_family == 'Debian'
+
+  - name: Update apt repo and cache
+    apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+  - name: Upgrade all packages
+    apt: upgrade=dist force_apt_get=yes
+
+  - name: Check if a reboot is needed
+    register: reboot_required_file
+    stat: path=/var/run/reboot-required get_md5=no
+
   - name: "Install Kubectl"
     block:
       - name: Add Kubernetes apt key
