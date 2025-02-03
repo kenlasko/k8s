@@ -192,7 +192,7 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
-# Install Docker for container building
+## Install Docker for container building
 From https://docs.docker.com/engine/install/ubuntu/
 ```
 # Add Docker's official GPG key:
