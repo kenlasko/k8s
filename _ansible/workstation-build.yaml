@@ -445,9 +445,8 @@
       - popeye
 
   - name: "Install Omni/Talos Tools"
+    tags: omni
     block:
-      tags:
-        - omni
       - name: Remove old version of talosctl if present
         file:
           path: /usr/local/bin/talosctl
