@@ -477,7 +477,7 @@
           mode: 0644 # Optional: Set file permissions
         become: false    
 
-      - name: "Install Omni/Talos Tools - **MANUAL STEP**"
+      - name: "Install Krew - **MANUAL STEP**"
         debug:
           msg: "Please follow the Krew installation instructions manually from [Omni installation instructions](https://github.com/kenlasko/omni) to install Krew tools. This is currently not automated in this playbook."
         tags:
