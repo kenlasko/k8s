@@ -446,6 +446,8 @@
 
   - name: "Install Omni/Talos Tools"
     block:
+      tags:
+        - omni
       - name: Remove old version of talosctl if present
         file:
           path: /usr/local/bin/talosctl
@@ -493,7 +495,7 @@
           src: ~/k8s/_ansible/resources/talosconfig.yaml
           dest: ~/.talos/config
           mode: 0644 # Optional: Set file permissions
-        become: false      
+        become: false    
 
   - name: "Install Omni/Talos Tools - **MANUAL STEP**"
     debug:
