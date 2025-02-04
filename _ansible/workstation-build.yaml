@@ -153,7 +153,7 @@
           dest: "/tmp/"
 
       - name: Extract KubeSeal binary
-        unarchive:
+        ansible.builtin.unarchive:
           src: "/tmp/kubeseal-{{ kubeseal_version }}-linux-{{ os_arch }}.tar.gz"
           dest: "/tmp/"
           include: "kubeseal"
