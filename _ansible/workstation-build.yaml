@@ -479,7 +479,7 @@
 
       - name: "Install Omni/Talos Tools - **MANUAL STEP**"
         debug:
-          msg: "Please follow the Omni installation instructions manually from [Omni installation instructions](https://github.com/kenlasko/omni) to install Omni/Talos tools. This is currently not automated in this playbook."
+          msg: "Please follow the Krew installation instructions manually from [Omni installation instructions](https://github.com/kenlasko/omni) to install Krew tools. This is currently not automated in this playbook."
         tags:
           - workstation_prep
           - omni_talos
