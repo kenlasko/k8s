@@ -25,6 +25,7 @@
   
   - name: Install prerequisite packages
     tags: prereqs
+    block:
     - name: Install prerequisite packages (apt-transport-https, ca-certificates, curl, gnupg, jq, bash-completion, wget, golang-go)
       apt:
         name:
