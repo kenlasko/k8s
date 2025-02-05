@@ -56,10 +56,10 @@ spec:
         resources:
           requests:
             cpu: 3m
-            memory: 200Mi
+            memory: 250Mi
           limits:
             # cpu: 300m
-            memory: 300Mi
+            memory: 350Mi
         ports:
         - containerPort: 3000
           name: http

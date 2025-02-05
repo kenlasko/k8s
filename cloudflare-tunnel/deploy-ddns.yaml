@@ -61,11 +61,11 @@ spec:
           value: "America/Toronto"
         resources:
           requests:
-            cpu: 10m
-            memory: 100Mi
+            cpu: 1m
+            memory: 7Mi
           limits:
             # cpu: 250m
-            memory: 300Mi
+            memory: 30Mi
         livenessProbe:
           httpGet:
             path: /

@@ -60,7 +60,7 @@ deschedulerPolicy:
 
 resources:
   requests:
-    cpu: 2m
+    cpu: 1m
     memory: 16Mi
   limits:
     # cpu: 50m

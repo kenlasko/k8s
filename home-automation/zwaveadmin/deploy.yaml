@@ -41,7 +41,7 @@ spec:
         resources:
           requests:
             cpu: 3m
-            memory: 110Mi
+            memory: 150Mi
             smarter-devices/ttyUSB0: 1
           limits:
             # cpu: 300m
