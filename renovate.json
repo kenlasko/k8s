@@ -62,6 +62,19 @@
         "kubernetes"
       ],
       "matchPackageNames": [
+        "ghcr.io/home-assistant/home-assistant"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "automerge": false
+    },
+    {
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
         "docker.io/linuxserver/lidarr"
       ],
       "allowedVersions": "<=7.9"
