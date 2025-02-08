@@ -18,12 +18,12 @@ spec:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: cilium
+    path: manifests/cilium
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
   - repoURL: "https://github.com/kubernetes-sigs/gateway-api.git"
-    path: "config/crd/experimental"
+    path: manifests/"config/crd/experimental"
     targetRevision: "v1.1.0"
   destination:
     server: "https://kubernetes.default.svc"

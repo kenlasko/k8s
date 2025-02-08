@@ -17,7 +17,7 @@ spec:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: mariadb-standalone
+    path: manifests/mariadb-standalone
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

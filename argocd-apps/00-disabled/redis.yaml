@@ -17,7 +17,7 @@ spec:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: redis
+    path: manifests/redis
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

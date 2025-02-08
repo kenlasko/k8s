@@ -9,13 +9,13 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: media-tools
+    path: manifests/media-tools
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: media-tools/00-global-config
+    path: manifests/media-tools/00-global-config
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: media-tools/backup
+    path: manifests/media-tools/backup
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
