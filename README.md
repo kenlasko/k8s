@@ -4,10 +4,10 @@ This is the Git repository that contains all the configuration for my home-based
 This cluster is built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for cluster management.
 
 My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require hardware that is specific to certain named nodes. The manifests are configured for this. For example:
-* [Plex](/media-tools/plex) requires nodes with Intel GPUs for transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
-* [Home Assistant](/home-automation/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
-* [MariaDB](/mariadb) requires local storage, which is available on NUC4-NUC6.
-* [Longhorn](/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
+* [Plex](/manifests/media-tools/plex) requires nodes with Intel GPUs for transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
+* [Home Assistant](/manifests/home-automation/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
+* [MariaDB](/manifests/mariadb) requires local storage, which is available on NUC4-NUC6.
+* [Longhorn](/manifests/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
 ## Software Updates
 All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
@@ -49,7 +49,7 @@ kubectl get nodes
 ```
 5. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
 ```
-ansible-playbook ~/k3s/_ansible/k3s-apps.yaml
+ansible-playbook ~/k8s/ansible/k8s-apps.yaml
 ```
 6. Get initial ArgoCD password
 ```
