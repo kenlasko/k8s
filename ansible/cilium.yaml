@@ -4,7 +4,7 @@
   tasks:
   - name: Read Cilium ArgoCD Application YAML
     slurp:
-      src: "/home/ken/k8s/argocd-apps/cilium.yaml"
+      src: "/home/ken/k8s/manifests/argocd-apps/cilium.yaml"
     register: argocd_yaml_content
   - name: Parse YAML content
     set_fact:
@@ -30,13 +30,13 @@
       create_namespace: true
       update_repo_cache: true
       values_files:
-      - /home/ken/k8s/cilium/values.yaml
+      - /home/ken/k8s/manifests/cilium/values.yaml
   - name: Apply Cilium gateways
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k8s/cilium/gateway.yaml
+      src: /home/ken/k8s/manifests/cilium/gateway.yaml
   - name: Apply Cilium resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k8s/cilium/[h-l]*.yaml"
+    - "/home/ken/k8s/manifests/cilium/[h-l]*.yaml"

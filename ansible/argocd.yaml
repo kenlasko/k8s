@@ -4,7 +4,7 @@
   tasks:
   - name: Read ArgoCD ArgoCD Application YAML
     slurp:
-      src: "/home/ken/k8s/argocd/argocd.yaml"
+      src: "/home/ken/k8s/manifests/argocd/argocd.yaml"
     register: argocd_yaml_content
   - name: Parse YAML content
     set_fact:
@@ -29,18 +29,18 @@
       create_namespace: true
       release_namespace: argocd
       values_files:
-      - /home/ken/k8s/argocd/values.yaml
+      - /home/ken/k8s/manifests/argocd/values.yaml
   - name: Apply ArgoCD secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k8s/argocd/sealed-secrets.yaml
+      src: /home/ken/k8s/manifests/argocd/sealed-secrets.yaml
   - name: Apply priority classes
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k8s/argocd/priorityclass.yaml
+      src: /home/ken/k8s/manifests/argocd/priorityclass.yaml
   - name: Apply ArgoCD K8s resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k8s/argocd/[a-h]*.yaml"
+    - "/home/ken/k8s/manifests/argocd/[a-h]*.yaml"
     ignore_errors: true
