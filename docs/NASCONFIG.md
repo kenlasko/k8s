@@ -4,7 +4,7 @@ This cluster makes heavy use of NAS resources for storing stateful files that pl
 This document helps define the configuration of storage used in this Kubernetes cluster.
 
 # Connectivity
-The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like Velero and SnapScheduler. See the application definition for [CSI Drivers](/csi-drivers) for more information. 
+The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like Velero and SnapScheduler. See the application definition for [CSI Drivers](/manifests/csi-drivers) for more information. 
 
 # Base Folders
 These are the base folders used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
@@ -25,30 +25,30 @@ This folder stores all the data used by applications. Most applications use stat
 ### appdata/pv
 These folders are used by apps that make use of the [NFS Subdir Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner). The benefit of this is that the app folders don't have to exist prior to running the workload. The downside is that its difficult/impossible (as far as I know) to re-use one of these should the workload be deleted and recreated. This is reserved for workloads that I don't care about backing up or restoring after a cluster rebuild.
 Apps that currently use the `appdata/pv` folder are:
-* [alertmanager/grafana/loki/prometheus](/monitoring)
+* [alertmanager/grafana/loki/prometheus](/manifests/monitoring)
 
 
 ### appdata/vol
-These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/nfs-provisioner) script.
+These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/nfs-provisioner) script.
 Apps that currently use the `appdata/vol` folder are:
-* [adguard](/adguard)
-* [esphome](/home-automation/esphome)
-* [garmin-upload](/garmin-upload)
-* [gitea](/gitea)
-* [homeassist](/home-automation/homeassist)
-* [keel](/keel)
-* [nectar-ps](/nectar-ps)
-* [pgadmin](/pgadmin)
-* [portainer](/portainer)
-* [recyclarr](/media-tools/recyclarr)
-* [registry](/registry)
-* [romm](/media-tools/romm)
-* [transmission](/media-tools/transmission)
-* [ucdialplans](/ucdialplans)
-* [ups-monitor](/home-automation/ups-monitor)
-* [uptime-kuma](/uptime-kuma)
-* [vaultwarden](/vaultwarden)
-* [zwaveadmin](/home-automation/zwaveadmin)
+* [adguard](/manifests/adguard)
+* [esphome](/manifests/home-automation/esphome)
+* [garmin-upload](/manifests/garmin-upload)
+* [gitea](/manifests/gitea)
+* [homeassist](/manifests/home-automation/homeassist)
+* [keel](/manifests/keel)
+* [nectar-ps](/manifests/nectar-ps)
+* [pgadmin](/manifests/pgadmin)
+* [portainer](/manifests/portainer)
+* [recyclarr](/manifests/media-tools/recyclarr)
+* [registry](/manifests/registry)
+* [romm](/manifests/media-tools/romm)
+* [transmission](/manifests/media-tools/transmission)
+* [ucdialplans](/manifests/ucdialplans)
+* [ups-monitor](/manifests/home-automation/ups-monitor)
+* [uptime-kuma](/manifests/uptime-kuma)
+* [vaultwarden](/manifests/vaultwarden)
+* [zwaveadmin](/manifests/home-automation/zwaveadmin)
 
 To create these folders on a fresh install (may not be necessary, depending on how the data is restored):
 ```
@@ -58,11 +58,11 @@ mkdir adguard esphome garmin-upload gitea homeassist keel nectar pgadmin portain
 
 ## Backup
 This folder stores data created by backup processes, such as Longhorn and manual backup scripts:
-* [Github Repo Backup](/gitea/configmap-github-backup.yaml)
-* [MariaDB Backup](/mariadb/backup-cronjob.yaml)
-* [Media Apps](/media-tools/backup)
-* [NAS AppData Vol Backup](/nfs-provisioner/configmap-backup-apps-script.yaml)
-* [Sealed Secret Backup](/sealed-secrets/configmap-script.yaml)
+* [Github Repo Backup](/manifests/gitea/configmap-github-backup.yaml)
+* [MariaDB Backup](/manifests/mariadb/backup-cronjob.yaml)
+* [Media Apps](/manifests/media-tools/backup)
+* [NAS AppData Vol Backup](/manifests/nfs-provisioner/configmap-backup-apps-script.yaml)
+* [Sealed Secret Backup](/manifests/sealed-secrets/configmap-script.yaml)
 
 ```
 /share/backup
@@ -138,7 +138,7 @@ network:
   version: 2
 ```
 
-Backups are triggered via a [Home Assistant](/home-automation/homeassist) automation every Saturday. This automation does the following:
+Backups are triggered via a [Home Assistant](/manifests/home-automation/homeassist) automation every Saturday. This automation does the following:
 1. Turns on BACKUPPC
 2. Waits for a successful ping
 3. Calls a shell command to start the backup

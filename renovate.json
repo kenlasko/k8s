@@ -11,8 +11,8 @@
   "argocd": {
     "fileMatch": [
       "argocd-apps/.+\\.yaml$",
-      "media-tools/[^/]+\\.yaml$",
-      "argocd/.+\\.yaml$"
+      "argocd-apps/media-tools/[^/]+\\.yaml$",
+      "manifests/argocd/.+\\.yaml$"
     ]
   },
   "kubernetes": {
