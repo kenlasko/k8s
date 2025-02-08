@@ -23,7 +23,7 @@ spec:
     directory:
       exclude: "*_DISABLED.yaml"
   - repoURL: "https://github.com/kubernetes-sigs/gateway-api.git"
-    path: manifests/"config/crd/experimental"
+    path: "config/crd/experimental"
     targetRevision: "v1.1.0"
   destination:
     server: "https://kubernetes.default.svc"
