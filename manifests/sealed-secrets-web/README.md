@@ -1,2 +1,2 @@
 # Summary
-This provides a web UI for [sealing secrets](/sealed-secrets). I mainly use it for a template to create new sealed secrets via command line using `kubeseal`. While you can seal secrets in the UI, it won't use the same default sealing key that is available on all clusters. This means that the secret can't be decrypted on other clusters, or after a cluster rebuild.
+This provides a web UI for [sealing secrets](/manifests/sealed-secrets). I mainly use it for a template to create new sealed secrets via command line using `kubeseal`. While you can seal secrets in the UI, it won't use the same default sealing key that is available on all clusters. This means that the secret can't be decrypted on other clusters, or after a cluster rebuild.

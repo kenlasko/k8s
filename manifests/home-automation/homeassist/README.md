@@ -3,8 +3,8 @@
 
 # Requirements
 * Must run on a specific node (currently NUC4), because it relies on attachments for monitoring the UPS and Zigbee/Z-Wave dongles.
-* USB functionality depends on [Smarter Device Manager](/smarter-device-manager).
-* Z-Wave functionality requires that [ZWaveAdmin](/home-automation/zwaveadmin) is installed and functional.
+* USB functionality depends on [Smarter Device Manager](/manifests/smarter-device-manager).
+* Z-Wave functionality requires that [ZWaveAdmin](/manifests/home-automation/zwaveadmin) is installed and functional.
 
 # Restoring from Backup
 Backups are stored in `homeassist/backups`. Additional backups are saved in `/share/backup/vol`. If a restore is required, run the following:

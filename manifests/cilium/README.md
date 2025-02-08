@@ -9,7 +9,7 @@
 # Installation
 Cilium has to be the first thing installed after the cluster is first created, because I am using Cilium's kube-proxy instead of the built-in one. Without this, the cluster is non-functional until Cilium is up and running.
 
-Cilium is initially installed via [Ansible script](/_ansible), and maintained/updated via [Argo CD](/argocd).
+Cilium is initially installed via [Ansible script](/ansible), and maintained/updated via [Argo CD](/manifests/argocd).
 
 Cilium requires that the [Gateway API](https://gateway-api.sigs.k8s.io/) CRDs are installed prior to enabling Cilium. This is done in two places:
 * In `extraManifests` in the [Talos/Omni cluster definition](https://github.com/kenlasko/omni/blob/main/patches/cluster.yaml)
@@ -23,6 +23,6 @@ Cilium is used to advertise all LoadBalancer services to the UDM Pro router usin
 ## BGP Configuration
 1. Apply the [udm-kubecluster-bgp.conf](/cilium/udm-kubecluster-bgp.conf)[^1] to the UDM Pro. This is done in https://unifi.ucdialplans.com/network/default/settings/routing/bgp.
 2. Make sure a network exists for the `192.168.10.0/24` subnet. This is done in https://unifi.ucdialplans.com/network/default/settings/networks
-3. The rest should be automatically applied via Cilium config. The settings are defined in [bgp-config.yaml](/cilium/bgp-config.yaml).
+3. The rest should be automatically applied via Cilium config. The settings are defined in [bgp-config.yaml](/manifests/cilium/bgp-config.yaml).
 
 [^1]: Adapted from https://medium.com/@scaluch/unifi-os-4-1-and-kubernetes-loadbalancer-822b1dd4d745

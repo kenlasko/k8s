@@ -3,7 +3,7 @@
 
 # Configuration
 ## ProxyClass
-A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale endpoint. Our single [run-on-worker](/tailscale/proxyclass.yaml) ProxyClass specifies the Tailscale pods should run on worker nodes only as well as use `/dev/tun/` devices exposed by [Smarter Device Manager](/smarter-device-manager).
+A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale endpoint. Our single [run-on-worker](/manifests/tailscale/proxyclass.yaml) ProxyClass specifies the Tailscale pods should run on worker nodes only as well as use `/dev/tun/` devices exposed by [Smarter Device Manager](/manifests/smarter-device-manager).
 
 ## Services
 To make a service available on a Tailnet, simply add the following label to the service: `tailscale.com/proxy-class: "run-on-worker"`

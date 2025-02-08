@@ -2,10 +2,10 @@
 
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
-* [Gitea](/gitea)
-* [Home Assistant](/home-automation/homeassist)
-* [UCDialplans](/ucdialplans)
-* [VaultWarden](/vaultwarden)
+* [Gitea](/manifests/gitea)
+* [Home Assistant](/manifests/home-automation/homeassist)
+* [UCDialplans](/manifests/ucdialplans)
+* [VaultWarden](/manifests/vaultwarden)
 
 All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance(/mariadb-standalone)], should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a remote MariaDB instance running in Oracle Cloud.
 
@@ -49,9 +49,9 @@ If the database files exist on the nodes (under /var/mariadb), we can use the Op
 
 
 # Setup Replication
-The sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
+The [sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
 ```
-./k3s/mariadb/scripts/database-sync.sh
+./k8s/manifests/mariadb/scripts/database-sync.sh
 ```
 
 ## Primary DB Backup

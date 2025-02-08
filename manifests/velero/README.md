@@ -1,5 +1,5 @@
 # Introduction
-[Velero](https://velero.io/) is a backup solution for Kubernetes resources. Don't think I'll be using this as its primary goal is to backup manifests along with PVs/PVCs. Since my deployment is entirely declarative, most of this isn't required. PVs/PVCs can be backed up using simpler tools. Using [SnapScheduler](/snapscheduler) instead.
+[Velero](https://velero.io/) is a backup solution for Kubernetes resources. Don't think I'll be using this as its primary goal is to backup manifests along with PVs/PVCs. Since my deployment is entirely declarative, most of this isn't required. PVs/PVCs can be backed up using simpler tools. Using [SnapScheduler](/manifests/snapscheduler) instead.
 
 # Configuration
 The default backup location is an S3 bucket called `kube` on the NAS. Ensure this bucket exists before deploying Velero.

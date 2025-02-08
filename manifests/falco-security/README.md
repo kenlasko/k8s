@@ -2,4 +2,4 @@
 
 Good idea in theory, but was very chatty and verbose and provided very little benefit for my circumstances. I spent more time creating alert exclusions than actually using it. 
 
-It also made use of [Fluent Bit](/fluentbit) for getting logs from Talos. Both are currently disabled.
+It also made use of [Fluent Bit](/manifests/fluentbit) for getting logs from Talos. Both are currently disabled.
