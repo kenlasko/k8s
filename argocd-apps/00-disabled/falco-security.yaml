@@ -11,7 +11,7 @@ spec:
     chart: falco
     helm:
       valueFiles:
-      - $values/falco-security/values.yaml
+      - $values/manifests/falco-security/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

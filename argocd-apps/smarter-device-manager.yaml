@@ -13,7 +13,7 @@ spec:
     chart: smarter-device-manager
     helm:
       valueFiles:
-      - $values/smarter-device-manager/values.yaml
+      - $values/manifests/smarter-device-manager/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

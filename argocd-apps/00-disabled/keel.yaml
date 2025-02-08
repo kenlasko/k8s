@@ -13,7 +13,7 @@ spec:
     chart: keel
     helm:
       valueFiles:
-      - $values/keel/values.yaml
+      - $values/manifests/keel/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

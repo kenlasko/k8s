@@ -13,7 +13,7 @@ spec:
     chart: coroot
     helm:
       valueFiles:
-      - $values/coroot/values.yaml
+      - $values/manifests/coroot/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

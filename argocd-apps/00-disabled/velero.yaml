@@ -11,7 +11,7 @@ spec:
     chart: velero
     helm:
       valueFiles:
-      - $values/velero/values.yaml
+      - $values/manifests/velero/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

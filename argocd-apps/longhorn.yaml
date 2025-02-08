@@ -13,7 +13,7 @@ spec:
     chart: longhorn
     helm:
       valueFiles:
-      - $values/longhorn/values.yaml
+      - $values/manifests/longhorn/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

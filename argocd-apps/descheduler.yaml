@@ -13,7 +13,7 @@ spec:
     chart: descheduler
     helm:
       valueFiles:
-      - $values/descheduler/values.yaml
+      - $values/manifests/descheduler/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   destination:

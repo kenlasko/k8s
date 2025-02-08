@@ -13,7 +13,7 @@ spec:
     chart: kube-prometheus-stack
     helm:
       valueFiles:
-      - $values/monitoring/promstack/promstack-values.yaml
+      - $values/manifests/monitoring/promstack/promstack-values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

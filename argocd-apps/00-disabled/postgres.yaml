@@ -13,7 +13,7 @@ spec:
     chart: cloudnative-pg
     helm:
       valueFiles:
-      - $values/postgres/values.yaml
+      - $values/manifests/postgres/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

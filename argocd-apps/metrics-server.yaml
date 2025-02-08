@@ -13,7 +13,7 @@ spec:
     chart: metrics-server
     helm:
       valueFiles:
-      - $values/metrics-server/values.yaml
+      - $values/manifests/metrics-server/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

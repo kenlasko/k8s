@@ -16,7 +16,7 @@ spec:
     targetRevision: 0.37.1
     helm:
       valueFiles:
-      - $values/mariadb-operator/values.yaml
+      - $values/manifests/mariadb-operator/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

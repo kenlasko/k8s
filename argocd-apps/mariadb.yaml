@@ -13,7 +13,7 @@ spec:
     chart: mariadb-galera
     helm:
       valueFiles:
-      - $values/mariadb/values.yaml
+      - $values/manifests/mariadb/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

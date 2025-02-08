@@ -11,7 +11,7 @@ spec:
     chart: vpa
     helm:
       valueFiles:
-      - $values/vertical-pod-autoscaler/values.yaml
+      - $values/manifests/vertical-pod-autoscaler/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

@@ -13,19 +13,19 @@ spec:
     chart: core
     helm:
       valueFiles:
-      - $values/neuvector/values-core.yaml
+      - $values/manifests/neuvector/values-core.yaml
   - repoURL: "https://neuvector.github.io/neuvector-helm/"
     targetRevision: 2.8.4
     chart: crd
     helm:
       valueFiles:
-      - $values/neuvector/values-crd.yaml
+      - $values/manifests/neuvector/values-crd.yaml
   - repoURL: "https://neuvector.github.io/neuvector-helm/"
     targetRevision: 2.8.4
     chart: monitor
     helm:
       valueFiles:
-      - $values/neuvector/values-monitor.yaml
+      - $values/manifests/neuvector/values-monitor.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

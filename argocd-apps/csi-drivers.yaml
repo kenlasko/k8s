@@ -13,7 +13,7 @@ spec:
     chart: csi-driver-nfs
     helm:
       valueFiles:
-      - $values/csi-drivers/values.yaml
+      - $values/manifests/csi-drivers/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"

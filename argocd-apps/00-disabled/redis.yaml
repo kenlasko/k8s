@@ -13,7 +13,7 @@ spec:
     chart: redis
     helm:
       valueFiles:
-      - $values/redis/values.yaml
+      - $values/manifests/redis/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
