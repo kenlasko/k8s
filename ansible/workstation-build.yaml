@@ -440,7 +440,7 @@
 
       - name: Move and rename omnictl binary
         command:
-          cmd: cp /home/ken/k8s/_ansible/resources/omnictl-linux-{{ os_arch }} /usr/local/bin/omnictl
+          cmd: cp /home/ken/k8s/ansible/resources/omnictl-linux-{{ os_arch }} /usr/local/bin/omnictl
         become: true # Moving to /usr/local/bin needs sudo
 
       - name: Make omnictl executable
@@ -465,14 +465,14 @@
 
       - name: Copy omniconfig.yaml to ~/.config/omni/config
         copy:
-          src: ~/k8s/_ansible/resources/omniconfig.yaml
+          src: ~/k8s/ansible/resources/omniconfig.yaml
           dest: ~/.config/omni/config
           mode: 0644 # Optional: Set file permissions
         become: false
 
       - name: Copy talosconfig.yaml to ~/.talos/config
         copy:
-          src: ~/k8s/_ansible/resources/talosconfig.yaml
+          src: ~/k8s/ansible/resources/talosconfig.yaml
           dest: ~/.talos/config
           mode: 0644 # Optional: Set file permissions
         become: false    
