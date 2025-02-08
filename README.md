@@ -27,10 +27,10 @@ SideroLabs Omni must be ready to go. Installation steps are in the repository li
 [Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
 
 You will need a workstation (preferably Linux-based) with several tools to get things rolling:
-[Workstation Prep Instructions](WORKSTATION.md)
+[Workstation Prep Instructions](/docs/WORKSTATION.md)
 
 Most of the workloads use NAS-based storage for persistent data. This doc shows the configuration for the various things that need to be ready before the cluster can be spun up:
-[NAS Configuration](NASCONFIG.md)
+[NAS Configuration](/docs/NASCONFIG.md)
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
