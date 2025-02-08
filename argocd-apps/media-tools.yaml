@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/media-tools
+    path: media-tools
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/media-tools/00-global-config
