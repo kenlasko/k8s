@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/alex1989hu/kubelet-serving-cert-approver.git"
-    path: manifests/"deploy"
+    path: "deploy"
     directory:
       include: "standalone-install.yaml"
     targetRevision: HEAD
