@@ -50,13 +50,13 @@ pip install kubernetes
 
 # Copy Ansible Hosts
 sudo mkdir /etc/ansible
-sudo cp ~/k8s/_ansible/resources/hosts /etc/ansible/hosts
+sudo cp ~/k8s/ansible/resources/hosts /etc/ansible/hosts
 ```
 
 ## Run Ansible script to install tools
 This will install almost everything needed to start working with Kubernetes on the workstation.
 ```
-ansible-playbook ~/k8s/_ansible/workstation-build.yaml --ask-become-pass
+ansible-playbook ~/k8s/ansible/workstation-build.yaml --ask-become-pass
 source ~/.bashrc
 ```
 
