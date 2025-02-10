@@ -11,8 +11,8 @@
   "argocd": {
     "fileMatch": [
       "argocd-apps/.+\\.yaml$",
-      "argocd-apps/media-tools/[^/]+\\.yaml$",
-      "manifests/argocd/.+\\.yaml$"
+      "media-tools/[^/]+\\.yaml$",
+      "argocd/.+\\.yaml$"
     ]
   },
   "kubernetes": {
@@ -75,12 +75,28 @@
         "kubernetes"
       ],
       "matchPackageNames": [
-        "docker.io/linuxserver/calibre-web",
-        "docker.io/linuxserver/lidarr",
+        "docker.io/linuxserver/calibre-web"
+      ],
+      "allowedVersions": "<=1.9"
+    },
+    {
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "docker.io/linuxserver/lidarr"
+      ],
+      "allowedVersions": "<=7.9"
+    },
+    {
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
         "docker.io/linuxserver/overseerr",
         "docker.io/linuxserver/transmission"
       ],
-      "matchCurrentAge": "< 1 year"
+      "allowedVersions": "<=9.9"
     }
   ]
 }
