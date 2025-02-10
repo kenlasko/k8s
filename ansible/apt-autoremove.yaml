@@ -1,8 +1,0 @@
----
-- hosts: everything
-  become: true
-  become_user: root
-  tasks:
-  - name: Autoremove stale packates
-    ansible.builtin.apt:
-      autoremove: yes
