@@ -75,6 +75,11 @@
         "kubernetes"
       ],
       "matchPackageNames": [
+        "docker.io/linuxserver/calibre-web"
+      ],
+      "allowedVersions": "<=1.9"
+    },
+      "matchPackageNames": [
         "docker.io/linuxserver/lidarr"
       ],
       "allowedVersions": "<=7.9"
@@ -84,7 +89,6 @@
         "kubernetes"
       ],
       "matchPackageNames": [
-        "**/calibre-web",
         "**/overseerr",
         "**/transmission"
       ],
