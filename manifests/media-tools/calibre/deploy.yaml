@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: calibre
   namespace: media-tools
-  annotations:
-    keel.sh/policy: force
-    keel.sh/match-tag: "true"
-    keel.sh/trigger: poll
 spec:
   serviceName: calibre
   replicas: 1
@@ -48,13 +44,13 @@ spec:
           readOnlyRootFilesystem: false
           seccompProfile:
             type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-            add:
-            - "CHOWN"
-            - "SETGID"
-            - "SETUID"
-            - "DAC_OVERRIDE"
+          # capabilities:
+          #   drop: ["ALL"]
+          #   add:
+          #   - "CHOWN"
+          #   - "SETGID"
+          #   - "SETUID"
+          #   - "DAC_OVERRIDE"
         env:
         - name: PUID
           value: "1000"
