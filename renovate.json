@@ -77,8 +77,12 @@
       "matchPackageNames": [
         "docker.io/linuxserver/calibre-web"
       ],
-      "allowedVersions": "<=1.9"
+      "allowedVersions": "<=7.9"
     },
+    {
+      "matchManagers": [
+        "kubernetes"
+      ],
       "matchPackageNames": [
         "docker.io/linuxserver/lidarr"
       ],
