@@ -40,18 +40,18 @@ spec:
         image: docker.io/linuxserver/calibre-web:0.6.24
         imagePullPolicy: IfNotPresent
         securityContext:
-          allowPrivilegeEscalation: false
+          allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
           seccompProfile:
             type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
-            add:
-            - "CHOWN"
-            - "SETGID"
-            - "SETUID"
-            - "DAC_OVERRIDE"
-            - "DAC_READ_SEARCH"
+          # capabilities:
+          #   drop: ["ALL"]
+          #   add:
+          #   - "CHOWN"
+          #   - "SETGID"
+          #   - "SETUID"
+          #   - "DAC_OVERRIDE"
+          #   - "DAC_READ_SEARCH"
         env:
         - name: PUID
           value: "1000"
