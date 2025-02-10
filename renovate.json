@@ -75,28 +75,12 @@
         "kubernetes"
       ],
       "matchPackageNames": [
-        "docker.io/linuxserver/calibre-web"
+        "docker.io/linuxserver/calibre-web",
+        "docker.io/linuxserver/lidarr",
+        "docker.io/linuxserver/overseerr",
+        "docker.io/linuxserver/transmission"
       ],
       "matchCurrentAge": "< 1 year"
-    },
-    {
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "matchPackageNames": [
-        "docker.io/linuxserver/lidarr"
-      ],
-      "allowedVersions": "<=7.9"
-    },
-    {
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "matchPackageNames": [
-        "**/overseerr",
-        "**/transmission"
-      ],
-      "allowedVersions": "<=9.9"
     }
   ]
 }
