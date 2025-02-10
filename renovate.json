@@ -84,6 +84,7 @@
         "kubernetes"
       ],
       "matchPackageNames": [
+        "**/calibre-web",
         "**/overseerr",
         "**/transmission"
       ],
