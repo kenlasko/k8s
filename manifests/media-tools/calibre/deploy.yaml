@@ -44,13 +44,13 @@ spec:
           readOnlyRootFilesystem: false
           seccompProfile:
             type: RuntimeDefault
-          # capabilities:
-          #   drop: ["ALL"]
-          #   add:
-          #   - "CHOWN"
-          #   - "SETGID"
-          #   - "SETUID"
-          #   - "DAC_OVERRIDE"
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
         env:
         - name: PUID
           value: "1000"
