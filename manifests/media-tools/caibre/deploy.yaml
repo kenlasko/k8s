@@ -1,0 +1,100 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: calibre
+  namespace: media-tools
+  annotations:
+    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/trigger: poll
+spec:
+  serviceName: calibre
+  replicas: 1
+  revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: calibre
+  template:
+    metadata:
+      labels:
+        app: calibre
+        name: calibre
+        appGroup: media-arr
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      priorityClassName: medium-priority
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - "amd64"
+      containers:
+      - name: calibre
+        image: docker.io/linuxserver/calibre-web:0.6.24
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "100"
+        - name: DOCKER_MODS
+          value: "linuxserver/mods:universal-calibre"
+        - name: TZ
+          value: "America/Toronto"
+        resources:
+          requests:
+            cpu: 2m
+            memory: 200Mi
+          limits:
+            # cpu: 1000m
+            memory: 750Mi
+        ports:
+        - containerPort: 8083
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: calibre-config
+          mountPath: /config
+        - name: media
+          mountPath: /media
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      volumes:
+        - name: calibre-config
+          persistentVolumeClaim:
+            claimName: longhorn-calibre-config-pvc
+        - name: media
+          persistentVolumeClaim:
+            claimName: nfs-media
