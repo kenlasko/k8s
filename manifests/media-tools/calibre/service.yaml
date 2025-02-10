@@ -5,8 +5,13 @@ metadata:
     app: calibre-service
   name: calibre-service
   namespace: media-tools
+  annotations:
+    lbipam.cilium.io/ips: 192.168.10.33
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+# spec:
+#   type: ClusterIP
   ports:
   - port: 8083
     protocol: TCP
