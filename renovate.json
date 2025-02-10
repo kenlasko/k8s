@@ -77,7 +77,7 @@
       "matchPackageNames": [
         "docker.io/linuxserver/calibre-web"
       ],
-      "allowedVersions": "<=1.9"
+      "matchCurrentAge": "< 1 year"
     },
     {
       "matchManagers": [
