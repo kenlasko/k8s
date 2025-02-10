@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: zwaveadmin
   namespace: homeassist
-  annotations:
-    keel.sh/policy: force
-    keel.sh/match-tag: "true"
-    keel.sh/trigger: poll
 spec:
   serviceName: zwaveadmin
   replicas: 1

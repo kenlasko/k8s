@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: lidarr-test
   namespace: media-tools
-  annotations:
-    keel.sh/policy: force
-    keel.sh/match-tag: "true"
-    keel.sh/trigger: poll
 spec:
   serviceName: lidarr-test
   replicas: 1

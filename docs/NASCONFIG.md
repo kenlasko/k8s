@@ -29,14 +29,13 @@ Apps that currently use the `appdata/pv` folder are:
 
 
 ### appdata/vol
-These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/nfs-provisioner) script.
+These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/csi-drivers/configmap-backup-apps-script.yaml) script.
 Apps that currently use the `appdata/vol` folder are:
 * [adguard](/manifests/adguard)
 * [esphome](/manifests/home-automation/esphome)
 * [garmin-upload](/manifests/garmin-upload)
 * [gitea](/manifests/gitea)
 * [homeassist](/manifests/home-automation/homeassist)
-* [keel](/manifests/keel)
 * [nectar-ps](/manifests/nectar-ps)
 * [pgadmin](/manifests/pgadmin)
 * [portainer](/manifests/portainer)
@@ -61,7 +60,7 @@ This folder stores data created by backup processes, such as Longhorn and manual
 * [Github Repo Backup](/manifests/gitea/configmap-github-backup.yaml)
 * [MariaDB Backup](/manifests/mariadb/backup-cronjob.yaml)
 * [Media Apps](/manifests/media-tools/backup)
-* [NAS AppData Vol Backup](/manifests/nfs-provisioner/configmap-backup-apps-script.yaml)
+* [NAS AppData Vol Backup](/manifests/csi-drivers/configmap-backup-apps-script.yaml)
 * [Sealed Secret Backup](/manifests/sealed-secrets/configmap-script.yaml)
 
 ```

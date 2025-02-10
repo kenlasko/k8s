@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: owntracks-ui
   namespace: owntracks
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/match-tag: "true"
 spec:
   serviceName: owntracks-ui
   replicas: 1

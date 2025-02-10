@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: esphome
   namespace: homeassist
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/match-tag: "true"
 spec:
   serviceName: esphome
   replicas: 1

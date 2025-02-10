@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: traccar
   namespace: traccar
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/match-tag: "true"
 spec:
   serviceName: traccar
   replicas: 1

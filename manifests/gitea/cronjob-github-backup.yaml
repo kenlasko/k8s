@@ -4,10 +4,6 @@ kind: CronJob
 metadata:
   name: github-backup
   namespace: gitea
-  annotations:
-    keel.sh/policy: force
-    keel.sh/trigger: poll
-    keel.sh/match-tag: "true"
 spec:
   schedule: "30 8 * * *" 
   suspend: false

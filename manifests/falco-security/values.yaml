@@ -154,7 +154,6 @@ customRules:
         - [metallb-system]
         - [monitoring]
         - [netdata]
-        - [nfs-provisioner]
         - [portainer]
         - [system-upgrade]
         - [tailscale]

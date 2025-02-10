@@ -194,10 +194,6 @@ configs:
       url: https://intel.github.io/helm-charts
       name: intel
       type: helm
-    keel:
-      url: https://keel-hq.github.io/keel
-      name: keel
-      type: helm
     kubelet-serving-cert-approver:
       url: https://github.com/alex1989hu/kubelet-serving-cert-approver.git
       name: kubelet-serving-cert-approver

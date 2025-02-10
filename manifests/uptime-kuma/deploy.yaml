@@ -3,10 +3,6 @@ kind: StatefulSet
 metadata:
   name: uptime-kuma
   namespace: uptime-kuma
-  annotations:
-    keel.sh/policy: force
-    keel.sh/match-tag: "true"
-    keel.sh/trigger: poll
 spec:
   replicas: 1
   revisionHistoryLimit: 2

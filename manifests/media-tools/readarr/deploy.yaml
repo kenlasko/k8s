@@ -4,10 +4,6 @@ kind: StatefulSet
 metadata:
   name: readarr
   namespace: media-tools
-  annotations:
-    keel.sh/policy: force
-    keel.sh/match-tag: "true"
-    keel.sh/trigger: poll
 spec:
   serviceName: readarr
   replicas: 1

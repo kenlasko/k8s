@@ -4,10 +4,6 @@ kind: Deployment
 metadata:
   name: external-dns
   namespace: external-dns
-  annotations:
-    keel.sh/policy: force
-    keel.sh/match-tag: "true"
-    keel.sh/trigger: poll
 spec:
   replicas: 1
   revisionHistoryLimit: 2
