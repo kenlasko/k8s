@@ -12,17 +12,7 @@ spec:
   hostnames:
   - "calibre.ucdialplans.com"
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    filters:
-    - type: HTTPHeader
-      requestHeaderModifier:
-        add:
-        - name: "X-SCHEME"
-          value: "https"
-    backendRefs:
+  - backendRefs:
     - name: calibre-service
       namespace: media-tools
       kind: Service
