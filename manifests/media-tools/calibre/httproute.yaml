@@ -17,3 +17,9 @@ spec:
       namespace: media-tools
       kind: Service
       port: 8083
+    filters:
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        add:
+        - name: "X-SCHEME"
+          value: "https"
