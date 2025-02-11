@@ -17,6 +17,8 @@ spec:
       namespace: media-tools
       kind: Service
       port: 8083
+    # Required for Calibre to properly format the request header to use HTTPS.
+    # Otherwise, it will tell Kobo to reach out via HTTP
     filters:
     - type: RequestHeaderModifier
       requestHeaderModifier:
