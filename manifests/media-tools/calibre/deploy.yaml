@@ -37,7 +37,7 @@ spec:
                 - "amd64"
       containers:
       - name: calibre
-        image: docker.io/crocodilestick/calibre-web-automated:V3.0.3
+        image: docker.io/crocodilestick/calibre-web-automated:V3.0.4
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
