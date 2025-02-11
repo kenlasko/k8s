@@ -1,4 +1,4 @@
-[Calibre-Web](https://github.com/janeczku/calibre-web) is a tool to manage ebooks used in our Kobo devices. Not only does it allow for web-based management of ebooks, it can also [automatically sync ebooks to Kobo e-readers](https://github.com/janeczku/calibre-web/wiki/Kobo-Integration).
+[Calibre-Web-Automated](https://github.com/crocodilestick/Calibre-Web-Automated) is a tool to manage ebooks used in our Kobo devices. Not only does it allow for web-based management of ebooks, it can also [automatically sync ebooks to Kobo e-readers](https://github.com/janeczku/calibre-web/wiki/Kobo-Integration).
 
 For this to work, the Kobo e-reader needs to be connected to a PC so its folders/files can be viewed and edited. 
 1. Connect the Kobo to a PC and select **Connect**.

@@ -37,7 +37,7 @@ spec:
                 - "amd64"
       containers:
       - name: calibre
-        image: docker.io/linuxserver/calibre-web:0.6.24
+        image: docker.io/crocodilestick/calibre-web-automated:V3.0.3
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
@@ -57,8 +57,6 @@ spec:
           value: "1000"
         - name: PGID
           value: "100"
-        - name: DOCKER_MODS
-          value: "linuxserver/mods:universal-calibre"
         - name: TZ
           value: "America/Toronto"
         resources:
@@ -82,8 +80,10 @@ spec:
         volumeMounts:
         - name: calibre-config
           mountPath: /config
-        - name: media
-          mountPath: /media
+        - name: books
+          mountPath: /calibre-library
+        - name: books-to-import
+          mountPath: /cwa-book-ingest
       dnsConfig:
         options:
           - name: ndots
@@ -92,6 +92,9 @@ spec:
         - name: calibre-config
           persistentVolumeClaim:
             claimName: longhorn-calibre-config-pvc
-        - name: media
+        - name: books
           persistentVolumeClaim:
-            claimName: nfs-media
+            claimName: nfs-books
+        - name: books-to-import
+          persistentVolumeClaim:
+            claimName: nfs-books-to-import
