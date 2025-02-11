@@ -12,14 +12,18 @@ spec:
   hostnames:
   - "calibre.ucdialplans.com"
   rules:
-  - backendRefs:
-    - name: calibre-service
-      namespace: media-tools
-      kind: Service
-      port: 8083
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
     filters:
     - type: HTTPHeader
       requestHeaderModifier:
         add:
         - name: "X-SCHEME"
           value: "https"
+    backendRefs:
+    - name: calibre-service
+      namespace: media-tools
+      kind: Service
+      port: 8083
