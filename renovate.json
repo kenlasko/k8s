@@ -96,7 +96,8 @@
         "argocd"
       ],
       "matchPackageNames": [
-        "git@github.com:*"
+        "git@github.com:*",
+        "**/k8s.git"
       ],
       "enabled": false
     }
