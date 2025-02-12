@@ -10,8 +10,10 @@
   ],
   "argocd": {
     "fileMatch": [
-      "argocd-apps/.+\\.yaml$",
-      "manifests/argocd/.+\\.yaml$"
+      "argocd-apps/*.yaml",
+      "argocd-apps/00-disabled/*.yaml",
+      "argocd-apps/media-tools/intel-device-plugins.yaml",
+      "manifests/argocd/argocd.yaml"
     ]
   },
   "kubernetes": {
@@ -31,18 +33,6 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["argocd"],
-      "matchPackageNames": ["^git@.*\\.git$"],
-      "enabled": false,
-      "groupName": "Ignored ArgoCD Repo URLs"
-    },
-    {
-      "matchManagers": ["kubernetes"],
-      "matchPackageNames": ["^[A-Z][a-zA-Z]+ .+/.+$"],
-      "enabled": false,
-      "groupName": "Ignored Kubernetes Resource Types"
-    },
-    {
       "matchManagers": [
         "argocd",
         "kubernetes"
@@ -50,9 +40,6 @@
       "matchUpdateTypes": [
         "minor", 
         "patch"
-      ],
-      "matchPackageNames": [
-        "!(StatefulSet)"
       ],
       "automerge": true,
       "automergeType": "branch",
