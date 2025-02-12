@@ -39,6 +39,9 @@
         "minor", 
         "patch"
       ],
+      "matchPackageNames": [
+        "!(git@github.com:kenlasko/k8s.git)"
+      ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
