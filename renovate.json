@@ -31,33 +31,33 @@
   ],
   "packageRules": [
     {
-      "matchManagers": [
-        "argocd"
-      ],
-      "matchDepTypes": [
-        "helm"
-      ],
-      "matchUpdateTypes": [
-        "minor", 
-        "patch"
-      ],
-      "automerge": true,
-      "automergeType": "branch",
-      "ignoreTests": true
+      "matchManagers": ["argocd"],
+      "matchPackageNames": ["^git@.*\\.git$"],
+      "ignore": true,
+      "groupName": "Ignored ArgoCD Repo URLs"
+    },
+    {
+      "matchManagers": ["kubernetes"],
+      "matchPackageNames": ["^[A-Z][a-zA-Z]+ .+/.+$"],
+      "ignore": true,
+      "groupName": "Ignored Kubernetes Resource Types"
     },
     {
       "matchManagers": [
+        "argocd",
         "kubernetes"
       ],
       "matchUpdateTypes": [
         "minor", 
         "patch"
       ],
+      "matchPackageNames": [
+        "!(StatefulSet)"
+      ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
     },
-
     {
       "matchManagers": [
         "argocd",
