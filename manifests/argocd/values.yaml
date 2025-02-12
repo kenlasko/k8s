@@ -214,10 +214,6 @@ configs:
       url: https://neuvector.github.io/neuvector-helm
       name: neuvector
       type: helm
-    nfs:
-      url: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
-      name: nfs-subdir-external-provisioner
-      type: helm
     portainer:
       url: https://portainer.github.io/k8s/
       name: portainer
