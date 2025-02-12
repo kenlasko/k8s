@@ -33,13 +33,13 @@
     {
       "matchManagers": ["argocd"],
       "matchPackageNames": ["^git@.*\\.git$"],
-      "ignore": true,
+      "enabled": false,
       "groupName": "Ignored ArgoCD Repo URLs"
     },
     {
       "matchManagers": ["kubernetes"],
       "matchPackageNames": ["^[A-Z][a-zA-Z]+ .+/.+$"],
-      "ignore": true,
+      "enabled": false,
       "groupName": "Ignored Kubernetes Resource Types"
     },
     {
