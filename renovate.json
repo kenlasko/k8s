@@ -41,7 +41,6 @@
         "minor", 
         "patch"
       ],
-      "allowedVersions": "!/HEAD$/",
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
