@@ -7,7 +7,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://fluent.github.io/helm-charts"
-    targetRevision: 0.48.5
+    targetRevision: 0.48.6
     chart: fluent-bit
     helm:
       valueFiles:
