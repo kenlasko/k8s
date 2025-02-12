@@ -40,7 +40,7 @@
         "patch"
       ],
       "matchPackageNames": [
-        "!(git@github.com:kenlasko/k8s.git)"
+        "!(StatefulSet)"
       ],
       "automerge": true,
       "automergeType": "branch",
