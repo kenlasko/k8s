@@ -36,7 +36,7 @@ spec:
                 - nuc4
       containers:
       - name: homeassist
-        image: ghcr.io/home-assistant/home-assistant:2025.2.2
+        image: ghcr.io/home-assistant/home-assistant:2025.2.3
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
