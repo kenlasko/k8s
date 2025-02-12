@@ -32,20 +32,32 @@
   "packageRules": [
     {
       "matchManagers": [
-        "argocd",
+        "argocd"
+      ],
+      "matchDepTypes": [
+        "helm"
+      ],
+      "matchUpdateTypes": [
+        "minor", 
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true
+    },
+    {
+      "matchManagers": [
         "kubernetes"
       ],
       "matchUpdateTypes": [
         "minor", 
         "patch"
       ],
-      "matchPackageNames": [
-        "!(StatefulSet)"
-      ],
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
     },
+
     {
       "matchManagers": [
         "argocd",
@@ -90,16 +102,6 @@
         "docker.io/linuxserver/transmission"
       ],
       "allowedVersions": "<=9.9"
-    },
-    {
-      "matchManagers": [
-        "argocd"
-      ],
-      "matchPackageNames": [
-        "git@github.com:*",
-        "**/k8s.git"
-      ],
-      "enabled": false
     }
   ]
 }
