@@ -67,12 +67,12 @@ spec:
             memory: 600Mi
         ports:
         - containerPort: 8084
-          name: http-downloader-aa
+          name: http-dl-aa
           protocol: TCP
         livenessProbe:
           httpGet:
             path: /
-            port: http
+            port: http-dl-aa
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5

@@ -29,7 +29,7 @@ spec:
   ports:
   - port: 8084
     protocol: TCP
-    targetPort: http-downloader-aa
+    targetPort: http-dl-aa
     name: web-downloader-aa
   selector:
     app: calibre-downloader-aa
