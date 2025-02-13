@@ -53,6 +53,8 @@ spec:
           #   - "DAC_OVERRIDE"
           #   - "DAC_READ_SEARCH"
         env:
+        - name: CLOUDFLARE_PROXY_URL
+          value: http://cloudflare-bypass-service:8000
         - name: PUID
           value: "1000"
         - name: PGID
