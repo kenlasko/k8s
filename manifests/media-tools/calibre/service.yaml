@@ -16,6 +16,7 @@ spec:
   selector:
     app: calibre
 
+
 ---
 apiVersion: v1
 kind: Service
@@ -33,3 +34,22 @@ spec:
     name: web-downloader-aa
   selector:
     app: calibre-downloader-aa
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cloudflare-bypass-service
+  name: cloudflare-bypass-service
+  namespace: media-tools
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: http-cloudflare
+    name: web-cloudflare-bypass
+  selector:
+    app: cloudflare-bypass
