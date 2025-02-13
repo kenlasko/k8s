@@ -25,3 +25,23 @@ spec:
         add:
         - name: "X-SCHEME"
           value: "https"
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: calibre-downloader-aa
+  namespace: media-tools
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "calibre-downloader.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: calibre-downloader-aa-service
+      namespace: media-tools
+      kind: Service
+      port: 8084

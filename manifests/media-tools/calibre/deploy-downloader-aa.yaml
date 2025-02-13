@@ -1,0 +1,89 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: calibre-downloader-aa
+spec:
+  serviceName: calibre-downloader-aa
+  replicas: 1
+  revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: calibre-downloader-aa
+  template:
+    metadata:
+      labels:
+        app: calibre-downloader-aa
+        name: calibre-downloader-aa
+        appGroup: media-arr
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      priorityClassName: medium-priority
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - "amd64"
+      containers:
+      - name: calibre-downloader-aa
+        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250125
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
+          # capabilities:
+          #   drop: ["ALL"]
+          #   add:
+          #   - "CHOWN"
+          #   - "SETGID"
+          #   - "SETUID"
+          #   - "DAC_OVERRIDE"
+          #   - "DAC_READ_SEARCH"
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "100"
+        - name: TZ
+          value: "America/Toronto"
+        resources:
+          requests:
+            cpu: 1m
+            memory: 320Mi
+          limits:
+            # cpu: 1000m
+            memory: 600Mi
+        ports:
+        - containerPort: 8084
+          name: http-downloader-aa
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: books-to-import
+          mountPath: /cwa-book-ingest
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      volumes:
+      - name: books-to-import
+        persistentVolumeClaim:
+          claimName: nfs-books-to-import

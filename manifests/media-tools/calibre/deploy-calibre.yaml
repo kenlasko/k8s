@@ -68,12 +68,12 @@ spec:
             memory: 600Mi
         ports:
         - containerPort: 8083
-          name: http
+          name: http-calibre
           protocol: TCP
         livenessProbe:
           httpGet:
             path: /
-            port: http
+            port: http-calibre
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5
