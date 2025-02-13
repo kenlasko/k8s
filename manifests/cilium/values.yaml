@@ -63,7 +63,7 @@ resources:
     memory: 180Mi
   limits:
     # cpu: 1000m
-    memory: 250Mi
+    memory: 300Mi
 
 hubble:
   peerService:
