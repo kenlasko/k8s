@@ -36,7 +36,7 @@ spec:
                 - "amd64"
       containers:
       - name: calibre-downloader-aa
-        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250125
+        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:20250214
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
