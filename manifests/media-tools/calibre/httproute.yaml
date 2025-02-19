@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "calibre.ucdialplans.com"
+  - "books.ucdialplans.com"
   rules:
   - backendRefs:
     - name: calibre-service
@@ -38,7 +38,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "calibre-downloader.ucdialplans.com"
+  - "book-dl.ucdialplans.com"
   rules:
   - backendRefs:
     - name: calibre-downloader-aa-service
