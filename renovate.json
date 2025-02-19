@@ -20,7 +20,8 @@
     "fileMatch": [
       "deploy",
       "cronjob",
-      "tunnel"
+      "tunnel",
+      "/manifests/media-tools/lidarr/values.yaml$"
     ]
   },
   "hostRules": [
@@ -32,12 +33,6 @@
     }
   ],
   "packageRules": [
-    {
-      "matchDatasources": ["docker"],
-      "automerge": true,
-      "automergeType": "branch",
-      "ignoreTests": true
-    },
     {
       "matchManagers": [
         "argocd",
