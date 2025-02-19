@@ -20,7 +20,8 @@
     "fileMatch": [
       "deploy",
       "cronjob",
-      "tunnel"
+      "tunnel",
+      "values"
     ]
   },
   "hostRules": [
