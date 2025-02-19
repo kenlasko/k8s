@@ -6,6 +6,7 @@
   ],
   "enabledManagers": [
     "argocd",
+    "helm",
     "kubernetes"
   ],
   "argocd": {
@@ -20,8 +21,7 @@
     "fileMatch": [
       "deploy",
       "cronjob",
-      "tunnel",
-      "values"
+      "tunnel"
     ]
   },
   "hostRules": [
