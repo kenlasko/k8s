@@ -14,7 +14,7 @@
       "argocd-apps/00-disabled/[^/]+\\.yaml$",
       "manifests/argocd/argocd.yaml$",
       "argocd-apps/media-tools/intel-device-plugins.yaml$",
-      "manifests/media-tools/*/values.yaml"
+      "manifests/media-tools/lidarr/values.yaml"
     ]
   },
   "kubernetes": {
