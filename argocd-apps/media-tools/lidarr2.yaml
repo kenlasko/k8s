@@ -14,8 +14,6 @@ spec:
     helm:
       valueFiles:
       - manifests/media-tools/lidarr2/values.yaml
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: media-tools
