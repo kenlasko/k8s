@@ -42,6 +42,7 @@
     {
       "matchManagers": [
         "argocd",
+        "helm-values",
         "kubernetes"
       ],
       "matchUpdateTypes": [
