@@ -13,15 +13,15 @@
       "argocd-apps/[^/]+\\.yaml$",
       "argocd-apps/00-disabled/[^/]+\\.yaml$",
       "manifests/argocd/argocd.yaml$",
-      "argocd-apps/media-tools/intel-device-plugins.yaml$",
-      "manifests/media-tools/lidarr/values.yaml"
+      "argocd-apps/media-tools/intel-device-plugins.yaml$"
     ]
   },
   "kubernetes": {
     "fileMatch": [
       "deploy",
       "cronjob",
-      "tunnel"
+      "tunnel",
+      "values\\.yaml$"
     ]
   },
   "hostRules": [
