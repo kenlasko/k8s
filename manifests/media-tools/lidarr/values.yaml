@@ -1,4 +1,4 @@
-appVersion: 2.9.6
+appVersion: 2.9.5
 image:
   repository: docker.io/linuxserver/lidarr
 securityContext:
