@@ -3,6 +3,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Values.appVersion }}
 spec:
   serviceName: {{ .Release.Name }}
   replicas: 1
@@ -16,7 +19,8 @@ spec:
     metadata:
       labels:
         app: {{ .Release.Name }}
-        name: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}
+        app.kubernetes.io/version: {{ .Values.appVersion }}
         appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
@@ -50,12 +54,24 @@ spec:
         - name: TZ
           value: "America/Toronto"
         resources:
+          {{- if .Values.resources.requests }}
           requests:
+            {{- if .Values.resources.requests.cpu }}
             cpu: {{ .Values.resources.requests.cpu }}
+            {{- end }}
+            {{- if .Values.resources.requests.memory }}
             memory: {{ .Values.resources.requests.memory }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.resources.limits }}
           limits:
+            {{- if .Values.resources.limits.cpu }}
             cpu: {{ .Values.resources.limits.cpu }}
+            {{- end }}
+            {{- if .Values.resources.limits.memory }}
             memory: {{ .Values.resources.limits.memory }}
+            {{- end }}
+          {{- end }}
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http

@@ -1,6 +1,6 @@
+appVersion: 2.9.6
 image:
   repository: docker.io/linuxserver/lidarr
-  tag: 2.9.6
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
@@ -18,7 +18,6 @@ resources:
     cpu: 3m
     memory: 100Mi
   limits:
-    cpu: 
     memory: 300Mi
 service:
   port: 8686
