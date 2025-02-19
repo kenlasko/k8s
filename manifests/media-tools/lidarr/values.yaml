@@ -1,6 +1,6 @@
 image:
   repository: linuxserver/lidarr
-  tag: 2.9.6
+  tag: 2.9.5
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
