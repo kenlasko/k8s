@@ -31,7 +31,7 @@ spec:
                 - "amd64"
       containers:
       - name: change-detector
-        image: ghcr.io/dgtlmoon/changedetection.io:0.49.1
+        image: ghcr.io/dgtlmoon/changedetection.io:0.49.2
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
