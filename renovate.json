@@ -6,6 +6,7 @@
   ],
   "enabledManagers": [
     "argocd",
+    "helm-values",
     "kubernetes"
   ],
   "argocd": {
@@ -16,12 +17,17 @@
       "argocd-apps/media-tools/intel-device-plugins.yaml$"
     ]
   },
+  "helm-values": {
+    "fileMatch": [
+      "manifests/[^/]+\\.yaml$",
+      "manifests/media-tools/lidarr/values.yaml$"
+    ]
+  },
   "kubernetes": {
     "fileMatch": [
       "deploy",
       "cronjob",
-      "tunnel",
-      "manifests/media-tools/lidarr/values.yaml$"
+      "tunnel"
     ]
   },
   "hostRules": [
