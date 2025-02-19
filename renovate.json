@@ -21,7 +21,7 @@
       "deploy",
       "cronjob",
       "tunnel",
-      "/manifests/media-tools/lidarr/values.yaml$"
+      "manifests/media-tools/lidarr/values.yaml$"
     ]
   },
   "hostRules": [
