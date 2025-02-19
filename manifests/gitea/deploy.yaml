@@ -37,7 +37,7 @@ spec:
                 - "amd64"
       containers:
       - name: gitea
-        image: docker.io/gitea/gitea:1.23.3-rootless
+        image: docker.io/gitea/gitea:1.23.4-rootless
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
