@@ -13,7 +13,7 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - manifests/media-tools/lidarr2/values.yaml
+      - /manifests/media-tools/lidarr2/values.yaml
   destination:
     server: "https://kubernetes.default.svc"
     namespace: media-tools
