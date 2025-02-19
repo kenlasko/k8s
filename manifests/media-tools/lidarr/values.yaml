@@ -22,4 +22,4 @@ resources:
 service:
   port: 8686
 persistentVolume:
-  size: 800Mi
+  size: 400Mi
