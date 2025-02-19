@@ -13,11 +13,9 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - $values/manifests/media-tools/lidarr2/values.yaml
+      - manifests/media-tools/lidarr2/values.yaml
     directory:
       exclude: "*_DISABLED.yaml"
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
   destination:
     server: "https://kubernetes.default.svc"
     namespace: media-tools
