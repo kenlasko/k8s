@@ -40,7 +40,7 @@ spec:
                 - "amd64"
       containers:
       - name: {{ .Release.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.appVersion }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         {{- if .Values.securityContext }} # Conditional inclusion of securityContext
         securityContext:

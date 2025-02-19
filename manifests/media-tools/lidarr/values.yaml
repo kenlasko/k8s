@@ -1,6 +1,7 @@
-appVersion: 2.9.5
 image:
-  repository: docker.io/linuxserver/lidarr
+  repository: linuxserver/lidarr
+  registry: docker.io
+  tag: 2.9.5
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
