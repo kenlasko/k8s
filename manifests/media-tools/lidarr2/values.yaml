@@ -18,7 +18,7 @@ resources:
     cpu: 3m
     memory: 100Mi
   limits:
-    # cpu: 250m
+    cpu: 
     memory: 300Mi
 service:
   port: 8686
