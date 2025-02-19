@@ -1,0 +1,27 @@
+image:
+  repository: linuxserver/radarr
+  tag: 5.18.4
+  registry: docker.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 2m
+    memory: 200Mi
+  limits:
+    # cpu: 1000m
+    memory: 750Mi
+service:
+  port: 7878
+persistentVolume:
+  size: 2.5Gi
