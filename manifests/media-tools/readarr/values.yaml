@@ -1,6 +1,6 @@
 image:
-  repository: linuxserver/lidarr
-  tag: 2.9.6
+  repository: linuxserver/readarr
+  tag: 0.4.11-nightly
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
@@ -16,12 +16,12 @@ securityContext:
     - "DAC_OVERRIDE"
 resources:
   requests:
-    cpu: 3m
-    memory: 100Mi
+    cpu: 2m
+    memory: 120Mi
   limits:
-    # cpu: 250m
-    memory: 300Mi
+    # cpu: 600m
+    memory: 500Mi
 service:
-  port: 8686
+  port: 8787
 persistentVolume:
-  size: 400Mi
+  size: 500Mi
