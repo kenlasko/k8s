@@ -36,7 +36,7 @@ spec:
                 - "amd64"
       containers:
       - name: maintainerr
-        image: docker.io/jorenn92/maintainerr:2.9.0
+        image: docker.io/jorenn92/maintainerr:2.10.0
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
