@@ -1,0 +1,25 @@
+appVersion: 2.9.6
+image:
+  repository: docker.io/linuxserver/lidarr
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 3m
+    memory: 100Mi
+  limits:
+    memory: 300Mi
+service:
+  port: 8686
+persistentVolume:
+  size: 1Gi
