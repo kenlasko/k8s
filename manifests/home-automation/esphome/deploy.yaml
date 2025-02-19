@@ -32,7 +32,7 @@ spec:
                 - "amd64"
       containers:
       - name: esphome
-        image: docker.io/esphome/esphome:2024.12
+        image: docker.io/esphome/esphome:2025.2
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
