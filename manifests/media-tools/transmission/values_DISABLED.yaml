@@ -26,17 +26,17 @@ service:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   port: 9091
-extraPorts:
-- port: 42615
-  name: remotedata-tcp
-  protocol: TCP
-- port: 42615
-  name: remotedata-udp
-  protocol: UDP
+  extraPorts:
+  - port: 42615
+    name: remotedata-tcp
+    protocol: TCP
+  - port: 42615
+    name: remotedata-udp
+    protocol: UDP
 persistentVolume:
   size: 2Gi
-media:
-  enabled: false
+# media:
+#   enabled: true
 extraVolumeMounts:
 - name: media-downloads
   mountPath: /downloads
