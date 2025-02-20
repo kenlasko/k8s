@@ -1,0 +1,36 @@
+image:
+  repository: linuxserver/sabnzbd
+  tag: 4.4.1
+  registry: docker.io
+annotations:
+    lbipam.cilium.io/ips: 192.168.10.12
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 2m
+    memory: 100Mi
+  limits:
+    # cpu: 1000m
+    memory: 2.0Gi  # Don't go below this. Even though it looks like its not using memory, the pod will get OOMKilled as soon as there's any load.
+service:
+  port: 8080
+persistentVolume:
+  type: longhorn
+  size: 100Mi
+extraVolumeMounts:
+- name: media-downloads
+  mountPath: /downloads
+extraVolumes:
+- name: media-downloads
+  persistentVolumeClaim: nfs-media-downloads
