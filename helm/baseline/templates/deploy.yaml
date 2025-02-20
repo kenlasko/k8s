@@ -96,8 +96,10 @@ spec:
           {{- toYaml .Values.readinessProbe | nindent 10 }}
         {{- end }}
         volumeMounts:
+        {{- if .Values.persistentVolume }}
         - name: {{ .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
+        {{- end }}
       {{- if .Values.media }}    
         {{- if .Values.media.enabled | default false}}
         - name: media
@@ -116,6 +118,7 @@ spec:
           - name: ndots
             value: "1"
       volumes:
+      {{- if .Values.persistentVolume }}
       - name: {{ .Release.Name }}-config
         persistentVolumeClaim:
         {{- if eq .Values.persistentVolume.type "longhorn" }}
@@ -123,6 +126,7 @@ spec:
         {{- else if eq .Values.persistentVolume.type "nfs" }}
           claimName: nfs-{{ .Release.Name }}
         {{- end }}
+      {{- end }}
     {{- if .Values.media }} 
       {{- if .Values.media.enabled | default false }}
       - name: media
