@@ -42,23 +42,3 @@ spec:
     port: 32414
     targetPort: gdm-32414
     protocol: UDP
-    
-
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: clusterplex-orchestrator
-#   labels:
-#     app.kubernetes.io/name: clusterplex-orchestrator
-#     app.kubernetes.io/part-of: plex
-# spec:
-#   type: ClusterIP
-#   ports:
-#     - name: orchestrator
-#       port: 3500
-#       protocol: TCP
-#       targetPort: orchestrator
-#   selector:
-#     app.kubernetes.io/name: clusterplex-orchestrator
-#     app.kubernetes.io/part-of: plex
