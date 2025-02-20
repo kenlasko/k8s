@@ -34,6 +34,7 @@ service:
     name: remotedata-udp
     protocol: UDP
 persistentVolume:
+  type: nfs
   size: 2Gi
 # media:
 #   enabled: true
@@ -42,5 +43,4 @@ extraVolumeMounts:
   mountPath: /downloads
 extraVolumes:
 - name: media-downloads
-  persistentVolumeClaim:
-    claimName: nfs-media-downloads
+  persistentVolumeClaim: nfs-media-downloads

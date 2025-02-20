@@ -5,20 +5,20 @@ kind: PersistentVolume
 metadata:
   name: pvc-transmission
 spec:
+  storageClassName: longhorn
   capacity:
-    storage: 2Gi
+    storage: 400Mi
   volumeMode: Filesystem
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: driver.longhorn.io
     fsType: ext4
+    volumeHandle: pvc-transmission
     volumeAttributes:
       numberOfReplicas: "3"
       staleReplicaTimeout: "30"
-    volumeHandle: pvc-transmission
-  storageClassName: longhorn
 ---
 # Source: baseline/templates/volume.yaml
 apiVersion: v1
@@ -32,7 +32,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 2Gi
+      storage: 400Mi
 ---
 # Source: baseline/templates/service.yaml
 apiVersion: v1
@@ -41,27 +41,16 @@ metadata:
   labels:
     app: transmission-service
   name: transmission-service
-  namespace: default 
-  annotations:
-    lbipam.cilium.io/ips: 192.168.10.12
+  namespace: default
 spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Cluster
+  type: ClusterIP
   selector:
     app: transmission
   ports:
-    - port: 9091
+    - port: 8686
       protocol: TCP
       targetPort: http
       name: web
-    - port: 42615
-      protocol: TCP
-      targetPort: 
-      name: remotedata-tcp
-    - port: 42615
-      protocol: UDP
-      targetPort: 
-      name: remotedata-udp
 ---
 # Source: baseline/templates/deploy.yaml
 apiVersion: apps/v1
@@ -70,7 +59,7 @@ metadata:
   name: transmission
   labels:
     app.kubernetes.io/name: transmission
-    app.kubernetes.io/version: 4.0.6
+    app.kubernetes.io/version: 2.9.6
 spec:
   serviceName: transmission
   replicas: 1
@@ -85,7 +74,7 @@ spec:
       labels:
         app: transmission
         app.kubernetes.io/name: transmission
-        app.kubernetes.io/version: 4.0.6
+        app.kubernetes.io/version: 2.9.6
         appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
@@ -105,7 +94,7 @@ spec:
                 - "amd64"
       containers:
       - name: transmission
-        image: "docker.io/linuxserver/transmission:4.0.6"
+        image: "docker.io/linuxserver/lidarr:2.9.6"
         imagePullPolicy: IfNotPresent # Conditional inclusion of securityContext
         securityContext:
           allowPrivilegeEscalation: false
@@ -114,6 +103,7 @@ spec:
             - CHOWN
             - SETGID
             - SETUID
+            - DAC_OVERRIDE
             drop:
             - ALL
           readOnlyRootFilesystem: false
@@ -128,20 +118,14 @@ spec:
           value: "America/Toronto"
         resources:
           requests:
-            cpu: 2m
-            memory: 35Mi
+            cpu: 3m
+            memory: 100Mi
           limits:
-            memory: 200Mi
+            memory: 300Mi
         ports:
-        - containerPort: 9091
+        - containerPort: 8686
           name: http
           protocol: TCP
-        - containerPort: 42615
-          name: remotedata-tcp
-          protocol: TCP
-        - containerPort: 42615
-          name: remotedata-udp
-          protocol: UDP
         livenessProbe:
           httpGet:
             path: /
@@ -152,8 +136,8 @@ spec:
         volumeMounts:
         - name: transmission-config
           mountPath: /config
-        - name: media-downloads
-          mountPath: /downloads
+        - name: media
+          mountPath: /media
       dnsConfig:
         options:
           - name: ndots
@@ -162,9 +146,9 @@ spec:
       - name: transmission-config
         persistentVolumeClaim:
           claimName: longhorn-transmission-config-pvc
-      - name: media-downloads
+      - name: media
         persistentVolumeClaim:
-          claimName: map[claimName:nfs-media-downloads]
+          claimName: nfs-media
 ---
 # Source: baseline/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -184,4 +168,4 @@ spec:
     - name: transmission-service
       namespace: default
       kind: Service
-      port: 9091
+      port: 8686

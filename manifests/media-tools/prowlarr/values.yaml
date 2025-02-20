@@ -26,4 +26,5 @@ service:
 media:
   enabled: true
 persistentVolume:
+  type: longhorn
   size: 600Mi

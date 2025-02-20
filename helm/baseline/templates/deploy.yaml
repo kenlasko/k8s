@@ -111,7 +111,11 @@ spec:
       volumes:
       - name: {{ .Release.Name }}-config
         persistentVolumeClaim:
+        {{- if eq .Values.persistentVolume.type "longhorn" }}
           claimName: longhorn-{{ .Release.Name }}-config-pvc
+        {{- else if eq .Values.persistentVolume.type "nfs" }}
+          claimName: nfs-{{ .Release.Name }}
+        {{- end }}
     {{- if .Values.media }} 
       {{- if .Values.media.enabled | default false }}
       - name: media
