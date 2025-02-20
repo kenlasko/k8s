@@ -9,12 +9,6 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/baseline
-    targetRevision: HEAD
-    helm:
-      valueFiles:
-      - /manifests/uptime-kuma/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/uptime-kuma
     targetRevision: HEAD
     directory:
