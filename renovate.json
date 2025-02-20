@@ -19,8 +19,7 @@
   },
   "helm-values": {
     "fileMatch": [
-      "manifests/[^/]+\\.yaml$",
-      "manifests/media-tools/lidarr/values.yaml$"
+      "manifests/[^/]+\\.yaml$"
     ]
   },
   "kubernetes": {
