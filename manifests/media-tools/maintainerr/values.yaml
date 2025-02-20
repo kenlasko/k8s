@@ -1,5 +1,5 @@
 image:
-  repository: linuxserver/maintainerr
+  repository: jorenn92/maintainerr
   tag: 2.10.0
   registry: docker.io
 securityContext:
