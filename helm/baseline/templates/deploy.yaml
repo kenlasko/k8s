@@ -91,6 +91,10 @@ spec:
         startupProbe:
           {{- toYaml .Values.startupProbe | nindent 10 }}
         {{- end }}
+        {{- if .Values.readinessProbe }}
+        readinessProbe:
+          {{- toYaml .Values.readinessProbe | nindent 10 }}
+        {{- end }}
         volumeMounts:
         - name: {{ .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
