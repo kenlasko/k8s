@@ -12,15 +12,15 @@ metadata:
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   {{- if .Values.service.externalTrafficPolicy }}
-    externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
   {{- end }}
   selector:
     app: {{ .Release.Name }}
   ports:
-  - port: {{ .Values.service.port }}
-    protocol: TCP
-    targetPort: http
-    name: web
+    - port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: http
+      name: web
     {{- range .Values.service.extraPorts }}
     - port: {{ .port }}
       protocol: {{ .protocol | default "TCP" }}
