@@ -26,9 +26,9 @@ resources:
     smarter-devices/ttyUSB0: 1
 service:
   port: 8091
-extraPorts:
-- port: 3000
-  name: zwave
+  extraPorts:
+  - port: 3000
+    name: zwave
 persistentVolume:
   type: nfs
   size: 1Gi
