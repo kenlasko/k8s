@@ -35,6 +35,8 @@ extraPorts:
   protocol: UDP
 persistentVolume:
   size: 2Gi
+media:
+  enabled: false
 extraVolumeMounts:
 - name: media-downloads
   mountPath: /downloads
