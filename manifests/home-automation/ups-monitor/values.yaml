@@ -26,6 +26,11 @@ resources:
     smarter-devices/bus_usb_001_003: 1
 service:
   port: 3493
+livenessProbe: 
+  tcpSocket: 
+    port: 3493 
+  initialDelaySeconds: 15
+  periodSeconds: 60
 persistentVolume:
   type: nfs
   size: 10Mi
