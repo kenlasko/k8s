@@ -24,8 +24,8 @@ resources:
   limits:
     # cpu: 600m
     memory: 500Mi  
-service:
-  port: 3001
+# service:
+#   port: 3001
 livenessProbe:
   exec:
     command:
