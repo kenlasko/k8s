@@ -26,13 +26,13 @@ service:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   port: 9091
-  extraPorts:
-  - port: 42615
-    name: remotedata-tcp
-    protocol: TCP
-  - port: 42615
-    name: remotedata-udp
-    protocol: UDP
+extraPorts:
+- port: 42615
+  name: remotedata-tcp
+  protocol: TCP
+- port: 42615
+  name: remotedata-udp
+  protocol: UDP
 persistentVolume:
   type: nfs
   size: 2Gi

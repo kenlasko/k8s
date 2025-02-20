@@ -40,23 +40,23 @@ service:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   port: 32400
-  extraPorts:
-  - port: 32499
-    name: relay
-  - port: 3005
-    name: plex-companion
-  - port: 32410
-    name: gdm-32410
-    protocol: UDP
-  - port: 32412
-    name: gdm-32412
-    protocol: UDP
-  - port: 32413
-    name: gdm-32413
-    protocol: UDP
-  - port: 32414
-    name: gdm-32414
-    protocol: UDP
+extraPorts:
+- port: 32499
+  name: relay
+- port: 3005
+  name: plex-companion
+- port: 32410
+  name: gdm-32410
+  protocol: UDP
+- port: 32412
+  name: gdm-32412
+  protocol: UDP
+- port: 32413
+  name: gdm-32413
+  protocol: UDP
+- port: 32414
+  name: gdm-32414
+  protocol: UDP
 livenessProbe:
   httpGet:
     path: /identity

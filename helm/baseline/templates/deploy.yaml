@@ -71,7 +71,7 @@ spec:
         - containerPort: {{ .Values.service.port }}
           name: http
           protocol: TCP
-        {{- range .Values.service.extraPorts }}
+        {{- range .Values.extraPorts }}
         - containerPort: {{ .port }}
           name: {{ .name }}
           protocol: {{ .protocol | default "TCP" }}
