@@ -91,12 +91,12 @@ spec:
         volumeMounts:
         - name: {{ .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
-          {{- if .Values.media }}
-            {{- if .Values.media.enabled | default false }}
-            - name: media
-              mountPath: /media
-            {{- end }}
-          {{- end }}
+      {{- if .Values.media }}    
+        {{- if .Values.media.enabled | default false}}
+        - name: media
+          mountPath: /media
+        {{- end }}
+      {{- end }}
         {{- range .Values.extraVolumeMounts }}
         - name: {{ .name }}
           mountPath: {{ .mountPath }}
@@ -112,13 +112,13 @@ spec:
       - name: {{ .Release.Name }}-config
         persistentVolumeClaim:
           claimName: longhorn-{{ .Release.Name }}-config-pvc
-        {{- if .Values.media }}
-          {{- if .Values.media.enabled | default false }}
-          - name: media
-            persistentVolumeClaim:
-              claimName: {{ .Values.media.claimName | default "nfs-media" }}
-          {{- end }}
-        {{- end }}
+    {{- if .Values.media }} 
+      {{- if .Values.media.enabled | default false }}
+      - name: media
+        persistentVolumeClaim:
+          claimName: {{ .Values.media.claimName | default "nfs-media" }}
+      {{- end }}
+    {{- end }}
       {{- range .Values.extraVolumes }}
       - name: {{ .name }}
         {{- if .persistentVolumeClaim }}
