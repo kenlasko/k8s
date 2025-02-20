@@ -1,0 +1,70 @@
+image:
+  repository: gitea/gitea
+  tag: 1.23.4-rootless
+  registry: docker.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: GITEA__database__DB_TYPE
+  value: "mysql"
+- name: GITEA__database__HOST
+  value: "mariadb.mariadb.svc.cluster.local:3306"
+- name: GITEA__database__NAME
+  value: "gitea"
+- name: GITEA__database__USER
+  valueFrom:
+    secretKeyRef:
+      name: gitea-creds
+      key: username   
+- name: GITEA__database__PASSWD
+  valueFrom:
+    secretKeyRef:
+      name: gitea-creds
+      key: password        
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 3m
+    memory: 250Mi
+  limits:
+    # cpu: 300m
+    memory: 350Mi
+service:
+  port: 3000
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 45
+  periodSeconds: 60
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 45
+  timeoutSeconds: 1
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+extraVolumes:
+- name: gitea-data
+  persistentVolumeClaim:
+    claimName: nfs-gitea-data
+- name: gitea-config
+  persistentVolumeClaim:
+    claimName: nfs-gitea-config
+extraVolumeMounts:
+- name: gitea-data
+  mountPath: /var/lib/gitea
+- name: gitea-config
+  mountPath: /etc/gitea

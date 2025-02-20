@@ -9,6 +9,12 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/baseline
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/gitea/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/gitea
     targetRevision: HEAD
     directory:
