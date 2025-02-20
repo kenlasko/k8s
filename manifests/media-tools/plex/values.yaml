@@ -63,6 +63,14 @@ livenessProbe:
     port: http
   initialDelaySeconds: 15
   periodSeconds: 120
+startupProbe:
+  httpGet:
+    path: /identity
+    scheme: HTTPS
+    port: 32400
+  failureThreshold: 90
+  periodSeconds: 15
+
 persistentVolume:
   type: longhorn
   size: 25Gi
