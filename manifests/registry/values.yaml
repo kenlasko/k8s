@@ -30,3 +30,4 @@ service:
 persistentVolume:
   type: nfs
   size: 1Gi
+  mountPath: /var/lib/registry
