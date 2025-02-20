@@ -52,7 +52,7 @@ spec:
         {{- end }}
         env:
         {{- if .Values.env }}
-          {{- toYaml .Values.env | nindent 10 }}
+          {{- toYaml .Values.env | nindent 8 }}
         {{- else }}
           - name: PUID
             value: "1000"
@@ -87,6 +87,10 @@ spec:
           periodSeconds: 60
           timeoutSeconds: 5
         {{- end }}
+        {{- if .Values.readinessProbe }}
+        readinessProbe:
+          {{- toYaml .Values.readinessProbe | nindent 10 }}
+        {{- end }}        
         volumeMounts:
         - name: {{ .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
