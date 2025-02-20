@@ -16,6 +16,17 @@ securityContext:
     - "SETGID"
     - "SETUID"
     - "DAC_OVERRIDE"
+env:
+- name: HOSTNAME
+  value: plex.ucdialplans.com
+- name: ADVERTISE_IP
+  value: "http://192.168.10.11:32400/"
+- name: PLEX_UID
+  value: "1000"
+- name: PLEX_GID
+  value: "100"           
+- name: TZ
+  value: "America/Toronto"
 resources:
   requests:
     cpu: 10m

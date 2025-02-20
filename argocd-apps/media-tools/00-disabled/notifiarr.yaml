@@ -7,9 +7,15 @@ metadata:
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default
-  source:
-    repoURL: "git@github.com:kenlasko/k8s.git"
-    path: media-tools/notifiarr
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/baseline
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/media-tools/notifiarr/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/media-tools/notifiarr
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

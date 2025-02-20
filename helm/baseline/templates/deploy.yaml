@@ -51,12 +51,20 @@ spec:
           {{- toYaml .Values.securityContext | nindent 10 }}
         {{- end }}
         env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "100"
-        - name: TZ
-          value: "America/Toronto"
+          {{- if .Values.env }}
+          {{- toYaml .Values.env | nindent 10 }}
+          {{- else }}
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "100"
+          - name: TZ
+            value: "America/Toronto"
+          {{- end }}
+        {{- if .Values.envFrom }}
+        envFrom:
+          {{- toYaml .Values.envFrom | nindent 10 }}
+        {{- end }}
         resources:
         {{- toYaml .Values.resources | nindent 10 }}
         ports:
