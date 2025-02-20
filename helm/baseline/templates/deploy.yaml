@@ -76,6 +76,11 @@ spec:
         - containerPort: {{ .Values.service.port }}
           name: http
           protocol: TCP
+        {{- range .Values.service.extraPorts }}
+        - containerPort: {{ .port }}
+          name: {{ .name }}
+          protocol: {{ .protocol | default "TCP" }}
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /
@@ -86,8 +91,17 @@ spec:
         volumeMounts:
         - name: {{ .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
+        {{- if .Values.media.enabled }}
         - name: media
-          mountPath: media
+          mountPath: /media
+        {{- end }}
+        {{- range .Values.extraVolumeMounts }}
+        - name: {{ .name }}
+          mountPath: {{ .mountPath }}
+          {{- if .subPath }}
+          subPath: {{ .subPath }}
+          {{- end }}
+        {{- end }}
       dnsConfig:
         options:
           - name: ndots
@@ -96,6 +110,21 @@ spec:
       - name: {{ .Release.Name }}-config
         persistentVolumeClaim:
           claimName: longhorn-{{ .Release.Name }}-config-pvc
+      {{- if .Values.media.enabled }}
       - name: media
         persistentVolumeClaim:
-          claimName: nfs-media
+          claimName: {{ .Values.media.claimName | default "nfs-media" }}
+      {{- end }}
+      {{- range .Values.extraVolumes }}
+      - name: {{ .name }}
+        {{- if .persistentVolumeClaim }}
+        persistentVolumeClaim:
+          claimName: {{ .persistentVolumeClaim }}
+        {{- else if .hostPath }}
+        hostPath:
+          path: {{ .hostPath }}
+          type: {{ .hostPathType | default "Directory" }}
+        {{- else if .emptyDir }}
+        emptyDir: {}
+        {{- end }}
+      {{- end }}

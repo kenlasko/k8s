@@ -23,5 +23,7 @@ resources:
     memory: 500Mi
 service:
   port: 8181
+media:
+  enabled: true
 persistentVolume:
   size: 2Gi

@@ -23,5 +23,7 @@ resources:
     memory: 300Mi
 service:
   port: 8686
+media:
+  enabled: true
 persistentVolume:
   size: 400Mi

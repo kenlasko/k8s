@@ -7,10 +7,16 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   type: ClusterIP
+  selector:
+    app: {{ .Release.Name }}
   ports:
   - port: {{ .Values.service.port }}
     protocol: TCP
     targetPort: http
     name: web
-  selector:
-    app: {{ .Release.Name }}
+    {{- range .Values.service.extraPorts }}
+    - port: {{ .port }}
+      protocol: {{ .protocol | default "TCP" }}
+      targetPort: {{ .targetPort }}
+      name: {{ .name }}
+    {{- end }}

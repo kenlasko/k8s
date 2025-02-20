@@ -23,5 +23,7 @@ resources:
     memory: 350Mi
 service:
   port: 8989
+media:
+  enabled: true
 persistentVolume:
   size: 1Gi

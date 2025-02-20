@@ -23,6 +23,8 @@ resources:
     memory: 400Mi
 service:
   port: 80
+media:
+  enabled: true
 persistentVolume:
   size: 5Gi
   mountPath: /opt/data
