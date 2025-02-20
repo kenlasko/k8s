@@ -1,0 +1,32 @@
+image:
+  repository: registry
+  tag: 2.8.3
+  registry: docker.io
+priorityClassName: medium-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: REGISTRY_HTTP_ADDR
+  value: "0.0.0.0:5000"
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 1m
+    memory: 25Mi
+  limits:
+    # cpu: 350m
+    memory: 600Mi
+service:
+  port: 5000
+persistentVolume:
+  type: nfs
+  size: 1Gi

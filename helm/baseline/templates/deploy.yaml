@@ -26,7 +26,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
       automountServiceAccountToken: false
-      priorityClassName: medium-priority
+      priorityClassName: {{ .Values.priorityClassName | default low-priority }}
       affinity:
         {{- if .Values.affinity }}
         {{- toYaml .Values.affinity | nindent 8 }}

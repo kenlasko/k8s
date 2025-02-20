@@ -3,7 +3,7 @@ image:
   tag: 1.41.4.9463-630c9f557
   registry: docker.io
 annotations:
-    lbipam.cilium.io/ips: 192.168.10.11
+  lbipam.cilium.io/ips: 192.168.10.11
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
