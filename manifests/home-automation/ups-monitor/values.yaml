@@ -1,0 +1,41 @@
+image:
+  repository: instantlinux/nut-upsd
+  tag: 2.8.2-r2
+  registry: docker.io
+priorityClassName: high-priority
+disableHTTPRoute: true
+securityContext:
+  privileged: true
+  seccompProfile:
+    type: RuntimeDefault
+env:
+- name: API_USER
+  value: "***REMOVED***"
+- name: API_PASSWORD
+  value: "***REMOVED***"
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 1m
+    memory: 3Mi
+    smarter-devices/bus_usb_001_003: 1
+  limits:
+    # cpu: 1m
+    memory: 4Mi
+    smarter-devices/bus_usb_001_003: 1
+service:
+  port: 3493
+persistentVolume:
+  type: nfs
+  size: 10Mi
+  mountPath: /etc/nut
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc4

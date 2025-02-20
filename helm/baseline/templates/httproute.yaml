@@ -1,3 +1,4 @@
+{{- if not .Values.disableHTTPRoute }}
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -17,3 +18,4 @@ spec:
       namespace: {{ .Release.Namespace }}
       kind: Service
       port: {{ .Values.service.port }}
+{{- end }}
