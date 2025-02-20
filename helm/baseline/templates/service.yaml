@@ -5,8 +5,15 @@ metadata:
     app: {{ .Release.Name }}-service
   name: {{ .Release.Name }}-service
   namespace: {{ .Release.Namespace }}
+  {{- if .Values.annotations }} 
+  annotations:
+    {{- toYaml .Values.annotations | nindent 4 }}
+  {{- end }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type | default "ClusterIP" }}
+  {{- if .Values.service.externalTrafficPolicy }}
+    externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
+  {{- end }}
   selector:
     app: {{ .Release.Name }}
   ports:
