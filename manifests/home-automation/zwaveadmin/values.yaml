@@ -1,0 +1,44 @@
+image:
+  repository: zwavejs/zwave-js-ui
+  tag: 9.30.1
+  registry: docker.io
+priorityClassName: high-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: LOG_NODES
+  value: "3,4"
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 3m
+    memory: 150Mi
+    smarter-devices/ttyUSB0: 1
+  limits:
+    # cpu: 300m
+    memory: 250Mi
+    smarter-devices/ttyUSB0: 1
+service:
+  port: 8091
+extraPorts:
+- containerPort: 3000
+  name: zwave
+persistentVolume:
+  type: nfs
+  size: 1Gi
+  mountPath: /usr/src/app/store
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc4

@@ -4,7 +4,7 @@ metadata:
   name: esphome
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "99"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
   sources:
