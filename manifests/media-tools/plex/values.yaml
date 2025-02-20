@@ -1,0 +1,72 @@
+image:
+  repository: plexinc/pms-docker
+  tag: 1.41.4.9463-630c9f557
+  registry: docker.io
+annotations:
+    lbipam.cilium.io/ips: 192.168.10.11
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 10m
+    memory: 1000Mi
+    gpu.intel.com/i915: "1"
+  limits:
+    # cpu: 2500m
+    memory: 1750Mi
+    gpu.intel.com/i915: "1"
+service:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  port: 32400
+  extraPorts:
+  - port: 32499
+    name: relay
+  - port: 3005
+    name: plex-companion
+  - port: 32410
+    name: gdm-32410
+    protocol: UDP
+  - port: 32412
+    name: gdm-32412
+    protocol: UDP
+  - port: 32413
+    name: gdm-32413
+    protocol: UDP
+  - port: 32414
+    name: gdm-32414
+    protocol: UDP
+persistentVolume:
+  type: longhorn
+  size: 25Gi
+media:
+  enabled: true
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: intel.feature.node.kubernetes.io/gpu
+          operator: In
+          values:
+          - "true"
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 1
+      preference:
+        matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc5
+          - nuc6
+

@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/version: {{ .Values.image.tag }}
 spec:
   serviceName: {{ .Release.Name }}
-  replicas: 1
+  replicas: {{ .Values.replicas | default 1 }}
   revisionHistoryLimit: 2
   updateStrategy:
     type: RollingUpdate
@@ -28,6 +28,9 @@ spec:
       automountServiceAccountToken: false
       priorityClassName: medium-priority
       affinity:
+        {{- if .Values.affinity }}
+        {{- toYaml .Values.affinity | nindent 8 }}
+        {{- else }}
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
@@ -36,13 +39,14 @@ spec:
                 operator: DoesNotExist
               - key: kubernetes.io/arch
                 operator: In
-                values: 
+                values:
                 - "amd64"
+        {{- end }}
       containers:
       - name: {{ .Release.Name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
-        {{- if .Values.securityContext }} # Conditional inclusion of securityContext
+        {{- if .Values.securityContext }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
         {{- end }}
@@ -54,24 +58,7 @@ spec:
         - name: TZ
           value: "America/Toronto"
         resources:
-          {{- if .Values.resources.requests }}
-          requests:
-            {{- if .Values.resources.requests.cpu }}
-            cpu: {{ .Values.resources.requests.cpu }}
-            {{- end }}
-            {{- if .Values.resources.requests.memory }}
-            memory: {{ .Values.resources.requests.memory }}
-            {{- end }}
-          {{- end }}
-          {{- if .Values.resources.limits }}
-          limits:
-            {{- if .Values.resources.limits.cpu }}
-            cpu: {{ .Values.resources.limits.cpu }}
-            {{- end }}
-            {{- if .Values.resources.limits.memory }}
-            memory: {{ .Values.resources.limits.memory }}
-            {{- end }}
-          {{- end }}
+        {{- toYaml .Values.resources | nindent 10 }}
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http
