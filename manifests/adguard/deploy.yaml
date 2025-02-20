@@ -33,7 +33,7 @@ spec:
                 - "amd64"
       containers:
       - name: adguard
-        image: docker.io/adguard/adguardhome:v0.107.56
+        image: docker.io/adguard/adguardhome:v0.107.57
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
