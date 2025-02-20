@@ -1,0 +1,27 @@
+image:
+  repository: tautulli/tautulli
+  tag: v2.15.1
+  registry: docker.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 2m
+    memory: 300Mi
+  limits:
+    # cpu: 500m
+    memory: 500Mi
+service:
+  port: 8181
+persistentVolume:
+  size: 2Gi
