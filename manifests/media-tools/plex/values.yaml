@@ -57,6 +57,12 @@ service:
   - port: 32414
     name: gdm-32414
     protocol: UDP
+livenessProbe:
+  httpGet:
+    path: /identity
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 120
 persistentVolume:
   type: longhorn
   size: 25Gi

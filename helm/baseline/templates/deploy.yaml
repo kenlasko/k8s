@@ -51,16 +51,16 @@ spec:
           {{- toYaml .Values.securityContext | nindent 10 }}
         {{- end }}
         env:
-          {{- if .Values.env }}
+        {{- if .Values.env }}
           {{- toYaml .Values.env | nindent 10 }}
-          {{- else }}
+        {{- else }}
           - name: PUID
             value: "1000"
           - name: PGID
             value: "100"
           - name: TZ
             value: "America/Toronto"
-          {{- end }}
+        {{- end }}
         {{- if .Values.envFrom }}
         envFrom:
           {{- toYaml .Values.envFrom | nindent 10 }}
@@ -77,12 +77,16 @@ spec:
           protocol: {{ .protocol | default "TCP" }}
         {{- end }}
         livenessProbe:
+        {{- if .Values.livenessProbe }}
+          {{- toYaml .Values.livenessProbe | nindent 10 }}
+        {{- else }}
           httpGet:
             path: /
             port: http
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5
+        {{- end }}
         volumeMounts:
         - name: {{ .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
