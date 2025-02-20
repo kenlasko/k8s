@@ -1,0 +1,27 @@
+image:
+  repository: linuxserver/overseerr
+  tag: 1.33.2
+  registry: docker.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 1m
+    memory: 220Mi
+  limits:
+    # cpu: 1000m
+    memory: 350Mi
+service:
+  port: 5055
+persistentVolume:
+  size: 250Mi

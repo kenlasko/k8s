@@ -85,7 +85,7 @@ spec:
           timeoutSeconds: 5
         volumeMounts:
         - name: {{ .Release.Name }}-config
-          mountPath: /config
+          mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
         - name: media
           mountPath: media
       dnsConfig:
