@@ -90,6 +90,7 @@
     },
     {
       "matchManagers": [
+        "helm-values",
         "kubernetes"
       ],
       "matchPackageNames": [
