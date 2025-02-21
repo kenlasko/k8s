@@ -1,19 +1,16 @@
 image:
-  repository: tautulli/tautulli
-  tag: v2.15.1
-  registry: docker.io
+  repository: onedr0p/tautulli
+  tag: 2.15.1
+  registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 2m

@@ -4,7 +4,8 @@ image:
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
   runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault

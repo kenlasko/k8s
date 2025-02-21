@@ -7,7 +7,7 @@ data:
   backup-media-apps.sh: |
     #! /bin/sh
 
-    APPS="Lidarr Prowlarr Radarr Readarr Sonarr"
+    APPS="Prowlarr Radarr Sonarr"
 
     for APP in $APPS; do
         echo "Backing up $APP"
