@@ -24,8 +24,14 @@ spec:
         appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
+      {{- if .Values.hostNetwork }}
+      hostNetwork: {{ .Values.hostNetwork | default false}}
+      {{- end }}
       restartPolicy: Always
-      automountServiceAccountToken: false
+      automountServiceAccountToken: {{ .Values.autoMountServiceAccountToken | default false }}
+      {{- if .Values.serviceAccountName }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
       priorityClassName: {{ .Values.priorityClassName | default "low-priority" }}
       affinity:
         {{- if .Values.affinity }}

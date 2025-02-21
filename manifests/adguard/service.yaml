@@ -38,12 +38,10 @@ spec:
   externalTrafficPolicy: Cluster
   ports:
   - name: dns-tcp
-    #nodePort: 30725
     port: 53
     protocol: TCP
     targetPort: dns-tcp
   - name: dns-udp
-    #nodePort: 30725
     port: 53
     protocol: UDP
     targetPort: dns-udp
@@ -52,7 +50,6 @@ spec:
     protocol: TCP
     targetPort: dns-tls-443
   - name: dns-tls-853
-    #nodePort: 32725
     port: 853
     protocol: TCP
     targetPort: dns-tls-853

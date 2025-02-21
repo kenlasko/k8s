@@ -1,0 +1,73 @@
+image:
+  repository: adguard/adguardhome
+  tag: v0.107.57
+  registry: docker.io
+priorityClassName: medium-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+env:
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 60m
+    memory: 150Mi
+  limits:
+    # cpu: 2000m
+    memory: 250Mi
+service:
+  port: 3000
+extraPorts:
+- port: 53
+  name: dns-tcp
+  protocol: TCP
+- port: 53
+  name: dns-udp
+  protocol: UDP
+- port: 443
+  name: dns-tls-443
+  protocol: TCP
+- port: 853
+  name: dns-tls-853
+  protocol: TCP
+livenessProbe:
+  failureThreshold: 10
+  httpGet:
+    path: /login.html
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+readinessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /login.html
+    port: http
+    scheme: HTTP
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+extraVolumes:
+- name: nfs-adguard-conf
+  persistentVolumeClaim: nfs-adguard-conf
+- name: nfs-adguard-work
+  persistentVolumeClaim: nfs-adguard-work
+- name: dns-wildcard-cert
+  secret:
+    secretName: wildcard-cert
+extraVolumeMounts:
+- name: nfs-adguard-conf
+  mountPath: /opt/adguardhome/conf
+- name: nfs-adguard-work
+  mountPath: /opt/adguardhome/work
+- name: dns-wildcard-cert
+  mountPath: /etc/certs

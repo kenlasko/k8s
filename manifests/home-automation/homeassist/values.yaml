@@ -1,0 +1,45 @@
+image:
+  repository: home-assistant/home-assistant
+  tag: 2025.2.4
+  registry: ghcr.io
+priorityClassName: high-priority
+hostNetwork: true
+serviceAccountName: ha-sa-garminupload
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: PYTHONPATH
+  value: "/config/deps/"
+- name: TZ
+  value: "America/Toronto"
+envFrom:
+- secretRef:
+    name: kube-auth-token
+resources:
+  requests:
+    cpu: 100m
+    memory: 700Mi
+    smarter-devices/ttyUSB1: 1
+  limits:
+    # cpu: 1400m
+    memory: 1200Mi
+    smarter-devices/ttyUSB1: 1
+service:
+  port: 8123
+persistentVolume:
+  type: nfs
+  size: 4Gi
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc4
