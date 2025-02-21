@@ -5,7 +5,7 @@ metadata:
   name: emailupdate
   namespace: ucdialplans
 spec:
-  schedule: "0 8 * * *" 
+  schedule: "0 10 * * 1-5"  # 10:00 AM GMT Monday-Friday
   suspend: false
   successfulJobsHistoryLimit: 1
   jobTemplate:
