@@ -1,20 +1,19 @@
 image:
   repository: onedr0p/lidarr
-  tag: 2.4.3.4248
+  tag: 2.9.6
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - "CHOWN"
-    # - "SETGID"
-    # - "SETUID"
-    # - "DAC_OVERRIDE"
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 3m
