@@ -1,7 +1,7 @@
 image:
-  repository: linuxserver/lidarr
-  tag: 2.9.6
-  registry: docker.io
+  repository: onedr0p/lidarr
+  tag: 2.4.3.4248
+  registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
@@ -9,11 +9,11 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
+    # - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 3m
