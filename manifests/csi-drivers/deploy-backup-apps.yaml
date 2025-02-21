@@ -41,7 +41,7 @@ spec:
             name: backup-apps-script
           containers:
           - name: backup-apps
-            image: docker.io/busybox
+            image: docker.io/busybox:1.37.0
             args:
             - ash
             - -c
