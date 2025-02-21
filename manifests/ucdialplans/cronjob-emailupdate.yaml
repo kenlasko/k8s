@@ -39,7 +39,7 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Checking rulesets for updates..." &&
-              curl --location --insecure --request POST 'https://www.ucdialplans.com/EmailUpdates.aspx' --form 'userID2="***REMOVED***"' &&
+              curl --location --insecure --request POST 'https://www.ucdialplans.com/EmailUpdates.aspx' --form 'userID2="$MS_ACCOUNTID"' &&
               echo "$(date +%F_%T) Finished!"
             resources:
               requests:
@@ -48,6 +48,12 @@ spec:
               limits:
                 # cpu: 300m
                 memory: 300Mi
+            env:
+            - name: MS_ACCOUNTID
+              valueFrom:
+                secretKeyRef:
+                  name: ms-account-id
+                  key: ms-account-id
           dnsConfig:
             options:
               - name: ndots
