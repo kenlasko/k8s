@@ -39,7 +39,6 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Checking rulesets for updates..." &&
-              echo $MS_ACCOUNTID &&
               curl --location --insecure --request POST "https://www.ucdialplans.com/EmailUpdates.aspx" --form "userID2=$MS_ACCOUNTID" &&
               echo "$(date +%F_%T) Finished!"
             resources:
