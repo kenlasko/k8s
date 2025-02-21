@@ -11,7 +11,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "{{ .Release.Name }}.ucdialplans.com"
+  - {{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
   rules:
   - backendRefs:
     - name: {{ .Release.Name }}-service

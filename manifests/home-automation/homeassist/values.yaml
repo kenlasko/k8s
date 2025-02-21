@@ -31,6 +31,7 @@ resources:
     smarter-devices/ttyUSB1: 1
 service:
   port: 8123
+httpRouteNameOverride: "ha.ucdialplans.com"
 persistentVolume:
   type: nfs
   size: 4Gi
