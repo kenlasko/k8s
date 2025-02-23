@@ -80,7 +80,8 @@
     },
     {
       "matchManagers": [
-        "helm-values"
+        "helm-values",
+        "kubernetes"
       ],
       "matchPackageNames": [
         "docker.io/linuxserver/lidarr"
