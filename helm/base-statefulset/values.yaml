@@ -50,10 +50,10 @@ startupProbe: {}
 readinessProbe: {}
 
 # Persistent volume settings
-persistentVolume:
-  type: ""
-  size: "1Gi"
-  mountPath: "/config"
+# persistentVolume:
+#   type: ""
+#   size: "1Gi"
+#   mountPath: "/config"
 
 # Media volume settings
 media:
