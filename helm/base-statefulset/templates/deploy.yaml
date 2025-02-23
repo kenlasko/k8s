@@ -9,7 +9,7 @@ metadata:
 spec:
   serviceName: {{ .Release.Name }}
   replicas: {{ .Values.replicas | default 1 }}
-  revisionHistoryLimit: 2
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
   updateStrategy:
     type: RollingUpdate
   selector:
@@ -26,7 +26,7 @@ spec:
       {{- if .Values.hostNetwork }}
       hostNetwork: {{ .Values.hostNetwork | default false}}
       {{- end }}
-      restartPolicy: Always
+      restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       automountServiceAccountToken: {{ .Values.autoMountServiceAccountToken | default false }}
       {{- if .Values.serviceAccountName }}
       serviceAccountName: {{ .Values.serviceAccountName }}
@@ -50,7 +50,7 @@ spec:
       containers:
       - name: {{ .Release.Name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
         {{- if .Values.securityContext }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
