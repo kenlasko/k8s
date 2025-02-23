@@ -1,114 +1,71 @@
-# Default values for baseline.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# Default values for the Helm chart
 
-# This will set the deployment replica count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+# General settings
 replicas: 1
 revisionHistoryLimit: 2
-# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
-image:
-  repository: nginx
-  # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-  registry: docker.io
-
-# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: []
-
 hostNetwork: false
+restartPolicy: Always
 autoMountServiceAccountToken: false
-# serviceAccountName: default
+serviceAccountName: ""
+priorityClassName: low-priority
+disableHTTPRoute: false
 
+# Image settings
+image:
+  registry: "your-registry"
+  repository: "your-repository"
+  tag: "latest"
+  pullPolicy: IfNotPresent
 
-
-# This is for setting Kubernetes Annotations to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-podAnnotations: {}
-# This is for setting Kubernetes Labels to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
-
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-service:
-  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
-  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
-
-
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-# livenessProbe:
-#   httpGet:
-#     path: /
-#     port: http
-# readinessProbe:
-#   httpGet:
-#     path: /
-#     port: http
-
-
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
-
+# Security context
 securityContext: {}
 
+# Environment variables
 env: []
 envFrom: []
 
-# persistentVolume:
-#   type: nfs
-#   size: 1Gi
-#   mountPath: /data
+# Resource requests and limits
+resources: {}
 
-# media:
-#   enabled: false
+# Service settings
+service:
+  port: 80
+  type: ClusterIP
+  externalTrafficPolicy: ""
+extraPorts: []
 
-# extraVolumes: []
-# extraVolumeMounts: []
+# HTTPRoute settings
+httpRouteNameOverride: ""
 
+# Probes
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 60
+  timeoutSeconds: 5
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: node-role.kubernetes.io/control-plane
-          operator: DoesNotExist
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          - "amd64"
+startupProbe: {}
+readinessProbe: {}
+
+# Persistent volume settings
+persistentVolume:
+  type: ""
+  size: "1Gi"
+  mountPath: "/config"
+
+# Media volume settings
+media:
+  enabled: false
+  claimName: "nfs-media"
+
+# Extra volume mounts and volumes
+extraVolumeMounts: []
+extraVolumes: []
+
+# Affinity settings
+affinity: {}
+
+# Annotations for the service
+annotations: {}
