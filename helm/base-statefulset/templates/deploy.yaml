@@ -21,7 +21,6 @@ spec:
         app: {{ .Release.Name }}
         app.kubernetes.io/name: {{ .Release.Name }}
         app.kubernetes.io/version: {{ .Values.image.tag | quote }}
-        appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       {{- if .Values.hostNetwork }}

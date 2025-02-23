@@ -33,7 +33,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+      storage: {{ .Values.persistentVolume.size }}
 
 {{- else if eq .Values.persistentVolume.type "nfs" }}
 ---
@@ -70,6 +70,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+      storage: {{ .Values.persistentVolume.size }}
 {{- end }}
 {{- end }}

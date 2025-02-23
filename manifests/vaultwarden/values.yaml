@@ -1,0 +1,36 @@
+image:
+  repository: vaultwarden/server
+  tag: 1.33.2
+  registry: docker.io
+priorityClassName: medium-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 3000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 1m
+    memory: 60Mi
+  limits:
+    # cpu: 200m
+    memory: 150Mi
+service:
+  port: 8087
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+persistentVolume:
+  type: nfs
+  size: 1Gi
+  mountPath: /data
