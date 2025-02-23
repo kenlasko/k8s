@@ -7,8 +7,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
-  source:
-    repoURL: "git@github.com:kenlasko/k8s.git"
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/base-statefulset
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/vaultwarden/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/vaultwarden
     targetRevision: HEAD
     directory:
