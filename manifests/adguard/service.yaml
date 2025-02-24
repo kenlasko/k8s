@@ -1,27 +1,27 @@
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: adguard
-    tailscale.com/proxy-class: "run-on-worker"
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "home-adguard"
-  name: adguard-web
-  namespace: adguard
-spec:
-  type: ClusterIP
-  ports:
-  - name: adguard-web
-    port: 3000
-    protocol: TCP
-    targetPort: http
-  - name: adguard-tls
-    port: 443
-    protocol: TCP
-    targetPort: https
-  selector:
-    app: adguard
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: adguard
+#     tailscale.com/proxy-class: "run-on-worker"
+#   annotations:
+#     tailscale.com/expose: "true"
+#     tailscale.com/hostname: "home-adguard"
+#   name: adguard-web
+#   namespace: adguard
+# spec:
+#   type: ClusterIP
+#   ports:
+#   - name: adguard-web
+#     port: 3000
+#     protocol: TCP
+#     targetPort: http
+#   - name: adguard-tls
+#     port: 443
+#     protocol: TCP
+#     targetPort: https
+#   selector:
+#     app: adguard
 
 ---
 apiVersion: v1
@@ -40,19 +40,19 @@ spec:
   - name: dns-tcp
     port: 53
     protocol: TCP
-    targetPort: dns-tcp
+    targetPort: 53
   - name: dns-udp
     port: 53
     protocol: UDP
-    targetPort: dns-udp
+    targetPort: 53
   - name: dns-tls-443
     port: 443
     protocol: TCP
-    targetPort: dns-tls-443
+    targetPort: 443
   - name: dns-tls-853
     port: 853
     protocol: TCP
-    targetPort: dns-tls-853
+    targetPort: 853
   selector:
     app: adguard
 

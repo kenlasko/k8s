@@ -139,16 +139,6 @@ spec:
           claimName: {{ .Values.media.claimName | default "nfs-media" }}
       {{- end }}
     {{- end }}
-      {{- range .Values.extraVolumes }}
-      - name: {{ .name }}
-        {{- if .persistentVolumeClaim }}
-        persistentVolumeClaim:
-          claimName: {{ .persistentVolumeClaim }}
-        {{- else if .hostPath }}
-        hostPath:
-          path: {{ .hostPath }}
-          type: {{ .hostPathType | default "Directory" }}
-        {{- else if .emptyDir }}
-        emptyDir: {}
-        {{- end }}
+      {{- if .Values.extraVolumes }}
+      {{- toYaml .Values.extraVolumes | nindent 6 }}
       {{- end }}

@@ -9,6 +9,12 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/base-statefulset
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/adguard/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/adguard
     targetRevision: HEAD
     directory:
@@ -16,10 +22,6 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: adguard
-  ignoreDifferences:
-  - jsonPointers:
-    - /spec/externalName
-    kind: Service
   syncPolicy:
     managedNamespaceMetadata:
       labels:

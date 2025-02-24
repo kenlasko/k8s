@@ -2,6 +2,8 @@ image:
   repository: adguard/adguardhome
   tag: v0.107.57
   registry: docker.io
+extraLabels:
+  
 priorityClassName: medium-priority
 securityContext:
   allowPrivilegeEscalation: false
@@ -23,18 +25,14 @@ resources:
     memory: 250Mi
 service:
   port: 3000
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "home-adguard"
+  extraLabels:
+    tailscale.com/proxy-class: "run-on-worker"
 extraPorts:
-- port: 53
-  name: dns-tcp
-  protocol: TCP
-- port: 53
-  name: dns-udp
-  protocol: UDP
 - port: 443
-  name: dns-tls-443
-  protocol: TCP
-- port: 853
-  name: dns-tls-853
+  name: adguard-tls
   protocol: TCP
 livenessProbe:
   failureThreshold: 10

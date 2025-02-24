@@ -2,8 +2,7 @@ image:
   repository: onedr0p/plex
   tag: 1.41.4.9463-630c9f557
   registry: ghcr.io
-annotations:
-  lbipam.cilium.io/ips: 192.168.10.11
+
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
@@ -37,6 +36,8 @@ service:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   port: 32400
+  annotations:
+    lbipam.cilium.io/ips: 192.168.10.11
 extraPorts:
 - port: 32499
   name: relay

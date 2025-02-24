@@ -3,12 +3,15 @@ kind: Service
 metadata:
   labels:
     app: {{ .Release.Name }}-service
+    {{- if .Values.service.extraLabels }}
+    {{- toYaml .Values.service.extraLabels | nindent 4 }}
+    {{- end }}
+    {{- if .Values.service.annotations }}
+  annotations: 
+    {{- toYaml .Values.service.annotations | nindent 4 }}
+    {{- end }}
   name: {{ .Release.Name }}-service
   namespace: {{ .Release.Namespace }}
-  {{- if .Values.annotations }} 
-  annotations:
-    {{- toYaml .Values.annotations | nindent 4 }}
-  {{- end }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   {{- if .Values.service.externalTrafficPolicy }}
