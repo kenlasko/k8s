@@ -1,20 +1,20 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: uptime-kuma
-  namespace: uptime-kuma
-spec:
-  internalTrafficPolicy: Cluster
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
-  selector:
-    app.kubernetes.io/instance: uptime-kuma
-    app.kubernetes.io/name: uptime-kuma
-  sessionAffinity: None
-  type: ClusterIP
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: uptime-kuma
+#   namespace: uptime-kuma
+# spec:
+#   internalTrafficPolicy: Cluster
+#   ports:
+#   - name: http
+#     port: 80
+#     protocol: TCP
+#     targetPort: http
+#   selector:
+#     app.kubernetes.io/instance: uptime-kuma
+#     app.kubernetes.io/name: uptime-kuma
+#   sessionAffinity: None
+#   type: ClusterIP
 
 ---
 apiVersion: v1
