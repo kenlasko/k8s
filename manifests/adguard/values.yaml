@@ -21,17 +21,6 @@ resources:
   limits:
     # cpu: 2000m
     memory: 250Mi
-service:
-  port: 3000
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "home-adguard"
-  extraLabels:
-    tailscale.com/proxy-class: "run-on-worker"
-extraPorts:
-- port: 443
-  name: adguard-tls
-  protocol: TCP
 livenessProbe:
   failureThreshold: 10
   httpGet:
@@ -69,3 +58,17 @@ extraVolumeMounts:
   mountPath: /opt/adguardhome/work
 - name: dns-wildcard-cert
   mountPath: /etc/certs
+service:
+  port: 3000
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "home-adguard"
+  extraLabels:
+    tailscale.com/proxy-class: "run-on-worker"
+extraPorts:
+- port: 443
+  name: adguard-tls
+  protocol: TCP
+tailscale:
+  enabled: true
+  name: cloud-adguard-egress
