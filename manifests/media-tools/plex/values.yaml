@@ -1,19 +1,20 @@
 image:
-  repository: plexinc/pms-docker
+  repository: onedr0p/plex
   tag: 1.41.4.9463-630c9f557
-  registry: docker.io
+  registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
+    # - "DAC_OVERRIDE"
 env:
 - name: HOSTNAME
   value: plex.ucdialplans.com
