@@ -56,10 +56,10 @@ readinessProbe:
   timeoutSeconds: 5
 extraVolumes:
 - name: nfs-adguard-conf
-  persistentVolume:
+  persistentVolumeClaim:
     claimName: nfs-adguard-conf
 - name: nfs-adguard-work
-  persistentVolume:
+  persistentVolumeClaim:
     claimName: nfs-adguard-work
 - name: dns-wildcard-cert
   secret:
