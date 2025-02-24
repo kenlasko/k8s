@@ -7,14 +7,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
-  sources:
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/base-statefulset
-    targetRevision: HEAD
-    helm:
-      valueFiles:
-      - /manifests/cloudflare-tunnel/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/cloudflare-tunnel
     targetRevision: HEAD
     directory:
