@@ -1,3 +1,5 @@
+{{- if .Values.service }}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -30,6 +32,7 @@ spec:
       targetPort: {{ .targetPort }}
       name: {{ .name }}
     {{- end }}
+{{- end }}
 
 {{- if .Values.tailscale }}
 ---

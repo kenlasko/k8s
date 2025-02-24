@@ -28,10 +28,10 @@ envFrom: []
 resources: {}
 
 # Service settings
-service:
-  port: 80
-  type: ClusterIP
-  externalTrafficPolicy: ""
+service: {}
+  # port: 80
+  # type: ClusterIP
+  # externalTrafficPolicy: ""
 extraPorts: []
 
 # HTTPRoute settings
