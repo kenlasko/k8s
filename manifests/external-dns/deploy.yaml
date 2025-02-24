@@ -110,7 +110,7 @@ spec:
         - name: LOG_LEVEL
           value: info
         - name: ADGUARD_URL
-          value: "http://adguard-web.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
+          value: "http://adguard-service.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/
         - name: ADGUARD_USER
           valueFrom:
             secretKeyRef:
