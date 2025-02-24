@@ -58,10 +58,10 @@ readinessProbe:
   failureThreshold: 3
 extraVolumes:
 - name: gitea-data
-  persistentVolume: 
+  persistentVolumeClaim: 
     claimName: nfs-gitea-data
 - name: gitea-config
-  persistentVolume:
+  persistentVolumeClaim:
     claimName: nfs-gitea-config
 extraVolumeMounts:
 - name: gitea-data
