@@ -9,11 +9,11 @@ metadata:
 spec:
   {{- if eq (.Values.appKind | default "StatefulSet") "StatefulSet" }}
   serviceName: {{ .Release.Name }}
+  updateStrategy:
+    type: RollingUpdate
   {{- end }}
   replicas: {{ .Values.replicas | default 1 }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
-  updateStrategy:
-    type: RollingUpdate
   selector:
     matchLabels:
       app: {{ .Release.Name }}
