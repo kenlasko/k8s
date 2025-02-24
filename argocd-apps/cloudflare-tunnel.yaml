@@ -18,9 +18,7 @@ spec:
     path: manifests/cloudflare-tunnel
     targetRevision: HEAD
     directory:
-      exclude: 
-      - "*_DISABLED.yaml"
-      - "values*.yaml"
+      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: cloudflare
