@@ -63,7 +63,7 @@ extraVolumes:
     claimName: nfs-adguard-work
 - name: dns-wildcard-cert
   secret:
-    secretName: wildcard-cert
+    secretName: letsencrypt-dns-wildcard-cert
 extraVolumeMounts:
 - name: nfs-adguard-conf
   mountPath: /opt/adguardhome/conf
