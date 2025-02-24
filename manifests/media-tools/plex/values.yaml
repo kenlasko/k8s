@@ -11,11 +11,6 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - "CHOWN"
-    # - "SETGID"
-    # - "SETUID"
-    # - "DAC_OVERRIDE"
 env:
 - name: HOSTNAME
   value: plex.ucdialplans.com
