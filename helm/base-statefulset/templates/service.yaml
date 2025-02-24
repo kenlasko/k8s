@@ -31,3 +31,20 @@ spec:
       name: {{ .name }}
     {{- end }}
 
+{{- if .Values.tailscale.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: "cloud-mariadb.tailb7050.ts.net"
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"  
+  name: {{ .Values.tailscale.name }}
+  namespace: uptime-kuma
+spec:
+  externalName: {{ .Values.tailscale.name }}
+  type: ExternalName
+
+{{- end }}
+

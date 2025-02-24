@@ -24,8 +24,6 @@ resources:
   limits:
     # cpu: 600m
     memory: 500Mi  
-service:
-  port: 3001
 livenessProbe:
   exec:
     command:
@@ -47,3 +45,8 @@ persistentVolume:
   type: nfs
   size: 850Mi
   mountPath: /app/data
+service:
+  port: 3001
+tailscale:
+  enabled: true
+  name: home-egress
