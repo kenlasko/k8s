@@ -1,7 +1,7 @@
 # Default values for the Helm chart
 
 # General settings
-kind: StatefulSet
+appKind: StatefulSet
 replicas: 1
 revisionHistoryLimit: 2
 hostNetwork: false

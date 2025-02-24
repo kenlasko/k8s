@@ -1,4 +1,4 @@
-kind: Deployment
+appKind: Deployment
 image:
   repository: cloudflare/cloudflared
   tag: 2025.2.0
