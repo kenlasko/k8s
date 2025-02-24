@@ -116,7 +116,7 @@ spec:
       {{- if or .Values.persistentVolume .Values.extraVolumes .Values.media.enabled  }}  
         volumeMounts:
         {{- if .Values.persistentVolume }}
-        - name: {{ .Values.nameOverride | default .Release.Name }}-config
+        - name: {{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
         {{- end }}
       {{- if .Values.media }}    
@@ -140,12 +140,12 @@ spec:
       {{- if or .Values.persistentVolume .Values.extraVolumes .Values.media.enabled }}
       volumes:
       {{- if .Values.persistentVolume }}
-      - name: {{ .Values.nameOverride | default .Release.Name }}-config
+      - name: {{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config
         persistentVolumeClaim:
         {{- if eq .Values.persistentVolume.type "longhorn" }}
-          claimName: longhorn-{{ .Values.nameOverride | default .Release.Name }}-config-pvc
+          claimName: longhorn-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config-pvc
         {{- else if eq .Values.persistentVolume.type "nfs" }}
-          claimName: nfs-{{ .Values.nameOverride | default .Release.Name }}
+          claimName: nfs-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
         {{- end }}
       {{- end }}
     {{- if .Values.media }} 
