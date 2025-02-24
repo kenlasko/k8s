@@ -1,20 +1,20 @@
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: calibre-service
-  name: calibre-service
-  namespace: media-tools
-spec:
-  type: ClusterIP
-  ports:
-  - port: 8083
-    protocol: TCP
-    targetPort: http-calibre
-    name: web
-  selector:
-    app: calibre
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: calibre-service
+#   name: calibre-service
+#   namespace: media-tools
+# spec:
+#   type: ClusterIP
+#   ports:
+#   - port: 8083
+#     protocol: TCP
+#     targetPort: http-calibre
+#     name: web
+#   selector:
+#     app: calibre
 
 
 ---

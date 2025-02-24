@@ -18,4 +18,8 @@ spec:
       namespace: {{ .Release.Namespace }}
       kind: Service
       port: {{ .Values.service.port }}
+    {{- if .Values.httpRouteFilters }}
+    filters:
+    {{- toYaml .Values.httpRouteFilters | nindent 4 }}
+    {{- end }}    
 {{- end }}
