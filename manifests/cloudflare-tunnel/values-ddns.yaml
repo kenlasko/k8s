@@ -33,6 +33,7 @@ service:
 httpRouteNameOverride: ddns-updater.ucdialplans.com
 persistentVolume:
   type: nfs
+  name: ddns-updater-data
   size: 1Gi
   mountPath: /updater/data
 extraVolumes:
