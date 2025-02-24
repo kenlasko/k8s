@@ -3,7 +3,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Values.nameOverride | default .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
@@ -14,7 +14,7 @@ spec:
   - {{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
   rules:
   - backendRefs:
-    - name: {{ .Release.Name }}-service
+    - name: {{ .Values.nameOverride | default .Release.Name }}-service
       namespace: {{ .Release.Namespace }}
       kind: Service
       port: {{ .Values.service.port }}

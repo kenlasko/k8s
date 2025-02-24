@@ -15,6 +15,12 @@ spec:
       valueFiles:
       - /manifests/cloudflare-tunnel/values-cloudflare.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/base-statefulset
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/cloudflare-tunnel/values-ddns.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/cloudflare-tunnel
     targetRevision: HEAD
     directory:

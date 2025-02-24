@@ -1,0 +1,47 @@
+nameOverride: ddns-updater
+image:
+  repository: qdm12/ddns-updater
+  tag: 2.9.0
+  registry: ghcr.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: CONFIG_FILEPATH
+  value: "/updater/config/config.json"
+- name: RESOLVER_ADDRESS
+  value: "1.1.1.1:53"
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 1m
+    memory: 7Mi
+  limits:
+    # cpu: 250m
+    memory: 30Mi
+service:
+  port: 8000
+httpRouteNameOverride: ddns-updater.ucdialplans.com
+persistentVolume:
+  type: nfs
+  name: ddns-data
+  size: 1Gi
+  mountPath: /updater/data
+extraVolumes:
+- name: ddns-updater-config
+  secret:
+    secretName: ddns-updater-config
+extraVolumeMounts:
+- name: ddns-updater-config
+  mountPath: /updater/config
+  readOnly: true
+
