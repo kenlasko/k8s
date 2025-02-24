@@ -110,6 +110,8 @@ spec:
         readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 10 }}
         {{- end }}
+
+      {{- if or .Values.persistentVolume .Values.extraVolumes .Values.media.enabled  }}  
         volumeMounts:
         {{- if .Values.persistentVolume }}
         - name: {{ .Release.Name }}-config
@@ -128,10 +130,12 @@ spec:
           subPath: {{ .subPath }}
           {{- end }}
         {{- end }}
+      {{- end }}
       dnsConfig:
         options:
           - name: ndots
             value: "1"
+      {{- if or .Values.persistentVolume .Values.extraVolumes .Values.media.enabled }}
       volumes:
       {{- if .Values.persistentVolume }}
       - name: {{ .Release.Name }}-config
@@ -149,6 +153,7 @@ spec:
           claimName: {{ .Values.media.claimName | default "nfs-media" }}
       {{- end }}
     {{- end }}
-      {{- if .Values.extraVolumes }}
+    {{- if .Values.extraVolumes }}
       {{- toYaml .Values.extraVolumes | nindent 6 }}
-      {{- end }}
+    {{- end }}
+    {{- end }}
