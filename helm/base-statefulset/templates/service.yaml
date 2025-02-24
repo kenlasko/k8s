@@ -31,7 +31,7 @@ spec:
       name: {{ .name }}
     {{- end }}
 
-{{- if .Values.tailscale.enabled }}
+{{- if .Values.tailscale }}
 ---
 apiVersion: v1
 kind: Service
