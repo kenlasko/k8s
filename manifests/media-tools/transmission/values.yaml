@@ -43,4 +43,5 @@ extraVolumeMounts:
   mountPath: /downloads
 extraVolumes:
 - name: media-downloads
-  persistentVolumeClaim: nfs-media-downloads
+  persistentVolumeClaim: 
+    claimName: nfs-media-downloads

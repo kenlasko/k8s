@@ -2,8 +2,6 @@ image:
   repository: adguard/adguardhome
   tag: v0.107.57
   registry: docker.io
-extraLabels:
-  
 priorityClassName: medium-priority
 securityContext:
   allowPrivilegeEscalation: false
