@@ -5,8 +5,6 @@ image:
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsNonRoot: false
-  runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
