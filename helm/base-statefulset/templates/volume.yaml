@@ -11,7 +11,7 @@ spec:
     storage: {{ .Values.persistentVolume.size }}
   volumeMode: Filesystem
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: driver.longhorn.io
@@ -29,7 +29,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   storageClassName: longhorn
   resources:
     requests:
@@ -48,7 +48,7 @@ spec:
   capacity:
     storage: {{ .Values.persistentVolume.size }}
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
@@ -67,7 +67,7 @@ spec:
   storageClassName: nfs-csi
   volumeName: nfs-{{ .Release.Name }}
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: {{ .Values.persistentVolume.size | default "1Gi" }}

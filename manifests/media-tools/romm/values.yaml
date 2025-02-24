@@ -1,0 +1,44 @@
+image:
+  repository: rommapp/romm
+  tag: 3.7.3
+  registry: docker.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 50m
+    memory: 250Mi
+  limits:
+    # cpu: 100m
+    memory: 400Mi
+service:
+  port: 8080
+envFrom:
+- secretRef:
+  name: romm-env-secrets
+persistentVolume:
+  type: longhorn
+  size: 700Mi
+  mountPath: /romm/database
+extraVolumes:
+- name: romm-library
+  persistentVolumeClaim:
+    claimName: nfs-romm-library
+- name: romm-logs
+  persistentVolumeClaim:
+    claimName: nfs-romm-logs
+extraVolumeMounts:
+- name: romm-library
+  mountPath: /romm/library
+- name: romm-logs
+  mountPath: /romm/logs
