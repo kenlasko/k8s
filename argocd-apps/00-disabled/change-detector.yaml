@@ -4,11 +4,17 @@ metadata:
   name: change-detector
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
-  source:
-    repoURL: "git@github.com:kenlasko/k8s.git"
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/base-statefulset
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/change-detector/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/change-detector
     targetRevision: HEAD
     directory:
@@ -16,6 +22,10 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: change-detector
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/externalName
+    kind: Service
   syncPolicy:
     managedNamespaceMetadata:
       labels:
