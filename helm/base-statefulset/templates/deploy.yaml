@@ -74,6 +74,7 @@ spec:
         {{- end }}
         resources:
         {{- toYaml .Values.resources | nindent 10 }}
+        {{- if .Values.service }}
         ports:
         - containerPort: {{ .Values.service.port }}
           name: http
@@ -82,6 +83,7 @@ spec:
         - containerPort: {{ .port }}
           name: {{ .name }}
           protocol: {{ .protocol | default "TCP" }}
+        {{- end }}
         {{- end }}
         {{- if .Values.command }}
         command:
