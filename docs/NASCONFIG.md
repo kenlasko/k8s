@@ -31,22 +31,21 @@ Apps that currently use the `appdata/pv` folder are:
 ### appdata/vol
 These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/csi-drivers/configmap-backup-apps-script.yaml) script.
 Apps that currently use the `appdata/vol` folder are:
-* [adguard](/manifests/adguard)
+* [adguard](/manifests/apps/adguard)
 * [esphome](/manifests/home-automation/esphome)
-* [garmin-upload](/manifests/garmin-upload)
-* [gitea](/manifests/gitea)
+* [garmin-upload](/manifests/apps/garmin-upload)
+* [gitea](/manifests/apps/gitea)
 * [homeassist](/manifests/home-automation/homeassist)
-* [nectar-ps](/manifests/nectar-ps)
-* [pgadmin](/manifests/pgadmin)
-* [portainer](/manifests/portainer)
+* [pgadmin](/manifests/networking/pgadmin)
+* [portainer](/manifests/apps/portainer)
 * [recyclarr](/manifests/media-apps/recyclarr)
-* [registry](/manifests/registry)
+* [registry](/manifests/system/registry)
 * [romm](/manifests/media-apps/romm)
 * [transmission](/manifests/media-apps/transmission)
-* [ucdialplans](/manifests/ucdialplans)
+* [ucdialplans](/manifests/apps/ucdialplans)
 * [ups-monitor](/manifests/home-automation/ups-monitor)
-* [uptime-kuma](/manifests/uptime-kuma)
-* [vaultwarden](/manifests/vaultwarden)
+* [uptime-kuma](/manifests/monitoring/uptime-kuma)
+* [vaultwarden](/manifests/apps/vaultwarden)
 * [zwaveadmin](/manifests/home-automation/zwaveadmin)
 
 To create these folders on a fresh install (may not be necessary, depending on how the data is restored):
@@ -57,11 +56,11 @@ mkdir adguard esphome garmin-upload gitea homeassist nectar pgadmin portainer re
 
 ## Backup
 This folder stores data created by backup processes, such as Longhorn and manual backup scripts:
-* [Github Repo Backup](/manifests/gitea/configmap-github-backup.yaml)
-* [MariaDB Backup](/manifests/mariadb/backup-cronjob.yaml)
+* [Github Repo Backup](/manifests/apps/gitea/configmap-github-backup.yaml)
+* [MariaDB Backup](/manifests/networking/mariadb/backup-cronjob.yaml)
 * [Media Apps](/manifests/media-apps/backup)
-* [NAS AppData Vol Backup](/manifests/csi-drivers/configmap-backup-apps-script.yaml)
-* [Sealed Secret Backup](/manifests/sealed-secrets/configmap-script.yaml)
+* [NAS AppData Vol Backup](/manifests/system/csi-drivers/configmap-backup-apps-script.yaml)
+* [Sealed Secret Backup](/manifests/system/sealed-secrets/configmap-script.yaml)
 
 ```
 /share/backup

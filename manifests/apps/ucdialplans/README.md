@@ -6,10 +6,10 @@ It is accessible to the world via Cloudflare Tunnel.
 # Prerequisites
 ## Database
 * Requires access to `ucdialplans` database on MariaDB via `UCDialplans_Website` user account. 
-* Requires [InfoCache_Update](/manifests/mariadb/procedures.sql) procedure for periodically updating website usage numbers. 
+* Requires [InfoCache_Update](/manifests/database/mariadb/procedures.sql) procedure for periodically updating website usage numbers. 
 
 # Disaster Recovery
-Should the home cluster become unavailable for an extended period, UCDialplans.com can be switched to use the [Oracle Cloud-based cluster](https://github.com/kenlasko/k8s-cloud). [MariaDB](/manifests/mariadb) is continuously backed up from on-prem, so a switch should be relatively easy. The only thing required is to switch the FQDNs for the Cloudflare Tunnel so that the Cloud tunnel is set to use www.ucdialplans.com and on-prem is switched to www2.ucdialplans.com.
+Should the home cluster become unavailable for an extended period, UCDialplans.com can be switched to use the [Oracle Cloud-based cluster](https://github.com/kenlasko/k8s-cloud). [MariaDB](/manifests/database/mariadb) is continuously backed up from on-prem, so a switch should be relatively easy. The only thing required is to switch the FQDNs for the Cloudflare Tunnel so that the Cloud tunnel is set to use www.ucdialplans.com and on-prem is switched to www2.ucdialplans.com.
 
 1. Log onto https://dash.cloudflare.com/
 2. Navigate to **Zero Trust**

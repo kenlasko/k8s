@@ -5,9 +5,9 @@ The [Smarter Device Manager] makes local devices available in pods that require 
     * [UPS Monitor](/manifests/home-automation/ups-monitor)
     * [ZWave Admin](/manifests/home-automation/zwaveadmin)
 * /dev/tun devices
-    * [Tailscale](/manifests/tailscale)
+    * [Tailscale](/manifests/network/tailscale)
 
 # Configuration
 To make USB devices available to pods, add `smarter-devices/<USB-Device-Name>: 1` to the pod's `spec.template.spec.resources.requests` and `spec.template.spec.resources.limits`
 
-To make /dev/tun devices available to pods, add `smarter-devices/net_tun: "1"` to the container limits. This currently only applies to [Tailscale](/manifests/tailscale).
+To make /dev/tun devices available to pods, add `smarter-devices/net_tun: "1"` to the container limits. This currently only applies to [Tailscale](/manifests/network/tailscale).

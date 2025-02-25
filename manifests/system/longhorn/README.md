@@ -7,7 +7,7 @@ Its configured to only run on worker nodes by specifying a node label called `st
 All data is backed up nightly to the NAS via NFS. Should a disaster require a complete rebuild, Longhorn should be restored first, followed by restoring all the volumes before the [Media Tools](/manifests/media-apps) applications are started.
 
 # CSI Snapshot Support
-I enabled [CSI snapshot](https://github.com/kubernetes-csi/external-snapshotter) support, which should let me declaratively restore volumes during bootstrapping. Updated the [Longhorn Argo CD application definition](/argocd-apps/longhorn.yaml) to include it. Followed the steps here: https://longhorn.io/docs/1.7.2/snapshots-and-backups/csi-snapshot-support/enable-csi-snapshot-support/
+I enabled [CSI snapshot](https://github.com/kubernetes-csi/external-snapshotter) support, which should let me declaratively restore volumes during bootstrapping. Updated the [Longhorn Argo CD application definition](/argocd-apps/system/longhorn.yaml) to include it. Followed the steps here: https://longhorn.io/docs/1.7.2/snapshots-and-backups/csi-snapshot-support/enable-csi-snapshot-support/
 
 ## Configuration sample for restoring volume during bootstrap
 For my current Longhorn volumes, I define both the PV and PVC and manually restore volumes in Longhorn. Using CSI backups, volumes can be automatically restored from backup.

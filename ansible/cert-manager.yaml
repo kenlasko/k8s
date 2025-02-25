@@ -4,7 +4,7 @@
   tasks:
   - name: Read Cert Manager ArgoCD Application YAML
     slurp:
-      src: "/home/ken/k8s/manifests/argocd-apps/cert-manager.yaml"
+      src: "/home/ken/k8s/argocd-apps/system/cert-manager.yaml"
     register: argocd_yaml_content
   - name: Parse YAML content
     set_fact:
@@ -30,10 +30,10 @@
       create_namespace: true
       release_namespace: cert-manager
       values_files:
-      - /home/ken/k8s/manifests/cert-manager/values.yaml
+      - /home/ken/k8s/manifests/system/cert-manager/values.yaml
   - name: Apply Cert-Manager resources
     kubernetes.core.k8s:
       definition: "{{ lookup('template', '{{ item }}') | from_yaml }}"
     with_fileglob:
-    - "/home/ken/k8s/manifests/cert-manager/cloudflare-cert.yaml"
-    - "/home/ken/k8s/manifests/cert-manager/sealed-secrets.yaml"
+    - "/home/ken/k8s/manifests/system/cert-manager/cloudflare-cert.yaml"
+    - "/home/ken/k8s/manifests/system/cert-manager/sealed-secrets.yaml"

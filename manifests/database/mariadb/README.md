@@ -1,11 +1,11 @@
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
-* [Gitea](/manifests/gitea)
+* [Gitea](/manifests/apps/gitea)
 * [Home Assistant](/manifests/home-automation/homeassist)
-* [UCDialplans](/manifests/ucdialplans)
-* [VaultWarden](/manifests/vaultwarden)
+* [UCDialplans](/manifests/apps/ucdialplans)
+* [VaultWarden](/manifests/apps/vaultwarden)
 
-All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance](/manifests/mariadb-standalone), should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a [remote MariaDB instance running in Oracle Cloud](https://github.com/kenlasko/k3s-cloud/tree/main/mariadb).
+All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance](/manifests/database/mariadb-standalone), should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a [remote MariaDB instance running in Oracle Cloud](https://github.com/kenlasko/k3s-cloud/tree/main/mariadb).
 
 # Initial Bootstrapping
 Run `mariadb-restore` CronJob from `mariadb` namespace. This will restore the newest available database backup along with user accounts and grants and procedures. Do via either ArgoCD or:
@@ -16,7 +16,7 @@ kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-res
 # Setup Replication
 The [sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
 ```
-./k8s/manifests/mariadb/scripts/sync-bootstrap.sh
+./k8s/manifests/database/mariadb/scripts/sync-bootstrap.sh
 ```
 For the script to fully work, you must have a valid `kubeconfig` file with both Home and Cloud instances
 
@@ -106,9 +106,9 @@ helm uninstall -n mariadb mariadb
 
 Delete all PV/PVCs for MariaDB, then:
 ```
-kubectl apply -f /home/ken/k8s/manifests/mariadb/pv.yaml
+kubectl apply -f /home/ken/k8s/manifests/database/mariadb/pv.yaml
 
-helm install -n mariadb mariadb -f /home/ken/k8s/manifests/mariadb/values.yaml bitnami/mariadb-galera \
+helm install -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=  \
 --set galera.bootstrap.forceBootstrap=true \
@@ -125,9 +125,9 @@ kubectl scale statefulset mariadb -n mariadb --replicas=0
 
 helm uninstall -n mariadb mariadb
 
-helm install -n mariadb mariadb -f /home/ken/k8s/manifests/mariadb/values.yaml bitnami/mariadb-galera
+helm install -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera
 
-helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/mariadb/values.yaml bitnami/mariadb-galera --set rootUser.password=***REMOVED*** --set galera.mariabackup.password=***REMOVED*** --set podManagementPolicy=Parallel
+helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera --set rootUser.password=***REMOVED*** --set galera.mariabackup.password=***REMOVED*** --set podManagementPolicy=Parallel
 ```
 
 
@@ -138,9 +138,9 @@ helm uninstall -n mariadb mariadb
 
 Delete all PV/PVCs for MariaDB, then:
 ```
-kubectl apply -f /home/ken/k8s/manifests/mariadb/pv.yaml
+kubectl apply -f /home/ken/k8s/manifests/database/mariadb/pv.yaml
 
-helm install -n mariadb mariadb -f /home/ken/k8s/manifests/mariadb/values.yaml bitnami/mariadb-galera \
+helm install -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED*** \
 --set galera.bootstrap.forceBootstrap=true \
@@ -172,7 +172,7 @@ kubectl scale statefulset mariadb -n mariadb --replicas=1
 
 ### Other
 ```
-helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/mariadb/values.yaml bitnami/mariadb-galera \
+helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera \
 --set rootUser.password=***REMOVED*** \
 --set galera.mariabackup.password=***REMOVED***
 ```
