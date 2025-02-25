@@ -13,11 +13,11 @@ spec:
     chart: snapscheduler
     helm:
       valueFiles:
-      - $values/manifests/snapscheduler/values.yaml
+      - $values/manifests/system/snapscheduler/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/snapscheduler
+    path: manifests/system/snapscheduler
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

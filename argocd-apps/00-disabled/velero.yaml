@@ -11,11 +11,11 @@ spec:
     chart: velero
     helm:
       valueFiles:
-      - $values/manifests/velero/values.yaml
+      - $values/manifests/system/velero/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/velero
+    path: manifests/system/velero
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

@@ -53,4 +53,4 @@ Apps that basically everything else depends on:
 * [Sealed Secrets Web](/manifests/sealed-secrets-web)
 
 ## Sync Wave 99
-* [Media Tools](/manifests/media-tools)
+* [Media Tools](/manifests/media-apps)

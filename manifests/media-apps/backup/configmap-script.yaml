@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-media-apps-script
+  namespace: media-apps
+data:
+  backup-media-apps.sh: |
+    #! /bin/sh
+
+    APPS="Prowlarr Radarr Sonarr"
+
+    for APP in $APPS; do
+        echo "Backing up $APP"
+        APPLOW=$(echo "$APP" | awk '{print tolower($0)}')  # Convert to lowercase
+        kubectl cp -n media-apps "$APPLOW-0:config/Backups/scheduled/." "/backup/$APPLOW/."
+        echo "Deleting old $APP backups"
+        APPCOUNT=$(find "/backup/$APPLOW" -type f -mtime -1 | wc -l)
+        if [ "$APPCOUNT" -gt 12 ]; then
+            find "/backup/$APPLOW"/* -mtime +2 -exec rm {} \;
+        fi
+    done
+
+    echo 'Backing up Overseerr'
+    kubectl cp -n media-apps overseerr-0:config/db/. /backup/overseerr/db/.
+    kubectl cp -n media-apps overseerr-0:config/settings.json /backup/overseerr/settings.json
+
+    echo 'Backing up SABNZBD'
+    kubectl cp -n media-apps sabnzbd-0:config/Downloads/. /backup/sabnzbd/.
+    
+    echo 'Backing up Tautulli'
+    kubectl cp -n media-apps tautulli-0:/config/backups/. /backup/tautulli/.
+    echo 'Deleting old Tautulli backups'
+    TAUTULLICOUNT=$(find /backup/tautulli -type f -mtime -1 | wc -l)
+    if [ $TAUTULLICOUNT -gt 24 ]
+    then
+      find /backup/tautulli/* -mtime +2 -exec rm {} \;
+    fi
+
+    echo 'Deleting old Plex backup'
+    rm -rf /backup/plex/*
+    echo 'Backing up Plex'
+    kubectl exec -n media-apps plex-0 -- tar czf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/. > /backup/plex/plex.tar.gz
+    echo 'Backup complete!'
+
+    

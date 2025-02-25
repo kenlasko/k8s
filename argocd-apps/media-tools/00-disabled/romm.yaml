@@ -13,15 +13,15 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/media-tools/romm/values.yaml
+      - /manifests/media-apps/romm/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/media-tools/romm
+    path: manifests/media-apps/romm
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: media-tools
+    namespace: media-apps
   syncPolicy:
     managedNamespaceMetadata:
       labels:

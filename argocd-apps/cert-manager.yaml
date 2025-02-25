@@ -13,11 +13,11 @@ spec:
     chart: cert-manager
     helm:
       valueFiles:
-      - $values/manifests/cert-manager/values.yaml
+      - $values/manifests/system/cert-manager/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/cert-manager
+    path: manifests/system/cert-manager
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

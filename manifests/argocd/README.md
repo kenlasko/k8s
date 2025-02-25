@@ -13,8 +13,8 @@ The [argocd-apps](/argocd/argocd-apps) folder contains the application definitio
 
 I am experimenting with [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to control the order of installation of these tools, so the installation can be automated.
 
-## media-tools
-The [media-tools](/manifests/media-tools) group of applications are all related to media, including [Plex](/manifests/media-tools/plex), [Sonarr](/manifests/media-tools/sonarr), [Radarr](/manifests/media-tools/radarr) etc. This is "generated" by the [media-tools](/argocd-apps/media-tools.yaml) application. They **REQUIRE** the restoration of the backed-up Longhorn volumes is complete before starting up, otherwise they will create new empty volumes with default settings. It isn't impossible to recover from this, but its a waste of time that can be avoided. Once Longhorn is up and running and all the media-tools volumes are restored from NFS, then the media-tools application can be triggered, which will build all the media-tools applications.
+## media-apps
+The [media-apps](/manifests/media-apps) group of applications are all related to media, including [Plex](/manifests/media-apps/plex), [Sonarr](/manifests/media-apps/sonarr), [Radarr](/manifests/media-apps/radarr) etc. This is "generated" by the [media-apps](/argocd-apps/media-apps.yaml) application. They **REQUIRE** the restoration of the backed-up Longhorn volumes is complete before starting up, otherwise they will create new empty volumes with default settings. It isn't impossible to recover from this, but its a waste of time that can be avoided. Once Longhorn is up and running and all the media-apps volumes are restored from NFS, then the media-apps application can be triggered, which will build all the media-apps applications.
 
 # Adding a new Helm chart installation
 1. Edit [values.yaml](/argocd/values.yaml) and add a Helm repository under `configs.repositories`

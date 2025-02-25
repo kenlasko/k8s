@@ -11,11 +11,11 @@ spec:
     chart: fluent-bit
     helm:
       valueFiles:
-      - $values/manifests/fluentbit/values.yaml
+      - $values/manifests/monitoring/fluentbit/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/fluentbit
+    path: manifests/monitoring/fluentbit
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

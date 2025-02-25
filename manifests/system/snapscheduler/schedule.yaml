@@ -1,0 +1,17 @@
+---
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: hourly
+  namespace: media-apps
+spec:
+  disabled: false
+  retention:
+    expires: "168h"
+    maxCount: 5
+  schedule: "25 */12 * * *"
+  claimSelector:
+    matchLabels:
+      csi-backup: "true"
+  snapshotTemplate:
+    snapshotClassName: longhorn-backup

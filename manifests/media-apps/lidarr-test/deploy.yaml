@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lidarr-test
+  namespace: media-apps
+spec:
+  serviceName: lidarr-test
+  replicas: 1
+  revisionHistoryLimit: 2
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: lidarr-test
+  template:
+    metadata:
+      labels:
+        app: lidarr-test
+        name: lidarr-test
+        appGroup: media-arr
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      priorityClassName: low-priority
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - "amd64"                
+      containers:
+      - name: lidarr-test
+        image: docker.io/linuxserver/lidarr:2.9.6
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+            add:
+            - "CHOWN"
+            - "SETGID"
+            - "SETUID"
+            - "DAC_OVERRIDE"
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "100"
+        - name: TZ
+          value: "America/Toronto"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            # cpu: 250m
+            memory: 250Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8686
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: lidarr-test-config
+          mountPath: /config
+        - name: media
+          mountPath: /media
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      volumes:
+        - name: lidarr-test-config
+          persistentVolumeClaim:
+            claimName: longhorn-lidarr-test-config-pvc
+        - name: media
+          persistentVolumeClaim:
+            claimName: nfs-media

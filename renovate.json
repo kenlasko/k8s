@@ -14,7 +14,7 @@
       "argocd-apps/[^/]+\\.yaml$",
       "argocd-apps/00-disabled/[^/]+\\.yaml$",
       "manifests/argocd/argocd.yaml$",
-      "argocd-apps/media-tools/intel-device-plugins.yaml$"
+      "argocd-apps/media-apps/intel-device-plugins.yaml$"
     ]
   },
   "helm-values": {

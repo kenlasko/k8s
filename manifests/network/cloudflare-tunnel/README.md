@@ -40,7 +40,7 @@ This feature allows for controlling access to applications using Cloudflare's se
 3. Navigate to the `Public Hostname` tab, and select `Add a public hostname`
 4. Add a subdomain appropriate for the app, such as `sonarr` or `radarr`. Select the appropriate domain from the dropdown
 5. Under `Service`, select `HTTP` for the type and type in the internal Kubernetes cluster URL to the service, including the port. Examples:
-    * radarr-service.media-tools.svc.cluster.local:7878
+    * radarr-service.media-apps.svc.cluster.local:7878
     * homeassist-service.homeassist.svc.cluster.local:8123
 6. Under `Additional application settings`, expand `Access`, turn it on and select the Access application created in the previous section.
 7. Press `Save hostname`

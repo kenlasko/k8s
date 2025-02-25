@@ -13,9 +13,9 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/uptime-kuma/values.yaml
+      - /manifests/monitoring/uptime-kuma/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/uptime-kuma
+    path: manifests/monitoring/uptime-kuma
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

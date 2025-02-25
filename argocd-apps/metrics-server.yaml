@@ -13,11 +13,11 @@ spec:
     chart: metrics-server
     helm:
       valueFiles:
-      - $values/manifests/metrics-server/values.yaml
+      - $values/manifests/monitoring/metrics-server/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/metrics-server
+    path: manifests/monitoring/metrics-server
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
