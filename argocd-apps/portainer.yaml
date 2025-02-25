@@ -13,11 +13,11 @@ spec:
     chart: portainer
     helm:
       valueFiles:
-      - $values/manifests/portainer/values.yaml
+      - $values/manifests/apps/portainer/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/portainer
+    path: manifests/apps/portainer
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

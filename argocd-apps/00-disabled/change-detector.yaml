@@ -13,15 +13,15 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/change-detector/values-cd.yaml
+      - /manifests/apps/change-detector/values-cd.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: helm/base-statefulset
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/change-detector/values-pc.yaml
+      - /manifests/apps/change-detector/values-pc.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/change-detector
+    path: manifests/apps/change-detector
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

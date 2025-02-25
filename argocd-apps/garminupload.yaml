@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/garminupload
+    path: manifests/apps/garminupload
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

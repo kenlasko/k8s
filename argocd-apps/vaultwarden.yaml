@@ -13,9 +13,9 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/vaultwarden/values.yaml
+      - /manifests/apps/vaultwarden/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/vaultwarden
+    path: manifests/apps/vaultwarden
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
