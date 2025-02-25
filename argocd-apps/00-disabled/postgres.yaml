@@ -13,11 +13,11 @@ spec:
     chart: cloudnative-pg
     helm:
       valueFiles:
-      - $values/manifests/postgres/values.yaml
+      - $values/manifests/database/postgres/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/postgres
+    path: manifests/database/postgres
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

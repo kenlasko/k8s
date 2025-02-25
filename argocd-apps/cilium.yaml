@@ -14,11 +14,11 @@ spec:
     chart: cilium
     helm:
       valueFiles:
-      - $values/manifests/cilium/values.yaml
+      - $values/manifests/network/cilium/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/cilium
+    path: manifests/network/cilium
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
