@@ -23,8 +23,6 @@ resources:
     memory: 350Mi
 service:
   port: 5055
-media:
-  enabled: true
 persistentVolume:
   type: longhorn
   size: 250Mi
