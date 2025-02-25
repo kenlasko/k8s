@@ -1,0 +1,48 @@
+nameOverride: playwright-chrome
+image:
+  repository: browserless/chrome
+  tag: 1.61.1-chrome-stable
+  registry: docker.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: SCREEN_WIDTH
+  value: "1920"
+- name: SCREEN_HEIGHT
+  value: "1000"
+- name: SCREEN_DEPTH
+  value: "24"
+- name: ENABLE_DEBUGGER
+  value: "false"
+- name: PREBOOT_CHROME
+  value: "true"
+- name: CONNECTION_TIMEOUT
+  value: "300000"
+- name: MAX_CONCURRENT_SESSIONS
+  value: "2"
+- name: CHROME_REFRESH_TIME
+  value: "600000"
+- name: DEFAULT_BLOCK_ADS
+  value: "true"
+- name: DEFAULT_STEALTH
+  value: "true"
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 100m
+    memory: 300Mi
+  limits:
+    # cpu: 400m
+    memory: 900Mi
+service:
+  port: 3000
+disableHTTPRoute: true

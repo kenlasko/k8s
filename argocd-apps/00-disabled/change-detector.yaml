@@ -13,7 +13,13 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/change-detector/values.yaml
+      - /manifests/change-detector/values-cd.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/base-statefulset
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/change-detector/values-pc.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/change-detector
     targetRevision: HEAD
