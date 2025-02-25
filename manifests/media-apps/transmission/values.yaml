@@ -2,8 +2,6 @@ image:
   repository: linuxserver/transmission
   tag: 4.0.6
   registry: docker.io
-annotations:
-  lbipam.cilium.io/ips: 192.168.10.12
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
@@ -26,6 +24,8 @@ service:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
   port: 9091
+  annotations:
+    lbipam.cilium.io/ips: 192.168.10.12
 extraPorts:
 - port: 42615
   name: remotedata-tcp
