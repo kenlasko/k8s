@@ -194,10 +194,6 @@ configs:
       url: https://kubernetes-sigs.github.io/metrics-server/
       name: metrics-server
       type: helm
-    neuvector:
-      url: https://neuvector.github.io/neuvector-helm
-      name: neuvector
-      type: helm
     portainer:
       url: https://portainer.github.io/k8s/
       name: portainer
