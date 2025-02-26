@@ -12,7 +12,7 @@ spec:
   updateStrategy:
     type: RollingUpdate
   {{- end }}
-  replicas: {{ .Values.replicas | default 1 }}
+  replicas: {{ .Values.replicas }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 2 }}
   selector:
     matchLabels:
