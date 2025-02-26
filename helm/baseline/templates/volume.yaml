@@ -100,5 +100,13 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   local:
     path: "/var/{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - onode1
 {{- end }}
 {{- end }}
