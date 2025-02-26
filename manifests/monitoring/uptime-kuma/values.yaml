@@ -48,5 +48,4 @@ persistentVolume:
 service:
   port: 3001
 tailscale:
-  enabled: true
   name: home-egress

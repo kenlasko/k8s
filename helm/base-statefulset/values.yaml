@@ -1,7 +1,6 @@
-# Default values for the Helm chart
-
 # General settings
 appKind: StatefulSet
+nameOverride: ""
 replicas: 1
 revisionHistoryLimit: 2
 hostNetwork: false
@@ -9,7 +8,6 @@ restartPolicy: Always
 autoMountServiceAccountToken: false
 serviceAccountName: ""
 priorityClassName: low-priority
-disableHTTPRoute: false
 
 # Image settings
 image:
@@ -33,13 +31,28 @@ service: {}
   # port: 80
   # type: ClusterIP
   # externalTrafficPolicy: ""
+
+  # # Additional labels to add to the service
+  # extraLabels: {}
+
+  # # Annotations to add to the service
+  # annotations: {}
+
+
+# Extra ports to assign to the service
 extraPorts: []
 
-# HTTPRoute settings
-httpRouteNameOverride: ""
+# Create a Tailscale external name service for connecting to the cloud k8s cluster
+tailscale: {}
+  # name: ""
 
-# Probes
-# livenessProbe:
+# HTTPRoute settings
+disableHTTPRoute: false
+httpRouteNameOverride: ""
+httpRouteFilters: []
+
+# A default livenessProbe will be created if not specified
+livenessProbe: {}
 #   httpGet:
 #     path: /
 #     port: http
@@ -50,13 +63,15 @@ httpRouteNameOverride: ""
 startupProbe: {}
 readinessProbe: {}
 
-# Persistent volume settings
+persistentVolume: {}
 # persistentVolume:
-#   type: ""
+#   type: ""  # Select either "nfs" or "longhorn"
 #   size: "1Gi"
 #   mountPath: "/config"
+#   name: ""  # Override the default name of the volume
 
-# Media volume settings
+
+# Mount an existing PVC for access to NAS media files
 media:
   enabled: false
   claimName: "nfs-media"
@@ -68,5 +83,3 @@ extraVolumes: []
 # Affinity settings
 affinity: {}
 
-# Annotations for the service
-annotations: {}

@@ -44,7 +44,7 @@ metadata:
   labels:
     tailscale.com/proxy-class: "run-on-worker"  
   name: {{ .Values.tailscale.name }}
-  namespace: {{ .Values.nameOverride | default .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   externalName: {{ .Values.tailscale.name }}
   type: ExternalName
