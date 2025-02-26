@@ -1,8 +1,9 @@
 # General settings
-appKind: StatefulSet
+appKind: StatefulSet  # Select either "Deployment" or "StatefulSet"
 nameOverride: ""
 replicas: 1
 revisionHistoryLimit: 2
+dnsPolicy: ClusterFirstWithHostNet
 hostNetwork: false
 restartPolicy: Always
 autoMountServiceAccountToken: false
@@ -51,6 +52,10 @@ disableHTTPRoute: false
 httpRouteNameOverride: ""
 httpRouteFilters: []
 
+# Optional command and args for the container
+command: []
+args: []
+
 # A default livenessProbe will be created if not specified
 livenessProbe: {}
 #   httpGet:
@@ -80,6 +85,15 @@ media:
 extraVolumeMounts: []
 extraVolumes: []
 
-# Affinity settings
+# If not defined, then will apply the default affinity rules
 affinity: {}
-
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: node-role.kubernetes.io/control-plane
+  #         operator: DoesNotExist
+  #       - key: kubernetes.io/arch
+  #         operator: In
+  #         values:
+  #         - "amd64"

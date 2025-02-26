@@ -9,13 +9,13 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/base-statefulset
+    path: helm/baseline
     targetRevision: HEAD
     helm:
       valueFiles:
       - /manifests/network/cloudflare-tunnel/values-cloudflare.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/base-statefulset
+    path: helm/baseline
     targetRevision: HEAD
     helm:
       valueFiles:

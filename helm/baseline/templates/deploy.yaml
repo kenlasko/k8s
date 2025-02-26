@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/name: {{ .Values.nameOverride | default .Release.Name }}
         app.kubernetes.io/version: {{ .Values.image.tag | quote }}
     spec:
-      dnsPolicy: ClusterFirstWithHostNet
+      dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirstWithHostNet" }}
       {{- if .Values.hostNetwork }}
       hostNetwork: {{ .Values.hostNetwork | default false}}
       {{- end }}
