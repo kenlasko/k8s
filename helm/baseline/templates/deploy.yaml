@@ -146,6 +146,8 @@ spec:
           claimName: longhorn-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config-pvc
         {{- else if eq .Values.persistentVolume.type "nfs" }}
           claimName: nfs-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+        {{- else if eq .Values.persistentVolume.type "local-path" }}
+          claimName: pvc-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
         {{- end }}
       {{- end }}
     {{- if .Values.media }} 
