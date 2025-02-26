@@ -11,10 +11,8 @@
   ],
   "argocd": {
     "fileMatch": [
-      "argocd-apps/[^/]+\\.yaml$",
-      "argocd-apps/00-disabled/[^/]+\\.yaml$",
-      "manifests/argocd/argocd.yaml$",
-      "argocd-apps/media-apps/intel-device-plugins.yaml$"
+      "argocd-apps/[^/]+/[^/]+\\.yaml$",
+      "manifests/argocd/argocd.yaml$"
     ]
   },
   "helm-values": {
