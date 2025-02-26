@@ -162,10 +162,6 @@ configs:
       url: https://charts.fairwinds.com/stable
       name: vpa
       type: helm
-    falco-security:
-      url: https://falcosecurity.github.io/charts
-      name: falcosecurity
-      type: helm
     fluentbit:
       url: https://fluent.github.io/helm-charts
       name: fluent
