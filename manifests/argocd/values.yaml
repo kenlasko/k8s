@@ -134,10 +134,6 @@ configs:
       url: https://helm.cilium.io
       name: cilium
       type: helm
-    cloudcasa:
-      url: https://catalogicsoftware.github.io/cloudcasa-helmchart
-      name: cloudcasa-repo
-      type: helm
     cloudnative-pg:
       url: https://cloudnative-pg.github.io/charts
       name: cnpg
@@ -146,10 +142,6 @@ configs:
       url: https://coroot.github.io/helm-charts
       name: coroot
       type: helm
-    crowdsec:
-      url: https://crowdsecurity.github.io/helm-charts
-      name: crowdsec
-      type: helm
     csi-driver-nfs:
       url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
       name: csi-driver-nfs
@@ -157,10 +149,6 @@ configs:
     descheduler:
       url: https://kubernetes-sigs.github.io/descheduler
       name: descheduler
-      type: helm
-    fairwinds:
-      url: https://charts.fairwinds.com/stable
-      name: vpa
       type: helm
     fluentbit:
       url: https://fluent.github.io/helm-charts
@@ -221,10 +209,6 @@ configs:
     sealed-secrets-web:
       url: https://charts.bakito.net
       name: sealed-secrets-web
-      type: helm
-    superset:
-      url: https://apache.github.io/superset
-      name: superset
       type: helm
     tailscale-operator:
       url: https://jacobcolvin.com/helm-charts
