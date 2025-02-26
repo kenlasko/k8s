@@ -71,5 +71,34 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+
+{{- else if eq .Values.persistentVolume.type "local-path" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  storageClassName: local-path
+  accessModes:
+  - ReadWriteOnce 
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/var/{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}"
 {{- end }}
 {{- end }}
