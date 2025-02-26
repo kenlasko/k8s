@@ -37,3 +37,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://www.phpmyadmin.net/"
+  - name: "Documentation:"
+    value: "https://www.phpmyadmin.net/docs/"
+  - name: "Repository:"
+    value: "https://github.com/phpmyadmin/phpmyadmin"

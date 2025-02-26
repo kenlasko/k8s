@@ -35,3 +35,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://adguard.com/en/adguard-home/overview.html"
+  - name: "Documentation:"
+    value: "https://github.com/AdguardTeam/AdGuardHome/wiki"
+  - name: "Repository:"
+    value: "https://github.com/AdguardTeam/AdGuardHome"

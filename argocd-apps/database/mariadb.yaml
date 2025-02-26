@@ -37,3 +37,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://mariadb.org/"
+  - name: "Documentation:"
+    value: "https://mariadb.org/documentation/"
+  - name: "Repository:"
+    value: "https://github.com/mariadb"

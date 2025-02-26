@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://www.home-assistant.io/"
+  - name: "Documentation:"
+    value: "https://www.home-assistant.io/installation/"
+  - name: "Repository:"
+    value: "https://github.com/home-assistant"

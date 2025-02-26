@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://www.plex.tv/"
+  - name: "Documentation:"
+    value: "https://support.plex.tv/articles/"
+  - name: "Repository:"
+    value: "https://github.com/plexinc/pms-docker"

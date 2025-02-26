@@ -43,3 +43,8 @@ spec:
     syncOptions:
     - CreateNamespace=true
     - RespectIgnoreDifferences=true
+  info:
+  - name: "Documentation:"
+    value: "https://github.com/intel/intel-device-plugins-for-kubernetes/blob/main/cmd/gpu_plugin/README.md"
+  - name: "Repository:"
+    value: "https://github.com/intel/intel-device-plugins-for-kubernetes"

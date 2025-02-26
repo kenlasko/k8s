@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://about.gitea.com/"
+  - name: "Documentation:"
+    value: "https://docs.gitea.com/"
+  - name: "Repository:"
+    value: "https://github.com/go-gitea/gitea"

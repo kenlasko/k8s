@@ -31,3 +31,6 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Repository:"
+    value: "https://github.com/instantlinux/docker-tools/tree/main/images/nut-upsd"

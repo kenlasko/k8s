@@ -31,3 +31,8 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://esphome.io/"
+  - name: "Repository:"
+    value: "https://github.com/esphome/esphome"

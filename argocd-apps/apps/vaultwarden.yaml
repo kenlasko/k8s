@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://github.com/dani-garcia/vaultwarden"
+  - name: "Documentation:"
+    value: "https://github.com/dani-garcia/vaultwarden/wiki"
+  - name: "Repository:"
+    value: "https://github.com/dani-garcia/vaultwarden"

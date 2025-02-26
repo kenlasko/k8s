@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://overseerr.dev/"
+  - name: "Documentation:"
+    value: "https://docs.overseerr.dev/"
+  - name: "Repository:"
+    value: "https://github.com/sct/overseerr"

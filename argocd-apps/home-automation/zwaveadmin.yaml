@@ -31,3 +31,6 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Repository:"
+    value: "https://github.com/zwave-js/zwave-js-ui"

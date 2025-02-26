@@ -56,7 +56,9 @@ spec:
     syncOptions:
     - CreateNamespace=true
   info:
-    - name: "Website:"
-      value: "https://cilium.io/"
-    - name: "Documentation:"
-      value: "https://docs.cilium.io/en/stable/"
+  - name: "Website:"
+    value: "https://cilium.io/"
+  - name: "Documentation:"
+    value: "https://docs.cilium.io/en/stable/"
+  - name: "Repository:"
+    value: "https://github.com/cilium/cilium"

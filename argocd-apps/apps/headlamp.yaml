@@ -33,3 +33,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://headlamp.dev/"
+  - name: "Documentation:"
+    value: "https://headlamp.dev/docs/latest/"
+  - name: "Repository:"
+    value: "https://github.com/headlamp-k8s/headlamp"
