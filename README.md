@@ -1,10 +1,10 @@
 # Introduction
-This is the Git repository that contains all the configuration for my home-based Kubernetes cluster.
+This is the Git repository that contains all the configuration for my home-based Kubernetes cluster. The cluster is used to host a number of self-hosted services mostly focused on movies and TV along with all the supporting software.
 
 This cluster is built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for cluster management.
 
 My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require hardware that is specific to certain named nodes. The manifests are configured for this. For example:
-* [Plex](/manifests/media-apps/plex) requires nodes with Intel GPUs for transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
+* [Plex](/manifests/media-apps/plex) requires nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
 * [Home Assistant](/manifests/home-automation/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
 * [MariaDB](/manifests/database/mariadb) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
@@ -15,10 +15,9 @@ All software updates (excluding Kubernetes and OS) are managed via [Renovate](ht
 The configuration for Renovate is stored in [renovate.json](/renovate.json). The dashboard is available at https://developer.mend.io/github/kenlasko
 
 Renovate is set to automatically and silently upgrade every software package EXCEPT for the following:
-* Cilium
-* Longhorn
-* MariaDB
-* kube-prometheus-stack
+* [Cilium](/manifests/network/cilium)
+* [Longhorn](/manifests/system/longhorn)
+* [MariaDB](/manifests/database/mariadb)
 
 When upgrades for the above packages are found, Renovate will create a pull request that has to be manually approved (or denied). Once approved, ArgoCD manages the actual upgrade as with any other software.
 
