@@ -4,7 +4,7 @@ This cluster makes heavy use of NAS resources for storing stateful files that pl
 This document helps define the configuration of storage used in this Kubernetes cluster.
 
 # Connectivity
-The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like Velero and SnapScheduler. See the application definition for [CSI Drivers](/manifests/csi-drivers) for more information. 
+The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like Velero and SnapScheduler. See the application definition for [CSI Drivers](/manifests/system/csi-drivers) for more information. 
 
 # Base Folders
 These are the base folders used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.
@@ -29,7 +29,7 @@ Apps that currently use the `appdata/pv` folder are:
 
 
 ### appdata/vol
-These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/csi-drivers/configmap-backup-apps-script.yaml) script.
+These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/system/csi-drivers/configmap-backup-apps-script.yaml) script.
 Apps that currently use the `appdata/vol` folder are:
 * [adguard](/manifests/apps/adguard)
 * [esphome](/manifests/home-automation/esphome)
