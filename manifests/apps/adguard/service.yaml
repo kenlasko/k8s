@@ -10,7 +10,7 @@ metadata:
     lbipam.cilium.io/ips: 192.168.10.53
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Cluster
+  externalTrafficPolicy: Local
   ports:
   - name: dns-tcp
     port: 53
