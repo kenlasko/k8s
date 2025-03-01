@@ -22,7 +22,7 @@ resources:
     memory: 200Mi
 service:
   type: LoadBalancer
-  externalTrafficPolicy: Cluster
+  externalTrafficPolicy: Local
   port: 9091
   annotations:
     lbipam.cilium.io/ips: 192.168.10.12
