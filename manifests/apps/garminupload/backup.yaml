@@ -28,6 +28,7 @@ spec:
     #storageClassName: my-sc-name
     # The VSC to use if the copy method is Snapshot (default if omitted)
     volumeSnapshotClassName: nfs
+    storageClassName: nfs-csi
     moverSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000

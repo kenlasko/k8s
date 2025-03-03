@@ -33,3 +33,7 @@ spec:
   resources:
     requests:
       storage: 100Mi
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: nas01-s3-backup-garmin-upload
