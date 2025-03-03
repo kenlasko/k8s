@@ -6,13 +6,15 @@ priorityClassName: low-priority
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsNonRoot: true
-  runAsUser: 1000
-  runAsGroup: 3000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
+    - "DAC_OVERRIDE"
 envFrom:
 - configMapRef:
     name: env-vars
