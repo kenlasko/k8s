@@ -36,8 +36,8 @@ spec:
             persistentVolumeClaim:
               claimName: nfs-stravastats-files
           containers:
-          - name: garmin-upload
-            image: registry.ucdialplans.com/garmin-upload
+          - name: strava-import
+            image: docker.io/robiningelbrecht/strava-statistics
             imagePullPolicy: IfNotPresent
             command:
             - ./console app:strava:import-data
