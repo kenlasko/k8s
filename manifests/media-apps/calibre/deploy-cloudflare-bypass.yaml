@@ -36,7 +36,7 @@ spec:
                 - "amd64"
       containers:
       - name: cloudflare-bypass
-        image: ghcr.io/sarperavci/cloudflarebypassforscraping@sha256:e937223b9321168efec4ce4b60958d399b6dde37791ea6dc67d05b057c0f167e
+        image: ghcr.io/sarperavci/cloudflarebypassforscraping@sha256:3c1f894b9ed7f100e5c73fcef36dadaba1da3ee251620958fd708abec75b7805
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
