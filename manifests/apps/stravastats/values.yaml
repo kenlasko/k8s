@@ -2,6 +2,17 @@ image:
   repository: robiningelbrecht/strava-statistics
   tag: v0.4.21
   registry: docker.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 3000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
 envFrom:
 - configMapRef:
     name: env-vars
