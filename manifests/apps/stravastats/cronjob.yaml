@@ -40,10 +40,9 @@ spec:
             image: docker.io/robiningelbrecht/strava-statistics
             imagePullPolicy: IfNotPresent
             command:
-            - /var/www/bin/console 
-            - app:strava:import-data
-            - /var/www/bin/console 
-            - app:strava:build-files
+            - /bin/sh  # Use /bin/sh to execute a shell command
+            - -c       # -c option tells sh to execute the following string as a command
+            - "/var/www/bin/console app:strava:import-data && /var/www/bin/console app:strava:build-files"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
