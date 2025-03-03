@@ -41,9 +41,9 @@ spec:
             imagePullPolicy: IfNotPresent
             command:
             - /var/www/bin/console 
-            - app:strava:import-data;
+            - app:strava:import-data
             - /var/www/bin/console 
-            - app:strava:build-files;
+            - app:strava:build-files
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
