@@ -8,7 +8,7 @@ metadata:
 spec:
   storageClassName: longhorn
   capacity:
-    storage: {{ .Values.persistentVolume.size }}
+    storage: {{ .Values.persistentVolume.size | default "1Gi" }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
@@ -46,7 +46,7 @@ metadata:
 spec:
   storageClassName: nfs-csi
   capacity:
-    storage: {{ .Values.persistentVolume.size }}
+    storage: {{ .Values.persistentVolume.size | default "1Gi" }}
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
