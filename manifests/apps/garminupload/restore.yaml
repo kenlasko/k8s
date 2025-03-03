@@ -1,0 +1,16 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: garminupload
+  namespace: garmin-upload
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: nas01-s3-backup-garmin-upload
+    # Use an existing PVC, don't provision a new one
+    destinationPVC: nfs-garminupload-restore
+    copyMethod: Direct
+    cleanupTempPVC: true
+    storageClassName: nfs-csi
