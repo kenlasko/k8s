@@ -8,7 +8,7 @@ spec:
   sourcePVC: nfs-garminupload
   trigger:
     # Take a backup every 30 minutes
-    schedule: "*/30 * * * *"
+    schedule: "*/5 * * * *"
   restic:
     # Prune the repository (repack to free space) every 2 weeks
     pruneIntervalDays: 14
