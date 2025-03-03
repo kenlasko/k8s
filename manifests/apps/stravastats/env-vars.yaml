@@ -18,5 +18,5 @@ data:
   FTP_VALUES: "[]"
   NTFY_URL: ""
   ACTIVITIES_TO_SKIP_DURING_IMPORT: "[]"
-  PUID: 1000
-  PGID: 100
+  PUID: "1000"
+  PGID: "100"
