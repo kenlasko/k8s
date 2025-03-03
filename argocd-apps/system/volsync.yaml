@@ -33,3 +33,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://github.com/backube/volsyncvol"
+  - name: "Documentation:"
+    value: "https://volsync.readthedocs.io/en/stable/"
+  - name: "Repository:"
+    value: "https://github.com/backube/volsyncvol"
