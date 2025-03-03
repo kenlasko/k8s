@@ -12,9 +12,9 @@ priorityClassName: low-priority
 
 # Image settings
 image:
-  registry: "your-registry"
   repository: "your-repository"
   tag: "latest"
+  registry: "your-registry"
   pullPolicy: IfNotPresent
 
 # Security context
@@ -89,7 +89,13 @@ media:
 
 # Extra volume mounts and volumes
 extraVolumeMounts: []
+# - name: yourName
+#   mountPath: yourMountPath
+
 extraVolumes: []
+# - name: yourName
+#   persistentVolumeClaim:
+#     claimName: yourClaim
 
 # If not defined, then will apply the default affinity rules
 affinity: {}
