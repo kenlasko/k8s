@@ -28,3 +28,13 @@ spec:
     #storageClassName: my-sc-name
     # The VSC to use if the copy method is Snapshot (default if omitted)
     #volumeSnapshotClassName: my-vsc-name
+    moverSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: false
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 100
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]
