@@ -1,0 +1,74 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: strava-import
+  namespace: stravastats
+spec:
+  schedule: "@yearly" 
+  suspend: true
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values: 
+                    - "amd64"
+          volumes:
+          - name: nfs-stravastats
+            persistentVolumeClaim:
+              claimName: nfs-stravastats
+          - name: nfs-stravastats-build
+            persistentVolumeClaim:
+              claimName: nfs-stravastats-build
+          - name: nfs-stravastats-files
+            persistentVolumeClaim:
+              claimName: nfs-stravastats-files
+          containers:
+          - name: garmin-upload
+            image: registry.ucdialplans.com/garmin-upload
+            imagePullPolicy: IfNotPresent
+            command:
+            - ./console app:strava:import-data
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+                add:
+                - "CHOWN"
+                - "SETGID"
+                - "SETUID"
+                - "DAC_OVERRIDE"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 300Mi
+              limits:
+                # cpu: 300m
+                memory: 300Mi
+            envFrom:
+            - configMapRef:
+              name: env-vars
+            - secretRef:
+              name: strava-secrets
+            volumeMounts:
+            - name: nfs-stravastats
+              mountPath: /var/www/storage/database
+            - name: nfs-stravastats-build
+              mountPath: /var/www/storage/build
+            - name: nfs-stravastats-files
+              mountPath: /var/www/storage/files
