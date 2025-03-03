@@ -13,7 +13,7 @@ spec:
     chart: volsync
     helm:
       valueFiles:
-      - $values/manifests/volsync/values.yaml
+      - $values/manifests/system/volsync/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
