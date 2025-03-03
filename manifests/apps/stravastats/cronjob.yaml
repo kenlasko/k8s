@@ -40,7 +40,8 @@ spec:
             image: docker.io/robiningelbrecht/strava-statistics
             imagePullPolicy: IfNotPresent
             command:
-            - /var/www/bin/console app:strava:import-data
+            - /var/www/bin/console 
+            - app:strava:import-data
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
