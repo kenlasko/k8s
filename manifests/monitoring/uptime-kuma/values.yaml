@@ -46,7 +46,7 @@ persistentVolume:
   size: 850Mi
   mountPath: /app/data
 backup:
-  copyMethod: Snapshot
+  copyMethod: Direct
   schedule: "25 6 * * *"
 service:
   port: 3001
