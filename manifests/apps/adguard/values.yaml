@@ -58,9 +58,9 @@ extraVolumeMounts:
   mountPath: /opt/adguardhome/work
 - name: dns-wildcard-cert
   mountPath: /etc/certs
-# backup:
-#   claimName: nfs-adguard-conf
-#   schedule: "05 6 * * *"
+backup:
+  claimName: nfs-adguard-conf
+  schedule: "05 6 * * *"
 service:
   port: 3000
   annotations:
