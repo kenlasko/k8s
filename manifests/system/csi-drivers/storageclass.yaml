@@ -22,7 +22,7 @@ provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.3
   share: /appdata/pv
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 volumeBindingMode: Immediate
 mountOptions:
 - hard
