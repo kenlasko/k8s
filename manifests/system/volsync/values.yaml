@@ -1,7 +1,7 @@
 podSecurityContext:
   runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+  runAsGroup: 100
+  fsGroup: 100
   fsGroupChangePolicy: "OnRootMismatch"
   runAsNonRoot: true
   seccompProfile:
@@ -9,8 +9,8 @@ podSecurityContext:
 
 moverSecurityContext:
   runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+  runAsGroup: 100
+  fsGroup: 100
   fsGroupChangePolicy: "OnRootMismatch"
   runAsNonRoot: true
   seccompProfile:
