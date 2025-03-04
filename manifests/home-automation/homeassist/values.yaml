@@ -35,8 +35,8 @@ httpRouteNameOverride: "ha.ucdialplans.com"
 persistentVolume:
   type: nfs
   size: 4Gi
-# backup:
-#   schedule: "10 6 * * *"
+backup:
+  schedule: "00 */2 * * *"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

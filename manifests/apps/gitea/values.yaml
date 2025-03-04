@@ -68,6 +68,6 @@ extraVolumeMounts:
   mountPath: /var/lib/gitea
 - name: gitea-config
   mountPath: /etc/gitea
-backup:
-  claimName: nfs-gitea-data
-  schedule: "0 6 * * *"
+# backup:
+#   claimName: nfs-gitea-data
+#   schedule: "0 6 * * *"
