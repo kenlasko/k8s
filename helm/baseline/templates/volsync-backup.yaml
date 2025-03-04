@@ -8,7 +8,7 @@ spec:
   # The PVC to be backed up
   sourcePVC: nfs-{{ .Values.nameOverride | default .Release.Name }}
   trigger:
-    schedule: {{ .Values.backup.schedule | default "0 5 * * *" }}
+    schedule: {{ .Values.backup.schedule | default "0 5 * * *" | quote }}
   restic:
     # Prune the repository (repack to free space) every 2 weeks
     pruneIntervalDays: 14

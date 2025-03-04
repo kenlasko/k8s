@@ -68,3 +68,5 @@ extraVolumeMounts:
   mountPath: /var/lib/gitea
 - name: gitea-config
   mountPath: /etc/gitea
+backup:
+  schedule: "0 6 * * *"
