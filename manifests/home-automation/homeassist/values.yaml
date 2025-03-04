@@ -36,7 +36,7 @@ persistentVolume:
   type: nfs
   size: 4Gi
 backup:
-  copyMethod: Clone
+  copyMethod: Direct
   schedule: "00 */2 * * *"
 affinity:
   nodeAffinity:
