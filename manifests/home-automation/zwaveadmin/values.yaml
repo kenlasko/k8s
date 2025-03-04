@@ -33,6 +33,8 @@ persistentVolume:
   type: nfs
   size: 1Gi
   mountPath: /usr/src/app/store
+backup:
+  schedule: "15 6 * * *"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
