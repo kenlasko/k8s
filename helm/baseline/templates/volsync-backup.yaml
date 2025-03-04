@@ -12,6 +12,7 @@ spec:
   restic:
     # Prune the repository (repack to free space) every 2 weeks
     pruneIntervalDays: 14
+    copyMode: {{ .Values.backup.copyMode | default "Clone" }}
     # Name of the Secret with the connection information
     repository: nas01-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
     # Retention policy for backups
