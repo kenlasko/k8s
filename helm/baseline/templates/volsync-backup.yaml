@@ -37,9 +37,6 @@ spec:
         type: RuntimeDefault
     {{- end }}
     moverAffinity:
-      # {{- if .Values.affinity }}
-      # {{- toYaml .Values.affinity | nindent 6 }}
-      # {{- else }}
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
@@ -50,5 +47,4 @@ spec:
               operator: In
               values:
               - "amd64"
-      # {{- end }}
 {{ end }}
