@@ -1,3 +1,6 @@
+metrics:
+  disableAuth: true
+
 podSecurityContext:
   runAsUser: 1000
   runAsGroup: 100
