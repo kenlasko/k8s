@@ -30,9 +30,12 @@ persistentVolume:
   type: nfs
   size: 2Gi
   mountPath: /data
+extraVolumes:
+- name: media
+  persistentVolumeClaim:
+    claimName: nfs-media
 extraVolumeMounts:
   claimName: nfs-media
   mountPath: /media
-
 backup:
   schedule: "35 6 * * *"
