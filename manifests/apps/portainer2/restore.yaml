@@ -12,6 +12,8 @@ spec:
     destinationPVC: nfs-portainer2
     copyMethod: Direct
     cleanupTempPVC: true
+    restoreAsOf: "2024-03-05T06:20:00Z"
+    enableFileDeletion: true
     storageClassName: nfs-csi
     moverSecurityContext:
       runAsNonRoot: false
