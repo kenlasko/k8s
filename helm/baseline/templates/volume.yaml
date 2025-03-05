@@ -71,7 +71,13 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistentVolume.size | default "1Gi" }}
-
+  {{- if .Values.backup | default false}}
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: nas01-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
+  {{ end }}
+  
 {{- else if eq .Values.persistentVolume.type "local-path" }}
 apiVersion: v1
 kind: PersistentVolumeClaim
