@@ -14,7 +14,16 @@ data:
   DATE_FORMAT: "DAY-MONTH-YEAR"
   SPORT_TYPES_TO_IMPORT: "[]"
   ATHLETE_BIRTHDAY: "1971-04-20"
-  ATHLETE_WEIGHTS: "[]"
+  ATHLETE_WEIGHTS: "{'2025-03-05': 71.7,
+      '2024-07-04': 71.1,
+      '2023-07-15': 71.9,
+      '2022-07-15': 71.4,
+      '2021-07-15': 70.5,
+      '2020-07-15': 70.0,
+      '2019-07-15': 70.1,
+      '2018-02-08': 71.0,
+      '2017-02-08': 70.2,
+      '2015-02-15': 72.0}"
   FTP_VALUES: "[]"
   PROFILE_PICTURE_URL: "https://www.ucdialplans.com/img/hoff.jpg"
   NTFY_URL: ""
