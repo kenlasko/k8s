@@ -31,11 +31,11 @@ persistentVolume:
   size: 2Gi
   mountPath: /data
 extraVolumes:
-- name: nfs-media
+- name: nfs-media-music
   persistentVolumeClaim:
-    claimName: nfs-media
+    claimName: nfs-media-music
 extraVolumeMounts:
-- name: nfs-media
+- name: nfs-media-music
   mountPath: /media
 backup:
   schedule: "35 6 * * *"
