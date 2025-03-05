@@ -5,8 +5,8 @@ metadata:
   name: strava-import
   namespace: stravastats
 spec:
-  schedule: "@yearly" 
-  suspend: true
+  schedule: "10 10,22 * * *"
+  suspend: false
   successfulJobsHistoryLimit: 1
   jobTemplate:
     spec:
