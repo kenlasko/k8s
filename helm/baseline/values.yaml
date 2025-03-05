@@ -97,6 +97,12 @@ extraVolumes: []
 #   persistentVolumeClaim:
 #     claimName: yourClaim
 
+backup: {}
+  # copyMethod: (Clone|Direct|Snapshot)
+  # schedule: "0 3 * * *"
+  # claimName: Defaults to default claim name, but can be overridden
+
+
 # If not defined, then will apply the default affinity rules
 affinity: {}
   # nodeAffinity:
