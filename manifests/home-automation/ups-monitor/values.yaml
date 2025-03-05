@@ -35,6 +35,8 @@ persistentVolume:
   type: nfs
   size: 10Mi
   mountPath: /etc/nut
+backup:
+  schedule: "30 6 * * *"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

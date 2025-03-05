@@ -35,4 +35,4 @@ persistentVolume:
   size: 1Gi
   mountPath: /data
 backup:
-  schedule: "20 06 * * *"
+  schedule: "15 06 * * *"
