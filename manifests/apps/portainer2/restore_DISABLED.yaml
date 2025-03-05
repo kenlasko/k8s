@@ -1,0 +1,32 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: portainer2
+  namespace: portainer2
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: nas01-s3-backup-portainer
+    destinationPVC: nfs-portainer2
+    copyMethod: Direct
+    cleanupTempPVC: true
+    storageClassName: nfs-csi
+    moverSecurityContext:
+      runAsNonRoot: false
+      runAsUser: 1000
+      runAsGroup: 100
+      seccompProfile:
+        type: RuntimeDefault
+    moverAffinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - "amd64"

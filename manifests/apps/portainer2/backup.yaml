@@ -1,0 +1,38 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: portainer2
+spec:
+  sourcePVC: nfs-portainer2
+  trigger:
+    schedule: "20 6 * * *"
+  restic:
+    pruneIntervalDays: 14
+    repository: nas01-s3-backup-portainer2
+    retain:
+      hourly: 6
+      daily: 5
+      weekly: 4
+      monthly: 2
+      yearly: 0
+    copyMethod: Clone
+    volumeSnapshotClassName: nfs
+    storageClassName: nfs-csi-dynamic
+    # moverSecurityContext:
+    #   runAsNonRoot: true
+    #   runAsUser: 1000
+    #   runAsGroup: 100
+    #   seccompProfile:
+    #     type: RuntimeDefault
+    moverAffinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - "amd64"
