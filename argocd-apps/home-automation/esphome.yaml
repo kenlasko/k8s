@@ -13,9 +13,9 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/home-automation/esphome/values.yaml
+      - /manifests/homeops/esphome/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/home-automation/esphome
+    path: manifests/homeops/esphome
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

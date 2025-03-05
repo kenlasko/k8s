@@ -32,10 +32,10 @@ Apps that currently use the `appdata/pv` folder are:
 These folders are used for most apps that don't have SQLite databases ([Longhorn](https://github.com/longhorn/longhorn) is used for workloads with SQLite DBs). The cluster uses defined PV/PVCs to attach to them. The folders must exist before the apps can use them. These are backed up using the [NAS AppData Backup](/manifests/system/csi-drivers/configmap-backup-apps-script.yaml) script.
 Apps that currently use the `appdata/vol` folder are:
 * [adguard](/manifests/apps/adguard)
-* [esphome](/manifests/home-automation/esphome)
+* [esphome](/manifests/homeops/esphome)
 * [garmin-upload](/manifests/apps/garmin-upload)
 * [gitea](/manifests/apps/gitea)
-* [homeassist](/manifests/home-automation/homeassist)
+* [homeassist](/manifests/homeops/homeassist)
 * [pgadmin](/manifests/networking/pgadmin)
 * [portainer](/manifests/apps/portainer)
 * [recyclarr](/manifests/media-apps/recyclarr)
@@ -43,10 +43,10 @@ Apps that currently use the `appdata/vol` folder are:
 * [romm](/manifests/media-apps/romm)
 * [transmission](/manifests/media-apps/transmission)
 * [ucdialplans](/manifests/apps/ucdialplans)
-* [ups-monitor](/manifests/home-automation/ups-monitor)
+* [ups-monitor](/manifests/homeops/ups-monitor)
 * [uptime-kuma](/manifests/monitoring/uptime-kuma)
 * [vaultwarden](/manifests/apps/vaultwarden)
-* [zwaveadmin](/manifests/home-automation/zwaveadmin)
+* [zwaveadmin](/manifests/homeops/zwaveadmin)
 
 To create these folders on a fresh install (may not be necessary, depending on how the data is restored):
 ```
@@ -136,7 +136,7 @@ network:
   version: 2
 ```
 
-Backups are triggered via a [Home Assistant](/manifests/home-automation/homeassist) automation every Saturday. This automation does the following:
+Backups are triggered via a [Home Assistant](/manifests/homeops/homeassist) automation every Saturday. This automation does the following:
 1. Turns on BACKUPPC
 2. Waits for a successful ping
 3. Calls a shell command to start the backup

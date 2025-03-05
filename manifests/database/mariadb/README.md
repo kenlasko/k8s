@@ -1,7 +1,7 @@
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
 * [Gitea](/manifests/apps/gitea)
-* [Home Assistant](/manifests/home-automation/homeassist)
+* [Home Assistant](/manifests/homeops/homeassist)
 * [UCDialplans](/manifests/apps/ucdialplans)
 * [VaultWarden](/manifests/apps/vaultwarden)
 

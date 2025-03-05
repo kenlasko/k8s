@@ -13,9 +13,9 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/home-automation/zwaveadmin/values.yaml
+      - /manifests/homeops/zwaveadmin/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/home-automation/zwaveadmin
+    path: manifests/homeops/zwaveadmin
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"

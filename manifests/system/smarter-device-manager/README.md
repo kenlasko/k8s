@@ -1,9 +1,9 @@
 # Summary
 The [Smarter Device Manager] makes local devices available in pods that require it. It is used in this cluster for the following:
 * USB devices
-    * [Home Assistant](/manifests/home-automation/homeassist)
-    * [UPS Monitor](/manifests/home-automation/ups-monitor)
-    * [ZWave Admin](/manifests/home-automation/zwaveadmin)
+    * [Home Assistant](/manifests/homeops/homeassist)
+    * [UPS Monitor](/manifests/homeops/ups-monitor)
+    * [ZWave Admin](/manifests/homeops/zwaveadmin)
 * /dev/tun devices
     * [Tailscale](/manifests/network/tailscale)
 

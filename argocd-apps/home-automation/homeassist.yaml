@@ -13,9 +13,9 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/home-automation/homeassist/values.yaml
+      - /manifests/homeops/homeassist/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/home-automation/homeassist
+    path: manifests/homeops/homeassist
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
