@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: ups-monitor
-  namespace: homeassist
+  namespace: homeops
 spec:
   podSelector:
     matchLabels:

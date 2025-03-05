@@ -2,7 +2,7 @@ apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: esphome
-  namespace: homeassist
+  namespace: homeops
 spec:
   endpointSelector:
     matchLabels:

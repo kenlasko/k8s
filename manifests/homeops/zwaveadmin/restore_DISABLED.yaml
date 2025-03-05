@@ -3,7 +3,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
   name: zwaveadmin
-  namespace: homeassist
+  namespace: homeops
 spec:
   trigger:
     manual: restore-once
