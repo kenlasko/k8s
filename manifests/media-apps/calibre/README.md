@@ -1,4 +1,4 @@
-[Calibre-Web-Automated](https://github.com/crocodilestick/Calibre-Web-Automated) is a tool to manage ebooks used in our Kobo devices. Not only does it allow for web-based management of ebooks, it can also [automatically sync ebooks to Kobo e-readers](https://github.com/janeczku/calibre-web/wiki/Kobo-Integration).
+[Calibre-Web-Automated](https://github.com/crocodilestick/Calibre-Web-Automated) is a tool to manage ebooks used in our Kobo devices and is available via https://books.ucdialplans.com. Not only does it allow for web-based management of ebooks, it can also [automatically sync ebooks to Kobo e-readers](https://github.com/janeczku/calibre-web/wiki/Kobo-Integration).
 
 For this to work, the Kobo e-reader needs to be connected to a PC so its folders/files can be viewed and edited. 
 1. Connect the Kobo to a PC and select **Connect**.
@@ -9,3 +9,5 @@ For this to work, the Kobo e-reader needs to be connected to a PC so its folders
 6. Press the `Sync` button and wait for the sync to complete.
 
 The book library is stored on the NAS in the `media/books` folder. 
+
+Also included is a book downloader that integrates with Calibre-Web-Automated, which uses the [Calibre Web Automated Book Downloader](https://github.com/calibrain/calibre-web-automated-book-downloader) to download books. Downloaded books are automatically added to the Calibre library. Accessible via https://book-dl.ucdialplans.com
