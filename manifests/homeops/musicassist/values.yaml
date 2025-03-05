@@ -1,0 +1,35 @@
+image:
+  repository: music-assistant/server
+  tag: 2025.2.5
+  registry: ghcr.io
+priorityClassName: high-priority
+hostNetwork: true
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    # add:
+    # - "SYS_ADMIN"
+    # - "DAC_READ_SEARCH"
+env:
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 100m
+    memory: 700Mi
+  limits:
+    # cpu: 1400m
+    memory: 1200Mi
+service:
+  port: 8095
+persistentVolume:
+  type: nfs
+  size: 2Gi
+media:
+  enabled: true
+backup:
+  schedule: "35 6 * * *"
