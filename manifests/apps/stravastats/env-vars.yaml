@@ -16,6 +16,7 @@ data:
   ATHLETE_BIRTHDAY: "1971-04-20"
   ATHLETE_WEIGHTS: "[]"
   FTP_VALUES: "[]"
+  PROFILE_PICTURE_URL: "https://www.ucdialplans.com/img/hoff.jpg"
   NTFY_URL: ""
   ACTIVITIES_TO_SKIP_DURING_IMPORT: "[]"
   PUID: "1000"
