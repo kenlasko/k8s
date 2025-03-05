@@ -12,7 +12,8 @@ spec:
     destinationPVC: nfs-portainer2
     copyMethod: Direct
     cleanupTempPVC: true
-    restoreAsOf: "2024-03-05T06:20:00Z"
+    restoreAsOf: "2025-03-05T06:50:00Z"
+    # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     enableFileDeletion: true
     storageClassName: nfs-csi
     moverSecurityContext:
