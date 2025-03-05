@@ -35,7 +35,7 @@ extraVolumes:
   persistentVolumeClaim:
     claimName: nfs-media
 extraVolumeMounts:
-  claimName: nfs-media
+- name: nfs-media
   mountPath: /media
 backup:
   schedule: "35 6 * * *"
