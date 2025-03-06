@@ -33,6 +33,7 @@ persistentVolume:
   mountPath: /stravastats
 backup:
   schedule: "40 6 * * *"
+  copyMethod: Direct
 extraVolumeMounts:
 - name: stravastats-config
   mountPath: /var/www/build
