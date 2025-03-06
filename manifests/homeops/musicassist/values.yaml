@@ -19,11 +19,11 @@ env:
   value: "America/Toronto"
 resources:
   requests:
-    cpu: 100m
-    memory: 700Mi
+    cpu: 2m
+    memory: 300Mi
   limits:
     # cpu: 1400m
-    memory: 1200Mi
+    memory: 1400Mi
 service:
   port: 8095
 persistentVolume:
