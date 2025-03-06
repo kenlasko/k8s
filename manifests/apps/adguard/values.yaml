@@ -41,21 +41,20 @@ readinessProbe:
   periodSeconds: 10
   successThreshold: 1
   timeoutSeconds: 5
+persistentVolume:
+  type: nfs
+  mountPath: /adguard
 extraVolumes:
-- name: nfs-adguard-conf
-  persistentVolumeClaim:
-    claimName: nfs-adguard-conf
-- name: nfs-adguard-work
-  persistentVolumeClaim:
-    claimName: nfs-adguard-work
 - name: dns-wildcard-cert
   secret:
     secretName: letsencrypt-dns-wildcard-cert
 extraVolumeMounts:
-- name: nfs-adguard-conf
+- name: adguard-config
   mountPath: /opt/adguardhome/conf
-- name: nfs-adguard-work
+  subPath: conf
+- name: adguard-config
   mountPath: /opt/adguardhome/work
+  subPath: work
 - name: dns-wildcard-cert
   mountPath: /etc/certs
 backup:
