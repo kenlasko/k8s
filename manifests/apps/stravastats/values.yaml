@@ -46,9 +46,9 @@ persistentVolume:
 # backup:
 #   schedule: "40 6 * * *"
 extraVolumeMounts:
-- name: nfs-stravastats
+- name: stravastats-config
   mountPath: /var/www/build
   subPath: build
-- name: nfs-stravastats
+- name: stravastats-config
   mountPath: /var/www/storage
   subPath: storage
