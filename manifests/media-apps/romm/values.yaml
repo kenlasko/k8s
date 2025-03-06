@@ -27,18 +27,19 @@ envFrom:
 - secretRef:
   name: romm-env-secrets
 persistentVolume:
-  type: longhorn
+  type: nfs
   size: 700Mi
-  mountPath: /romm/database
-extraVolumes:
-- name: romm-library
-  persistentVolumeClaim:
-    claimName: nfs-romm-library
-- name: romm-logs
-  persistentVolumeClaim:
-    claimName: nfs-romm-logs
+  mountPath: /romm-source
 extraVolumeMounts:
-- name: romm-library
+- name: romm-config
+  mountPath: /romm/assets
+  subPath: assets
+- name: romm-config
+  mountPath: /romm/config
+  subPath: config
+- name: romm-config
   mountPath: /romm/library
-- name: romm-logs
-  mountPath: /romm/logs
+  subPath: library
+- name: romm-config
+  mountPath: /romm/resources
+  subPath: resources

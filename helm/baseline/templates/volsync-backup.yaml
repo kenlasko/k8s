@@ -16,11 +16,15 @@ spec:
     repository: nas01-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
     # Retention policy for backups
     retain:
+    {{- if .Values.retentionPolicy }}
+    {{- toYaml .Values.retentionPolicy | nindent 6 }}
+    {{- else }}
       hourly: 6
       daily: 5
       weekly: 4
       monthly: 2
       yearly: 0
+    {{- end }}
     # Clone the source volume prior to taking a backup to ensure a
     # point-in-time image.
     copyMethod: {{ .Values.backup.copyMethod | default "Clone" }}

@@ -99,6 +99,12 @@ extraVolumes: []
 
 backup: {}
   # copyMethod: (Clone|Direct|Snapshot)
+  # retentionPolicy:
+  #   hourly: 6
+  #   daily: 5
+  #   weekly: 4
+  #   monthly: 2
+  #   yearly: 0
   # schedule: "0 3 * * *"
   # claimName: Defaults to default claim name, but can be overridden
 
