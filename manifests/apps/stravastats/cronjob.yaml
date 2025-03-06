@@ -5,7 +5,7 @@ metadata:
   name: strava-import
   namespace: stravastats
 spec:
-  schedule: "10 10,22 * * *"
+  schedule: "10 03,15 * * *"
   suspend: false
   successfulJobsHistoryLimit: 1
   jobTemplate:
