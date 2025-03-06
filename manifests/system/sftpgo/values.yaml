@@ -30,34 +30,6 @@ resources:
 service:
   port: 8080
 
-persistentVolume: {}
+persistentVolume:
   type: "nfs"
   mountPath: "/var/lib/sftpgo"
-
-extraVolumeMounts: []
-# - name: yourName
-#   mountPath: yourMountPath
-
-extraVolumes: []
-# - name: yourName
-#   persistentVolumeClaim:
-#     claimName: yourClaim
-
-backup: {}
-  # copyMethod: (Clone|Direct|Snapshot)
-  # schedule: "0 3 * * *"
-  # claimName: Defaults to default claim name, but can be overridden
-
-
-# If not defined, then will apply the default affinity rules
-affinity: {}
-  # nodeAffinity:
-  #   requiredDuringSchedulingIgnoredDuringExecution:
-  #     nodeSelectorTerms:
-  #     - matchExpressions:
-  #       - key: node-role.kubernetes.io/control-plane
-  #         operator: DoesNotExist
-  #       - key: kubernetes.io/arch
-  #         operator: In
-  #         values:
-  #         - "amd64"
