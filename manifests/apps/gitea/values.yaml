@@ -56,18 +56,15 @@ readinessProbe:
   periodSeconds: 10
   successThreshold: 1
   failureThreshold: 3
-extraVolumes:
-- name: gitea-data
-  persistentVolumeClaim: 
-    claimName: nfs-gitea-data
-- name: gitea-config
-  persistentVolumeClaim:
-    claimName: nfs-gitea-config
+persistentVolume:
+  type: nfs
+  mountPath: /gitea
 extraVolumeMounts:
-- name: gitea-data
+- name: gitea-config
   mountPath: /var/lib/gitea
+  subPath: data
 - name: gitea-config
   mountPath: /etc/gitea
+  subPath: config
 backup:
-  claimName: nfs-gitea-data
   schedule: "0 6 * * *"
