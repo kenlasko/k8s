@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: uptime-kuma
-  namespace: uptime-kuma
+  name: musicassist
+  namespace: homeops
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: nas01-s3-backup-uptime-kuma
-    destinationPVC: nfs-uptime-kuma
+    repository: nas01-s3-backup-musicassist
+    destinationPVC: nfs-musicassist
     copyMethod: Direct
     cleanupTempPVC: true
     storageClassName: nfs-csi
