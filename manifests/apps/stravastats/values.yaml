@@ -30,18 +30,23 @@ service:
   port: 8080
 persistentVolume:
   type: nfs
-  mountPath: /var/www/storage/database
-extraVolumes:
-- name: nfs-stravastats-build
-  persistentVolumeClaim:
-    claimName: nfs-stravastats-build
-- name: nfs-stravastats-files
-  persistentVolumeClaim:
-    claimName: nfs-stravastats-files
-extraVolumeMounts:
-- name: nfs-stravastats-build
-  mountPath: /var/www/build
-- name: nfs-stravastats-files
-  mountPath: /var/www/storage/files
+  mountPath: /var/www
+# extraVolumes:
+# - name: nfs-stravastats-build
+#   persistentVolumeClaim:
+#     claimName: nfs-stravastats-build
+# - name: nfs-stravastats-files
+#   persistentVolumeClaim:
+#     claimName: nfs-stravastats-files
+# extraVolumeMounts:
+# - name: nfs-stravastats-build
+#   mountPath: /var/www/build
+# - name: nfs-stravastats-files
+#   mountPath: /var/www/storage/files
+# extraVolumeMounts:
+# - name: nfs-stravastats
+#   mountPath: /var/www/build
+# - name: nfs-stravastats
+#   mountPath: /var/www/storage/files
 backup:
   schedule: "40 6 * * *"
