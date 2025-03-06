@@ -43,3 +43,5 @@ extraVolumeMounts:
   mountPath: /var/www/build
 - name: nfs-stravastats-files
   mountPath: /var/www/storage/files
+backup:
+  schedule: "40 6 * * *"
