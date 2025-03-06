@@ -57,11 +57,11 @@ spec:
                 - "DAC_OVERRIDE"
             resources:
               requests:
-                cpu: 100m
-                memory: 300Mi
+                cpu: 500m
+                memory: 250Mi
               limits:
                 # cpu: 300m
-                memory: 600Mi
+                memory: 400Mi
             envFrom:
             - configMapRef:
                 name: env-vars

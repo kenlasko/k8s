@@ -15,6 +15,12 @@ securityContext:
     - "SETGID"
     - "SETUID"
     - "DAC_OVERRIDE"
+resources:
+  requests:
+    cpu: 1m
+    memory: 78Mi
+  limits:
+    memory: 300Mi
 envFrom:
 - configMapRef:
     name: env-vars
