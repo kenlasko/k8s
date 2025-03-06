@@ -26,15 +26,9 @@ spec:
                     values: 
                     - "amd64"
           volumes:
-          - name: nfs-stravastats
+          - name: stravastats-config
             persistentVolumeClaim:
               claimName: nfs-stravastats
-          - name: nfs-stravastats-build
-            persistentVolumeClaim:
-              claimName: nfs-stravastats-build
-          - name: nfs-stravastats-files
-            persistentVolumeClaim:
-              claimName: nfs-stravastats-files
           containers:
           - name: strava-import
             image: docker.io/robiningelbrecht/strava-statistics
@@ -68,9 +62,9 @@ spec:
             - secretRef:
                 name: strava-secrets
             volumeMounts:
-            - name: nfs-stravastats
-              mountPath: /var/www/storage/database
-            - name: nfs-stravastats-build
-              mountPath: /var/www/storage/build
-            - name: nfs-stravastats-files
-              mountPath: /var/www/storage/files
+            - name: stravastats-config
+              mountPath: /var/www/build
+              subPath: build
+            - name: stravastats-config
+              mountPath: /var/www/storage
+              subPath: storage
