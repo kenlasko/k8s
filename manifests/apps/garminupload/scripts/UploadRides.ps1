@@ -48,37 +48,42 @@ Write-Host "- Username = $Username"
 Write-Host "- Overwrite = $Overwrite"
 
 #Authenticate
-Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
-"BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
-$BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
+Try {
+    Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
+    "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
+    $BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
 
-$LoginForm = @{
-    username                    = $Username
-    password                    = $Password
-    embed                       = 'false'
-    'login-remember-checkbox'   = 'on'
-    '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
-}
+    $LoginForm = @{
+        username                    = $Username
+        password                    = $Password
+        embed                       = 'false'
+        'login-remember-checkbox'   = 'on'
+        '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
+    }
 
-$Headers = @{
-    "origin"                    = "https://sso.garmin.com";
-    "authority"                 = "connect.garmin.com"
-    "scheme"                    = "https"
-    "path"                      = "/signin/"
-    "pragma"                    = "no-cache"
-    "cache-control"             = "no-cache"
-    "dnt"                       = "1"
-    "upgrade-insecure-requests" = "1"
-    "user-agent"                = $UserAgent
-    "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-    "sec-fetch-site"            = "cross-site"
-    "sec-fetch-mode"            = "navigate"
-    "sec-fetch-user"            = "?1"
-    "sec-fetch-dest"            = "document"
-    "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
+    $Headers = @{
+        "origin"                    = "https://sso.garmin.com";
+        "authority"                 = "connect.garmin.com"
+        "scheme"                    = "https"
+        "path"                      = "/signin/"
+        "pragma"                    = "no-cache"
+        "cache-control"             = "no-cache"
+        "dnt"                       = "1"
+        "upgrade-insecure-requests" = "1"
+        "user-agent"                = $UserAgent
+        "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        "sec-fetch-site"            = "cross-site"
+        "sec-fetch-mode"            = "navigate"
+        "sec-fetch-user"            = "?1"
+        "sec-fetch-dest"            = "document"
+        "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
+    }
+    $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
+    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $Headers -UserAgent $UserAgent
 }
-$Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
-$BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $Headers -UserAgent $UserAgent
+Catch {
+    Throw "Error with initial login to Garmin Connect."
+}
 
 #Get Cookies
 "Read cookies" | Write-Verbose
@@ -91,9 +96,14 @@ if ($SSOCookie.Length -lt 1) {
     break
 }
 
-#Authenticate by using cookie
-"Post login authentication" | Write-Verbose
-$PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession  -UserAgent $UserAgent
+Try {
+    #Authenticate by using cookie
+    "Post login authentication" | Write-Verbose
+    $PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession  -UserAgent $UserAgent
+}
+Catch {
+    Throw "Error with cookie login to Garmin Connect."
+}
 
 #Get the bearer token
 "Get bearer token" | Write-Verbose
@@ -179,7 +189,7 @@ if (Test-Path $CookieFileFullPath -ErrorAction SilentlyContinue) {
     }
 }
 if ($ErrorFound -eq $true) {
-    $msg = "A valid delta cookie not found. Exiting"
+    Write-Host "A valid delta cookie not found. Exiting"
     break
 }
 
@@ -210,80 +220,21 @@ foreach ($Activity in $Activities) {
     }
     Invoke-RestMethod -Uri $URL  -WebSession $GarminConnectSession -Headers $Headers -OutFile $OutputFileFullPath
 
-    #Setting naming parameters for having the file to a more readable format
-    $ActivityID = $Activity.activityId
-    $ActivityName = $Activity.activityName
-    $ActivityType = $Activity.activityType.typekey
-    $ActivityBeginTimeStamp = (Get-Date $Activity.startTimeLocal).ToString("yyyy-MM-dd")
-    $NamingMask = (("$ActivityID - $ActivityBeginTimeStamp - $ActivityType - $ActivityName").TrimEnd() -replace $_.name -replace '[^A-Za-z0-9-_\@\,\(\) \.\[\]]', '-')
+    # Unzip the activity files
+    Expand-Archive -Path $OutputFileFullPath -DestinationPath $DataPath -Force
+    # $null = Remove-Item $OutputFileFullPath -Force
 
-    #Unzip the temporary files for FIT files and move all files to the destination location
-    $Shell = New-Object -com shell.application
-    $ZIP = $shell.NameSpace("$OutputFileFullPath")
-    if ($zip.items().count -gt 1) {
-        $Count = 0
-        foreach ($Item in $ZIP.items()) {
-            $Count++
-            Write-Host "INFO - Downloading file $Destination$NamingMask-$Count.$ActivityFileType"
-            $Shell.Namespace("$TempDir").copyhere($Item, 0x14)
-            $DownloadedFileFullPath = Join-Path -Path $TempDir -ChildPath $($Item.name)
-            $FinalFileName = ($NamingMask + "-" + $Count + "." + $ActivityFileType)
-            $FinalFileNameTempFullPath = Join-Path -Path $TempDir -ChildPath $FinalFileName
-            if (Test-Path $FinalFileNameTempFullPath) {
-                #Allways overwrite temp files
-                $null = Remove-Item $FinalFileNameTempFullPath -Force
-            }
-            Rename-Item $DownloadedFileFullPath -NewName $FinalFileNameTempFullPath -Force
-            if ($Overwrite -eq "Yes") {
-                Move-Item $FinalFileNameTempFullPath -Destination $Destination -Force
-            } else {
-                if (Test-Path (Join-Path -Path $Destination -ChildPath $FinalFileName)) {
-                    Write-Warning "WARNING - Skipping file $FinalFileName because it allready exists in the destination directory."
-                } else {
-                    Move-Item $FinalFileNameTempFullPath -Destination $Destination
-                }
-            }
-
-        }
-    } elseif ($zip.items().count -eq 1) {
-        Write-Host "INFO - Trying to create file $NamingMask.$ActivityFileType"
-        foreach ($Item in $ZIP.items()) {
-            $Shell.Namespace(“$TempDir”).copyhere($zip.items(), 0x14)
-            $DownloadedFileFullPath = Join-Path -Path $TempDir -ChildPath $($Item.name)
-            $FinalFileName = ($NamingMask + "." + $ActivityFileType)
-            $FinalFileNameTempFullPath = Join-Path -Path $TempDir -ChildPath $FinalFileName
-            if (Test-Path $FinalFileNameTempFullPath) {
-                #Allways overwrite temp files
-                $null = Remove-Item $FinalFileNameTempFullPath -Force
-            }
-            Rename-Item $DownloadedFileFullPath -NewName $FinalFileNameTempFullPath -Force
-            if ($Overwrite -eq "Yes") {
-                Move-Item $FinalFileNameTempFullPath -Destination $Destination -Force
-            } else {
-                if (Test-Path (Join-Path -Path $Destination -ChildPath $FinalFileName)) {
-                    Write-Warning "WARNING - Skipping file $FinalFileName because it allready exists in the destination directory."
-                } else {
-                    Move-Item $FinalFileNameTempFullPath -Destination $Destination
-                }
-            }
-        }
-    }
     $ActivityExportedCount++
 }
-
-Write-Host "Temp exit point"
-Break
-
-# Get the activity info
-$Activity = Get-Content -Raw -Path $DataPath/activities-1-1.json | ConvertFrom-Json
 
 #Setting naming parameters for having the file to a more readable format
 $ActivityID = $Activity.activityId
 $ActivityName = $Activity.activityName
 $ActivityNotes = $Activity.description
 
-$FilePath = "$DataPath/activity_$($ActivityID).fit"
-$DownloadedFile = "activity_$($ActivityID).fit"
+$DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
+$FilePath = "$DataPath/$DownloadedFile"
+
 
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
