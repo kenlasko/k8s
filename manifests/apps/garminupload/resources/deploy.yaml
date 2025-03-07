@@ -37,7 +37,7 @@ spec:
             name: gc-script
           containers:
           - name: garmin-upload
-            image: mcr.microsoft.com/powershell:7.4  #registry.ucdialplans.com/garmin-upload
+            image: mcr.microsoft.com/powershell:7.4-ubi  #registry.ucdialplans.com/garmin-upload
             imagePullPolicy: IfNotPresent
             command: ["pwsh", "-Command"] 
             args: ["/garmin-prog/UploadRides.ps1"]  # ["Start-Sleep 2147480"] 
