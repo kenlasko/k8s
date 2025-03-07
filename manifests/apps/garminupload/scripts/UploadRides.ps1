@@ -37,7 +37,7 @@ foreach ($n in $ProgramSettingsBaseURLNodes) {
 $UserAgent = $ProgramSettings.GCProgramSettings.UserAgent
 
 $CookieFilename = ".GCDownloadStatus$ActivityFileType.cookie"
-$CookieFileFullPath = ($Destination + "\" + $CookieFilename)
+$CookieFileFullPath = ($Destination + "/" + $CookieFilename)
 
 #Write process information:
 Write-Host "INFO - Starting processing $ActivityFileType files from Garmin Connect with the following parameters:"
