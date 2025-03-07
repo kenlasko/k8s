@@ -23,7 +23,7 @@ resources:
     memory: 260Mi
   limits:
     # cpu: 1400m
-    memory: 1400Mi
+    memory: 1500Mi
 service:
   port: 8095
 persistentVolume:
