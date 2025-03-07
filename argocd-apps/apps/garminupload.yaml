@@ -19,6 +19,6 @@ spec:
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
+      prune: true
     syncOptions:
     - CreateNamespace=true
-    - Prune=true
