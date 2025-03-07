@@ -39,6 +39,8 @@ spec:
           - name: garmin-upload
             image: mcr.microsoft.com/powershell #registry.ucdialplans.com/garmin-upload
             imagePullPolicy: IfNotPresent
+            command:
+            - /garmin-prog/UploadRides.ps1
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
