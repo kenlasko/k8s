@@ -7,8 +7,8 @@ $DownloadOption = 'New'
 $Destination = $DataPath
 
 # Log into Garmin and pull the most recent activity
-$Username = (Get-ChildItem env:GARMIN-USER).Value 
-$Password = (Get-ChildItem env:GARMIN-PASSWORD).Value 
+$Username = (Get-ChildItem env:GarminUser).Value 
+$Password = (Get-ChildItem env:GarminPassword).Value 
 
 
 $ProgramSettings = [PSCustomObject]@{
