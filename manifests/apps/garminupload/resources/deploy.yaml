@@ -41,7 +41,7 @@ spec:
             imagePullPolicy: IfNotPresent
             command:
             - start-sleep 
-            - 9999999
+            - "9999999"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
