@@ -222,7 +222,7 @@ foreach ($Activity in $Activities) {
 
     # Unzip the activity files
     Expand-Archive -Path $OutputFileFullPath -DestinationPath $DataPath -Force
-    # $null = Remove-Item $OutputFileFullPath -Force
+    $null = Remove-Item $OutputFileFullPath -Force
 
     $ActivityExportedCount++
 }
@@ -234,8 +234,6 @@ $ActivityNotes = $Activity.description
 
 $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
 $FilePath = "$DataPath/$DownloadedFile"
-
-
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
 Break
@@ -253,13 +251,13 @@ Try {
     $Startup = Invoke-WebRequest -UseBasicParsing -Uri "https://di2stats.com/login" `
     -WebSession $Di2Session `
     -Headers @{
-    "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-    "Referer"="https://di2stats.com/"
-    "Sec-Fetch-Dest"="document"
-    "Sec-Fetch-Mode"="navigate"
-    "Sec-Fetch-Site"="same-origin"
-    "Sec-Fetch-User"="?1"
-    "Upgrade-Insecure-Requests"="1"
+        "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        "Referer"="https://di2stats.com/"
+        "Sec-Fetch-Dest"="document"
+        "Sec-Fetch-Mode"="navigate"
+        "Sec-Fetch-Site"="same-origin"
+        "Sec-Fetch-User"="?1"
+        "Upgrade-Insecure-Requests"="1"
     }
 
     # Login and get session cookie
@@ -276,14 +274,14 @@ Try {
     -SkipHttpErrorCheck `
     -WebSession $Di2Session `
     -Headers @{
-    "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-    "Origin"="https://di2stats.com"
-    "Referer"="https://di2stats.com/login"
-    "Sec-Fetch-Dest"="document"
-    "Sec-Fetch-Mode"="navigate"
-    "Sec-Fetch-Site"="same-origin"
-    "Sec-Fetch-User"="?1"
-    "Upgrade-Insecure-Requests"="1"
+        "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        "Origin"="https://di2stats.com"
+        "Referer"="https://di2stats.com/login"
+        "Sec-Fetch-Dest"="document"
+        "Sec-Fetch-Mode"="navigate"
+        "Sec-Fetch-Site"="same-origin"
+        "Sec-Fetch-User"="?1"
+        "Upgrade-Insecure-Requests"="1"
     } `
     -ContentType "application/x-www-form-urlencoded" `
     -Body "_method=POST&data%5BUser%5D%5Busername%5D=$($Di2StatsUser)&data%5BUser%5D%5Bpassword%5D=$($Di2StatsPassword)&data%5BUser%5D%5Bremember_me%5D=0"
