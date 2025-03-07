@@ -238,6 +238,8 @@ $FilePath = "$DataPath/$DownloadedFile"
 
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
+Break
+
 Try {
     # Di2Stats Upload
     Write-Host 'INFO - Logging into Di2stats.com'

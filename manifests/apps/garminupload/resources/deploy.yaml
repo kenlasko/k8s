@@ -40,7 +40,7 @@ spec:
             image: mcr.microsoft.com/powershell #registry.ucdialplans.com/garmin-upload
             imagePullPolicy: IfNotPresent
             command: ["pwsh", "-Command"] 
-            args: ["Start-Sleep 2147480"] 
+            args: ["/garmin-prog/UploadRides.ps1"]  # ["Start-Sleep 2147480"] 
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
