@@ -5,11 +5,11 @@ $ActivityFileType = 'FIT'
 $Overwrite = 'Yes'
 $DownloadOption = 'New'
 $Destination = $DataPath
+$TempDir = $DataPath
 
 # Log into Garmin and pull the most recent activity
 $Username = (Get-ChildItem env:GarminUser).Value 
 $Password = (Get-ChildItem env:GarminPassword).Value 
-
 
 $ProgramSettings = [PSCustomObject]@{
     GCProgramSettings = [PSCustomObject]@{
@@ -51,9 +51,15 @@ Write-Host "- Overwrite = $Overwrite"
 Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
 "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
 $BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
-$LoginForm = $BaseLogin.Forms[0]
-$LoginForm.Fields["username"] = "$Username"
-$LoginForm.Fields["password"] = "$Password"
+
+$LoginForm = @{
+    username                    = $Username
+    password                    = $Password
+    embed                       = 'false'
+    'login-remember-checkbox'   = 'on'
+    '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
+}
+
 $Headers = @{
     "origin"                    = "https://sso.garmin.com";
     "authority"                 = "connect.garmin.com"
@@ -72,7 +78,7 @@ $Headers = @{
     "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
 }
 $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
-$BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm.Fields -Headers $Headers  -UserAgent $UserAgent
+$BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $Headers -UserAgent $UserAgent
 
 #Get Cookies
 "Read cookies" | Write-Verbose
@@ -186,10 +192,8 @@ foreach ($Activity in $ActivityList) {
 
 #Download activities in queue and unpack to destination location
 Write-Host "INFO - Continue to process all retrieved activities, please wait..."
-$TempDir = Join-Path -Path $env:temp -ChildPath GarminConnectActivityExportTMP
-"TempDir: {0}" -f $TempDir | Write-Verbose
 $ActivityFileType = $ActivityFileType.tolower()
-if (!(Test-Path $TempDir)) { $null = New-Item -Path $TempDir -ItemType Directory -Force }
+
 $ActivityExportedCount = 0
 foreach ($Activity in $Activities) {
     #Download files
@@ -215,13 +219,13 @@ foreach ($Activity in $Activities) {
 
     #Unzip the temporary files for FIT files and move all files to the destination location
     $Shell = New-Object -com shell.application
-    $ZIP = $shell.NameSpace(“$OutputFileFullPath”)
+    $ZIP = $shell.NameSpace("$OutputFileFullPath")
     if ($zip.items().count -gt 1) {
         $Count = 0
         foreach ($Item in $ZIP.items()) {
             $Count++
             Write-Host "INFO - Downloading file $Destination$NamingMask-$Count.$ActivityFileType"
-            $Shell.Namespace(“$TempDir”).copyhere($Item, 0x14)
+            $Shell.Namespace("$TempDir").copyhere($Item, 0x14)
             $DownloadedFileFullPath = Join-Path -Path $TempDir -ChildPath $($Item.name)
             $FinalFileName = ($NamingMask + "-" + $Count + "." + $ActivityFileType)
             $FinalFileNameTempFullPath = Join-Path -Path $TempDir -ChildPath $FinalFileName
