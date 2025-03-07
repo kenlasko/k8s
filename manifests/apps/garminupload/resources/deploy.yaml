@@ -40,6 +40,7 @@ spec:
             image: mcr.microsoft.com/powershell #registry.ucdialplans.com/garmin-upload
             imagePullPolicy: IfNotPresent
             command:
+            - pwsh
             - start-sleep 9999999
             securityContext:
               allowPrivilegeEscalation: false
