@@ -450,46 +450,46 @@ $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHe
 
 # Update Garmin activity with MyBikeTraffic and Di2Stats URLs
 
-# Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
-# $UpdatedActivityNotes = $ActivityNotes + "`r`n`r`n$MBTURL`r`n$Di2URL"
+Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
+$UpdatedActivityNotes = $ActivityNotes + "`r`n`r`n$MBTURL`r`n$Di2URL"
 
-# # Update the description to include MyBikeTraffic and Di2Stats data
-# $DescriptionUpdate = @{
-# 	description = $UpdatedActivityNotes
-# 	activityId = $ActivityId
-# }
+# Update the description to include MyBikeTraffic and Di2Stats data
+$DescriptionUpdate = @{
+	description = $UpdatedActivityNotes
+	activityId = $ActivityId
+}
 
-# $JSONUpdate = $DescriptionUpdate | ConvertTo-Json
+$JSONUpdate = $DescriptionUpdate | ConvertTo-Json
 
-# $UpdateURL = "https://connect.garmin.com/modern/proxy/activity-service/activity/$ActivityID"
+$UpdateURL = "https://connect.garmin.com/modern/proxy/activity-service/activity/$ActivityID"
 
-# $UpdateHeaders = @{
-# 	"authority"="connect.garmin.com"
-# 	"path"="/modern/proxy/activity-service/activity/$ActivityID"
-# 	"scheme"="https"
-# 	"accept"="application/json, text/javascript, */*; q=0.01"
-# 	"accept-encoding"="gzip, deflate, br"
-# 	"accept-language"="en-CA,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,pt;q=0.6"
-# 	"content-type"="application/json"
-# 	"nk"="NT"
-# 	"origin"="https://connect.garmin.com"
-# 	"referer"="https://connect.garmin.com/modern/activity/$ActivityID"
-# 	"sec-ch-ua-mobile"="?0"
-# 	"sec-fetch-dest"="empty"
-# 	"sec-fetch-mode"="cors"
-# 	"sec-fetch-site"="same-origin"
-# 	"user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edge/88.0.705.81"
-# 	"x-app-ver"="4.41.2.0"
-# 	"x-http-method-override"="PUT"
-# 	"x-lang"="en-US"
-# 	"x-requested-with"="XMLHttpRequest"
-# }		
+$UpdateHeaders = @{
+	"authority"="connect.garmin.com"
+	"path"="/modern/proxy/activity-service/activity/$ActivityID"
+	"scheme"="https"
+	"accept"="application/json, text/javascript, */*; q=0.01"
+	"accept-encoding"="gzip, deflate, br"
+	"accept-language"="en-CA,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,pt;q=0.6"
+	"content-type"="application/json"
+	"nk"="NT"
+	"origin"="https://connect.garmin.com"
+	"referer"="https://connect.garmin.com/modern/activity/$ActivityID"
+	"sec-ch-ua-mobile"="?0"
+	"sec-fetch-dest"="empty"
+	"sec-fetch-mode"="cors"
+	"sec-fetch-site"="same-origin"
+	"user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edge/88.0.705.81"
+	"x-app-ver"="4.41.2.0"
+	"x-http-method-override"="PUT"
+	"x-lang"="en-US"
+	"x-requested-with"="XMLHttpRequest"
+}		
 
-# Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession -Body $JSONUpdate -Headers $UpdateHeaders
-# Write-Host "INFO - Garmin activity updated"
+Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession -Body $JSONUpdate -Headers $UpdateHeaders
+Write-Host "INFO - Garmin activity updated"
 
-# Delete all files 
-# Remove-Item -Path $DataPath/*.* -Exclude StravaToken.json -Force
+# Delete all FIT files 
+Remove-Item -Path $DataPath/*.fit -Force
 
 # Update Garmin last activity cookie
 $CookieFileFullPath = Join-Path -Path $Destination -ChildPath $CookieFilename
