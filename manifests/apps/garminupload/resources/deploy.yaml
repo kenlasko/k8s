@@ -41,7 +41,7 @@ spec:
             imagePullPolicy: IfNotPresent
             command:
             - pwsh
-            - start-sleep 9999999
+            - -Command {start-sleep 9999999}
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
