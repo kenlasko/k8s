@@ -20,7 +20,7 @@ resources:
     cpu: 1m
     memory: 78Mi
   limits:
-    memory: 300Mi
+    memory: 350Mi
 envFrom:
 - configMapRef:
     name: env-vars
