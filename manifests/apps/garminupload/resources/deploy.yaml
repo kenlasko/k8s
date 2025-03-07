@@ -37,7 +37,7 @@ spec:
             name: gc-script
           containers:
           - name: garmin-upload
-            image: registry.ucdialplans.com/garmin-upload
+            image: mcr.microsoft.com/powershell #registry.ucdialplans.com/garmin-upload
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
