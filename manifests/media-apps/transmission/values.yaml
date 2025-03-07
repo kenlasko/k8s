@@ -19,7 +19,7 @@ resources:
     memory: 35Mi
   limits:
     # cpu: 100m
-    memory: 200Mi
+    memory: 250Mi
 service:
   type: LoadBalancer
   externalTrafficPolicy: Local
