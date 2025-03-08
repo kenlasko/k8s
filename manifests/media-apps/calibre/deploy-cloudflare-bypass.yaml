@@ -64,7 +64,7 @@ spec:
             memory: 320Mi
           limits:
             # cpu: 1000m
-            memory: 700Mi
+            memory: 800Mi
         ports:
         - containerPort: 8000
           name: http-cloudflare
