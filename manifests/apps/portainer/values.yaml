@@ -1,6 +1,7 @@
 image:
   pullPolicy: Always
-enterpriseEdition: true
+enterpriseEdition: 
+  enabled: true
 persistence:
   size: 1Gi
   storageClass: nfs-csi
