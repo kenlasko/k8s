@@ -55,7 +55,7 @@ spec:
         - name: PGID
           value: "100"
         - name: ORIGIN_URL
-          value: "http://adguard-web:3000"
+          value: "http://adguard-service:3000"
         - name: ORIGIN_USERNAME
           valueFrom:
             secretKeyRef:
