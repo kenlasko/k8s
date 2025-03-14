@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://helm.runix.net/"
-    targetRevision: 1.35.0
+    targetRevision: 1.36.0
     chart: pgadmin4
     helm:
       valueFiles:
