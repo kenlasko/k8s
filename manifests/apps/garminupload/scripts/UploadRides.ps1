@@ -236,7 +236,6 @@ $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
 $FilePath = "$DataPath/$DownloadedFile"
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
-Break
 
 Try {
     # Di2Stats Upload
