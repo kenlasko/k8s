@@ -305,7 +305,7 @@ $SessionCookie = $Match.Matches.Groups[1].Value
 
 # Create session variable
 $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
+$Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"$
 $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $SessionCookie, "/", "di2stats.com")))
 
 Write-Host "INFO - Path to downloaded file: $FilePath"

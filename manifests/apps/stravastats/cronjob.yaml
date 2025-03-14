@@ -6,7 +6,7 @@ metadata:
   namespace: stravastats
 spec:
   schedule: "10 03,15 * * *"
-  suspend: true
+  suspend: false
   successfulJobsHistoryLimit: 1
   jobTemplate:
     spec:
