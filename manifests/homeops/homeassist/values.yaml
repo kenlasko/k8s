@@ -17,6 +17,7 @@ securityContext:
     drop: ["ALL"]
     add:
     - SYS_ADMIN
+    - SYS_RAWIO
 env:
 - name: PYTHONPATH
   value: "/config/deps/"
