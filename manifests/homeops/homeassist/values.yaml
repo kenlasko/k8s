@@ -27,11 +27,11 @@ resources:
   requests:
     cpu: 100m
     memory: 700Mi
-#    smarter-devices/ttyUSB1: 1
+    smarter-devices/ttyUSB1: 1
   limits:
     # cpu: 1400m
     memory: 1300Mi
-#    smarter-devices/ttyUSB1: 1
+    smarter-devices/ttyUSB1: 1
 service:
   port: 8123
 httpRouteNameOverride: "ha.ucdialplans.com"
