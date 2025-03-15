@@ -13,11 +13,11 @@ securityContext:
   runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
-  capabilities:
-    drop: ["ALL"]
-    add:
-    - SYS_ADMIN
-    - SYS_RAWIO
+  # capabilities:
+  #   drop: ["ALL"]
+  #   add:
+  #   - SYS_ADMIN
+  #   - SYS_RAWIO
 env:
 - name: PYTHONPATH
   value: "/config/deps/"
