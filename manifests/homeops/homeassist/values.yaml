@@ -15,9 +15,9 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - SYS_ADMIN
-    # - SYS_RAWIO
+    add:
+    - SYS_ADMIN
+    - SYS_RAWIO
 env:
 - name: PYTHONPATH
   value: "/config/deps/"
