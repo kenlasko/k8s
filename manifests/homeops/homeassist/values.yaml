@@ -6,7 +6,7 @@ priorityClassName: high-priority
 hostNetwork: true
 serviceAccountName: ha-sa-garminupload
 securityContext:
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
