@@ -6,7 +6,7 @@ priorityClassName: high-priority
 hostNetwork: true
 serviceAccountName: ha-sa-garminupload
 securityContext:
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
@@ -15,6 +15,8 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
+    add:
+    - SYS_ADMIN
 env:
 - name: PYTHONPATH
   value: "/config/deps/"
