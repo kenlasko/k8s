@@ -36,6 +36,7 @@ persistentVolume:
   size: 10Mi
   mountPath: /etc/nut
 backup:
+  location: cloudflare
   schedule: "30 6 * * *"
 affinity:
   nodeAffinity:
