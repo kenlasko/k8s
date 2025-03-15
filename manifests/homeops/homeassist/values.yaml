@@ -8,6 +8,8 @@ serviceAccountName: ha-sa-garminupload
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsUser: 1000
+  runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
   capabilities:
