@@ -1,5 +1,5 @@
 image:
-  repository: home-assistant/home-assistant
+  repository: onedr0p/home-assistant
   tag: 2025.3.3
   registry: ghcr.io
 priorityClassName: high-priority
@@ -8,17 +8,13 @@ serviceAccountName: ha-sa-garminupload
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
 env:
 - name: PYTHONPATH
   value: "/config/deps/"
