@@ -46,6 +46,7 @@ persistentVolume:
   size: 850Mi
   mountPath: /app/data
 backup:
+  location: cloudflare
   copyMethod: Direct
   schedule: "25 6 * * *"
 service:

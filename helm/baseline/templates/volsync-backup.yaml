@@ -13,7 +13,7 @@ spec:
     # Prune the repository (repack to free space) every 2 weeks
     pruneIntervalDays: 14
     # Name of the Secret with the connection information
-    repository: nas01-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
+    repository: {{ .Values.backup.location | default "nas01" }}-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
     # Retention policy for backups
     retain:
     {{- if .Values.retentionPolicy }}

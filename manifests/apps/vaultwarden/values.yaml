@@ -35,4 +35,5 @@ persistentVolume:
   size: 1Gi
   mountPath: /data
 backup:
+  location: cloudflare
   schedule: "15 06 * * *"

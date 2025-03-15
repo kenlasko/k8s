@@ -9,7 +9,7 @@ spec:
     schedule: "20 6 * * *"
   restic:
     pruneIntervalDays: 14
-    repository: nas01-s3-backup-portainer
+    repository: cloudflare-s3-backup-portainer
     retain:
       hourly: 6
       daily: 5

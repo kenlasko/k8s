@@ -32,6 +32,7 @@ persistentVolume:
   type: nfs
   mountPath: /stravastats
 backup:
+  location: cloudflare
   schedule: "40 6 * * *"
   copyMethod: Direct
 extraVolumeMounts:
