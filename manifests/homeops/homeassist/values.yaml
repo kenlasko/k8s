@@ -8,16 +8,16 @@ serviceAccountName: ha-sa-garminupload
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsNonRoot: true
+  runAsNonRoot: false
   runAsUser: 1000
   runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - SYS_ADMIN
-    - SYS_RAWIO
+    # add:
+    # - SYS_ADMIN
+    # - SYS_RAWIO
 env:
 - name: PYTHONPATH
   value: "/config/deps/"
