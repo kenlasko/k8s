@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: nas01-s3-backup-homeassist
+    repository: cloudflare-s3-backup-homeassist
     destinationPVC: nfs-homeassist
     copyMethod: Direct
     cleanupTempPVC: true

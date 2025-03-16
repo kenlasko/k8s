@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: nas01-s3-backup-ups-monitor
+    repository: cloudflare-s3-backup-ups-monitor
     destinationPVC: nfs-ups-monitor
     copyMethod: Direct
     cleanupTempPVC: true
