@@ -36,8 +36,8 @@ spec:
     {{- if .Values.securityContext }}
     moverSecurityContext:
       runAsNonRoot: {{ .Values.securityContext.runAsNonRoot | default false }}
-      runAsUser: {{ .Values.securityContext.runAsUser | default 1000 }}
-      runAsGroup: {{ .Values.securityContext.runAsGroup | default 100 }}
+      runAsUser: {{ if hasKey .Values.securityContext "runAsUser" }}{{ .Values.securityContext.runAsUser }}{{ else }}1000{{ end }}
+      runAsGroup: {{ if hasKey .Values.securityContext "runAsGroup" }}{{ .Values.securityContext.runAsGroup }}{{ else }}100{{ end }}
       seccompProfile:
         type: RuntimeDefault
     {{- end }}
