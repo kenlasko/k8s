@@ -43,19 +43,13 @@ service:
   port: 3000
 livenessProbe:
   httpGet:
-    path: /
+    path: /api/healthz
     port: http
-  initialDelaySeconds: 45
-  periodSeconds: 60
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-  initialDelaySeconds: 45
-  timeoutSeconds: 1
+  initialDelaySeconds: 200
+  timeoutSeconds: 5
   periodSeconds: 10
   successThreshold: 1
-  failureThreshold: 3
+  failureThreshold: 10
 persistentVolume:
   type: nfs
   mountPath: /gitea
