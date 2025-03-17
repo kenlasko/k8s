@@ -34,6 +34,13 @@ resources:
     smarter-devices/ttyUSB1: 1
 service:
   port: 8123
+livenessProbe:
+  httpGet:
+    path: /manifest.json
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 60
+  timeoutSeconds: 5
 httpRouteNameOverride: "ha.ucdialplans.com"
 persistentVolume:
   type: nfs
