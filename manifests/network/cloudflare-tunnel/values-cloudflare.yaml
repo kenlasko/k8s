@@ -15,8 +15,8 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-  add:
-  - NET_ADMIN
+    add:
+    - NET_ADMIN
 env:
 - name: TOKEN
   valueFrom:
