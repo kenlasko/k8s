@@ -43,6 +43,9 @@ livenessProbe:
 persistentVolume:
   type: nfs
   size: 2Gi
+backup:
+  location: cloudflare
+  schedule: "35 6 * * *"
 # media:
 #   enabled: true
 extraVolumeMounts:
