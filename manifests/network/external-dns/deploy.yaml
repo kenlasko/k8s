@@ -68,7 +68,7 @@ spec:
         - --webhook-provider-url=http://localhost:8888
         - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)   
       - name: adguardhome-webhook
-        image:  ghcr.io/muhlba91/external-dns-provider-adguard:v8.0.0
+        image:  ghcr.io/muhlba91/external-dns-provider-adguard:v8.0.1
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
