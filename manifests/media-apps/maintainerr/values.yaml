@@ -12,11 +12,11 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
+    # - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 100m
