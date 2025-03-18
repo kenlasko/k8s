@@ -13,6 +13,7 @@ spec:
     destinationPVC: nfs-garminupload-restore
     copyMethod: Direct
     cleanupTempPVC: true
+    cleanupCachePVC: true
     storageClassName: nfs-csi
     moverSecurityContext:
       runAsNonRoot: true

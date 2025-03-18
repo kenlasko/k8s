@@ -13,6 +13,7 @@ spec:
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
+    cleanupCachePVC: true
     storageClassName: nfs-csi
     cacheStorageClassName: nfs-csi-dynamic
     # restoreAsOf: "2025-03-05T06:50:00Z"
