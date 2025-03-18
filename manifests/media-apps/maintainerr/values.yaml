@@ -5,7 +5,7 @@ image:
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsNonRoot: true
+  runAsNonRoot: false
   runAsUser: 1000
   runAsGroup: 100
   seccompProfile:
