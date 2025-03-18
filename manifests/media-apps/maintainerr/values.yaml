@@ -10,8 +10,8 @@ securityContext:
   runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
-  capabilities:
-    drop: ["ALL"]
+  # capabilities:
+  #   drop: ["ALL"]
     # add:
     # - "CHOWN"
     # - "SETGID"
