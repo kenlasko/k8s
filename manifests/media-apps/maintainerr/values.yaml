@@ -6,7 +6,7 @@ securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
   runAsNonRoot: false
-  runAsUser: 1000
+  runAsUser: 0
   runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
