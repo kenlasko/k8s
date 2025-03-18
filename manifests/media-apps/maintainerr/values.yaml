@@ -5,6 +5,9 @@ image:
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
   capabilities:
@@ -22,7 +25,7 @@ resources:
     # cpu: 500m
     memory: 400Mi
 service:
-  port: 80
+  port: 6246
 media:
   enabled: true
 persistentVolume:
