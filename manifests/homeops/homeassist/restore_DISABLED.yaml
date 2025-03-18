@@ -11,10 +11,11 @@ spec:
     repository: cloudflare-s3-backup-homeassist
     destinationPVC: nfs-homeassist
     copyMethod: Direct
+    enableFileDeletion: true
     cleanupTempPVC: true
     storageClassName: nfs-csi
     cacheStorageClassName: nfs-csi-dynamic
-    restoreAsOf: "2025-03-05T06:50:00Z"
+    # restoreAsOf: "2025-03-05T06:50:00Z"
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
       runAsNonRoot: false

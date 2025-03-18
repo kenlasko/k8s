@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: musicassist
-  namespace: homeops
+  name: stravastats
+  namespace: stravastats
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: cloudflare-s3-backup-musicassist
-    destinationPVC: nfs-musicassist
+    repository: cloudflare-s3-backup-stravastats
+    destinationPVC: nfs-stravastats
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
