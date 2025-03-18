@@ -3,9 +3,9 @@ image:
   tag: 2.11.0
   registry: docker.io
 securityContext:
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsNonRoot: false
+  runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 100
   seccompProfile:
