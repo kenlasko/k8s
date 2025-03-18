@@ -21,8 +21,8 @@ spec:
     {{- else }}
       hourly: 6
       daily: 5
-      weekly: 4
-      monthly: 2
+      weekly: 3
+      monthly: 1
       yearly: 0
     {{- end }}
     # Clone the source volume prior to taking a backup to ensure a
