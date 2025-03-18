@@ -27,5 +27,5 @@ media:
   enabled: true
 persistentVolume:
   type: longhorn
-  size: 5Gi
+  size: 8Gi
   mountPath: /opt/data
