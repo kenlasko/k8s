@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/home-assistant
+  repository: home-operations/home-assistant
   tag: 2025.3.3
   registry: ghcr.io
 priorityClassName: high-priority

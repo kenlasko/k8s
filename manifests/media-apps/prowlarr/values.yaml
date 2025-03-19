@@ -1,6 +1,6 @@
 image:
   repository: home-operations/prowlarr
-  tag: 1.32.2
+  tag: 1.32.2.4987
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
