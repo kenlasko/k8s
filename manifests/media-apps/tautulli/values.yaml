@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/tautulli
+  repository: home-operations/tautulli
   tag: 2.15.1
   registry: ghcr.io
 securityContext:

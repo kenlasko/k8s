@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/plex
+  repository: home-operations/plex
   tag: 1.41.4.9463-630c9f557
   registry: ghcr.io
 securityContext:

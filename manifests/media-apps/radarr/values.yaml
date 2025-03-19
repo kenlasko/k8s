@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/radarr
+  repository: home-operations/radarr
   tag: 5.19.3
   registry: ghcr.io
 securityContext:

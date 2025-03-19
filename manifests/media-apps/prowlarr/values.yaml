@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/prowlarr
+  repository: home-operations/prowlarr
   tag: 1.32.2
   registry: ghcr.io
 securityContext:

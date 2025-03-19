@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/sonarr
+  repository: home-operations/sonarr
   tag: 4.0.13
   registry: ghcr.io
 securityContext:

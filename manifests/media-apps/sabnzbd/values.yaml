@@ -1,5 +1,5 @@
 image:
-  repository: onedr0p/sabnzbd
+  repository: home-operations/sabnzbd
   tag: 4.4.1
   registry: ghcr.io
 securityContext:
