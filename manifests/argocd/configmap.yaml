@@ -17,10 +17,10 @@ data:
     - openid
     - profile
     - email
-  policy.default: role:readonly
+  #policy.default: role:readonly
   scopes: "[email]"
   policy.csv: |
-    p, ken.lasko@gmail.com, applications, *, */*, allow
+    p, ken.lasko@gmail.com, applications, *, default/*, allow
     p, ken.lasko@gmail.com, projects, get, */*, allow
     p, ken.lasko@gmail.com, clusters, get, *, allow
     p, ken.lasko@gmail.com, repositories, get, *, allow
