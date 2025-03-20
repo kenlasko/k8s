@@ -19,7 +19,7 @@ data:
     - profile
     - email
   policy.default: role:admin
-  #scopes: "[https://ucdialplans.com/claims/groups, email]"
+  scopes: "[email]"
   policy.csv: |
     p, ken.lasko@gmail.com, role:admin
 
