@@ -21,7 +21,13 @@ data:
   policy.default: role:admin
   scopes: "[email]"
   policy.csv: |
-    p, ken.lasko@gmail.com, role:admin
+    p, ken.lasko@gmail.com, applications, *, */*, allow
+    p, ken.lasko@gmail.com, projects, get, */*, allow
+    p, ken.lasko@gmail.com, clusters, get, *, allow
+    p, ken.lasko@gmail.com, repositories, get, *, allow
+    p, ken.lasko@gmail.com, logs, get, */*, allow
+    p, ken.lasko@gmail.com, exec, create, */*, allow
+    g, ken.lasko@gmail.com, role:admin
 
   repositories: |
     - url: git@github.com:kenlasko/k8s.git
