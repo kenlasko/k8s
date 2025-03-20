@@ -18,7 +18,7 @@ data:
     - profile
     - email
   policy.default: role:readonly
-  scopes: "[groups,email]"
+  scopes: "[email]"
   policy.csv: |
     p, ken.lasko@gmail.com, applications, *, */*, allow
     p, ken.lasko@gmail.com, projects, get, */*, allow
