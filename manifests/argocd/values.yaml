@@ -1,7 +1,7 @@
 global:
   domain: argocd.ucdialplans.com
   logging:
-    level: debug
+    level: info
   env:
   - name: TZ
     value: "America/Toronto"
