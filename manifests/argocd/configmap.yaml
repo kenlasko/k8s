@@ -7,15 +7,17 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  # oidc.config: |
-  #   name: Auth0
-  #   issuer: https://ucdialplans.us.auth0.com/
-  #   clientID: $auth0-secrets:oidc.auth0.clientId
-  #   clientSecret: $auth0-secrets:oidc.auth0.clientSecret
-  #   requestedScopes:
-  #   - openid
-  #   - profile
-  #   - email
+  application.instanceLabelKey: argocd.argoproj.io/instance
+  url: https://argocd.ucdialplans.com
+  oidc.config: |
+    name: Auth0
+    issuer: https://ucdialplans.us.auth0.com/
+    clientID: $auth0-secrets:oidc.auth0.clientId
+    clientSecret: $auth0-secrets:oidc.auth0.clientSecret
+    requestedScopes:
+    - openid
+    - profile
+    - email
   # policy.default: role:admin
   # scopes: "[https://ucdialplans.com/claims/groups, email]"
   # policy.csv: |
