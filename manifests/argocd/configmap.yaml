@@ -20,8 +20,8 @@ data:
     - email
   policy.default: role:admin
   #scopes: "[https://ucdialplans.com/claims/groups, email]"
-  # policy.csv: |
-  #   g, argocd-admins, role:admin
+  policy.csv: |
+    p, google-oauth2|105170586304827912664, role:admin
 
   repositories: |
     - url: git@github.com:kenlasko/k8s.git
