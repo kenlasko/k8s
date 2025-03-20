@@ -21,7 +21,7 @@ data:
   policy.default: role:admin
   #scopes: "[https://ucdialplans.com/claims/groups, email]"
   policy.csv: |
-    p, google-oauth2|105170586304827912664, role:admin
+    p, ken.lasko@gmail.com, role:admin
 
   repositories: |
     - url: git@github.com:kenlasko/k8s.git
