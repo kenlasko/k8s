@@ -8,14 +8,6 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argocd.ucdialplans.com
-  # dex.config: |
-  #   connectors:
-  #     - type: github
-  #       id: github
-  #       name: GitHub
-  #       config:
-  #         clientID: $github-auth-secrets:dex.github.clientID
-  #         clientSecret: $github-auth-secrets:dex.github.clientSecret
   oidc.config: |
     name: Auth0
     issuer: https://ucdialplans.us.auth0.com/
@@ -25,9 +17,15 @@ data:
     - openid
     - profile
     - email
-  #   - groups
-  #   role.groups:
-  #   - email=ken.lasko@gmail.com:argocd-admins
+    - groups
+    role.groups:
+    - email=ken.lasko@gmail.com:argocd-admins
+  policy.default: role:readonly
+  policy.matchMode: glob
+  scopes: "[email]"
+  policy.csv: |
+    p, ken.lasko@gmail.com, *, *, *, allow
+    g, argocd-admins, *, *, *, allow
 
   repositories: |
     - url: git@github.com:kenlasko/k8s.git
