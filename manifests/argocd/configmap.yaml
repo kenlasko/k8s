@@ -8,19 +8,26 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argocd.ucdialplans.com
-  accounts.kenadmin: apiKey, login
-  oidc.config: |
-    name: Auth0
-    issuer: https://ucdialplans.us.auth0.com/
-    clientID: $auth0-secrets:oidc.auth0.clientId
-    clientSecret: $auth0-secrets:oidc.auth0.clientSecret
-    requestedScopes:
-    - openid
-    - profile
-    - email
-    - groups
-    role.groups:
-    - email=ken.lasko@gmail.com:argocd-admins
+  dex.config: |
+    connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: $github-auth-secrets:dex.github.clientID
+          clientSecret: $github-auth-secrets:dex.github.clientSecret
+  # oidc.config: |
+  #   name: Auth0
+  #   issuer: https://ucdialplans.us.auth0.com/
+  #   clientID: $auth0-secrets:oidc.auth0.clientId
+  #   clientSecret: $auth0-secrets:oidc.auth0.clientSecret
+  #   requestedScopes:
+  #   - openid
+  #   - profile
+  #   - email
+  #   - groups
+  #   role.groups:
+  #   - email=ken.lasko@gmail.com:argocd-admins
   policy.default: role:readonly
   policy.matchMode: glob
   scopes: "[email]"
