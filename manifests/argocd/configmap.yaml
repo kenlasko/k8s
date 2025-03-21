@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argocd.ucdialplans.com
+  accounts.kenadmin: apiKey, login
   dex.config: |
     connectors:
       - type: github
