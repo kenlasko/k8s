@@ -117,10 +117,12 @@ configs:
   rbac:
     create: true
     policy.default: role:readonly
-    scopes: "[email]"
+    scopes: "[email,groups]"
+    role.groups:
+    - email=ken.lasko@gmail.com:argocd-admins
     policy.csv: |
       p, ken.lasko@gmail.com, *, *, *, allow
-
+      g, argocd-admins, *, *, *, allow
   repositories:
     argocd:
       url: https://argoproj.github.io/argo-helm

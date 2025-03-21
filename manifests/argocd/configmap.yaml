@@ -8,8 +8,6 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argocd.ucdialplans.com
-  # admin:
-  #   enabled: false
   dex.config: |
     connectors:
       - type: github
@@ -28,6 +26,9 @@ data:
   #   - openid
   #   - profile
   #   - email
+  #   - groups
+  #   role.groups:
+  #   - email=ken.lasko@gmail.com:argocd-admins
   # policy.default: role:readonly
   # policy.matchMode: glob
   # scopes: "[email]"
