@@ -116,7 +116,7 @@ configs:
     create: false # Don't create configmap because I do it separately via configmap.yaml
   rbac:
     create: true
-    policy.default: role:readonly
+    policy.default: ''
     scopes: "[email]"
     policy.csv: |
       p, role:org-admin, *, *, *, allow
