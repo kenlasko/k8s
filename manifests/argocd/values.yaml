@@ -116,11 +116,10 @@ configs:
     create: false # Don't create configmap because I do it separately via configmap.yaml
   rbac:
     create: true
-    policy.default: role:readonly
-    scopes: "[email,groups]"
+    policy.default: role:admin
+    scopes: "[email]"
     policy.csv: |
       p, ken.lasko@gmail.com, *, *, *, allow
-      g, ken.lasko@gmail.com, *, *, *, allow
   repositories:
     argocd:
       url: https://argoproj.github.io/argo-helm
