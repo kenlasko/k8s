@@ -8,15 +8,14 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argocd.ucdialplans.com
-  accounts.kenadmin: apiKey, login
-  dex.config: |
-    connectors:
-      - type: github
-        id: github
-        name: GitHub
-        config:
-          clientID: $github-auth-secrets:dex.github.clientID
-          clientSecret: $github-auth-secrets:dex.github.clientSecret
+  # dex.config: |
+  #   connectors:
+  #     - type: github
+  #       id: github
+  #       name: GitHub
+  #       config:
+  #         clientID: $github-auth-secrets:dex.github.clientID
+  #         clientSecret: $github-auth-secrets:dex.github.clientSecret
   oidc.config: |
     name: Auth0
     issuer: https://ucdialplans.us.auth0.com/
