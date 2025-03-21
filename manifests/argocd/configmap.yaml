@@ -18,6 +18,7 @@ data:
     - openid
     - profile
     - email
+    - groups
     role.groups:
     - email=ken.lasko@gmail.com:argocd-admins
   policy.default: role:readonly
