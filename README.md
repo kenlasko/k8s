@@ -50,10 +50,6 @@ kubectl get nodes
 ```
 ansible-playbook ~/k8s/ansible/k8s-apps.yaml
 ```
-6. Get initial ArgoCD password
-```
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
-```
 
 ## Argo App Install Order
 ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).

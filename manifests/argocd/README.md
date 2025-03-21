@@ -16,6 +16,9 @@ I am experimenting with [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/s
 ## media-apps
 The [media-apps](/manifests/media-apps) group of applications are all related to media, including [Plex](/manifests/media-apps/plex), [Sonarr](/manifests/media-apps/sonarr), [Radarr](/manifests/media-apps/radarr) etc. This is "generated" by the [media-apps](/argocd-apps/media-apps.yaml) application. They **REQUIRE** the restoration of the backed-up Longhorn volumes is complete before starting up, otherwise they will create new empty volumes with default settings. It isn't impossible to recover from this, but its a waste of time that can be avoided. Once Longhorn is up and running and all the media-apps volumes are restored from NFS, then the media-apps application can be triggered, which will build all the media-apps applications.
 
+# Authentication
+ArgoCD is configured to use Github authentication instead of the built-in admin account. Github authentication uses [Github OAuth Apps](https://github.com/settings/developers), which is found under `User - Settings - Developer settings - OAuth Apps`. Steps to configure: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#dex
+
 # Adding a new Helm chart installation
 1. Edit [values.yaml](/argocd/values.yaml) and add a Helm repository under `configs.repositories`
 2. Create an Argo CD application in [argocd-apps](/argocd-apps) using an existing yaml as a template
@@ -26,11 +29,3 @@ Restart ArgoCD pods in this order:
 1. argocd-dex-server
 2. argocd-application-controller
 3. argocd-server
-
-# Other Info
-## Get Initial Password
-When ArgoCD is first installed, it auto-generates the admin password. Running this command will get the initial password so you can login for the first time.
-```
-kubectl -n argocd get secret argocd-initial-admin-secret \
-          -o jsonpath="{.data.password}" | base64 -d; echo
-```
