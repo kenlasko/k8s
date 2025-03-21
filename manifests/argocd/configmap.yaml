@@ -18,9 +18,10 @@ data:
     - profile
     - email
   #policy.default: role:readonly
-  scopes: "[email]"
+  scopes: "[groups,email]"
   policy.csv: |
     p, ken.lasko@gmail.com, *, *, *, allow
+    g, argocd-admins, *, *, *, allow
 
   repositories: |
     - url: git@github.com:kenlasko/k8s.git
