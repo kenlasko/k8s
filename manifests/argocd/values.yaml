@@ -119,7 +119,7 @@ configs:
     policy.default: role:readonly
     scopes: "[email]"
     policy.csv: |
-      p, ken.lasko@gmail.com, *, *, *, allow
+      g, ken.lasko@gmail.com, *, *, *, allow
 
   repositories:
     argocd:
