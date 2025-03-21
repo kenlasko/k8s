@@ -118,8 +118,6 @@ configs:
     create: true
     policy.default: role:readonly
     scopes: "[email,groups]"
-    role.groups:
-    - email=ken.lasko@gmail.com:argocd-admins
     policy.csv: |
       p, ken.lasko@gmail.com, *, *, *, allow
       g, argocd-admins, *, *, *, allow
