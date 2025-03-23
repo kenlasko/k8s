@@ -39,7 +39,7 @@ $UserAgent = $ProgramSettings.GCProgramSettings.UserAgent
 $CookieFilename = ".GCDownloadStatus$ActivityFileType.cookie"
 $CookieFileFullPath = ($Destination + "/" + $CookieFilename)
 
-#Write process information:
+# Write process information:
 Write-Host "INFO - Starting processing $ActivityFileType files from Garmin Connect with the following parameters:"
 Write-Host "- Activity File Type = $ActivityFileType"
 Write-Host "- Download Option = $DownloadOption"
@@ -47,7 +47,7 @@ Write-Host "- Destination = $Destination"
 Write-Host "- Username = $Username"
 Write-Host "- Overwrite = $Overwrite"
 
-#Authenticate
+# Authenticate
 Try {
     Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
     "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
@@ -85,11 +85,11 @@ Catch {
     Throw "Error with initial login to Garmin Connect."
 }
 
-#Get Cookies
+# Get Cookies
 "Read cookies" | Write-Verbose
 $Cookies = $GarminConnectSession.Cookies.GetCookies($BaseLoginURL)
 
-#Get SSO cookie
+# Get SSO cookie
 $SSOCookie = $Cookies | Where-Object name -EQ "CASTGC" | Select-Object value -ExpandProperty value
 if ($SSOCookie.Length -lt 1) {
     Write-Error "ERROR - No valid SSO cookie found, wrong credentials?"
@@ -97,7 +97,7 @@ if ($SSOCookie.Length -lt 1) {
 }
 
 Try {
-    #Authenticate by using cookie
+    # Authenticate by using cookie
     "Post login authentication" | Write-Verbose
     $PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession  -UserAgent $UserAgent
 }
@@ -105,7 +105,7 @@ Catch {
     Throw "Error with cookie login to Garmin Connect."
 }
 
-#Get the bearer token
+# Get the bearer token
 "Get bearer token" | Write-Verbose
 $OAuthResult = Invoke-RestMethod -UseBasicParsing -Uri $OAuthUrl -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Headers @{
     "Accept"          = "application/json, text/plain, */*"
@@ -146,7 +146,7 @@ $Headers = @{
     "x-requested-with"   = "XMLHttpRequest"
 }
 
-#Set the correct activity download URL for the selected type.
+# Set the correct activity download URL for the selected type.
 switch ($ActivityFileType) {
     'TCX' { $ActivityBaseURL = $TCXActivityBaseURL }
     'GPX' { $ActivityBaseURL = $GPXActivityBaseURL }
@@ -155,7 +155,7 @@ switch ($ActivityFileType) {
 }
 "ActivityFileType: {0}" -f $ActivityFileType | Write-Verbose
 
-#Get activity pages and check if the connection is successfull
+# Get activity pages and check if the connection is successfull
 $ActivityList = @()
 $PageSize = 100
 $FirstRecord = 0
@@ -193,20 +193,20 @@ if ($ErrorFound -eq $true) {
     break
 }
 
-#Get activities
+# Get activities
 $Activities = @()
 Write-Host "INFO - Retrieving current status of your activities in Garmin Connect, please wait..."
 foreach ($Activity in $ActivityList) {
     if ($($Activity.activityId) -gt $DeltaCookie) { $Activities += $Activity }
 }
 
-#Download activities in queue and unpack to destination location
+# Download activities in queue and unpack to destination location
 Write-Host "INFO - Continue to process all retrieved activities, please wait..."
 $ActivityFileType = $ActivityFileType.tolower()
 
 $ActivityExportedCount = 0
 foreach ($Activity in $Activities) {
-    #Download files
+    # Download files
     $Uri = [System.Uri]::new($ActivityBaseURL)
     $Path = "{0}{1}/" -f $Uri.PathAndQuery, $($Activity.activityID)
     $Headers.path = $Path
@@ -215,7 +215,7 @@ foreach ($Activity in $Activities) {
     $OutputFileFullPath = Join-Path -Path $TempDir -ChildPath "$($Activity.activityID).zip"
 
     if (Test-Path $OutputFileFullPath) {
-        #Allways overwrite temp files
+        # Allways overwrite temp files
         $null = Remove-Item $OutputFileFullPath -Force
     }
     Invoke-RestMethod -Uri $URL  -WebSession $GarminConnectSession -Headers $Headers -OutFile $OutputFileFullPath
@@ -227,7 +227,7 @@ foreach ($Activity in $Activities) {
     $ActivityExportedCount++
 }
 
-#Setting naming parameters for having the file to a more readable format
+# Setting naming parameters for having the file to a more readable format
 $ActivityID = $Activity.activityId
 $ActivityName = $Activity.activityName
 $ActivityNotes = $Activity.description
@@ -237,8 +237,10 @@ $FilePath = "$DataPath/$DownloadedFile"
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
 
+###########################################################################################################################################
+###################                                            Di2Stats Upload                                          ###################
+###########################################################################################################################################
 Try {
-    # Di2Stats Upload
     Write-Host 'INFO - Logging into Di2stats.com'
     # Generate initial PHPSESSID
     $InitSessionID = -join ((0x30..0x39) + ( 0x61..0x7A) | Get-Random -Count 26  | % {[char]$_})
@@ -305,7 +307,7 @@ $SessionCookie = $Match.Matches.Groups[1].Value
 
 # Create session variable
 $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"$
+$Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
 $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $SessionCookie, "/", "di2stats.com")))
 
 Write-Host "INFO - Path to downloaded file: $FilePath"
@@ -317,65 +319,64 @@ $boundary = [System.Guid]::NewGuid().ToString();
 $LF = "`r`n";
 
 $bodyLines = ( 
-"--$boundary",
-"Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
-"1$LF",    
-"--$boundary",
-"Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$FilePath`"",
-"Content-Type: application/octet-stream$LF",
-$fileEnc,
-"--$boundary--$LF" 
+    "--$boundary",
+    "Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
+    "1$LF",    
+    "--$boundary",
+    "Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$FilePath`"",
+    "Content-Type: application/octet-stream$LF",
+    $fileEnc,
+    "--$boundary--$LF" 
 ) -join $LF
 
 Try {
     Write-Host 'INFO - Uploading activity file to Di2Stats'
     $Di2Upload = Invoke-WebRequest -Uri $URI -Method POST -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines -websession $Di2Session
     Write-Host 'INFO - Uploaded activity file to Di2Stats'
+    # Parse out the URL
+    Write-Host 'INFO - Parsing URL'
+    $RegEx = '/rides/mapview/(\d{6})'
+    $Match = Select-String -InputObject $Di2Upload.Content -Pattern $RegEx	
+    $Di2RideID = $Match.Matches.Groups[1].Value
+    $Di2URL = "https://di2stats.com/rides/view/$Di2RideID"
+    Write-Host "INFO - Di2Status ride URL: $Di2URL"
+    Remove-Variable Di2Upload
+
+    # Update the name and description from Garmin
+    Write-Host 'Adding name/description from Garmin to Di2stats.com'
+    $Di2EditURL = "https://di2stats.com/rides/edit/$Di2RideID"
+
+    $Headers = @{
+        "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        "Accept-Language" = "en-US,en;q=0.5"
+        "Accept-Encoding" = "gzip, deflate, br, zstd"
+        "Content-Type" = "application/x-www-form-urlencoded"
+        "Origin" = "https://di2stats.com"
+        "Referer" = "https://di2stats.com/import"
+        "Upgrade-Insecure-Requests" = "1"
+        "Sec-Fetch-Dest" = "document"
+        "Sec-Fetch-Mode" = "navigate"
+        "Sec-Fetch-Site" = "same-origin"
+        "Sec-Fetch-User" = "?1"
+        "Priority" = "u=0, i"
+    }
+
+    $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$ActivityName&data%5BRide%5D%5Bnotes%5D=$ActivityNotes&data%5BRide%5D%5Bexclude%5D=0"
+    Try {
+        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body
+    } Catch {
+        Write-Host 'Error updating description' -ForegroundColor Red
+        Write-Host $Error[0]
+    }
 } Catch {
     Write-Host 'Error uploading activity to Di2Stats.com' -ForegroundColor Red
     Write-Host $Error[0]
-    Break   
-}
-
-#Parse out the URL
-Write-Host 'INFO - Parsing URL'
-$RegEx = '/rides/mapview/(\d{6})'
-$Match = Select-String -InputObject $Di2Upload.Content -Pattern $RegEx	
-$Di2RideID = $Match.Matches.Groups[1].Value
-$Di2URL = "https://di2stats.com/rides/view/$Di2RideID"
-Write-Host "INFO - Di2Status ride URL: $Di2URL"
-
-Remove-Variable Di2Upload
-
-# Update the name and description from Garmin
-Write-Host 'Adding name/description from Garmin to Di2stats.com'
-$Di2EditURL = "https://di2stats.com/rides/edit/$Di2RideID"
-
-$Headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-$Headers.Add("Connection", "keep-alive")
-$Headers.Add("Content-Type", "application/x-www-form-urlencoded")
-$Headers.Add("Cookie", "PHPSESSID=$SessionCookie")
-$Headers.Add("Origin", "https://di2stats.com")
-$Headers.Add("Referer", $Di2EditURL)
-$Headers.Add("Sec-Fetch-Dest", "document")
-$Headers.Add("Sec-Fetch-Mode", "navigate")
-$Headers.Add("Sec-Fetch-Site", "same-origin")
-$Headers.Add("Sec-Fetch-User", "?1")
-$Headers.Add("Upgrade-Insecure-Requests", "1")
-
-$Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$ActivityName&data%5BRide%5D%5Bnotes%5D=$ActivityNotes&data%5BRide%5D%5Bexclude%5D=0"
-
-Try {
-    $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body
-}
-Catch {
-    Write-Host 'Error updating description' -ForegroundColor Red
-    Write-Host $Error[0]
-    Break  
 }
 
 
-# MyBikeTraffic Upload
+###########################################################################################################################################
+###################                                         MyBikeTraffic Upload                                        ###################
+###########################################################################################################################################
 Write-Host 'INFO - Logging into MyBikeTraffic.com'
 [string]$MBTUser = (Get-ChildItem env:MBTUser).Value
 [string]$MBTPassword = (Get-ChildItem env:MBTPassword).Value
@@ -383,8 +384,6 @@ Write-Host 'INFO - Logging into MyBikeTraffic.com'
 $MBTLoginForm = @{
     'email' = $MBTUser
     'password' = $MBTPassword
-
-
 }
 $MBTLoginResponse = Invoke-WebRequest -Uri https://www.mybiketraffic.com/auth/login -Form $MBTLoginForm -Method POST -SessionVariable 'MBTSession'
 
@@ -401,6 +400,9 @@ $MBTURL = "https://www.mybiketraffic.com/rides/view/$MBTRideID"
 Remove-Variable MBTUploadForm
 
 
+###########################################################################################################################################
+###################                                             Strava Update                                           ###################
+###########################################################################################################################################
 # Update Strava with URLs for Di2Stats and MyBikeTraffic
 Try {
     Write-Host 'INFO - Getting cached Strave auth token'
@@ -408,7 +410,7 @@ Try {
 }
 Catch {
     Write-Warning 'Couldn''t find new auth token. Generating from original' 
-    $AuthToken = Get-Content -Raw -Path /garmin-prog/StravaToken.json | ConvertFrom-Json
+    $AuthToken = Get-Content -Raw -Path /garmin-data/StravaToken.json | ConvertFrom-Json
 }
 
 $TokenExpires = [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($AuthToken.expires_at))
@@ -467,6 +469,10 @@ $StravaBody = "{
 
 $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody
 
+
+###########################################################################################################################################
+###################                                             Garmin Update                                           ###################
+###########################################################################################################################################
 # Update Garmin activity with MyBikeTraffic and Di2Stats URLs
 Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
 $UpdatedActivityNotes = $ActivityNotes + "`r`n`r`n$MBTURL`r`n$Di2URL"
