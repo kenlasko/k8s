@@ -300,38 +300,62 @@ Try {
 }
 
 Write-Host 'INFO - Getting Di2Stats session cookie'
-$Cookie = $Di2Login.Headers.'Set-Cookie' #[2]
+$Cookie = $Di2Login.Headers.'Set-Cookie'
 $RegEx = 'PHPSESSID=(\w{26});\ path=/$'
 $Match = Select-String -InputObject $Cookie -Pattern $RegEx	
 $SessionCookie = $Match.Matches.Groups[1].Value
 
 # Create session variable
 $Di2Session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36"
+$Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0"
 $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $SessionCookie, "/", "di2stats.com")))
 
 Write-Host "INFO - Path to downloaded file: $FilePath"
 $Uri = 'https://di2stats.com/import'
 
+$Headers = @{
+"Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+  "Accept-Language" = "en-US,en;q=0.5"
+  "Accept-Encoding" = "gzip, deflate, br, zstd"
+  "Content-Type" = "multipart/form-data; boundary=----$boundary"
+  "Origin" = "https://di2stats.com"
+  "Referer" = "https://di2stats.com/import"
+  "Upgrade-Insecure-Requests" = "1"
+  "Sec-Fetch-Dest" = "document"
+  "Sec-Fetch-Mode" = "navigate"
+  "Sec-Fetch-Site" = "same-origin"
+  "Sec-Fetch-User" = "?1"
+  "Priority" = "u=0, i"
+}
+
+
 $fileBytes = [System.IO.File]::ReadAllBytes($FilePath);
 $fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
-$boundary = [System.Guid]::NewGuid().ToString(); 
+#$FileEnc = [System.Text.Encoding]::UTF8.GetBytes($fileBytes)
+
+$boundary = 'geckoformboundary9f59fd598a44a2b6c5b10670b26dfafd' #"geckoformboundary" + [System.Guid]::NewGuid().ToString().Replace("-", "")
 $LF = "`r`n";
 
 $bodyLines = ( 
-    "--$boundary",
-    "Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
-    "1$LF",    
-    "--$boundary",
-    "Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$FilePath`"",
+    "------$boundary",
+    "Content-Disposition: form-data; name=`"_method`"$LF",
+    "POST",    
+    "------$boundary",
+    "Content-Disposition: form-data; name=`"data[Item][submittedfile][]`"; filename=`"$DownloadedFile`"",
     "Content-Type: application/octet-stream$LF",
     $fileEnc,
-    "--$boundary--$LF" 
+    "------$boundary",
+    "Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
+    "0",
+    "------$boundary",
+    "Content-Disposition: form-data; name=`"data[Item][correct]`"$LF",
+    "1",
+    "------$boundary--$LF"
 ) -join $LF
 
 Try {
     Write-Host 'INFO - Uploading activity file to Di2Stats'
-    $Di2Upload = Invoke-WebRequest -Uri $URI -Method POST -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines -websession $Di2Session
+    $Di2Upload = Invoke-WebRequest -Uri $URI -Method POST -Headers $Headers -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $bodyLines -websession $Di2Session -HTTPVersion 2.0
     Write-Host 'INFO - Uploaded activity file to Di2Stats'
     # Parse out the URL
     Write-Host 'INFO - Parsing URL'
