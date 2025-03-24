@@ -22,7 +22,7 @@ applicationSet:
   resources:
     requests:
       cpu: 1m
-      memory: 25Mi
+      memory: 30Mi
     limits:
       # cpu: 200m
       memory: 50Mi
@@ -45,7 +45,7 @@ dex:
 redis:
   resources:
     requests:
-      cpu: 15m
+      cpu: 10m
       memory: 15Mi
     limits:
       # cpu: 160m
@@ -54,7 +54,7 @@ repoServer:
   resources:
     requests:
       cpu: 5m
-      memory: 150Mi
+      memory: 130Mi
     limits:
       # cpu: 1200m
       memory: 2000Mi
@@ -62,7 +62,7 @@ server:
   resources:
     requests:
       cpu: 4m
-      memory: 30Mi
+      memory: 40Mi
     limits:
       # cpu: 200m
       memory: 200Mi
@@ -237,7 +237,7 @@ notifications:
   resources:
     requests:
       cpu: 2m
-      memory: 110Mi
+      memory: 50Mi
     limits:
       # cpu: 300m
       memory: 150Mi

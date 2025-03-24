@@ -34,7 +34,7 @@ env:
   value: "America/Toronto"
 resources:
   requests:
-    cpu: 3m
+    cpu: 4m
     memory: 250Mi
   limits:
     # cpu: 300m

@@ -19,8 +19,8 @@ securityContext:
     # - "DAC_OVERRIDE"
 resources:
   requests:
-    cpu: 100m
-    memory: 300Mi
+    cpu: 1m
+    memory: 290Mi
   limits:
     # cpu: 500m
     memory: 400Mi

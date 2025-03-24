@@ -13,8 +13,8 @@ securityContext:
     drop: ["ALL"]
 resources:
   requests:
-    cpu: 2m
-    memory: 300Mi
+    cpu: 1m
+    memory: 135Mi
   limits:
     # cpu: 500m
     memory: 500Mi

@@ -18,7 +18,7 @@ securityContext:
 resources:
   requests:
     cpu: 1m
-    memory: 78Mi
+    memory: 70Mi
   limits:
     memory: 350Mi
 envFrom:

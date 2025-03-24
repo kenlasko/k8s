@@ -8,11 +8,11 @@ serviceAccount:
   automountServiceAccountToken: false
 resources:
   requests:
-    cpu: 2m
-    memory: 30Mi
+    cpu: 1m
+    memory: 22Mi
   limits:
     # cpu: 15m
-    memory: 40Mi  
+    memory: 30Mi  
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -59,7 +59,7 @@ webhook:
     automountServiceAccountToken: false
   resources:
     requests:
-      cpu: 3m
+      cpu: 1m
       memory: 12Mi
     limits:
       # cpu: 100m
@@ -106,11 +106,11 @@ cainjector:
     automountServiceAccountToken: false
   resources:
     requests:
-      cpu: 2m
-      memory: 85Mi
+      cpu: 1m
+      memory: 60Mi
     limits:
       # cpu: 80m
-      memory: 100Mi  
+      memory: 80Mi  
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
