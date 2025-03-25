@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://portainer.github.io/k8s/"
-    targetRevision: 1.0.62
+    targetRevision: 1.0.63
     chart: portainer
     helm:
       valueFiles:
