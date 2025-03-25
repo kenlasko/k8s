@@ -32,7 +32,8 @@ Copy the contents of id_rsa.pub to Github SSH keys at https://github.com/setting
 ```
 git config --global user.email "ken.lasko@gmail.com"
 git config --global user.name "Ken Lasko"
-git clone git@github.com:kenlasko/k8s.git k8s
+git clone git@github.com:kenlasko/nixos-wsl.git nixos
+git clone git@github.com:kenlasko/k8s.git
 git clone git@github.com:kenlasko/k8s-lab.git
 git clone git@github.com:kenlasko/k8s-cloud.git
 git clone git@github.com:kenlasko/omni.git
