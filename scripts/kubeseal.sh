@@ -4,7 +4,7 @@
 
 # --- Configuration ---
 SECRET_FILE="secret.yaml"          # Path to your secret.yaml file
-CERT_FILE="sealed-secret-signing-key.crt" # Path to your sealed-secret-signing-key.crt file
+CERT_FILE="/run/secrets/sealed-secrets-signing-key" # Path to your sealed-secret-signing-key.crt file
 MANIFESTS_DIR="k8s/manifests"      # Base directory for manifests
 SEALED_SECRET_FILENAME="sealed-secrets.yaml" # Name of the sealed secret file
 TEMP_SEALED_SECRET_FILE="temp-sealed-secret.yaml" # Temporary file for the new sealed secret
