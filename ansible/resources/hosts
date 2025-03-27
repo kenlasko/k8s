@@ -7,7 +7,6 @@ rpi2     ansible_connection=ssh
 
 [other-nodes]
 backuppc                 ansible_connection=ssh
-nuc-spare                ansible_connection=ssh
 
 [everything:children]
 rpi-nodes
