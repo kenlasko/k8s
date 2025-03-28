@@ -1,7 +1,7 @@
 # Windows Workstation Prep
 These instructions are for configuring Linux-based tools in an Ubuntu Windows Subsystem for Linux (WSL) virtual machine. If you are using a native machine, you can skip the WSL-specific bits.
 
-I no longer use Ubuntu for this. I have switched over to [NixOS in WSL](/kenlasko/nixos-wsl), which is much easier to create repeatable builds after you've worked through the configuration hurdles.
+I no longer use Ubuntu for this. I have switched over to [NixOS in WSL](https://github.com/kenlasko/nixos-wsl), which is much easier to create repeatable builds after you've worked through the configuration hurdles.
 
 ## Install WSL and supporting tools
 From Windows Terminal:
