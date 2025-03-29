@@ -29,30 +29,3 @@ spec:
     allowedRoutes: 
       namespaces:
         from: All
-
-# ---
-# apiVersion: gateway.networking.k8s.io/v1
-# kind: Gateway
-# metadata:
-#   name: kubeapi
-#   namespace: cilium
-# spec:
-#   gatewayClassName: cilium
-#   infrastructure:
-#     annotations:
-#       lbipam.cilium.io/ips: 192.168.10.13
-#   listeners:
-#   - name: https
-#     protocol: TLS
-#     port: 443
-#     hostname: "kube.ucdialplans.com"
-#     tls:
-#       mode: Passthrough
-#       # certificateRefs:
-#       # - kind: Secret
-#       #   name: letsencrypt-wildcard-cert
-#       #   namespace: cilium
-#     allowedRoutes: 
-#       namespaces:
-#         from: All
-
