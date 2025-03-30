@@ -31,7 +31,7 @@ spec:
               claimName: nfs-stravastats
           containers:
           - name: strava-import
-            image: docker.io/robiningelbrecht/strava-statistics:v0.4.32
+            image: docker.io/robiningelbrecht/strava-statistics:v1.0.1
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh  # Use /bin/sh to execute a shell command
