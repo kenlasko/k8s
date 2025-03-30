@@ -66,7 +66,7 @@ spec:
             memory: 60Mi
           limits:
             # cpu: 1000m
-            memory: 200Mi
+            memory: 300Mi
         ports:
         - containerPort: 8084
           name: http-dl-aa
