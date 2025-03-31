@@ -77,7 +77,7 @@ set global gtid_slave_pos = "0-1-19420";
 change master to
     master_host='mariadb-access.ucdialplans.com',
     master_user='replicator',
-    master_password='***REMOVED***',
+    master_password='***REDACTED***',
     master_port=3306,
     master_connect_retry=10,
     master_use_gtid=slave_pos;

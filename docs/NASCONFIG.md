@@ -185,7 +185,7 @@ if [ "$?" -ne 0 ]; then
 fi
 
 # This sends an email with the backup report attached via SendGrid
-SENDGRID_API_KEY="***REMOVED***"
+SENDGRID_API_KEY="***REDACTED***"
 EMAIL_TO="ken.lasko@gmail.com"
 FROM_EMAIL="klasko@ucdialplans.com"
 FROM_NAME="NAS-Backup"
