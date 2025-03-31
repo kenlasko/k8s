@@ -14,7 +14,7 @@ kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-initial-res
 ```
 
 # Setup Replication
-The [sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
+The [sync-bootstrap.sh](/manifests/database/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
 ```
 ./k8s/manifests/database/mariadb/scripts/sync-bootstrap.sh
 ```
