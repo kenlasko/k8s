@@ -26,7 +26,8 @@ SideroLabs Omni must be ready to go. Installation steps are in the repository li
 [Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
 
 You will need a workstation (preferably Linux-based) with several tools to get things rolling:
-[Workstation Prep Instructions](/docs/WORKSTATION.md)
+[Workstation Prep Instructions for Ubuntu-based distributions](/docs/WORKSTATION.md)
+[NixOS Workstation Build](https://github.com/kenlasko/nixos-wsl/)
 
 Most of the workloads use NAS-based storage for persistent data. This doc shows the configuration for the various things that need to be ready before the cluster can be spun up:
 [NAS Configuration](/docs/NASCONFIG.md)
@@ -35,20 +36,24 @@ Most of the workloads use NAS-based storage for persistent data. This doc shows 
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [here](https://github.com/kenlasko/omni/).
 
 ## Install Kubernetes
-1. Copy `default-sealing-key.yaml` and `global-sealed-secrets-key.yaml` from Onedrive Vault `certificates` folder to `/home/ken`
-2. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
-3. Create cluster via `omnictl`:
+This guide assumes you're using a NixOS distribution that is configured to securely store and present all required certificates.
+1. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
+2. Create cluster via `omnictl`:
 ```
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
-4. Set the proper context with kubectl and verify you see the expected nodes
+3. Set the proper context with kubectl and verify you see the expected nodes
 ```
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-5. Install Cilium, Cert-Manager, Sealed-Secrets and ArgoCD
+4. Bootstrap cluster by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
 ```
-ansible-playbook ~/k8s/ansible/k8s-apps.yaml
+cd ~/terraform
+tf workspace new home
+tf workspace select home
+tf init
+tf apply
 ```
 
 ## Argo App Install Order
