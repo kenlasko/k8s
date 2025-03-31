@@ -109,7 +109,7 @@ Delete all PV/PVCs for MariaDB, then:
 kubectl apply -f /home/ken/k8s/manifests/database/mariadb/pv.yaml
 
 helm install -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera \
---set rootUser.password=***REMOVED*** \
+--set rootUser.password=***REDACTED*** \
 --set galera.mariabackup.password=  \
 --set galera.bootstrap.forceBootstrap=true \
 --set galera.bootstrap.bootstrapFromNode=1 \
@@ -127,7 +127,7 @@ helm uninstall -n mariadb mariadb
 
 helm install -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera
 
-helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera --set rootUser.password=***REMOVED*** --set galera.mariabackup.password=***REMOVED*** --set podManagementPolicy=Parallel
+helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera --set rootUser.password=***REDACTED*** --set galera.mariabackup.password=***REDACTED*** --set podManagementPolicy=Parallel
 ```
 
 
@@ -141,8 +141,8 @@ Delete all PV/PVCs for MariaDB, then:
 kubectl apply -f /home/ken/k8s/manifests/database/mariadb/pv.yaml
 
 helm install -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera \
---set rootUser.password=***REMOVED*** \
---set galera.mariabackup.password=***REMOVED*** \
+--set rootUser.password=***REDACTED*** \
+--set galera.mariabackup.password=***REDACTED*** \
 --set galera.bootstrap.forceBootstrap=true \
 --set galera.bootstrap.bootstrapFromNode=1 \
 --set podManagementPolicy=Parallel 
@@ -158,8 +158,8 @@ kubectl scale statefulset mariadb -n mariadb --replicas=0
 helm uninstall -n mariadb mariadb
 
 helm install -n mariadb mariadb -f /home/ken/k8s/manifests/mariadb/values.yaml bitnami/mariadb-galera \
---set rootUser.password=***REMOVED*** \
---set galera.mariabackup.password=***REMOVED*** 
+--set rootUser.password=***REDACTED*** \
+--set galera.mariabackup.password=***REDACTED*** 
 ```
 
 
@@ -173,8 +173,8 @@ kubectl scale statefulset mariadb -n mariadb --replicas=1
 ### Other
 ```
 helm upgrade -n mariadb mariadb -f /home/ken/k8s/manifests/database/mariadb/values.yaml bitnami/mariadb-galera \
---set rootUser.password=***REMOVED*** \
---set galera.mariabackup.password=***REMOVED***
+--set rootUser.password=***REDACTED*** \
+--set galera.mariabackup.password=***REDACTED***
 ```
 
 ```
