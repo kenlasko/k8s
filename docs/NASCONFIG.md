@@ -51,7 +51,7 @@ Apps that currently use the `appdata/vol` folder are:
 To create these folders on a fresh install (may not be necessary, depending on how the data is restored):
 ```
 cd /share/appdata
-mkdir adguard esphome garmin-upload gitea homeassist nectar pgadmin portainer recyclarr registry romm transmission ucdialplans ups-monitor uptime-kuma vaultwarden zwaveadmin
+mkdir adguard esphome garmin-upload gitea homeassist pgadmin portainer recyclarr registry romm transmission ucdialplans ups-monitor uptime-kuma vaultwarden zwaveadmin
 ```
 
 ## Backup
