@@ -11,7 +11,7 @@ spec:
       template:
         spec:
           restartPolicy: Never
-          automountServiceAccountToken: false
+          serviceAccountName: restart-daemonset-sa
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
