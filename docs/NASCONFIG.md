@@ -23,7 +23,7 @@ This folder stores all the data used by applications. Most applications use stat
 ```
 
 ### appdata/pv
-These folders are used by apps that make use of the [NFS Subdir Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner). The benefit of this is that the app folders don't have to exist prior to running the workload. The downside is that its difficult/impossible (as far as I know) to re-use one of these should the workload be deleted and recreated. This is reserved for workloads that I don't care about backing up or restoring after a cluster rebuild.
+These folders are used by apps that make use of the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. The benefit of this is that the app folders don't have to exist prior to running the workload. The downside is that its difficult/impossible (as far as I know) to re-use one of these should the workload be deleted and recreated. This is reserved for workloads that I don't care about backing up or restoring after a cluster rebuild.
 Apps that currently use the `appdata/pv` folder are:
 * [alertmanager/grafana/loki/prometheus](/manifests/monitoring)
 
