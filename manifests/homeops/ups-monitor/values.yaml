@@ -9,12 +9,11 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 env:
-- name: API_USER
-  value: "***REMOVED***"
-- name: API_PASSWORD
-  value: "***REMOVED***"
 - name: TZ
   value: "America/Toronto"
+envFrom:
+- secretRef:
+    name: ups-creds
 resources:
   requests:
     cpu: 1m
