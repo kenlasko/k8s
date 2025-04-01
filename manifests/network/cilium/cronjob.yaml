@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restart-cilium-daemonset
+  namespace: cilium
+spec:
+  schedule: "0 8 * * 3"  # Runs every Wednesday at midnight
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values: 
+                    - "amd64"
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl:latest
+            command:
+              - /bin/sh
+              - -c
+              - >
+                kubectl patch daemonset cilium -n cilium
+                -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"restarted-at\":\"$(date +%s)\"}}}}}"
