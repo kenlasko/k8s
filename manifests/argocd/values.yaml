@@ -180,7 +180,7 @@ configs:
       name: grafana
       type: helm
     headlamp:
-      url: https://headlamp-k8s.github.io/headlamp
+      url: https://kubernetes-sigs.github.io/headlamp/
       name: headlamp
       type: helm
     intel:

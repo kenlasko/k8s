@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: "https://headlamp-k8s.github.io/headlamp/"
+  - repoURL: "https://kubernetes-sigs.github.io/headlamp/"
     targetRevision: 0.30.1
     chart: headlamp
     helm:
