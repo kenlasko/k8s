@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script goes over each api-resource and compares the namespaces listed by the resources of that api-resource against 
 # the list of existing namespaces, while printing the api-resource + namespace + resource name when it finds a namespace that is not in kubectl get ns.

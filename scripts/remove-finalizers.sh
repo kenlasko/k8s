@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Define the namespace you want to delete
 NAMESPACE=$1

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Script to seal a secret and copy it to a namespace-specific folder
 
