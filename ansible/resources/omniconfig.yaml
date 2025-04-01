@@ -1,7 +1,0 @@
-contexts:
-    default:
-        url: https://omni.ucdialplans.com/
-        auth:
-            siderov1:
-                identity: ken.lasko@gmail.com
-context: default
