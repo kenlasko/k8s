@@ -10,7 +10,7 @@ spec:
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: helm/baseline
-    targetRevision: HEAD
+    targetRevision: v0.107.59
     helm:
       valueFiles:
       - /manifests/apps/adguard/values.yaml
