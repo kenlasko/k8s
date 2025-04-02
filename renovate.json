@@ -72,8 +72,7 @@
         "ghcr.io/home-assistant/home-assistant"
       ],
       "matchUpdateTypes": [
-        "major",
-        "minor"
+        "patch"
       ],
       "automerge": false
     },
