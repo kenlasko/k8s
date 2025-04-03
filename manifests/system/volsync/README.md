@@ -1,8 +1,8 @@
 # Summary
-[VolSync](https://github.com/backube/volsync) is a tool for backing up or replicating PVs to other locations. Its not terribly important as most of my PVs are hosted on the NAS and are backed up via NAS tools. 
+[VolSync](https://github.com/backube/volsync) is a tool for backing up or replicating PVs to other locations. I use this to backup many of my NAS-based volumes to S3 buckets on Cloudflare (mostly) or Oracle Cloud
 
-One area where this could be useful is to streamline restoring from a cluster/NAS disaster where I'm having to start from scratch. Theoretically, I could stand up a new NAS and bootstrap the cluster using backups made with VolSync. 
+[Cloudflare R2 Object Storage](https://dash.cloudflare.com/fa831d805d821b7c4627b464a9845a9d/r2/overview) gives me 10GB of free backups. I am using this for daily backups of applications that store on the `appdata/vol` folder on the NAS. So far, its staying under the 10GB limit.
 
-Things stopping me from doing this:
-* Believe that I can only backup to S3. I have limited free space available on Oracle and Cloudflare. Don't think I can do this without incurring costs.
-* Having a combo NAS/cluster disaster is hopefully a very rare occurance. Probably not worth the effort.
+I could be utilizing [Volume Populator](https://volsync.readthedocs.io/en/stable/usage/volume-populator/index.html) to automatically restore when starting up for the first time, but I have elected not to use this, as in most cases, the actual live volumes are still on the NAS and don't require restoration.
+
+Each application has a disabled restore manifest that can be enabled for any restore job that's required.
