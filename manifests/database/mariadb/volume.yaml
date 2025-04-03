@@ -33,3 +33,39 @@ spec:
   resources:
     requests:
       storage: 2Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-mariadb-zip-backup
+  annotations:
+    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+spec:
+  storageClassName: nfs-csi
+  capacity:
+    storage: 900Mi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: 192.168.1.3/backup/mariadb-zip
+    volumeAttributes:
+      server: 192.168.1.3
+      share: /backup/mariadb-zip
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-mariadb-zip-backup
+  namespace: mariadb
+spec:
+  storageClassName: nfs-csi
+  volumeName: nfs-mariadb-zip-backup
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 900Mi

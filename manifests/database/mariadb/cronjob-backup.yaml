@@ -67,12 +67,19 @@ spec:
               for i in $(seq 1 10); do [ $i -gt 1 ] && echo "$(date +%F_%T) Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -B $DB_LIST > /backup/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
               if [ "$dayofmonth" -eq 1 ]; then echo "$(date +%F_%T) Creating monthly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-monthly-$(date +%m).sql; fi &&
               case $dayofmonth in 7|14|21|28) echo "$(date +%F_%T) Creating weekly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
+              echo "Zipping daily backup to separate folder for S3 backup job..." &&
+              zip -j -o /backup-zip/mariadb-backup-$day.zip /backup/mariadb-backup-$day.sql &&
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data
               mountPath: /backup
+            - name: zipdata
+              mountPath: /backup-zip
           restartPolicy: Never #OnFailure
           volumes:
           - name: data
             persistentVolumeClaim:
               claimName: nfs-mariadb-backup
+          - name: zipdata
+            persistentVolumeClaim:
+              claimName: nfs-mariadb-zip-backup
