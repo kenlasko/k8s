@@ -19,6 +19,11 @@ The [media-apps](/manifests/media-apps) group of applications are all related to
 # Authentication
 ArgoCD is configured to use Github authentication instead of the built-in admin account. Github authentication uses [Github OAuth Apps](https://github.com/settings/developers), which is found under `User - Settings - Developer settings - OAuth Apps`. Steps to configure: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#dex
 
+If local authentication needs to be re-enabled, first set `data.admin.enabled = "true"` in [configmap.yaml](/manifests/argocd/configmap.yaml), then login with the normal credentials. If this is the first time logging in, get the initial admin password via
+```
+kubectl -n kube-system get secret kubeapi-service-account-secret -o jsonpath="{.data.token}" | base64 -d; echo
+```
+
 # Adding a new Helm chart installation
 1. Edit [values.yaml](/argocd/values.yaml) and add a Helm repository under `configs.repositories`
 2. Create an Argo CD application in [argocd-apps](/argocd-apps) using an existing yaml as a template
@@ -29,3 +34,6 @@ Restart ArgoCD pods in this order:
 1. argocd-dex-server
 2. argocd-application-controller
 3. argocd-server
+
+## ArgoCD seems very slow to sync
+Probably due to Unifi blocking SSH traffic due to `ET SCAN Potential SSH Scan OUTBOUND`. Resolve by adding the node IP to the Signature Suppression for this rule: https://unifi.ucdialplans.com/network/default/settings/security/cybersecure
