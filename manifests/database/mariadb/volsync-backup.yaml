@@ -24,6 +24,10 @@ spec:
     cacheCapacity: 5Gi
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic
+    moverSecurityContext:
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
     moverAffinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
