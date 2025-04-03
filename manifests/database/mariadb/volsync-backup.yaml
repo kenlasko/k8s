@@ -1,0 +1,37 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: mariadb
+  namespace: mariadb
+spec:
+  # The PVC to be backed up
+  sourcePVC: nfs-mariadb-zip-backup
+  trigger:
+    schedule: "45 6 * * *"
+  restic:
+    pruneIntervalDays: 14
+    # Name of the Secret with the connection information
+    repository: cloudflare-s3-backup-mariadb
+    # Retention policy for backups
+    retain:
+      hourly: 0
+      daily: 4
+      weekly: 2
+      monthly: 1
+      yearly: 0
+    copyMethod: Clone
+    cacheCapacity: 5Gi
+    volumeSnapshotClassName: nfs
+    storageClassName: nfs-csi-dynamic
+    moverAffinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+              - "amd64"
