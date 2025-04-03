@@ -11,12 +11,12 @@ data:
   admin.enabled: "false"
   dex.config: |
     connectors:
-      - type: github
-        id: github
-        name: GitHub
-        config:
-          clientID: $github-auth-secrets:dex.github.clientID
-          clientSecret: $github-auth-secrets:dex.github.clientSecret
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: $github-auth-secrets:dex.github.clientID
+        clientSecret: $github-auth-secrets:dex.github.clientSecret
 
   # oidc.config: |
   #   name: Auth0
