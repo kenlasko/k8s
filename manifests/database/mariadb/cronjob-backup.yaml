@@ -59,7 +59,8 @@ spec:
               dayofmonth=$(date +%-d) &&
               echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
               echo "Zipping daily backup to separate folder for S3 backup job..." &&
-              zip -j -o /backup-zip/mariadb-backup-$day.zip /backup/mariadb-backup-$day.sql mariadb-users.sql &&
+              gzip -c /backup/mariadb-backup-$day.sql > /backup-zip/mariadb-backup-$day.sql.gz &&
+              cp /backup/mariadb-users.sql /backup-zip/mariadb-users.sql &&
               echo "$(date +%F_%T) MariaDB databases have been backed up."
             volumeMounts:
             - name: data
