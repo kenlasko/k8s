@@ -20,7 +20,7 @@ spec:
       weekly: 2
       monthly: 1
       yearly: 0
-    copyMethod: Clone
+    copyMethod: Direct
     cacheCapacity: 5Gi
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic
