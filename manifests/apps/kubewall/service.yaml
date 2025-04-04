@@ -4,6 +4,7 @@ metadata:
   name: kubewall
   namespace: kubewall
   annotations:
+    omni-kube-service-exposer.sidero.dev/prefix: kubewall
     omni-kube-service-exposer.sidero.dev/port: "50103"
     omni-kube-service-exposer.sidero.dev/label: Kubewall
     omni-kube-service-exposer.sidero.dev/icon: |

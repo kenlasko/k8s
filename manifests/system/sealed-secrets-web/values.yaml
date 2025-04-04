@@ -21,6 +21,7 @@ affinity:
           - "amd64"
 service:
   annotations:
+    omni-kube-service-exposer.sidero.dev/prefix: sealed-secrets
     omni-kube-service-exposer.sidero.dev/port: "50105"
     omni-kube-service-exposer.sidero.dev/label: Sealed Secrets
     omni-kube-service-exposer.sidero.dev/icon: |

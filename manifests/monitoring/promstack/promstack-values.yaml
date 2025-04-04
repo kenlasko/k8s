@@ -95,6 +95,7 @@ alertmanager:
 
   service:
     annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: alertmanager
       omni-kube-service-exposer.sidero.dev/port: "50100"
       omni-kube-service-exposer.sidero.dev/label: Alert Manager
       omni-kube-service-exposer.sidero.dev/icon: |
@@ -148,6 +149,7 @@ grafana:
             - "amd64"
   service:
     annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: grafana
       omni-kube-service-exposer.sidero.dev/port: "50101"
       omni-kube-service-exposer.sidero.dev/label: Grafana
       omni-kube-service-exposer.sidero.dev/icon: |
@@ -463,6 +465,7 @@ prometheus:
 
   service:
     annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: prometheus
       omni-kube-service-exposer.sidero.dev/port: "50102"
       omni-kube-service-exposer.sidero.dev/label: Prometheus
       omni-kube-service-exposer.sidero.dev/icon: |
