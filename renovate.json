@@ -78,6 +78,21 @@
     },
     {
       "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/calibrain/calibre-web-automated-book-downloader"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "automerge": true
+    },
+    {
+      "matchManagers": [
         "helm-values",
         "kubernetes"
       ],
