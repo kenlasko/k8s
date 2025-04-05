@@ -72,7 +72,8 @@
         "ghcr.io/home-operations/home-assistant"
       ],
       "matchUpdateTypes": [
-        "patch"
+        "major",
+        "minor"
       ],
       "automerge": false
     },
