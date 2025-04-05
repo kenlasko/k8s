@@ -412,7 +412,7 @@ If ($Di2RideID) {
         $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -ContentType $ContentType -Body $Body -WebSession $Di2Session -UseBasicParsing
     } Catch {
         if ($_.Exception.Response.StatusCode -eq 302) {
-            Write-Host "Redirect happened, probably OK."
+            Write-Host "INFO - Redirect happened, probably OK."
         } else {
             Write-Error $_.Exception.Response
         }
