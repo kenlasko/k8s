@@ -57,7 +57,7 @@ spec:
                 memory: 300Mi
               limits:
                 # cpu: 300m
-                memory: 600Mi
+                memory: 900Mi
             envFrom:
             - secretRef:
                 name: garmin-secrets

@@ -330,10 +330,11 @@ $Headers = @{
 
 
 $fileBytes = [System.IO.File]::ReadAllBytes($FilePath);
-$fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
-#$FileEnc = [System.Text.Encoding]::UTF8.GetBytes($fileBytes)
+#$fileEnc = [System.Text.Encoding]::GetEncoding('ISO-8859-1').GetString($fileBytes);
+#$fileEnc = [System.Text.Encoding]::GetEncoding('UTF8').GetString($fileBytes);
+$FileEnc = [System.Text.Encoding]::UTF8.GetBytes($fileBytes)
 
-$boundary = 'geckoformboundary9f59fd598a44a2b6c5b10670b26dfafd' #"geckoformboundary" + [System.Guid]::NewGuid().ToString().Replace("-", "")
+$boundary = "geckoformboundary" + [System.Guid]::NewGuid().ToString().Replace("-", "")
 $LF = "`r`n";
 
 $bodyLines = ( 
@@ -433,19 +434,18 @@ Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
 [string]$AuthToken = (Get-ChildItem env:StravaRefreshToken).Value
 
 $AuthBody = @{
-grant_type = 'refresh_token'
-client_id = 63572
-client_secret = $StravaSecret
-refresh_token = $AuthToken
+    grant_type = 'refresh_token'
+    client_id = 63572
+    client_secret = $StravaSecret
+    refresh_token = $AuthToken
 }	
 
 $AuthToken = Invoke-RestMethod -Method POST -uri "https://www.strava.com/oauth/token" -Body $AuthBody
 if ($AuthToken -Match 'access_token=([^;]+)') {
     $AccessToken = $Matches[1]
 }
-Write-Host 'INFO - Obtained new Strave auth token'
-$AccessToken = $AuthToken.Access_Token
 
+Write-Host 'INFO - Obtained new Strave auth token'
 $StravaHeaders = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
 $StravaHeaders.Add("Authorization", "Bearer $AccessToken")
 $StravaHeaders.Add("Content-Type", "application/json")
