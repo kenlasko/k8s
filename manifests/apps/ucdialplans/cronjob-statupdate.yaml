@@ -5,7 +5,7 @@ metadata:
   name: mariadb-ucdialplans-statupdate
   namespace: mariadb
 spec:
-  schedule: "0 */3 * * *"  # Once every 3 hours
+  schedule: "0 */12 * * *"  # Once every 12 hours
   suspend: false 
   successfulJobsHistoryLimit: 1
   jobTemplate:
