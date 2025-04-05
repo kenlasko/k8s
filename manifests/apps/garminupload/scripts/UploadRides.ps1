@@ -413,9 +413,9 @@ $MBTLoginResponse = Invoke-WebRequest -Uri https://www.mybiketraffic.com/auth/lo
 
 $MBTUploadForm = @{ 'fitfile' = Get-ChildItem $FilePath }
         
-Write-Host 'INFO - Uploading FIT file to MyBikeTraffic.com'
+Write-Host 'INFO - Uploading FIT file to MyBikeTraffic.com...'
 $MBTUpload = Invoke-WebRequest -Uri https://www.mybiketraffic.com/rides/upload -Form $MBTUploadForm -Method POST -WebSession $MBTSession
-
+Write-Host 'INFO - Upload successful'
 #Parse out the URL
 $RegEx = '"id":(\d{5})'
 $Match = Select-String -InputObject $MBTUpload.Content -Pattern $RegEx	
