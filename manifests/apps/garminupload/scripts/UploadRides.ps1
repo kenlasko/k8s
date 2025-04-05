@@ -396,9 +396,8 @@ If ($Di2RideID) {
         "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
         "Accept-Language" = "en-US,en;q=0.5"
         "Accept-Encoding" = "gzip, deflate, br, zstd"
-        "Content-Type" = "application/x-www-form-urlencoded"
         "Origin" = "https://di2stats.com"
-        "Referer" = "https://di2stats.com/import"
+        "Referer" = "https://di2stats.com/rides/edit/$Di2RideID"
         "Upgrade-Insecure-Requests" = "1"
         "Sec-Fetch-Dest" = "document"
         "Sec-Fetch-Mode" = "navigate"
@@ -406,10 +405,11 @@ If ($Di2RideID) {
         "Sec-Fetch-User" = "?1"
         "Priority" = "u=0, i"
     }
-    $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=122642&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
-    Write-Host "INFO - Body: $Body"
+    $ContentType = "application/x-www-form-urlencoded"
+    $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
+
     Try {
-        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body -WebSession $Di2Session -ErrorAction SilentlyContinue
+        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -ContentType $ContentType -Body $Body -WebSession $Di2Session -UseBasicParsing
     } Catch {
         if ($_.Exception.Response.StatusCode -eq 302) {
             Write-Host "Redirect happened, probably OK."
