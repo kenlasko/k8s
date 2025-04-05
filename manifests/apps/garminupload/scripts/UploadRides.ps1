@@ -387,8 +387,10 @@ Remove-Variable Di2Upload
 
 If ($Di2RideID) {
     # Update the name and description from Garmin
-    Write-Host 'Adding name/description from Garmin to Di2stats.com'
+    Write-Host 'INFO - Adding name/description from Garmin to Di2stats.com'
     $Di2EditURL = "https://di2stats.com/rides/edit/$Di2RideID"
+    Write-Host "INFO - Activity Name: $ActivityName"
+    Write-Host "INFO - Activity Notes: $ActivityNotes"
 
     $Headers = @{
         "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
@@ -405,8 +407,9 @@ If ($Di2RideID) {
         "Priority" = "u=0, i"
     }
     $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=122642&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
+    Write-Host "INFO - Body: $Body"
     Try {
-        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body -websession $Di2Session -ErrorAction SilentlyContinue
+        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body -WebSession $Di2Session -ErrorAction SilentlyContinue
     } Catch {
         if ($_.Exception.Response.StatusCode -eq 302) {
             Write-Host "Redirect happened, probably OK."
