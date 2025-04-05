@@ -428,34 +428,26 @@ Remove-Variable MBTUploadForm
 ###################                                             Strava Update                                           ###################
 ###########################################################################################################################################
 # Update Strava with URLs for Di2Stats and MyBikeTraffic
-Try {
-    Write-Host 'INFO - Getting cached Strave auth token'
-    $AuthToken = Get-Content -Raw -Path /garmin-data/StravaToken.json | ConvertFrom-Json
-}
-Catch {
-    Write-Warning 'Couldn''t find new auth token. Generating from original' 
-    $AuthToken = Get-Content -Raw -Path /garmin-data/StravaToken.json | ConvertFrom-Json
-}
+$AuthToken = (Get-ChildItem env:StravaRefreshToken).Value
 
-$TokenExpires = [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($AuthToken.expires_at))
+# $TokenExpires = [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($AuthToken.expires_at))
 
-If ((New-TimeSpan -Start (Get-Date) -End $TokenExpires).Ticks -lt 0) {  # Token expired
+# If ((New-TimeSpan -Start (Get-Date) -End $TokenExpires).Ticks -lt 0) {  # Token expired
     # Get new token using refresh token
-    Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
-    [string]$StravaSecret = (Get-ChildItem env:StravaSecret).Value
+Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
+[string]$StravaSecret = (Get-ChildItem env:StravaSecret).Value
 
-    $AuthBody = @{
-    grant_type = 'refresh_token'
-    client_id = 63572
-    client_secret = $StravaSecret
-    refresh_token = $AuthToken.refresh_token
-    }	
+$AuthBody = @{
+grant_type = 'refresh_token'
+client_id = 63572
+client_secret = $StravaSecret
+refresh_token = $AuthToken.refresh_token
+}	
 
-    $AuthToken = Invoke-RestMethod -Method POST -uri "https://www.strava.com/oauth/token" -Body $AuthBody
-    
-    Write-Host 'INFO - Obtained new Strave auth token'
-    $AuthToken | ConvertTo-Json | Out-File /garmin-data/StravaToken.json
-}
+$AuthToken = Invoke-RestMethod -Method POST -uri "https://www.strava.com/oauth/token" -Body $AuthBody
+
+Write-Host 'INFO - Obtained new Strave auth token'
+# }
 
 $AccessToken = $AuthToken.Access_Token
 
