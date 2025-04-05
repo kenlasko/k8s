@@ -428,7 +428,7 @@ Remove-Variable MBTUploadForm
 ###################                                             Strava Update                                           ###################
 ###########################################################################################################################################
 # Update Strava with URLs for Di2Stats and MyBikeTraffic
-$AuthToken = (Get-ChildItem env:StravaRefreshToken).Value
+
 
 # $TokenExpires = [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($AuthToken.expires_at))
 
@@ -436,12 +436,13 @@ $AuthToken = (Get-ChildItem env:StravaRefreshToken).Value
     # Get new token using refresh token
 Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
 [string]$StravaSecret = (Get-ChildItem env:StravaSecret).Value
+[string]$AuthToken = (Get-ChildItem env:StravaRefreshToken).Value
 
 $AuthBody = @{
 grant_type = 'refresh_token'
 client_id = 63572
 client_secret = $StravaSecret
-refresh_token = $AuthToken.refresh_token
+refresh_token = $AuthToken
 }	
 
 $AuthToken = Invoke-RestMethod -Method POST -uri "https://www.strava.com/oauth/token" -Body $AuthBody
