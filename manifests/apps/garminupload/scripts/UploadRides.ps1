@@ -534,6 +534,6 @@ Remove-Item -Path $DataPath/*.fit -Force
 # Update Garmin last activity cookie
 $CookieFileFullPath = Join-Path -Path $Destination -ChildPath $CookieFilename
 (Get-Item $CookieFileFullPath -Force).Attributes = "Normal"
-$NewestActivity | Out-File $CookieFileFullPath -Force
+$ActivityID | Out-File $CookieFileFullPath -Force
 (Get-Item $CookieFileFullPath -Force).Attributes = "Hidden"
 Write-Host "INFO - Finished exporting $ActivityExportedCount activities from Garmin Connect to $Destination. Delta file successfully stored."
