@@ -530,7 +530,7 @@ Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession
 Write-Host "INFO - Garmin activity updated"
 
 # Delete all FIT files 
-Remove-Item -Path $DataPath/*.fit -Force
+# Remove-Item -Path $DataPath/*.fit -Force
 
 # Update Garmin last activity cookie
 $CookieFileFullPath = Join-Path -Path $Destination -ChildPath $CookieFilename
