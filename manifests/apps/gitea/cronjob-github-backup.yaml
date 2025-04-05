@@ -23,7 +23,7 @@ spec:
           automountServiceAccountToken: false
           containers:
           - name: github-backup
-            image: docker.io/buddyspencer/gickup:0.10.37
+            image: docker.io/buddyspencer/gickup:0.10.38
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
