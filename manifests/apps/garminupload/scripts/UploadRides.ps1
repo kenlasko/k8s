@@ -383,44 +383,36 @@ $Match = Select-String -InputObject $Di2Upload.Content -Pattern $RegEx
 $Di2RideID = $Match.Matches.Groups[1].Value
 $Di2URL = "https://di2stats.com/rides/view/$Di2RideID"
 Write-Host "INFO - Di2Status ride URL: $Di2URL"
-
-$Di2Upload = Invoke-WebRequest -Uri $URI -Method POST -Headers $Headers -ContentType "multipart/form-data; boundary=`"$boundary`"" -Body $Body -websession $Di2Session -HTTPVersion 2.0
-Write-Host 'INFO - Uploaded activity file to Di2Stats'
-# Parse out the URL
-Write-Host 'INFO - Parsing URL'
-$RegEx = '/rides/mapview/(\d{6})'
-$Match = Select-String -InputObject $Di2Upload.Content -Pattern $RegEx	
-$Di2RideID = $Match.Matches.Groups[1].Value
-$Di2URL = "https://di2stats.com/rides/view/$Di2RideID"
-Write-Host "INFO - Di2Status ride URL: $Di2URL"
 Remove-Variable Di2Upload
 
-# Update the name and description from Garmin
-Write-Host 'Adding name/description from Garmin to Di2stats.com'
-$Di2EditURL = "https://di2stats.com/rides/edit/$Di2RideID"
+If ($Di2RideID) {
+    # Update the name and description from Garmin
+    Write-Host 'Adding name/description from Garmin to Di2stats.com'
+    $Di2EditURL = "https://di2stats.com/rides/edit/$Di2RideID"
 
-$Headers = @{
-    "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-    "Accept-Language" = "en-US,en;q=0.5"
-    "Accept-Encoding" = "gzip, deflate, br, zstd"
-    "Content-Type" = "application/x-www-form-urlencoded"
-    "Origin" = "https://di2stats.com"
-    "Referer" = "https://di2stats.com/import"
-    "Upgrade-Insecure-Requests" = "1"
-    "Sec-Fetch-Dest" = "document"
-    "Sec-Fetch-Mode" = "navigate"
-    "Sec-Fetch-Site" = "same-origin"
-    "Sec-Fetch-User" = "?1"
-    "Priority" = "u=0, i"
-}
-$Body = "_method=PUT&data%5BRide%5D%5Bid%5D=122642&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
-Try {
-    $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body -websession $Di2Session -ErrorAction SilentlyContinue
-} Catch {
-    if ($_.Exception.Response.StatusCode -eq 302) {
-        Write-Host "Redirect happened, probably OK."
-    } else {
-        throw
+    $Headers = @{
+        "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        "Accept-Language" = "en-US,en;q=0.5"
+        "Accept-Encoding" = "gzip, deflate, br, zstd"
+        "Content-Type" = "application/x-www-form-urlencoded"
+        "Origin" = "https://di2stats.com"
+        "Referer" = "https://di2stats.com/import"
+        "Upgrade-Insecure-Requests" = "1"
+        "Sec-Fetch-Dest" = "document"
+        "Sec-Fetch-Mode" = "navigate"
+        "Sec-Fetch-Site" = "same-origin"
+        "Sec-Fetch-User" = "?1"
+        "Priority" = "u=0, i"
+    }
+    $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=122642&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
+    Try {
+        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -Body $Body -websession $Di2Session -ErrorAction SilentlyContinue
+    } Catch {
+        if ($_.Exception.Response.StatusCode -eq 302) {
+            Write-Host "Redirect happened, probably OK."
+        } else {
+            throw
+        }
     }
 }
 
