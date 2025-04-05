@@ -414,7 +414,7 @@ If ($Di2RideID) {
         if ($_.Exception.Response.StatusCode -eq 302) {
             Write-Host "Redirect happened, probably OK."
         } else {
-            throw
+            Write-Error $_.Exception.Response
         }
     }
 }
