@@ -508,12 +508,14 @@ $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHe
 ###########################################################################################################################################
 # Update Garmin activity with MyBikeTraffic and Di2Stats URLs
 Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
-$UpdatedActivityNotes = $ActivityNotes + "`r`n`r`n$MBTURL`r`n$Di2URL"
+$UpdatedActivityNotes = $ActivityNotes + "\n\n$MBTURL\n$Di2URL"
+
+[int64]$intActivityID = $ActivityID
 
 # Update the description to include MyBikeTraffic and Di2Stats data
 $DescriptionUpdate = @{
 	description = $UpdatedActivityNotes
-	activityId = $ActivityId
+	activityId = $intActivityID
 }
 
 $JSONUpdate = $DescriptionUpdate | ConvertTo-Json
