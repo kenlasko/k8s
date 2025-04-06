@@ -1,6 +1,6 @@
 image:
   repository: home-operations/radarr
-  tag: 5.22.0
+  tag: 5.22.1
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
