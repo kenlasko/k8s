@@ -218,7 +218,7 @@ foreach ($Activity in $Activities) {
         # Allways overwrite temp files
         $null = Remove-Item $OutputFileFullPath -Force
     }
-    Invoke-RestMethod -Uri $URL  -WebSession $GarminConnectSession -Headers $Headers -OutFile $OutputFileFullPath
+    Invoke-RestMethod -Uri $URL -WebSession $GarminConnectSession -Headers $Headers -OutFile $OutputFileFullPath
 
     # Unzip the activity files
     Expand-Archive -Path $OutputFileFullPath -DestinationPath $DataPath -Force
@@ -508,7 +508,7 @@ $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHe
 ###########################################################################################################################################
 # Update Garmin activity with MyBikeTraffic and Di2Stats URLs
 Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
-$UpdatedActivityNotes = $ActivityNotes + "\n\n$MBTURL\n$Di2URL"
+$UpdatedActivityNotes = $ActivityNotes + "`n`n$MBTURL`n$Di2URL"
 
 [int64]$intActivityID = $ActivityID
 
@@ -527,18 +527,22 @@ $UpdateHeaders = @{
 	"path"="/modern/proxy/activity-service/activity/$ActivityID"
 	"scheme"="https"
 	"accept"="application/json, text/javascript, */*; q=0.01"
-	"accept-encoding"="gzip, deflate, br"
-	"accept-language"="en-CA,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,pt;q=0.6"
+	"accept-encoding"="gzip, deflate, br, zstd"
+	"accept-language"="en-US,en;q=0.5"
 	"content-type"="application/json"
-	"nk"="NT"
+    "DI-Backend" = "connectapi.garmin.com"
+    "DNT" = "1"
+	"NK"="NT"
 	"origin"="https://connect.garmin.com"
 	"referer"="https://connect.garmin.com/modern/activity/$ActivityID"
 	"sec-ch-ua-mobile"="?0"
-	"sec-fetch-dest"="empty"
-	"sec-fetch-mode"="cors"
-	"sec-fetch-site"="same-origin"
+    "Sec-Fetch-Dest" = "empty"
+    "Sec-Fetch-Mode" = "cors"
+    "Sec-Fetch-Site" = "same-origin"
+    "Priority" = "u=0"
+    "Sec-GPC" = "1"
 	"user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edge/88.0.705.81"
-	"x-app-ver"="4.41.2.0"
+	"x-app-ver"="5.11.2.1"
 	"x-http-method-override"="PUT"
 	"x-lang"="en-US"
 	"x-requested-with"="XMLHttpRequest"
