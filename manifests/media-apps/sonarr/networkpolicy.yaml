@@ -10,7 +10,6 @@ spec:
   ingress:
     - fromEntities:
         - ingress
-        - cluster
       toPorts:
         - ports:
             - port: "8989"
