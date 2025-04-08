@@ -8,15 +8,17 @@ spec:
     matchLabels:
       app.kubernetes.io/name: esphome
   policyTypes:
-    # - Ingress
+    - Ingress
     - Egress
-  ingress: []
-    # - from:
-    #     - podSelector:
-    #         matchLabels:
-    #           app.kubernetes.io/name: homeassist
-    # - from:
-    #     - namespaceSelector: {}
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homeassist
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 6052
   egress:
     - to:
         - namespaceSelector: {}
