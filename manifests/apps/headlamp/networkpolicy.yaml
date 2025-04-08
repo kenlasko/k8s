@@ -8,11 +8,11 @@ spec:
     matchLabels:
       app.kubernetes.io/name: headlamp
   policyTypes:
-    - Ingress
+  #  - Ingress
     - Egress
-  ingress:
-    - from:
-        - namespaceSelector: {}
+  # ingress:
+  #   - from:
+  #       - namespaceSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
