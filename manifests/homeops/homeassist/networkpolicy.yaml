@@ -16,9 +16,9 @@ spec:
     - fromEndpoints:
         - matchLabels:
             app: cloudflare-tunnel
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: cloudflare
       toPorts:
         - ports:
             - port: "8123"
@@ -44,34 +44,34 @@ spec:
               operator: Exists
     - toEndpoints:
         - matchLabels:
-            app: adguard
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
+            app.kubernetes.io/name: adguard
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: adguard
       toPorts:
         - ports:
             - port: "3000"
     - toEndpoints:
         - matchLabels:
-            app: mariadb
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
+            app.kubernetes.io/name: mariadb
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: mariadb
       toPorts:
         - ports:
             - port: "3306"
     - toEndpoints:
         - matchLabels:
-            app: plex
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
+            app.kubernetes.io/name: plex
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: homeops
     - toEndpoints:
         - matchLabels:
-            app: uptime-kuma
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
+            app.kubernetes.io/name: uptime-kuma
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: uptime-kuma
       toPorts:
         - ports:
             - port: "80"
