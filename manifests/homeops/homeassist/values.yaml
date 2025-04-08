@@ -50,8 +50,8 @@ extraVolumes:
   secret:
     secretName: github-deploy-key
 extraVolumeMounts:
-- name: github-deploy-key
-  mountPath: /config/.ssh/id_rsa
+- name: github-deploy-key/id_ed25519
+  mountPath: /config/.ssh/
   subPath: privateKey
   readOnly: true
 backup:
