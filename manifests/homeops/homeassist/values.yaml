@@ -45,6 +45,15 @@ httpRouteNameOverride: "ha.ucdialplans.com"
 persistentVolume:
   type: nfs
   size: 4Gi
+extraVolumes:
+- name: github-deploy-key
+  secret:
+    secretName: github-deploy-key
+extraVolumeMounts:
+- name: github-deploy-key
+  mountPath: /config/.ssh/id_rsa
+  subPath: privateKey
+  readOnly: true
 backup:
   location: cloudflare
   copyMethod: Direct
