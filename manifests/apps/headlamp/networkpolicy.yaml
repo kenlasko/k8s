@@ -15,7 +15,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              k8s-app: cilium
+              app.kubernetes.io/part-of: cilium
       ports:
         - port: 80
   egress:
