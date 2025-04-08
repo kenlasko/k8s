@@ -17,7 +17,7 @@ cluster:
   name: home
   id: 0
 envoy:
-  enabled: false 
+  enabled: true 
   rollOutPods: true
   resources:
     requests:
@@ -26,6 +26,17 @@ envoy:
     limits:
       # cpu: 200m
       memory: 100Mi
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - "amd64"
 
 externalIPs:
   enabled: true
@@ -166,6 +177,8 @@ hubble:
 
 gatewayAPI:
   enabled: true
+  enableAlpn: true
+  enableAppProtocol: true
   secretsNamespace:
     create: false
     name: cilium
