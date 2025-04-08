@@ -49,6 +49,7 @@ extraVolumes:
 - name: github-deploy-key
   secret:
     secretName: github-deploy-key
+    defaultMode: 0400
 extraVolumeMounts:
 - name: github-deploy-key
   mountPath: /config/.ssh/id_ed25519
