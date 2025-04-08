@@ -11,13 +11,13 @@ spec:
     - Ingress
     - Egress
   ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: cilium
-      ports:
-        - port: 80
+    # - from:
+    #     - namespaceSelector: {}
+    #       podSelector:
+    #         matchLabels:
+    #           k8s-app: cilium
+    #   ports:
+    #     - port: 80
   egress:
     - to:
         - namespaceSelector: {}
