@@ -10,7 +10,7 @@ spec:
   policyTypes:
     - Ingress
     - Egress
-  ingress:
+  ingress: []
     # - from:
     #     - namespaceSelector: {}
     #       podSelector:
