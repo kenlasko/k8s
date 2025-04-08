@@ -13,11 +13,6 @@ spec:
   ingress:
     - from:
         - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/part-of: cilium
-      ports:
-        - port: 80
   egress:
     - to:
         - namespaceSelector: {}
