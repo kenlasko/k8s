@@ -17,8 +17,6 @@ spec:
               app.kubernetes.io/name: homeassist
     - from:
         - namespaceSelector: {}
-      ports:
-        - port: 6052
   egress:
     - to:
         - namespaceSelector: {}
