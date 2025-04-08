@@ -22,3 +22,7 @@ spec:
       ports:
         - port: 53
           protocol: UDP
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - port: 6443
