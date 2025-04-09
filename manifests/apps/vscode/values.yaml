@@ -39,3 +39,13 @@ service:
 persistentVolume:
   type: nfs
   mountPath: /config
+extraVolumes:
+- name: github-token
+  secret:
+    secretName: vscode-creds
+    defaultMode: 0400
+extraVolumeMounts:
+- name: github-token
+  mountPath: /config/.ssh/id_ed25519
+  subPath: github-token
+  readOnly: true
