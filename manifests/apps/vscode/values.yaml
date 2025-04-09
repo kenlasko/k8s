@@ -33,7 +33,7 @@ resources:
     memory: 250Mi
   limits:
     # cpu: 300m
-    memory: 500Mi
+    memory: 700Mi
 service:
   port: 8443
 persistentVolume:
