@@ -12,7 +12,7 @@ $session.Cookies.Add((New-Object System.Net.Cookie("JWT_WEB", "***REDACTED***", 
 $session.Cookies.Add((New-Object System.Net.Cookie("JWT_FGP", "***REDACTED***", "/", "connect.garmin.com")))
 Invoke-WebRequest -UseBasicParsing -Uri "https://connect.garmin.com/activity-service/activity/18733101347" `
 -Method POST `
--WebSession $session `
+-WebSession $GarminConnectSession `
 -UserAgent "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0" `
 -Headers @{
 "Accept" = "application/json, text/javascript, */*; q=0.01"

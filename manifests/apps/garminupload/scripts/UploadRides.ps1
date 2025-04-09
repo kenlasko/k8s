@@ -61,7 +61,7 @@ Try {
         '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
     }
 
-    $Headers = @{
+    $Di2Headers = @{
         "origin"                    = "https://sso.garmin.com";
         "authority"                 = "connect.garmin.com"
         "scheme"                    = "https"
@@ -79,7 +79,7 @@ Try {
         "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
     }
     $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
-    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $Headers -UserAgent $UserAgent
+    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $Di2Headers -UserAgent $UserAgent
 }
 Catch {
     Throw "Error with initial login to Garmin Connect."
@@ -122,7 +122,7 @@ $OAuthResult = Invoke-RestMethod -UseBasicParsing -Uri $OAuthUrl -Method POST -W
     "TE"              = "trailers"
 }
 
-$Headers = @{
+$GarminHeaders = @{
     "authority"          = "connect.garmin.com"
     "method"             = "GET"
     "path"               = $Path
@@ -163,10 +163,10 @@ $Pages = 0
 do {
     $Uri = [System.Uri]::new($ActivitySearchURL)
     $Path = "{0}limit={1}&start={2}" -f $Uri.PathAndQuery, $PageSize, $FirstRecord
-    $Headers.Path = $Path
+    $GarminHeaders.Path = $Path
     $Url = "https://connect.garmin.com", $Path -join ""
     "Activity list url: {0}" -f $Url | Write-Verbose
-    $SearchResults = Invoke-RestMethod -Uri $Url -Method get -WebSession $GarminConnectSession -ErrorAction SilentlyContinue -Headers $Headers
+    $SearchResults = Invoke-RestMethod -Uri $Url -Method get -WebSession $GarminConnectSession -ErrorAction SilentlyContinue -Headers $GarminHeaders
     $ActivityList += $SearchResults
     $FirstRecord = $FirstRecord + $PageSize
     $Pages++
@@ -209,7 +209,7 @@ foreach ($Activity in $Activities) {
     # Download files
     $Uri = [System.Uri]::new($ActivityBaseURL)
     $Path = "{0}{1}/" -f $Uri.PathAndQuery, $($Activity.activityID)
-    $Headers.path = $Path
+    $GarminHeaders.path = $Path
     $URL = $ActivityBaseURL, $($Activity.activityID) -Join ""
     "Download Url: {0}" -f $URL | Write-Verbose
     $OutputFileFullPath = Join-Path -Path $TempDir -ChildPath "$($Activity.activityID).zip"
@@ -218,7 +218,7 @@ foreach ($Activity in $Activities) {
         # Allways overwrite temp files
         $null = Remove-Item $OutputFileFullPath -Force
     }
-    Invoke-RestMethod -Uri $URL -WebSession $GarminConnectSession -Headers $Headers -OutFile $OutputFileFullPath
+    Invoke-RestMethod -Uri $URL -WebSession $GarminConnectSession -Headers $GarminHeaders -OutFile $OutputFileFullPath
 
     # Unzip the activity files
     Expand-Archive -Path $OutputFileFullPath -DestinationPath $DataPath -Force
@@ -308,7 +308,7 @@ $SessionCookie = $Match.Matches.Groups[1].Value
 Write-Host "INFO - Path to downloaded file: $FilePath"
 $Uri = 'https://di2stats.com/import'
 
-$Headers = @{
+$Di2Headers = @{
     "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
     "Accept-Language" = "en-US,en;q=0.5"
     "Accept-Encoding" = "gzip, deflate, br, zstd"
@@ -366,11 +366,11 @@ $Di2Session.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gec
 $Di2Session.Cookies.Add((New-Object System.Net.Cookie("PHPSESSID", $SessionCookie, "/", "di2stats.com")))
 
 # Add content-type header
-$Headers["Content-Type"] = "multipart/form-data; boundary=$boundary"
+$Di2Headers["Content-Type"] = "multipart/form-data; boundary=$boundary"
 
 # Send request
 Write-Host "INFO - Uploading activity file to Di2Stats"
-$Di2Upload = Invoke-WebRequest -Uri $Uri -Method POST -Headers $Headers -Body $Body -WebSession $Di2Session -HttpVersion 2.0
+$Di2Upload = Invoke-WebRequest -Uri $Uri -Method POST -Headers $Di2Headers -Body $Body -WebSession $Di2Session -HttpVersion 2.0
 Write-Host 'INFO - Uploaded activity file to Di2Stats'
 
 # Cleanup
@@ -392,7 +392,7 @@ If ($Di2RideID) {
     Write-Host "INFO - Activity Name: $ActivityName"
     Write-Host "INFO - Activity Notes: $ActivityNotes"
 
-    $Headers = @{
+    $Di2Headers = @{
         "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
         "Accept-Language" = "en-US,en;q=0.5"
         "Accept-Encoding" = "gzip, deflate, br, zstd"
@@ -409,7 +409,7 @@ If ($Di2RideID) {
     $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
 
     Try {
-        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Headers -ContentType $ContentType -Body $Body -WebSession $Di2Session -UseBasicParsing
+        $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Di2Headers -ContentType $ContentType -Body $Body -WebSession $Di2Session -UseBasicParsing
     } Catch {
         if ($_.Exception.Response.StatusCode -eq 302) {
             Write-Host "INFO - Redirect happened, probably OK."
@@ -524,6 +524,7 @@ $UpdateURL = "https://connect.garmin.com/modern/proxy/activity-service/activity/
 
 $UpdateHeaders = @{
 	"authority"="connect.garmin.com"
+    "Authorization" = $OAuthResult.access_token
 	"path"="/modern/proxy/activity-service/activity/$ActivityID"
 	"scheme"="https"
 	"accept"="application/json, text/javascript, */*; q=0.01"
@@ -548,7 +549,7 @@ $UpdateHeaders = @{
 	"x-requested-with"="XMLHttpRequest"
 }		
 
-Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession -Body $JSONUpdate -Headers $UpdateHeaders
+Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession -Body $JSONUpdate -Headers $UpdateHeaders -UseBasicParsing
 Write-Host "INFO - Garmin activity updated"
 
 # Delete all FIT files 
