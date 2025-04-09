@@ -43,7 +43,7 @@ extraVolumes:
 - name: github-token
   secret:
     secretName: vscode-creds
-    defaultMode: 0400
+    defaultMode: 0444
 extraVolumeMounts:
 - name: github-token
   mountPath: /config/.ssh/id_ed25519
