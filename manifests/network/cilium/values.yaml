@@ -17,7 +17,7 @@ cluster:
   name: home
   id: 0
 envoy:
-  enabled: true 
+  enabled: false 
   rollOutPods: true
   resources:
     requests:
