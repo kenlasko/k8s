@@ -9,8 +9,7 @@ spec:
       app.kubernetes.io/name: sonarr
   ingress:
     - fromEntities:
-        - ingress
-        - cluster
+        - remote-node
       toPorts:
         - ports:
             - port: "8989"

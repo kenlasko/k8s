@@ -10,7 +10,6 @@ spec:
   ingress:
     - fromEntities:
         - remote-node
-        # - cluster
       toPorts:
         - ports:
             - port: "7878"
