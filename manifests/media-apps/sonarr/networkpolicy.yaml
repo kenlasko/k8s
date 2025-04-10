@@ -6,7 +6,7 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: sonarr
+      app.kubernetes.io/name: sonarr
   ingress:
     - fromEntities:
         - ingress
