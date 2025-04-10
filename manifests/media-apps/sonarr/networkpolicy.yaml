@@ -65,12 +65,12 @@ spec:
       toPorts:
         - ports:
             - port: "9696"
-    # - toEndpoints:
-    #     - matchLabels:
-    #         app.kubernetes.io/name: sabnzbd
-    #   toPorts:
-    #     - ports:
-    #         - port: "8080"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: sabnzbd
+      toPorts:
+        - ports:
+            - port: "8080"
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: transmission
