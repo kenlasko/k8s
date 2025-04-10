@@ -10,7 +10,7 @@ spec:
   ingress:
     - fromEntities:
         - ingress
-        # - cluster
+        - cluster
       toPorts:
         - ports:
             - port: "8080"
@@ -24,12 +24,6 @@ spec:
     - fromEndpoints:
         - matchLabels:
             appGroup: media-arr
-      toPorts:
-        - ports:
-            - port: "8080"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: sonarr
       toPorts:
         - ports:
             - port: "8080"
