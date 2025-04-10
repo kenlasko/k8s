@@ -6,41 +6,30 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: prowlarr
+      app.kubernetes.io/name: prowlarr
   ingress:
     - fromEntities:
         - ingress
+        - cluster
       toPorts:
         - ports:
             - port: "9696"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
             - port: "9696"
     - fromEndpoints:
         - matchLabels:
-            app: radarr
+            app.kubernetes.io/name: radarr
       toPorts:
         - ports:
             - port: "9696"
     - fromEndpoints:
         - matchLabels:
-            app: readarr
-      toPorts:
-        - ports:
-            - port: "9696"
-    - fromEndpoints:
-        - matchLabels:
-            app: sonarr
-      toPorts:
-        - ports:
-            - port: "9696"
-    - fromEndpoints:
-        - matchLabels:
-            app: lidarr
+            app.kubernetes.io/name: sonarr
       toPorts:
         - ports:
             - port: "9696"
@@ -53,9 +42,6 @@ spec:
         - ports:
             - port: "53"
               protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
     - toEntities:
         - world
       toPorts:
@@ -63,31 +49,25 @@ spec:
             - port: "443"
     - toEndpoints:
         - matchLabels:
-            app: lidarr
-      toPorts:
-        - ports:
-            - port: "8686"
-    - toEndpoints:
-        - matchLabels:
-            app: radarr
+            app.kubernetes.io/name: radarr
       toPorts:
         - ports:
             - port: "7878"
     - toEndpoints:
         - matchLabels:
-            app: readarr
+            app.kubernetes.io/name: readarr
       toPorts:
         - ports:
             - port: "8787"
     - toEndpoints:
         - matchLabels:
-            app: sonarr
+            app.kubernetes.io/name: sonarr
       toPorts:
         - ports:
             - port: "8989"
     - toEndpoints:
         - matchLabels:
-            app: sabnzbd
+            app.kubernetes.io/name: sabnzbd
       toPorts:
         - ports:
             - port: "8080"

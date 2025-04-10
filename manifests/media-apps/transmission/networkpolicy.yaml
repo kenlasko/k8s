@@ -10,6 +10,7 @@ spec:
   ingress:
     - fromEntities:
         - ingress
+        - cluster
       toPorts:
         - ports:
             - port: "9091"
@@ -26,7 +27,7 @@ spec:
             - port: "9091"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
@@ -40,8 +41,5 @@ spec:
         - ports:
             - port: "53"
               protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
     - toEntities:
         - world
