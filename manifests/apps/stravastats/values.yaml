@@ -1,6 +1,6 @@
 image:
   repository: robiningelbrecht/strava-statistics
-  tag: v1.1.3
+  tag: v1.1.4
   registry: docker.io
 priorityClassName: low-priority
 securityContext:
