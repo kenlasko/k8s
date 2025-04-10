@@ -26,6 +26,9 @@ spec:
         app: {{ .Values.nameOverride | default .Release.Name }}
         app.kubernetes.io/name: {{ .Values.nameOverride | default .Release.Name }}
         app.kubernetes.io/version: {{ .Values.image.tag | quote }}
+        {{- if .Values.extraLabels }}
+          {{- toYaml .Values.extraLabels | nindent 8 }}
+        {{- end }}
     spec:
       dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirstWithHostNet" }}
       {{- if .Values.hostNetwork }}
