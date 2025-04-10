@@ -10,25 +10,32 @@ spec:
   ingress:
     - fromEntities:
         - ingress
+        - cluster
       toPorts:
         - ports:
             - port: "7878"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            k8s:io.kubernetes.pod.namespace: cilium
+      toPorts:
+        - ports:
+            - port: "7878"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
             - port: "7878"
     - fromEndpoints:
         - matchLabels:
-            app: overseerr
+            app.kubernetes.io/name: overseerr
       toPorts:
         - ports:
             - port: "7878"
     - fromEndpoints:
         - matchLabels:
-            app: prowlarr
+            app.kubernetes.io/name: prowlarr
       toPorts:
         - ports:
             - port: "7878"
@@ -51,25 +58,25 @@ spec:
             - port: "443"
     - toEndpoints:
         - matchLabels:
-            app: plex
+            app.kubernetes.io/name: plex
       toPorts:
         - ports:
             - port: "32400"
     - toEndpoints:
         - matchLabels:
-            app: prowlarr
+            app.kubernetes.io/name: prowlarr
       toPorts:
         - ports:
             - port: "9696"
     - toEndpoints:
         - matchLabels:
-            app: sabnzbd
+            app.kubernetes.io/name: sabnzbd
       toPorts:
         - ports:
             - port: "8080"
     - toEndpoints:
         - matchLabels:
-            app: transmission
+            app.kubernetes.io/name: transmission
       toPorts:
         - ports:
             - port: "9091"
