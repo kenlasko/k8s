@@ -1,18 +1,25 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: gitea
-  namespace: gitea
+  name: vaultwarden
+  namespace: vaultwarden
 spec:
   endpointSelector:
     matchLabels:
-      app: gitea
+      app.kubernetes.io/name: vaultwarden
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
       toPorts:
         - ports:
-            - port: "3000"
+            - port: "8087"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: cloudflare-tunnel
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "8087"
   egress:
     - toEndpoints:
         - matchLabels:
@@ -34,8 +41,12 @@ spec:
       toPorts:
         - ports:
             - port: "3306"
-    - toEntities:
-        - world
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
       toPorts:
         - ports:
+            - port: "80"
+        - ports:
             - port: "443"
+        - ports:
+            - port: "465"

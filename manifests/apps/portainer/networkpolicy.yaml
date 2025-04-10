@@ -9,7 +9,7 @@ spec:
       app.kubernetes.io/name: portainer
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "9000"
@@ -33,12 +33,12 @@ spec:
         - ports:
             - port: "9001"
     - toCIDRSet:
-        - cidr: 192.168.1.15/32
+        - cidr: 192.168.1.17/32
       toPorts:
         - ports:
             - port: "2375"
     - toCIDRSet:
-        - cidr: 192.168.1.16/32
+        - cidr: 192.168.1.18/32
       toPorts:
         - ports:
             - port: "2375"
