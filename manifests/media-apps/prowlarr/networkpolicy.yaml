@@ -9,8 +9,7 @@ spec:
       app.kubernetes.io/name: prowlarr
   ingress:
     - fromEntities:
-        - ingress
-        - cluster
+        - remote-node
       toPorts:
         - ports:
             - port: "9696"

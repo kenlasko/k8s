@@ -9,8 +9,7 @@ spec:
       app: transmission
   ingress:
     - fromEntities:
-        - ingress
-        - cluster
+        - remote-node
       toPorts:
         - ports:
             - port: "9091"
