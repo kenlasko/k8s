@@ -6,16 +6,17 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: tautulli
+      app.kubernetes.io/name: tautulli
   ingress:
     - fromEntities:
         - ingress
+        - cluster
       toPorts:
         - ports:
             - port: "8181"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
@@ -29,12 +30,9 @@ spec:
         - ports:
             - port: "53"
               protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
     - toEndpoints:
         - matchLabels:
-            app: plex
+            app.kubernetes.io/name: plex
       toPorts:
         - ports:
             - port: "32400"
