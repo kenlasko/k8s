@@ -37,10 +37,10 @@ envoy:
             operator: In
             values: 
             - "amd64"
-envoyConfig:
-  secretsNamespace:
-    create: false
-    name: cilium
+# envoyConfig:
+#   secretsNamespace:
+#     create: false
+#     name: cilium
 
 externalIPs:
   enabled: true
