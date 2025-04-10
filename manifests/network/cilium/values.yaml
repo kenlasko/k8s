@@ -103,6 +103,7 @@ hubble:
               operator: In
               values: 
               - "amd64"
+
   ui:
     enabled: true
     affinity:
@@ -187,6 +188,11 @@ gatewayAPI:
     create: false
     name: cilium
     sync: true
+
+tls:
+  secretsNamespace:
+    create: false
+    name: cilium
 
 operator:
   resources:
