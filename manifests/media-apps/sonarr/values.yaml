@@ -2,8 +2,8 @@ image:
   repository: home-operations/sonarr
   tag: 4.0.14.2938
   registry: ghcr.io
-# extraLabels:
-#   appGroup: media-arr
+extraLabels:
+  appGroup: media-arr
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
