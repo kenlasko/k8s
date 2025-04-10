@@ -9,8 +9,7 @@ spec:
       app.kubernetes.io/name: radarr
   ingress:
     - fromEntities:
-        - ingress
-        - cluster
+        - kube-apiserver
       toPorts:
         - ports:
             - port: "7878"
