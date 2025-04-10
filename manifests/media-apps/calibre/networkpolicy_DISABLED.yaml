@@ -6,29 +6,10 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: calibre
+      app.kubernetes.io/name: calibre
   ingress:
     - fromEntities:
-        - ingress
-      toPorts:
-        - ports:
-            - port: "8083"
-    - fromEndpoints:
-        - matchLabels:
-            app: cloudflare-tunnel
-            io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
-            - port: "8083"
-    - fromEndpoints:
-        - matchLabels:
-            app: overseerr
-      toPorts:
-        - ports:
-            - port: "8083"
-    - fromEndpoints:
-        - matchLabels:
-            app: prowlarr
+        - remote-node
       toPorts:
         - ports:
             - port: "8083"

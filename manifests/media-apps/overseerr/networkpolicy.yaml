@@ -6,16 +6,16 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: overseerr
+      app.kubernetes.io/name: overseerr
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "5055"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare
+            app.kubernetes.io/name: cloudflare
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
@@ -28,19 +28,19 @@ spec:
             - port: "443"
     - toEndpoints:
         - matchLabels:
-            app: plex
+            app.kubernetes.io/name: plex
       toPorts:
         - ports:
             - port: "32400"
     - toEndpoints:
         - matchLabels:
-            app: radarr
+            app.kubernetes.io/name: radarr
       toPorts:
         - ports:
             - port: "7878"
     - toEndpoints:
         - matchLabels:
-            app: sonarr
+            app.kubernetes.io/name: sonarr
       toPorts:
         - ports:
             - port: "8989"

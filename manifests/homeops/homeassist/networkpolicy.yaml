@@ -6,16 +6,17 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: homeassist
+      app.kubernetes.io/name: homeassist
   ingress:
     - fromEntities:
         - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "8123"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
             k8s:io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:

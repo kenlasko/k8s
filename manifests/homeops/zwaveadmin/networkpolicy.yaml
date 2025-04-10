@@ -6,16 +6,16 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: zwaveadmin
+      app.kubernetes.io/name: zwaveadmin
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "8091"        
     - fromEndpoints:
         - matchLabels:
-            app: homeassist
+            app.kubernetes.io/name: homeassist
       toPorts:
         - ports:
             - port: "3000"

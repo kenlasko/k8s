@@ -6,7 +6,7 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: plex
+      app.kubernetes.io/name: plex
   ingress:
     - fromEntities:
         - remote-node
@@ -15,7 +15,7 @@ spec:
             - port: "32400"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
       toPorts:
         - ports:
             - port: "32400"
@@ -34,25 +34,25 @@ spec:
             - port: "32414"
     - fromEndpoints:
         - matchLabels:
-            app: tautulli
+            app.kubernetes.io/name: tautulli
       toPorts:
         - ports:
             - port: "32400"
     - fromEndpoints:
         - matchLabels:
-            app: radarr
+            app.kubernetes.io/name: radarr
       toPorts:
         - ports:
             - port: "32400"
     - fromEndpoints:
         - matchLabels:
-            app: sonarr
+            app.kubernetes.io/name: sonarr
       toPorts:
         - ports:
             - port: "32400"
     - fromEndpoints:
         - matchLabels:
-            app: overseerr
+            app.kubernetes.io/name: overseerr
       toPorts:
         - ports:
             - port: "32400"
