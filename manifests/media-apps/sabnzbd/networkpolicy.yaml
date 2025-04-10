@@ -6,16 +6,17 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: sabnzbd
+      app.kubernetes.io/name: sabnzbd
   ingress:
     - fromEntities:
         - ingress
+        - cluster
       toPorts:
         - ports:
             - port: "8080"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            aapp.kubernetes.io/namepp: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
@@ -35,9 +36,6 @@ spec:
         - ports:
             - port: "53"
               protocol: UDP
-          rules:
-            dns:
-              - matchPattern: "*"
     - toEntities:
         - world
       toPorts:

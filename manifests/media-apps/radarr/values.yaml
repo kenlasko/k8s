@@ -2,6 +2,8 @@ image:
   repository: home-operations/radarr
   tag: 5.22.1
   registry: ghcr.io
+extraLabels:
+  appGroup: media-arr
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
