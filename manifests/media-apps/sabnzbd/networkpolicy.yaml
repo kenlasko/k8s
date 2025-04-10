@@ -9,8 +9,7 @@ spec:
       app.kubernetes.io/name: sabnzbd
   ingress:
     - fromEntities:
-        - ingress
-        - cluster
+        - remote-node
       toPorts:
         - ports:
             - port: "8080"

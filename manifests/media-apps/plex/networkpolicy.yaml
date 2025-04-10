@@ -9,7 +9,7 @@ spec:
       app: plex
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "32400"
