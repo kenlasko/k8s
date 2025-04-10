@@ -16,7 +16,7 @@ spec:
             - port: "8080"
     - fromEndpoints:
         - matchLabels:
-            aapp.kubernetes.io/namepp: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
@@ -24,6 +24,12 @@ spec:
     - fromEndpoints:
         - matchLabels:
             appGroup: media-arr
+      toPorts:
+        - ports:
+            - port: "8080"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: sonarr
       toPorts:
         - ports:
             - port: "8080"
