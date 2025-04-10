@@ -9,7 +9,7 @@ spec:
       app.kubernetes.io/name: radarr
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
         # - cluster
       toPorts:
         - ports:
