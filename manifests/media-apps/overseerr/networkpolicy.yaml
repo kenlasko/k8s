@@ -20,6 +20,12 @@ spec:
       toPorts:
         - ports:
             - port: "5055"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: maintainerr
+      toPorts:
+        - ports:
+            - port: "5055"
   egress:
     - toEntities:
         - world
