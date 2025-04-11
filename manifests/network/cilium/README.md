@@ -37,5 +37,5 @@ cilium hubble port-forward
 ```
 On instance #2, run:
 ```
-hubble observe --namespace <desired-namespace> --follow
+hubble observe --namespace <desired-namespace> --follow --verdict DROPPED
 ```
