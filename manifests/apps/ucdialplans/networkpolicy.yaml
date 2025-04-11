@@ -9,6 +9,7 @@ spec:
       app: ucdialplans
   ingress:
     - fromEntities:
+        - ingress
         - remote-node
       toPorts:
         - ports:
