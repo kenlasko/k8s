@@ -15,8 +15,6 @@ spec:
         - ports:
             - port: "8080"
   egress:
-    # - toEntities:
-    #     - cluster
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -28,5 +26,5 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEndpoints:
-        - {}
+    # - toEndpoints:
+    #     - {}
