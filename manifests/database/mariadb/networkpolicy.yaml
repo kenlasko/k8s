@@ -18,34 +18,6 @@ spec:
               mariadb-client: "true"
       ports:
         - port: 3306
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: phpmyadmin
-      ports:
-        - port: 3306
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: uptime-kuma
-      ports:
-        - port: 3306
-    # - from:
-    #     - namespaceSelector: {}
-    #       podSelector:
-    #         matchLabels:
-    #           app: vaultwarden
-    #   ports:
-    #     - port: 3306
-    - from:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              app: ucdialplans
-      ports:
-        - port: 3306
   egress:
     - to:
         - namespaceSelector: {}
