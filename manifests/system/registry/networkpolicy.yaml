@@ -6,11 +6,10 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: registry
+      app.kubernetes.io/name: registry
   ingress:
     - fromEntities:
-        - cluster
-        - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "5000"
