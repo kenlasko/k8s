@@ -8,8 +8,14 @@ spec:
     matchLabels:
       app.kubernetes.io/name: headlamp
   policyTypes:
-    - remote-node
+    - Ingress
     - Egress
+  ingress:
+    - fromEntities:
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "80"
   egress:
     - to:
         - namespaceSelector: {}
