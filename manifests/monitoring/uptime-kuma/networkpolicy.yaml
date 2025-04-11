@@ -1,18 +1,26 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: sealed-secrets-web
-  namespace: kube-system
+  name: uptime-kuma
+  namespace: uptime-kuma
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: sealed-secrets-web
+      app.kubernetes.io/name: uptime-kuma
   ingress:
     - fromEntities:
-        - ingress
+        - host
+        - remote-node
       toPorts:
         - ports:
-            - port: "8080"
+            - port: "3001"
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "3001"
   egress:
     - toEntities:
         - cluster
@@ -27,5 +35,5 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEndpoints:
-        - {}
+    - toEntities:
+        - world
