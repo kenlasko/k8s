@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: mariadb
+      app.kubernetes.io/name: mariadb-galera
   policyTypes:
     - Ingress
     - Egress
@@ -18,6 +18,8 @@ spec:
               mariadb-client: "true"
       ports:
         - port: 3306
+    - from:
+        - podSelector: {}
   egress:
     - to:
         - namespaceSelector: {}
@@ -41,3 +43,5 @@ spec:
             cidr: 192.168.1.3/32
       ports:
         - port: 3306
+    - to:
+        - podSelector: {}
