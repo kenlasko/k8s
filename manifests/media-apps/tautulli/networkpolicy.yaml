@@ -22,6 +22,12 @@ spec:
             - port: "8181"
     - fromEndpoints:
         - matchLabels:
+            app.kubernetes.io/name: maintainerr
+      toPorts:
+        - ports:
+            - port: "8181"
+    - fromEndpoints:
+        - matchLabels:
             app.kubernetes.io/name: overseerr
       toPorts:
         - ports:
