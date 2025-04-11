@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: mariadb-galera
+      app.kubernetes.io/name: mariadb
   policyTypes:
     - Ingress
     - Egress
