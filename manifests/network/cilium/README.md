@@ -26,3 +26,16 @@ Cilium is used to advertise all LoadBalancer services to the UDM Pro router usin
 3. The rest should be automatically applied via Cilium config. The settings are defined in [bgp-config.yaml](/manifests/network/cilium/bgp-config.yaml).
 
 [^1]: Adapted from https://medium.com/@scaluch/unifi-os-4-1-and-kubernetes-loadbalancer-822b1dd4d745
+
+# Tips and Tricks
+## Hubble flow monitoring
+The Hubble UI doesn't show everything for some reason. A better approach is to use the Hubble CLI to observe traffic. This requires port forwarding from one CLI instance to another.
+
+On instance #1, run:
+```
+cilium hubble port-forward
+```
+On instance #2, run:
+```
+hubble observe --namespace <desired-namespace> --follow
+```
