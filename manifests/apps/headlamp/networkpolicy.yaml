@@ -10,7 +10,7 @@ spec:
   ingress:
     - fromEntities:
         - remote-node
-        - ingress
+#        - ingress
       toPorts:
         - ports:
             - port: "80"
