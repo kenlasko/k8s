@@ -8,12 +8,11 @@ spec:
     matchLabels:
       app.kubernetes.io/name: sealed-secrets-web
   ingress:
-    - {}
-    # - fromEntities:
-    #     - remote-node
-    #   toPorts:
-    #     - ports:
-    #         - port: "8080"
+    - fromEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "8080"
   egress:
     - toEntities:
         - cluster
