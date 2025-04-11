@@ -28,6 +28,12 @@ spec:
             - port: "7878"
     - fromEndpoints:
         - matchLabels:
+            app.kubernetes.io/name: maintainerr
+      toPorts:
+        - ports:
+            - port: "7878"
+    - fromEndpoints:
+        - matchLabels:
             app.kubernetes.io/name: overseerr
       toPorts:
         - ports:

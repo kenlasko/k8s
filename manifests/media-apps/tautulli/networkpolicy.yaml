@@ -20,6 +20,12 @@ spec:
       toPorts:
         - ports:
             - port: "8181"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: overseerr
+      toPorts:
+        - ports:
+            - port: "8181"
   egress:
     - toEndpoints:
         - matchLabels:
