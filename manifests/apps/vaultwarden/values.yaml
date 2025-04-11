@@ -3,6 +3,8 @@ image:
   tag: 1.33.2
   registry: docker.io
 priorityClassName: medium-priority
+extraLabels:
+  mariadb-client: "true"
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
