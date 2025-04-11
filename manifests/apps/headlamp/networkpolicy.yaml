@@ -17,6 +17,8 @@ spec:
             - port: "4466"
             - port: "6443"
   egress:
+    - toEntities:
+        - kube-apiserver
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
