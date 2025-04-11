@@ -1,6 +1,6 @@
 image:
   repository: home-operations/sabnzbd
-  tag: 4.5.0
+  tag: 4.5.1
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
