@@ -9,13 +9,13 @@ spec:
       app: ucdialplans
   ingress:
     - fromEntities:
-        - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "8080"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app.kubernetes.io/name: cloudflare-tunnel
           matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: Exists

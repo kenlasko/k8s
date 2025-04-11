@@ -11,6 +11,11 @@ spec:
     - Ingress
     - Egress
   ingress:
+    - fromEntities:
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "6052"
     - from:
         - podSelector:
             matchLabels:
