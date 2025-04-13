@@ -405,8 +405,13 @@ If ($Di2RideID) {
         "Sec-Fetch-User" = "?1"
         "Priority" = "u=0, i"
     }
+
+    If ($ActivityNotes) {
+        $ActivityNotesForDi2Stats = $ActivityNotes.Replace(' ','+')
+    } 
+
     $ContentType = "application/x-www-form-urlencoded"
-    $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$($ActivityNotes.Replace(' ','+'))&data%5BRide%5D%5Bexclude%5D=0"
+    $Body = "_method=PUT&data%5BRide%5D%5Bid%5D=$Di2RideID&data%5BRide%5D%5Btitle%5D=$($ActivityName.Replace(' ','+'))&data%5BRide%5D%5Bnotes%5D=$ActivityNotesForDi2Stats&data%5BRide%5D%5Bexclude%5D=0"
 
     Try {
         $Di2Update = Invoke-WebRequest $Di2EditURL -Method 'POST' -Headers $Di2Headers -ContentType $ContentType -Body $Body -WebSession $Di2Session -UseBasicParsing
@@ -507,7 +512,7 @@ $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHe
 ###################                                             Garmin Update                                           ###################
 ###########################################################################################################################################
 # Update Garmin activity with MyBikeTraffic and Di2Stats URLs
-Write-Host "Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
+Write-Host "INFO - Updating Garmin activity with Di2Stats and MyBikeTraffic URLS"
 $UpdatedActivityNotes = $ActivityNotes + "`n`n$MBTURL`n$Di2URL"
 
 [int64]$intActivityID = $ActivityID
