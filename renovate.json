@@ -90,7 +90,9 @@
         "patch",
         "digest"
       ],
-      "automerge": true
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true
     },
     {
       "matchManagers": [
