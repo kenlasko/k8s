@@ -75,6 +75,7 @@ spec:
               if [ "$dayofmonth" -eq 1 ]; then echo "$(date +%F_%T) Creating monthly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-monthly-$(date +%m).sql; fi &&
               case $dayofmonth in 7|14|21|28) echo "$(date +%F_%T) Creating weekly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
               echo "Zipping daily backup to separate folder for S3 backup job..." &&
+              rm /backup-zip/*.gz 2>/dev/null &&
               gzip -c /backup/mariadb-backup-$day.sql > /backup-zip/mariadb-backup-$day.sql.gz &&
               cp /backup/mariadb-users.sql /backup-zip/mariadb-users.sql &&
               echo "$(date +%F_%T) MariaDB databases have been backed up."
