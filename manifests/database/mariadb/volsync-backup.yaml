@@ -16,9 +16,9 @@ spec:
     # Retention policy for backups
     retain:
       hourly: 0
-      daily: 4
-      weekly: 2
-      monthly: 1
+      daily: 1
+      weekly: 0
+      monthly: 0
       yearly: 0
     copyMethod: Direct
     cacheCapacity: 5Gi
