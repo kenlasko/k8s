@@ -8,15 +8,15 @@ spec:
   # The PVC to be backed up
   sourcePVC: nfs-mariadb-zip-backup
   trigger:
-    schedule: "10 14 * * *" #"45 6 * * *"
+    schedule: "45 6 * * *"
   restic:
-    pruneIntervalDays: 1
+    pruneIntervalDays: 7
     # Name of the Secret with the connection information
     repository: cloudflare-s3-backup-mariadb
     # Retention policy for backups
     retain:
       hourly: 0
-      daily: 1
+      daily: 8
       weekly: 0
       monthly: 0
       yearly: 0
