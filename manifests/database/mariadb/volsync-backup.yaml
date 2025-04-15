@@ -10,7 +10,7 @@ spec:
   trigger:
     schedule: "45 6 * * *"
   restic:
-    pruneIntervalDays: 14
+    pruneIntervalDays: 1
     # Name of the Secret with the connection information
     repository: cloudflare-s3-backup-mariadb
     # Retention policy for backups
