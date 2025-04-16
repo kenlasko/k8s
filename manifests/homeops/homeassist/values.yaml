@@ -23,6 +23,8 @@ env:
 envFrom:
 - secretRef:
     name: kube-auth-token
+- secretRef:
+    name: env-secrets
 resources:
   requests:
     cpu: 100m
