@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script will set 'safe_to_bootstrap' on the selected node (or all)
 
