@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script will show the contents of grastate.dat on all nodes. Used for Galera cluster recovery
 

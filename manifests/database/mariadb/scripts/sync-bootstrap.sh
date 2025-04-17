@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # This script will setup replication between the primary Galera cluster and all secondary database instances (standalone, NAS, cloud)
 # This script is to be run after the primary database cluster is up and running and the initial database restore complete.
 # It requires that a valid .kubeconfig file is available with contexts configured for Home and Cloud clusters. 
