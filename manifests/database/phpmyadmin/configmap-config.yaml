@@ -23,7 +23,7 @@ data:
     * This is needed for cookie based authentication to encrypt the cookie.
     * Needs to be a 32-bytes long string of random bytes. See FAQ 2.10.
     */
-    $cfg['blowfish_secret'] = '***REMOVED***';
+    $cfg['blowfish_secret'] = 'ePIrXVQFIUTrGrOeKxe1ZH9RdK4TlHRB';
 
     /**
     * Servers configuration
