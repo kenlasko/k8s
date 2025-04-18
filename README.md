@@ -48,7 +48,7 @@ omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-4. Bootstrap cluster by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
+4. [Bootstrap cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
 ```
 cd ~/terraform
 tf workspace new home
@@ -128,6 +128,36 @@ kubectl config use-context omni-home
 # To use the token
 kubectl config use-context home
 ```
+
+# Commit Pre-Check
+This repository makes use of [pre-commit](https://pre-commit.com) to guard against accidental secret commits. It is currently using [GitGuardian](https://dashboard.gitguardian.com) [ggshield](https://www.gitguardian.com/ggshield) for secret validation. Requires a GitGuardian account, which does offer a free tier for home use.
+
+## Requirements
+Requires installation of the following programs:
+* ggshield
+* pre-commit
+
+In my case, this is handled by [NixOS](https://github.com/kenlasko/nixos)
+
+## Configuration
+1. Create a file called `.pre-commit-config.yaml` and place in the root of your repository
+2. Populate the file according to your desired platform (ggshield shown):
+```
+repos:
+  - repo: https://github.com/GitGuardian/ggshield
+    rev: v1.37.0
+    hooks:
+      - id: ggshield
+```
+3. Run the following command:
+```
+pre-commit install
+```
+4. For ggshield, login to your GitGuardian account. Only required once.
+```
+ggshield auth login
+```
+
 
 # Handy commands to know
 ## Check for open port without tools
