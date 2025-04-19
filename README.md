@@ -130,7 +130,7 @@ kubectl config use-context home
 ```
 
 # Commit Pre-Check
-This repository makes use of [pre-commit](https://pre-commit.com) to guard against accidental secret commits. It is currently using [GitGuardian](https://dashboard.gitguardian.com) [ggshield](https://www.gitguardian.com/ggshield) for secret validation. Requires a GitGuardian account, which does offer a free tier for home use.
+This repository makes use of [pre-commit](https://pre-commit.com) to guard against accidental secret commits. When you attempt a commit, Pre-Commit will check for secrets and block the commit if one is found. It is currently using [GitGuardian](https://dashboard.gitguardian.com) [ggshield](https://www.gitguardian.com/ggshield) for secret validation. Requires a GitGuardian account, which does offer a free tier for home use.
 
 ## Requirements
 Requires installation of the following programs:
