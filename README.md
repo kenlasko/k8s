@@ -158,6 +158,12 @@ pre-commit install
 ggshield auth login
 ```
 
+## Handy Commands
+Scan a repository before onboarding:
+```
+ggshield secret scan path <PathName> --recursive --use-gitignore
+```
+
 
 # Handy commands to know
 ## Check for open port without tools
