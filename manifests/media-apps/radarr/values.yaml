@@ -6,7 +6,7 @@ extraLabels:
   appGroup: media-arr
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
   seccompProfile:
