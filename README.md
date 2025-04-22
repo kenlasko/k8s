@@ -137,7 +137,13 @@ Requires installation of the following programs:
 * ggshield
 * pre-commit
 
-In my case, this is handled by [NixOS](https://github.com/kenlasko/nixos)
+In my case, this is handled by [NixOS](https://github.com/kenlasko/nixos). Otherwise, install via:
+```
+sudo apt install python3-venv -y
+pip install pre-commit
+pip install pipx
+pipx install ggshield
+```
 
 ## Configuration
 1. Create a file called `.pre-commit-config.yaml` and place in the root of your repository
@@ -155,7 +161,11 @@ pre-commit install
 ```
 4. For ggshield, login to your GitGuardian account. Only required once.
 ```
+# Local or WSL machine
 ggshield auth login
+
+# Remote SSH session
+ggshield auth login --method token
 ```
 
 ## Handy Commands
