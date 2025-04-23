@@ -9,7 +9,8 @@ My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as 
 * [MariaDB](/manifests/database/mariadb) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
-## Related Repositories:
+## Related Repositories
+Links to my other repositories mentioned or used in this repo:
 - [NetbootXYZ](https://github.com/kenlasko/docker-rpi1/tree/main/netbootxyz): Simplified PXE boot setup for Omni-managed Talos nodes.
 - [K8s Bootstrap](https://github.com/kenlasko/k8s-bootstrap): Bootstraps Kubernetes clusters with essential apps using Terraform/OpenTofu
 - [NixOS](https://github.com/kenlasko/nixos-wsl): A declarative OS modified to support my Kubernetes cluster
