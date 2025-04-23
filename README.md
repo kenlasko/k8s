@@ -32,7 +32,7 @@ When upgrades for the above packages are found, Renovate will create a pull requ
 SideroLabs Omni must be ready to go. Installation steps are in the repository link below:
 [Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
 
-You will need a workstation (preferably Linux-based) with several tools to get things rolling:
+You will need a workstation (preferably Linux-based) with several tools to get things rolling. Choose one of the following approaches:
 - [Workstation Prep Instructions for Ubuntu-based distributions](/docs/WORKSTATION.md)
 - [NixOS Workstation Build](https://github.com/kenlasko/nixos-wsl/)
 
@@ -50,12 +50,12 @@ This guide assumes you're using a NixOS distribution that is configured to secur
 ```bash
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
-3. Set the proper context with kubectl and verify you see the expected nodes
+3. Set the proper context with kubectl and verify you see the expected nodes. It will take a few minutes before `kubectl get nodes` returns data. Pods will not start, because of the lack of a CNI, which we will install with Terraform/OpenTofu.
 ```bash
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-4. [Bootstrap cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
+4. Once `kubectl get nodes` returns node info, [bootstrap the cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
 ```bash
 cd ~/terraform
 tf workspace new home
@@ -63,9 +63,10 @@ tf workspace select home
 tf init
 tf apply
 ```
+Monitor the status of the Terraform install by running `kubectl get pods -A`. It will take several minutes for Cilium, Cert-Manager, Sealed-Secrets and ArgoCD to start.
 
-## Argo App Install Order
-ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
+## Argo App Install
+Once Terraform/OpenTofu bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
 
 ## Get Kubernetes token for token-based authentication
 Cluster connectivity can be done via OIDC through Omni, but its a good idea to have secondary access through standard token-based authentication. The cluster is configured for this using [Talos Shared VIP](https://www.talos.dev/v1.9/talos-guides/network/vip/), which makes cluster API access via a shared IP that is advertised by one of the control plane nodes. The address for this is `https://192.168.1.11:6443`.
