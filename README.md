@@ -16,6 +16,14 @@ Links to my other repositories mentioned or used in this repo:
 - [NixOS](https://github.com/kenlasko/nixos-wsl): A declarative OS modified to support my Kubernetes cluster
 - [Omni](https://github.com/kenlasko/omni): Creates and manages the Kubernetes clusters.
 
+## Folder structure
+The relevent folders are laid out in the following manner:
+- [argocd-apps](/argocd-apps): where all the ArgoCD applications reside. Broken down by type (app, database, system etc)
+- [docs](/docs): documents
+- [manifests](/manifests): all the manifests used by each application. Broken down by type (app, database, system etc) then by name
+- [helm](/helm): where I keep my universal Helm chart for most non-Helm based applications
+- [scripts](/scripts): a mish-mash of scripts used for various purposes
+
 ## Software Updates
 All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
 
