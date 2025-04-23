@@ -47,16 +47,16 @@ This guide assumes you're using a NixOS distribution that is configured to secur
 
 1. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
 2. Create cluster via `omnictl`:
-```
+```bash
 omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 ```
 3. Set the proper context with kubectl and verify you see the expected nodes
-```
+```bash
 kubectl config use-context omni-home
 kubectl get nodes
 ```
 4. [Bootstrap cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
-```
+```bash
 cd ~/terraform
 tf workspace new home
 tf workspace select home
@@ -73,7 +73,7 @@ Cluster connectivity can be done via OIDC through Omni, but its a good idea to h
 The service account is configured via [kubeapi-serviceaccount.yaml](/manifests/argocd/kubeapi-serviceaccount.yaml) and gets its token when the service account is created.
 
 For configuring your `kubeconfig` file with the token-based authentication information, you need the service account token as well as the certificate authority public certificate. To get these, run:
-```
+```bash
 echo
 echo "Service Account Token:"
 kubectl -n kube-system get secret kubeapi-service-account-secret -o jsonpath="{.data.token}" | base64 -d; echo
@@ -83,7 +83,7 @@ kubectl -n kube-system get secret kubeapi-service-account-secret -o jsonpath="{.
 ```
 
 Add these to your `.kube/config` file like this:
-```
+```yaml
 apiVersion: v1
 clusters:
 - cluster:
@@ -128,7 +128,7 @@ users:
 ```
 
 Switch context between the OIDC-based authenticated access and the token-based access with:
-```
+```bash
 # To use OIDC
 kubectl config use-context omni-home
 
@@ -145,7 +145,7 @@ Requires installation of the following programs:
 * pre-commit
 
 In my case, this is handled by [NixOS](https://github.com/kenlasko/nixos). Otherwise, install via:
-```
+```bash
 sudo apt install python3-venv -y
 pip install pre-commit
 pip install pipx
@@ -155,7 +155,7 @@ pipx install ggshield
 ## Configuration
 1. Create a file called `.pre-commit-config.yaml` and place in the root of your repository
 2. Populate the file according to your desired platform (ggshield shown):
-```
+```yaml
 repos:
   - repo: https://github.com/GitGuardian/ggshield
     rev: v1.37.0
@@ -163,11 +163,11 @@ repos:
       - id: ggshield
 ```
 3. Run the following command:
-```
+```bash
 pre-commit install
 ```
 4. For ggshield, login to your GitGuardian account. Only required once.
-```
+```bash
 # Local or WSL machine
 ggshield auth login
 
@@ -177,7 +177,7 @@ ggshield auth login --method token
 
 ## Handy Commands
 Scan a repository before onboarding:
-```
+```bash
 ggshield secret scan path <PathName> --recursive --use-gitignore
 ```
 
@@ -185,6 +185,6 @@ ggshield secret scan path <PathName> --recursive --use-gitignore
 # Handy commands to know
 ## Check for open port without tools
 Many container images do not have any tools like `nc` to check network port connectivity. This handy command will allow you to do that with just `echo`
-```
+```bash
 (echo > /dev/tcp/<servicename>/<port>) >/dev/null 2>&1 && echo "It's up" || echo "It's down"
 ```
