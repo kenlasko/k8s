@@ -9,6 +9,12 @@ My cluster runs on 6 mini-PCs named NUC1 through to NUC6. NUC1-NUC3 are used as 
 * [MariaDB](/manifests/database/mariadb) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
+## Related Repositories:
+- [NetbootXYZ](https://github.com/kenlasko/docker-rpi1/tree/main/netbootxyz): Simplified PXE boot setup for Omni-managed Talos nodes.
+- [K8s Bootstrap](https://github.com/kenlasko/k8s-bootstrap): Bootstraps Kubernetes clusters with essential apps using Terraform/OpenTofu
+- [NixOS](https://github.com/kenlasko/nixos-wsl): A declarative OS modified to support my Kubernetes cluster
+- [Omni](https://github.com/kenlasko/omni): Creates and manages the Kubernetes clusters.
+
 ## Software Updates
 All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
 
