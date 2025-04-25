@@ -32,7 +32,7 @@ spec:
                 - "amd64"
       containers:
       - name: dawarich
-        image: docker.io/freikin/dawarich:0.25.5
+        image: docker.io/freikin/dawarich:0.25.8
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
