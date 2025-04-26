@@ -8,9 +8,9 @@ extraLabels:
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsNonRoot: true
-  runAsUser: 0
-  runAsGroup: 3000
+  runAsNonRoot: false
+  # runAsUser: 0
+  # runAsGroup: 3000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
