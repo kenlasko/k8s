@@ -3,15 +3,17 @@ global:
   storageClass: nfs-csi
 architecture: standalone
 auth:
-  enabled: false
-persistence:
   enabled: true
-  existingClaim: nfs-redis
+  existingSecret: redis-password
+  existingSecretPasswordKey: password
 replica:
   replicaCount: 1
   revisionHistoryLimit: 3
 
 master:
+  persistence:
+    enabled: true
+    existingClaim: nfs-redis
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
