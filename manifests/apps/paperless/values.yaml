@@ -1,0 +1,41 @@
+image:
+  repository: paperless-ngx/paperless-ngx
+  tag: 2.15.3
+  registry: ghcr.io
+priorityClassName: low-priority
+extraLabels:
+  mariadb-client: "true"
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 3000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 50m
+    memory: 600Mi
+  limits:
+    # cpu: 200m
+    memory: 600Mi
+service:
+  port: 8000
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+persistentVolume:
+  type: nfs
+  size: 20Gi
+  mountPath: /usr/src/paperless
+backup:
+  location: cloudflare
+  schedule: "50 06 * * *"

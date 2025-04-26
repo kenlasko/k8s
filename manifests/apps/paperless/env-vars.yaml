@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: paperless
+data:
+  PAPERLESS_CONSUMER_DISABLE: "true"
+  PAPERLESS_DBENGINE: mariadb
+  PAPERLESS_DBHOST: mariadb.mariadb.svc.cluster.local
+  PAPERLESS_DBPORT: 3306
+  TZ: "America/Toronto"
