@@ -1,6 +1,6 @@
 image:
   repository: home-operations/radarr
-  tag: 5.22.3
+  tag: 5.22.4
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
