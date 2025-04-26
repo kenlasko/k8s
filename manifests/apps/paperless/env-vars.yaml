@@ -8,4 +8,6 @@ data:
   PAPERLESS_DBENGINE: mariadb
   PAPERLESS_DBHOST: mariadb.mariadb.svc.cluster.local
   PAPERLESS_DBPORT: "3306"
+  USERMAP_UID: "1000"
+  USERMAP_GID: "1000"
   TZ: "America/Toronto"
