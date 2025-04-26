@@ -40,7 +40,7 @@ envFrom:
 persistentVolume:
   type: nfs
   size: 20Gi
-  mountPath: /usr/src/paperless
+  mountPath: /paperless
 extraVolumeMounts:
 - name: paperless-config
   mountPath: /usr/src/paperless/data
