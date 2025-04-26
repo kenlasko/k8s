@@ -41,6 +41,13 @@ persistentVolume:
   type: nfs
   size: 20Gi
   mountPath: /usr/src/paperless
+extraVolumeMounts:
+- name: paperless-config
+  mountPath: /usr/src/paperless/data
+  subPath: data
+- name: paperless-config
+  mountPath: /usr/src/paperless/media
+  subPath: media
 backup:
   location: cloudflare
   schedule: "50 06 * * *"
