@@ -10,10 +10,10 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - "CHOWN"
-    # - "SETGID"
-    # - "SETUID"
+    add:
+    - "CHOWN"
+    - "SETGID"
+    - "SETUID"
     # - "DAC_OVERRIDE"
 resources:
   requests:
