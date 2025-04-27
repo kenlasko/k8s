@@ -4,20 +4,17 @@ image:
   registry: docker.io
 priorityClassName: low-priority
 securityContext:
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  runAsUser: 1000
-  runAsGroup: 100
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "FOWNER"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
+    # - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 1m
