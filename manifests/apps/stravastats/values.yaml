@@ -14,7 +14,7 @@ securityContext:
     - "CHOWN"
     - "SETGID"
     - "SETUID"
-    # - "DAC_OVERRIDE"
+    - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 1m
