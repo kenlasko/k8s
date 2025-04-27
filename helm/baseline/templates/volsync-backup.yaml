@@ -10,8 +10,8 @@ spec:
   trigger:
     schedule: {{ .Values.backup.schedule | default "0 5 * * *" | quote }}
   restic:
-    # Prune the repository (repack to free space) every 2 weeks
-    pruneIntervalDays: 14
+    # Prune the repository (repack to free space) every week
+    pruneIntervalDays: 7
     # Name of the Secret with the connection information
     repository: {{ .Values.backup.location | default "nas01" }}-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
     # Retention policy for backups
@@ -19,10 +19,10 @@ spec:
     {{- if .Values.retentionPolicy }}
     {{- toYaml .Values.retentionPolicy | nindent 6 }}
     {{- else }}
-      hourly: 6
-      daily: 5
-      weekly: 3
-      monthly: 1
+      hourly: 0
+      daily: 7
+      weekly: 2
+      monthly: 0
       yearly: 0
     {{- end }}
     # Clone the source volume prior to taking a backup to ensure a
