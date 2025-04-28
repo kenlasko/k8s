@@ -18,9 +18,9 @@ Links to my other repositories mentioned or used in this repo:
 
 ## Folder structure
 The relevent folders are laid out in the following manner:
-- [argocd-apps](/argocd-apps): where all the ArgoCD applications reside. Broken down by type (app, database, system etc)
+- [argocd-apps](/argocd-apps): where all the ArgoCD applications reside. Broken down by type (app, database, system etc). The ArgoCD applications reference manifests stored in the [manifests](/manifests) folder.
 - [docs](/docs): documents
-- [manifests](/manifests): all the manifests used by each application. Broken down by type (app, database, system etc) then by name
+- [manifests](/manifests): all the manifests used by each application. Broken down by type (app, database, system etc) then by name. Used by [ArgoCD applications](/argocd-apps).
 - [helm](/helm): where I keep my universal Helm chart for most non-Helm based applications
 - [scripts](/scripts): a mish-mash of scripts used for various purposes
 
