@@ -47,7 +47,7 @@
         "patch",
         "digest"
       ],
-      "automerge": false,
+      "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
     },
