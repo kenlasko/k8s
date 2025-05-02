@@ -10,6 +10,7 @@ spec:
   ingress:
     - fromEntities:
         - remote-node
+        - ingress
       toPorts:
         - ports:
             - port: "9000"
