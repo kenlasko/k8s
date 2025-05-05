@@ -9,6 +9,7 @@ spec:
       app.kubernetes.io/name: sealed-secrets-web
   ingress:
     - fromEntities:
+        - ingress
         - kube-apiserver
         - remote-node
       toPorts:

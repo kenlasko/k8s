@@ -9,8 +9,8 @@ spec:
       app.kubernetes.io/name: headlamp
   ingress:
     - fromEntities:
+        - ingress
         - remote-node
-#        - ingress
       toPorts:
         - ports:
             - port: "80"

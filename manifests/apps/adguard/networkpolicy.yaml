@@ -7,8 +7,8 @@ spec:
   endpointSelector: {}
   ingress:
     - fromEntities:
-        - remote-node
         - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "3000"

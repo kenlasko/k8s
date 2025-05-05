@@ -9,8 +9,8 @@ spec:
       app.kubernetes.io/name: portainer
   ingress:
     - fromEntities:
-        - remote-node
         - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "9000"

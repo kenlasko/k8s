@@ -9,6 +9,7 @@ spec:
       app.kubernetes.io/name: zwaveadmin
   ingress:
     - fromEntities:
+        - ingress
         - remote-node
       toPorts:
         - ports:

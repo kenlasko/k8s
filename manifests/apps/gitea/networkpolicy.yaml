@@ -9,8 +9,8 @@ spec:
       app.kubernetes.io/name: gitea
   ingress:
     - fromEntities:
-        - remote-node
         - ingress
+        - remote-node
       toPorts:
         - ports:
             - port: "3000"
