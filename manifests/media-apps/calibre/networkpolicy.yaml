@@ -11,6 +11,7 @@ spec:
       app: cloudflare-bypass
   ingress:
     - fromEntities:
+        - ingress
         - remote-node
       toPorts:
         - ports:

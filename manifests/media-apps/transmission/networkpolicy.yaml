@@ -9,6 +9,7 @@ spec:
       app: transmission
   ingress:
     - fromEntities:
+        - ingress
         - remote-node
       toPorts:
         - ports:
