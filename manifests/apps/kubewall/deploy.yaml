@@ -34,7 +34,7 @@ spec:
                 operator: DoesNotExist
       containers:
       - name: kubewall
-        image: ghcr.io/kubewall/kubewall:0.0.10
+        image: ghcr.io/kubewall/kubewall:0.0.11
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
