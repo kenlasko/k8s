@@ -9,3 +9,10 @@ resources:
   limits:
     # cpu: 200m
     memory: 15Mi
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
