@@ -1,7 +1,9 @@
 # Introduction
-UCDialplans is my website that allows users to automatically create Teams dialplans for any country in the world. The image is built using Mono and is hosted locally on the internal image registry.
+UCDialplans is my website that allows users to automatically create Teams dialplans for any country in the world. The image is built using Mono and is hosted locally on the internal image registry and on a private Docker repository.
 
 It is accessible to the world via Cloudflare Tunnel.
+
+Most configuration is done via my [custom Helm chart](/helm/baseline).
 
 # Prerequisites
 ## Database

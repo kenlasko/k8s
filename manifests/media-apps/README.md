@@ -6,3 +6,5 @@ Its separated from the other applications because these apps all require [Longho
 Eventually, I hope to automate the Longhorn restore process, so that a cluster can be rebuilt with no user intervention.
 
 Each application creates backups in their local volume. The [media-apps backup script](/manifests/media-apps/backup) backs up these volumes to the NAS, so even if Longhorn backups are corrupted (has happened before), I have a way to restore the data.
+
+Most configuration is done via my [custom Helm chart](/helm/baseline).

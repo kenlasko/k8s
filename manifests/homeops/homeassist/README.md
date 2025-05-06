@@ -1,6 +1,8 @@
 # Introduction
 [Home Assistant](https://github.com/home-assistant) is my chosen home management platform. It controls nearly every aspect of my home.
 
+Most configuration is done via my [custom Helm chart](/helm/baseline).
+
 # Requirements
 * Must run on a specific node (currently NUC4), because it relies on attachments for monitoring the UPS and Zigbee/Z-Wave dongles.
 * USB functionality depends on [Smarter Device Manager](/manifests/system/smarter-device-manager).

@@ -8,4 +8,6 @@ For home, the primary instance along with 2 Docker-based instances on standalone
 
 For outside the home, an instance running on my [Oracle Cloud Omni cluster](https://github.com/kenlasko/k3s-cloud/adguard) provides DNS services over TLS (DoH). Only approved hosts are able to use it. Currently, only my Pixel phone is on the list.
 
-Stateful files are stored and accessed on the NAS via NFS through `/appdata/vol/adguard`
+Stateful files are stored and accessed on the NAS via NFS through `/appdata/vol/adguard`. It is regularly backed up to Cloudflare S3 storage via [Volsync](/manifests/system/volsync).
+
+Most configuration is done via my [custom Helm chart](/helm/baseline).
