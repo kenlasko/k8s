@@ -17,26 +17,6 @@ data:
       config:
         clientID: $github-auth-secrets:dex.github.clientID
         clientSecret: $github-auth-secrets:dex.github.clientSecret
-
-  # oidc.config: |
-  #   name: Auth0
-  #   issuer: https://ucdialplans.us.auth0.com/
-  #   clientID: $auth0-secrets:oidc.auth0.clientId
-  #   clientSecret: $auth0-secrets:oidc.auth0.clientSecret
-  #   requestedScopes:
-  #   - openid
-  #   - profile
-  #   - email
-
-  # repositories: |
-  #   - url: git@github.com:kenlasko/k8s.git
-  #     sshPrivateKeySecret:
-  #       name: github-deploy-key
-  #       key: privateKey
-  #   - url: git@github.com:kenlasko/helm-charts.git
-  #     sshPrivateKeySecret:
-  #       name: github-helm-private-key
-  #       key: privateKey
   resource.exclusions: |
     - apiGroups:
       - cilium.io
