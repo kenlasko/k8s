@@ -28,15 +28,15 @@ data:
   #   - profile
   #   - email
 
-  repositories: |
-    - url: git@github.com:kenlasko/k8s.git
-      sshPrivateKeySecret:
-        name: github-deploy-key
-        key: privateKey
-    - url: git@github.com:kenlasko/helm-charts.git
-      sshPrivateKeySecret:
-        name: github-helm-private-key
-        key: privateKey
+  # repositories: |
+  #   - url: git@github.com:kenlasko/k8s.git
+  #     sshPrivateKeySecret:
+  #       name: github-deploy-key
+  #       key: privateKey
+  #   - url: git@github.com:kenlasko/helm-charts.git
+  #     sshPrivateKeySecret:
+  #       name: github-helm-private-key
+  #       key: privateKey
   resource.exclusions: |
     - apiGroups:
       - cilium.io
