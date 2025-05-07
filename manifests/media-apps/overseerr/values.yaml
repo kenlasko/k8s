@@ -23,6 +23,8 @@ resources:
     memory: 350Mi
 service:
   port: 5055
+extraHTTPRouteHostnames:
+- media.ucdialplans.com
 persistentVolume:
   type: longhorn
   size: 250Mi

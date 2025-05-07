@@ -12,6 +12,11 @@ spec:
     sectionName: https
   hostnames:
   - {{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
+  {{- if .Values.extraHTTPRouteHostnames }}
+  {{- range .Values.extraHTTPRouteHostnames }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
   rules:
   - backendRefs:
     - name: {{ .Values.nameOverride | default .Release.Name }}-service
