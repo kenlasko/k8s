@@ -73,5 +73,5 @@ extraContainers:
     valueFrom:
       secretKeyRef:
         name: adguard-creds
-              key: password
+        key: password
 
