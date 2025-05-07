@@ -8,14 +8,14 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: "https://kubernetes-sigs.github.io/external-dns/"
-    targetRevision: 1.16.1
-    chart: external-dns
-    helm:
-      valueFiles:
-      - $values/manifests/network/external-dns/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
+  # - repoURL: "https://kubernetes-sigs.github.io/external-dns/"
+  #   targetRevision: 1.16.1
+  #   chart: external-dns
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/network/external-dns/values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/network/external-dns
     targetRevision: HEAD
