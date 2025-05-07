@@ -3,7 +3,7 @@ sources:
 - gateway-httproute
 txtOwnerId: home
 extraArgs:
-#- --webhook-provider-url=http://localhost:7979
+- --webhook-provider-url=http://localhost:8888
 - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)  
 provider:
   name: webhook
@@ -11,6 +11,23 @@ provider:
     image:  
       repository: ghcr.io/muhlba91/external-dns-provider-adguard
       tag: v8.0.1
+    ports:
+      - containerPort: 8888
+        name: http
+      - containerPort: 8080
+        name: healthz
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: healthz
+      initialDelaySeconds: 10
+      timeoutSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: healthz
+      initialDelaySeconds: 10
+      timeoutSeconds: 5
     securityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: false
