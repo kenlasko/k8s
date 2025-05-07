@@ -8,7 +8,8 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   url: https://argocd.ucdialplans.com
-  admin.enabled: "false"
+  admin.enabled: "false"  # disable built-in admin account
+  # Used for Github authentication
   dex.config: |
     connectors:
     - type: github
