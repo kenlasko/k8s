@@ -160,6 +160,10 @@ configs:
       url: https://kubernetes-sigs.github.io/descheduler
       name: descheduler
       type: helm
+    external-dns:
+      url: https://kubernetes-sigs.github.io/external-dns/
+      name: external-dns
+      type: helm
     fluentbit:
       url: https://fluent.github.io/helm-charts
       name: fluent
