@@ -11,11 +11,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: external-dns
+      app.kubernetes.io/name: external-dns
   template:
     metadata:
       labels:
-        app: external-dns
+        app.kubernetes.io/name: external-dns
     spec:
       restartPolicy: Always
       affinity:
@@ -54,16 +54,10 @@ spec:
         env:
         - name: TZ
           value: "America/Toronto"
-        # envFrom:
-        # - secretRef:
-        #     name: adguard-creds
         args:
         - --txt-owner-id=home
         - --source=service
         - --source=gateway-httproute
-        - --source=gateway-tlsroute
-        - --source=gateway-tcproute
-        - --source=gateway-udproute
         - --provider=webhook
         - --webhook-provider-url=http://localhost:8888
         - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)   
