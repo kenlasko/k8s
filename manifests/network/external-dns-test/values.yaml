@@ -9,15 +9,6 @@ rbac:
 extraArgs:
 - --webhook-provider-url=http://localhost:8888
 - --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)  
-livenessProbe:
-  httpGet:
-    path: /healthz
-    port: http
-  initialDelaySeconds: 120
-  periodSeconds: 15
-  timeoutSeconds: 55
-  failureThreshold: 10
-  successThreshold: 1
 provider:
   name: webhook
   webhook:
