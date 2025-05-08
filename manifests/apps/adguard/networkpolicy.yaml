@@ -30,6 +30,13 @@ spec:
             - port: "3000"
     - fromEndpoints:
         - matchLabels:
+            app: external-dns-test
+            io.kubernetes.pod.namespace: external-dns
+      toPorts:
+        - ports:
+            - port: "3000"
+    - fromEndpoints:
+        - matchLabels:
             app: homeassist
             io.kubernetes.pod.namespace: homeassist
       toPorts:
