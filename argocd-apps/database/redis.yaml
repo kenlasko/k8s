@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 21.0.0
+    targetRevision: 21.0.2
     chart: redis
     helm:
       valueFiles:
