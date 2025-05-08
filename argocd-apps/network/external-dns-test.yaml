@@ -13,11 +13,11 @@ spec:
     chart: external-dns
     helm:
       valueFiles:
-      - $values/manifests/network/external-dns/values.yaml
+      - $values/manifests/network/external-dns-test/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/network/external-dns
+    path: manifests/network/external-dns-test
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
