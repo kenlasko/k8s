@@ -4,6 +4,7 @@ sources:
 txtOwnerId: home
 serviceAccount:
   create: false
+  name: external-dns-test
 rbac:
   create: false
 extraArgs:
