@@ -2,6 +2,7 @@ namespaceOverride: mariadb-standalone
 fullnameOverride: mariadb
 commonLabels:
   mariadb-client: "true"
+  app.kubernetes.io/component: database
 auth:
   existingSecret: mariadb-passwords
 primary:

@@ -12,6 +12,7 @@ mariabackup:
 priorityClassName: high-priority
 commonLabels:
   tailscale.com/proxy-class: "run-on-worker"
+  app.kubernetes.io/component: database
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

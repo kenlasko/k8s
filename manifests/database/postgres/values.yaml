@@ -1,4 +1,6 @@
 fullnameOverride: postgres-controller
+podLabels:
+  app.kubernetes.io/component: database
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
