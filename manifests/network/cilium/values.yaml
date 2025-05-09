@@ -1,6 +1,6 @@
 rollOutCiliumPods: true
 routingMode: native
-ipv4NativeRoutingCIDR: 10.0.0.0/9
+ipv4NativeRoutingCIDR: 10.244.0.0/16
 autoDirectNodeRoutes: true
 bpf:
   hostRouting: true
