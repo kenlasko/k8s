@@ -4,7 +4,7 @@ ipv4NativeRoutingCIDR: 10.0.0.0/9
 autoDirectNodeRoutes: true
 bpf:
   hostRouting: true
-  # hostLegacyRouting: true   # Needed to get around an issue introduced in Cilium 1.16.5. See https://github.com/cilium/cilium/issues/36737
+  hostLegacyRouting: true   # Needed to get around an issue introduced in Cilium 1.16.5. See https://github.com/cilium/cilium/issues/36737
   masquerade: true
 bgpControlPlane:
   enabled: true
