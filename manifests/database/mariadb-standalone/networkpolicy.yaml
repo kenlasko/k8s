@@ -10,8 +10,12 @@ spec:
   policyTypes:
     - Ingress
     - Egress
-    - remote-node
   ingress:
+    - fromEntities:
+        - remote-node
+      toPorts:
+        - ports:
+            - port: 3306
     - from:
         - namespaceSelector: {}
           podSelector:
