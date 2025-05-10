@@ -7,7 +7,7 @@ bpf:
   # hostLegacyRouting: false is needed to get around an issue introduced in Cilium 1.16.5. See https://github.com/cilium/cilium/issues/36737
   # Trying to use Cilium hostLegacyRouting=True (which means Talos hostDNS has to be disabled) to troubleshoot my intermittent access issues (see https://github.com/kenlasko/k8s/issues/15)
   # See https://github.com/kenlasko/omni/blob/main/patches/machine-hostdns.yaml for the other side of this.
-  hostLegacyRouting: true   
+  hostLegacyRouting: false 
   masquerade: true
 bgpControlPlane:
   enabled: true
