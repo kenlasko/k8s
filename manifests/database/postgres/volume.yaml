@@ -1,8 +1,31 @@
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: postgres-data-nuc3
+# spec:
+#   storageClassName: local-path
+#   capacity:
+#     storage: 15Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   persistentVolumeReclaimPolicy: Retain
+#   local:
+#     path: "/var/postgres"
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: kubernetes.io/hostname
+#           operator: In
+#           values:
+#           - nuc3
+
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-data-nuc3
+  name: postgres-data-nuc4
 spec:
   storageClassName: local-path
   capacity:
@@ -19,75 +42,50 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nuc3
+          - nuc4
 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-data-nuc5
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/var/postgres"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc5
 
-
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: postgres-data-nuc4
-# spec:
-#   storageClassName: local-path
-#   capacity:
-#     storage: 15Gi
-#   accessModes:
-#     - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   local:
-#     path: "/var/postgres"
-#   nodeAffinity:
-#     required:
-#       nodeSelectorTerms:
-#       - matchExpressions:
-#         - key: kubernetes.io/hostname
-#           operator: In
-#           values:
-#           - nuc4
-
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: postgres-data-nuc5
-# spec:
-#   storageClassName: local-path
-#   capacity:
-#     storage: 15Gi
-#   accessModes:
-#     - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   local:
-#     path: "/var/postgres"
-#   nodeAffinity:
-#     required:
-#       nodeSelectorTerms:
-#       - matchExpressions:
-#         - key: kubernetes.io/hostname
-#           operator: In
-#           values:
-#           - nuc5
-
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: postgres-data-nuc6
-# spec:
-#   storageClassName: local-path
-#   capacity:
-#     storage: 15Gi
-#   accessModes:
-#     - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   local:
-#     path: "/var/postgres"
-#   nodeAffinity:
-#     required:
-#       nodeSelectorTerms:
-#       - matchExpressions:
-#         - key: kubernetes.io/hostname
-#           operator: In
-#           values:
-#           - nuc6
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-data-nuc6
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/var/postgres"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc6
