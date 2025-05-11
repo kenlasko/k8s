@@ -12,6 +12,11 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
+  certificates:
+    serverAltNames:
+    - "home-postgres.tailb7050.ts.net"
+    - "home-postgres"
+    - "home-postgres.svc.cluster.local"
   backup:
     retentionPolicy: "30d"
     barmanObjectStore:
