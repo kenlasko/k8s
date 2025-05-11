@@ -13,7 +13,7 @@ spec:
   superuserSecret:
     name: postgres-superuser
   certificates:
-    serverAltNames:
+    serverAltDNSNames:
     - "home-postgres.tailb7050.ts.net"
     - "home-postgres"
     - "home-postgres.svc.cluster.local"
