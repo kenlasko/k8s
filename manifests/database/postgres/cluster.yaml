@@ -4,7 +4,7 @@ metadata:
   name: postgres
   namespace: postgres
 spec:
-  instances: 1
+  instances: 3
   failoverDelay: 15
   storage:
     storageClass: local-path
@@ -45,14 +45,13 @@ spec:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: In
-            values:
-            - nuc3
-
-          # - key: node-role.kubernetes.io/control-plane
-          #   operator: DoesNotExist
-          # - key: kubernetes.io/arch
+          # - key: kubernetes.io/hostname
           #   operator: In
-          #   values: 
-          #   - "amd64"
+          #   values:
+          #   - nuc3
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - "amd64"
