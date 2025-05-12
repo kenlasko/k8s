@@ -37,6 +37,8 @@ spec:
       superuser: false
       inherit: false
       connectionLimit: 1
+      passwordSecret:
+        name: useraccount-immich
     services:
       additional:
       - selectorType: rw
