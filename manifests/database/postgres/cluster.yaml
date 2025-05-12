@@ -4,7 +4,7 @@ metadata:
   name: postgres
   namespace: postgres
 spec:
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:17.5-v0.4.0
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0
   instances: 3
   failoverDelay: 15
   storage:
