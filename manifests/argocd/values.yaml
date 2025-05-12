@@ -188,6 +188,11 @@ configs:
       url: https://kubernetes-sigs.github.io/headlamp/
       name: headlamp
       type: helm
+    immich: 
+      url: ghcr.io/immich-app/immich-charts
+      name: immich
+      type: helm
+      enableOCI: "true"
     intel:
       url: https://intel.github.io/helm-charts
       name: intel

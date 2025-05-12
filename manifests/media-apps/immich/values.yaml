@@ -1,0 +1,25 @@
+immich:
+  persistence:
+    library:
+      existingClaim: nfs-pictures
+env:
+  DB_HOSTNAME:
+    secretKeyRef:
+      name: immich-secrets
+      key: DB_HOSTNAME
+  DB_DATABASE_NAME:
+    secretKeyRef:
+      name: immich-secrets
+      key: DB_DATABASE_NAME
+  DB_USERNAME:
+    secretKeyRef:
+      name: immich-secrets
+      key: DB_USERNAME
+  DB_PASSWORD:
+    secretKeyRef:
+      name: immich-secrets
+      key: DB_PASSWORD
+  REDIS_URL:
+    secretKeyRef:
+      name: immich-secrets
+      key: REDIS_URL
