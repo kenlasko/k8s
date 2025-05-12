@@ -59,11 +59,11 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pictures-upload
+  name: nfs-picture-upload
   namespace: media-apps
 spec:
   storageClassName: nfs-csi
-  volumeName: nfs-pictures-upload
+  volumeName: nfs-picture-upload
   accessModes:
   - ReadWriteOnce
   resources:
