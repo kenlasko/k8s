@@ -45,7 +45,7 @@ spec:
       login: true
       superuser: false
       inherit: false
-      connectionLimit: 5
+      connectionLimit: -1
       passwordSecret:
         name: useraccount-immich
     services:
