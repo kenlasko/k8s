@@ -4,6 +4,7 @@ metadata:
   name: postgres
   namespace: postgres
 spec:
+  image: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.9-v0.4.0
   instances: 3
   failoverDelay: 15
   storage:
@@ -17,6 +18,14 @@ spec:
     - "home-postgres.tailb7050.ts.net"
     - "home-postgres"
     - "home-postgres.svc.cluster.local"
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
+  postgresql:
+    shared_preload_libraries:
+    - "vectors.so"
   backup:
     retentionPolicy: "30d"
     barmanObjectStore:
