@@ -1,9 +1,14 @@
 image:
   tag: v1.132.3
-immich:
-  persistence:
-    library:
-      existingClaim: nfs-pictures
+# immich:
+#   persistence:
+#     library:
+#       existingClaim: nfs-pictures
+persistence:
+  config:
+    enabled: true
+    existingClaim: nfs-pictures
+    mountPath: /media/pictures
 env:
   DB_HOSTNAME:
     secretKeyRef:
