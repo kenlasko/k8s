@@ -30,6 +30,11 @@ spec:
           name: nas-s3-creds
           key: ACCESS_KEY_SECRET
   managed:
+    roles:
+    - name: immich
+      ensure: present
+      login: true
+      superuser: false
     services:
       additional:
       - selectorType: rw
