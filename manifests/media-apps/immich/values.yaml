@@ -19,11 +19,14 @@ env:
     secretKeyRef:
       name: immich-secrets
       key: DB_PASSWORD
-  REDIS_URL:
+  REDIS_HOSTNAME:
     secretKeyRef:
       name: immich-secrets
-      key: REDIS_URL
-
+      key: REDIS_HOSTNAME
+  REDIS_PASSWORD:
+    secretKeyRef:
+      name: immich-secrets
+      key: REDIS_PASSWORD
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
