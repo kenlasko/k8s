@@ -1,9 +1,9 @@
 image:
   tag: v1.132.3
-# immich:
-#   persistence:
-#     library:
-#       existingClaim: nfs-pictures
+immich:
+  persistence:
+    library:
+      existingClaim: nfs-picture-upload
 persistence:
   config:
     enabled: true
