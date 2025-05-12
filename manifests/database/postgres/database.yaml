@@ -2,6 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: immich
+  namespace: postgres
 spec:
   name: immich
   owner: immich
