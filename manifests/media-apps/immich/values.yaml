@@ -2,17 +2,6 @@ immich:
   persistence:
     library:
       existingClaim: nfs-pictures
-  affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: node-role.kubernetes.io/control-plane
-          operator: DoesNotExist
-        - key: kubernetes.io/arch
-          operator: In
-          values: 
-          - "amd64"
 env:
   DB_HOSTNAME:
     secretKeyRef:
@@ -34,3 +23,32 @@ env:
     secretKeyRef:
       name: immich-secrets
       key: REDIS_URL
+
+route:
+  main:
+    enabled: true
+    kind: HTTPRoute
+    parentRefs:
+    - name: tls
+      namespace: cilium
+      sectionName: https
+    hostnames:
+    - "immich.ucdialplans.com"
+    rules:
+    - backendRefs:
+      - name: immich
+        namespace: media-apps
+        kind: Service
+        port: 2283
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - "amd64"
