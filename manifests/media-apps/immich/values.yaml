@@ -24,23 +24,6 @@ env:
       name: immich-secrets
       key: REDIS_URL
 
-route:
-  main:
-    enabled: true
-    kind: HTTPRoute
-    parentRefs:
-    - name: tls
-      namespace: cilium
-      sectionName: https
-    hostnames:
-    - "immich.ucdialplans.com"
-    rules:
-    - backendRefs:
-      - name: immich
-        namespace: media-apps
-        kind: Service
-        port: 2283
-
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
