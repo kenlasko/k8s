@@ -69,39 +69,3 @@ spec:
   resources:
     requests:
       storage: 100Gi
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-immich-ml
-  annotations:
-    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
-spec:
-  storageClassName: nfs-csi
-  capacity:
-    storage: 220Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/appdata/vol/immich-ml
-    volumeAttributes:
-      server: 192.168.1.3
-      share: /appdata/vol/immich-ml
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nfs-picture-upload
-  namespace: media-apps
-spec:
-  storageClassName: nfs-csi
-  volumeName: nfs-picture-upload
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Gi
