@@ -44,7 +44,7 @@ machine-learning:
     enabled: true
     type: pvc
     accessMode: ReadWriteMany
-    existingClaim: nfs-immich-ml
+    storageClass: nfs-csi-dynamic
 
 resources:
   requests:
