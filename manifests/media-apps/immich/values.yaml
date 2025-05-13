@@ -38,6 +38,7 @@ machine-learning:
   enabled: true
   image:
     repository: ghcr.io/immich-app/immich-machine-learning-openvino
+    tag: v1.132.3
     pullPolicy: IfNotPresent
 resources:
   requests:
