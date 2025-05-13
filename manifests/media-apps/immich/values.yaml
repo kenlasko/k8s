@@ -41,10 +41,11 @@ machine-learning:
     tag: v1.132.3-openvino
     pullPolicy: IfNotPresent
   persistence:
-    enabled: true
-    type: pvc
-    accessMode: ReadWriteMany
-    storageClass: nfs-csi-dynamic
+    cache:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteMany
+      storageClass: nfs-csi-dynamic
 
 resources:
   requests:
