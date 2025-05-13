@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 18.1.7
+    targetRevision: 18.1.8
     chart: phpmyadmin
     helm:
       valueFiles:
