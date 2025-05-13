@@ -47,6 +47,19 @@ machine-learning:
       accessMode: ReadWriteMany
       storageClass: nfs-csi-dynamic
 
+probes:
+  liveness:
+    spec:
+      failureThreshold: 3
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 1
+  readiness:
+    spec:
+      failureThreshold: 3
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      timeoutSeconds: 1
 resources:
   requests:
     gpu.intel.com/i915: "1"
