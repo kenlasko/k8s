@@ -26,18 +26,6 @@ spec:
   postgresql:
     shared_preload_libraries:
     - "vectors.so"
-  backup:
-    retentionPolicy: "30d"
-    barmanObjectStore:
-      endpointURL: "http://nas01.ucdialplans.com:8010"
-      destinationPath: "s3://postgres"
-      s3Credentials:
-        accessKeyId:
-          name: nas-s3-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: nas-s3-creds
-          key: ACCESS_KEY_SECRET
   managed:
     roles:
     - name: immich
@@ -68,10 +56,6 @@ spec:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          # - key: kubernetes.io/hostname
-          #   operator: In
-          #   values:
-          #   - nuc3
           - key: node-role.kubernetes.io/control-plane
             operator: DoesNotExist
           - key: kubernetes.io/arch
