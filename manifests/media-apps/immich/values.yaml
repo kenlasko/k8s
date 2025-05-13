@@ -40,6 +40,12 @@ machine-learning:
     repository: ghcr.io/immich-app/immich-machine-learning
     tag: v1.132.3-openvino
     pullPolicy: IfNotPresent
+  persistence:
+    enabled: true
+    type: pvc
+    accessMode: ReadWriteMany
+    existingClaim: nfs-immich-ml
+
 resources:
   requests:
     gpu.intel.com/i915: "1"
