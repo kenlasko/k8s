@@ -50,16 +50,16 @@ machine-learning:
 probes:
   liveness:
     spec:
-      failureThreshold: 3
+      failureThreshold: 5
       initialDelaySeconds: 60
-      periodSeconds: 10
-      timeoutSeconds: 1
+      periodSeconds: 30
+      timeoutSeconds: 10
   readiness:
     spec:
-      failureThreshold: 3
+      failureThreshold: 5
       initialDelaySeconds: 60
-      periodSeconds: 10
-      timeoutSeconds: 1
+      periodSeconds: 30
+      timeoutSeconds: 10
 resources:
   requests:
     gpu.intel.com/i915: "1"
