@@ -19,10 +19,10 @@ spec:
     - "home-postgres"
     - "home-postgres.svc.cluster.local"
   bootstrap:
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
+    # initdb:
+    #   postInitSQL:
+    #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+    #     - CREATE EXTENSION IF NOT EXISTS "vectors";
 
     # If the namespace still exists and there is a backup object, we can just restore using the below method:
     recovery:
