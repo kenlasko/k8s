@@ -32,6 +32,8 @@ spec:
   # If the namespace is brand-new, we restore using the 'externalClusters' method:
     recovery:
       source: clusterBackup
+      recoveryTarget:
+        targetTime: "2025-05-14 16:56:43.00000+00"
   externalClusters:
   - name: clusterBackup
     barmanObjectStore:
