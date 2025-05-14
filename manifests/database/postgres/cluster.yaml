@@ -18,7 +18,7 @@ spec:
     - "home-postgres.tailb7050.ts.net"
     - "home-postgres"
     - "home-postgres.svc.cluster.local"
-  # bootstrap:
+  bootstrap:
     # initdb:
     #   postInitSQL:
     #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
@@ -29,24 +29,24 @@ spec:
     #   backup:
     #     name: daily-20250514170109
 
-  # # If the namespace is brand-new, we restore using the 'externalClusters' method:
-  #   recovery:
-  #     source: clusterBackup
-  # externalClusters:
-  # - name: clusterBackup
-  #   barmanObjectStore:
-  #     serverName: postgres
-  #     endpointURL: "http://nas01.ucdialplans.com:8010"
-  #     destinationPath: "s3://postgres"
-  #     wal:
-  #       compression: gzip
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: nas01-s3-backup-postgresql
-  #         key: AWS_ACCESS_KEY_ID
-  #       secretAccessKey:
-  #         name: nas01-s3-backup-postgresql
-  #         key: AWS_SECRET_ACCESS_KEY
+  # If the namespace is brand-new, we restore using the 'externalClusters' method:
+    recovery:
+      source: clusterBackup
+  externalClusters:
+  - name: clusterBackup
+    barmanObjectStore:
+      serverName: postgres
+      endpointURL: "http://nas01.ucdialplans.com:8010"
+      destinationPath: "s3://postgres"
+      wal:
+        compression: gzip
+      s3Credentials:
+        accessKeyId:
+          name: nas01-s3-backup-postgresql
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: nas01-s3-backup-postgresql
+          key: AWS_SECRET_ACCESS_KEY
 
   postgresql:
     shared_preload_libraries:
