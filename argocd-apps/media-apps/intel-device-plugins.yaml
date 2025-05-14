@@ -18,7 +18,7 @@ spec:
     directory:
       exclude: "*_DISABLED.yaml"
   - repoURL: "https://intel.github.io/helm-charts/"
-    targetRevision: 0.32.0
+    targetRevision: 0.32.1
     chart: intel-device-plugins-gpu
     helm:
       valueFiles:
