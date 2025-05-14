@@ -28,7 +28,7 @@ envoy:
       memory: 30Mi
     limits:
       # cpu: 200m
-      memory: 100Mi
+      memory: 120Mi
 # envoyConfig:
 #   secretsNamespace:
 #     create: false
