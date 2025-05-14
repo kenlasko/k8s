@@ -26,6 +26,18 @@ spec:
   postgresql:
     shared_preload_libraries:
     - "vectors.so"
+  backup:
+    retentionPolicy: "7d"
+    barmanObjectStore:
+      endpointURL: "http://nas01.ucdialplans.com:8010"
+      destinationPath: "s3://postgres"
+      s3Credentials:
+        accessKeyId:
+          name: nas01-s3-backup-postgresql
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: nas01-s3-backup-postgresql
+          key: AWS_SECRET_ACCESS_KEY
   managed:
     roles:
     - name: immich
