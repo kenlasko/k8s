@@ -13,14 +13,14 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
-  bootstrap:
-    initdb:
-      postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
-        - CREATE EXTENSION IF NOT EXISTS "vectors";
-  postgresql:
-    shared_preload_libraries:
-    - "vectors.so"
+  # bootstrap:
+  #   initdb:
+  #     postInitSQL:
+  #       - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+  #       - CREATE EXTENSION IF NOT EXISTS "vectors";
+  # postgresql:
+  #   shared_preload_libraries:
+  #   - "vectors.so"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
