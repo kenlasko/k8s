@@ -18,7 +18,7 @@ spec:
     - "home-postgres.tailb7050.ts.net"
     - "home-postgres"
     - "home-postgres.svc.cluster.local"
-  bootstrap:
+  # bootstrap:
     # initdb:
     #   postInitSQL:
     #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
