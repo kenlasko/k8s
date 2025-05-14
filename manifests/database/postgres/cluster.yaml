@@ -33,7 +33,7 @@ spec:
     recovery:
       source: clusterBackup
       recoveryTarget:
-        targetTime: "2025-05-14 16:56:43.435042+00:00"
+        targetTime: "2025-05-14 16:57:06.538776+00:00"
   externalClusters:
   - name: clusterBackup
     barmanObjectStore:
