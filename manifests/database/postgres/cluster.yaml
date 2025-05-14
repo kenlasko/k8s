@@ -50,7 +50,7 @@ spec:
 
   postgresql:
     shared_preload_libraries:
-    - "vectors.so"
+    - "vector.so"
   backup:
     retentionPolicy: "7d"
     barmanObjectStore:
