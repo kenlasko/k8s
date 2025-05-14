@@ -30,7 +30,7 @@ spec:
     retentionPolicy: "7d"
     barmanObjectStore:
       endpointURL: "http://nas01.ucdialplans.com:8010"
-      destinationPath: "s3://postgres"
+      destinationPath: "s3://postgresql"
       wal:
         compression: gzip
       s3Credentials:
