@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres-gis
-  namespace: postgres-gis
+  namespace: postgres
 spec:
   imageName: ghcr.io/cloudnative-pg/postgis:17-3.4
   instances: 1
