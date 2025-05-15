@@ -19,8 +19,8 @@ spec:
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
   bootstrap:
-    pg_basebackup:
-      source: postgresql-cloud-postgresql-egress
+    # pg_basebackup:
+    #   source: postgresql-cloud-postgresql-egress
     # initdb:
     #   postInitSQL:
     #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
@@ -32,16 +32,34 @@ spec:
     #     name: daily-20250514170109
 
   # If the namespace is brand-new, we restore using the 'externalClusters' method:
-    # recovery:
-    #   source: clusterBackup
-    #   recoveryTarget:
-    #     targetTime: "2025-05-14 16:57:06.538776+00:00"
-  # externalClusters:
-  # - name: clusterBackup
+    recovery:
+      source: clusterBackup
+      recoveryTarget:
+        targetTime: "2025-05-14 16:57:06.538776+00:00"
+  externalClusters:
+  - name: clusterBackup
+    barmanObjectStore:
+      serverName: postgresql
+      endpointURL: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/"
+      destinationPath: "s3://postgresql"
+      wal:
+        compression: gzip
+      s3Credentials:
+        accessKeyId:
+          name: cloudflare-s3-backup-postgresql
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cloudflare-s3-backup-postgresql
+          key: AWS_SECRET_ACCESS_KEY
+
+  postgresql:
+    shared_preload_libraries:
+    - "vectors.so"
+  # backup:
+  #   retentionPolicy: "7d"
   #   barmanObjectStore:
-  #     serverName: home
   #     endpointURL: "http://nas01.ucdialplans.com:8010"
-  #     destinationPath: "s3://postgres"
+  #     destinationPath: "s3://postgresql"
   #     wal:
   #       compression: gzip
   #     s3Credentials:
@@ -51,24 +69,6 @@ spec:
   #       secretAccessKey:
   #         name: nas01-s3-backup-postgresql
   #         key: AWS_SECRET_ACCESS_KEY
-
-  postgresql:
-    shared_preload_libraries:
-    - "vectors.so"
-  backup:
-    retentionPolicy: "7d"
-    barmanObjectStore:
-      endpointURL: "http://nas01.ucdialplans.com:8010"
-      destinationPath: "s3://postgresql"
-      wal:
-        compression: gzip
-      s3Credentials:
-        accessKeyId:
-          name: nas01-s3-backup-postgresql
-          key: AWS_ACCESS_KEY_ID
-        secretAccessKey:
-          name: nas01-s3-backup-postgresql
-          key: AWS_SECRET_ACCESS_KEY
   managed:
     roles:
     - name: immich
