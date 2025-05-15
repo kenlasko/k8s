@@ -18,7 +18,7 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  bootstrap:
+  # bootstrap:
     # pg_basebackup:
     #   source: postgresql-cloud-postgresql-egress
     # initdb:
@@ -32,16 +32,35 @@ spec:
     #     name: daily-20250514170109
 
   # If the namespace is brand-new, we restore using the 'externalClusters' method:
-    recovery:
-      source: clusterBackup
+    # recovery:
+    #   source: clusterBackup
       # recoveryTarget:
       #   targetTime: "2025-05-14 16:57:06.538776+00:00"
-  externalClusters:
-  - name: clusterBackup
+  # externalClusters:
+  # - name: clusterBackup
+  #   barmanObjectStore:
+  #     serverName: postgres
+  #     destinationPath: "s3://postgresql"
+  #     endpointURL: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com"
+  #     wal:
+  #       compression: gzip
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: cloudflare-s3-backup-postgresql
+  #         key: AWS_ACCESS_KEY_ID
+  #       secretAccessKey:
+  #         name: cloudflare-s3-backup-postgresql
+  #         key: AWS_SECRET_ACCESS_KEY
+
+  postgresql:
+    shared_preload_libraries:
+    - "vectors.so"
+
+  backup:
+    retentionPolicy: "2d"
     barmanObjectStore:
-      serverName: postgres
+      endpointURL: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/"
       destinationPath: "s3://postgresql"
-      endpointURL: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com"
       wal:
         compression: gzip
       s3Credentials:
@@ -52,9 +71,6 @@ spec:
           name: cloudflare-s3-backup-postgresql
           key: AWS_SECRET_ACCESS_KEY
 
-  postgresql:
-    shared_preload_libraries:
-    - "vectors.so"
   # backup:
   #   retentionPolicy: "7d"
   #   barmanObjectStore:
