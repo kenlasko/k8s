@@ -40,7 +40,7 @@ spec:
   - name: clusterBackup
     barmanObjectStore:
       serverName: postgres
-      destinationPath: "s3://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/postgresql"
+      destinationPath: "s3:https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/postgresql"
       wal:
         compression: gzip
       s3Credentials:
