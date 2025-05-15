@@ -20,7 +20,7 @@ spec:
     - "home-postgresql.svc.cluster.local"
   bootstrap:
     pg_basebackup:
-      source: cloud-postgres
+      source: cloud-postgres-egress
     # initdb:
     #   postInitSQL:
     #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
