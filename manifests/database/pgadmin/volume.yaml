@@ -14,17 +14,17 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/appdata/vol/esphome
+    volumeHandle: 192.168.1.3/appdata/vol/pgadmin
     volumeAttributes:
       server: 192.168.1.3
-      share: /appdata/vol/esphome
+      share: /appdata/vol/pgadmin
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-pgadmin
-  namespace: postgres
+  namespace: postgresql
 spec:
   storageClassName: nfs-csi
   volumeName: nfs-pgadmin
