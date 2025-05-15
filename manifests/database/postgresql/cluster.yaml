@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: home
+  name: postgres
   namespace: postgresql
 spec:
   imageName: registry.ucdialplans.com/postgres:16-3.0  # ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0  # registry.ucdialplans.com/postgres:16-3.5  
@@ -20,7 +20,7 @@ spec:
     - "home-postgresql.svc.cluster.local"
   bootstrap:
     pg_basebackup:
-      source: cloud-postgres-egress
+      source: cloud-postgres
     # initdb:
     #   postInitSQL:
     #     - ALTER SYSTEM SET search_path TO "$user", public, vectors;
@@ -32,25 +32,25 @@ spec:
     #     name: daily-20250514170109
 
   # If the namespace is brand-new, we restore using the 'externalClusters' method:
-    recovery:
-      source: clusterBackup
-      recoveryTarget:
-        targetTime: "2025-05-14 16:57:06.538776+00:00"
-  externalClusters:
-  - name: clusterBackup
-    barmanObjectStore:
-      serverName: home
-      endpointURL: "http://nas01.ucdialplans.com:8010"
-      destinationPath: "s3://postgres"
-      wal:
-        compression: gzip
-      s3Credentials:
-        accessKeyId:
-          name: nas01-s3-backup-postgresql
-          key: AWS_ACCESS_KEY_ID
-        secretAccessKey:
-          name: nas01-s3-backup-postgresql
-          key: AWS_SECRET_ACCESS_KEY
+    # recovery:
+    #   source: clusterBackup
+    #   recoveryTarget:
+    #     targetTime: "2025-05-14 16:57:06.538776+00:00"
+  # externalClusters:
+  # - name: clusterBackup
+  #   barmanObjectStore:
+  #     serverName: home
+  #     endpointURL: "http://nas01.ucdialplans.com:8010"
+  #     destinationPath: "s3://postgres"
+  #     wal:
+  #       compression: gzip
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: nas01-s3-backup-postgresql
+  #         key: AWS_ACCESS_KEY_ID
+  #       secretAccessKey:
+  #         name: nas01-s3-backup-postgresql
+  #         key: AWS_SECRET_ACCESS_KEY
 
   postgresql:
     shared_preload_libraries:
