@@ -39,7 +39,7 @@ spec:
   externalClusters:
   - name: clusterBackup
     barmanObjectStore:
-      serverName: postgresql
+      serverName: home
       endpointURL: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/"
       destinationPath: "s3://postgresql"
       wal:
