@@ -24,6 +24,10 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: postgres
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/externalName
+    kind: Service
   syncPolicy:
     managedNamespaceMetadata:
       labels:
