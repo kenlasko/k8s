@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgres
+  name: postgresql
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -13,17 +13,17 @@ spec:
     chart: cloudnative-pg
     helm:
       valueFiles:
-      - $values/manifests/database/postgres/values.yaml
+      - $values/manifests/database/postgresql/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/database/postgres
+    path: manifests/database/postgresql
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: postgres
+    namespace: postgresql
   ignoreDifferences:
   - jsonPointers:
     - /spec/externalName

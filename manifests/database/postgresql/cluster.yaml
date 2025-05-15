@@ -1,8 +1,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
-  namespace: postgres
+  name: home
+  namespace: postgresql
 spec:
   imageName: registry.ucdialplans.com/postgres:16-3.0  # ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0  # registry.ucdialplans.com/postgres:16-3.5  
   instances: 3
@@ -12,12 +12,12 @@ spec:
     size: 15Gi
   enableSuperuserAccess: true
   superuserSecret:
-    name: postgres-superuser
+    name: postgresql-superuser
   certificates:
     serverAltDNSNames:
-    - "home-postgres.tailb7050.ts.net"
-    - "home-postgres"
-    - "home-postgres.svc.cluster.local"
+    - "home-postgresql.tailb7050.ts.net"
+    - "home-postgresql"
+    - "home-postgresql.svc.cluster.local"
   bootstrap:
     # initdb:
     #   postInitSQL:
@@ -37,7 +37,7 @@ spec:
   externalClusters:
   - name: clusterBackup
     barmanObjectStore:
-      serverName: postgres
+      serverName: home
       endpointURL: "http://nas01.ucdialplans.com:8010"
       destinationPath: "s3://postgres"
       wal:
@@ -83,13 +83,13 @@ spec:
         updateStrategy: patch
         serviceTemplate:
           metadata:
-            name: "postgres-service"
+            name: "postgresql-service"
             labels:
               tailscale.com/proxy-class: "run-on-worker"
             annotations:
               #lbipam.cilium.io/ips: 192.168.1.15
               tailscale.com/expose: "true"
-              tailscale.com/hostname: "home-postgres"
+              tailscale.com/hostname: "home-postgresql"
           spec:
             type: LoadBalancer
   affinity:
