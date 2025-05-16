@@ -41,6 +41,13 @@ spec:
             k8s:io.kubernetes.pod.namespace: monitoring
     - toEndpoints:
         - matchLabels:
+            app.kubernetes.io/name: dawarich
+            k8s:io.kubernetes.pod.namespace: dawarich
+      toPorts:
+        - ports:
+            - port: "3000"
+    - toEndpoints:
+        - matchLabels:
             app.kubernetes.io/name: adguard
             k8s:io.kubernetes.pod.namespace: adguard
       toPorts:
