@@ -10,7 +10,7 @@ data:
   BACKGROUND_PROCESSING_CONCURRENCY: "10"
   APPLICATION_PROTOCOL: "http"
   MIN_MINUTES_SPENT_IN_CITY: "60"
-  APPLICATION_HOSTS: "dawarich.ucdialplans.com"
+  APPLICATION_HOSTS: "dawarich.ucdialplans.com,dawarich-service.dawarich.svc.cluster.local"
   TIME_ZONE: "America/Toronto"
   APPLICATION_PROTOCOL: "http"
   DISTANCE_UNIT: "km"
