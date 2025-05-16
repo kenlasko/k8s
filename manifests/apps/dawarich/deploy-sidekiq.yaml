@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: dawarich
+  name: sidekiq
   namespace: dawarich
 spec:
-  serviceName: dawarich
+  serviceName: sidekiq
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: dawarich
+      app: sidekiq
   template:
     metadata:
       labels:
-        app: dawarich
-        name: dawarich
+        app: sidekiq
+        name: sidekiq
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false      
@@ -31,11 +31,11 @@ spec:
                 values: 
                 - "amd64"
       containers:
-      - name: dawarich
+      - name: sidekiq
         image: docker.io/freikin/dawarich:0.26.0
         imagePullPolicy: IfNotPresent
-        command: ["web-entrypoint.sh"]
-        args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
+        command: ["sidekiq-entrypoint.sh"]
+        args: ["sidekiq"]
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
@@ -54,19 +54,11 @@ spec:
         - containerPort: 3000
           name: http
         livenessProbe:
-          httpGet:
-            path: /api/v1/health
-            port: http
-          initialDelaySeconds: 15
-          periodSeconds: 120
-        readinessProbe:
-          httpGet:
-            path: /api/v1/health
-            port: http
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
+          exec:
+            command: ["/bin/bash", "-c", "bundle exec sidekiqmon processes | grep $(hostname)"]
+          initialDelaySeconds: 30
           periodSeconds: 10
-          successThreshold: 1
+          timeoutSeconds: 10
           failureThreshold: 3
         envFrom:
         - configMapRef:

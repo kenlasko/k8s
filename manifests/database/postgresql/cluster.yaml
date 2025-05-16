@@ -95,6 +95,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-immich
+    - name: dawarich
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-dawarich
     services:
       additional:
       - selectorType: rw
