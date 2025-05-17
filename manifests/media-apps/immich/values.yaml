@@ -51,14 +51,14 @@ probes:
   liveness:
     spec:
       failureThreshold: 5
-      initialDelaySeconds: 60
-      periodSeconds: 30
+      initialDelaySeconds: 20
+      periodSeconds: 15
       timeoutSeconds: 10
   readiness:
     spec:
       failureThreshold: 5
-      initialDelaySeconds: 60
-      periodSeconds: 30
+      initialDelaySeconds: 20
+      periodSeconds: 15
       timeoutSeconds: 10
 resources:
   requests:
