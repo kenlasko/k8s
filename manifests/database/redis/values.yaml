@@ -19,7 +19,7 @@ master:
       cpu: 100m
       memory: 150Mi
     limits:
-      memory: 300Mi
+      memory: 1.5Gi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
