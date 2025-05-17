@@ -14,6 +14,12 @@ master:
   persistence:
     enabled: true
     existingClaim: nfs-redis
+  resources:
+    requests:
+      cpu: 100m
+      memory: 150Mi
+    limits:
+      memory: 300Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
