@@ -66,10 +66,10 @@ spec:
         compression: gzip
       s3Credentials:
         accessKeyId:
-          name: cloudflare-s3-backup-postgresql
+          name: oracle-s3-backup-postgresql
           key: AWS_ACCESS_KEY_ID
         secretAccessKey:
-          name: cloudflare-s3-backup-postgresql
+          name: oracle-s3-backup-postgresql
           key: AWS_SECRET_ACCESS_KEY
 
   # backup:
