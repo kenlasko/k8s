@@ -7,3 +7,10 @@ spec:
   backupOwnerReference: self
   cluster:
     name: home
+  pluginConfiguration:
+    name: barman
+    parameters:
+      backupType: "full"
+      compression: "gzip"
+      walCompression: "gzip"
+      walRetentionPolicy: "2d"
