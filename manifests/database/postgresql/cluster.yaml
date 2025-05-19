@@ -64,6 +64,9 @@ spec:
       destinationPath: "s3://postgresql"
       wal:
         compression: gzip
+        maxParallel: 4
+      data:
+        compression: gzip
       s3Credentials:
         accessKeyId:
           name: oracle-s3-backup-postgresql
