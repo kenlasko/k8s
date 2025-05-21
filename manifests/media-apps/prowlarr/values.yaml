@@ -32,5 +32,5 @@ livenessProbe:
 media:
   enabled: true
 persistentVolume:
-  type: longhorn
+  type: nfs
   size: 600Mi
