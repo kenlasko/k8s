@@ -131,6 +131,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-immich
+    - name: prowlarr
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-prowlarr
     - name: radarr
       ensure: present
       login: true

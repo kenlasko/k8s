@@ -71,3 +71,10 @@ spec:
       toPorts:
         - ports:
             - port: "8080"
+    - toEndpoints:
+        - matchLabels:
+            cnpg.io/cluster: home
+            io.kubernetes.pod.namespace: postgresql
+      toPorts:
+        - ports:
+            - port: "5432"
