@@ -1,3 +1,16 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: dawarich
+  namespace: postgresql
+spec:
+  name: dawarich
+  owner: dawarich
+  cluster:
+    name: home
+
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
@@ -13,10 +26,22 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: dawarich
+  name: radarr
   namespace: postgresql
 spec:
-  name: dawarich
-  owner: dawarich
+  name: radarr
+  owner: radarr
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: sonarr
+  namespace: postgresql
+spec:
+  name: sonarr
+  owner: sonarr
   cluster:
     name: home
