@@ -38,10 +38,34 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
+  name: radarr-logs
+  namespace: postgresql
+spec:
+  name: radarr-logs
+  owner: radarr
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
   name: sonarr
   namespace: postgresql
 spec:
   name: sonarr
+  owner: sonarr
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: sonarr-logs
+  namespace: postgresql
+spec:
+  name: sonarr-logs
   owner: sonarr
   cluster:
     name: home
