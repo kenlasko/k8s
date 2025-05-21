@@ -7,19 +7,6 @@ data:
   backup-media-apps.sh: |
     #! /bin/sh
 
-    APPS="Prowlarr Radarr Sonarr"
-
-    for APP in $APPS; do
-        echo "Backing up $APP"
-        APPLOW=$(echo "$APP" | awk '{print tolower($0)}')  # Convert to lowercase
-        kubectl cp -n media-apps "$APPLOW-0:/config/Backups/scheduled/." "/backup/$APPLOW/."
-        echo "Deleting old $APP backups"
-        APPCOUNT=$(find "/backup/$APPLOW" -type f -mtime -1 | wc -l)
-        if [ "$APPCOUNT" -gt 12 ]; then
-            find "/backup/$APPLOW"/* -mtime +2 -exec rm {} \;
-        fi
-    done
-
     echo 'Backing up Overseerr'
     kubectl cp -n media-apps overseerr-0:/config/db/. /backup/overseerr/db/.
     kubectl cp -n media-apps overseerr-0:/config/settings.json /backup/overseerr/settings.json
