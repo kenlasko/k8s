@@ -88,7 +88,7 @@ spec:
             - port: "9091"
     - toEndpoints:
         - matchLabels:
-            app.kubernetes.io/name: postgresql
+            cnpg.io/cluster: home
             io.kubernetes.pod.namespace: postgresql
       toPorts:
         - ports:
