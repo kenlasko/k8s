@@ -4,7 +4,7 @@ metadata:
   name: home
   namespace: postgresql
 spec:
-  imageName: registry.ucdialplans.com/pgis:16-3.5-0.3.0-2
+  imageName: registry.ucdialplans.com/postgis:16.0-3.5-0.3.0
   instances: 3
   failoverDelay: 15
   storage:
