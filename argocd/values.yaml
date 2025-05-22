@@ -201,6 +201,10 @@ configs:
       url: https://github.com/alex1989hu/kubelet-serving-cert-approver.git
       name: kubelet-serving-cert-approver
       type: git
+    kubetail:
+      url: https://kubetail-org.github.io/helm-charts
+      name: kubetail
+      type: helm
     longhorn:
       url: https://charts.longhorn.io
       name: longhorn

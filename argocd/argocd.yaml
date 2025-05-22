@@ -13,11 +13,11 @@ spec:
     chart: argo-cd
     helm:
       valueFiles:
-      - $values/manifests/argocd/values.yaml
+      - $values/argocd/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/argocd
+    path: argocd
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
