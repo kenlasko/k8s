@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://maintainerr.info/"
+  - name: "Documentation:"
+    value: "https://docs.maintainerr.info/latest/"
+  - name: "Repository:"
+    value: "https://github.com/jorenn92/Maintainerr"

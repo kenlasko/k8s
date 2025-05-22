@@ -38,3 +38,10 @@ spec:
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
+  info:
+  - name: "Website:"
+    value: "https://cloudnative-pg.io/"
+  - name: "Documentation:"
+    value: "https://cloudnative-pg.io/docs/"
+  - name: "Repository:"
+    value: "https://github.com/cloudnative-pg/cloudnative-pg"

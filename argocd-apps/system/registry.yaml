@@ -31,3 +31,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://hub.docker.com/_/registry"
+  - name: "Documentation:"
+    value: "https://distribution.github.io/distribution/"
+  - name: "Repository:"
+    value: "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry"

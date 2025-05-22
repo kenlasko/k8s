@@ -33,3 +33,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://cert-manager.io/"
+  - name: "Documentation:"
+    value: "https://cert-manager.io/docs/"
+  - name: "Repository:"
+    value: "https://github.com/cert-manager/cert-manager"

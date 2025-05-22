@@ -33,3 +33,8 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Documentation:"
+    value: "https://kubernetes-sigs.github.io/external-dns/v0.15.0/"
+  - name: "Repository:"
+    value: "https://github.com/kubernetes-sigs/external-dns"

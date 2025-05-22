@@ -33,3 +33,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://redis.io/"
+  - name: "Documentation:"
+    value: "https://redis.io/docs/latest/"
+  - name: "Repository:"
+    value: "https://github.com/redis/redis"

@@ -25,3 +25,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://dawarich.app/"
+  - name: "Documentation:"
+    value: "https://dawarich.app/docs/intro"
+  - name: "Repository:"
+    value: "https://github.com/Freika/dawarich"

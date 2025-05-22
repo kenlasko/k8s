@@ -33,3 +33,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://tailscale.com/"
+  - name: "Documentation:"
+    value: "https://tailscale.com/kb/1236/kubernetes-operator"
+  - name: "Repository:"
+    value: "https://github.com/tailscale/tailscale"

@@ -35,3 +35,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://uptimekuma.org/"
+  - name: "Documentation:"
+    value: "https://uptimekuma.org/wiki/"
+  - name: "Repository:"
+    value: "https://github.com/louislam/uptime-kuma"

@@ -29,3 +29,10 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://longhorn.io/"
+  - name: "Documentation:"
+    value: "https://longhorn.io/docs"
+  - name: "Repository:"
+    value: "https://github.com/longhorn/longhorn"

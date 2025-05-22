@@ -34,3 +34,6 @@ spec:
   info:
   - name: "Repository:"
     value: "https://github.com/robiningelbrecht/strava-statistics"
+  info:
+  - name: "Repository:"
+    value: "https://github.com/robiningelbrecht/statistics-for-strava"

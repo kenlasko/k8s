@@ -22,3 +22,8 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
+  info:
+  - name: "Documentation:"
+    value: "https://github.com/kubernetes-sigs/descheduler/blob/master/docs/user-guide.md"
+  - name: "Repository:"
+    value: "https://github.com/kubernetes-sigs/descheduler"

@@ -33,3 +33,8 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://www.pgadmin.org/"
+  - name: "Repository:"
+    value: "https://github.com/pgadmin-org/pgadmin4"
