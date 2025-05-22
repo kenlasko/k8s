@@ -13,7 +13,7 @@ spec:
   - "kubetail.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: longhorn-frontend
+    - name: kubetail-dashboard
       namespace: kubetail
       kind: Service
       port: 8080
