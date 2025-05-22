@@ -4,7 +4,7 @@ metadata:
   name: home
   namespace: postgresql
 spec:
-  imageName: registry.ucdialplans.com/pgis:16-0.3.0  # ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0  # registry.ucdialplans.com/postgres:16-3.5  
+  imageName: registry.ucdialplans.com/pgis:16-3.5-0.3.0  # ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0  # registry.ucdialplans.com/postgres:16-3.5  
   instances: 3
   failoverDelay: 15
   storage:
