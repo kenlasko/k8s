@@ -34,3 +34,6 @@ media:
 persistentVolume:
   type: nfs
   size: 600Mi
+backup:
+  location: cloudflare
+  schedule: "55 06 * * *"
