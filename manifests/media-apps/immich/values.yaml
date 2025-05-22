@@ -1,4 +1,5 @@
 image:
+  repository: ghcr.io/immich-app/immich
   tag: v1.133.0
 immich:
   persistence:
