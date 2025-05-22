@@ -6,7 +6,6 @@
   ],
   "enabledManagers": [
     "argocd",
-    "custom.regex",
     "helm-values",
     "kubernetes"
   ],
@@ -107,17 +106,6 @@
         "docker.io/linuxserver/transmission"
       ],
       "allowedVersions": "<=9.9"
-    }
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "fileMatch": ["manifests\/media-apps\/immich\/values.yaml$"],
-      "matchStrings": [
-        "tag:\\s*(?<currentValue>.*?)"
-      ],
-      "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "immich-app/immich"
     }
   ]
 }
