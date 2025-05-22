@@ -54,13 +54,13 @@
     {
       "matchManagers": [
         "argocd",
-        "custom.regex",
+        "helm-values",
         "kubernetes"
       ],
       "matchPackageNames": [
         "cilium",
         "**/gateway-api.git",
-        "**/immich",
+        "**immich-app/immich-**",
         "longhorn",
         "**/mariadb-galera"
       ],
