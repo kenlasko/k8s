@@ -25,5 +25,18 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: kubetail
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: restricted
+        pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://www.kubetail.com/"
+  - name: "Documentation:"
+    value: "https://www.kubetail.com/docs"
+  - name: "Repository:"
+    value: "https://github.com/kubetail-org/kubetail"
