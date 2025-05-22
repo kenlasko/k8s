@@ -53,9 +53,9 @@ spec:
   #         name: cloudflare-s3-backup-postgresql
   #         key: AWS_SECRET_ACCESS_KEY
 
-  postgresql:
-    shared_preload_libraries:
-    - "vectors.so"
+  # postgresql:
+  #   shared_preload_libraries:
+  #   - "vectors.so"
 
   # Cloudflare R2 backup target
   backup:
