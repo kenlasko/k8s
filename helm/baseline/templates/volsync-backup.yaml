@@ -16,8 +16,8 @@ spec:
     repository: {{ .Values.backup.location | default "nas01" }}-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
     # Retention policy for backups
     retain:
-    {{- if .Values.retentionPolicy }}
-    {{- toYaml .Values.retentionPolicy | nindent 6 }}
+    {{- if .Values.backup.retentionPolicy }}
+    {{- toYaml .Values.backup.retentionPolicy | nindent 6 }}
     {{- else }}
       hourly: 0
       daily: 7

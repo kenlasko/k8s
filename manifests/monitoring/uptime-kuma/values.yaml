@@ -49,6 +49,12 @@ backup:
   location: cloudflare
   copyMethod: Direct
   schedule: "25 6 * * *"
+  retentionPolicy:
+    hourly: 0
+    daily: 1
+    weekly: 0
+    monthly: 0
+    yearly: 0
 service:
   port: 3001
 tailscale:
