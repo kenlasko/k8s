@@ -21,7 +21,10 @@ spec:
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
-    kustomize: {} 
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/database/postgresql
+    targetRevision: HEAD
+    kustomize: {}
   destination:
     server: "https://kubernetes.default.svc"
     namespace: postgresql
