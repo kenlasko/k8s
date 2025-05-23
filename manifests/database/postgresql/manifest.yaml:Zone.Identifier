@@ -1,4 +1,0 @@
-[ZoneTransfer]
-ZoneId=3
-ReferrerUrl=https://github.com/cloudnative-pg/plugin-barman-cloud/releases
-HostUrl=https://objects.githubusercontent.com/github-production-release-asset-2e65be/862344033/03c9e2b7-edc2-4c03-b0b4-3728de52a37e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250523%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250523T193442Z&X-Amz-Expires=300&X-Amz-Signature=803382e71fed63134273a9467535153049703651480b86b78acbf36e2c58e3fe&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmanifest.yaml&response-content-type=application%2Foctet-stream
