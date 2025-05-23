@@ -21,6 +21,12 @@ spec:
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
+  # Install the Barman Cloud plugin (https://cloudnative-pg.io/plugin-barman-cloud/docs/installation/)
+  - repoURL: "https://github.com/cloudnative-pg/plugin-barman-cloud.git"
+    path: "releases/download/v0.4.0"
+    directory:
+      include: "manifest.yaml"
+    targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
     namespace: postgresql
