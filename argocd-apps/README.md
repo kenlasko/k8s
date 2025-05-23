@@ -17,6 +17,7 @@ Apps that basically everything else depends on:
 * [Cilium](/manifests/network/cilium)
 * [CSI Drivers](/manifests/system/csi-drivers)
 * [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
+* [Redis](/manifests/database/redis)
 * [Sealed Secrets](/manifests/system/sealed-secrets)
 
 ## Sync Wave 1
@@ -24,8 +25,10 @@ Apps that basically everything else depends on:
 * [Longhorn](/manifests/system/longhorn)
 * [MariaDB](/manifests/network/mariadb)
 * [PHPMyAdmin](/manifests/network/phpmyadmin)
+* [PostgreSQL](/manifests/database/postgresql)
+* [PGAdmin](/manifests/database/pgadmin)
 * [Registry](/manifests/system/registry)
-* [SnapScheduler](/manifests/system/snapscheduler)
+* [VolSync](/manifests/system/volsync)
 
 ## Sync Wave 2
 * [AdGuard Home](/manifests/apps/adguard)
@@ -37,14 +40,19 @@ Apps that basically everything else depends on:
 * [ZWave Admin](/manifests/homeops/zwaveadmin)
 
 ## Sync Wave 10
+* [Dawarich](/manifests/apps/dawarich)
 * [Descheduler](/manifests/system/descheduler)
 * [ESPHome](/manifests/homeops/esphome)
 * [Gitea](/manifests/apps/gitea)
 * [Headlamp](/manifests/apps/headlamp)
 * [Home Assistant](/manifests/homeops/homeassist)
+* [Immich](/manifests/media-apps/immich)
+* [Kubetail](/manifests/system/kubetail)
 * [MariaDB Standalone](/manifests/database/mariadb-standalone)
 * [Metrics Server](/manifests/monitoring/metrics-server)
+* [Paperless NGX](/manifests/apps/paperless)
 * [Portainer](/manifests/apps/portainer)
+* [Strava Stats](/manifests/apps/stravastats)
 * [Uptime Kuma](/manifests/monitoring/uptime-kuma)
 * [VaultWarden](/manifests/apps/vaultwarden)
 
