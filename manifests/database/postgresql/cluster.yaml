@@ -55,7 +55,6 @@ spec:
 
   postgresql:
     shared_preload_libraries:
-  #  - "vectors.so"
     - "vchord.so"
 
   # Cloudflare R2 backup target
@@ -77,43 +76,13 @@ spec:
           name: cloudflare-s3-backup-postgresql
           key: AWS_SECRET_ACCESS_KEY
 
-  # Oracle Cloud backup target
-  # backup:
-  #   retentionPolicy: "2d"
-  #   barmanObjectStore:
-  #     endpointURL: "https://yzimm6ocyme1.compat.objectstorage.ca-toronto-1.oraclecloud.com/"
-  #     destinationPath: "s3://postgresql"
-  #     wal:
-  #       compression: gzip
-  #       maxParallel: 4
-  #     data:
-  #       compression: gzip
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: oracle-s3-backup-postgresql
-  #         key: AWS_ACCESS_KEY_ID
-  #       secretAccessKey:
-  #         name: oracle-s3-backup-postgresql
-  #         key: AWS_SECRET_ACCESS_KEY
+  # # This will replace the above backup config once on CNPG 1.26.0
+  # plugins:
+  # - name: barman-cloud.cloudnative-pg.io
+  #   isWALArchiver: true
+  #   parameters:
+  #     barmanObjectName: cloudflare
 
-  # NAS01 backup target
-  # backup:
-  #   retentionPolicy: "7d"
-  #   barmanObjectStore:
-  #     endpointURL: "http://nas01.ucdialplans.com:8010"
-  #     destinationPath: "s3://postgresql"
-  #     wal:
-  #       compression: gzip
-  #       maxParallel: 4
-  #     data:
-  #       compression: gzip
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: nas01-s3-backup-postgresql
-  #         key: AWS_ACCESS_KEY_ID
-  #       secretAccessKey:
-  #         name: nas01-s3-backup-postgresql
-  #         key: AWS_SECRET_ACCESS_KEY
   managed:
     roles:
     - name: dawarich
@@ -167,7 +136,6 @@ spec:
             labels:
               tailscale.com/proxy-class: "run-on-worker"
             annotations:
-              #lbipam.cilium.io/ips: 192.168.1.15
               tailscale.com/expose: "true"
               tailscale.com/hostname: "home-postgresql"
           spec:
