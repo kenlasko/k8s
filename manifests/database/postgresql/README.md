@@ -1,4 +1,5 @@
 # Summary
-This is a test of setting up a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). It didn't take me long to have a fully-functional PG cluster that also automatically replicated to a remote PG server running on Oracle Cloud. 
+This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a [remote PostgreSQL server running on Oracle Cloud](https://github.com/kenlasko/k8s-cloud/tree/main/manifests/database/postgresql).
 
-I don't have any current use for PostgreSQL, but if I ever do, I'll be ready.
+## Backups
+Constant backups are being made to a remote S3 bucket, which makes restoration very simple.
