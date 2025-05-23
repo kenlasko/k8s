@@ -9,6 +9,6 @@ spec:
   backupOwnerReference: self
   cluster:
     name: home
-  # method: plugin
-  # pluginConfiguration:
-  #   name: barman-cloud.cloudnative-pg.io
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
