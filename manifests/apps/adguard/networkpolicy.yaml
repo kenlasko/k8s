@@ -13,6 +13,9 @@ spec:
         - ports:
             - port: "3000"
     - fromEntities:
+        - cluster
+        - host
+        - remote-node
         - world
       toPorts:
         - ports:
@@ -25,6 +28,11 @@ spec:
         - matchLabels:
             app.kubernetes.io/name: external-dns
             io.kubernetes.pod.namespace: external-dns
+      toPorts:
+        - ports:
+            - port: "3000"
+    - fromEndpoints:
+        - {}
       toPorts:
         - ports:
             - port: "3000"
