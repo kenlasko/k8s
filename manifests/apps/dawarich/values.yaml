@@ -15,11 +15,11 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-  envFrom:
-  - configMapRef:
-      name: env-vars
-  - secretRef:
-      name: dawarich-secrets
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: dawarich-secrets
 resources:
   requests:
     cpu: 4m
