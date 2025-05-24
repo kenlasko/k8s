@@ -3,6 +3,8 @@ image:
   tag: 0.26.6
   registry: docker.io
 priorityClassName: low-priority
+command: ["web-entrypoint.sh"]
+args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
