@@ -42,3 +42,6 @@ extraVolumeMounts:
 - name: stravastats-config
   mountPath: /var/www/storage
   subPath: storage
+- name: stravastats-config
+  mountPath: /var/www/config/app
+  subPath: config
