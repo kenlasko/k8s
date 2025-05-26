@@ -16,8 +16,8 @@ master:
     existingClaim: nfs-redis
   resources:
     requests:
-      cpu: 100m
-      memory: 150Mi
+      cpu: 30m
+      memory: 20Mi
     limits:
       memory: 1.5Gi
   affinity:

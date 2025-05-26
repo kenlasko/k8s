@@ -22,8 +22,8 @@ envFrom:
     name: dawarich-secrets
 resources:
   requests:
-    cpu: 4m
-    memory: 400Mi
+    cpu: 3m
+    memory: 775Mi
   limits:
     memory: 1.5Gi
 service:
