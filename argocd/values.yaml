@@ -168,6 +168,10 @@ configs:
       url: https://kubernetes-sigs.github.io/external-dns/
       name: external-dns
       type: helm
+    external-secrets:
+      url: https://charts.external-secrets.io
+      name: external-secrets
+      type: helm
     fluentbit:
       url: https://fluent.github.io/helm-charts
       name: fluent
