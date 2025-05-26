@@ -52,7 +52,7 @@ redis:
       # cpu: 160m
       memory: 50Mi
 externalRedis:
-  host: 
+  host: redis-master.redis.svc.cluster.local
   existingSecret: redis-credentials
 repoServer:
   resources:
