@@ -11,7 +11,7 @@ global:
             values: 
             - "amd64"
 
-image-repository:
+image:
   repository: ghcr.io/external-secrets/charts/external-secrets
 
 resources: {}
