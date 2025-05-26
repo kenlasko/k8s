@@ -78,6 +78,11 @@ spec:
         envFrom:
           {{- toYaml .Values.envFrom | nindent 10 }}
         {{- end }}
+        resizePolicy:
+        - resourceName: cpu
+          restartPolicy: {{ .Values.resizePolicy | default "NotRequired" }}
+        - resourceName: memory
+          restartPolicy: {{ .Values.resizePolicy | default "NotRequired" }}
         resources:
         {{- toYaml .Values.resources | nindent 10 }}
         {{- if .Values.service }}
