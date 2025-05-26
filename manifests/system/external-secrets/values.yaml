@@ -10,4 +10,8 @@ global:
             operator: In
             values: 
             - "amd64"
+
+image-repository:
+  repository: ghcr.io/external-secrets/charts/external-secrets
+
 resources: {}
