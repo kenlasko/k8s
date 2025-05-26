@@ -43,6 +43,7 @@ dex:
       # cpu: 300m
       memory: 200Mi
 redis:
+  enabled: false
   resources:
     requests:
       cpu: 10m
@@ -50,6 +51,9 @@ redis:
     limits:
       # cpu: 160m
       memory: 50Mi
+externalRedis:
+  host: 
+  existingSecret: redis-credentials
 repoServer:
   resources:
     requests:
