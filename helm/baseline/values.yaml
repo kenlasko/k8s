@@ -30,6 +30,12 @@ env: []
 #   value: "America/Toronto"
 envFrom: []
 
+# Resource resize policy
+# Options include NotRequired, RestartContainer
+resizePolicy:
+  cpu: NotRequired
+  memory: NotRequired
+
 # Resource requests and limits
 resources: {}
 

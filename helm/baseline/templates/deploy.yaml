@@ -80,9 +80,9 @@ spec:
         {{- end }}
         resizePolicy:
         - resourceName: cpu
-          restartPolicy: {{ .Values.resizePolicy | default "NotRequired" }}
+          restartPolicy: {{ .Values.resizePolicy.cpu | default "NotRequired" }}
         - resourceName: memory
-          restartPolicy: {{ .Values.resizePolicy | default "NotRequired" }}
+          restartPolicy: {{ .Values.resizePolicy.memory | default "NotRequired" }}
         resources:
         {{- toYaml .Values.resources | nindent 10 }}
         {{- if .Values.service }}
