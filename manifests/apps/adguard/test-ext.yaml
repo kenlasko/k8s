@@ -1,0 +1,53 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: adguard-s3-cloudflare
+  namespace: adguard
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: adguard-s3-cloudflare
+  dataFrom:
+  - extract:
+      key: /s3/cloudflare
+
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: adguard-s3-cloudflare-template
+  namespace: adguard
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    template:
+      engineVersion: v2
+      data:
+        AWS_ACCESS_KEY_ID: "{{ .awsAccessKeyID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .awsSecretAccessKey }}"
+        RESTIC_PASSWORD: "{{ .resticPassword }}"
+        RESTIC_REPOSITORY: "{{ .resticRepository }}/adguard"
+  data:
+  - secretKey: awsAccessKeyID
+    remoteRef:
+      key: /s3/cloudflare
+      property: AWS_ACCESS_KEY_ID
+  - secretKey: awsSecretAccessKey
+    remoteRef:
+      key: /s3/cloudflare
+      property: AWS_SECRET_ACCESS_KEY
+  - secretKey: resticRepository
+    remoteRef:
+      key: /s3/cloudflare
+      property: RESTIC_REPOSITORY
+  - secretKey: resticPassword
+    remoteRef:
+      key: /s3/cloudflare
+      property: RESTIC_PASSWORD
