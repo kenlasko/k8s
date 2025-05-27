@@ -1,5 +1,26 @@
 # Sample Secrets
-Pull all values from a single secret
+Pull value from a single-item secret
+```
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflare-api-token
+  namespace: cert-manager
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: cloudflare-api-token
+  data:
+  - secretKey: api-token 
+    remoteRef:
+      key: /cloudflare/api-token
+```
+
+Pull all values from a multi-item secret
 ```
 ---
 apiVersion: external-secrets.io/v1
@@ -20,7 +41,7 @@ spec:
 
 ```
 
-Pull a single value out of a secret with multiple values
+Pull a single item out of a secret with multiple item
 ```
 ---
 apiVersion: external-secrets.io/v1
