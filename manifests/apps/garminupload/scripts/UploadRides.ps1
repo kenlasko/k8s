@@ -457,12 +457,13 @@ Remove-Variable MBTUploadForm
 ###########################################################################################################################################
 # Update Strava with URLs for Di2Stats and MyBikeTraffic
 Write-Host 'INFO - Strave auth token expired or not found. Refreshing...'
-[string]$StravaSecret = (Get-ChildItem env:StravaSecret).Value
-[string]$AuthToken = (Get-ChildItem env:StravaRefreshToken).Value
+[int]$StravaClientID = (get-ChildItem env:CLIENT_ID).Value
+[string]$StravaSecret = (Get-ChildItem env:CLIENT_SECRET).Value
+[string]$AuthToken = (Get-ChildItem env:REFRESH_TOKEN).Value
 
 $AuthBody = @{
     grant_type = 'refresh_token'
-    client_id = 63572
+    client_id = $StravaClientID
     client_secret = $StravaSecret
     refresh_token = $AuthToken
 }	

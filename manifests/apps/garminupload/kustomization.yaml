@@ -3,7 +3,8 @@ kind: Kustomization
 namespace: garmin-upload
 resources:
 - resources/deploy.yaml
-- resources/sealed-secrets.yaml
+- resources/external-secrets.yaml
+#- resources/sealed-secrets.yaml
 - resources/volume.yaml
 
 configMapGenerator:
