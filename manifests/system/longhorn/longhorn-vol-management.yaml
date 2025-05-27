@@ -1,4 +1,4 @@
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: nightly-backups
@@ -16,7 +16,7 @@ spec:
     full-backup-interval: "4"
 
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: 24-hour-snapshots
@@ -32,7 +32,7 @@ spec:
     job: 24-hour-snapshots
 
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: filesystem-trim
@@ -48,7 +48,7 @@ spec:
     job: filesystem-trim
 
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: snapshot-cleanup
@@ -64,7 +64,7 @@ spec:
     job: snapshot-cleanup 
 
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: snapshot-delete
