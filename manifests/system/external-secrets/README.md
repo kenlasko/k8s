@@ -41,7 +41,7 @@ spec:
 
 ```
 
-Pull a single item out of a secret with multiple item
+Pull a single item out of a secret with multiple items
 ```
 ---
 apiVersion: external-secrets.io/v1
@@ -61,6 +61,32 @@ spec:
     remoteRef:
       key: /s3/cloudflare
       property: RESTIC_REPOSITORY
+```
+
+Pull items from a multiple-item secret and rename the keys
+```
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: adguard-s3-cloudflare-template
+  namespace: adguard
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: adguard-test
+  data:
+  - secretKey: resticrepo
+    remoteRef:
+      key: /s3/cloudflare
+      property: RESTIC_REPOSITORY
+  - secretKey: resticpass
+    remoteRef:
+      key: /s3/cloudflare
+      property: RESTIC_PASSWORD
 ```
 
 Use a template to modify the secret
