@@ -42,7 +42,6 @@ spec:
   task: filesystem-trim
   groups:
   - default
-  retain: 2
   concurrency: 2
   labels:
     job: filesystem-trim
