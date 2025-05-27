@@ -24,7 +24,7 @@ envFrom:
 - secretRef:
     name: kube-auth-token
 - secretRef:
-    name: env-secrets
+    name: env-secrets-homeassist
 resources:
   requests:
     cpu: 100m
