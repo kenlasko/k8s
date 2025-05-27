@@ -10,7 +10,7 @@ data:
   ROCKET_PORT: "8087"
   RUST_BACKTRACE: "1"
   SIGNUPS_ALLOWED: "false"
-  SMTP_HOST: "smtp.sendgrid.net"
+  SMTP_HOST: "mail.smtp2go.com"
   SMTP_FROM: "bitwarden@ucdialplans.com"
   SMTP_PORT: "465"
   SMTP_SECURITY: "force_tls"
