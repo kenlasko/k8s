@@ -1,3 +1,11 @@
+# Introduction
+
+# Installation
+After installing ESO, you must install the manifests that store the secrets for accessing the secret stores. This is stored in NixOS and is normally installed via Terraform. To install manually, run:
+```
+kubectl apply -f /run/secrets/eso-secretstore-secrets.yaml
+```
+
 # Sample Secrets
 Pull value from a single-item secret
 ```
