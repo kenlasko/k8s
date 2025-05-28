@@ -12,7 +12,7 @@ spec:
   restic:
     pruneIntervalDays: 4
     # Name of the Secret with the connection information
-    repository: cloudflare-s3-backup-mariadb
+    repository: s3-backup-cloudflare
     # Retention policy for backups
     retain:
       hourly: 0
