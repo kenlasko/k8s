@@ -56,5 +56,5 @@ extraVolumeMounts:
   mountPath: /var/app/storage
   subPath: storage
 backup:
-  location: cloudflare
+  location: oracle
   schedule: "10 7 * * *"
