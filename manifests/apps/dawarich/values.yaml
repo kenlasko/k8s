@@ -55,6 +55,6 @@ extraVolumeMounts:
 - name: dawarich-config
   mountPath: /var/app/storage
   subPath: storage
-# backup:
-#   location: cloudflare
-#   schedule: "10 7 * * *"
+backup:
+  location: cloudflare
+  schedule: "10 7 * * *"
