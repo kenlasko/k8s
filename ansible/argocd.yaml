@@ -33,7 +33,7 @@
   - name: Apply ArgoCD secrets
     kubernetes.core.k8s:
       state: present
-      src: /home/ken/k8s/argocd/sealed-secrets.yaml
+      src: /home/ken/k8s/argocd/external-secrets.yaml
   - name: Apply priority classes
     kubernetes.core.k8s:
       state: present
