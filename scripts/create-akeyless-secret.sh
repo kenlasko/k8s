@@ -30,7 +30,7 @@ SECRET_DATA_JSON=$(
 echo "Checking if Akeyless secret already exists at $AKEYLESS_PATH..."
 if akeyless get-secret-value --name "$AKEYLESS_PATH" >/dev/null 2>&1; then
   echo "Akeyless secret exists. Updating..."
-  akeyless update-secret --name "$AKEYLESS_PATH" --value "$SECRET_DATA_JSON"
+  akeyless update-secret-val --name "$AKEYLESS_PATH" --value "$SECRET_DATA_JSON"
 else
   echo "Akeyless secret does not exist. Creating..."
   akeyless create-secret --name "$AKEYLESS_PATH" --value "$SECRET_DATA_JSON"
