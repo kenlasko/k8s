@@ -11,7 +11,7 @@ spec:
     schedule: {{ .Values.backup.schedule | default "0 5 * * *" | quote }}
   restic:
     # Prune the repository (repack to free space) every week
-    pruneIntervalDays: 7
+    pruneIntervalDays: 3
     # Name of the Secret with the connection information
     repository: s3-backup-{{ .Values.backup.location | default "nas01" }}-{{ .Values.nameOverride | default .Release.Name }}
     # Retention policy for backups
