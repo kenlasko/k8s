@@ -21,3 +21,11 @@ Example:
 # Encrypt the secret.yaml file and places it into /manifests/adguard/sealed-secrets.yaml
 ./kubeseal.sh adguard
 ```
+
+# Tips and Tricks
+How to read the contents of a sealed secret that isn't deployed in the cluster
+```
+kubeseal --recovery-unseal < k8s/manifests/database/postgresql/sealed-secrets_DISABLED.yaml \
+  --recovery-private-key /run/secrets/sealed-secrets-private-key \
+| yq -r '.data | to_entries[] | "\(.key): \(.value | @base64d)"'
+```
