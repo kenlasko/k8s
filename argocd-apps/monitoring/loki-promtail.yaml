@@ -16,7 +16,7 @@ spec:
       - $values/manifests/monitoring/promstack/loki-values.yaml
   - repoURL: "https://grafana.github.io/helm-charts"
     chart: promtail
-    targetRevision: 6.16.6
+    targetRevision: 6.17.0
     helm:
       valueFiles:
       - $values/manifests/monitoring/promstack/promtail-values.yaml
