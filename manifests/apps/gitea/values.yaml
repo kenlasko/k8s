@@ -63,6 +63,7 @@ extraVolumeMounts:
 backup:
   location: backblaze
   schedule: "11 22 * * *"  #"0 6 * * *"
+  s3PathSuffixOverride: ""
   retentionPolicy:
     hourly: 0
     daily: 7
