@@ -10,7 +10,7 @@ metadata:
       {{- toYaml .Values.extraLabels | nindent 4 }}
     {{- end }}
   annotations:
-    reloader.stakater.com/auto: {{ .Values.reloaderEnabled | default "true" }}
+    reloader.stakater.com/auto: {{ .Values.reloaderEnabled | default "true" | quote }}
     {{- if .Values.extraAnnotations }}
       {{- toYaml .Values.extraAnnotations | nindent 4 }}
     {{- end }}
