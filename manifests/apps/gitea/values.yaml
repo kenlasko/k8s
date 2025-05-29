@@ -66,6 +66,6 @@ backup:
   retentionPolicy:
     hourly: 0
     daily: 1
-    weekly: 0
+    weekly: 1
     monthly: 0
     yearly: 0

@@ -65,7 +65,7 @@ omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-4. Once `kubectl get nodes` returns node info, [bootstrap the cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, Sealed-Secrets and ArgoCD via OpenTofu/Terraform
+4. Once `kubectl get nodes` returns node info, [bootstrap the cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, External Secrets Operator and ArgoCD via OpenTofu/Terraform
 ```bash
 cd ~/terraform
 tf workspace new home
@@ -73,7 +73,7 @@ tf workspace select home
 tf init
 tf apply
 ```
-Monitor the status of the Terraform install by running `kubectl get pods -A`. It will take several minutes for Cilium, Cert-Manager, Sealed-Secrets and ArgoCD to start.
+Monitor the status of the Terraform install by running `kubectl get pods -A`. It will take several minutes for Cilium, Cert-Manager, External Secrets Operator and ArgoCD to start.
 
 ## Argo App Install
 Once Terraform/OpenTofu bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).

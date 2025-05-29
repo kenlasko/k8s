@@ -1,3 +1,6 @@
+> [!WARNING]
+> Sealed Secrets has been deprecated in favour of [External Secrets Operator](/manifests/system/external-secrets). ESO makes it much simpler to manage large number of secrets. I used to dread having to change any secrets due to the work involved. ESO makes it much simpler.
+
 # Introduction
 To prevent secret leakage since the entire cluster configuration is on Github, I use [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) to safely encrypt my secrets so they can be openly shared on Github.
 
