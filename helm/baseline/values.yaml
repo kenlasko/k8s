@@ -10,6 +10,9 @@ autoMountServiceAccountToken: false
 serviceAccountName: ""
 priorityClassName: low-priority
 
+# Enable or disable Stakater Reloader for this application (restarts pods when config maps or secrets change)
+reloaderEnabled: true
+
 # Image settings
 image:
   repository: "your-repository"

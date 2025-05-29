@@ -9,6 +9,11 @@ metadata:
     {{- if .Values.extraLabels }}
       {{- toYaml .Values.extraLabels | nindent 4 }}
     {{- end }}
+  annotations:
+    reloader.stakater.com/auto: {{ .Values.reloaderEnabled | default "true" }}
+    {{- if .Values.extraAnnotations }}
+      {{- toYaml .Values.extraAnnotations | nindent 4 }}
+    {{- end }}
 spec:
   {{- if eq (.Values.appKind | default "StatefulSet") "StatefulSet" }}
   serviceName: {{ .Values.nameOverride | default .Release.Name }}
