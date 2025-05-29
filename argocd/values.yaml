@@ -237,6 +237,10 @@ configs:
       url: https://charts.bakito.net
       name: sealed-secrets-web
       type: helm
+    stakater:
+      url: https://stakater.github.io/stakater-charts
+      name: stakater
+      type: helm
     tailscale-operator:
       url: https://jacobcolvin.com/helm-charts
       name: tailscale-operator
