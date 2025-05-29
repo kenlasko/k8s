@@ -62,7 +62,7 @@ extraVolumeMounts:
   subPath: config
 backup:
   location: backblaze
-  schedule: "0 6 * * *"
+  schedule: "11 22 * * *"  #"0 6 * * *"
   retentionPolicy:
     hourly: 0
     daily: 7
