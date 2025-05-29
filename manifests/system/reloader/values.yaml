@@ -1,4 +1,5 @@
 reloader:
+  readOnlyRootFilesystem: true
   deployment:
     affinity:
       nodeAffinity:
