@@ -102,6 +102,34 @@ spec:
       property: RESTIC_PASSWORD
 ```
 
+## Mix dataFrom and data for things that have to be handled slightly differently
+```
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: codesign-cert
+  namespace: ucdialplans
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: codesign-cert
+  dataFrom:
+  - extract:
+      key: /ucdialplans/codesign-cert
+      conversionStrategy: Default
+      decodingStrategy: Base64
+      metadataPolicy: None
+  data:
+  - secretKey: keypass.txt
+    remoteRef:
+      key: /ucdialplans/codesign-cert
+      property: keypass.txt
+```
+
 ## Use a template to modify the secret
 ```
 ---
