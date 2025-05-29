@@ -23,7 +23,7 @@ Example:
 ```
 
 # Tips and Tricks
-How to read the contents of a sealed secret that isn't deployed in the cluster
+How to read the contents of a sealed secret that isn't deployed in the cluster using [decrypt-sealedsecret.sh](/scripts/decrypt-sealedsecret.sh)
 ```
 kubeseal --recovery-unseal < k8s/manifests/database/postgresql/sealed-secrets_DISABLED.yaml \
   --recovery-private-key /run/secrets/sealed-secrets-private-key \
