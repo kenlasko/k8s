@@ -47,7 +47,7 @@ spec:
                 # cpu: 200m
                 memory: 400Mi
             env: 
-            - name: k8s_ROOT_PW 
+            - name: MARIADB_ROOT_PW 
               valueFrom: 
                 secretKeyRef: 
                   name: mariadb-passwords
@@ -60,7 +60,7 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Updating UCDialplans.com statistics..." &&
-              mariadb -B -N -h mariadb.mariadb.svc.cluster.local -P 3306 -uroot -p$k8s_ROOT_PW -D ucdialplans < /script/statupdate.sql &&
+              mariadb -B -N -h mariadb.mariadb.svc.cluster.local -P 3306 -uroot -p$MARIADB_ROOT_PW -D ucdialplans < /script/statupdate.sql &&
               echo "$(date +%F_%T) Finished!"
           volumes:
           - configMap:
