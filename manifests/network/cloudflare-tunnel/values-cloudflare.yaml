@@ -3,7 +3,7 @@ image:
   repository: cloudflare/cloudflared
   tag: 2025.2.0
   registry: docker.io
-replicas: 1
+replicas: 2
 priorityClassName: high-priority
 securityContext:
   allowPrivilegeEscalation: false
