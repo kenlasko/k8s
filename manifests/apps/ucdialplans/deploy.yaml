@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: ucdialplans
   namespace: ucdialplans
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 2
   revisionHistoryLimit: 2
