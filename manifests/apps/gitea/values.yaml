@@ -60,13 +60,13 @@ extraVolumeMounts:
 - name: gitea-config
   mountPath: /etc/gitea
   subPath: config
-backup:
-  location: backblaze
-  schedule: "55 23 * * *"  #"0 6 * * *"
-  s3PathSuffixOverride: ""
-  retentionPolicy:
-    hourly: 0
-    daily: 7
-    weekly: 0
-    monthly: 0
-    yearly: 0
+# backup:
+#   location: backblaze
+#   schedule: "55 23 * * *"  #"0 6 * * *"
+#   s3PathSuffixOverride: ""
+#   retentionPolicy:
+#     hourly: 0
+#     daily: 7
+#     weekly: 0
+#     monthly: 0
+#     yearly: 0
