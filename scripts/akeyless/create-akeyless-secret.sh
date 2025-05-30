@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Creates a AKeyless secret based on an existing Kubernetes secret.
+
 set -euo pipefail
 
 # Usage check

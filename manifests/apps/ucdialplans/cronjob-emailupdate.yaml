@@ -52,7 +52,7 @@ spec:
             - name: MS_ACCOUNTID
               valueFrom:
                 secretKeyRef:
-                  name: ms-account-id
+                  name: credentials
                   key: ms-account-id
           dnsConfig:
             options:
