@@ -46,5 +46,5 @@ persistentVolume:
   size: 1Gi
   mountPath: /data
 backup:
-  location: backblaze
+  location: cloudflare
   schedule: "15 06 * * *"

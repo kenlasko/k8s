@@ -44,7 +44,7 @@ persistentVolume:
   type: nfs
   size: 2Gi
 backup:
-  location: backblaze
+  location: cloudflare
   schedule: "35 6 * * *"
 # media:
 #   enabled: true
