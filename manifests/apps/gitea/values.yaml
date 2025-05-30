@@ -61,7 +61,7 @@ extraVolumeMounts:
   mountPath: /etc/gitea
   subPath: config
 backup:
-  location: backblaze
+  location: cloudflare
   schedule: "0 6 * * *"
   retentionPolicy:
     hourly: 0
