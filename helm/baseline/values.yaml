@@ -107,7 +107,7 @@ extraVolumes: []
 #     claimName: yourClaim
 
 backup: {}
-  # location: (nas01|cloudflare|oracle)
+  # location: (nas01|cloudflare|oracle|backblaze)
   # copyMethod: (Clone|Direct|Snapshot)
   # retentionPolicy:
   #   hourly: 6
