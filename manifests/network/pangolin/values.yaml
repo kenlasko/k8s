@@ -26,7 +26,6 @@ resources:
     cpu: 5m
     memory: 35Mi
   limits:
-    # cpu: 100m
     memory: 60Mi
 disableHTTPRoute: true
 affinity:
