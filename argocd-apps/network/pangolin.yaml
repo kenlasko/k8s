@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cloudflare-tunnel
+  name: pangolin-tunnel
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
   sources:
@@ -13,21 +13,15 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/network/cloudflare-tunnel/values-cloudflare.yaml
+      - /manifests/network/pangolin/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/baseline
-    targetRevision: HEAD
-    helm:
-      valueFiles:
-      - /manifests/network/cloudflare-tunnel/values-ddns.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/network/cloudflare-tunnel
+    path: manifests/network/pangolin
     targetRevision: HEAD
     directory:
       exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: cloudflare
+    namespace: pangolin
   syncPolicy:
     managedNamespaceMetadata:
       labels:
@@ -39,6 +33,6 @@ spec:
     - CreateNamespace=true
   info:
   - name: "Documentation:"
-    value: "https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/"
+    value: "https://docs.fossorial.io/Getting%20Started/overview"
   - name: "Repository:"
-    value: "https://github.com/cloudflare/cloudflared"
+    value: "https://github.com/fosrl/newt"
