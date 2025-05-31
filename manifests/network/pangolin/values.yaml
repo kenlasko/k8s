@@ -15,11 +15,12 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
+env:
+- name: TZ
+  value: "America/Toronto"
 envFrom:
 - secretRef:
     name: newt-config
-- name: TZ
-  value: "America/Toronto"
 resources:
   requests:
     cpu: 5m

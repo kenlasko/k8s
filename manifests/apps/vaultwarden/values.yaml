@@ -18,6 +18,11 @@ securityContext:
 env:
 - name: TZ
   value: "America/Toronto"
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
 resources:
   requests:
     cpu: 1m
@@ -36,11 +41,7 @@ livenessProbe:
   periodSeconds: 10
   successThreshold: 1
   failureThreshold: 10
-envFrom:
-- configMapRef:
-    name: env-vars
-- secretRef:
-    name: env-secrets
+
 persistentVolume:
   type: nfs
   size: 1Gi
