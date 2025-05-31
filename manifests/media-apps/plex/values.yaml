@@ -25,7 +25,7 @@ env:
 resources:
   requests:
     cpu: 10m
-    memory: 1000Mi
+    memory: 1250Mi
     gpu.intel.com/i915: "1"
   limits:
     # cpu: 2500m
