@@ -71,6 +71,7 @@
         "helm-values"
       ],
       "matchPackageNames": [
+        "docker.io/freikin/dawarich",
         "ghcr.io/home-operations/home-assistant",
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-app/immich-machine-learning"

@@ -55,6 +55,9 @@ extraVolumeMounts:
 - name: dawarich-config
   mountPath: /var/app/storage
   subPath: storage
+- name: dawarich-config
+  mountPath: /dawarich_db_data
+  subPath: db
 backup:
   location: oracle
   schedule: "10 7 * * *"
