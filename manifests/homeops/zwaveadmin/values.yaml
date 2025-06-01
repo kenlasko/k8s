@@ -34,7 +34,7 @@ persistentVolume:
   size: 1Gi
   mountPath: /usr/src/app/store
 backup:
-  location: cloudflare
+  location: backblaze
   schedule: "10 */2 * * *"
 affinity:
   nodeAffinity:
