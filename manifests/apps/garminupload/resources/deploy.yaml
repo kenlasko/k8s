@@ -61,6 +61,8 @@ spec:
             envFrom:
             - secretRef:
                 name: garmin-secrets
+            - secretRef:
+                name: strava-secrets
             volumeMounts:
             - name: garmindata
               mountPath: /garmin-data
