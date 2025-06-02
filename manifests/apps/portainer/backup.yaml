@@ -8,13 +8,13 @@ spec:
   trigger:
     schedule: "20 6 * * *"
   restic:
-    pruneIntervalDays: 14
-    repository: cloudflare-s3-backup-portainer
+    pruneIntervalDays: 4
+    repository: s3-backup-backblaze-portainer
     retain:
-      hourly: 6
-      daily: 5
-      weekly: 4
-      monthly: 2
+      hourly: 0
+      daily: 7
+      weekly: 2
+      monthly: 0
       yearly: 0
     copyMethod: Clone
     volumeSnapshotClassName: nfs
