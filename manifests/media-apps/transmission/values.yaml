@@ -46,6 +46,12 @@ persistentVolume:
 backup:
   location: backblaze
   schedule: "35 6 * * 0,3"  # 6:35am every Sunday and Wednesday
+  retain:
+    hourly: 0
+    daily: 3
+    weekly: 0
+    monthly: 0
+    yearly: 0
 # media:
 #   enabled: true
 extraVolumeMounts:
