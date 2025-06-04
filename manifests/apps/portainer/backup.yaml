@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: nfs-portainer
   trigger:
-    schedule: "20 6 * * *"
+    schedule: "20 6 * * 1,4" # 6:20am every Monday and Thursday
   restic:
     pruneIntervalDays: 4
     repository: s3-backup-backblaze-portainer
