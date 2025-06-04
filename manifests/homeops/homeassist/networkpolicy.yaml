@@ -22,6 +22,13 @@ spec:
         - ports:
             - port: "8123"
     - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: pangolin-tunnel
+            k8s:io.kubernetes.pod.namespace: pangolin
+      toPorts:
+        - ports:
+            - port: "8123"
+    - fromEndpoints:
         - {}
   egress:
     - toEndpoints:
