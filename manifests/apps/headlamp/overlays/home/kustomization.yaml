@@ -1,0 +1,11 @@
+resources:
+- ../../base
+- networkpolicy.yaml
+patchesStrategicMerge:
+- httproute-patch.yaml
+configMapGenerator:
+- name: headlamp-values
+  files:
+  - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true

@@ -1,0 +1,13 @@
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
+
+resources:
+  requests:
+    cpu: 1m
+    memory: 10Mi
+  limits:
+    memory: 40Mi
