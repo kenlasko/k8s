@@ -20,7 +20,7 @@ spec:
     path: manifests/overlays/home/apps/headlamp
     targetRevision: HEAD
     kustomize:
-      valuesFiles: []
+    #   valuesFiles: []
     directory:
       exclude: "*_DISABLED.yaml"
   destination:
