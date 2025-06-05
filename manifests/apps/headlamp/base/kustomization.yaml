@@ -1,9 +1,0 @@
-resources:
-- httproute.yaml
-- networkpolicy.yaml
-configMapGenerator:
-- name: headlamp-values
-  files:
-  - values.yaml
-generatorOptions:
-  disableNameSuffixHash: true
