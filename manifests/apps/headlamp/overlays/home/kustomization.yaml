@@ -1,6 +1,5 @@
 resources:
 - ../../base
-- networkpolicy.yaml
 patchesStrategicMerge:
 - httproute-patch.yaml
 configMapGenerator:
