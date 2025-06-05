@@ -13,6 +13,7 @@ spec:
     chart: headlamp
     helm:
       valueFiles:
+      - $values/manifests/apps/headlamp/base/values.yaml
       - $values/manifests/apps/headlamp/overlays/home/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
