@@ -12,6 +12,7 @@ spec:
     path: manifests/overlays/home/apps/headlamp
     targetRevision: HEAD
     kustomize:
+      buildOptions: "--enable-helm"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: headlamp-2
