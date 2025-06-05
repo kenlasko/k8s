@@ -4,7 +4,7 @@ resources:
 - ../../../../base/apps/headlamp
 
 helmCharts:
-- name: headlamp # Must match the name in the base's helmCharts
+- name: headlamp
   valuesFile: values.yaml
 
 patches:
@@ -15,4 +15,4 @@ patches:
     kind: HTTPRoute
     name: headlamp
 
-namespace: headlamp
+namespace: headlamp-2

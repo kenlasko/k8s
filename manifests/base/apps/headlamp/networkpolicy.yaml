@@ -2,7 +2,7 @@ apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: headlamp
-  namespace: headlamp
+  namespace: headlamp-2
 spec:
   endpointSelector:
     matchLabels:

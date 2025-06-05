@@ -4,4 +4,4 @@ metadata:
   name: headlamp
 spec:
   hostnames:
-  - "headlamp.ucdialplans.com"
+  - "headlamp-2.ucdialplans.com"
