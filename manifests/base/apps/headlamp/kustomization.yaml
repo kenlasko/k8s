@@ -1,0 +1,15 @@
+# manifests/base/apps/headlamp/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+- name: headlamp
+  repo: https://kubernetes-sigs.github.io/headlamp/
+  version: 0.31.0
+  releaseName: headlamp
+  namespace: headlamp 
+  valuesFile: values.yaml
+
+resources:
+- httproute.yaml
+- networkpolicy.yaml
