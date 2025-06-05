@@ -7,20 +7,18 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
-  source:
-  # - repoURL: "https://kubernetes-sigs.github.io/headlamp/"
-  #   targetRevision: 0.31.0
-  #   chart: headlamp
-  #   helm:
-  #     valueFiles:
-  #     - $values/manifests/apps/headlamp/values.yaml
-  # - repoURL: "git@github.com:kenlasko/k8s.git"
-  #   ref: values
-    repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/overlays/home/apps/headlamp
+  sources:
+  - repoURL: "https://kubernetes-sigs.github.io/headlamp/"
+    targetRevision: 0.31.0
+    chart: headlamp
+    helm:
+      valueFiles:
+      - $values/manifests/apps/headlamp/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    ref: values
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/headlamp
     targetRevision: HEAD
-    kustomize:
-    #   valuesFiles: []
     directory:
       exclude: "*_DISABLED.yaml"
   destination:
