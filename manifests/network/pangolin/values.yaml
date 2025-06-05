@@ -28,8 +28,7 @@ resources:
   limits:
     memory: 60Mi
 disableHTTPRoute: true
-livenessProbe: 
-  enabled: false
+livenessProbe: false
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

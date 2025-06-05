@@ -109,6 +109,7 @@ spec:
         args:
           {{- toYaml .Values.args | nindent 10 }}
         {{- end }}
+        {{- if not (eq (.Values.livenessProbe | toString) "false") }} 
         livenessProbe:
         {{- if .Values.livenessProbe }}
           {{- toYaml .Values.livenessProbe | nindent 10 }}
@@ -119,6 +120,7 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 60
           timeoutSeconds: 5
+        {{- end }}
         {{- end }}
         {{- if .Values.startupProbe }}
         startupProbe:
