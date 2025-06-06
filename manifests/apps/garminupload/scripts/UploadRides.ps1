@@ -492,21 +492,20 @@ Write-Host 'INFO - Adding MyBikeTraffic and Di2Stats URLs to Strava'
 
 If ($ActivityNotes -eq $NULL) {
     $NewDescription = "$MBTURL\n$Di2URL"
-}
-Else {
+} Else {
     $NewDescription = "$ActivityNotes\n\n$MBTURL\n$Di2URL"
 }
 
-$StravaBody = "{
-`n  `"commute`": false,
-`n  `"trainer`": false,
-`n  `"description`": `"$NewDescription`",
-`n  `"name`": `"$ActivityName`",
-`n  `"type`": `"$($JSON.Type)`",
-`n  `"gear_id`": `"$($JSON.gear_id)`"
-`n}"
+$StravaBody = @{
+    commute     = $false
+    trainer     = $false
+    description = $NewDescription
+    name        = $ActivityName
+    type        = $JSON.type
+    gear_id     = $JSON.gear_id
+} | ConvertTo-Json
 
-$UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody
+$UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody -ContentType "application/json"
 
 
 ###########################################################################################################################################
