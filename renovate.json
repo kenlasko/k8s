@@ -24,7 +24,7 @@
     "fileMatch": [
       "deploy",
       "cronjob",
-      "kustomize",
+      "kustomization",
       "tunnel"
     ]
   },
