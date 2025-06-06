@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguard
+  name: adguard-dns
+  namespace: adguard
+spec:
+  type: ClusterIP
+  ports:
+  - name: dns-tls-853
+    port: 853
+    protocol: TCP
+    targetPort: dns-tls-853
+  selector:
+    app: adguard

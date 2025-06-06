@@ -1,0 +1,8 @@
+# manifests/base/apps/headlamp/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- external-secrets.yaml
+- letsencrypt-dns-wildcard.yaml
+- networkpolicy.yaml
+#- sealed-secrets.yaml
