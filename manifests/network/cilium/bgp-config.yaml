@@ -24,9 +24,9 @@ metadata:
   name: cilium-peer
 spec:
   timers:
-    holdTimeSeconds: 15
-    keepAliveTimeSeconds: 5
-  # ebgpMultihop: 2
+    holdTimeSeconds: 30
+    keepAliveTimeSeconds: 10
+  ebgpMultihop: 2
   gracefulRestart:
     enabled: true
     restartTimeSeconds: 15
