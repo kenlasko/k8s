@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- ../../../../base/apps/headlamp
+- ../../base
 
 patches:
 - path: httproute-patch.yaml
@@ -18,4 +18,4 @@ patches:
     kind: Deployment
     name: headlamp
 
-namespace: headlamp-2
+namespace: headlamp

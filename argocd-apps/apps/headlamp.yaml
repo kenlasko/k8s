@@ -1,26 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: headlamp
+  name: headlamp-2
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
-  sources:
-  - repoURL: "https://kubernetes-sigs.github.io/headlamp/"
-    targetRevision: 0.31.0
-    chart: headlamp
-    helm:
-      valueFiles:
-      - $values/manifests/apps/headlamp/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/apps/headlamp
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/headlamp/overlays/home
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: headlamp

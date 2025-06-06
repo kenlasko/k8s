@@ -9,8 +9,7 @@ spec:
   - name: tls
     namespace: cilium
     sectionName: https
-  hostnames:
-  - "headlamp.ucdialplans.com"
+  hostnames: []
   rules:
   - backendRefs:
     - name: headlamp

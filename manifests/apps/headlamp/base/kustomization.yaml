@@ -6,7 +6,7 @@ helmCharts:
   repo: https://kubernetes-sigs.github.io/headlamp/
   version: 0.31.0
   releaseName: headlamp
-  namespace: headlamp-2
+  namespace: headlamp
   valuesFile: values.yaml
 resources:
 - httproute.yaml
