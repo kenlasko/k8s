@@ -1,6 +1,6 @@
 image:
   repository: paperless-ngx/paperless-ngx
-  tag: 2.16.2
+  tag: 2.16.3
   registry: ghcr.io
 priorityClassName: low-priority
 extraLabels:
