@@ -7,7 +7,8 @@
   "enabledManagers": [
     "argocd",
     "helm-values",
-    "kubernetes"
+    "kubernetes",
+    "kustomize"
   ],
   "argocd": {
     "fileMatch": [
@@ -17,8 +18,7 @@
   },
   "helm-values": {
     "fileMatch": [
-      "manifests/[^/]+\\.yaml$",
-      "kustomization"
+      "manifests/[^/]+\\.yaml$"
     ]
   },
   "kubernetes": {
