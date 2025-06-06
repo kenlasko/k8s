@@ -17,14 +17,14 @@
   },
   "helm-values": {
     "fileMatch": [
-      "manifests/[^/]+\\.yaml$"
+      "manifests/[^/]+\\.yaml$",
+      "kustomization"
     ]
   },
   "kubernetes": {
     "fileMatch": [
       "deploy",
       "cronjob",
-      "kustomization",
       "tunnel"
     ]
   },
