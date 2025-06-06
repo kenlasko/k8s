@@ -1,0 +1,15 @@
+# manifests/overlays/home/apps/headlamp/kustomization.yaml (CORRECTED)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+
+patches:
+- path: httproute-patch.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: headlamp
+
+namespace: headlamp
