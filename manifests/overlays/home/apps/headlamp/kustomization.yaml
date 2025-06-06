@@ -2,11 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- ../../../../base/apps/headlamp # This correctly brings in the base Helm chart definition
-
-# Use helmValues to override the values from the base
-helmValues:
-- file: values.yaml # This applies the overlay-specific values to the chart defined in the base
+- ../../../../base/apps/headlamp
 
 patches:
 - path: httproute-patch.yaml
@@ -15,6 +11,11 @@ patches:
     version: v1
     kind: HTTPRoute
     name: headlamp
+- path: deployment-patch.yaml
+  target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: headlamp
 
-# The namespace in the overlay will automatically apply to all resources from the base
 namespace: headlamp-2
