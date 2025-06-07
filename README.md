@@ -199,3 +199,13 @@ Many container images do not have any tools like `nc` to check network port conn
 ```bash
 (echo > /dev/tcp/<servicename>/<port>) >/dev/null 2>&1 && echo "It's up" || echo "It's down"
 ```
+
+## Validate Kustomize manifests
+```
+kustomize build k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone
+```
+
+## Validate Homegrown Helm Chart
+```
+helm template plex ~/k8s/helm/baseline -n media-apps -f ~/k8s/manifests/media-tools/plex/values.yaml > ~/chart-test.yaml
+```

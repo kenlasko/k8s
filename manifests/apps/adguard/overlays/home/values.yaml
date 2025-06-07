@@ -4,6 +4,8 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
 persistentVolume:
   type: nfs
   mountPath: /adguard
