@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: ucdialplans
 resources:
 - ../../base
 patches:
@@ -8,12 +7,12 @@ patches:
   target:
     group: batch
     version: v1
-    kind: Cronjob
+    kind: CronJob
     name: emailupdate
-patches:
 - path: cronjob-statupdate-patch.yaml
   target:
     group: batch
     version: v1
-    kind: Cronjob
-    name: statupdate-script
+    kind: CronJob
+    name: mariadb-ucdialplans-statupdate
+    namespace: mariadb
