@@ -1,0 +1,8 @@
+---
+apiVersion: apps/v1
+kind: Cronjob
+metadata:
+  name: mariadb-ucdialplans-statupdate
+  namespace: mariadb
+spec:
+  suspend: true

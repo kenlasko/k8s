@@ -22,26 +22,6 @@ spec:
       restartPolicy: Always
       automountServiceAccountToken: false
       priorityClassName: high-priority
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/control-plane
-                operator: DoesNotExist
-              - key: kubernetes.io/arch
-                operator: In
-                values: 
-                - "amd64"
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - ucdialplans
-            topologyKey: kubernetes.io/hostname
       containers:
       - name: ucdialplans
         image: docker.io/kenlasko/ucdialplans:14.5.14

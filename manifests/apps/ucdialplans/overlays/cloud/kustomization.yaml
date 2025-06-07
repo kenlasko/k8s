@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ucdialplans
+resources:
+- ../../base
+patches:
+- path: cronjob-emailupdate-patch.yaml
+  target:
+    group: batch
+    version: v1
+    kind: Cronjob
+    name: emailupdate
+patches:
+- path: cronjob-statupdate-patch.yaml
+  target:
+    group: batch
+    version: v1
+    kind: Cronjob
+    name: statupdate-script

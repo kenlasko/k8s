@@ -1,0 +1,15 @@
+# manifests/base/apps/headlamp/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- configmap-nginx.yaml
+- configmap-statupdate.yaml
+- configmap-webconfig.yaml
+- cronjob-emailupdate.yaml
+- cronjob-statupdate.yaml
+- deploy.yaml
+- external-secrets.yaml
+- httproute.yaml
+- networkpolicy.yaml
+#- sealed-secrets.yaml
+- service.yaml

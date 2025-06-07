@@ -1,4 +1,4 @@
-# overlays/home/apps/headlamp/deployment-patch.yaml
+# overlays/home/apps/headlamp/deploy-patch.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
