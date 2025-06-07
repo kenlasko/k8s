@@ -1,41 +1,3 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: adguard
-#   namespace: argocd
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-# spec:
-#   project: default
-#   source:
-#     repoURL: "git@github.com:kenlasko/k8s.git"
-#     path: manifests/apps/adguard/overlays/home
-#     targetRevision: HEAD
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: adguard
-#   ignoreDifferences:
-#   - jsonPointers:
-#     - /spec/externalName
-#     kind: Service
-#   syncPolicy:
-#     managedNamespaceMetadata:
-#       labels:
-#         pod-security.kubernetes.io/enforce: baseline
-#         pod-security.kubernetes.io/enforce-version: latest
-#     automated:
-#       selfHeal: true
-#     syncOptions:
-#     - CreateNamespace=true
-#   info:
-#   - name: "Website:"
-#     value: "https://adguard.com/en/adguard-home/overview.html"
-#   - name: "Documentation:"
-#     value: "https://github.com/AdguardTeam/AdGuardHome/wiki"
-#   - name: "Repository:"
-#     value: "https://github.com/AdguardTeam/AdGuardHome"
-
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -45,18 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
-  sources:
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/baseline
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/adguard/overlays/home
     targetRevision: HEAD
-    helm:
-      valueFiles:
-      - /manifests/apps/adguard/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/apps/adguard
-    targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: adguard
@@ -80,3 +34,49 @@ spec:
     value: "https://github.com/AdguardTeam/AdGuardHome/wiki"
   - name: "Repository:"
     value: "https://github.com/AdguardTeam/AdGuardHome"
+
+
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: adguard
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "2"
+# spec:
+#   project: default
+#   sources:
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     path: helm/baseline
+#     targetRevision: HEAD
+#     helm:
+#       valueFiles:
+#       - /manifests/apps/adguard/values.yaml
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     path: manifests/apps/adguard
+#     targetRevision: HEAD
+#     directory:
+#       exclude: "*_DISABLED.yaml"
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: adguard
+#   ignoreDifferences:
+#   - jsonPointers:
+#     - /spec/externalName
+#     kind: Service
+#   syncPolicy:
+#     managedNamespaceMetadata:
+#       labels:
+#         pod-security.kubernetes.io/enforce: baseline
+#         pod-security.kubernetes.io/enforce-version: latest
+#     automated:
+#       selfHeal: true
+#     syncOptions:
+#     - CreateNamespace=true
+#   info:
+#   - name: "Website:"
+#     value: "https://adguard.com/en/adguard-home/overview.html"
+#   - name: "Documentation:"
+#     value: "https://github.com/AdguardTeam/AdGuardHome/wiki"
+#   - name: "Repository:"
+#     value: "https://github.com/AdguardTeam/AdGuardHome"
