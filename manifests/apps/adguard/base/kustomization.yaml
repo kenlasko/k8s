@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
 - external-secrets.yaml
 - letsencrypt-dns-wildcard.yaml
-- networkpolicy.yaml
+#- networkpolicy.yaml
 #- sealed-secrets.yaml
