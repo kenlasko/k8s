@@ -1,3 +1,9 @@
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
 persistentVolume:
   type: nfs
   mountPath: /adguard
