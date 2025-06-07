@@ -9,7 +9,7 @@ metadata:
 data:
   url: https://argocd.ucdialplans.com
   admin.enabled: "false"  # disable built-in admin account
-  kustomize.buildOptions: "--enable-helm"
+  kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
   # Used for Github authentication
   dex.config: |

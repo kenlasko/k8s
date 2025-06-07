@@ -6,7 +6,10 @@ helmCharts:
 - name: baseline
   releaseName: adguard
   namespace: adguard
-  valuesFile: values.yaml
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
 resources:
 - ../../base
 - service.yaml
