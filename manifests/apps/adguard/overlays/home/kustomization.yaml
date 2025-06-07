@@ -13,5 +13,6 @@ helmCharts:
 resources:
 - ../../base
 - deploy-adguard-sync.yaml
+- networkpolicy.yaml
 #- restore.yaml
 - service.yaml
