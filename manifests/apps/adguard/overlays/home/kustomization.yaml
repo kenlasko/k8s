@@ -8,6 +8,7 @@ helmCharts:
   namespace: adguard
   valuesFile: values.yaml
 resources:
+- ../../base
 - deploy-adguard-sync.yaml
 #- restore.yaml
 - service.yaml

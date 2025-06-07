@@ -8,5 +8,6 @@ helmCharts:
   namespace: adguard
   valuesFile: values.yaml
 resources:
+- ../../base
 - service.yaml
 - volume.yaml
