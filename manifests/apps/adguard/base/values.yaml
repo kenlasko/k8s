@@ -3,7 +3,6 @@ image:
   tag: v0.107.62
   registry: docker.io
 priorityClassName: medium-priority
-hostNetwork: true
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
