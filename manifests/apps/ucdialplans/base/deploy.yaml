@@ -53,8 +53,8 @@ spec:
         - name: ucdialplans-nginx
           mountPath: /etc/nginx/sites-enabled/default
           subPath: default
-        - name: nfs-ucdialplans
-          mountPath: /var/www/rulesets
+        # - name: nfs-ucdialplans
+        #   mountPath: /var/www/rulesets
         - name: ucdialplans-webconfig
           mountPath: /var/www/web.config
           subPath: web.config
@@ -80,9 +80,9 @@ spec:
         - name: ndots
           value: "1"
       volumes:
-      - name: nfs-ucdialplans
-        persistentVolumeClaim:
-          claimName: nfs-ucdialplans
+      # - name: nfs-ucdialplans
+      #   persistentVolumeClaim:
+      #     claimName: nfs-ucdialplans
       - configMap:
           items:
           - key: default
