@@ -1,11 +1,10 @@
-# manifests/base/apps/headlamp/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+helmGlobals:
+  chartHome: ../../../../../helm
 helmCharts:
-- name: k8s-baseline
-  repo: git@github.com:kenlasko/k8s.git
-  path: helm/baseline
-  targetRevision: HEAD
+- name: baseline
+  releaseName: adguard
   namespace: adguard
   valuesFile: values.yaml
 resources:
