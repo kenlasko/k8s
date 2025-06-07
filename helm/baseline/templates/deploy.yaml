@@ -45,6 +45,7 @@ spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
       priorityClassName: {{ .Values.priorityClassName | default "low-priority" }}
+      {{- if not (eq (.Values.affinity | toString) "false") }} 
       affinity:
         {{- if .Values.affinity }}
         {{- toYaml .Values.affinity | nindent 8 }}
@@ -59,6 +60,7 @@ spec:
                 operator: In
                 values:
                 - "amd64"
+        {{- end }}
         {{- end }}
       containers:
       - name: {{ .Values.nameOverride | default .Release.Name }}
