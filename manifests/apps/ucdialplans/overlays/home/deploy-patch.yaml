@@ -27,6 +27,7 @@ spec:
                 - ucdialplans
             topologyKey: kubernetes.io/hostname
       containers:
+      - name: ucdialplans
         volumeMounts:
         - name: nfs-ucdialplans
           mountPath: /var/www/rulesets
