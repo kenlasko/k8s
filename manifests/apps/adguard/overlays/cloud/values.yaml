@@ -1,3 +1,4 @@
+hostNetwork: true
 extraVolumes:
 - name: adguard-conf
   persistentVolumeClaim:
