@@ -1,0 +1,12 @@
+service:
+  port: 8087
+  extraLabels:
+    tailscale.com/proxy-class: "enable-tun"
+  annotations:
+    tailscale.com/expose: 'true'
+    tailscale.com/hostname: 'cloud-vaultwarden'
+httpRouteNameOverride: cloud-vaultwarden.ucdialplans.com
+persistentVolume:
+  type: local-path
+  size: 250Mi
+  mountPath: /data

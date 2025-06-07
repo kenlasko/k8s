@@ -2,6 +2,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- env-vars.yaml
 - external-secrets.yaml
-- letsencrypt-dns-wildcard.yaml
-#- sealed-secrets.yaml
+- networkpolicy.yaml
