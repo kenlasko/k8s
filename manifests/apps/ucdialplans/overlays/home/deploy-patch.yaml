@@ -26,10 +26,10 @@ spec:
                 values:
                 - ucdialplans
             topologyKey: kubernetes.io/hostname
-        volumeMounts:
-        - name: nfs-ucdialplans
-          mountPath: /var/www/rulesets
-      volumes:
+      volumeMounts:
       - name: nfs-ucdialplans
-        persistentVolumeClaim:
-          claimName: nfs-ucdialplans
+        mountPath: /var/www/rulesets
+    volumes:
+    - name: nfs-ucdialplans
+      persistentVolumeClaim:
+        claimName: nfs-ucdialplans
