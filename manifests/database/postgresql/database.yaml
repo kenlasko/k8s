@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: dawarich
+  name: dawarich-queue
   namespace: postgresql
 spec:
   name: dawarich-queue
