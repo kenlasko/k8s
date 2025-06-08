@@ -21,7 +21,7 @@ resources:
     smarter-devices/bus_usb_001_003: 1
   limits:
     # cpu: 1m
-    memory: 4Mi
+    memory: 5Mi
     smarter-devices/bus_usb_001_003: 1
 service:
   port: 3493
