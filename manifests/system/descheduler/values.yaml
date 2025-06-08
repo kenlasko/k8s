@@ -1,0 +1,88 @@
+kind: Deployment
+schedule: "30 */2 * * *"  # Every hour at 30 min past
+deschedulingInterval: 120m
+priorityClassName: high-priority
+deschedulerPolicy:
+  nodeSelector: "storage=longhorn"
+  # metricsCollector:
+  #   enabled: true
+  profiles:
+  - name: default
+    pluginConfig:
+    - name: DefaultEvictor
+      args:
+        ignorePvcPods: true
+        evictLocalStoragePods: true
+    - name: RemoveDuplicates
+    - name: RemovePodsHavingTooManyRestarts
+      args:
+        podRestartThreshold: 10
+        includingInitContainers: true
+    - name: RemovePodsViolatingNodeAffinity
+      args:
+        nodeAffinityType:
+        - requiredDuringSchedulingIgnoredDuringExecution
+    - name: RemovePodsViolatingNodeTaints
+    - name: RemovePodsViolatingInterPodAntiAffinity
+    - name: RemovePodsViolatingTopologySpreadConstraint
+    - name: LowNodeUtilization
+      args:
+        # metricsUtilization:
+        #   metricsServer: true
+        useDeviationThresholds: false
+        thresholds:
+          cpu: 25
+          memory: 25
+          pods: 25
+        targetThresholds:
+          cpu: 50
+          memory: 50
+          pods: 50
+        evictableNamespaces:
+          exclude:
+          - homeassist
+          - kube-system
+          - mariadb
+          - mariadb-standalone
+          - intel-gpu
+    plugins:
+      balance:
+        enabled:
+        - RemoveDuplicates
+        - RemovePodsViolatingTopologySpreadConstraint
+        - LowNodeUtilization
+      deschedule:
+        enabled:
+        - RemovePodsHavingTooManyRestarts
+        - RemovePodsViolatingNodeTaints
+        - RemovePodsViolatingNodeAffinity
+        - RemovePodsViolatingInterPodAntiAffinity
+
+resources:
+  requests:
+    cpu: 1m
+    memory: 16Mi
+  limits:
+    # cpu: 50m
+    memory: 100Mi
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - "amd64"
+
+livenessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /healthz
+    port: 10258
+    scheme: HTTPS
+  initialDelaySeconds: 30
+  periodSeconds: 15
