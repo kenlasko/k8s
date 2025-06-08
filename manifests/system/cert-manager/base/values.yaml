@@ -1,0 +1,16 @@
+featureGates: "ExperimentalGatewayAPISupport=true"
+installCRDs: true
+livenessProbe:
+  enabled: true
+prometheus:
+  enabled: false
+resources:
+  requests:
+    cpu: 1m
+    memory: 22Mi
+  limits:
+    # cpu: 15m
+    memory: 50Mi
+extraEnv:
+- name: TZ
+  value: "America/Toronto"
