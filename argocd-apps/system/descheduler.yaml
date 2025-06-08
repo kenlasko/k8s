@@ -7,15 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
-  sources:
-  - repoURL: "https://kubernetes-sigs.github.io/descheduler/"
-    targetRevision: 0.33.0
-    chart: descheduler
-    helm:
-      valueFiles:
-      - $values/manifests/system/descheduler/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/system/cert-manager/overlays/home
+    targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
     namespace: kube-system
@@ -27,3 +22,35 @@ spec:
     value: "https://github.com/kubernetes-sigs/descheduler/blob/master/docs/user-guide.md"
   - name: "Repository:"
     value: "https://github.com/kubernetes-sigs/descheduler"
+
+
+
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: descheduler
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "10"
+# spec:
+#   project: default
+#   sources:
+#   - repoURL: "https://kubernetes-sigs.github.io/descheduler/"
+#     targetRevision: 0.33.0
+#     chart: descheduler
+#     helm:
+#       valueFiles:
+#       - $values/manifests/system/descheduler/values.yaml
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     ref: values
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: kube-system
+#   syncPolicy:
+#     automated:
+#       selfHeal: true
+#   info:
+#   - name: "Documentation:"
+#     value: "https://github.com/kubernetes-sigs/descheduler/blob/master/docs/user-guide.md"
+#   - name: "Repository:"
+#     value: "https://github.com/kubernetes-sigs/descheduler"

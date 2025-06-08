@@ -1,0 +1,19 @@
+kind: Deployment
+schedule: "30 */2 * * *"  # Every hour at 30 min past
+deschedulingInterval: 120m
+priorityClassName: high-priority
+resources:
+  requests:
+    cpu: 1m
+    memory: 16Mi
+  limits:
+    # cpu: 50m
+    memory: 100Mi
+livenessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /healthz
+    port: 10258
+    scheme: HTTPS
+  initialDelaySeconds: 30
+  periodSeconds: 15

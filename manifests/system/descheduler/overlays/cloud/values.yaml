@@ -1,0 +1,13 @@
+deschedulerPolicy:
+  profiles:
+  - name: default
+    pluginConfig:
+    - name: DefaultEvictor
+      args:
+        ignorePvcPods: true
+        evictLocalStoragePods: true
+    - name: RemoveDuplicates
+    - name: RemovePodsHavingTooManyRestarts
+      args:
+        podRestartThreshold: 100
+        includingInitContainers: true
