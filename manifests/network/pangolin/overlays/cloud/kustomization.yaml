@@ -5,7 +5,7 @@ helmGlobals:
   chartHome: ../../../../../helm
 helmCharts:
 - name: baseline
-  releaseName: pangolin
+  releaseName: pangolin-tunnel
   namespace: pangolin
   valuesFile: ../../base/values.yaml
   additionalValuesFiles:
