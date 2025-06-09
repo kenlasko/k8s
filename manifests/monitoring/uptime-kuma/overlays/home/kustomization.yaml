@@ -11,3 +11,6 @@ helmCharts:
   additionalValuesFiles:
   - values.yaml
   valuesMerge: merge
+resources:
+- ../../base
+#- restore.yaml
