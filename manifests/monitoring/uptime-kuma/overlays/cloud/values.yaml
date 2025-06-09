@@ -5,3 +5,12 @@ extraLabels:
   tailscale.com/proxy-class: enable-tun
 httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
 affinity: false
+securityContext:
+  allowPrivilegeEscalation: true
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
