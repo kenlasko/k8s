@@ -1,0 +1,94 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mariadb-backup
+  namespace: mariadb
+spec:
+  schedule: "30 5 * * *"  # Start at 1:30am every day
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            mariadb-client: "true"
+        spec:
+          dnsPolicy: ClusterFirstWithHostNet
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+          automountServiceAccountToken: false
+          containers:
+          - name: mariadb-backup
+            image: docker.io/mariadb:11.7.2
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 350m
+                memory: 700Mi
+              limits:
+                # cpu: 400m
+               # memory: 800Mi
+            env: 
+            - name: MARIADB_ROOT_PASSWORD 
+              valueFrom: 
+                secretKeyRef: 
+                  name: mariadb-passwords 
+                  key: mariadb-root-password
+            command: 
+            - /bin/sh
+            - -c
+            - day=$(date +%A) &&
+              dayofmonth=$(date +%-d) &&
+              echo "$(date +%F_%T) Locking databases for sync backup..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "flush tables with read lock;" &&
+              echo "$(date +%F_%T) Obtaining current value of gtid_binlog_pos..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "show variables like 'gtid_binlog_pos';" mysql | awk '{print $2}' > /backup/mariadb-gtid-pos.txt &&
+              echo "$(date +%F_%T) gtid_binlog_pos is $(cat /backup/mariadb-gtid-pos.txt)" &&
+              echo "$(date +%F_%T) Backing up MariaDB user accounts and privileges..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW DATABASES WHERE \`Database\` NOT IN ('information_schema','mysql','performance_schema','sys');" mysql > /backup/mariadb-databases.txt &&
+              DB_LIST=$(tr '\n' ' ' < /backup/mariadb-databases.txt) &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SELECT CONCAT('\'', user,'\'@\'', host, '\'') FROM user WHERE user NOT IN ('debian-sys-maint','healthcheck','mariadb.sys','mariadbbackup','mariadb-metrics','monitor','mysql','root','')" mysql > /backup/mariadb-users.txt &&
+              while read line; do mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "SHOW GRANTS FOR $line"; done < /backup/mariadb-users.txt > /backup/mariadb-users.sql &&
+              sed -i 's/$/;/' /backup/mariadb-users.sql &&
+              echo "$(date +%F_%T) Backing up MariaDB databases..." &&
+              for i in $(seq 1 10); do [ $i -gt 1 ] && echo "$(date +%F_%T) Retrying in 15s"; sleep 15; mariadb-dump -h mariadb -u root -p$MARIADB_ROOT_PASSWORD -B $DB_LIST > /backup/mariadb-backup-$day.sql && s=0 && break || s=$?; done; (exit $s) &&
+              echo "$(date +%F_%T) Unlocking databases..." &&
+              mariadb -B -N -h mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e "unlock tables;" &&
+              if [ "$dayofmonth" -eq 1 ]; then echo "$(date +%F_%T) Creating monthly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-monthly-$(date +%m).sql; fi &&
+              case $dayofmonth in 7|14|21|28) echo "$(date +%F_%T) Creating weekly backup..."; cp /backup/mariadb-backup-$day.sql /backup/mariadb-backup-weekly-$dayofmonth.sql; ;; *) ;; esac &&
+              echo "Zipping daily backup to separate folder for S3 backup job..." &&
+              rm /backup-zip/*.gz 2>/dev/null &&
+              gzip -c /backup/mariadb-backup-$day.sql > /backup-zip/mariadb-backup-$day.sql.gz &&
+              cp /backup/mariadb-users.sql /backup-zip/mariadb-users.sql &&
+              echo "$(date +%F_%T) MariaDB databases have been backed up."
+            volumeMounts:
+            - name: data
+              mountPath: /backup
+            - name: zipdata
+              mountPath: /backup-zip
+          restartPolicy: Never #OnFailure
+          volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: nfs-mariadb-backup
+          - name: zipdata
+            persistentVolumeClaim:
+              claimName: nfs-mariadb-zip-backup
