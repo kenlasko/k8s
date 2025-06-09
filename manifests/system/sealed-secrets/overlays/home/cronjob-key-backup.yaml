@@ -1,0 +1,73 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sealed-secret-key-backup
+  namespace: kube-system
+spec:
+  schedule: "0 5 * * *"  # Start 5am UTC every day
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: keybackup-service-account
+          serviceAccountName: keybackup-service-account
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values: 
+                    - "amd64"
+          restartPolicy: OnFailure
+          containers:
+          - name: backup-sealed-secret-key
+            image: bitnami/kubectl:1.33.1
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 200m
+                memory: 400Mi
+              limits:
+                # cpu: 200m
+                memory: 400Mi
+            command: 
+            - /bin/sh
+            - -c
+            - /script/backup-sealed-secret-key.sh
+            env:
+            - name: TZ
+              value: "America/Toronto"
+            volumeMounts:
+            - name: backup
+              mountPath: /backup
+            - name: backup-sealed-secret-key-script
+              mountPath: /script/backup-sealed-secret-key.sh
+              subPath: backup-sealed-secret-key.sh
+          volumes:
+          - name: backup
+            persistentVolumeClaim:
+              claimName: nfs-k8s-backup
+          - configMap:
+              items:
+              - key: backup-sealed-secret-key.sh
+                path: backup-sealed-secret-key.sh
+              name: backup-sealed-secret-key-script
+              defaultMode: 0555
+            name: backup-sealed-secret-key-script

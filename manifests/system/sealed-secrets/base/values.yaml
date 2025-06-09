@@ -1,0 +1,18 @@
+fullnameOverride: sealed-secrets-controller
+keyRenewPeriod: "0"  # Disable key recycling
+skipRecreate: true
+secretName: sealed-secrets-key5l82h
+resources:
+  requests:
+    cpu: 1m
+    memory: 9Mi
+  limits:
+    # cpu: 200m
+    memory: 15Mi
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
