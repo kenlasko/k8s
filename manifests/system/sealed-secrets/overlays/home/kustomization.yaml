@@ -3,13 +3,12 @@ kind: Kustomization
 namespace: sealed-secrets
 helmCharts:
 - name: sealed-secrets
-  url: oci://registry-1.docker.io/bitnamicharts
+  repo: oci://registry-1.docker.io/bitnamicharts
   version: 0.17.0
   releaseName: sealed-secrets
   namespace: sealed-secrets
   valuesFile: ../../base/values.yaml
 resources:
-- ../../base
 - configmap-script.yaml
 - cronjob-key-backup.yaml
 - keybackup-serviceaccount.yaml
