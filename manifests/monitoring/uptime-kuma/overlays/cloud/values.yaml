@@ -6,10 +6,10 @@ extraLabels:
 httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
 affinity: false
 securityContext:
-  allowPrivilegeEscalation: true
-  readOnlyRootFilesystem: false
-  runAsNonRoot: false
-  runAsUser: 1000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 0
   seccompProfile:
     type: RuntimeDefault
   capabilities:
