@@ -1,0 +1,31 @@
+appKind: Deployment
+image:
+  repository: fosrl/newt
+  tag: 1.2.1
+  registry: docker.io
+replicas: 1
+priorityClassName: high-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  # runAsUser: 1000
+  # runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: TZ
+  value: "America/Toronto"
+envFrom:
+- secretRef:
+    name: newt-config
+resources:
+  requests:
+    cpu: 5m
+    memory: 35Mi
+  limits:
+    memory: 60Mi
+disableHTTPRoute: true
+livenessProbe: false
