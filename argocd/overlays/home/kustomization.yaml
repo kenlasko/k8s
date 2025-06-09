@@ -1,0 +1,23 @@
+# manifests/overlays/home/apps/headlamp/kustomization.yaml (CORRECTED)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+resources:
+- ../../base
+- argocd-apps.yaml
+- argocd.yaml
+- external-secrets.yaml
+patches:
+- path: httproute-patch.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: headlamp
+- path: configmap-patch.yaml
+  target:
+    group: apps
+    version: v1
+    kind: ConfigMap
+    name: argocd-cm
+

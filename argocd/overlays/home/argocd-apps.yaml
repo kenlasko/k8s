@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-apps
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps
+    targetRevision: HEAD
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/apps
+    targetRevision: HEAD
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/database
+    targetRevision: HEAD
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/homeops
+    targetRevision: HEAD
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/monitoring
+    targetRevision: HEAD
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/network
+    targetRevision: HEAD
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/system
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true

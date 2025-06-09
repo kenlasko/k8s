@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec:
+  project: default
+  sources:
+  - repoURL: "https://argoproj.github.io/argo-helm"
+    targetRevision: 8.0.9
+    chart: argo-cd
+    helm:
+      valueFiles:
+      - $values/argocd/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    ref: values
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd
+    targetRevision: HEAD
+    directory:
+      exclude: "*_DISABLED.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

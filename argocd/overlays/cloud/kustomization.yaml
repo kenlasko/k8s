@@ -1,0 +1,34 @@
+# manifests/overlays/home/apps/headlamp/kustomization.yaml (CORRECTED)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+helmCharts:
+- name: argo-cd
+  repo: https://argoproj.github.io/argo-helm
+  version: 8.0.9
+  releaseName: argocd
+  namespace: argocd
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
+resources:
+- ../../base
+- argocd-apps.yaml
+- argocd.yaml
+- external-secrets.yaml
+- kubeapi-httproute.yaml
+patches:
+- path: httproute-patch.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: headlamp
+- path: configmap-patch.yaml
+  target:
+    group: ""
+    version: v1
+    kind: ConfigMap
+    name: argocd-cm
+

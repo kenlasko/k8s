@@ -1,0 +1,576 @@
+global:
+  logging:
+    level: info
+  env:
+  - name: TZ
+    value: "America/Toronto"
+  networkPolicy:
+    create: false
+    defaultDenyIngress: false
+applicationSet:
+  resources:
+    requests:
+      cpu: 1m
+      memory: 30Mi
+    limits:
+      # cpu: 200m
+      memory: 50Mi
+controller:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 500Mi
+    limits:
+      # cpu: 1500m
+      memory: 1800Mi
+dex:
+  resources:
+    requests:
+      cpu: 1m
+      memory: 42Mi
+    limits:
+      # cpu: 300m
+      memory: 200Mi
+redis:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 15Mi
+    limits:
+      # cpu: 160m
+      memory: 50Mi
+repoServer:
+  resources:
+    requests:
+      cpu: 5m
+      memory: 130Mi
+    limits:
+      # cpu: 1200m
+      memory: 2000Mi
+server:
+  resources:
+    requests:
+      cpu: 4m
+      memory: 40Mi
+    limits:
+      # cpu: 200m
+      memory: 200Mi
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: argocd
+      omni-kube-service-exposer.sidero.dev/port: "50104"
+      omni-kube-service-exposer.sidero.dev/label: ArgoCD
+      omni-kube-service-exposer.sidero.dev/icon: |
+        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
+        SW9/Ne9/fjHv7znv0/8H3v/j/4wU9exIGAAA
+configs:
+  params:
+    server.insecure: true
+  cm: 
+    create: false # Don't create configmap because I do it separately via configmap.yaml
+  rbac:
+    create: true
+    policy.default: ''
+    scopes: "[email]"
+    policy.csv: |
+      p, role:org-admin, *, *, *, allow
+      g, ken.lasko@gmail.com, role:org-admin
+  repositories:
+    argocd:
+      url: https://argoproj.github.io/argo-helm
+      name: argocd
+      type: helm
+    backube:
+      url: https://backube.github.io/helm-charts
+      name: backube
+      type: helm
+    bitnami:
+      url: registry-1.docker.io/bitnamicharts
+      name: bitnami
+      type: helm
+      enableOCI: "true"
+    cert-manager:
+      url: https://charts.jetstack.io
+      name: jetstack
+      type: helm
+    cilium:
+      url: https://helm.cilium.io
+      name: cilium
+      type: helm
+    cloudnative-pg:
+      url: https://cloudnative-pg.github.io/charts
+      name: cnpg
+      type: helm
+    coroot:
+      url: https://coroot.github.io/helm-charts
+      name: coroot
+      type: helm
+    csi-driver-nfs:
+      url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+      name: csi-driver-nfs
+      type: helm
+    descheduler:
+      url: https://kubernetes-sigs.github.io/descheduler
+      name: descheduler
+      type: helm
+    external-dns:
+      url: https://kubernetes-sigs.github.io/external-dns/
+      name: external-dns
+      type: helm
+    external-secrets:
+      url: https://charts.external-secrets.io
+      name: external-secrets
+      type: helm
+    fluentbit:
+      url: https://fluent.github.io/helm-charts
+      name: fluent
+      type: helm
+    gateway-api-crds:
+      url: https://github.com/kubernetes-sigs/gateway-api.git
+      name: gateway-api-crds
+      type: git
+    geek-cookbook:
+      url: https://geek-cookbook.github.io/charts
+      name: geek-cookbook
+      type: helm
+    gitea:
+      url: https://dl.gitea.com/charts
+      name: gitea
+      type: helm
+    grafana:
+      url: https://grafana.github.io/helm-charts
+      name: grafana
+      type: helm
+    headlamp:
+      url: https://kubernetes-sigs.github.io/headlamp/
+      name: headlamp
+      type: helm
+    immich: 
+      url: ghcr.io/immich-app/immich-charts
+      name: immich
+      type: helm
+      enableOCI: "true"
+    intel:
+      url: https://intel.github.io/helm-charts
+      name: intel
+      type: helm
+    kubelet-serving-cert-approver:
+      url: https://github.com/alex1989hu/kubelet-serving-cert-approver.git
+      name: kubelet-serving-cert-approver
+      type: git
+    kubetail:
+      url: https://kubetail-org.github.io/helm-charts
+      name: kubetail
+      type: helm
+    longhorn:
+      url: https://charts.longhorn.io
+      name: longhorn
+      type: helm
+    mariadb-operator:
+      url: https://mariadb-operator.github.io/mariadb-operator
+      name: mariadb-operator
+      type: helm
+    metrics-server:
+      url: https://kubernetes-sigs.github.io/metrics-server/
+      name: metrics-server
+      type: helm
+    portainer:
+      url: https://portainer.github.io/k8s/
+      name: portainer
+      type: helm
+    promstack:
+      url: https://prometheus-community.github.io/helm-charts
+      name: promstack
+      type: helm
+    sealed-secrets-web:
+      url: https://charts.bakito.net
+      name: sealed-secrets-web
+      type: helm
+    stakater:
+      url: https://stakater.github.io/stakater-charts
+      name: stakater
+      type: helm
+    tailscale-operator:
+      url: https://jacobcolvin.com/helm-charts
+      name: tailscale-operator
+      type: helm
+    tailscale:
+      url: https://pkgs.tailscale.com/helmcharts
+      name: tailscale
+      type: helm
+    uptime-kuma:
+      url: https://k3rnelpan1c-dev.github.io/uptime-kuma-helm
+      name: uptime-kuma
+      type: helm
+    velero:
+      url: https://vmware-tanzu.github.io/helm-charts
+      name: vmware-tanzu
+      type: helm
+
+notifications:
+  enabled: true
+  resources:
+    requests:
+      cpu: 2m
+      memory: 50Mi
+    limits:
+      # cpu: 300m
+      memory: 150Mi
+  secret:
+    create: false
+  notifiers:
+    service.slack: |
+      token: $slack-token
+    
+  templates:
+    template.app-created: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#18be52",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            },
+            {
+              "title": "Revision",
+              "value": "{{.app.status.sync.revision}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-deleted: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#18be52",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            },
+            {
+              "title": "Revision",
+              "value": "{{.app.status.sync.revision}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-deployed: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#18be52",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            },
+            {
+              "title": "Revision",
+              "value": "{{.app.status.sync.revision}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-health-degraded: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#f4c030",
+            "fields": [
+            {
+              "title": "Health Status",
+              "value": "{{.app.status.health.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-sync-failed: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#E96D76",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-sync-running: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#0DADEA",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-sync-status-unknown: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#E96D76",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+    template.app-sync-succeeded: |
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#18be52",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            ,
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
+        deliveryPolicy: Post
+        groupingKey: ""
+        notifyBroadcast: false
+
+  # -- The trigger defines the condition when the notification should be sent
+  ## For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/triggers/
+  triggers:
+    trigger.on-created: |
+      - description: Application is created.
+        oncePer: app.metadata.name
+        send:
+        - app-created
+        when: "true"
+    trigger.on-deleted: |
+      - description: Application is deleted.
+        oncePer: app.metadata.name
+        send:
+        - app-deleted
+        when: app.metadata.deletionTimestamp != nil
+    trigger.on-deployed: |
+      - description: Application is synced and healthy. Triggered once per commit.
+        oncePer: app.status.operationState?.syncResult?.revision
+        send:
+        - app-deployed
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded']
+          and app.status.health.status == 'Healthy'
+    trigger.on-health-degraded: |
+      - description: Application has degraded
+        send:
+        - app-health-degraded
+        when: app.status.health.status == 'Degraded'
+    trigger.on-sync-failed: |
+      - description: Application syncing has failed
+        send:
+        - app-sync-failed
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Error',
+          'Failed']
+    trigger.on-sync-running: |
+      - description: Application is being synced
+        send:
+        - app-sync-running
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Running']
+    trigger.on-sync-status-unknown: |
+      - description: Application status is 'Unknown'
+        send:
+        - app-sync-status-unknown
+        when: app.status.sync.status == 'Unknown'
+    trigger.on-sync-succeeded: |
+      - description: Application syncing has succeeded
+        send:
+        - app-sync-succeeded
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded']
+
+redis-ha:
+  enabled: false

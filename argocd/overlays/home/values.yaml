@@ -1,0 +1,46 @@
+global:
+  domain: argocd.ucdialplans.com
+  affinity:
+    nodeAffinity:
+      type: hard
+      matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+      - key: kubernetes.io/arch
+        operator: In
+        values: 
+        - "amd64"
+redis:
+  enabled: false
+externalRedis:
+  host: redis-master.redis.svc.cluster.local
+  existingSecret: redis-credentials
+
+notifications:
+  argocdUrl: "https://argocd.ucdialplans.com"
+  subscriptions:
+    # subscription for issues
+    - recipients:
+      - slack:home-argocd-alerts
+      triggers:
+      - on-health-degraded
+      - on-sync-failed
+      - on-sync-status-unknown
+    # subscription for updates
+    # - recipients:
+    #   - slack:home-argocd-updates
+    #   triggers:
+    #   - on-sync-succeeded
+    
+  haproxy:
+    additionalAffinities:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - "amd64"
