@@ -7,24 +7,20 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
-  source:
-    repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/database/mariadb/overlays/home
+  sources:
+  - repoURL: "registry-1.docker.io/bitnamicharts"
+    targetRevision: 14.2.7
+    chart: mariadb-galera
+    helm:
+      valueFiles:
+      - $values/manifests/database/mariadb/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    ref: values
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/database/mariadb
     targetRevision: HEAD
-  # sources:
-  # - repoURL: "registry-1.docker.io/bitnamicharts"
-  #   targetRevision: 14.2.7
-  #   chart: mariadb-galera
-  #   helm:
-  #     valueFiles:
-  #     - $values/manifests/database/mariadb/values.yaml
-  # - repoURL: "git@github.com:kenlasko/k8s.git"
-  #   ref: values
-  # - repoURL: "git@github.com:kenlasko/k8s.git"
-  #   path: manifests/database/mariadb
-  #   targetRevision: HEAD
-  #   directory:
-  #     exclude: "*_DISABLED.yaml"
+    directory:
+      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: mariadb
