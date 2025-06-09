@@ -3,7 +3,7 @@ command:
 - cloudflared
 - tunnel
 - --no-autoupdate
-- --protocol=http2
+- --protocol=http2  # Needed to get around a constant pod crash issue
 - --metrics
 - 0.0.0.0:2000
 - run
