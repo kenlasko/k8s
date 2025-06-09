@@ -1,0 +1,118 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: home
+  namespace: postgresql
+spec:
+  imageName: registry.ucdialplans.com/postgres:16.9-gis16-vchord0.3.0
+  instances: 3
+  failoverDelay: 15
+  storage:
+    storageClass: local-path
+    size: 15Gi
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgresql-superuser
+  certificates:
+    serverAltDNSNames:
+    - "home-postgresql.tailb7050.ts.net"
+    - "home-postgresql"
+    - "home-postgresql.svc.cluster.local"
+  # bootstrap:
+    # If the namespace still exists and there is a backup object, we can just restore using the below method:
+    # recovery:
+    #   backup:
+    #     name: daily-20250514170109
+
+  # If the namespace is brand-new, we restore using the 'externalClusters' method:
+  #   recovery:
+  #     source: clusterRestore
+  #     recoveryTarget:
+  #       targetTime: "2025-05-14 16:57:06.538776+00:00"
+  # externalClusters:
+  # - name: clusterRestore
+  #   plugin:
+  #     name: barman-cloud.cloudnative-pg.io
+  #     parameters:
+  #       barmanObjectName: cloudflare
+  #       serverName: postgres
+
+  postgresql:
+    shared_preload_libraries:
+    - "vchord.so"
+
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    enabled: true
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: cloudflare
+
+  managed:
+    roles:
+    - name: dawarich
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-dawarich
+    - name: immich
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-immich
+    - name: prowlarr
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-prowlarr
+    - name: radarr
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-radarr
+    - name: sonarr
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-sonarr
+
+    services:
+      additional:
+      - selectorType: rw
+        updateStrategy: patch
+        serviceTemplate:
+          metadata:
+            name: "postgresql-service"
+            labels:
+              tailscale.com/proxy-class: "run-on-worker"
+            annotations:
+              tailscale.com/expose: "true"
+              tailscale.com/hostname: "home-postgresql"
+          spec:
+            type: LoadBalancer
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - "amd64"

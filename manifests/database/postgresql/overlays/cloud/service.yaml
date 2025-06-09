@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: 'home-postgresql.tailb7050.ts.net'
+  name: home-postgresql
+spec:
+  externalName: cloud-postgresql-egress
+  type: ExternalName
