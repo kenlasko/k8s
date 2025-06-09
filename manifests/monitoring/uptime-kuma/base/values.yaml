@@ -1,0 +1,45 @@
+image:
+  repository: k3rnel-pan1c/uptime-kuma
+  tag: 1.23.16
+  registry: quay.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: UPTIME_KUMA_PORT
+  value: "3001"
+- name: PORT
+  value: "3001"
+resources:
+  requests:
+    cpu: 20m
+    memory: 140Mi
+  limits:
+    # cpu: 600m
+    memory: 500Mi  
+livenessProbe:
+  exec:
+    command:
+    - extra/healthcheck
+  failureThreshold: 3
+  periodSeconds: 30
+  successThreshold: 1
+  timeoutSeconds: 5
+readinessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /
+    port: http
+    scheme: HTTP
+  periodSeconds: 30
+  successThreshold: 1
+  timeoutSeconds: 5
+service:
+  port: 3001
