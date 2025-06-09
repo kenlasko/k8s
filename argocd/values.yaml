@@ -55,9 +55,6 @@ externalRedis:
   host: redis-master.redis.svc.cluster.local
   existingSecret: redis-credentials
 repoServer:
-  extraArgs:
-    - --enable-helm
-    - --enable-alpha-plugins
   resources:
     requests:
       cpu: 5m
