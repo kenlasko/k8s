@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: smarter-device-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/system/smarter-device-manager/overlays/cloud
+    targetRevision: HEAD
+#   sources:
+#   - repoURL: "https://geek-cookbook.github.io/charts/"
+#     targetRevision: 6.5.2
+#     chart: smarter-device-manager
+#     helm:
+#       valueFiles:
+#       - $values/manifests/system/smarter-device-manager/values.yaml
+#   - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
+#     ref: values
+#   - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
+#     path: manifests/system/smarter-device-manager
+#     targetRevision: HEAD
+#     directory:
+#       exclude: "*_DISABLED.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+  info:
+  - name: "Repository:"
+    value: "https://github.com/smarter-project/smarter-device-manager"

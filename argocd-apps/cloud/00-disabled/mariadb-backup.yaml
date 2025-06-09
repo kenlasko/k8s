@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mariadb-backup
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
+    path: manifests/mariadb-backup
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: mariadb
+  syncPolicy:
+    automated:
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
+

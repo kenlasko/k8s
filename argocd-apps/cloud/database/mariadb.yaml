@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mariadb
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: "registry-1.docker.io/bitnamicharts"
+    targetRevision: 20.5.7
+    chart: mariadb
+    helm:
+      valueFiles:
+      - $values/manifests/database/mariadb-cloud/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    ref: values
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/database/mariadb-cloud
+    targetRevision: HEAD
+    directory:
+      exclude: "*_DISABLED.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: mariadb
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/externalName
+    kind: Service
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

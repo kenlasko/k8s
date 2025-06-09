@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pgadmin
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  sources:
+  - repoURL: "https://helm.runix.net/"
+    targetRevision: 1.47.0
+    chart: pgadmin4
+    helm:
+      valueFiles:
+      - $values/manifests/database/pgadmin/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
+    ref: values
+  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
+    path: manifests/database/pgadmin
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: postgres
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
