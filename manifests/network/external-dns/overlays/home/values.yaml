@@ -1,0 +1,17 @@
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - "amd64"
+provider:
+  name: webhook
+  webhook:
+    env:
+    - name: ADGUARD_URL
+      value: "http://adguard-service.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/

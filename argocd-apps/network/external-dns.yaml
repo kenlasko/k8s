@@ -7,20 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
-  sources:
-  - repoURL: "https://kubernetes-sigs.github.io/external-dns/"
-    targetRevision: 1.16.1
-    chart: external-dns
-    helm:
-      valueFiles:
-      - $values/manifests/network/external-dns/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/network/external-dns
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/network/external-dns/overlays/home
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: external-dns
@@ -38,3 +28,45 @@ spec:
     value: "https://kubernetes-sigs.github.io/external-dns/v0.15.0/"
   - name: "Repository:"
     value: "https://github.com/kubernetes-sigs/external-dns"
+
+
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: external-dns
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "2"
+# spec:
+#   project: default
+#   sources:
+#   - repoURL: "https://kubernetes-sigs.github.io/external-dns/"
+#     targetRevision: 1.16.1
+#     chart: external-dns
+#     helm:
+#       valueFiles:
+#       - $values/manifests/network/external-dns/values.yaml
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     ref: values
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     path: manifests/network/external-dns
+#     targetRevision: HEAD
+#     directory:
+#       exclude: "*_DISABLED.yaml"
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: external-dns
+#   syncPolicy:
+#     managedNamespaceMetadata:
+#       labels:
+#         pod-security.kubernetes.io/enforce: restricted
+#         pod-security.kubernetes.io/enforce-version: latest
+#     automated:
+#       selfHeal: true
+#     syncOptions:
+#     - CreateNamespace=true
+#   info:
+#   - name: "Documentation:"
+#     value: "https://kubernetes-sigs.github.io/external-dns/v0.15.0/"
+#   - name: "Repository:"
+#     value: "https://github.com/kubernetes-sigs/external-dns"
