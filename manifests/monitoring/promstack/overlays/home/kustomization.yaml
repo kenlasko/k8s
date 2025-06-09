@@ -13,3 +13,22 @@ helmCharts:
   valuesMerge: merge
 resources:
 - ../../base
+patches:
+- path: httproute-patch-alertmanager.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: alertmanager
+- path: httproute-patch-grafana.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: grafana
+- path: httproute-patch-prometheus.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: prometheus
