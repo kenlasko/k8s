@@ -14,3 +14,10 @@ helmCharts:
 resources:
 - ../../base
 - service.yaml
+patches:
+- path: env-patch.yaml
+  target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: external-dns

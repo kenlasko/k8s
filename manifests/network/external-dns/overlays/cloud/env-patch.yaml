@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  template:
+    spec:
+      containers:
+        - name: webhook
+          env:
+          - name: ADGUARD_URL
+            value: "http://cloud-egress-adguard.external-dns.svc.cluster.local:3000/control/"

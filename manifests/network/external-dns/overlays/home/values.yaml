@@ -10,9 +10,3 @@ affinity:
           operator: In
           values: 
           - "amd64"
-provider:
-  name: webhook
-  webhook:
-    env:
-    - name: ADGUARD_URL
-      value: "http://adguard-service.adguard.svc.cluster.local:3000/control/" # Note: URL should be in the format of http://adguard.home:3000/control/

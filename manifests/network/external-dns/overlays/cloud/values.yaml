@@ -1,8 +1,1 @@
 txtOwnerId: cloud
-provider:
-  name: webhook
-  webhook:
-    env:
-    - name: ADGUARD_URL
-      value: "http://cloud-egress-adguard.external-dns.svc.cluster.local:3000/control/"
-
