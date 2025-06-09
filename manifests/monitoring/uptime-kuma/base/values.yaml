@@ -4,7 +4,7 @@ image:
   registry: quay.io
 priorityClassName: low-priority
 securityContext:
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
