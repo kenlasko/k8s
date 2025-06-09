@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: tailscale
 helmCharts:
 - name: tailscale-operator
-  repo: https://pkgs.tailscale.com/helmcharts
+  repo: https://pkgs.tailscale.com/helmcharts/
   version: 1.84.0
   releaseName: tailscale-operator
   namespace: tailscale
