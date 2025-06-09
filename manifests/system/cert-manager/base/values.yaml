@@ -1,5 +1,5 @@
 featureGates: "ExperimentalGatewayAPISupport=true"
-installCRDs: true
+installCRDs: false
 livenessProbe:
   enabled: true
 prometheus:
