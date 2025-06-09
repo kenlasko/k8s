@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+helmCharts:
+- name: kube-prometheus-stack
+  repo: https://prometheus-community.github.io/helm-charts/
+  version: 73.2.0
+  releaseName: promstack
+  namespace: monitoring
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
+resources:
+- ../../base
+- volumes.yaml
+patches:
+- path: httproute-patch-alertmanager.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: alertmanager
+- path: httproute-patch-grafana.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: grafana
+- path: httproute-patch-prometheus.yaml
+  target:
+    group: gateway.networking.k8s.io 
+    version: v1
+    kind: HTTPRoute
+    name: prometheus
