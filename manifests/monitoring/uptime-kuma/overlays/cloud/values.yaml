@@ -1,7 +1,17 @@
 persistentVolume:
   type: local-path
-  
+
 extraLabels:
   tailscale.com/proxy-class: enable-tun
 httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
 affinity: false
+
+securityContext:
+  allowPrivilegeEscalation: true
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 3310
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
