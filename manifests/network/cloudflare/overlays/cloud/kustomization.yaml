@@ -8,5 +8,8 @@ helmCharts:
   releaseName: cloudflare
   namespace: cloudflare
   valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
 resources:
 - ../../base
