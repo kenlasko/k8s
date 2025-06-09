@@ -1,0 +1,17 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: enable-tun
+spec:
+  statefulSet:
+    pod:
+      tailscaleContainer:
+        resources:
+          requests:
+            cpu: 15m
+            memory: 70Mi
+          limits:
+            # cpu: 100m
+            memory: 325Mi
+            smarter-devices/net_tun: "1"
+
