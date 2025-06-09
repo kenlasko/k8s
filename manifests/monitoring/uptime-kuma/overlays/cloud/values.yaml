@@ -9,7 +9,7 @@ securityContext:
   allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
   runAsNonRoot: false
-  runAsUser: 3310
+  runAsUser: 0
   seccompProfile:
     type: RuntimeDefault
   capabilities:
