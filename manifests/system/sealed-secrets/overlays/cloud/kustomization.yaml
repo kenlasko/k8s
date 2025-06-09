@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: sealed-secrets
 helmCharts:
 - name: sealed-secrets
-  repo: registry-1.docker.io/bitnamicharts
+  url: oci://registry-1.docker.io/bitnamicharts
   version: 0.17.0
   releaseName: sealed-secrets
   namespace: sealed-secrets
