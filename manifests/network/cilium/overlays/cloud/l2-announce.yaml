@@ -1,0 +1,10 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default-l2-announce
+  namespace: cilium
+spec:
+  externalIPs: true
+  loadBalancerIPs: true
+  interfaces:
+  - ^eth[0-9]+
