@@ -77,21 +77,6 @@ alertmanager:
       limits:
         # cpu: 100m
         memory: 80Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-    storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: nfs-csi-dynamic
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 50Gi
 
   service:
     annotations:
@@ -136,17 +121,6 @@ grafana:
     limits:
       # cpu: 200m
       memory: 200Mi
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
   service:
     annotations:
       omni-kube-service-exposer.sidero.dev/prefix: grafana
@@ -197,11 +171,6 @@ grafana:
         G+cmvaaSv76U40YbNKZlJJWRQGbrS1tBE03KX2Ee0h+374BCiSTdvBiygZy06o2yNPct+QyKz063
         RddZ3in3pdxrpzyXU8rrJrWOZIweuubSzWl/P3N0y+ZdSqoY67nY5lN4lVI6Yl7/zgfH0LBMgmO7
         THDN/N9s/9b/nNvfr366+B/N5a5TOhYAAA==
-  persistence:
-    enabled: true
-    size: 10Gi
-    storageClassName: nfs-csi-dynamic
-    accessModes: ["ReadWriteMany"]
   serviceMonitor:
     enabled: false
   admin:
@@ -236,10 +205,8 @@ grafana:
   plugins:
     - grafana-piechart-panel
 
-
 kubeApiServer:
   enabled: false
-
 
 kubelet:
   enabled: true
@@ -400,18 +367,7 @@ prometheusOperator:
     limits:
       # cpu: 80m
       memory: 50Mi
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
-  
+ 
   prometheusConfigReloader:
     resources:
       requests:
@@ -443,26 +399,6 @@ prometheus:
       limits:
         # cpu: 600m
         memory: 1100Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-            - key: kubernetes.io/arch
-              operator: In
-              values: 
-              - "amd64"
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: nfs-csi-dynamic
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 50Gi
-
   service:
     annotations:
       omni-kube-service-exposer.sidero.dev/prefix: prometheus

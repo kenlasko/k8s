@@ -11,8 +11,7 @@ spec:
     kind: Gateway
     namespace: cilium
     sectionName: https
-  hostnames:
-  - "grafana.ucdialplans.com"
+  hostnames: []
   rules:
   - backendRefs:
     - name: grafana

@@ -13,13 +13,13 @@ spec:
     targetRevision: 6.30.1
     helm:
       valueFiles:
-      - $values/manifests/monitoring/promstack/loki-values.yaml
+      - $values/manifests/monitoring/loki-promtail/values-loki.yaml
   - repoURL: "https://grafana.github.io/helm-charts"
     chart: promtail
     targetRevision: 6.17.0
     helm:
       valueFiles:
-      - $values/manifests/monitoring/promstack/promtail-values.yaml
+      - $values/manifests/monitoring/loki-promtail/values-promtail.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     ref: values
   destination:

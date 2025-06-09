@@ -1,0 +1,77 @@
+alertmanager:
+  alertmanagerSpec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-csi-dynamic
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+
+grafana:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - "amd64"
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClassName: nfs-csi-dynamic
+    accessModes: ["ReadWriteMany"]
+
+prometheusOperator:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - "amd64"
+
+prometheus:
+  prometheusSpec:
+    resources:
+      requests:
+        cpu: 70m
+        memory: 450Mi
+      limits:
+        # cpu: 600m
+        memory: 1100Mi
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - "amd64"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-csi-dynamic
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
