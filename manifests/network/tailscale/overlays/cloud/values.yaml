@@ -1,0 +1,2 @@
+operatorConfig:
+  hostname: 'tailscale-operator-cloud'

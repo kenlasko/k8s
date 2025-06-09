@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cloud-vaultwarden-egress-tunnel
+  namespace: tailscale
+  labels:
+    app: cloud-vaultwarden-egress-tunnel
+spec:
+  containers:
+  - name: cloud-vaultwarden-egress-tunnel
+    image: alpine/socat:1.8.0.3
+    imagePullPolicy: IfNotPresent
+    args: ["tcp-listen:8087,fork,reuseaddr", "tcp-connect:cloud-vaultwarden-egress:8087"]
+    ports:
+    - containerPort: 8087
+    resources:
+      requests:
+        cpu: 1m
+        memory: 5Mi
+      limits:
+        # cpu: 50m
+        memory: 10Mi
+  restartPolicy: Always
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
+          - key: kubernetes.io/arch
+            operator: In
+            values: 
+            - "amd64"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-vaultwarden-egress-tunnel
+  namespace: tailscale
+spec:
+  selector:
+    app: cloud-vaultwarden-egress-tunnel
+  ports:
+  - protocol: TCP
+    port: 8087
+    targetPort: 8087
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tailscale.com/proxy-class: "run-on-worker"
+  annotations:
+    tailscale.com/tailnet-fqdn: "cloud-vaultwarden.tailb7050.ts.net"
+  name: cloud-vaultwarden-egress
+spec:
+  externalName: cloud-vaultwarden-egress
+  type: ExternalName
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: cloud-vaultwarden
+  namespace: tailscale
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "cloud-vaultwarden.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: cloud-vaultwarden-egress-tunnel
+      namespace: tailscale
+      kind: Service
+      port: 8087

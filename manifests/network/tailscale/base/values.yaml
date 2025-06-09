@@ -1,0 +1,9 @@
+installCRDs: true    # Don't override newer CRDs
+operatorConfig:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 50Mi
+    limits:
+      # cpu: 80m
+      memory: 60Mi
