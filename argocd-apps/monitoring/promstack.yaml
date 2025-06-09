@@ -7,22 +7,26 @@ metadata:
     argocd.argoproj.io/sync-wave: "15"
 spec:
   project: default
-  sources:
-  - repoURL: "https://prometheus-community.github.io/helm-charts"
-    targetRevision: 73.2.0
-    chart: kube-prometheus-stack
-    helm:
-      valueFiles:
-      - $values/manifests/monitoring/promstack/promstack-values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/monitoring/promstack
-    directory:
-      recurse: true
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/monitoring/promstack/overlays/home
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
+  # sources:
+  # - repoURL: "https://prometheus-community.github.io/helm-charts"
+  #   targetRevision: 73.2.0
+  #   chart: kube-prometheus-stack
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/monitoring/promstack/promstack-values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   ref: values
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: manifests/monitoring/promstack
+  #   directory:
+  #     recurse: true
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: monitoring
