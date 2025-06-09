@@ -1,10 +1,3 @@
-persistentVolume:
-  type: local-path
-  mountPath: /app/data
-extraLabels:
-  tailscale.com/proxy-class: enable-tun
-httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
-affinity: false
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
@@ -14,3 +7,10 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
+persistentVolume:
+  type: local-path
+  mountPath: /app/data
+extraLabels:
+  tailscale.com/proxy-class: enable-tun
+httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
+affinity: false
