@@ -7,6 +7,5 @@ resources:
 - httproute-alertmanager.yaml
 - httproute-grafana.yaml
 - httproute-prometheus.yaml
-- kustomization.yaml
 - sealed-secrets-alertmanager.yaml
 - sealed-secrets-grafana.yaml
