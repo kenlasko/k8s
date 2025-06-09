@@ -8,9 +8,9 @@ affinity: false
 
 securityContext:
   allowPrivilegeEscalation: true
-  readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 3310
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  runAsUser: 0
   seccompProfile:
     type: RuntimeDefault
   capabilities:
