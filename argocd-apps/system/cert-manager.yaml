@@ -1,38 +1,3 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cert-manager
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-5"
-spec:
-  project: default
-  source:
-    repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/system/cert-manager/overlays/home
-    targetRevision: HEAD
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: cert-manager
-  syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: restricted
-        pod-security.kubernetes.io/enforce-version: latest
-    automated:
-      selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
-  info:
-  - name: "Website:"
-    value: "https://cert-manager.io/"
-  - name: "Documentation:"
-    value: "https://cert-manager.io/docs/"
-  - name: "Repository:"
-    value: "https://github.com/cert-manager/cert-manager"
-
-
-
 # apiVersion: argoproj.io/v1alpha1
 # kind: Application
 # metadata:
@@ -42,20 +7,10 @@ spec:
 #     argocd.argoproj.io/sync-wave: "-5"
 # spec:
 #   project: default
-#   sources:
-#   - repoURL: "https://charts.jetstack.io"
-#     targetRevision: v1.17.2
-#     chart: cert-manager
-#     helm:
-#       valueFiles:
-#       - $values/manifests/system/cert-manager/values.yaml
-#   - repoURL: "git@github.com:kenlasko/k8s.git"
-#     ref: values
-#   - repoURL: "git@github.com:kenlasko/k8s.git"
-#     path: manifests/system/cert-manager
+#   source:
+#     repoURL: "git@github.com:kenlasko/k8s.git"
+#     path: manifests/system/cert-manager/overlays/home
 #     targetRevision: HEAD
-#     directory:
-#       exclude: "*_DISABLED.yaml"
 #   destination:
 #     server: "https://kubernetes.default.svc"
 #     namespace: cert-manager
@@ -75,3 +30,48 @@ spec:
 #     value: "https://cert-manager.io/docs/"
 #   - name: "Repository:"
 #     value: "https://github.com/cert-manager/cert-manager"
+
+
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec:
+  project: default
+  sources:
+  - repoURL: "https://charts.jetstack.io"
+    targetRevision: v1.17.2
+    chart: cert-manager
+    helm:
+      valueFiles:
+      - $values/manifests/system/cert-manager/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    ref: values
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/system/cert-manager
+    targetRevision: HEAD
+    directory:
+      exclude: "*_DISABLED.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cert-manager
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: restricted
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://cert-manager.io/"
+  - name: "Documentation:"
+    value: "https://cert-manager.io/docs/"
+  - name: "Repository:"
+    value: "https://github.com/cert-manager/cert-manager"
