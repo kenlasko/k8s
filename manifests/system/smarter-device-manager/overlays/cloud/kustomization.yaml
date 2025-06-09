@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+helmCharts:
+- name: smarter-device-manager
+  repo: https://geek-cookbook.github.io/charts/
+  version: 6.5.2
+  releaseName: smarter-device-manager
+  namespace: kube-system
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge

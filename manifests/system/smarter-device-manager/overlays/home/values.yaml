@@ -1,0 +1,20 @@
+config: |
+  - devicematch: ^ttyUSB.*$
+    nummaxdevices: 5
+  - devicematch: ^bus.*$
+    nummaxdevices: 20
+  - devicematch: ^hidraw.*$
+    nummaxdevices: 20
+  - devicematch: ^*tun$
+    nummaxdevices: 10
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - "amd64"

@@ -1,0 +1,14 @@
+global:
+  fullnameOverride: "smarter-device-manager"
+securityContext:
+  capabilities:
+    drop: ["ALL"]
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+resources:
+  requests:
+    cpu: 1m
+    memory: 15Mi
+  limits:
+    # cpu: 100m
+    memory: 20Mi
