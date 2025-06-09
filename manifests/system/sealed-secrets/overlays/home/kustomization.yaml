@@ -4,7 +4,7 @@ namespace: sealed-secrets
 helmCharts:
 - name: sealed-secrets
   repo: oci://registry-1.docker.io/bitnamicharts
-  version: 0.17.0
+  version: 2.5.13
   releaseName: sealed-secrets
   namespace: sealed-secrets
   valuesFile: ../../base/values.yaml
