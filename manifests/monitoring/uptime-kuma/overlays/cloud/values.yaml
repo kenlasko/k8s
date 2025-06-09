@@ -1,5 +1,6 @@
 persistentVolume:
   type: local-path
+  
 extraLabels:
   tailscale.com/proxy-class: enable-tun
 httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
