@@ -1,0 +1,12 @@
+image:
+  repository: ghcr.io/external-secrets/external-secrets
+
+resources: {}
+
+webhook:
+  image:
+    repository: ghcr.io/external-secrets/external-secrets
+
+certController:
+  image:
+    repository: ghcr.io/external-secrets/external-secrets
