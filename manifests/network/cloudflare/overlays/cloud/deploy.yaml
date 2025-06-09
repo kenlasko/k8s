@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-tunnel
+  namespace: cloudflare
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-tunnel
+  template:
+    metadata:
+      labels:
+        app: cloudflare-tunnel
+        name: cloudflare-tunnel
+    spec:
+      containers:
+      - name: cloudflare-tunnel
+        image: docker.io/cloudflare/cloudflared:2025.5.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: admin-token
+              key: token
+        command:
+          - cloudflared
+          - tunnel
+          - --no-autoupdate
+          - --protocol=http2
+          - --metrics
+          - 0.0.0.0:2000
+          - run
+        args:
+          - --token
+          - "$(TOKEN)"
+        livenessProbe:
+          httpGet:
+            path: /ready
+            port: 2000
+          failureThreshold: 1
+          initialDelaySeconds: 10
+          periodSeconds: 10

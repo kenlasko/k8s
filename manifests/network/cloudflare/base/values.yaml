@@ -1,7 +1,7 @@
 appKind: Deployment
 image:
   repository: cloudflare/cloudflared
-  tag: 2025.2.0
+  tag: 2025.5.0
   registry: docker.io
 replicas: 1
 priorityClassName: high-priority
@@ -50,23 +50,3 @@ livenessProbe:
   failureThreshold: 1
   initialDelaySeconds: 10
   periodSeconds: 10
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: node-role.kubernetes.io/control-plane
-          operator: DoesNotExist
-        - key: kubernetes.io/arch
-          operator: In
-          values: 
-          - "amd64"
-  podAntiAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-    - labelSelector:
-        matchExpressions:
-        - key: app
-          operator: In
-          values:
-          - cloudflare-tunnel
-      topologyKey: kubernetes.io/hostname
