@@ -5,6 +5,9 @@ server:
   service:
     labels:
       tailscale.com/proxy-class: "enable-tun"
+    annotations:
+      tailscale.com/expose: 'true'
+      tailscale.com/hostname: 'cloud-argocd'
 
 notifications:
   enabled: true
