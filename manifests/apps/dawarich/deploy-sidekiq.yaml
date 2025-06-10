@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sidekiq
+  namespace: dawarich
+spec:
+  serviceName: sidekiq
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+        name: sidekiq
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false      
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values: 
+                - "amd64"
+      containers:
+      - name: sidekiq
+        image: docker.io/freikin/dawarich:0.26.6
+        imagePullPolicy: IfNotPresent
+        command: ["sidekiq-entrypoint.sh"]
+        args: ["sidekiq"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+        #   runAsNonRoot: true
+        #   runAsUser: 1000
+        #   runAsGroup: 100
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 100Mi
+        ports:
+        - containerPort: 3000
+          name: http
+        livenessProbe:
+          exec:
+            command: ["/bin/bash", "-c", "bundle exec sidekiqmon processes | grep $(hostname)"]
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 10
+          failureThreshold: 3
+        envFrom:
+        - configMapRef:
+            name: env-vars
+        - secretRef:
+            name: dawarich-secrets
+        volumeMounts:
+        - name: dawarich
+          mountPath: /var/app/public
+          subPath: public
+        - name: dawarich
+          mountPath: /var/app/tmp/imports/watched
+          subPath: watched
+        - name: dawarich
+          mountPath: /var/app/storage
+          subPath: storage
+      volumes:
+      - name: dawarich
+        persistentVolumeClaim:
+          claimName: nfs-dawarich
