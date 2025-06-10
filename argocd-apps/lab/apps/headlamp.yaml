@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: headlamp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/headlamp/overlays/lab
+    targetRevision: HEAD
+  # sources:
+  # - repoURL: 'https://kubernetes-sigs.github.io/headlamp/'
+  #   targetRevision: 0.31.1
+  #   chart: headlamp
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/apps/headlamp/values.yaml
+  # - repoURL: 'git@github.com:kenlasko/k8s-lab.git'
+  #   ref: values
+  # - repoURL: 'git@github.com:kenlasko/k8s-lab.git'
+  #   path: manifests/apps/headlamp
+  #   targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: headlamp
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

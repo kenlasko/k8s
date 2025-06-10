@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/system/cert-manager/overlays/lab
+    targetRevision: HEAD
+  # sources:
+  # - repoURL: 'https://charts.jetstack.io'
+  #   targetRevision: v1.17.2
+  #   chart: cert-manager
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/system/cert-manager/values.yaml
+  # - repoURL: 'git@github.com:kenlasko/k8s-lab.git'
+  #   ref: values
+  # - repoURL: 'git@github.com:kenlasko/k8s-lab.git'
+  #   path: manifests/system/cert-manager
+  #   targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
