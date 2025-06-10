@@ -1,0 +1,73 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vaultwarden
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/vaultwarden/overlays/home
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: vaultwarden
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: restricted
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://github.com/dani-garcia/vaultwarden"
+  - name: "Documentation:"
+    value: "https://github.com/dani-garcia/vaultwarden/wiki"
+  - name: "Repository:"
+    value: "https://github.com/dani-garcia/vaultwarden"
+
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: vaultwarden
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "10"
+# spec:
+#   project: default
+#   sources:
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     path: helm/baseline
+#     targetRevision: HEAD
+#     helm:
+#       valueFiles:
+#       - /manifests/apps/vaultwarden/values.yaml
+#   - repoURL: "git@github.com:kenlasko/k8s.git"
+#     path: manifests/apps/vaultwarden
+#     targetRevision: HEAD
+#     directory:
+#       exclude: "*_DISABLED.yaml"
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: vaultwarden
+#   syncPolicy:
+#     managedNamespaceMetadata:
+#       labels:
+#         pod-security.kubernetes.io/enforce: restricted
+#         pod-security.kubernetes.io/enforce-version: latest
+#     automated:
+#       selfHeal: true
+#     syncOptions:
+#     - CreateNamespace=true
+#   info:
+#   - name: "Website:"
+#     value: "https://github.com/dani-garcia/vaultwarden"
+#   - name: "Documentation:"
+#     value: "https://github.com/dani-garcia/vaultwarden/wiki"
+#   - name: "Repository:"
+#     value: "https://github.com/dani-garcia/vaultwarden"

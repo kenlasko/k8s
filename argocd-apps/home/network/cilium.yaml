@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
+spec:
+  project: default
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/network/cilium/overlays/home
+    targetRevision: HEAD
+  # - repoURL: "https://helm.cilium.io/"
+  #   targetRevision: 1.17.4
+  #   chart: cilium
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/network/cilium/values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   ref: values
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: manifests/network/cilium
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
+  - repoURL: "https://github.com/kubernetes-sigs/gateway-api.git"
+    path: "config/crd/experimental"
+    targetRevision: "v1.2.0"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cilium
+  ignoreDifferences:
+  - name: hubble-ca-cert
+    kind: ConfigMap
+    jsonPointers:
+    - /data/ca.crt
+  - name: hubble-relay-client-certs
+    kind: Secret
+    jsonPointers:
+    - /data/ca.crt
+    - /data/tls.crt
+    - /data/tls.key
+  - name: hubble-server-certs
+    kind: Secret
+    jsonPointers:
+    - /data/ca.crt
+    - /data/tls.crt
+    - /data/tls.key
+  - name: cilium-ca
+    kind: Secret
+    jsonPointers:
+    - /data/ca.crt
+    - /data/ca.key
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://cilium.io/"
+  - name: "Documentation:"
+    value: "https://docs.cilium.io/en/stable/"
+  - name: "Repository:"
+    value: "https://github.com/cilium/cilium"

@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflare
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/network/cloudflare/overlays/home
+    targetRevision: HEAD
+  # sources:
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: helm/baseline
+  #   targetRevision: HEAD
+  #   helm:
+  #     valueFiles:
+  #     - /manifests/network/cloudflare-tunnel/values-cloudflare.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: helm/baseline
+  #   targetRevision: HEAD
+  #   helm:
+  #     valueFiles:
+  #     - /manifests/network/cloudflare-tunnel/values-ddns.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: manifests/network/cloudflare-tunnel
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cloudflare
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: restricted
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Documentation:"
+    value: "https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/"
+  - name: "Repository:"
+    value: "https://github.com/cloudflare/cloudflared"

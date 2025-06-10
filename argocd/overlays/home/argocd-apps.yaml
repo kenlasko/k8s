@@ -7,25 +7,25 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps
+    path: argocd-apps/home
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/apps
+    path: argocd-apps/home/apps
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/database
+    path: argocd-apps/home/database
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/homeops
+    path: argocd-apps/home/homeops
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/monitoring
+    path: argocd-apps/home/monitoring
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/network
+    path: argocd-apps/home/network
     targetRevision: HEAD
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/system
+    path: argocd-apps/home/system
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"

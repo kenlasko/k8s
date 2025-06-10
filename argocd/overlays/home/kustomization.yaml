@@ -12,7 +12,7 @@ patches:
     group: gateway.networking.k8s.io 
     version: v1
     kind: HTTPRoute
-    name: headlamp
+    name: argocd
 - path: configmap-patch.yaml
   target:
     group: apps

@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dawarich
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  project: default
+  sources:
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/baseline
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/apps/dawarich/values.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/dawarich
+    targetRevision: HEAD
+    directory:
+      exclude: "*_DISABLED.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: dawarich
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Website:"
+    value: "https://dawarich.app/"
+  - name: "Documentation:"
+    value: "https://dawarich.app/docs/intro"
+  - name: "Repository:"
+    value: "https://github.com/Freika/dawarich"

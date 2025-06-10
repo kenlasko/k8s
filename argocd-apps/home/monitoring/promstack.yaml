@@ -1,35 +1,38 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: promstack
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-5"
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd/overlays/home
+    path: manifests/monitoring/promstack/overlays/home
     targetRevision: HEAD
   # sources:
-  # - repoURL: "https://argoproj.github.io/argo-helm"
-  #   targetRevision: 8.0.9
-  #   chart: argo-cd
+  # - repoURL: "https://prometheus-community.github.io/helm-charts"
+  #   targetRevision: 73.2.0
+  #   chart: kube-prometheus-stack
   #   helm:
   #     valueFiles:
-  #     - $values/argocd/values.yaml
+  #     - $values/manifests/monitoring/promstack/promstack-values.yaml
   # - repoURL: "git@github.com:kenlasko/k8s.git"
   #   ref: values
   # - repoURL: "git@github.com:kenlasko/k8s.git"
-  #   path: argocd
+  #   path: manifests/monitoring/promstack
+  #   directory:
+  #     recurse: true
   #   targetRevision: HEAD
   #   directory:
   #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: argocd
+    namespace: monitoring
   syncPolicy:
     automated:
       selfHeal: true
     syncOptions:
+    - ServerSideApply=true
     - CreateNamespace=true
