@@ -26,6 +26,16 @@
       "deploy",
       "cronjob",
       "tunnel"
+    ],
+    "ignorePaths": [
+      "**/*-patch.yaml"
+    ]
+  },
+  "kustomize": {
+    "fileMatch": [
+      "deploy",
+      "cronjob",
+      "tunnel"
     ]
   },
   "hostRules": [
