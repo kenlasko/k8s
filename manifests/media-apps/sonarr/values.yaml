@@ -1,6 +1,6 @@
 image:
   repository: home-operations/sonarr
-  tag: 4.0.14.2938
+  tag: 4.0.15.2940
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
