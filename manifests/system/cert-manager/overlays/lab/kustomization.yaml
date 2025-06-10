@@ -8,8 +8,9 @@ helmCharts:
   releaseName: cert-manager
   namespace: cert-manager
   valuesFile: ../../base/values.yaml
-  # additionalValuesFiles:
-  # - values.yaml
-  # valuesMerge: merge
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
 resources:
 - ../../base
+- namespace.yaml

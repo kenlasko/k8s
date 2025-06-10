@@ -13,3 +13,4 @@ helmCharts:
   valuesMerge: replace
 resources:
 - ../../base
+- namespace.yaml
