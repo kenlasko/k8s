@@ -7,20 +7,24 @@ metadata:
     argocd.argoproj.io/sync-wave: "-5"
 spec:
   project: default
-  sources:
-  - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 21.2.1
-    chart: redis
-    helm:
-      valueFiles:
-      - $values/manifests/database/redis/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/database/redis
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/database/redis/overlays/home
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
+  # sources:
+  # - repoURL: "registry-1.docker.io/bitnamicharts"
+  #   targetRevision: 21.2.1
+  #   chart: redis
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/database/redis/values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   ref: values
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: manifests/database/redis
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: redis
@@ -29,8 +33,8 @@ spec:
       labels:
         pod-security.kubernetes.io/enforce: restricted
         pod-security.kubernetes.io/enforce-version: latest
-    automated:
-      selfHeal: true
+    # automated:
+    #   selfHeal: true
     syncOptions:
     - CreateNamespace=true
   info:

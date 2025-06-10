@@ -1,0 +1,4 @@
+global:
+  domain: lab-argocd.ucdialplans.com
+notifications:
+  enabled: false

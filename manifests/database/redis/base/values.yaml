@@ -1,0 +1,19 @@
+global: []
+architecture: standalone
+auth:
+  enabled: true
+  existingSecret: redis-password
+  existingSecretPasswordKey: password
+replica:
+  replicaCount: 1
+  revisionHistoryLimit: 3
+master:
+  persistence:
+    enabled: true
+    existingClaim: []
+  resources:
+    requests:
+      cpu: 30m
+      memory: 20Mi
+    limits:
+      memory: 1.5Gi

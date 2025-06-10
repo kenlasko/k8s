@@ -1,0 +1,6 @@
+global:
+  defaultStorageClass: local-path
+  storageClass: local-path
+master:
+  persistence:
+    existingClaim: nfs-redis
