@@ -1,3 +1,3 @@
 manifests/apps/garminupload/scripts/SampleGCDescUpdate.ps1
 secret.yaml
-
+charts/
