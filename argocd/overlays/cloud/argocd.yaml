@@ -5,20 +5,24 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-  - repoURL: 'https://argoproj.github.io/argo-helm'
-    targetRevision: 8.0.9
-    chart: argo-cd
-    helm:
-      valueFiles:
-      - $values/argocd/values.yaml
-  - repoURL: 'git@github.com:kenlasko/k8s-cloud.git'
-    ref: values
-  - repoURL: 'git@github.com:kenlasko/k8s-cloud.git'
-    path: argocd
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd/overlays/cloud
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
+  # sources:
+  # - repoURL: 'https://argoproj.github.io/argo-helm'
+  #   targetRevision: 8.0.9
+  #   chart: argo-cd
+  #   helm:
+  #     valueFiles:
+  #     - $values/argocd/values.yaml
+  # - repoURL: 'git@github.com:kenlasko/k8s-cloud.git'
+  #   ref: values
+  # - repoURL: 'git@github.com:kenlasko/k8s-cloud.git'
+  #   path: argocd
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
