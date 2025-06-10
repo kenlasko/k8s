@@ -1,13 +1,29 @@
 # Introduction
-This is the Git repository that contains all the configuration for my home-based Kubernetes cluster. The cluster is used to host a number of self-hosted services mostly focused on movies and TV along with all the supporting software. This repository is fully gitops-optimized and is managed by [ArgoCD](https://argoproj.github.io/).
+This is the Git repository that contains all the configuration for my homelab Kubernetes clusters. The clusters are used to host a number of self-hosted services mostly focused on movies and TV along with all the supporting software. This repository is fully gitops-optimized and is managed by [ArgoCD](https://argoproj.github.io/).
 
-This cluster is built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for low-level cluster management.
+The clusters are built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for low-level cluster management.
 
-My cluster runs on 6 mini-PCs named `NUC1` through to `NUC6`. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require (or benefit from) hardware that is specific to certain named nodes. The manifests are configured for this. For example:
+## CLuster Descriptions
+### Home Cluster
+My home cluster runs on 6 mini-PCs named `NUC1` through to `NUC6`. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require (or benefit from) hardware that is specific to certain named nodes. The manifests are configured for this. For example:
 * [Plex](/manifests/media-apps/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
 * [Home Assistant](/manifests/homeops/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
 * [MariaDB](/manifests/database/mariadb) and [PostgreSQL](/manifests/database/postgresql) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
+
+### Cloud Cluster
+This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.com) and is used as a disaster-recovery solution for my home cluster. It replicates the function of some critical services:
+* MariaDB
+* AdGuard Home
+* VaultWarden
+* UCDialplans website
+
+Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to home via Wireguard.
+
+The Oracle Cloud image is not available on Oracle Cloud but can be built by [following these procedures](#oracle-cloud-talos-node-prep).
+
+### Lab Cluster
+This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs on my Windows 11 machine under Hyper-V.
 
 ## Related Repositories
 Links to my other repositories mentioned or used in this repo:
@@ -24,6 +40,26 @@ The relevent folders are laid out in the following manner:
 - [manifests](/manifests): all the manifests used by each application. Broken down by type (app, database, system etc) then by name. Used by [ArgoCD applications](/argocd-apps).
 - [helm](/helm/baseline): where I keep my universal Helm chart for most non-Helm based applications
 - [scripts](/scripts): a mish-mash of scripts used for various purposes
+
+Applications that are used by multiple clusters are structured for [Kustomize](https://kustomize.io/) by following this structure:
+```
+appName/
+├── base/
+│   ├── kustomization.yaml    # Base manifests and Helm chart setup
+│   ├── deployment.yaml       # Base Deployment manifest
+│   ├── service.yaml          # Base Service manifest
+│   └── values.yaml           # Base Helm values (if using Helm chart)
+├── overlays/
+│   ├── cloud/
+│   │   ├── kustomization.yaml  # Patches and config specific to Cloud cluster
+│   │   └── patch.yaml          # Example patch (e.g., change replicas)
+│   ├── home/
+│   │   ├── kustomization.yaml  # Patches and config specific to Home cluster
+│   │   └── patch.yaml          # Example patch
+│   └── lab/
+│       ├── kustomization.yaml  # Patches and config specific to Lab cluster
+│       └── patch.yaml          # Example patch
+```
 
 ## Software Updates
 All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
@@ -185,6 +221,52 @@ ggshield auth login
 # Remote SSH session
 ggshield auth login --method token
 ```
+
+
+# Oracle Cloud Talos Node Prep
+1. Download ARM64 Talos Oracle image from https://omni.ucdialplans.com and place in /home/ken/
+2. Create image metadata file and save as ```image_metadata.json```
+```
+{
+    "version": 2,
+    "externalLaunchOptions": {
+        "firmware": "UEFI_64",
+        "networkType": "PARAVIRTUALIZED",
+        "bootVolumeType": "PARAVIRTUALIZED",
+        "remoteDataVolumeType": "PARAVIRTUALIZED",
+        "localDataVolumeType": "PARAVIRTUALIZED",
+        "launchOptionsSource": "PARAVIRTUALIZED",
+        "pvAttachmentVersion": 2,
+        "pvEncryptionInTransitEnabled": true,
+        "consistentVolumeNamingEnabled": true
+    },
+    "imageCapabilityData": null,
+    "imageCapsFormatVersion": null,
+    "operatingSystem": "Talos",
+    "operatingSystemVersion": "1.8.1",
+    "additionalMetadata": {
+        "shapeCompatibilities": [
+            {
+                "internalShapeName": "VM.Standard.A1.Flex",
+                "ocpuConstraints": null,
+                "memoryConstraints": null
+            }
+        ]
+    }
+}
+```
+3. Create .oci image for Oracle
+```
+xz --decompress oracle-arm64-omni-onprem-omni-v1.8.1.qcow2.xz
+tar zcf talos-oracle-arm64.oci oracle-arm64.qcow2 image_metadata.json
+```
+4. Copy image to [Oracle storage bucket](https://cloud.oracle.com/object-storage/buckets?region=ca-toronto-1)
+5. [Import custom image](https://cloud.oracle.com/compute/images?region=ca-toronto-1) to Oracle cloud
+6. Edit image capabilities and set ```Boot volume type``` and ```Local data volume``` to ```PARAVIRTUALIZED```
+7. [Create instance](https://cloud.oracle.com/compute/instances?region=ca-toronto-1) using custom image
+8. Open all inbound firewall ports from home network
+9. Set Oracle public IP address on [Unifi port forwarding](https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding)
+
 
 ## Handy Commands
 Scan a repository before onboarding:
