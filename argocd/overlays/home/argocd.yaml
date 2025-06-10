@@ -25,9 +25,9 @@ spec:
   #   targetRevision: HEAD
   #   directory:
   #     exclude: "*_DISABLED.yaml"
-  # destination:
-  #   server: "https://kubernetes.default.svc"
-  #   namespace: argocd
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
   syncPolicy:
     # automated:
     #   selfHeal: true
