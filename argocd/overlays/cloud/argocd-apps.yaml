@@ -6,23 +6,23 @@ metadata:
 spec:
   project: default
   sources:
-  - repoURL: 'git@github.com:kenlasko/k8s-cloud.git'
-    path: argocd-apps
+  - repoURL: 'git@github.com:kenlasko/k8s.git'
+    path: argocd-apps/cloud
     targetRevision: HEAD
-  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
-    path: argocd-apps/apps
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/cloud/apps
     targetRevision: HEAD
-  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
-    path: argocd-apps/database
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/cloud/database
     targetRevision: HEAD
-  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
-    path: argocd-apps/monitoring
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/cloud/monitoring
     targetRevision: HEAD
-  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
-    path: argocd-apps/network
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/cloud/network
     targetRevision: HEAD
-  - repoURL: "git@github.com:kenlasko/k8s-cloud.git"
-    path: argocd-apps/system
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: argocd-apps/cloud/system
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
