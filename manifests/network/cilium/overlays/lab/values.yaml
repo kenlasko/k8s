@@ -1,0 +1,69 @@
+rollOutCiliumPods: true
+# routingMode: native             # Original
+routingMode: tunnel               # New
+tunnelProtocol: geneve            # New
+ipv4NativeRoutingCIDR: 10.0.0.0/9
+# autoDirectNodeRoutes: true      # Original
+# tunnel: disabled                # Original
+bpf:
+  hostRouting: true
+  masquerade: true
+ipam:
+  mode: kubernetes
+cluster:
+  name: lab
+  id: 2
+loadBalancer:                     # New
+  mode: dsr                       # New
+  dsrDispatch: geneve             # New
+l2announcements:
+  enabled: true
+  leaseDuration: 6s
+  leaseRenewDeadline: 2s
+  leaseRetryPeriod: 200ms
+envoy:
+  enabled: true
+  rollOutPods: true
+externalIPs:
+  enabled: true
+extraEnv:
+- name: TZ
+  value: "America/Toronto"
+kubeProxyReplacement: true
+k8sServiceHost: localhost
+k8sServicePort: 7445
+securityContext:
+  capabilities:
+    ciliumAgent: 
+    - CHOWN
+    - KILL
+    - NET_ADMIN
+    - NET_RAW 
+    - IPC_LOCK
+    - SYS_ADMIN
+    - SYS_RESOURCE
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
+    cleanCiliumState: 
+    - NET_ADMIN
+    - SYS_ADMIN
+    - SYS_RESOURCE
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+gatewayAPI:
+  enabled: true
+  secretsNamespace:
+    create: false
+    name: cilium
+    sync: true
+operator:
+  replicas: 1
