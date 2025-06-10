@@ -24,7 +24,7 @@ patches:
     name: argocd
 - path: configmap-patch.yaml
   target:
-    group: apps
+    group: ""
     version: v1
     kind: ConfigMap
     name: argocd-cm
