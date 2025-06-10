@@ -41,7 +41,7 @@ The relevent folders are laid out in the following manner:
 - [helm](/helm/baseline): where I keep my universal Helm chart for most non-Helm based applications
 - [scripts](/scripts): a mish-mash of scripts used for various purposes
 
-Applications that are used by multiple clusters are structured for [Kustomize](https://kustomize.io/) by following this structure:
+Applications that are used by multiple clusters are structured for [Kustomize](https://kustomize.io/) by following this structure underneath [manifests](/manifests):
 ```
 appName/
 ├── base/
@@ -89,7 +89,7 @@ Most of the workloads use NAS-based storage for persistent data. The
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [in my Omni repo](https://github.com/kenlasko/omni/).
 
 ## Install Kubernetes
-This guide assumes you're using a NixOS distribution that is configured to securely store and present all required certificates. For more information, see [my NixOS repo](https://github.com/kenlasko/nixos-wsl/).
+This guide assumes you're using a NixOS distribution that is configured to securely store and present all required certificates. For more information, see [my NixOS repo](https://github.com/kenlasko/nixos-wsl/). Otherwise, you will have to manually ensure all supporting files are present.
 
 1. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
 2. Create cluster via `omnictl`:
