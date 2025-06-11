@@ -5,15 +5,15 @@ image:
   registry: ghcr.io
 priorityClassName: low-priority
 securityContext:
-  allowPrivilegeEscalation: false
+  allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
 #   runAsNonRoot: true
 #   runAsUser: 1000
 #   runAsGroup: 100
-  seccompProfile:
-    type: RuntimeDefault
-  capabilities:
-    drop: ["ALL"]
+  # seccompProfile:
+  #   type: RuntimeDefault
+  # capabilities:
+  #   drop: ["ALL"]
 envFrom:
 - configMapRef:
     name: env-vars-photon
