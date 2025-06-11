@@ -7,20 +7,24 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
-  sources:
-  - repoURL: "https://cloudnative-pg.github.io/charts"
-    targetRevision: 0.24.0
-    chart: cloudnative-pg
-    helm:
-      valueFiles:
-      - $values/manifests/database/postgresql/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/database/postgresql
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/database/postgresql/overlays/home
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
+  # sources:
+  # - repoURL: "https://cloudnative-pg.github.io/charts"
+  #   targetRevision: 0.24.0
+  #   chart: cloudnative-pg
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/database/postgresql/values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   ref: values
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: manifests/database/postgresql
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: postgresql
@@ -33,8 +37,8 @@ spec:
       labels:
         pod-security.kubernetes.io/enforce: baseline
         pod-security.kubernetes.io/enforce-version: latest
-    automated:
-      selfHeal: true
+    # automated:
+    #   selfHeal: true
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
