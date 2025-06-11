@@ -1,3 +1,4 @@
+nameOverride: photon
 image:
   repository: rtuszik/photon-docker
   tag: 0.7.0-Photon-Opensearch
