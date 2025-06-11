@@ -17,7 +17,7 @@ securityContext:
     drop: ["ALL"]
 envFrom:
 - configMapRef:
-    name: env-vars
+    name: env-vars-dawarich
 - secretRef:
     name: dawarich-secrets
 resources:
