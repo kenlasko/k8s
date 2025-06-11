@@ -32,13 +32,13 @@ livenessProbe:
   httpGet:
     path: /api/v1/health
     port: http
-  initialDelaySeconds: 90
+  initialDelaySeconds: 30
   periodSeconds: 120
 readinessProbe:
   httpGet:
     path: /api/v1/health
     port: http
-  initialDelaySeconds: 60
+  initialDelaySeconds: 30
   timeoutSeconds: 1
   periodSeconds: 10
   successThreshold: 1
