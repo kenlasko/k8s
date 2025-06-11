@@ -1,7 +1,7 @@
 nameOverride: photon
 image:
   repository: rtuszik/photon-docker
-  tag: 0.7.0-rev.1
+  tag: 0.7.0
   registry: ghcr.io
 priorityClassName: low-priority
 securityContext:
