@@ -123,76 +123,21 @@ CLUSTER=lab   # or home, cloud
 kustomize build ~/k8s/manifests/network/cilium/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/cilium.yaml
 kustomize build ~/k8s/manifests/system/external-secrets/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/external-secrets.yaml
 kustomize build ~/k8s/manifests/system/cert-manager/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/cert-manager.yaml
+kustomize build ~/k8s/manifests/system/csi-drivers/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/csi-drivers.yaml
 kustomize build ~/k8s/manifests/database/redis/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/redis.yaml
+kustomize build ~/k8s/argocd/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/argocd.yaml
 kustomize build ~/k8s/argocd/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/argocd.yaml
 
 # Delete the build charts
 rm -rf ~/k8s/manifests/network/cilium/overlays/$CLUSTER/charts
 rm -rf ~/k8s/manifests/system/external-secrets/overlays/$CLUSTER/charts
 rm -rf ~/k8s/manifests/system/cert-manager/overlays/$CLUSTER/charts
+rm -rf ~/k8s/manifests/system/csi-drivers/overlays/$CLUSTER/charts
 rm -rf ~/k8s/manifests/database/redis/overlays/$CLUSTER/charts
 rm -rf ~/k8s/argocd/overlays/$CLUSTER/charts
 ```
 
-Once the manifests are generated, simply run `kubectl apply -f` for each of them:
-```
-# Create namespaces once (skip if already exists)
-kubectl create namespace cilium --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace cert-manager --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace redis --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-kubectl apply -f /run/secrets/eso-secretstore-secrets.yaml
-
-# Track per-manifest success
-cilium_ok=false
-external_ok=false
-cert_ok=false
-
-while true; do
-  if [ "$cilium_ok" = false ]; then
-    echo "Applying Cilium manifests..."
-    if kubectl apply -f ~/cilium.yaml; then
-      cilium_ok=true
-      echo "✅ Cilium manifests applied successfully."
-    else
-      echo "❌ Cilium apply failed. Will retry."
-    fi
-  fi
-
-  if [ "$external_ok" = false ]; then
-    echo "Applying External-Secrets manifests..."
-    if kubectl apply -f ~/external-secrets.yaml; then
-      external_ok=true
-      echo "✅ External-Secrets manifests applied successfully."
-    else
-      echo "❌ External-Secrets apply failed. Will retry."
-    fi
-  fi
-
-  if [ "$cert_ok" = false ]; then
-    echo "Applying Cert-Manager manifests..."
-    if kubectl apply -f ~/cert-manager.yaml; then
-      cert_ok=true
-      echo "✅ Cert-Manager manifests applied successfully."
-    else
-      echo "❌ Cert-Manager apply failed. Will retry."
-    fi
-  fi
-
-  if [ "$cilium_ok" = true ] && [ "$external_ok" = true ] && [ "$cert_ok" = true ]; then
-    echo "🎉 All manifests applied successfully!"
-    break
-  fi
-
-  echo "🔁 Some resources not ready. Waiting 10 seconds before retry..."
-  sleep 10
-done
-
-kubectl apply -f ~/redis.yaml
-kubectl apply -f ~/argocd.yaml
-```
-
+Once the manifests are generated, simply run the [bootstrap-cluster.sh](/scripts/bootstrap-cluster.sh) script.
 
 ## Argo App Install
 Once Terraform/OpenTofu bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
