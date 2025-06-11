@@ -1,5 +1,5 @@
 # Introduction
-This is the Git repository that contains all the configuration for my homelab Kubernetes clusters. The clusters are used to host a number of self-hosted services mostly focused on movies and TV along with all the supporting software. This repository is fully gitops-optimized and is managed by [ArgoCD](https://argoproj.github.io/).
+This is the Git repository that contains all the configuration for my multiple homelab Kubernetes clusters. The clusters are used to host a number of self-hosted services mostly focused on movies and TV along with all the supporting software. This repository is fully gitops-optimized and is managed by [ArgoCD](https://argoproj.github.io/).
 
 The clusters are built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for low-level cluster management.
 
@@ -14,11 +14,12 @@ My home cluster runs on 6 mini-PCs named `NUC1` through to `NUC6`. NUC1-NUC3 are
 ### Cloud Cluster
 This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.com) and is used as a disaster-recovery solution for my home cluster. It replicates the function of some critical services:
 * MariaDB
+* PostgreSQL
 * AdGuard Home
 * VaultWarden
 * UCDialplans website
 
-Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to home via Wireguard.
+The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to home via Wireguard.
 
 The Oracle Cloud image is not available on Oracle Cloud but can be built by [following these procedures](#oracle-cloud-talos-node-prep).
 
