@@ -25,6 +25,7 @@ resources:
     memory: 3.0Gi
 service:
   port: 2322
+disableHTTPRoute: true
 livenessProbe: false
 persistentVolume:
   type: nfs
