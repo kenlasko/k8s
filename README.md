@@ -88,59 +88,28 @@ Most of the workloads use NAS-based storage for persistent data. The
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [in my Omni repo](https://github.com/kenlasko/omni/).
 
-## Install Kubernetes
-### Initial Cluster Setup
+## Initial Cluster Setup
 This guide assumes you're using a NixOS distribution that is configured to securely store and present all required certificates. For more information, see [my NixOS repo](https://github.com/kenlasko/nixos-wsl/). Otherwise, you will have to manually ensure all supporting files are present.
 
-1. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
-2. Create cluster via `omnictl`:
-```bash
-omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
-```
-3. Set the proper context with kubectl and verify you see the expected nodes. It will take a few minutes before `kubectl get nodes` returns data. Pods will not start, because of the lack of a CNI, which we will install with Terraform/OpenTofu.
-```bash
-kubectl config use-context omni-home
-kubectl get nodes
-```
+Initially, I used tools like Ansible/Terraform to bootstrap the cluster, which worked when each cluster had its own repo. After my changes to use Kustomize and Helm to manage all my clusters from one repo, this no longer worked. After a lot of trial-and-error, I gave up on Terraform and used ChatGPT to create a rather robust Bash script to take care of the entire cluster bootstrapping process. 
 
-### Bootstrapping via Terraform/OpenTofu
-
-1. Once `kubectl get nodes` returns node info, [bootstrap the cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, External Secrets Operator and ArgoCD via OpenTofu/Terraform
-```bash
-cd ~/terraform
-tf workspace new home
-tf workspace select home
-tf init
-tf apply
+Now, all that is needed is to run the following and wait for completion:
 ```
-Monitor the status of the Terraform install by running `kubectl get pods -A`. It will take several minutes for Cilium, Cert-Manager, External Secrets Operator and ArgoCD to start.
-
-### Bootstrapping via Manual Kubectl/Kustomize
-I can't seem to get Terraform/OpenTofu working well, so this manual process does the trick. Because it takes time for some resources to become available, some manifests may fail. Just have to keep retrying until they run without error.
+~/k8s/scripts/bootstrap-cluster.sh
 ```
-# Initial manifest generation
-CLUSTER=lab   # or home, cloud
-kustomize build ~/k8s/manifests/network/cilium/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/cilium.yaml
-kustomize build ~/k8s/manifests/system/external-secrets/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/external-secrets.yaml
-kustomize build ~/k8s/manifests/system/cert-manager/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/cert-manager.yaml
-kustomize build ~/k8s/manifests/system/csi-drivers/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/csi-drivers.yaml
-kustomize build ~/k8s/manifests/database/redis/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/redis.yaml
-kustomize build ~/k8s/argocd/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/argocd.yaml
-kustomize build ~/k8s/argocd/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/argocd.yaml
+The script will take care of the following:
+- Use `omnictl` to spin up the cluster
+- Apply initial manifests to get the cluster to the point where ArgoCD can take over. These manifests include:
+  - [Cilium](/manifests/network/cilium)
+  - [Cert-Manager](/manifests/system/cert-manager)
+  - [External Secrets](/manifests/system/external-secrets)
+  - [CSI Drivers](/manifests/system/csi-drivers)
+  - [Redis](/manifests/database/redis)
+  - [ArgoCD](/manifests/argocd)
 
-# Delete the build charts
-rm -rf ~/k8s/manifests/network/cilium/overlays/$CLUSTER/charts
-rm -rf ~/k8s/manifests/system/external-secrets/overlays/$CLUSTER/charts
-rm -rf ~/k8s/manifests/system/cert-manager/overlays/$CLUSTER/charts
-rm -rf ~/k8s/manifests/system/csi-drivers/overlays/$CLUSTER/charts
-rm -rf ~/k8s/manifests/database/redis/overlays/$CLUSTER/charts
-rm -rf ~/k8s/argocd/overlays/$CLUSTER/charts
-```
-
-Once the manifests are generated, simply run the [bootstrap-cluster.sh](/scripts/bootstrap-cluster.sh) script.
 
 ## Argo App Install
-Once Terraform/OpenTofu bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
+Once the `bootstrap-cluster.sh` script bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
 
 ## Get Kubernetes token for token-based authentication
 Cluster connectivity can be done via OIDC through Omni, but its a good idea to have secondary access through standard token-based authentication. The cluster is configured for this using [Talos Shared VIP](https://www.talos.dev/v1.9/talos-guides/network/vip/), which makes cluster API access via a shared IP that is advertised by one of the control plane nodes. The address for this is `https://192.168.1.11:6443`.
