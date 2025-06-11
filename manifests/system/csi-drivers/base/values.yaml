@@ -1,0 +1,4 @@
+controller:
+  defaultOnDeletePolicy: retain
+externalSnapshotter:
+  enabled: true

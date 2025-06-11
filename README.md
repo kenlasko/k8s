@@ -89,6 +89,7 @@ Most of the workloads use NAS-based storage for persistent data. The
 Ensure that Omnictl/Talosctl is ready to go. Installation steps are [in my Omni repo](https://github.com/kenlasko/omni/).
 
 ## Install Kubernetes
+### Initial Cluster Setup
 This guide assumes you're using a NixOS distribution that is configured to securely store and present all required certificates. For more information, see [my NixOS repo](https://github.com/kenlasko/nixos-wsl/). Otherwise, you will have to manually ensure all supporting files are present.
 
 1. Make sure all Talos nodes are in maintenance mode and appearing in [Omni](https://omni.ucdialplans.com). Use network boot via [NetBootXYZ](https://github.com/kenlasko/pxeboot/) to boot nodes into Talos maintenance mode.
@@ -101,7 +102,10 @@ omnictl cluster template sync -f ~/omni/cluster-template-home.yaml
 kubectl config use-context omni-home
 kubectl get nodes
 ```
-4. Once `kubectl get nodes` returns node info, [bootstrap the cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, External Secrets Operator and ArgoCD via OpenTofu/Terraform
+
+### Bootstrapping via Terraform/OpenTofu
+
+1. Once `kubectl get nodes` returns node info, [bootstrap the cluster](https://github.com/kenlasko/k8s-bootstrap) by installing Cilium, Cert-Manager, External Secrets Operator and ArgoCD via OpenTofu/Terraform
 ```bash
 cd ~/terraform
 tf workspace new home
@@ -110,6 +114,85 @@ tf init
 tf apply
 ```
 Monitor the status of the Terraform install by running `kubectl get pods -A`. It will take several minutes for Cilium, Cert-Manager, External Secrets Operator and ArgoCD to start.
+
+### Bootstrapping via Manual Kubectl/Kustomize
+I can't seem to get Terraform/OpenTofu working well, so this manual process does the trick. Because it takes time for some resources to become available, some manifests may fail. Just have to keep retrying until they run without error.
+```
+# Initial manifest generation
+CLUSTER=lab   # or home, cloud
+kustomize build ~/k8s/manifests/network/cilium/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/cilium.yaml
+kustomize build ~/k8s/manifests/system/external-secrets/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/external-secrets.yaml
+kustomize build ~/k8s/manifests/system/cert-manager/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/cert-manager.yaml
+kustomize build ~/k8s/manifests/database/redis/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/redis.yaml
+kustomize build ~/k8s/argocd/overlays/$CLUSTER/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/argocd.yaml
+
+# Delete the build charts
+rm -rf ~/k8s/manifests/network/cilium/overlays/$CLUSTER/charts
+rm -rf ~/k8s/manifests/system/external-secrets/overlays/$CLUSTER/charts
+rm -rf ~/k8s/manifests/system/cert-manager/overlays/$CLUSTER/charts
+rm -rf ~/k8s/manifests/database/redis/overlays/$CLUSTER/charts
+rm -rf ~/k8s/argocd/overlays/$CLUSTER/charts
+```
+
+Once the manifests are generated, simply run `kubectl apply -f` for each of them:
+```
+# Create namespaces once (skip if already exists)
+kubectl create namespace cilium --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace cert-manager --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace redis --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+kubectl apply -f /run/secrets/eso-secretstore-secrets.yaml
+
+# Track per-manifest success
+cilium_ok=false
+external_ok=false
+cert_ok=false
+
+while true; do
+  if [ "$cilium_ok" = false ]; then
+    echo "Applying Cilium manifests..."
+    if kubectl apply -f ~/cilium.yaml; then
+      cilium_ok=true
+      echo "✅ Cilium manifests applied successfully."
+    else
+      echo "❌ Cilium apply failed. Will retry."
+    fi
+  fi
+
+  if [ "$external_ok" = false ]; then
+    echo "Applying External-Secrets manifests..."
+    if kubectl apply -f ~/external-secrets.yaml; then
+      external_ok=true
+      echo "✅ External-Secrets manifests applied successfully."
+    else
+      echo "❌ External-Secrets apply failed. Will retry."
+    fi
+  fi
+
+  if [ "$cert_ok" = false ]; then
+    echo "Applying Cert-Manager manifests..."
+    if kubectl apply -f ~/cert-manager.yaml; then
+      cert_ok=true
+      echo "✅ Cert-Manager manifests applied successfully."
+    else
+      echo "❌ Cert-Manager apply failed. Will retry."
+    fi
+  fi
+
+  if [ "$cilium_ok" = true ] && [ "$external_ok" = true ] && [ "$cert_ok" = true ]; then
+    echo "🎉 All manifests applied successfully!"
+    break
+  fi
+
+  echo "🔁 Some resources not ready. Waiting 10 seconds before retry..."
+  sleep 10
+done
+
+kubectl apply -f ~/redis.yaml
+kubectl apply -f ~/argocd.yaml
+```
+
 
 ## Argo App Install
 Once Terraform/OpenTofu bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).

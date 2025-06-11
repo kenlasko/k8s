@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+- name: csi-driver-nfs
+  repo: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+  version: v1.18.0
+  releaseName: csi-drivers
+  namespace: kube-system
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
+resources:
+- ../../base
+- configmap-backup-apps-script.yaml
+- deploy-backup-apps.yaml
+- snapshotclass.yaml
+- volume.yaml
