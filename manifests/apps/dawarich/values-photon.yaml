@@ -2,7 +2,7 @@ nameOverride: photon
 image:
   repository: tonsnoei/photon-geocoder
   tag: 0.4.2
-  registry: ghcr.io
+  registry: docker.io
 priorityClassName: low-priority
 securityContext:
   allowPrivilegeEscalation: true
