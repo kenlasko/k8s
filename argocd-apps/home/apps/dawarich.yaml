@@ -13,7 +13,13 @@ spec:
     targetRevision: HEAD
     helm:
       valueFiles:
-      - /manifests/apps/dawarich/values.yaml
+      - /manifests/apps/dawarich/values-dawarich.yaml
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/baseline
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - /manifests/apps/dawarich/values-photon.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/apps/dawarich
     targetRevision: HEAD

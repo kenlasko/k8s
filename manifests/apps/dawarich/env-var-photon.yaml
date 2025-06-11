@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars-photon
+  namespace: dawarich
+data:
+  UPDATE_STRATEGY: "SEQUENTIAL"
+  UPDATE_INTERVAL: "60h"

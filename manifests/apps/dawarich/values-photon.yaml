@@ -1,0 +1,30 @@
+image:
+  repository: rtuszik/photon-docker
+  tag: 0.7.0-Photon-Opensearch
+  registry: ghcr.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+#   runAsNonRoot: true
+#   runAsUser: 1000
+#   runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: env-vars-photon
+resources:
+  requests:
+    cpu: 25m
+    memory: 1.5Gi
+  limits:
+    memory: 3.0Gi
+service:
+  port: 2322
+livenessProbe: false
+persistentVolume:
+  type: nfs
+  mountPath: /photon/photon_data

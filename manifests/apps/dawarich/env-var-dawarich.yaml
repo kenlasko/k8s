@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: env-vars
+  name: env-vars-dawarich
   namespace: dawarich
 data:
   RAILS_ENV: "development"
