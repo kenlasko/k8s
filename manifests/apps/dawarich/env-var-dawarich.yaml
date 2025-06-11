@@ -18,7 +18,6 @@ data:
   PROMETHEUS_EXPORTER_ENABLED: "false"
   PROMETHEUS_EXPORTER_HOST: "0.0.0.0"
   PROMETHEUS_EXPORTER_PORT: "9394"
-  QUEUE_DATABASE_PATH: /dawarich_db_data/dawarich_development_queue.sqlite3
-  CACHE_DATABASE_PATH: /dawarich_db_data/dawarich_development_cache.sqlite3
-  CABLE_DATABASE_PATH: /dawarich_db_data/dawarich_development_cable.sqlite3
   SELF_HOSTED: "true"
+  PHOTON_API_HOST: "photon-service:2322"
+  PHOTON_API_USE_HTTPS: "false"
