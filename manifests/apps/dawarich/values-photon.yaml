@@ -1,6 +1,6 @@
 nameOverride: photon
 image:
-  repository: tonsnoei/photon-geocoder
+  repository: tonsnoei/docker-photon
   tag: 0.4.2
   registry: docker.io
 priorityClassName: low-priority
