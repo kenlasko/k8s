@@ -2,3 +2,8 @@ global:
   domain: lab-argocd.ucdialplans.com
 notifications:
   enabled: false
+redis:
+  enabled: false
+externalRedis:
+  host: redis-master.redis.svc.cluster.local
+  existingSecret: redis-credentials
