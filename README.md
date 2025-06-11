@@ -27,7 +27,6 @@ This is my Kubernetes lab environment, which I have historically used to test ou
 
 ## Related Repositories
 Links to my other repositories mentioned or used in this repo:
-- [K8s Bootstrap](https://github.com/kenlasko/k8s-bootstrap): Bootstraps Kubernetes clusters with essential apps using Terraform/OpenTofu
 - [NetbootXYZ](https://github.com/kenlasko/docker-rpi1/tree/main/netbootxyz): Simplified PXE boot setup for Omni-managed Talos nodes.
 - [NixOS](https://github.com/kenlasko/nixos-wsl): A declarative OS modified to support my Kubernetes cluster
 - [Omni](https://github.com/kenlasko/omni): Creates and manages the Kubernetes clusters.
@@ -106,7 +105,6 @@ The script will take care of the following:
   - [CSI Drivers](/manifests/system/csi-drivers)
   - [Redis](/manifests/database/redis)
   - [ArgoCD](/manifests/argocd)
-
 
 ## Argo App Install
 Once the `bootstrap-cluster.sh` script bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
