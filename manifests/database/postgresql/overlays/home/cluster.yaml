@@ -5,7 +5,7 @@ metadata:
   namespace: postgresql
 spec:
   imageName: registry.ucdialplans.com/postgres:16.9-gis16-vchord0.3.0
-  instances: 2
+  instances: 3
   failoverDelay: 15
   storage:
     storageClass: local-path
