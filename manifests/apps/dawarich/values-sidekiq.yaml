@@ -1,0 +1,40 @@
+nameOverride: sidekiq
+image:
+  repository: freikin/dawarich
+  tag: 0.28.1
+  registry: docker.io
+priorityClassName: low-priority
+command: ["sidekiq-entrypoint.sh"]
+args: ["sidekiq"]
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+#   runAsNonRoot: true
+#   runAsUser: 1000
+#   runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+  envFrom:
+  - configMapRef:
+      name: env-vars-dawarich
+  - secretRef:
+      name: dawarich-secrets
+service:
+  port: 3000
+disableHTTPRoute: true
+extraVolumeMounts:
+- name: dawarich
+  mountPath: /var/app/public
+  subPath: public
+- name: dawarich
+  mountPath: /var/app/tmp/imports/watched
+  subPath: watched
+- name: dawarich
+  mountPath: /var/app/storage
+  subPath: storage
+extraVolumes:
+- name: dawarich
+  persistentVolumeClaim:
+    claimName: nfs-dawarich
