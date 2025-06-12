@@ -12,7 +12,7 @@
   ],
   "argocd": {
     "fileMatch": [
-      "argocd-apps/[^/]+/[^/]+/[^/]+\\.yaml$",
+      "argocd-apps/.*\\.yaml$",
       "manifests/argocd/argocd.yaml$"
     ]
   },
