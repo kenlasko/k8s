@@ -16,13 +16,14 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-  envFrom:
-  - configMapRef:
-      name: env-vars-dawarich
-  - secretRef:
-      name: dawarich-secrets
+envFrom:
+- configMapRef:
+    name: env-vars-dawarich
+- secretRef:
+    name: dawarich-secrets
 service:
   port: 3000
+livenessProbe: false
 disableHTTPRoute: true
 extraVolumeMounts:
 - name: dawarich
