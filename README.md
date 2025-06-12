@@ -218,6 +218,11 @@ ggshield auth login
 ggshield auth login --method token
 ```
 
+## Handy Commands
+Scan a repository before onboarding:
+```bash
+ggshield secret scan path <PathName> --recursive --use-gitignore
+```
 
 # Oracle Cloud Talos Node Prep
 1. Download ARM64 Talos Oracle image from https://omni.ucdialplans.com and place in /home/ken/
@@ -262,13 +267,6 @@ tar zcf talos-oracle-arm64.oci oracle-arm64.qcow2 image_metadata.json
 7. [Create instance](https://cloud.oracle.com/compute/instances?region=ca-toronto-1) using custom image
 8. Open all inbound firewall ports from home network
 9. Set Oracle public IP address on [Unifi port forwarding](https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding)
-
-
-## Handy Commands
-Scan a repository before onboarding:
-```bash
-ggshield secret scan path <PathName> --recursive --use-gitignore
-```
 
 
 # Handy commands to know
