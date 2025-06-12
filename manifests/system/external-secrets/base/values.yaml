@@ -1,12 +1,27 @@
 image:
   repository: ghcr.io/external-secrets/external-secrets
-
-resources: {}
-
+resources: 
+  requests:
+    cpu: 1m
+    memory: 85Mi
+  limits:
+    memory: 150Mi 
 webhook:
   image:
     repository: ghcr.io/external-secrets/external-secrets
-
+  resources:
+    requests:
+      cpu: 1m
+      memory: 5Mi
+    limits:
+      memory: 50Mi
 certController:
   image:
     repository: ghcr.io/external-secrets/external-secrets
+  resources:
+    requests:
+      cpu: 1m
+      memory: 100Mi
+    limits:
+      memory: 150Mi
+
