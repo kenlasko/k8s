@@ -1,0 +1,9 @@
+fullnameOverride: postgresql-controller
+podLabels:
+  app.kubernetes.io/component: database
+resources:
+  requests:
+    cpu: 3m
+    memory: 40Mi
+  limits:
+    memory: 80Mi
