@@ -2,6 +2,12 @@ fullnameOverride: reloader
 reloader:
   readOnlyRootFilesystem: true
   deployment:
+    resources:
+      requests:
+        cpu: 1m
+        memory: 30Mi
+      limits:
+        memory: 80Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

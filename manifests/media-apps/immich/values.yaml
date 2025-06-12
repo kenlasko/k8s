@@ -63,8 +63,11 @@ probes:
       timeoutSeconds: 10
 resources:
   requests:
+    cpu: 3m
+    memory: 400Mi
     gpu.intel.com/i915: "1"
   limits:
+    memory: 1Gi
     gpu.intel.com/i915: "1"
 affinity:
   nodeAffinity:

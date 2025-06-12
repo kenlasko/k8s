@@ -26,7 +26,12 @@ persistentVolume:
 containerSecurityContext:
   enabled: true
   allowPrivilegeEscalation: false
-
+resources:
+  requests:
+    cpu: 1m
+    memory: 175Mi
+  limits:
+    memory: 4Gi
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

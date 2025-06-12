@@ -16,7 +16,7 @@ kubetail:
       resources:
         requests:
           cpu: 1m
-          memory: 50Mi
+          memory: 20Mi
         limits:
           memory: 500Mi
   clusterAPI:
@@ -40,9 +40,10 @@ kubetail:
         limits:
           memory: 100Mi
   clusterAgent:
-    resources:
-      requests:
-        cpu: 1m
-        memory: 45Mi
-      limits:
-        memory: 100Mi
+    container:
+      resources:
+        requests:
+          cpu: 2m
+          memory: 10Mi
+        limits:
+          memory: 60Mi
