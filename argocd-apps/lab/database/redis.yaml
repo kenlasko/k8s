@@ -7,20 +7,24 @@ metadata:
     argocd.argoproj.io/sync-wave: "-5"
 spec:
   project: default
-  sources:
-  - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 21.2.3
-    chart: redis
-    helm:
-      valueFiles:
-      - $values/manifests/database/redis/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s-lab.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s-lab.git"
-    path: manifests/database/redis
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/database/redis/overlays/lab
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
+  # sources:
+  # - repoURL: "registry-1.docker.io/bitnamicharts"
+  #   targetRevision: 21.2.3
+  #   chart: redis
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/database/redis/values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s-lab.git"
+  #   ref: values
+  # - repoURL: "git@github.com:kenlasko/k8s-lab.git"
+  #   path: manifests/database/redis
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: redis
