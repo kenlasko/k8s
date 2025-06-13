@@ -3,6 +3,3 @@ hostAliases:
 - ip: "10.0.0.103"
   hostnames:
   - "pangolin.ucdialplans.com"
-securityContext:
-  capabilities:
-    add: ["NET_ADMIN", "NET_RAW"]
