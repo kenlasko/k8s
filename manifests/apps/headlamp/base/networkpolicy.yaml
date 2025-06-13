@@ -18,17 +18,18 @@ spec:
             - port: "6443"
     - fromEntities:
         - kube-apiserver
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: pangolin-tunnel
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
-      toPorts:
-        - ports:
-            - port: "80"
-            - port: "4466"
-            - port: "6443"
+# Validating Pangolin tunnel access to cloud. Not needed generally
+    # - fromEndpoints:
+    #     - matchLabels:
+    #         app.kubernetes.io/name: pangolin-tunnel
+    #       matchExpressions:
+    #         - key: io.kubernetes.pod.namespace
+    #           operator: Exists
+    #   toPorts:
+    #     - ports:
+    #         - port: "80"
+    #         - port: "4466"
+    #         - port: "6443"
   egress:
     - toEntities:
         - kube-apiserver
