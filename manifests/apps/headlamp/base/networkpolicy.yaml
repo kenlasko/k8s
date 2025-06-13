@@ -18,6 +18,15 @@ spec:
             - port: "6443"
     - fromEntities:
         - kube-apiserver
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: pangolin-tunnel
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "8080"
   egress:
     - toEntities:
         - kube-apiserver
