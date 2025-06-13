@@ -93,3 +93,15 @@ spec:
   owner: sonarr
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: synapse
+  namespace: postgresql
+spec:
+  name: synapse
+  owner: synapse
+  cluster:
+    name: home
