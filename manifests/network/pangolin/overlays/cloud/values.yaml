@@ -1,5 +1,4 @@
 affinity: false
-hostNetwork: true
 hostAliases:
 - ip: "10.0.0.103"
   hostnames:
