@@ -1,0 +1,34 @@
+image:
+  repository: matrixdotorg/synapse
+  tag: v1.131.0
+  registry: docker.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+resources:
+  requests:
+    cpu: 1m
+    memory: 70Mi
+  limits:
+    memory: 400Mi
+env:
+- name: SYNAPSE_SERVER_NAME
+  value: synapse.ucdialplans.com
+- name: SYNAPSE_CONFIG_PATH
+  value: /data/homeserver.yaml
+- name: TZ
+  value: "America/Toronto"
+service:
+  port: 8008
+persistentVolume:
+  type: nfs
+  mountPath: /data
+# backup:
+#   location: oracle
+#   schedule: "40 6 * * *"
+#   copyMethod: Direct
