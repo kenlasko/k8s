@@ -21,6 +21,9 @@ spec:
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: pangolin-tunnel
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
       toPorts:
         - ports:
             - port: "80"
