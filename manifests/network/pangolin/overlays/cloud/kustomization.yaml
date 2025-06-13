@@ -10,7 +10,7 @@ helmCharts:
   valuesFile: ../../base/values.yaml
   additionalValuesFiles:
   - values.yaml
-  valuesMerge: merge
+  valuesMerge: replace
 resources:
 - ../../base
 - external-secrets.yaml
