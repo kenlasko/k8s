@@ -10,4 +10,4 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - httproute.yaml
-- networkpolicy.yaml
+#- networkpolicy.yaml
