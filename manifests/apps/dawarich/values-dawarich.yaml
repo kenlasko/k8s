@@ -25,7 +25,7 @@ resources:
     cpu: 25m
     memory: 750Mi
   limits:
-    memory: 1.2Gi
+    memory: 1.5Gi
 service:
   port: 3000
 livenessProbe:
