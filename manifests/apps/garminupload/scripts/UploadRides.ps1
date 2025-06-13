@@ -496,14 +496,16 @@ If ($ActivityNotes -eq $NULL) {
     $NewDescription = "$ActivityNotes\n\n$MBTURL\n$Di2URL"
 }
 
-$StravaBody = @{
-    commute     = $false
-    trainer     = $false
-    description = $NewDescription
-    name        = $ActivityName
-    type        = $JSON.type
-    gear_id     = $JSON.gear_id
-} | ConvertTo-Json
+# You'd think this would be cleaner if I used a hash table, but Strava mangles it for some reason
+# This is the only way it works.
+$StravaBody = "{
+`n  `"commute`": false,
+`n  `"trainer`": false,
+`n  `"description`": `"$NewDescription`",
+`n  `"name`": `"$ActivityName`",
+`n  `"type`": `"$($JSON.Type)`",
+`n  `"gear_id`": `"$($JSON.gear_id)`"
+`n}"
 
 $UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody -ContentType "application/json"
 
