@@ -42,7 +42,7 @@ singleBinary:
       memory: 125Mi
     limits:
       # cpu: 120m
-      memory: 500Mi
+      memory: 600Mi
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
