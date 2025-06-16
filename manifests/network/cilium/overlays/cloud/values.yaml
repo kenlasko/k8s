@@ -142,6 +142,7 @@ hubble:
 
 gatewayAPI:
   enabled: true
+  # This is needed so that I can route HTTP requests directly to the node
   hostNetwork:
     enabled: true
   secretsNamespace:
