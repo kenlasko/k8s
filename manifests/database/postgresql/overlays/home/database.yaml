@@ -1,14 +1,14 @@
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: dawarich
-  namespace: postgresql
-spec:
-  name: dawarich
-  owner: dawarich
-  cluster:
-    name: home
+# ---
+# apiVersion: postgresql.cnpg.io/v1
+# kind: Database
+# metadata:
+#   name: dawarich
+#   namespace: postgresql
+# spec:
+#   name: dawarich
+#   owner: dawarich
+#   cluster:
+#     name: home
 
 ---
 apiVersion: postgresql.cnpg.io/v1
