@@ -9,11 +9,11 @@ helmCharts:
   namespace: adguard
   valuesFile: ../../base/values.yaml
   additionalValuesFiles:
-  - values.yaml
+  - values-adguard.yaml
   valuesMerge: merge
 resources:
 - ../../base
-- deploy-adguard-sync.yaml
+#- deploy-adguard-sync.yaml
 - networkpolicy.yaml
 #- restore.yaml
 - service.yaml
