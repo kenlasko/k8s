@@ -9,11 +9,6 @@ spec:
     repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/network/cloudflare/overlays/cloud
     targetRevision: HEAD
-    # repoURL: "git@github.com:kenlasko/k8s-cloud.git"
-    # path: manifests/network/cloudflare-tunnel
-    # targetRevision: HEAD
-    # directory:
-    #   exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: cloudflare

@@ -12,19 +12,6 @@ spec:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/network/cilium/overlays/lab
     targetRevision: HEAD
-  # - repoURL: "https://helm.cilium.io/"
-  #   targetRevision: 1.17.4
-  #   chart: cilium
-  #   helm:
-  #     valueFiles:
-  #     - $values/manifests/network/cilium/values.yaml
-  # - repoURL: "git@github.com:kenlasko/k8s-lab.git"
-  #   ref: values
-  # - repoURL: "git@github.com:kenlasko/k8s-lab.git"
-  #   path: manifests/network/cilium
-  #   targetRevision: HEAD
-  #   directory:
-  #     exclude: "*_DISABLED.yaml"
   - repoURL: "https://github.com/kubernetes-sigs/gateway-api.git"
     path: "config/crd/experimental"
     targetRevision: "v1.2.0"

@@ -11,20 +11,6 @@ spec:
     repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/database/redis/overlays/lab
     targetRevision: HEAD
-  # sources:
-  # - repoURL: "registry-1.docker.io/bitnamicharts"
-  #   targetRevision: 21.2.3
-  #   chart: redis
-  #   helm:
-  #     valueFiles:
-  #     - $values/manifests/database/redis/values.yaml
-  # - repoURL: "git@github.com:kenlasko/k8s-lab.git"
-  #   ref: values
-  # - repoURL: "git@github.com:kenlasko/k8s-lab.git"
-  #   path: manifests/database/redis
-  #   targetRevision: HEAD
-  #   directory:
-  #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: redis
