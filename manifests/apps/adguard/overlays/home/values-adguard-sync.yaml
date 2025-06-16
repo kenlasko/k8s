@@ -1,0 +1,84 @@
+nameOverride: adguard-sync
+image:
+  repository: bakito/adguardhome-sync
+  tag: v0.7.6
+  registry: ghcr.io
+priorityClassName: medium-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+command: ["/opt/go/adguardhome-sync","run"]
+resources:
+  requests:
+    cpu: 1m
+    memory: 25Mi
+  limits:
+    # cpu: 60m
+    memory: 60Mi
+env:
+- name: PUID
+  value: "1000"
+- name: PGID
+  value: "100"
+- name: ORIGIN_URL
+  value: "http://adguard-service:3000"
+- name: ORIGIN_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: username
+- name: ORIGIN_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: password
+- name: REPLICA1_URL
+  value: "https://adguard-rpi1.ucdialplans.com"
+- name: REPLICA1_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: username
+- name: REPLICA1_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: password
+- name: REPLICA2_URL
+  value: "https://adguard-rpi2.ucdialplans.com"
+- name: REPLICA2_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: username
+- name: REPLICA2_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: password
+- name: REPLICA3_URL
+  value: "http://cloud-adguard-egress:3000"
+- name: REPLICA3_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: username
+- name: REPLICA3_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: adguard-creds
+      key: password
+- name: CRON
+  value: "*/1 * * * *" 
+- name: LOG_LEVEL
+  value: "info" 
+- name: TZ
+  value: "America/Toronto"
+disableHTTPRoute: true
