@@ -9,11 +9,8 @@ spec:
   project: default
   sources:
   - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/baseline
+    path: manifests/apps/adguard/overlays/home
     targetRevision: HEAD
-    # helm:
-    #   valueFiles:
-    #   - /manifests/apps/adguard/overlays/home/values-adguard.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: helm/baseline
     targetRevision: HEAD
