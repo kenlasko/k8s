@@ -52,13 +52,16 @@ appName/
 ├── overlays/
 │   ├── cloud/
 │   │   ├── kustomization.yaml  # Patches and config specific to Cloud cluster
-│   │   └── patch.yaml          # Example patch (e.g., change replicas)
+│   │   ├── patch.yaml          # Example patch (e.g., change replicas)
+│   │   └── values.yaml         # Helm values patch (if using Helm chart)
 │   ├── home/
 │   │   ├── kustomization.yaml  # Patches and config specific to Home cluster
-│   │   └── patch.yaml          # Example patch
-│   └── lab/
-│       ├── kustomization.yaml  # Patches and config specific to Lab cluster
-│       └── patch.yaml          # Example patch
+│   │   ├── patch.yaml          # Example patch (e.g., change replicas)
+│   │   └── values.yaml         # Helm values patch (if using Helm chart)
+│   ├── lab/
+│   │   ├── kustomization.yaml  # Patches and config specific to Lab cluster
+│   │   ├── patch.yaml          # Example patch (e.g., change replicas)
+│   │   └── values.yaml         # Helm values patch (if using Helm chart)
 ```
 
 ## Software Updates
