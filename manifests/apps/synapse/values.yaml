@@ -1,6 +1,6 @@
 image:
   repository: matrixdotorg/synapse
-  tag: v1.131.0
+  tag: v1.132.0
   registry: docker.io
 priorityClassName: low-priority
 securityContext:
