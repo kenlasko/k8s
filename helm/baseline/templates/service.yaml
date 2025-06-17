@@ -1,10 +1,11 @@
 {{- if .Values.service }}
+{{- $name := .Values.nameOverride | default .Release.Name }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ .Values.nameOverride | default .Release.Name }}-service
+    app: {{ $name }}-service
     {{- if .Values.service.extraLabels }}
     {{- toYaml .Values.service.extraLabels | nindent 4 }}
     {{- end }}
@@ -12,7 +13,7 @@ metadata:
   annotations: 
     {{- toYaml .Values.service.annotations | nindent 4 }}
     {{- end }}
-  name: {{ .Values.nameOverride | default .Release.Name }}-service
+  name: {{ $name }}-service
   namespace: {{ .Release.Namespace }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
@@ -20,7 +21,7 @@ spec:
   externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
   {{- end }}
   selector:
-    app: {{ .Values.nameOverride | default .Release.Name }}
+    app: {{ $name }}
   ports:
     - port: {{ .Values.service.port }}
       protocol: TCP
@@ -40,7 +41,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: cloud-{{ .Values.nameOverride | default .Release.Name }}.tailb7050.ts.net
+    tailscale.com/tailnet-fqdn: cloud-{{ $name }}.tailb7050.ts.net
   labels:
     tailscale.com/proxy-class: "run-on-worker"  
   name: {{ .Values.tailscale.name }}
