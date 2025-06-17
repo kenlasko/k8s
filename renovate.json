@@ -8,7 +8,8 @@
     "argocd",
     "helm-values",
     "kubernetes",
-    "kustomize"
+    "kustomize",
+    "pre-commit"
   ],
   "argocd": {
     "fileMatch": [
@@ -18,8 +19,7 @@
   },
   "helm-values": {
     "fileMatch": [
-      "^manifests/.*values.*\\.yaml$",
-      ".pre-commit-config.yaml"
+      "^manifests/.*values.*\\.yaml$"
     ]
   },
   "kubernetes": {
