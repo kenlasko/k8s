@@ -1,5 +1,5 @@
-{{- if .Values.service }}
 {{- $name := .Values.nameOverride | default .Release.Name }}
+{{- if .Values.service }}
 ---
 apiVersion: v1
 kind: Service
