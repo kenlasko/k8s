@@ -281,12 +281,12 @@ Many container images do not have any tools like `nc` to check network port conn
 
 ## Validate Kustomize manifests
 ```
-kustomize build k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/kustomize-test.yaml
+kustomize build ~/k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/kustomize-test.yaml
 ```
 
 ## Validate Homegrown Helm Chart
 ```
-helm template plex ~/k8s/helm/baseline -n media-apps -f ~/k8s/manifests/media-tools/plex/values.yaml > ~/helm-test.yaml
+helm template plex ~/k8s/helm/baseline -n media-apps -f ~/k8s/manifests/media-apps/plex/values.yaml > ~/helm-test.yaml
 ```
 
 ## Generate Kustomize Manifest and Apply to Kubernetes

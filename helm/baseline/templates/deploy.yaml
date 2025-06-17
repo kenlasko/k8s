@@ -1,5 +1,12 @@
 {{- $name := .Values.nameOverride | default .Release.Name }}
+{{- $pvname := coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
 {{- $tag := .Values.image.tag | quote }}
+
+# Fail if the image repo isn't specified
+{{- if not .Values.image.repository }}
+{{- fail "image.repository is required" }}
+{{- end }}
+
 ---
 apiVersion: apps/v1
 kind: {{ .Values.appKind | default "StatefulSet" }}
@@ -52,6 +59,7 @@ spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
       priorityClassName: {{ .Values.priorityClassName | default "low-priority" }}
+      # Optional affinity rules. Defaults to scheduling away from control-plane nodes
       {{- if not (eq (.Values.affinity | toString) "false") }} 
       affinity:
         {{- if .Values.affinity }}
@@ -139,11 +147,10 @@ spec:
         readinessProbe:
           {{- toYaml .Values.readinessProbe | nindent 10 }}
         {{- end }}
-
       {{- if or .Values.persistentVolume .Values.extraVolumes .Values.media.enabled  }}  
         volumeMounts:
         {{- if .Values.persistentVolume }}
-        - name: {{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config
+        - name: {{ $pvname }}-config
           mountPath: {{ .Values.persistentVolume.mountPath | default "/config" }}
         {{- end }}
       {{- if .Values.media }}    
@@ -167,14 +174,14 @@ spec:
       {{- if or .Values.persistentVolume .Values.extraVolumes .Values.media.enabled }}
       volumes:
       {{- if .Values.persistentVolume }}
-      - name: {{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config
+      - name: {{ $pvname }}-config
         persistentVolumeClaim:
         {{- if eq .Values.persistentVolume.type "longhorn" }}
-          claimName: longhorn-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}-config-pvc
+          claimName: longhorn-{{ $pvname }}-config-pvc
         {{- else if eq .Values.persistentVolume.type "nfs" }}
-          claimName: nfs-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+          claimName: nfs-{{ $pvname }}
         {{- else if eq .Values.persistentVolume.type "local-path" }}
-          claimName: pvc-{{ coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+          claimName: pvc-{{ $pvname }}
         {{- end }}
       {{- end }}
     {{- if .Values.media }} 

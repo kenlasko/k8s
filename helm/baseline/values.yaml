@@ -15,9 +15,9 @@ reloaderEnabled: "true"
 
 # Image settings
 image:
-  repository: "your-repository"
-  tag: "latest"
-  registry: "your-registry"
+  repository: ""  # Specify the image repository, e.g., "adguard/adguardhome"
+  tag: "latest"   # Specify the image tag, e.g., "v0.107.62"
+  registry: ""    # Specify the image registry, e.g., "docker.io"
   pullPolicy: IfNotPresent
 
 # Security context
