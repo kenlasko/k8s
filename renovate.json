@@ -4,6 +4,9 @@
     "config:recommended",
     ":rebaseStalePrs"
   ],
+  "pre-commit": {
+    "enabled": true
+  },
   "enabledManagers": [
     "argocd",
     "helm-values",
