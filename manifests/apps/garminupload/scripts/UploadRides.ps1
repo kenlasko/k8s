@@ -507,7 +507,7 @@ $StravaBody = "{
 `n  `"gear_id`": `"$($JSON.gear_id)`"
 `n}"
 
-$UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody -ContentType "application/json"
+$UpdateStrava = Invoke-RestMethod -Method PUT -uri $StravaURI -Headers $StravaHeaders -Body $StravaBody
 
 
 ###########################################################################################################################################
