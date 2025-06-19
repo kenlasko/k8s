@@ -22,7 +22,7 @@
   },
   "helm-values": {
     "fileMatch": [
-      "^manifests/.*values.*\\.yaml$"
+      "^manifests/.*(values|cluster).*\\.yaml$"
     ]
   },
   "kubernetes": {
