@@ -22,7 +22,7 @@ spec:
       - name: immich-server
         resources:
           requests:
-            cpu: 10m
+            cpu: 3m
             memory: 400Mi
           limits:
             memory: 1Gi
