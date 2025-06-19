@@ -9,6 +9,7 @@
   },
   "enabledManagers": [
     "argocd",
+    "custom.regex",
     "helm-values",
     "kubernetes",
     "kustomize",
@@ -22,13 +23,12 @@
   },
   "helm-values": {
     "fileMatch": [
-      "^manifests/.*(values|cluster).*\\.yaml$"
+      "^manifests/.*values.*\\.yaml$"
     ]
   },
   "kubernetes": {
     "fileMatch": [
       "deploy",
-      "cluster",
       "cronjob",
       "tunnel"
     ],
@@ -49,6 +49,17 @@
       "matchHost": "docker.io",
       "username": "kenlasko",
       "password": "{{ secrets.DOCKER_CREDS }}"
+    }
+  ],  
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^cluster.yaml$"],
+      "matchStrings": [
+        "imageName:\\s*kenlasko/cloudnativepg-gis-vchord:(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "kenlasko/cloudnativepg-gis-vchord"
     }
   ],
   "packageRules": [
