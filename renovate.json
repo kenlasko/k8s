@@ -54,9 +54,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^cluster.yaml$"],
+      "fileMatch": ["cluster"],
       "matchStrings": [
-        "imageName:\\s*kenlasko/cloudnativepg-gis-vchord:(?<currentValue>\\S+)"
+        "imageName:\\s*kenlasko\/cloudnativepg-gis-vchord:(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "docker",
       "packageNameTemplate": "kenlasko/cloudnativepg-gis-vchord"
