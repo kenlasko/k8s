@@ -13,13 +13,13 @@ resources:
 # - sealed-secrets.yaml
 - volume.yaml
 patches:
-- path: strategy-patch.yaml
+- path: server-patch.yaml
   target:
     group: apps
     version: v1
     kind: Deployment
     name: immich-server
-- path: strategy-patch.yaml
+- path: ml-patch.yaml
   target:
     group: apps
     version: v1
