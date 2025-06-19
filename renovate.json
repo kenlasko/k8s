@@ -89,9 +89,10 @@
       "matchPackageNames": [
         "cilium",
         "**/gateway-api.git",
-        "**immich-app/immich-**",
         "longhorn",
-        "**/mariadb-galera"
+        "**/mariadb-galera",
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
       ],
       "automerge": false
     },

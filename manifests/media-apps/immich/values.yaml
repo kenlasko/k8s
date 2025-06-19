@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/immich-app/immich-server
-  tag: v1.135.1
+  tag: v1.135.0
 immich:
   persistence:
     library:
@@ -39,7 +39,7 @@ machine-learning:
   enabled: true
   image:
     repository: ghcr.io/immich-app/immich-machine-learning
-    tag: v1.135.1-openvino
+    tag: v1.135.0-openvino
     pullPolicy: IfNotPresent
   persistence:
     cache:
