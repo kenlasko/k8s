@@ -7,20 +7,24 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
-  sources:
-  - repoURL: "ghcr.io/immich-app/immich-charts"
-    targetRevision: 0.9.3
-    chart: immich
-    helm:
-      valueFiles:
-      - $values/manifests/media-apps/immich/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/media-apps/immich
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
+  # sources:
+  # - repoURL: "ghcr.io/immich-app/immich-charts"
+  #   targetRevision: 0.9.3
+  #   chart: immich
+  #   helm:
+  #     valueFiles:
+  #     - $values/manifests/media-apps/immich/values.yaml
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   ref: values
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: manifests/media-apps/immich
+  #   targetRevision: HEAD
+  #   directory:
+  #     exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: media-apps
