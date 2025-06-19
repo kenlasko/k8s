@@ -1,15 +1,17 @@
 {{- if .Values.persistentVolume }}
-{{- $name := coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+{{- $name := coalesce .Values.nameOverride .Release.Name }}
+{{- $volname := coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
+{{- $volsize := .Values.persistentVolume.size | default "1Gi" }}
 {{- if eq .Values.persistentVolume.type "longhorn" }}
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pvc-{{ $name }}
+  name: pvc-{{ $volname }}
 spec:
   storageClassName: longhorn
   capacity:
-    storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+    storage: {{ $volsize }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
@@ -17,7 +19,7 @@ spec:
   csi:
     driver: driver.longhorn.io
     fsType: ext4
-    volumeHandle: pvc-{{ $name }}
+    volumeHandle: pvc-{{ $volname }}
     volumeAttributes:
       numberOfReplicas: "3"
       staleReplicaTimeout: "30"
@@ -26,7 +28,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-{{ $name }}-config-pvc
+  name: longhorn-{{ $volname }}-config-pvc
   namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
@@ -34,56 +36,56 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+      storage: {{ $volsize }}
 
 {{- else if eq .Values.persistentVolume.type "nfs" }}
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-{{ $name }}
+  name: nfs-{{ $volname }}
   annotations:
     pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
 spec:
   storageClassName: nfs-csi
   capacity:
-    storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+    storage: {{ $volsize }}
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/appdata/vol/{{ coalesce .Values.nameOverride .Release.Name }}
+    volumeHandle: 192.168.1.3/appdata/vol/{{ $name }}
     volumeAttributes:
       server: 192.168.1.3
-      share: /appdata/vol/{{ coalesce .Values.nameOverride .Release.Name }}
+      share: /appdata/vol/{{ $name }}
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-{{ $name }}
+  name: nfs-{{ $volname }}
   namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: nfs-csi
-  volumeName: nfs-{{ $name }}
+  volumeName: nfs-{{ $volname }}
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+      storage: {{ $volsize }}
   {{- if .Values.backup | default false}}
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: nas01-s3-backup-{{ .Values.nameOverride | default .Release.Name }}
+    name: nas01-s3-backup-{{ $name }}
   {{ end }}
   
 {{- else if eq .Values.persistentVolume.type "local-path" }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-{{ $name }}
+  name: pvc-{{ $volname }}
   namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: local-path
@@ -91,22 +93,22 @@ spec:
   - ReadWriteOnce 
   resources:
     requests:
-      storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+      storage: {{ $volsize }}
 
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-{{ $name }}
+  name: pv-{{ $volname }}
 spec:
   storageClassName: local-path
   capacity:
-    storage: {{ .Values.persistentVolume.size | default "1Gi" }}
+    storage: {{ $volsize }}
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/var/{{ $name }}"
+    path: "/var/{{ $volname }}"
   nodeAffinity:
     required:
       nodeSelectorTerms:
