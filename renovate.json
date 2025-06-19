@@ -28,6 +28,7 @@
   "kubernetes": {
     "fileMatch": [
       "deploy",
+      "cluster",
       "cronjob",
       "tunnel"
     ],
