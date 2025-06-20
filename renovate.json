@@ -90,9 +90,7 @@
         "cilium",
         "**/gateway-api.git",
         "longhorn",
-        "**/mariadb-galera",
-        "ghcr.io/immich-app/immich-server",
-        "ghcr.io/immich-app/immich-machine-learning"
+        "**/mariadb-galera"
       ],
       "automerge": false
     },
@@ -102,7 +100,9 @@
       ],
       "matchPackageNames": [
         "docker.io/freikin/dawarich",
-        "ghcr.io/home-operations/home-assistant"
+        "ghcr.io/home-operations/home-assistant",
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
       ],
       "matchUpdateTypes": [
         "major",
