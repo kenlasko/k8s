@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: bitwarden-tls-certs
   issuerRef:
-    name: your-cluster-issuer
+    name: self-signed
     kind: ClusterIssuer
   commonName: bitwarden-sdk-server.external-secrets.svc.cluster.local
   dnsNames:
