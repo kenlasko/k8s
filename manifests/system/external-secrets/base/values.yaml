@@ -1,5 +1,7 @@
 image:
   repository: ghcr.io/external-secrets/external-secrets
+bitwarden-sdk-server:
+  enabled: true
 resources: 
   requests:
     cpu: 1m
