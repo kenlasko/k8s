@@ -68,7 +68,8 @@
         "argocd",
         "helm-values",
         "kubernetes",
-        "kustomize"
+        "kustomize",
+        "pre-commit"
       ],
       "matchUpdateTypes": [
         "minor", 
