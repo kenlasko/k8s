@@ -1,18 +1,21 @@
 esphome:
-  name: "office-fan-light"
-  platform: ESP8266
+  name: "front-bedroom-fan-light"
+
+esp8266:
   board: esp01_1m
+  restore_from_flash: true
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_pass
   power_save_mode: none
   fast_connect: on
-  use_address: office-fan-light
+  use_address: front-bedroom-fan-light
 
 # Enable logging
 logger:
   level: INFO
+  baud_rate: 0
 
 # Enable Home Assistant API
 api:
@@ -37,7 +40,7 @@ tuya:
 
 light:
   - platform: "tuya"
-    name: Office Light
+    name: Front Bedroom Light
     dimmer_datapoint: 10
     switch_datapoint: 9
     min_value: 100
@@ -45,7 +48,7 @@ light:
 
 fan:
   - platform: "tuya"
-    name: Office Fan
+    name: Front Bedroom Fan
     switch_datapoint: 1
     speed_datapoint: 3
     speed_count: 4

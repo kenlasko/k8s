@@ -1,6 +1,7 @@
 esphome:
   name: "salt-level-sensor"
-  platform: ESP8266
+
+esp8266:
   board: d1_mini
 
 wifi:

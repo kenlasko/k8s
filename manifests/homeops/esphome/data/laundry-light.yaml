@@ -1,13 +1,14 @@
 substitutions:
-  device_name: front_bedroom_light
-  dns_name: front-bedroom-light
-  friendly_name: Front Bedroom 
+  device_name: laundry_light
+  dns_name: laundry-light
+  friendly_name: Laundry
 
 esphome:
   name: ${dns_name}
-  platform: ESP8266
-  board: esp01_1m
 
+esp8266:
+  board: esp01_1m
+  restore_from_flash: true
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_pass
