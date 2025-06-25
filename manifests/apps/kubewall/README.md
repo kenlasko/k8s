@@ -1,2 +1,0 @@
-# Summary
-[Kubewall](https://github.com/kubewall/kubewall) is an up-and-coming Kubernetes management UI. It allows access to multiple clusters at once via a kubeconfig file uploaded as a secret. Its not yet a replacement for [Headlamp](/manifests/apps/headlamp), but maybe it will get there over time.
