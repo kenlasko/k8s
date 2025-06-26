@@ -3,7 +3,7 @@ This is the Git repository that contains all the configuration for my multiple h
 
 The clusters are built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for low-level cluster management.
 
-## CLuster Descriptions
+## Cluster Descriptions
 ### Home Cluster
 My home cluster runs on 6 mini-PCs named `NUC1` through to `NUC6`. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC6 are workers. While this repo can be used for any environment, some workloads require (or benefit from) hardware that is specific to certain named nodes. The manifests are configured for this. For example:
 * [Plex](/manifests/media-apps/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC3 or NUC4 which run the older N95 if necessary.
@@ -21,7 +21,7 @@ This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.c
 
 The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to home via Wireguard.
 
-The Oracle Cloud image is not available on Oracle Cloud but can be built by [following these procedures](#oracle-cloud-talos-node-prep).
+The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](#oracle-cloud-talos-node-prep).
 
 ### Lab Cluster
 This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs on my Windows 11 machine under Hyper-V.
