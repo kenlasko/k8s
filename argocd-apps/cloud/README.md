@@ -9,31 +9,28 @@ The [00-disabled](/argocd-apps/00-disabled) folder is used to put applications t
 
 ## Sync Wave -5
 Apps that basically everything else depends on:
-* [Cert Manager](/manifests/cert-manager)
-* [Cilium](/manifests/cilium)
+* [Cert Manager](/manifests/system/cert-manager)
+* [Cilium](/manifests/network/cilium)
 * [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
-* [Sealed Secrets](/manifests/sealed-secrets)
+* [External Secrets](/manifests/system/external-secrets)
 
 ## Sync Wave 1
-* [Cloudflare Tunnel](/manifests/cloudflare-tunnel)
-* [Longhorn](/manifests/longhorn)
-* [MariaDB](/manifests/mariadb)
-* [PHPMyAdmin](/manifests/phpmyadmin)
-* [Registry](/manifests/registry)
+* [Cloudflare Tunnel](/manifests/network/cloudflare-tunnel)
+* [Longhorn](/manifests/system/longhorn)
+* [MariaDB](/manifests/database/mariadb)
+* [PHPMyAdmin](/manifests/database/phpmyadmin)
+* [Registry](/manifests/system/registry)
 
 ## Sync Wave 2
-* [AdGuard Home](/manifests/adguard)
-* [External DNS](/manifests/external-dns)
-* [Smarter Device Manager](/manifests/smarter-device-manager)
-* [UCDialplans](/manifests/ucdialplans)
-* [VaultWarden](/vaultwarden)
+* [AdGuard Home](/manifests/apps/adguard)
+* [External DNS](/manifests/network/external-dns)
+* [Smarter Device Manager](/manifests/system/smarter-device-manager)
+* [UCDialplans](/manifests/apps/ucdialplans)
+* [VaultWarden](/manifests/apps/vaultwarden)
 
 ## Sync Wave 10
-* [Descheduler](/manifests/descheduler)
-* [Headlamp](/headlamp)
-* [MariaDB Standalone](/manifests/mariadb)
-* [Metrics Server](/manifests/metrics-server)
-* [Uptime Kuma](/manifests/uptime-kuma)
+* [Metrics Server](/manifests/system/metrics-server)
+* [Uptime Kuma](/manifests/monitoring/uptime-kuma)
 
 ## Sync Wave 15
-* [Alert Manager/Grafana/Prometheus/Loki](/manifests/promstack)
+* [Alert Manager/Grafana/Prometheus/Loki](/manifests/monitoring/promstack)

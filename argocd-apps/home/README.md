@@ -18,7 +18,7 @@ Apps that basically everything else depends on:
 * [CSI Drivers](/manifests/system/csi-drivers)
 * [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
 * [Redis](/manifests/database/redis)
-* [Sealed Secrets](/manifests/system/sealed-secrets)
+* [External Secrets](/manifests/system/external-secrets)
 
 ## Sync Wave 1
 * [Cloudflare Tunnel](/manifests/network/cloudflare-tunnel)
@@ -40,7 +40,6 @@ Apps that basically everything else depends on:
 * [ZWave Admin](/manifests/homeops/zwaveadmin)
 
 ## Sync Wave 10
-* [Dawarich](/manifests/apps/dawarich)
 * [Descheduler](/manifests/system/descheduler)
 * [ESPHome](/manifests/homeops/esphome)
 * [Gitea](/manifests/apps/gitea)
@@ -58,7 +57,6 @@ Apps that basically everything else depends on:
 
 ## Sync Wave 15
 * [Alert Manager/Grafana/Prometheus/Loki](/manifests/monitoring/promstack)
-* [Sealed Secrets Web](/manifests/system/sealed-secrets-web)
 
 ## Sync Wave 99
 * [Media Tools](/manifests/apps/media-apps)
