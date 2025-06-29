@@ -1,6 +1,6 @@
 image:
   repository: dgtlmoon/changedetection.io
-  tag: 0.50.4
+  tag: 0.50.5
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
