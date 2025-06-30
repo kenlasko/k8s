@@ -42,7 +42,7 @@ spec:
             memory: 300Mi
           limits:
             # cpu: 1200m
-            memory: 500Mi
+            memory: 600Mi
         env:
         - name: TZ
           value: "America/Toronto"
