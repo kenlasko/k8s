@@ -32,7 +32,7 @@ nextcloud:
   mail:
     enabled: true
     fromAddress: nextcloud@ucdialplans.com
-    domain: ucdialplans.com.com
+    domain: ucdialplans.com
     smtp:
       host: mail.smtp2go.com
       secure: ssl
