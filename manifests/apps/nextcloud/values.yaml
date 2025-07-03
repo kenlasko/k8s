@@ -29,13 +29,28 @@ nextcloud:
       value: https
     - name: OVERWRITECLIURL
       value: https://nextcloud.ucdialplans.com
+  mail:
+    enabled: true
+    fromAddress: nextcloud@ucdialplans.com
+    domain: ucdialplans.com.com
+    smtp:
+      host: mail.smtp2go.com
+      secure: ssl
+      port: 465
+      authtype: LOGIN
+
 
 deploymentLabels:
   mariadb-client: "true"
 
 persistence:
   enabled: true
-  existingClaim: nfs-nextcloud
+  existingClaim: nfs-nextcloud-config
+  nextcloudData:
+    enabled: true
+    existingClaim: nfs-nextcloud-data
+    accessMode: ReadWriteOnce
+    size: 500Gi
 
 affinity:
   nodeAffinity:
