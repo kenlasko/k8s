@@ -15,6 +15,7 @@ nextcloud:
   host: nextcloud.ucdialplans.com
   trustedDomains:
   - ucdialplans.com
+  - nextcloud.ucdialplans.com
   existingSecret:
     enabled: true
     secretName: nextcloud-secrets
