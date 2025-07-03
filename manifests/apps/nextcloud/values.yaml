@@ -24,7 +24,7 @@ nextcloud:
 
 persistence:
   enabled: true
-  existingClaim: nfs-nextcloudUsername
+  existingClaim: nfs-nextcloud
 
 affinity:
   nodeAffinity:
