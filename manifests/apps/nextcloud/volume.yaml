@@ -64,7 +64,7 @@ metadata:
   namespace: nextcloud
 spec:
   storageClassName: nfs-csi
-  volumeName: nfs-nextcloud
+  volumeName: nfs-nextcloud-data
   accessModes:
   - ReadWriteOnce
   resources:
