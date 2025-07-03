@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "nextcloud.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: nextcloud-frontend
+      namespace: nextcloud
+      kind: Service
+      port: 80

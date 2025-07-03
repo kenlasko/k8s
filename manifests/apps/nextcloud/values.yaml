@@ -1,0 +1,43 @@
+internalDatabase:
+  enabled: false
+externalDatabase:
+  enabled: true
+  type: mysql
+  host: mariadb.mariadb.svc.cluster.local
+  database: nextcloud
+  existingSecret:
+    enabled: true
+    secretName: nextcloud-db-credentials
+    usernameKey: username
+    passwordKey: password
+
+nextcloud:
+  host: nextcloud.ucdialplans.com
+  existingSecret:
+    enabled: true
+    usernameKey: nextcloud-username
+    passwordKey: nextcloud-password
+    tokenKey: ""
+    smtpUsernameKey: smtp-username
+    smtpPasswordKey: smtp-password
+    smtpHostKey: smtp-host
+
+persistence:
+  enabled: true
+  annotations: {}
+  ## nextcloud data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: ""
+
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+
+  accessMode: ReadWriteOnce
+  size: 8Gi
