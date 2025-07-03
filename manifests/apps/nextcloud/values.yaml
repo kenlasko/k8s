@@ -24,6 +24,11 @@ nextcloud:
     smtpUsernameKey: smtp-username
     smtpPasswordKey: smtp-password
     smtpHostKey: smtp-host
+  extraEnv:
+    - name: OVERWRITEPROTOCOL
+      value: https
+    - name: OVERWRITECLIURL
+      value: https://nextcloud.ucdialplans.com
 
 deploymentLabels:
   mariadb-client: "true"
