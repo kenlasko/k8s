@@ -15,6 +15,7 @@ nextcloud:
   host: nextcloud.ucdialplans.com
   existingSecret:
     enabled: true
+    secretName: nextcloud-secrets
     usernameKey: nextcloud-username
     passwordKey: nextcloud-password
     tokenKey: ""
