@@ -11,3 +11,10 @@ resources:
 - external-secrets.yaml
 - httproute.yaml
 - volume.yaml
+patches:
+- path: deploy-patch.yaml
+  target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: nextcloud
