@@ -13,7 +13,7 @@ spec:
   - "nextcloud.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: nextcloud-frontend
+    - name: nextcloud
       namespace: nextcloud
       kind: Service
-      port: 80
+      port: 8080
