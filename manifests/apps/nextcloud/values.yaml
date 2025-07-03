@@ -41,3 +41,8 @@ affinity:
           operator: In
           values: 
           - "amd64"
+
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
