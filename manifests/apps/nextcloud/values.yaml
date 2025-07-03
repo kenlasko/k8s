@@ -23,6 +23,9 @@ nextcloud:
     smtpPasswordKey: smtp-password
     smtpHostKey: smtp-host
 
+deploymentLabels:
+  mariadb-client: "true"
+
 persistence:
   enabled: true
   existingClaim: nfs-nextcloud
