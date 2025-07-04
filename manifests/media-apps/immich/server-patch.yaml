@@ -25,4 +25,4 @@ spec:
             cpu: 3m
             memory: 400Mi
           limits:
-            memory: 1Gi
+            memory: 1.5Gi
