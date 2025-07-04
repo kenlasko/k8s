@@ -26,10 +26,17 @@ nextcloud:
     smtpPasswordKey: smtp-password
     smtpHostKey: smtp-host
   extraEnv:
-    - name: OVERWRITEPROTOCOL
-      value: https
-    - name: OVERWRITECLIURL
-      value: https://nextcloud.ucdialplans.com
+  - name: OVERWRITEPROTOCOL
+    value: https
+  - name: OVERWRITECLIURL
+    value: https://nextcloud.ucdialplans.com
+  - name: REDIS_HOST
+    value: redis.redis.svc.cluster.local
+  - name: REDIS_HOST_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: nextcloud-secrets
+        key: redis-password
   mail:
     enabled: true
     fromAddress: nextcloud@ucdialplans.com
