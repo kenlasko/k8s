@@ -50,14 +50,6 @@ spec:
 
   managed:
     roles:
-    # - name: dawarich
-    #   ensure: present
-    #   login: true
-    #   superuser: false
-    #   inherit: false
-    #   connectionLimit: -1
-    #   passwordSecret:
-    #     name: useraccount-dawarich
     - name: immich
       ensure: present
       login: true
@@ -90,14 +82,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-sonarr
-    - name: synapse
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-synapse
 
     services:
       additional:
