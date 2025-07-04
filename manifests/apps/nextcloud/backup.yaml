@@ -1,0 +1,38 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: nextcloud
+spec:
+  sourcePVC: nfs-nextcloud-config
+  trigger:
+    schedule: "10 7 * * *" # 7:10am every day
+  restic:
+    pruneIntervalDays: 4
+    repository: s3-backup-cloudflare-portainer
+    retain:
+      hourly: 0
+      daily: 3
+      weekly: 0
+      monthly: 0
+      yearly: 0
+    copyMethod: Clone
+    volumeSnapshotClassName: nfs
+    storageClassName: nfs-csi-dynamic-backup
+    # moverSecurityContext:
+    #   runAsNonRoot: true
+    #   runAsUser: 1000
+    #   runAsGroup: 100
+    #   seccompProfile:
+    #     type: RuntimeDefault
+    moverAffinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - "amd64"
