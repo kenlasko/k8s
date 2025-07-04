@@ -18,7 +18,7 @@ spec:
       yearly: 0
     copyMethod: Clone
     volumeSnapshotClassName: nfs
-    storageClassName: nfs-csi-dynamic
+    storageClassName: nfs-csi-dynamic-backup
     # moverSecurityContext:
     #   runAsNonRoot: true
     #   runAsUser: 1000
