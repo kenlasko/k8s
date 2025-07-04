@@ -33,5 +33,5 @@ spec:
             memory: 300Mi
             gpu.intel.com/i915: '1'
           limits:
-            memory: 1.75Gi
+            memory: 2Gi
             gpu.intel.com/i915: '1'
