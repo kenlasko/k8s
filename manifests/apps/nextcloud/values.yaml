@@ -31,7 +31,7 @@ nextcloud:
   - name: OVERWRITECLIURL
     value: https://nextcloud.ucdialplans.com
   - name: REDIS_HOST
-    value: redis.redis.svc.cluster.local
+    value: redis-master.redis.svc.cluster.local
   - name: REDIS_HOST_PASSWORD
     valueFrom:
       secretKeyRef:
