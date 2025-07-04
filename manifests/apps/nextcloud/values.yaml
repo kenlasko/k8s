@@ -16,16 +16,6 @@ nextcloud:
   trustedDomains:
   - ucdialplans.com
   - nextcloud.ucdialplans.com
-  securityContext:
-    runAsUser: 1000
-    runAsGroup: 100
-    runAsNonRoot: false
-    readOnlyRootFilesystem: false
-  podSecurityContext:
-    runAsUser: 1000
-    runAsGroup: 100
-    runAsNonRoot: false
-    readOnlyRootFilesystem: false
   existingSecret:
     enabled: true
     secretName: nextcloud-secrets
