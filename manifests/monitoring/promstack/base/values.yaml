@@ -1,5 +1,6 @@
 nameOverride: promstack
-
+crds:
+  enabled: true
 defaultRules:
   create: true
   rules:
