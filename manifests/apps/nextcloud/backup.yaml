@@ -9,7 +9,7 @@ spec:
     schedule: "10 7 * * *" # 7:10am every day
   restic:
     pruneIntervalDays: 4
-    repository: s3-backup-cloudflare-portainer
+    repository: s3-backup-cloudflare-nextcloud
     retain:
       hourly: 0
       daily: 3
@@ -37,7 +37,6 @@ spec:
               values: 
               - "amd64"
 
----
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
