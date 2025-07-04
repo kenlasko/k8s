@@ -15,7 +15,7 @@ spec:
     cleanupTempPVC: true
     cleanupCachePVC: true
     storageClassName: nfs-csi
-    cacheStorageClassName: nfs-csi-dynamic
+    cacheStorageClassName: nfs-csi-dynamic-backup
     # restoreAsOf: "2025-03-05T06:50:00Z"
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:

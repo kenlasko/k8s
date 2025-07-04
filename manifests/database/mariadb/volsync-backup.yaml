@@ -23,7 +23,7 @@ spec:
     copyMethod: Direct
     cacheCapacity: 5Gi
     volumeSnapshotClassName: nfs
-    storageClassName: nfs-csi-dynamic
+    storageClassName: nfs-csi-dynamic-backup
     moverSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
