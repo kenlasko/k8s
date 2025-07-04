@@ -33,7 +33,7 @@ spec:
     # The VSC to use if the copy method is Snapshot (default if omitted)
     volumeSnapshotClassName: nfs
     # The StorageClass to use when creating the PiT copy (same as source PVC if omitted)
-    storageClassName: nfs-csi-dynamic
+    storageClassName: nfs-csi-dynamic-backup
     {{- if .Values.securityContext }}
     moverSecurityContext:
       runAsNonRoot: {{ .Values.securityContext.runAsNonRoot | default false }}
