@@ -2,7 +2,7 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: nextcloud
+  name: nextcloud-config
 spec:
   sourcePVC: nfs-nextcloud-config
   trigger:
