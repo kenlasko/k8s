@@ -36,3 +36,43 @@ spec:
               operator: In
               values: 
               - "amd64"
+
+---
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: nextcloud-data
+spec:
+  sourcePVC: nfs-nextcloud-data
+  trigger:
+    schedule: "30 18 * * *" # 4:30am every day
+  restic:
+    pruneIntervalDays: 14
+    repository: s3-backup-backblaze-nextcloud
+    retain:
+      hourly: 0
+      daily: 7
+      weekly: 4
+      monthly: 2
+      yearly: 0
+    copyMethod: Direct
+    volumeSnapshotClassName: nfs
+    storageClassName: nfs-csi-dynamic-backup
+    # moverSecurityContext:
+    #   runAsNonRoot: true
+    #   runAsUser: 1000
+    #   runAsGroup: 100
+    #   seccompProfile:
+    #     type: RuntimeDefault
+    moverAffinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+            - key: kubernetes.io/arch
+              operator: In
+              values: 
+              - "amd64"
