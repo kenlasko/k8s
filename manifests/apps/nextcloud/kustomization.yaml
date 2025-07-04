@@ -8,6 +8,7 @@ helmCharts:
   namespace: nextcloud
   valuesFile: values.yaml
 resources:
+- backup.yaml
 - external-secrets.yaml
 - httproute.yaml
 - volume.yaml
