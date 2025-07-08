@@ -50,7 +50,6 @@ nextcloud:
 collabora:
   enabled: true
   collabora:
-    servername: "https://office.ucdialplans.com"
     aliasgroups:
     - host: "https://office.ucdialplans.com"
     existingSecret:
@@ -58,7 +57,7 @@ collabora:
       secretName: nextcloud-secrets
       usernameKey: nextcloud-username
       passwordKey: nextcloud-password
-    extraParams: "--o:ssl.termination=true"
+    extra_params: "--o:ssl.termination=true"
 
 deploymentLabels:
   mariadb-client: "true"
