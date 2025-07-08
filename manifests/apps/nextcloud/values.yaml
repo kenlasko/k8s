@@ -60,6 +60,7 @@ collabora:
     extra_params: >-
       --o:ssl.enable=false 
       --o:ssl.termination=true
+      --o:wopi.host[0]=nextcloud.ucdialplans.com
 
 deploymentLabels:
   mariadb-client: "true"
