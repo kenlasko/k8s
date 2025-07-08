@@ -52,7 +52,7 @@ collabora:
   collabora:
     servername: "office.ucdialplans.com"
     aliasgroups:
-    - host: "https://nextcloud.ucdialplans.com"
+    - host: "https://office.ucdialplans.com"
     existingSecret:
       enabled: true
       secretName: nextcloud-secrets
