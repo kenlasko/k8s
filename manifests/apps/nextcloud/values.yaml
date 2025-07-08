@@ -43,8 +43,8 @@ nextcloud:
     domain: ucdialplans.com
     smtp:
       host: mail.smtp2go.com
-      secure: ssl
-      port: 465
+      secure: tls
+      port: 587
       authtype: LOGIN
 
 collabora:
