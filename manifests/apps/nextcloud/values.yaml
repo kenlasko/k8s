@@ -58,10 +58,7 @@ collabora:
       secretName: nextcloud-secrets
       usernameKey: nextcloud-username
       passwordKey: nextcloud-password
-    # extraParams:
-    # - "--o:ssl.enabled=true"
-
-
+    extraParams: "--o:ssl.termination=true"
 
 deploymentLabels:
   mariadb-client: "true"
