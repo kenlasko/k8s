@@ -52,14 +52,14 @@ collabora:
   collabora:
     servername: "nextcloud-collabora"
     aliasgroups:
-    - host: "nextcloud-collabora"
+    - host: "https://office.ucdialplans.com"
     existingSecret:
       enabled: true
       secretName: nextcloud-secrets
       usernameKey: nextcloud-username
       passwordKey: nextcloud-password
-    extraParams:
-    - "--o:ssl.enabled=true"
+    # extraParams:
+    # - "--o:ssl.enabled=true"
 
 
 
