@@ -17,3 +17,23 @@ spec:
       namespace: nextcloud
       kind: Service
       port: 8080
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: office
+  namespace: nextcloud
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "office.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: nextcloud-collabora
+      namespace: nextcloud
+      kind: Service
+      port: 9980
