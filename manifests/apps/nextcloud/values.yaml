@@ -50,7 +50,7 @@ nextcloud:
 collabora:
   enabled: true
   collabora:
-    servername: "nextcloud-collabora"
+    servername: "https://office.ucdialplans.com"
     aliasgroups:
     - host: "https://office.ucdialplans.com"
     existingSecret:
