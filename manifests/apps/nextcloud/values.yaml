@@ -47,6 +47,18 @@ nextcloud:
       port: 465
       authtype: LOGIN
 
+collabora:
+  enabled: true
+  collabora:
+    aliasgroups:
+    - host: "https://nextcloud.ucdialplans.com"
+    existingSecret:
+      enabled: true
+      secretName: nextcloud-secrets
+      usernameKey: nextcloud-username
+      passwordKey: nextcloud-password
+
+
 
 deploymentLabels:
   mariadb-client: "true"
