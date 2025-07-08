@@ -51,7 +51,7 @@ collabora:
   enabled: true
   collabora:
     aliasgroups:
-    - host: "https://office.ucdialplans.com"
+    - host: "https://nextcloud.ucdialplans.com"
     existingSecret:
       enabled: true
       secretName: nextcloud-secrets
