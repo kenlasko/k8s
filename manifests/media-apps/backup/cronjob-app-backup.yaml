@@ -28,7 +28,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: backup-media-apps
-            image: docker.io/bitnami/kubectl:1.33.1
+            image: docker.io/bitnami/kubectl:1.33.2
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
