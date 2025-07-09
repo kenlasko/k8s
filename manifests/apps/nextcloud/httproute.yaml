@@ -37,3 +37,9 @@ spec:
       namespace: nextcloud
       kind: Service
       port: 9980
+    filters:
+      - type: RequestHeaderModifier
+        requestHeaderModifier:
+          add:
+            - name: Strict-Transport-Security
+              value: 15552000
