@@ -17,6 +17,12 @@ spec:
       namespace: nextcloud
       kind: Service
       port: 8080
+    filters:
+      - type: RequestHeaderModifier
+        requestHeaderModifier:
+          add:
+            - name: Strict-Transport-Security
+              value: 15552000
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
