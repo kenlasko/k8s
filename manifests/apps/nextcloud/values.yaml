@@ -10,6 +10,14 @@ externalDatabase:
     secretName: nextcloud-db-credentials
     usernameKey: username
     passwordKey: password
+cronjob:
+  enabled: true
+resources:
+  requests:
+    cpu: 20m
+    memory: 150Mi
+  limits:
+    memory: 250Mi
 
 nextcloud:
   host: nextcloud.ucdialplans.com
@@ -60,6 +68,12 @@ collabora:
     extra_params: >-
       --o:ssl.enable=false 
       --o:ssl.termination=true
+  resources:
+    requests:
+      cpu: 4m
+      memory: 470Mi
+    limits:
+      memory: 750Mi
 
 deploymentLabels:
   mariadb-client: "true"

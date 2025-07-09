@@ -13,7 +13,13 @@ resources:
 - httproute.yaml
 - volume.yaml
 patches:
-- path: deploy-patch.yaml
+- path: deploy-patch-nextcloud.yaml
+  target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: nextcloud-collabora
+- path: deploy-patch-nextcloud.yaml
   target:
     group: apps
     version: v1
