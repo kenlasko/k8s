@@ -60,12 +60,12 @@ extraVolumeMounts:
 - name: gitea-config
   mountPath: /etc/gitea
   subPath: config
-backup:
-  location: cloudflare
-  schedule: "0 6 * * *"
-  retentionPolicy:
-    hourly: 0
-    daily: 7
-    weekly: 0
-    monthly: 0
-    yearly: 0
+# backup:
+#   location: cloudflare
+#   schedule: "0 6 * * *"
+#   retentionPolicy:
+#     hourly: 0
+#     daily: 7
+#     weekly: 0
+#     monthly: 0
+#     yearly: 0
