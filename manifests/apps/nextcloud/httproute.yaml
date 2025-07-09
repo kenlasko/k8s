@@ -18,8 +18,8 @@ spec:
       kind: Service
       port: 8080
     filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
         set:
         - name: Strict-Transport-Security
           value: "max-age=31536000; includeSubDomains; preload"
@@ -44,8 +44,8 @@ spec:
       kind: Service
       port: 9980
     filters:
-    - type: RequestHeaderModifier
-      requestHeaderModifier:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
         set:
         - name: Strict-Transport-Security
           value: "max-age=31536000; includeSubDomains; preload"
