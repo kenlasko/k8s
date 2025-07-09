@@ -28,7 +28,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: backup-sealed-secret-key
-            image: bitnami/kubectl:1.33.1
+            image: bitnami/kubectl:1.33.2
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
