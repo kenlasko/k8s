@@ -2,6 +2,29 @@
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
+  name: backblaze
+spec:
+  retentionPolicy: "2d"
+  configuration:
+    endpointURL: "https://s3.us-east-005.backblazeb2.com/klasko-k8s-home/"
+    destinationPath: "s3://postgresql"
+    wal:
+      compression: gzip
+      maxParallel: 4
+    data:
+      compression: gzip
+    s3Credentials:
+      accessKeyId:
+        name: s3-backup-backblaze-postgresql
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKey:
+        name: s3-backup-backblaze-postgresql
+        key: AWS_SECRET_ACCESS_KEY
+
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
   name: cloudflare
 spec:
   retentionPolicy: "2d"

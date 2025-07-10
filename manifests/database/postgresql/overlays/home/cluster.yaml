@@ -46,7 +46,7 @@ spec:
     enabled: true
     isWALArchiver: true
     parameters:
-      barmanObjectName: cloudflare
+      barmanObjectName: backblaze
 
   managed:
     roles:
