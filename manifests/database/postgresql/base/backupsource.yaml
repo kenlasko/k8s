@@ -7,7 +7,7 @@ spec:
   retentionPolicy: "14d"
   configuration:
     endpointURL: "https://s3.us-east-005.backblazeb2.com/klasko-postgresql/"
-    destinationPath: "s3://"
+    # destinationPath: "s3://"
     wal:
       compression: gzip
       maxParallel: 4
