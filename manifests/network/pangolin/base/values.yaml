@@ -26,6 +26,6 @@ resources:
     cpu: 5m
     memory: 35Mi
   limits:
-    memory: 75Mi
+    memory: 100Mi
 disableHTTPRoute: true
 livenessProbe: false
