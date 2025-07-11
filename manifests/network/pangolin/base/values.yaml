@@ -3,7 +3,7 @@ image:
   repository: fosrl/newt
   tag: 1.3.0
   registry: docker.io
-replicas: 1
+replicas: 2
 priorityClassName: high-priority
 securityContext:
   allowPrivilegeEscalation: false
@@ -26,6 +26,6 @@ resources:
     cpu: 5m
     memory: 35Mi
   limits:
-    memory: 60Mi
+    memory: 75Mi
 disableHTTPRoute: true
 livenessProbe: false
