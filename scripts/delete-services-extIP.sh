@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# This script will delete all services that have an external IP address assigned.
+# This is necessary because sometimes Cilium/BGP/Unifi loses the plot and doesn't route traffic after a while.
+# Still trying to figure out why: https://github.com/kenlasko/k8s/issues/15
+
 command -v kubectl >/dev/null 2>&1 || { echo "kubectl not found" >&2; exit 1; }
 command -v jq >/dev/null 2>&1 || { echo "jq not found" >&2; exit 1; }
 
