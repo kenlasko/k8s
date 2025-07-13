@@ -1,6 +1,6 @@
 image:
   repository: jorenn92/maintainerr
-  tag: 2.18.1
+  tag: 2.18.2
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
