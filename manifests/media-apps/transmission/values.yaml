@@ -44,8 +44,8 @@ persistentVolume:
   type: nfs
   size: 2Gi
 backup:
-  location: backblaze
-  schedule: "35 6 * * 0,3"  # 6:35am every Sunday and Wednesday
+  location: cloudflare
+  schedule: "35 6 * * *"  # 6:35am every day
   retain:
     hourly: 0
     daily: 3

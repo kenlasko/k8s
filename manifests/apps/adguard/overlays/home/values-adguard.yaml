@@ -23,7 +23,7 @@ extraVolumeMounts:
 - name: dns-wildcard-cert
   mountPath: /etc/certs
 backup:
-  location: backblaze 
+  location: cloudflare 
   schedule: "05 6 * * *"
 service:
   port: 3000

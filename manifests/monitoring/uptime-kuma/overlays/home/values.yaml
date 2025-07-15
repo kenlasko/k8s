@@ -3,9 +3,9 @@ persistentVolume:
   size: 850Mi
   mountPath: /app/data
 backup:
-  location: backblaze
+  location: cloudflare
   copyMethod: Direct
-  schedule: "25 6 * * 2,5"  # 6:25am every Tuesday and Friday
+  schedule: "25 6 * * *"  # 6:25am every day
   retentionPolicy:
     hourly: 0
     daily: 4

@@ -49,5 +49,5 @@ extraVolumeMounts:
   mountPath: /usr/src/paperless/media
   subPath: media
 backup:
-  location: backblaze
+  location: cloudflare
   schedule: "50 06 * * *"
