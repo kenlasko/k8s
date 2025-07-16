@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "https://backube.github.io/helm-charts"
-    targetRevision: 0.12.1
+    targetRevision: 0.13.0
     chart: volsync
     helm:
       valueFiles:
