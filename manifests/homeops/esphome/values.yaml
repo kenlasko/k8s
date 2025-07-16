@@ -1,6 +1,6 @@
 image:
   repository: esphome/esphome
-  tag: 2025.6.3
+  tag: 2025.7.0
   registry: docker.io
 priorityClassName: medium-priority
 securityContext:
