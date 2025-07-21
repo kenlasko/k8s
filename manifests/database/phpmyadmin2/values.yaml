@@ -1,0 +1,18 @@
+image:
+  repository: phpmyadmin
+  tag: 5.2.2-apache
+  registry: docker.io
+priorityClassName: medium-priority
+service:
+  port: 8080
+extraVolumes:
+- configMap:
+    items:
+    - key: config.inc.php
+      path: config.inc.php
+    name: phpmyadmin-config
+  name: phpmyadmin-config
+extraVolumeMounts:
+- name: phpmyadmin-config
+  mountPath: /etc/phpmyadmin/config.inc.php
+  subPath: config.inc.php
