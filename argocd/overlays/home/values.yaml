@@ -11,10 +11,10 @@ global:
         values: 
         - "amd64"
 redis:
-  enabled: true
-# externalRedis:
-#   host: redis-service.redis.svc.cluster.local
-#   existingSecret: redis-credentials
+  enabled: failureThreshold
+externalRedis:
+  host: redis-service.redis.svc.cluster.local
+  existingSecret: redis-credentials
 
 notifications:
   argocdUrl: "https://argocd.ucdialplans.com"
