@@ -225,3 +225,4 @@ data:
     */
     $cfg['AllowArbitraryServer'] = false;
     $cfg['LoginCookieValidity'] = 7200;
+    ini_set('session.gc_maxlifetime', '7200');  // set to same value as LoginCookieValidity
