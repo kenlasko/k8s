@@ -1,6 +1,0 @@
-global:
-  defaultStorageClass: nfs-csi
-  storageClass: nfs-csi
-master:
-  persistence:
-    existingClaim: nfs-redis
