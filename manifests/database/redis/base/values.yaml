@@ -10,7 +10,6 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-disableHTTPRoute: true
 env:
 - name: REDIS_PASSWORD
   valueFrom:
@@ -24,3 +23,7 @@ resources:
     memory: 20Mi
   limits:
     memory: 1.5Gi
+service:
+  port: 6379
+livenessProbe: false
+disableHTTPRoute: true
