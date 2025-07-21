@@ -22,6 +22,10 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: mariadb
+  ignoreDifferences:
+  - jsonPointers:
+    - /spec/externalName
+    kind: Service
   syncPolicy:
     managedNamespaceMetadata:
       labels:
