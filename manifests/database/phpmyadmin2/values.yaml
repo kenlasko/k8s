@@ -4,7 +4,7 @@ image:
   registry: docker.io
 priorityClassName: medium-priority
 service:
-  port: 8080
+  port: 80
 livenessProbe: false
 # extraVolumes:
 # - configMap:
