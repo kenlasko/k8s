@@ -13,7 +13,7 @@ global:
 redis:
   enabled: true
 # externalRedis:
-#   host: redis-master.redis.svc.cluster.local
+#   host: redis-service.redis.svc.cluster.local
 #   existingSecret: redis-credentials
 
 notifications:
