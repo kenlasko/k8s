@@ -11,7 +11,7 @@ global:
         values: 
         - "amd64"
 redis:
-  enabled: failureThreshold
+  enabled: false
 externalRedis:
   host: redis-service.redis.svc.cluster.local
   existingSecret: redis-credentials
