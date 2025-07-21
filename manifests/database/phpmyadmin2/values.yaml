@@ -6,14 +6,14 @@ priorityClassName: medium-priority
 service:
   port: 8080
 livenessProbe: false
-extraVolumes:
-- configMap:
-    items:
-    - key: config.inc.php
-      path: config.inc.php
-    name: phpmyadmin-config
-  name: phpmyadmin-config
-extraVolumeMounts:
-- name: phpmyadmin-config
-  mountPath: /etc/phpmyadmin/config.inc.php
-  subPath: config.inc.php
+# extraVolumes:
+# - configMap:
+#     items:
+#     - key: config.inc.php
+#       path: config.inc.php
+#     name: phpmyadmin-config
+#   name: phpmyadmin-config
+# extraVolumeMounts:
+# - name: phpmyadmin-config
+#   mountPath: /etc/phpmyadmin/config.inc.php
+#   subPath: config.inc.php
