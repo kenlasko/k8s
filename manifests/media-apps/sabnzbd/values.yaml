@@ -22,7 +22,7 @@ service:
   port: 8080
 persistentVolume:
   type: longhorn
-  size: 100Mi
+  size: 300Mi
 extraVolumeMounts:
 - name: media-downloads
   mountPath: /downloads
