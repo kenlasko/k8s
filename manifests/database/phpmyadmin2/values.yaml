@@ -5,6 +5,7 @@ image:
 priorityClassName: medium-priority
 service:
   port: 8080
+livenessProbe: false
 extraVolumes:
 - configMap:
     items:
