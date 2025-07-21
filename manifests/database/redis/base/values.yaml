@@ -2,6 +2,14 @@ image:
   repository: redis
   tag: 8.0.3
   registry: docker.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
 disableHTTPRoute: true
 env:
 - name: REDIS_PASSWORD
