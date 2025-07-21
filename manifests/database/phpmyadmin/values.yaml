@@ -3,6 +3,14 @@ image:
   tag: 5.2.2-apache
   registry: docker.io
 priorityClassName: medium-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
 service:
   port: 80
   annotations:
