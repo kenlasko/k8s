@@ -4,18 +4,16 @@ metadata:
   name: phpmyadmin
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   project: default
   sources:
-  - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 19.0.1
-    chart: phpmyadmin
+  - repoURL: "git@github.com:kenlasko/k8s.git"
+    path: helm/baseline
+    targetRevision: HEAD
     helm:
       valueFiles:
-      - $values/manifests/database/phpmyadmin/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
+      - /manifests/database/phpmyadmin/values.yaml
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/database/phpmyadmin
     targetRevision: HEAD
@@ -24,14 +22,10 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: mariadb
-  ignoreDifferences:
-  - jsonPointers:
-    - /spec/externalName
-    kind: Service
   syncPolicy:
     managedNamespaceMetadata:
       labels:
-        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce: restricted
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true

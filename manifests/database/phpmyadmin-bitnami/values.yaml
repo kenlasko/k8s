@@ -1,0 +1,50 @@
+commonLabels:
+  mariadb-client: "true"
+db:
+  host: ""
+  allowArbitraryServer: false
+service:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "phpmyadmin"
+resources:
+  requests:
+    cpu: 2m
+    memory: 140Mi
+  limits:
+    # cpu: 500m
+    memory: 200Mi  
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: DoesNotExist
+        - key: kubernetes.io/arch
+          operator: In
+          values: 
+          - "amd64"
+extraEnvVars:
+- name: TZ
+  value: "America/Toronto"
+extraVolumes:
+- configMap:
+    items:
+    - key: config.inc.php
+      path: config.inc.php
+    name: phpmyadmin-config
+  name: phpmyadmin-config
+- configMap:
+    items:
+    - key: php.ini
+      path: php.ini
+    name: phpmyadmin-phpconfig
+  name: phpmyadmin-phpconfig
+extraVolumeMounts:
+- name: phpmyadmin-config
+  mountPath: /opt/bitnami/phpmyadmin/config.inc.php
+  subPath: config.inc.php
+- name: phpmyadmin-phpconfig
+  mountPath: /opt/bitnami/php/etc/php.ini
+  subPath: php.ini
