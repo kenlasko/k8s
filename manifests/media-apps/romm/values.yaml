@@ -1,6 +1,6 @@
 image:
   repository: rommapp/romm
-  tag: 3.10.3
+  tag: 4.0.0
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
