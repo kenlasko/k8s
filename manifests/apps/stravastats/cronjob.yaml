@@ -1,0 +1,73 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: strava-import
+  namespace: stravastats
+spec:
+  schedule: "10 02 * * 1,3,5"  # Every Monday, Wednesday, and Friday at 02:10 UTC
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values: 
+                    - "amd64"
+          volumes:
+          - name: stravastats-config
+            persistentVolumeClaim:
+              claimName: nfs-stravastats
+          containers:
+          - name: strava-import
+            image: docker.io/robiningelbrecht/strava-statistics:v1.3.0
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh  # Use /bin/sh to execute a shell command
+            - -c       # -c option tells sh to execute the following string as a command
+            - "/var/www/bin/console app:strava:import-data && /var/www/bin/console app:strava:build-files"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+                add:
+                - "CHOWN"
+                - "SETGID"
+                - "SETUID"
+                - "DAC_OVERRIDE"
+            resources:
+              requests:
+                cpu: 500m
+                memory: 250Mi
+              limits:
+                # cpu: 300m
+                memory: 600Mi
+            envFrom:
+            - configMapRef:
+                name: env-vars
+            - secretRef:
+                name: strava-secrets
+            volumeMounts:
+            - name: stravastats-config
+              mountPath: /var/www/build
+              subPath: build
+            - name: stravastats-config
+              mountPath: /var/www/storage
+              subPath: storage
+            - name: stravastats-config
+              mountPath: /var/www/config/app
+              subPath: config
