@@ -34,7 +34,7 @@ persistentVolume:
 backup:
   location: cloudflare
   schedule: "40 6 * * *"
-  copyMethod: Direct
+  copyMethod: Clone
 extraVolumeMounts:
 - name: stravastats-config
   mountPath: /var/www/build
