@@ -10,10 +10,10 @@ spec:
   sources:
   - repoURL: "https://mariadb-operator.github.io/mariadb-operator"
     chart: mariadb-operator-crds
-    targetRevision: 0.38.1
+    targetRevision: 25.8.0
   - repoURL: "https://mariadb-operator.github.io/mariadb-operator"
     chart: mariadb-operator
-    targetRevision: 0.38.1
+    targetRevision: 25.8.0
     helm:
       valueFiles:
       - $values/manifests/database/mariadb-operator/values.yaml

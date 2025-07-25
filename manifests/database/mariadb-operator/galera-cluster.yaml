@@ -29,7 +29,7 @@ spec:
   galera:
     enabled: true
     primary:
-      podIndex: 0
+      podIndex: 1
       automaticFailover: true
     sst: mariabackup
     replicaThreads: 1
@@ -42,7 +42,7 @@ spec:
     recovery:
       enabled: true
       minClusterSize: 1
-      # forceClusterBootstrapInPod: "mariadb-0"
+      # forceClusterBootstrapInPod: "mariadb-1"
       clusterMonitorInterval: 10s
       clusterHealthyTimeout: 45s
       clusterBootstrapTimeout: 10m0s
