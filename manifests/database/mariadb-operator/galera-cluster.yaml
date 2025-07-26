@@ -11,7 +11,7 @@ spec:
 
   storage:
     volumeClaimTemplate:
-      storageClassName: local-path
+      storageClassName: local-storage
       resources:
         requests:
           storage: 18Gi
