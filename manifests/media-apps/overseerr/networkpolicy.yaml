@@ -33,6 +33,7 @@ spec:
       toPorts:
         - ports:
             - port: "443"
+            - port: "587"
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: plex
