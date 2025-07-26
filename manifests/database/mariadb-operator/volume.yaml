@@ -5,7 +5,7 @@ kind: PersistentVolume
 metadata:
   name: mariadb-galera-nuc4
 spec:
-  storageClassName: local-path
+  storageClassName: local-storage
   capacity:
     storage: 18Gi
   accessModes:
@@ -28,7 +28,7 @@ kind: PersistentVolume
 metadata:
   name: mariadb-galera-nuc5
 spec:
-  storageClassName: local-path
+  storageClassName: local-storage
   capacity:
     storage: 18Gi
   accessModes:
@@ -51,7 +51,7 @@ kind: PersistentVolume
 metadata:
   name: mariadb-galera-nuc6
 spec:
-  storageClassName: local-path
+  storageClassName: local-storage
   capacity:
     storage: 18Gi
   accessModes:
