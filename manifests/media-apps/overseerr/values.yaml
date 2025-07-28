@@ -20,7 +20,7 @@ resources:
     memory: 220Mi
   limits:
     # cpu: 1000m
-    memory: 350Mi
+    memory: 400Mi
 service:
   port: 5055
 extraHTTPRouteHostnames:
