@@ -11,6 +11,8 @@ spec:
     repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/apps/nextcloud
     targetRevision: HEAD
+    plugin:
+      name: argocd-lovely-plugin-v1.0
   destination:
     server: "https://kubernetes.default.svc"
     namespace: nextcloud
