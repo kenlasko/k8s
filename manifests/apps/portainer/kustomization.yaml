@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+  - name: portainer
+    repo: https://portainer.github.io/k8s/
+    version: 1.0.69
+    releaseName: portainer
+    namespace: portainer
+    valuesFile: values.yaml
+resources:
+  - backup.yaml
+  - external-secrets.yaml
+  - httproute.yaml
+  - networkpolicy.yaml
+  # - restore.yaml
+  # - sealed-secrets.yaml
+  - volume.yaml
