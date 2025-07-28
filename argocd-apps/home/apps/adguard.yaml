@@ -17,6 +17,8 @@ spec:
     helm:
       valueFiles:
       - /manifests/apps/adguard/overlays/home/values-adguard-sync.yaml
+    plugin:
+      name: argocd-lovely-plugin-v1.0
   destination:
     server: "https://kubernetes.default.svc"
     namespace: adguard
