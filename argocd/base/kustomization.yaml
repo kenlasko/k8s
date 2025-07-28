@@ -7,3 +7,8 @@ resources:
 - kubeapi-serviceaccount.yaml
 - priorityclass.yaml
 # - sealed-secrets.yaml
+patches:
+- path: argocd-lovely-plugin.yaml
+  target:
+    kind: Deployment
+    name: argocd-repo-server
