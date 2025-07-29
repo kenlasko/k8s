@@ -6,7 +6,8 @@ metadata:
 spec:
   version: v1.0
   init:
-    command: [sh, -c, "echo skipping init"]
+    command: [sh]
+    args: [-c, 'echo Initializing...']
   generate:
     command: ["lovely", "generate", "./"]
   discover:

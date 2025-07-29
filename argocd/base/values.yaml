@@ -23,6 +23,9 @@ controller:
     limits:
       # cpu: 1500m
       memory: 1800Mi
+crds:
+  install: true
+  keep: false
 dex:
   resources:
     requests:
