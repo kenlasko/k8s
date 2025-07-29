@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ConfigManagementPlugin
+metadata:
+  name: argocd-lovely-plugin
+  namespace: argocd
+spec:
+  version: v1.0
+  init:
+    command: [sh, -c, "echo skipping init"]
+  generate:
+    command: ["lovely", "generate", "./"]
+  discover:
+    fileName: "kustomization.yaml"
