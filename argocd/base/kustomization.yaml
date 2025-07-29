@@ -5,6 +5,5 @@ resources:
 - external-secrets.yaml
 - httproute.yaml
 - kubeapi-serviceaccount.yaml
-# - plugin-lovely.yaml
 - priorityclass.yaml
 # - sealed-secrets.yaml
