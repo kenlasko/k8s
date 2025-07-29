@@ -19,6 +19,9 @@ metadata:
       {{- toYaml .Values.extraLabels | nindent 4 }}
     {{- end }}
   annotations:
+    argocd.argocdproj.io/chart: {{ $name }}
+    argocd.argocdproj.io/chart-version: {{ $tag }}
+    argocd.argocdproj.io/app-name: {{ $name }}
     reloader.stakater.com/auto: {{ .Values.reloaderEnabled | default "true" | quote }}
     {{- if .Values.extraAnnotations }}
       {{- toYaml .Values.extraAnnotations | nindent 4 }}
