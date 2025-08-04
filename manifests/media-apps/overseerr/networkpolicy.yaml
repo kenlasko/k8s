@@ -21,7 +21,8 @@ spec:
       toPorts:
         - ports:
             - port: "5055"
-       - matchLabels:
+   - fromEndpoints:
+        - matchLabels:
             app.kubernetes.io/name: pangolin
             io.kubernetes.pod.namespace: pangolin
       toPorts:
