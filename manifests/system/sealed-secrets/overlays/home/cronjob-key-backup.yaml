@@ -28,7 +28,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: backup-sealed-secret-key
-            image: alpine/k8s:1.33.3
+            image: alpine/k8s:1.33.4
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
