@@ -1,6 +1,6 @@
 image:
   repository: gitea/gitea
-  tag: 1.24.3-rootless
+  tag: 1.24.5-rootless
   registry: docker.io
 priorityClassName: low-priority
 securityContext:
