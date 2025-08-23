@@ -23,7 +23,7 @@ spec:
           automountServiceAccountToken: false
           containers:
           - name: mariadb-backup
-            image: docker.io/mariadb:11.8.3
+            image: docker.io/mariadb:12.0.2
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
