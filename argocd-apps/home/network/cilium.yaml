@@ -20,22 +20,26 @@ spec:
     namespace: cilium
   ignoreDifferences:
   - name: hubble-ca-cert
+    group: ""
     kind: ConfigMap
     jsonPointers:
     - /data/ca.crt
   - name: hubble-relay-client-certs
+    group: ""
     kind: Secret
     jsonPointers:
     - /data/ca.crt
     - /data/tls.crt
     - /data/tls.key
   - name: hubble-server-certs
+    group: ""
     kind: Secret
     jsonPointers:
     - /data/ca.crt
     - /data/tls.crt
     - /data/tls.key
   - name: cilium-ca
+    group: ""
     kind: Secret
     jsonPointers:
     - /data/ca.crt
