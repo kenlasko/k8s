@@ -75,9 +75,6 @@ resources:
 hubble:
   peerService:
     clusterDomain: cluster.local
-  tls:
-    auto:
-      method: cronJob
   relay:
     enabled: true
     resources:
