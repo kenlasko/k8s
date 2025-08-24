@@ -82,9 +82,9 @@ hubble:
   peerService:
     clusterDomain: cluster.local
   tls:  # This is newly required to avoid cert recreation issues in Hubble with Cilium 1.18.x as per https://github.com/cilium/cilium/issues/36012
-    enabled: false
-    # auto:
-    #   method: cronJob
+    enabled: true
+    auto:
+      method: cronJob
   relay:
     enabled: true
     resources:
