@@ -2,11 +2,11 @@ apiVersion: k8s.mariadb.com/v1alpha1
 kind: Restore
 metadata:
   name: test-restore
-  namespace: mariadb
+  namespace: mariadb-test
 spec:
   mariaDbRef:
     name: mariadb
-    namespace: mariadb
+    namespace: mariadb-test
   volume:
     nfs:
       server: 192.168.1.3
