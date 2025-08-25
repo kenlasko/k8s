@@ -39,7 +39,7 @@ machine-learning:
   enabled: true
   image:
     repository: ghcr.io/immich-app/immich-machine-learning
-    tag: v1.139.2-openvino
+    tag: v1.139.3-openvino
     pullPolicy: IfNotPresent
   persistence:
     cache:
