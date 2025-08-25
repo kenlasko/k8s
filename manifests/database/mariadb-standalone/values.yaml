@@ -1,5 +1,10 @@
 namespaceOverride: mariadb-standalone
 fullnameOverride: mariadb
+image:
+  registry: docker.io
+  repository: bitnamilegacy/mariadb
+  tag: 12.0.2
+  pullPolicy: IfNotPresent
 commonLabels:
   mariadb-client: "true"
   app.kubernetes.io/component: database
