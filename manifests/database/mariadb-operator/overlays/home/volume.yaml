@@ -12,7 +12,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/var/mariadb-test"
+    path: "/var/mariadb-galera"
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -35,7 +35,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/var/mariadb-test"
+    path: "/var/mariadb-galera"
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -58,7 +58,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: "/var/mariadb-test"
+    path: "/var/mariadb-galera"
   nodeAffinity:
     required:
       nodeSelectorTerms:
