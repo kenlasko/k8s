@@ -18,5 +18,5 @@ helmCharts:
   namespace: mariadb-test
 resources:
 - ../../base
-#- galera-cluster.yaml
+- galera-cluster.yaml
 - volume.yaml
