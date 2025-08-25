@@ -1,7 +1,7 @@
 image:
+  registry: docker.io
   repository: phpmyadmin
   tag: 5.2.2-apache
-  registry: docker.io
 priorityClassName: medium-priority
 securityContext:
   allowPrivilegeEscalation: false
