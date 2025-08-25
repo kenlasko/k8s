@@ -2,6 +2,11 @@ global:
   storageClass: local-path
 namespaceOverride: mariadb
 fullnameOverride: mariadb
+image:
+  registry: docker.io
+  repository: bitnamilegacy/mariadb-galera
+  tag: 12.0.2
+  pullPolicy: IfNotPresent
 podLabels:
   mariadb-client: "true"
 existingSecret: mariadb-passwords 
