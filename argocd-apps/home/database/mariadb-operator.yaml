@@ -14,10 +14,10 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: mariadb-test
-  ignoreDifferences:
-  - jsonPointers:
-    - /data
-    kind: Secret
+  # ignoreDifferences:
+  # - jsonPointers:
+  #   - /data
+  #   kind: Secret
   syncPolicy:
     managedNamespaceMetadata:
       labels:
