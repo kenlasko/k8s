@@ -30,10 +30,10 @@ spec:
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
-  name: nextcloud
+  name: mariadb
 spec:
   mariaDbRef:
-    name: nextcloud
+    name: mariadb
   privileges:
     - "ALL PRIVILEGES"
   database: "nextcloud"
@@ -49,7 +49,7 @@ metadata:
   name: paperless
 spec:
   mariaDbRef:
-    name: paperless
+    name: mariadb
   privileges:
     - "ALL PRIVILEGES"
   database: "paperless"
@@ -65,7 +65,7 @@ metadata:
   name: uptime-kuma
 spec:
   mariaDbRef:
-    name: phpmyadmin
+    name: mariadb
   privileges:
     - "USAGE"
   database: "phpmyadmin"

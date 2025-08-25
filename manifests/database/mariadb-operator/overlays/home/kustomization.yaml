@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: mariadb-test
+helmCharts:
+- name: mariadb-operator
+  repo: https://mariadb-operator.github.io/mariadb-operator
+  version: 25.8.3
+  releaseName: mariadb-operator
+  namespace: mariadb-test
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
+- name: mariadb-operator-crds
+  repo: https://mariadb-operator.github.io/mariadb-operator
+  version: 25.8.3
+  releaseName: mariadb-operator
+  namespace: mariadb-test
+resources:
+- ../../base
+#- galera-cluster.yaml
+- volume.yaml

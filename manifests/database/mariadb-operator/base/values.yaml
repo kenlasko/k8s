@@ -1,0 +1,35 @@
+resources:
+  requests:
+    cpu: 10m
+    memory: 60Mi
+  limits:
+    # cpu: 100m
+    memory: 100Mi
+
+metrics: 
+  enabled: false
+
+webhook:
+  cert:
+    certManager:
+      enabled: false
+      issuerRef:
+        kind: ClusterIssuer
+        name: letsencrypt-prod
+  resources:
+    requests:
+      cpu: 1m
+      memory: 15Mi
+    limits:
+      # cpu: 100m
+      memory: 30Mi
+
+certController:
+  enabled: true
+  resources:
+    requests:
+      cpu: 1m
+      memory: 16Mi
+    limits:
+      # cpu: 100m
+      memory: 30Mi
