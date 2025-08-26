@@ -9,9 +9,6 @@ spec:
     name: mariadb-passwords
     key: mariadb-root-password
 
-  tls:
-    enabled: false
-
   storage:
     volumeClaimTemplate:
       storageClassName: local-storage
@@ -37,19 +34,19 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
-    # agent:
-    #   kubernetesAuth:
-    #     enabled: true
-    #   gracefulShutdownTimeout: 10s
-    # recovery:
-    #   enabled: true
-    #   minClusterSize: 1
-    #   forceClusterBootstrapInPod: "mariadb-0"
-    #   clusterMonitorInterval: 10s
-    #   clusterHealthyTimeout: 45s
-    #   clusterBootstrapTimeout: 10m0s
-    #   podRecoveryTimeout: 5m0s
-    #   podSyncTimeout: 5m0s
+    agent:
+      kubernetesAuth:
+        enabled: true
+      gracefulShutdownTimeout: 10s
+    recovery:
+      enabled: true
+      minClusterSize: 1
+      # forceClusterBootstrapInPod: "mariadb-0"
+      clusterMonitorInterval: 10s
+      clusterHealthyTimeout: 45s
+      clusterBootstrapTimeout: 10m0s
+      podRecoveryTimeout: 5m0s
+      podSyncTimeout: 5m0s
 
   # service:
   #   type: LoadBalancer
@@ -88,14 +85,14 @@ spec:
     type: RollingUpdate
     autoUpdateDataPlane: true
 
-  # myCnf: |
-  #   [mariadb]
-  #   bind-address=*
-  #   default_storage_engine=InnoDB
-  #   binlog_format=row
-  #   innodb_autoinc_lock_mode=2
-  #   innodb_buffer_pool_size=1024M
-  #   max_allowed_packet=256M 
+  myCnf: |
+    [mariadb]
+    bind-address=*
+    default_storage_engine=InnoDB
+    binlog_format=row
+    innodb_autoinc_lock_mode=2
+    innodb_buffer_pool_size=1024M
+    max_allowed_packet=256M 
 
   resources:
     requests:
