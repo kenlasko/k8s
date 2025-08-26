@@ -27,12 +27,11 @@ spec:
   #     persistentVolumeClaim: 
   #       claimName: nfs-galera-backup
 
-  replicas: 3
+  replicas: 1
 
   galera:
     enabled: true
     primary:
-      podIndex: 1
       automaticFailover: true
     sst: mariabackup
     replicaThreads: 1
