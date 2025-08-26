@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 # This script will delete the contents of a given folder on all the selected nodes. Used for clearing out mariadb folders before a new cluster build
 
 NODES=("nuc4" "nuc5" "nuc6")
-FOLDER_PATH="/host/var/mariadb"
+FOLDER_PATH="/host/var/mariadb-galera"
 
 # Function to clean up the folder on a given node
 clean_node() {
