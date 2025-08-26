@@ -1,7 +1,7 @@
 nameOverride: sidekiq
 image:
   repository: freikin/dawarich
-  tag: 0.30.11
+  tag: 0.30.12
   registry: docker.io
 priorityClassName: low-priority
 command: ["sidekiq-entrypoint.sh"]
