@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
   - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 16.0.0
+    targetRevision: 16.0.1
     chart: mariadb-galera
     helm:
       valueFiles:
