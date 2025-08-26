@@ -32,4 +32,4 @@ certController:
       memory: 16Mi
     limits:
       # cpu: 100m
-      memory: 30Mi
+      memory: 40Mi
