@@ -42,7 +42,7 @@ spec:
     recovery:
       enabled: true
       minClusterSize: 1
-      # forceClusterBootstrapInPod: "mariadb-1"
+      forceClusterBootstrapInPod: "mariadb-0"
       clusterMonitorInterval: 10s
       clusterHealthyTimeout: 45s
       clusterBootstrapTimeout: 10m0s
