@@ -27,7 +27,7 @@ spec:
   #     persistentVolumeClaim: 
   #       claimName: nfs-galera-backup
 
-  replicas: 1
+  replicas: 3
 
   galera:
     enabled: true
