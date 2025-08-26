@@ -6,7 +6,7 @@ priorityClassName: medium-priority
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
-  # runAsNonRoot: true
+  runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
   capabilities:
