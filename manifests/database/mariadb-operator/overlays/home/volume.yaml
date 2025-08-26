@@ -7,9 +7,9 @@ metadata:
 spec:
   storageClassName: local-storage
   capacity:
-    storage: 18Gi
+    storage: 25Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   local:
     path: "/var/mariadb-galera"
@@ -30,9 +30,9 @@ metadata:
 spec:
   storageClassName: local-storage
   capacity:
-    storage: 18Gi
+    storage: 25Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   local:
     path: "/var/mariadb-galera"
@@ -53,7 +53,7 @@ metadata:
 spec:
   storageClassName: local-storage
   capacity:
-    storage: 18Gi
+    storage: 25Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain

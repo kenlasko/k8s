@@ -14,9 +14,9 @@ spec:
       storageClassName: local-storage
       resources:
         requests:
-          storage: 18Gi
+          storage: 25Gi
       accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
 
   # # Only use during initial load when the local databases on disk aren't available
   # bootstrapFrom:
