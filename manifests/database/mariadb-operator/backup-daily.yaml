@@ -1,30 +1,28 @@
 apiVersion: k8s.mariadb.com/v1alpha1
-kind: Backup
+kind: PhysicalBackup
 metadata:
   name: daily-backup
-  namespace: mariadb
+  namespace: mariadb-test
 spec:
   mariaDbRef:
     name: mariadb
-    namespace: mariadb
-    waitForIt: true
+    namespace: mariadb-test
   schedule:
     cron: "15 7 * * *" 
     suspend: false
+    immediate: true
+  compression: bzip2
   maxRetention: 168h # 7 days
+  podAffinity: true
   storage:
-    volume:
-      persistentVolumeClaim:
-        claimName: nfs-galera-backup
-  affinity:
-    antiAffinityEnabled: false
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
+    s3:
+      bucket: mariadb
+      endpoint: fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/mariadb
+      accessKeyIdSecretKeyRef:
+        name: s3-backup-cloudflare-mariadb
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretKeyRef:
+        name: s3-backup-cloudflare-mariadb
+        key: AWS_SECRET_ACCESS_KEY
+      tls:
+        enabled: true

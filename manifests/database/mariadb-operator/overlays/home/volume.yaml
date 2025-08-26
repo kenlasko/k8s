@@ -55,7 +55,7 @@ spec:
   capacity:
     storage: 18Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   local:
     path: "/var/mariadb-galera"
@@ -83,7 +83,7 @@ spec:
   capacity:
     storage: 100Gi
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
@@ -102,7 +102,7 @@ spec:
   storageClassName: nfs-csi
   volumeName: nfs-mariadb-test-backup
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 100Gi
