@@ -37,10 +37,10 @@ spec:
     replicaThreads: 1
     config: 
       reuseStorageVolume: true
-    agent:
-      kubernetesAuth:
-        enabled: true
-      gracefulShutdownTimeout: 10s
+    # agent:
+    #   kubernetesAuth:
+    #     enabled: true
+    #   gracefulShutdownTimeout: 10s
     recovery:
       enabled: true
       minClusterSize: 1
