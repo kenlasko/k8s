@@ -9,6 +9,9 @@ spec:
     name: mariadb-passwords
     key: mariadb-root-password
 
+  tls:
+    enabled: false
+
   storage:
     volumeClaimTemplate:
       storageClassName: local-storage
