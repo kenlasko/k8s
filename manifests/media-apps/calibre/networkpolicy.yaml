@@ -8,7 +8,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: calibre
       app: calibre-downloader-aa
-      app: cloudflare-bypass
+      # app: cloudflare-bypass
   ingress:
     - fromEntities:
         - ingress
