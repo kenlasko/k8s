@@ -4,12 +4,12 @@ helmCharts:
 - name: intel-device-plugins-operator
   repo: https://intel.github.io/helm-charts/
   version: 0.32.1
-  releaseName: intel-device-plugins-operator
+  releaseName: intel-device-plugins
   namespace: intel-gpu
   valuesFile: values-operator.yaml
-# - name: intel-device-plugins-gpu
-#   repo: https://intel.github.io/helm-charts/
-#   version: 0.32.1
-#   releaseName: intel-device-plugins-gpu
-#   namespace: intel-gpu
-#   valuesFile: values-gpu.yaml
+- name: intel-device-plugins-gpu
+  repo: https://intel.github.io/helm-charts/
+  version: 0.32.1
+  releaseName: intel-device-plugins
+  namespace: intel-gpu
+  valuesFile: values-gpu.yaml
