@@ -4,10 +4,13 @@ helmGlobals:
   chartHome: ../../../helm
 helmCharts:
 - name: baseline
-  releaseName: homeassist
-  namespace: homeops
+  releaseName: calibre
+  namespace: media-apps
   valuesFile: values.yaml
 resources:
-- external-secrets.yaml
+- deploy-cloudflare-bypass.yaml
+- deploy-downloader-aa.yaml
+- httproute.yaml
 - networkpolicy.yaml
-- serviceaccount.yaml
+- service.yaml
+- volume.yaml
