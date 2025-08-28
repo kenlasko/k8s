@@ -25,6 +25,8 @@ envFrom:
     name: kube-auth-token
 - secretRef:
     name: env-secrets-homeassist
+- secretRef:
+    name: smtp2go-credentials
 resources:
   requests:
     cpu: 100m
