@@ -78,6 +78,12 @@ spec:
       toPorts:
         - ports:
             - port: "80"
+    - toFQDNs:
+      - matchName: mail.smtp2go.com
+      toPorts:
+      - ports:
+        - port: "587"
+          protocol: TCP
     - toEndpoints:
         - {}
     - toEntities:
