@@ -7,6 +7,7 @@ global:
   networkPolicy:
     create: false
     defaultDenyIngress: false
+
 applicationSet:
   resources:
     requests:
@@ -15,6 +16,7 @@ applicationSet:
     limits:
       # cpu: 200m
       memory: 50Mi
+
 controller:
   resources:
     requests:
@@ -23,9 +25,11 @@ controller:
     limits:
       # cpu: 1500m
       memory: 1800Mi
+
 crds:
   install: true
   keep: false
+
 dex:
   resources:
     requests:
@@ -34,6 +38,7 @@ dex:
     limits:
       # cpu: 300m
       memory: 200Mi
+
 redis:
   resources:
     requests:
@@ -42,6 +47,7 @@ redis:
     limits:
       # cpu: 160m
       memory: 50Mi
+
 repoServer:
   resources:
     requests:
@@ -50,6 +56,26 @@ repoServer:
     limits:
       # cpu: 1200m
       memory: 2000Mi
+  extraContainers:
+    # ArgoCD Lovely Config Manager Plugin for better Helm+Kustomize support (https://github.com/crumbhole/argocd-lovely-plugin/)
+    - name: lovely-plugin
+      image: ghcr.io/crumbhole/lovely:1.2.2
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+          # Import the repo-server's plugin binary
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+          # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps mitigate path traversal attacks.
+        - mountPath: /tmp
+          name: lovely-tmp
+  volumes:
+    - emptyDir: {}
+      name: lovely-tmp
+
 server:
   resources:
     requests:
