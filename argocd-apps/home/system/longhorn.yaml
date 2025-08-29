@@ -7,20 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
-  sources:
-  - repoURL: "https://charts.longhorn.io"
-    targetRevision: 1.9.1
-    chart: longhorn
-    helm:
-      valueFiles:
-      - $values/manifests/system/longhorn/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/system/longhorn
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: longhorn
