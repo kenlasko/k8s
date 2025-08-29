@@ -7,18 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "99"
 spec:
   project: default
-  sources:
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: helm/baseline
-    targetRevision: HEAD
-    helm:
-      valueFiles:
-      - /manifests/system/registry/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/system/registry
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: registry

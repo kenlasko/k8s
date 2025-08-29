@@ -7,20 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
-  sources:
-  - repoURL: "https://backube.github.io/helm-charts"
-    targetRevision: 0.13.0
-    chart: volsync
-    helm:
-      valueFiles:
-      - $values/manifests/system/volsync/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/system/volsync
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: volsync
