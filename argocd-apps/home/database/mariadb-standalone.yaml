@@ -7,20 +7,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
 spec:
   project: default
-  sources:
-  - repoURL: "registry-1.docker.io/bitnamicharts"
-    targetRevision: 22.0.0
-    chart: mariadb
-    helm:
-      valueFiles:
-      - $values/manifests/database/mariadb-standalone/values.yaml
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    ref: values
-  - repoURL: "git@github.com:kenlasko/k8s.git"
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
     path: manifests/database/mariadb-standalone
     targetRevision: HEAD
-    directory:
-      exclude: "*_DISABLED.yaml"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: mariadb-standalone

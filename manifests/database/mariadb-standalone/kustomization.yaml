@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+- name: mariadb
+  repo: registry-1.docker.io/bitnamicharts
+  version: 22.0.0
+  releaseName: mariadb-standalone
+  namespace: mariadb-standalone
+  valuesFile: values.yaml
+resources:
+- configmap-healthcheck.yaml
+- configmap-procedures.yaml
+- cronjob-backup.yaml
+- cronjob-restore.yaml
+- external-secrets.yaml
+- networkpolicy.yaml
+- volume.yaml
