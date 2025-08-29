@@ -4,12 +4,12 @@ helmCharts:
 - name: loki
   repo: https://grafana.github.io/helm-charts
   version: 6.38.0
-  releaseName: loki
+  releaseName: loki-promtail
   namespace: monitoring
   valuesFile: values-loki.yaml
 - name: promtail
   repo: https://grafana.github.io/helm-charts
   version: 6.17.0
-  releaseName: promtail
+  releaseName: loki-promtail
   namespace: monitoring
   valuesFile: values-promtail.yaml
