@@ -19,9 +19,9 @@ This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.c
 * VaultWarden
 * UCDialplans website
 
-The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to home via Wireguard.
+The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to my home network via Wireguard.
 
-The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](#oracle-cloud-talos-node-prep).
+The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](ORACLE-TALOS-PREP.md).
 
 ### Lab Cluster
 This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs on my Windows 11 machine under Hyper-V.
@@ -114,7 +114,7 @@ The script will take care of the following:
 Once the `bootstrap-cluster.sh` script bootstraps the cluster, ArgoCD should take over and install all the remaining applications. ArgoCD sync-waves should install apps in the correct order. The full list of apps and their relative order can be found [here](/argocd-apps).
 
 ## Get Kubernetes token for token-based authentication
-Cluster connectivity can be done via OIDC through Omni, but its a good idea to have secondary access through standard token-based authentication. The cluster is configured for this using [Talos Shared VIP](https://www.talos.dev/v1.9/talos-guides/network/vip/), which makes cluster API access via a shared IP that is advertised by one of the control plane nodes. The address for this is `https://192.168.1.11:6443` and is defined in Omni's [controlplane.yaml](https://github.com/kenlasko/omni/blob/main/patches/controlplane.yaml) patch.
+Cluster connectivity can be done via OIDC through Omni, but its a good idea to have secondary access through standard token-based authentication. The cluster is configured for this using [Talos Shared VIP](https://www.talos.dev/v1.9/talos-guides/network/vip/), which makes cluster API access via a shared IP that is advertised by one of the control plane nodes. The address for this is `https://192.168.1.11:6443` and is defined in my [Omni](https://github.com/kenlasko/omni/) repo's [controlplane.yaml](https://github.com/kenlasko/omni/blob/main/patches/controlplane.yaml) patch.
 
 The service account is configured via [kubeapi-serviceaccount.yaml](/manifests/argocd/kubeapi-serviceaccount.yaml) and gets its token when the service account is created.
 
@@ -227,52 +227,8 @@ Scan a repository before onboarding:
 ggshield secret scan path <PathName> --recursive --use-gitignore
 ```
 
-# Oracle Cloud Talos Node Prep
-1. Download ARM64 Talos Oracle image from https://omni.ucdialplans.com and place in /home/ken/
-2. Create image metadata file and save as ```image_metadata.json```
-```
-{
-    "version": 2,
-    "externalLaunchOptions": {
-        "firmware": "UEFI_64",
-        "networkType": "PARAVIRTUALIZED",
-        "bootVolumeType": "PARAVIRTUALIZED",
-        "remoteDataVolumeType": "PARAVIRTUALIZED",
-        "localDataVolumeType": "PARAVIRTUALIZED",
-        "launchOptionsSource": "PARAVIRTUALIZED",
-        "pvAttachmentVersion": 2,
-        "pvEncryptionInTransitEnabled": true,
-        "consistentVolumeNamingEnabled": true
-    },
-    "imageCapabilityData": null,
-    "imageCapsFormatVersion": null,
-    "operatingSystem": "Talos",
-    "operatingSystemVersion": "1.8.1",
-    "additionalMetadata": {
-        "shapeCompatibilities": [
-            {
-                "internalShapeName": "VM.Standard.A1.Flex",
-                "ocpuConstraints": null,
-                "memoryConstraints": null
-            }
-        ]
-    }
-}
-```
-3. Create .oci image for Oracle
-```
-xz --decompress oracle-arm64-omni-onprem-omni-v1.8.1.qcow2.xz
-tar zcf talos-oracle-arm64.oci oracle-arm64.qcow2 image_metadata.json
-```
-4. Copy image to [Oracle storage bucket](https://cloud.oracle.com/object-storage/buckets?region=ca-toronto-1)
-5. [Import custom image](https://cloud.oracle.com/compute/images?region=ca-toronto-1) to Oracle cloud
-6. Edit image capabilities and set ```Boot volume type``` and ```Local data volume``` to ```PARAVIRTUALIZED```
-7. [Create instance](https://cloud.oracle.com/compute/instances?region=ca-toronto-1) using custom image
-8. Open all inbound firewall ports from home network
-9. Set Oracle public IP address on [Unifi port forwarding](https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding)
 
-
-# Handy commands to know
+# Useful Commands
 ## Check for open port without tools
 Many container images do not have any tools like `nc` to check network port connectivity. This handy command will allow you to do that with just `echo`
 ```bash
