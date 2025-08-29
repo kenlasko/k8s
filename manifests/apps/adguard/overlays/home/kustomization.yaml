@@ -14,7 +14,7 @@ helmCharts:
 - name: baseline
   releaseName: adguard-sync
   namespace: adguard
-  valuesFile: ../../base/values-adguard-sync.yaml
+  valuesFile: values-adguard-sync.yaml
 resources:
 - ../../base
 - networkpolicy.yaml
