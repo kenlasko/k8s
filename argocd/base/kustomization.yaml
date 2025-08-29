@@ -8,7 +8,7 @@ resources:
 - priorityclass.yaml
 # - sealed-secrets.yaml
 patches:
-- path: argo-cm.yaml
+- path: argocd-cm.yaml
   target:
     kind: ConfigMap
     name: argocd-cm
