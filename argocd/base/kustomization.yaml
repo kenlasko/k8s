@@ -7,3 +7,12 @@ resources:
 - kubeapi-serviceaccount.yaml
 - priorityclass.yaml
 # - sealed-secrets.yaml
+patches:
+- path: argo-cm.yaml
+  target:
+    kind: ConfigMap
+    name: argocd-cm
+- path: argocd-lovely-plugin.yaml
+  target:
+    kind: Deployment
+    name: argocd-repo-server
