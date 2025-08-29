@@ -11,9 +11,11 @@ helmCharts:
   additionalValuesFiles:
   - values-adguard.yaml
   valuesMerge: merge
+- name: baseline
+  releaseName: adguard-sync
+  namespace: adguard
+  valuesFile: ../../base/values-adguard-sync.yaml
 resources:
 - ../../base
-#- deploy-adguard-sync.yaml
 - networkpolicy.yaml
-#- restore.yaml
 - service.yaml
