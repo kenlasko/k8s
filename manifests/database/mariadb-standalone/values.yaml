@@ -7,7 +7,7 @@ image:
   pullPolicy: IfNotPresent
 commonLabels:
   mariadb-client: "true"
-  app.kubernetes.io/component: database
+  # app.kubernetes.io/component: database
 auth:
   existingSecret: mariadb-passwords
 primary:
