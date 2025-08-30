@@ -21,7 +21,7 @@ This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.c
 
 The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to my home network via Wireguard.
 
-The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](ORACLE-TALOS-PREP.md).
+The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](/docs/ORACLE-TALOS-PREP.md).
 
 ### Lab Cluster
 This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs on my Windows 11 machine under Hyper-V.
