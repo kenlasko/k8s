@@ -93,8 +93,7 @@
         "**/gateway-api.git",
         "longhorn",
         "**/mariadb-galera",
-        "kube-prometheus-stack",
-        "tailscale-operator"
+        "kube-prometheus-stack"
       ],
       "automerge": false
     },
