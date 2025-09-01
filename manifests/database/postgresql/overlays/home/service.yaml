@@ -4,7 +4,6 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: cloud-postgresql.tailb7050.ts.net
-  labels:
     tailscale.com/proxy-class: "run-on-worker"  
   name: cloud-postgresql-egress
   namespace: postgresql
