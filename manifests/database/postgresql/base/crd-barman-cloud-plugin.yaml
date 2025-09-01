@@ -608,7 +608,11 @@ spec:
                         restored.
                       format: date-time
                       type: string
-                    lastSuccussfulBackupTime:
+                    lastFailedBackupTime:
+                      description: The last failed backup time
+                      format: date-time
+                      type: string
+                    lastSuccessfulBackupTime:
                       description: The last successful backup time
                       format: date-time
                       type: string
@@ -804,6 +808,12 @@ rules:
   - list
   - watch
 - apiGroups:
+  - postgresql.cnpg.io
+  resources:
+  - clusters/finalizers
+  verbs:
+  - update
+- apiGroups:
   - rbac.authorization.k8s.io
   resources:
   - rolebindings
@@ -866,10 +876,10 @@ apiVersion: v1
 data:
   SIDECAR_IMAGE: |
     Z2hjci5pby9jbG91ZG5hdGl2ZS1wZy9wbHVnaW4tYmFybWFuLWNsb3VkLXNpZGVjYXI6dj
-    AuNC4w
+    AuNi4w
 kind: Secret
 metadata:
-  name: plugin-barman-cloud-m76km67hd7
+  name: plugin-barman-cloud-hkg64h25m2
   namespace: postgresql
 type: Opaque
 ---
@@ -926,8 +936,8 @@ spec:
           valueFrom:
             secretKeyRef:
               key: SIDECAR_IMAGE
-              name: plugin-barman-cloud-m76km67hd7
-        image: ghcr.io/cloudnative-pg/plugin-barman-cloud:v0.4.0
+              name: plugin-barman-cloud-hkg64h25m2
+        image: ghcr.io/cloudnative-pg/plugin-barman-cloud:v0.6.0
         name: barman-cloud
         ports:
         - containerPort: 9090
