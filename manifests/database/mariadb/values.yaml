@@ -15,8 +15,9 @@ rootUser:
 mariabackup:
   user: mariabackup
 priorityClassName: high-priority
-commonLabels:
+commonAnnotations:
   tailscale.com/proxy-class: "run-on-worker"
+commonLabels:
   app.kubernetes.io/component: database
 affinity:
   nodeAffinity:
