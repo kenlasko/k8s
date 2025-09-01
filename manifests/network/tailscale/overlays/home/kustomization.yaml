@@ -15,5 +15,5 @@ resources:
 - ../../base
 - proxyclass.yaml
 - tunnel-cloud-argocd-tunnel.yaml
-#- tunnel-cloud-phpmyadmin-tunnel.yaml
+- tunnel-cloud-phpmyadmin-tunnel.yaml
 - tunnel-cloud-vaultwarden-tunnel.yaml
