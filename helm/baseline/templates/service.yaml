@@ -25,6 +25,7 @@ spec:
   ports:
     - port: {{ .Values.service.port }}
       protocol: TCP
+      appProtocol: http
       targetPort: http
       name: web
     {{- range .Values.extraPorts }}
