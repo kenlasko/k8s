@@ -49,6 +49,4 @@ metadata:
 spec:
   externalName: {{ .Values.tailscale.name }}
   type: ExternalName
-
 {{- end }}
-
