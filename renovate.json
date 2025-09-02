@@ -92,8 +92,7 @@
         "docker.io/instantlinux/nut-upsd",
         "**/gateway-api.git",
         "longhorn",
-        "**/mariadb-galera",
-        "kube-prometheus-stack"
+        "**/mariadb-galera"
       ],
       "automerge": false
     },
