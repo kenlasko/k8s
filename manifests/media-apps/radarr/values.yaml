@@ -37,5 +37,5 @@ persistentVolume:
   type: nfs
   size: 2.5Gi
 backup:
-  location: oracle
+  location: cloudflare
   schedule: "00 07 * * *"
