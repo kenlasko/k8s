@@ -32,11 +32,11 @@ resources:
     memory: 1750Mi
     gpu.intel.com/i915: "1"
 service:
-  type: LoadBalancer
-  externalTrafficPolicy: Local
+  # type: LoadBalancer
+  # externalTrafficPolicy: Local
   port: 32400
-  annotations:
-    lbipam.cilium.io/ips: 192.168.10.11
+  # annotations:
+  #   lbipam.cilium.io/ips: 192.168.10.11
 extraPorts:
 - port: 32499
   name: relay
