@@ -1,5 +1,5 @@
 image:
-  repository: nginxdemo/hello
+  repository: nginxdemos/hello
   tag: 0.4
   registry: docker.io
 service:
