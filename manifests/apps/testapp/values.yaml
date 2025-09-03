@@ -1,6 +1,6 @@
 image:
-  repository: nginxdemos/hello
-  tag: 0.4
+  repository: traefik/whoami
+  tag: v1.11
   registry: docker.io
 service:
   type: LoadBalancer
