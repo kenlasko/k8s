@@ -23,6 +23,6 @@ spec:
             memory: 70Mi
           limits:
             # cpu: 100m
-            memory: 300Mi
+            memory: 325Mi
             smarter-devices/net_tun: "1"
 
