@@ -3,12 +3,12 @@ global:
 
 server:
   service:
-    labels:
-      tailscale.com/proxy-class: "enable-tun"
+    # labels:
+    #   tailscale.com/proxy-class: "enable-tun"
     annotations:
-      tailscale.com/expose: 'true'
-      tailscale.com/hostname: 'cloud-argocd'
-
+      tailscale.com/expose: "true"
+      tailscale.com/hostname: "cloud-argocd"
+      tailscale.com/proxy-class: "enable-tun"
 notifications:
   enabled: true
   argocdUrl: "https://cloud-argocd.ucdialplans.com"
