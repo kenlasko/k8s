@@ -4,7 +4,7 @@ image:
   registry: docker.io
 service:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   port: 80
   annotations:
     lbipam.cilium.io/ips: 192.168.10.20
