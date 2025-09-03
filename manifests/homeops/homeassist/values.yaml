@@ -1,6 +1,6 @@
 image:
   repository: home-operations/home-assistant
-  tag: 2025.8.3
+  tag: 2025.9.0
   registry: ghcr.io
 priorityClassName: high-priority
 hostNetwork: true
