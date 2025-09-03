@@ -34,6 +34,10 @@ envoy:
 #     create: false
 #     name: cilium
 
+# Needed for Tailscale to work properly with Cilium. See https://tailscale.com/kb/1236/kubernetes-operator?q=operator#cilium-in-kube-proxy-replacement-mode
+socketLB:
+  hostNamespaceOnly: true
+  
 externalIPs:
   enabled: true
 extraEnv:
