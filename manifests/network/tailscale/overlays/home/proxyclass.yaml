@@ -5,17 +5,6 @@ metadata:
 spec:
   statefulSet:
     pod:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/control-plane
-                operator: DoesNotExist
-              - key: kubernetes.io/arch
-                operator: In
-                values: 
-                - "amd64"
       tailscaleContainer:
         resources:
           requests:
@@ -23,6 +12,6 @@ spec:
             memory: 70Mi
           limits:
             # cpu: 100m
-            memory: 300Mi
+            memory: 325Mi
             smarter-devices/net_tun: "1"
 
