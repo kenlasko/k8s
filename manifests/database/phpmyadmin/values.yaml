@@ -14,10 +14,10 @@ securityContext:
     drop: ["ALL"]
 service:
   port: 80
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "phpmyadmin"
-    tailscale.com/proxy-class: "run-on-worker"
+  # annotations:
+  #   tailscale.com/expose: "true"
+  #   tailscale.com/hostname: "phpmyadmin"
+  #   tailscale.com/proxy-class: "run-on-worker"
 resources:
   requests:
     cpu: 2m
