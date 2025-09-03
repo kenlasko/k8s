@@ -42,9 +42,9 @@ spec:
         serviceTemplate:
           metadata:
             name: "postgresql-service"
-            annotations:
-              tailscale.com/expose: "true"
-              tailscale.com/hostname: "cloud-postgresql"
+            # annotations:
+            #   tailscale.com/expose: "true"
+            #   tailscale.com/hostname: "cloud-postgresql"
           spec:
             type: ClusterIP
   externalClusters:
