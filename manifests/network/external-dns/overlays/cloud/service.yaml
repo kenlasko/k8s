@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: 'home-adguard-1.tailb7050.ts.net'
+    tailscale.com/tailnet-fqdn: 'home-adguard.tailb7050.ts.net'
     tailscale.com/proxy-class: "enable-tun"
-  name: cloud-egress-adguard-1
+  name: cloud-egress-adguard
 spec:
-  externalName: cloud-egress-adguard-1
+  externalName: cloud-egress-adguard
   type: ExternalName
