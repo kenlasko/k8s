@@ -4,26 +4,7 @@ metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-adguard-1.tailb7050.ts.net'
     tailscale.com/proxy-class: "enable-tun"
-  name: cloud-egress-adguard
+  name: cloud-egress-adguard-1
 spec:
-  externalName: cloud-egress-adguard
+  externalName: cloud-egress-adguard-1
   type: ExternalName
-
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   labels:
-#     app: adguard-webhook
-#   annotations:
-#   name: adguard-webhook
-#   namespace: external-dns
-# spec:
-#   type: ClusterIP
-#   selector:
-#     app: adguard-webhook
-#   ports:
-#     - port: 8888
-#       protocol: TCP
-#       targetPort: http
-#       name: web
