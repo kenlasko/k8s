@@ -1,4 +1,0 @@
-display:
-  - kind: StatefulSet
-    jsonPointer: /metadata/labels/app.kubernetes.io~1version
-    label: version

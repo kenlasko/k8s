@@ -4,7 +4,7 @@ metadata:
   labels:
     tailscale.com/proxy-class: "enable-tun"
   annotations:
-    tailscale.com/tailnet-fqdn: 'home-adguard.tailb7050.ts.net'
+    tailscale.com/tailnet-fqdn: 'home-adguard-1.tailb7050.ts.net'
   name: cloud-egress-adguard
 spec:
   externalName: cloud-egress-adguard
