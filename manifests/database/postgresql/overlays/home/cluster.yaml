@@ -90,10 +90,10 @@ spec:
         serviceTemplate:
           metadata:
             name: "postgresql-service"
-            annotations:
-              tailscale.com/expose: "true"
-              tailscale.com/hostname: "home-postgresql"
-              tailscale.com/proxy-class: "run-on-worker"
+            # annotations:
+            #   tailscale.com/expose: "true"
+            #   tailscale.com/hostname: "home-postgresql"
+            #   tailscale.com/proxy-class: "run-on-worker"
           spec:
             type: LoadBalancer
   affinity:
