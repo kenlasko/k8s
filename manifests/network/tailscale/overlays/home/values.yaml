@@ -11,7 +11,7 @@ operatorConfig:
             operator: In
             values: 
             - "amd64"
-# proxyConfig:
-#   defaultProxyClass: "run-on-worker"
+proxyConfig:
+  defaultProxyClass: "run-on-worker"
 #   labels:
 #     tailscale.com/proxy-class: "run-on-worker"
