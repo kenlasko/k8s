@@ -22,7 +22,6 @@ service:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "cloud-adguard"
-  extraLabels:
     tailscale.com/proxy-class: "enable-tun"
 # extraPorts:
 # - port: 853
