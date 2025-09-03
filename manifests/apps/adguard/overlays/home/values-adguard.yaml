@@ -36,4 +36,4 @@ extraPorts:
   name: adguard-tls
   protocol: TCP
 tailscale:
-  name: cloud-adguard-egress
+  name: home-adguard
