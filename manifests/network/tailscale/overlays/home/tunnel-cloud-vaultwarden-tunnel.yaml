@@ -52,9 +52,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  # annotations:
-  #   tailscale.com/proxy-class: "run-on-worker"
-  #   tailscale.com/tailnet-fqdn: "cloud-vaultwarden.tailb7050.ts.net"
+  annotations:
+    tailscale.com/proxy-class: "run-on-worker"
+    tailscale.com/tailnet-fqdn: "cloud-vaultwarden.tailb7050.ts.net"
   name: cloud-vaultwarden-egress
 spec:
   externalName: cloud-vaultwarden-egress
