@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
 - configmap.yaml
 - external-secrets.yaml
-- httproute.yaml
+# - httproute.yaml
 - kubeapi-serviceaccount.yaml
 - priorityclass.yaml
 # - sealed-secrets.yaml

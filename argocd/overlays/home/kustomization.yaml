@@ -15,6 +15,7 @@ resources:
 - argocd-apps.yaml
 - argocd.yaml
 - external-secrets.yaml
+- httproute.yaml
 patches:
 - path: httproute-patch.yaml
   target:
