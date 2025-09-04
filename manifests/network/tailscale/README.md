@@ -65,7 +65,7 @@ The following external name services and associated Tailnet machines are configu
 | [cloud-egress-adguard](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | cloud-egress-adguard | home-adguard | External-DNS cloud automatic DNS record updating |
 | [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql | Cloud PostgreSQL replication |
-| [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values.yaml) | adguard | home | cloud-adguard-egress | cloud-adguard | Web access via home cluster |
+| [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values-adguard.yaml) | adguard | home | cloud-adguard-egress | cloud-adguard | Web access via home cluster |
 | [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
 | [cloud-mariadb-egress](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-egress | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [ cloud-postgresql-egress](/manifests/database/postgresql/overlays/home/service.yaml)] | postgresql | home | cloud-postgresql-egress | cloud-postgresql | PGAdmin access via home cluster |
@@ -80,10 +80,3 @@ HTTPRoute ---> Socat Service ---> Socat Pod ---> | Tailnet Machine | ---> Remote
 This format works well for the limited number of cloud services I want to access via HTTP from my home network. The services that use this format include:
 - [ArgoCD](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml)
 - [VaultWarden](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml)
-
-
-
-
-
-
-
