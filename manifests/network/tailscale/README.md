@@ -10,9 +10,10 @@ To make a service available on a Tailnet, simply add the following annotation to
 
 The following services are exposed on my tailnet:
 
-|Service|Namespace|Tailnet Name|Cluster|
-|---------------|---------|------------|-------|
-|adguard-service|adguard|home-adguard|home|
+|     Service    |  Namespace  |  Tailnet Name  |  Cluster  |      Purpose                                        |
+:---------------:|:-----------:|:--------------:|:---------:|:----------------------------------------------------|
+|[adguard-service](https://github.com/kenlasko/k8s/blob/main/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard      |home-adguard    | home      | For external-dns cloud automatic DNS record updating|
+
 
 ## Connecting to service on Tailnet
 To connect to a remote service via Tailnet, you need to define an `ExternalName` service in the namespace you want to connect from. 
