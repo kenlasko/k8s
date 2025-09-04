@@ -1,20 +1,32 @@
 # Introduction
 [Tailscale Operator](https://tailscale.com/kb/1236/kubernetes-operator) allows for secured access between workloads on different systems connected via a Tailscale network.
 
+I use Tailscale to directly access services on remote clusters for things like replication and updates. I also use it to access cloud cluster HTTP resources via `HTTPRoutes` published on the home cluster.
+
 # Configuration
+## Authentication
+To authorize my cluster to create machines on the Tailnet, a secret called `operator-oauth` is required that contains OAuth credentials for my Tailnet. The Tailscale Operator will use these credentials for all created machines. This is created via External Secrets Operator. The ESO object is called [external-secrets.yaml](/manifests/network/tailscale/base/external-secrets.yaml).
+
 ## ProxyClass
 A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale endpoint. Our single [run-on-worker](/manifests/network/tailscale/proxyclass.yaml) ProxyClass specifies the Tailscale pods should run on worker nodes only as well as use `/dev/tun/` devices exposed by [Smarter Device Manager](/manifests/system/smarter-device-manager).
 
 Each cluster has a custom ProxyClass. For the home cluster, the ProxyClass name is `run-on-worker`. The cloud cluter uses `enable-tun`.
 
 ## Services
-To make a service available on a Tailnet, simply add the following annotation to the home cluster service: `tailscale.com/proxy-class: "run-on-worker"` (or `enable-tun` for the cloud cluster).
+To make a service available on a Tailnet, simply add the following annotations to the service: 
+```
+annotations:
+  tailscale.com/expose: true
+  tailscale.com/hostname: <name-to-show-on-tailnet>
+  tailscale.com/proxy-class: <run-on-worker|enable-tun>
+```
+This will create a machine on the Tailnet attached to the service.
 
-The following services are exposed on my tailnet:
+The following services are exposed on my Tailnet:
 
 |     Service    |  Namespace  | Cluster |  Tailnet Machine Name  | Purpose                                |
-:---------------:|:-----------:|:-------:|:----------------------:|:---------------------------------------|
-|[adguard-service](/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard | home | home-adguard | For external-dns cloud automatic DNS record updating|
+|:--------------:|:-----------:|:-------:|:----------------------:|:---------------------------------------|
+|[adguard-service](/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard | home | home-adguard | For external-dns cloud automatic DNS record updating |
 | [mariadb](/manifests/database/mariadb/values.yaml) | mariadb | home | home-mariadb | For cloud MariaDB replication |
 | [postgresql-service](/manifests/database/postgresql/overlays/home/cluster.yaml) | postgresql | home | home-postgresql | For cloud PostgreSQL replication |
 | [adguard-service](/manifests/apps/adguard/overlays/cloud/values.yaml) | adguard | cloud | cloud-adguard |For web access via home cluster |
@@ -24,8 +36,15 @@ The following services are exposed on my tailnet:
 | [vaultwarden-service](/manifests/apps/vaultwarden/overlays/cloud/values.yaml) | vaultwarden | cloud | cloud-vaultwarden | For web access via home cluster |
 
 
-## Connecting to service on Tailnet
-To connect to a remote service via Tailnet, you need to define an `ExternalName` service in the namespace you want to connect from. 
+## Connecting to remote services on Tailnet
+To connect to a remote service via Tailnet, you need to define an `ExternalName` service in the source namespace you want to connect from.  The service must have the following annotations:
+```
+annotations:
+  tailscale.com/proxy-class: <run-on-worker|enable-tun>
+  tailscale.com/tailnet-fqdn: <fqdn-of-tailnet-service-to-attach-to>
+```
+
+The associated application uses the external name to connect to the remote service. Example below:
 
 ```
 ---
@@ -42,3 +61,8 @@ spec:
   externalName: cloud-mariadb-egress
   type: ExternalName
 ```
+
+The following external name services and associated Tailnet machines are configured in my clusters:
+|     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      |
+|:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|
+| cloud-egress-adguard   | external-dns |  cloud  | cloud-egress-adguard   | home-adguard          |
