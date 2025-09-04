@@ -10,9 +10,10 @@ To make a service available on a Tailnet, simply add the following annotation to
 
 The following services are exposed on my tailnet:
 
-|     Service    |  Namespace  |  Tailnet Name  |  Cluster  |      Purpose                                        |
+|     Service    |  Namespace  | Cluster |  Tailnet Name  |      Purpose                                        |
 :---------------:|:-----------:|:--------------:|:---------:|:----------------------------------------------------|
-|[adguard-service](https://github.com/kenlasko/k8s/blob/main/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard      |home-adguard    | home      | For external-dns cloud automatic DNS record updating|
+|[adguard-service](manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard | home | home-adguard | For external-dns cloud automatic DNS record updating|
+| [mariadb](manifests/database/mariadb/values.yaml) | mariadb | home | home-mariadb | For cloud MariaDB replication |
 
 
 ## Connecting to service on Tailnet
