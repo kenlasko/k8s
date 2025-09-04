@@ -60,9 +60,9 @@ spec:
 ```
 
 The following external name services and associated Tailnet machines are configured in my clusters:
-|     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      |
-|:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|
-| [cloud-egress-adguard](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | cloud-egress-adguard | home-adguard |
-| [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb |
-| [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql |
-| [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values.yaml) | adguard | cloud | cloud-adguard-egress | home-adguard |
+|     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      | Note            |
+|:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|:----------------|
+| [cloud-egress-adguard](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | cloud-egress-adguard | home-adguard | |
+| [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb | |
+| [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql | |
+| [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values.yaml) | adguard | cloud | cloud-adguard-egress | home-adguard | For web access via home cluster |
