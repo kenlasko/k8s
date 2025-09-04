@@ -75,7 +75,6 @@ The following external name services and associated Tailnet machines are configu
 Accessing remote HTTP resources via Tailnet introduced some challenges. Setting up `HTTPRoutes` against `ExternalName` service types doesn't work, so an additional layer has to be used. I used [socat](https://linux.die.net/man/1/socat) as an intermediary pod to proxy HTTP requests from a local HTTPRoute. The general flow looks like this:
 
 HTTPRoute ---> Socat Service ---> Socat Pod ---> | Tailnet Machine | ---> Remote Service
-                                    Home cluster |     Tailnet     | Cloud cluster
 
 This format works well for the limited number of cloud services I want to access via HTTP from my home network. The services that use this format include:
 - [ArgoCD](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml)
