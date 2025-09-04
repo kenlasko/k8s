@@ -1,5 +1,15 @@
 # Summary
-This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a [remote PostgreSQL server running on Oracle Cloud](https://github.com/kenlasko/k8s-cloud/tree/main/manifests/database/postgresql).
+This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud.
+
+# Replication
+Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](https://github.com/kenlasko/k8s/blob/main/manifests/database/postgresql/overlays/cloud/cluster.yaml).
+
+For streaming to work, the cloud cluster needs to authenticate using the self-generated certificates on the home cluster. This is currently a manual process that has to be repeated every 3 months, until I can figure out how to automate this.
+
+1. On the home cluster, copy the base64 hash of the `tls.crt` certificate in the `home-replication` secret into the [AKeyWireless](https://console.akeyless.io/items) `replication-certs` secret.
+2. On the home cluster, copy the base64 hash of the `ca.crt` certificate in the `home-ca` secret into the [AKeyWireless](https://console.akeyless.io/items) `replication-certs` secret.
+3. Delete the `replication-certs` external secret in the cloud to trigger a pull of the updated external secret data.
+4. Kill the `cloud-1` pod to initiate a fresh instance
 
 ## Backups
 Constant backups are being made to a remote S3 bucket, which makes restoration very simple.
