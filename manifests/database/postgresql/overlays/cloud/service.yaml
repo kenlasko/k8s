@@ -3,6 +3,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-postgresql.tailb7050.ts.net'
+    tailscale.com/hostname: cloud-egress-postgresql
   name: home-postgresql
 spec:
   externalName: cloud-postgresql-egress

@@ -42,24 +42,20 @@ To connect to a remote service via Tailnet, you need to define an `ExternalName`
 annotations:
   tailscale.com/tailnet-fqdn: <fqdn-of-tailnet-service-to-attach-to>
   tailscale.com/hostname: <name-to-show-on-tailnet>
-  tailscale.com/proxy-class: <run-on-worker|enable-tun>
 ```
 
 The associated application uses the external name to connect to the remote service. Example below:
 
 ```
----
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    tailscale.com/proxy-class: "run-on-worker"
   annotations:
-    tailscale.com/tailnet-fqdn: 'cloud-mariadb.tailb7050.ts.net'  # This is the FQDN of the Tailnet service you want to connect to
-  name: cloud-mariadb-egress  # This is the name your application will connect to in order to reach the external Tailnet service
-  namespace: mariadb
+    tailscale.com/tailnet-fqdn: 'home-mariadb.tailb7050.ts.net'   # The FQDN of the remote Tailnet service to connect to
+    tailscale.com/hostname: cloud-egress-mariadb                  # The name to use for the Tailnet machine
+  name: cloud-egress-mariadb                                      # The name your application will use to connect to the service
 spec:
-  externalName: cloud-mariadb-egress
+  externalName: cloud-egress-mariadb
   type: ExternalName
 ```
 
@@ -68,3 +64,5 @@ The following external name services and associated Tailnet machines are configu
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|
 | [cloud-egress-adguard](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | cloud-egress-adguard | home-adguard |
 | [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb |
+| [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql |
+| [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values.yaml) | adguard | cloud | cloud-adguard-egress | home-adguard |

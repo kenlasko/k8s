@@ -43,6 +43,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: cloud-{{ $name }}.tailb7050.ts.net
+    tailscale.com/hostname: {{ .Values.tailscale.name }}
     tailscale.com/proxy-class: "run-on-worker"
   name: {{ .Values.tailscale.name }}
   namespace: {{ .Release.Namespace }}
