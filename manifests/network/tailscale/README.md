@@ -66,4 +66,24 @@ The following external name services and associated Tailnet machines are configu
 | [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql | Cloud PostgreSQL replication |
 | [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values.yaml) | adguard | home | cloud-adguard-egress | cloud-adguard | Web access via home cluster |
-| [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml)
+| [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
+| [cloud-mariadb-egress](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-egress | cloud-mariadb | PHPMyAdmin access via home cluster |
+| [ cloud-postgresql-egress](/manifests/database/postgresql/overlays/home/service.yaml)] | postgresql | home | cloud-postgresql-egress | cloud-postgresql | PGAdmin access via home cluster |
+| [cloud-vaultwarden-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml) | tailscale | home | cloud-vaultwarden-egress | cloud-vaultwarden | Web access via home cluster |
+
+## Accessing remote HTTP resources via Tailnet
+Accessing remote HTTP resources via Tailnet introduced some challenges. Setting up `HTTPRoutes` against `ExternalName` service types doesn't work, so an additional layer has to be used. I used [socat](https://linux.die.net/man/1/socat) as an intermediary pod to proxy HTTP requests from a local HTTPRoute. The general flow looks like this:
+
+HTTPRoute ---> Socat Service ---> Socat Pod ---> | Tailnet Machine | ---> Remote Service
+                                    Home cluster |     Tailnet     | Cloud cluster
+
+This format works well for the limited number of cloud services I want to access via HTTP from my home network. The services that use this format include:
+- [ArgoCD](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml)
+- [VaultWarden](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml)
+
+
+
+
+
+
+
