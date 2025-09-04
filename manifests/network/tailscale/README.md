@@ -40,8 +40,9 @@ The following services are exposed on my Tailnet:
 To connect to a remote service via Tailnet, you need to define an `ExternalName` service in the source namespace you want to connect from.  The service must have the following annotations:
 ```
 annotations:
-  tailscale.com/proxy-class: <run-on-worker|enable-tun>
   tailscale.com/tailnet-fqdn: <fqdn-of-tailnet-service-to-attach-to>
+  tailscale.com/hostname: <name-to-show-on-tailnet>
+  tailscale.com/proxy-class: <run-on-worker|enable-tun>
 ```
 
 The associated application uses the external name to connect to the remote service. Example below:
@@ -65,4 +66,5 @@ spec:
 The following external name services and associated Tailnet machines are configured in my clusters:
 |     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      |
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|
-| cloud-egress-adguard   | external-dns |  cloud  | cloud-egress-adguard   | home-adguard          |
+| [cloud-egress-adguard](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | cloud-egress-adguard | home-adguard |
+| [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb |
