@@ -8,6 +8,12 @@ A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale 
 ## Services
 To make a service available on a Tailnet, simply add the following annotation to the service: `tailscale.com/proxy-class: "run-on-worker"`
 
+The following services are exposed on my tailnet:
+
+|Service|Namespace|Tailnet Name|Cluster|
+|---------------|---------|------------|-------|
+|adguard-service|adguard|home-adguard|home|
+
 ## Connecting to service on Tailnet
 To connect to a remote service via Tailnet, you need to define an `ExternalName` service in the namespace you want to connect from. 
 
