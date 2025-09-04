@@ -10,7 +10,7 @@ spec:
   - name: cloud-argocd-egress-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-argocd:80"]
+    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-argocd-egress:80"]
     ports:
     - containerPort: 80
     resources:
