@@ -55,6 +55,7 @@ metadata:
   annotations:
     tailscale.com/proxy-class: "run-on-worker"
     tailscale.com/tailnet-fqdn: "cloud-argocd.tailb7050.ts.net"
+    tailscale.com/hostname: cloud-argocd-egress
   name: cloud-argocd-egress
 spec:
   externalName: cloud-argocd-egress
