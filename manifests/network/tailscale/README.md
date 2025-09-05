@@ -68,7 +68,7 @@ The following external name services and associated Tailnet machines are configu
 | [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
 | [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
 | [cloud-mariadb-egress](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-egress | cloud-mariadb | PHPMyAdmin access via home cluster |
-| [cloud-postgresql-egress](/manifests/database/postgresql/overlays/home/service.yaml) | postgresql | home | cloud-postgresql-egress | cloud-postgresql | PGAdmin access via home cluster |
+| [cloud-postgresql-link](/manifests/database/postgresql/overlays/home/service.yaml) | postgresql | home | cloud-postgresql-link | cloud-postgresql | PGAdmin access via home cluster |
 | [cloud-uptime-kuma-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-uptime-kuma.yaml) | tailscale | home | cloud-uptime-kuma-link | cloud-uptime-kuma | Web access via home cluster |
 | [cloud-vaultwarden-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml) | tailscale | home | cloud-vaultwarden-egress | cloud-vaultwarden | Web access via home cluster |
 

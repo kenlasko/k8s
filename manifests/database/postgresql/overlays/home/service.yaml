@@ -4,10 +4,10 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: cloud-postgresql.tailb7050.ts.net
-    tailscale.com/hostname: cloud-postgresql-egress
+    tailscale.com/hostname: cloud-postgresql-link
     tailscale.com/proxy-class: "run-on-worker"
-  name: cloud-postgresql-egress
+  name: cloud-postgresql-link
   namespace: postgresql
 spec:
-  externalName: cloud-postgresql-egress
+  externalName: cloud-postgresql-link
   type: ExternalName
