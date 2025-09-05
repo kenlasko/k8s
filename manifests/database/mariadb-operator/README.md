@@ -22,7 +22,7 @@ Use this method if there isn't an available local database source on the nodes. 
       persistentVolumeClaim: 
         claimName: nfs-galera-backup
 ```
-2. Deploy the cluster via ArgoCD. The Operator will build a new cluster and automatically restore the latest database as long as there aren't any databases files existing. Use [volreset.sh](scripts/volreset.yaml) to clear out
+2. Deploy the cluster via ArgoCD. The Operator will build a new cluster and automatically restore the latest database as long as there aren't any databases files existing. Use [volreset.sh](scripts/volreset.sh) to clear out
 3. Manually add UCDialplans procedure, as there isn't currently a way to do this automatically
 ```
 DELIMITER $$
@@ -44,6 +44,6 @@ END$$
 # Recover from disaster (databases available on nodes)
 If the database files exist on the nodes (under /var/mariadb), we can use the Operator recovery procedures to recover the databases.
 1. Ensure the `bootstrapFrom` is commented out in [galera-cluster.yaml](overlays/home/galera-cluster.yaml)
-2. Check the status of the databases on the nodes by running the [showgrastate.sh](scripts/showgrastate.yaml) script from a computer connected to the cluster
-3. Use the [safe-to-bootstrap.sh](scripts/safe-to-bootstrap.yaml) script to set `safe_to_bootstrap: 1` in `/host/var/mariadb-galera/storage/grastate.dat` on the most appropriate node with the highest sequence number.
+2. Check the status of the databases on the nodes by running the [showgrastate.sh](scripts/showgrastate.sh) script from a computer connected to the cluster
+3. Use the [safe-to-bootstrap.sh](scripts/safe-to-bootstrap.sh) script to set `safe_to_bootstrap: 1` in `/host/var/mariadb-galera/storage/grastate.dat` on the most appropriate node with the highest sequence number.
 4. Deploy the cluster via ArgoCD. The Operator will build a new cluster using the database files on the existing nodes.
