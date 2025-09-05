@@ -10,7 +10,7 @@ spec:
   - name: cloud-adguard-egress-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:3000,fork,reuseaddr", "tcp-connect:cloud-adguard-egress:3000"]
+    args: ["tcp-listen:3000,fork,reuseaddr", "tcp-connect:cloud-adguard-tunnel:3000"]
     ports:
     - containerPort: 3000
     resources:
@@ -55,10 +55,10 @@ metadata:
   annotations:
     tailscale.com/proxy-class: "run-on-worker"
     tailscale.com/tailnet-fqdn: "cloud-adguard.tailb7050.ts.net"
-    tailscale.com/hostname: cloud-adguard-egress-tunnel
-  name: cloud-adguard-egress
+    tailscale.com/hostname: cloud-adguard-tunnel
+  name: cloud-adguard-tunnel
 spec:
-  externalName: cloud-adguard-egress
+  externalName: cloud-adguard-tunnel
   type: ExternalName
 
 ---
