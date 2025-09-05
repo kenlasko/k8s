@@ -98,8 +98,7 @@ hubble:
     enabled: true
     service:
       annotations:
-        # tailscale.com/expose: 'true'
-        # tailscale.com/hostname: 'cloud-hubble'
+        omni-kube-service-exposer.sidero.dev/prefix: cloud-hubble
         omni-kube-service-exposer.sidero.dev/port: "50080"
         omni-kube-service-exposer.sidero.dev/label: Hubble
         omni-kube-service-exposer.sidero.dev/icon: |
