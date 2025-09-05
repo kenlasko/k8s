@@ -8,6 +8,7 @@ server:
       tailscale.com/expose: "true"
       tailscale.com/hostname: "cloud-argocd"
       tailscale.com/proxy-class: "enable-tun"
+      omni-kube-service-exposer.sidero.dev/prefix: cloud_argocd
 notifications:
   enabled: true
   argocdUrl: "https://cloud-argocd.ucdialplans.com"
