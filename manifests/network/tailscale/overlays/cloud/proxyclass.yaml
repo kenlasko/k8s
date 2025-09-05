@@ -1,7 +1,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: enable-tun
+  name: default
 spec:
   statefulSet:
     pod:

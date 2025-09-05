@@ -4,7 +4,7 @@ metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-adguard.tailb7050.ts.net'
     tailscale.com/hostname: home-adguard-link
-    tailscale.com/proxy-class: "enable-tun"
+    tailscale.com/proxy-class: "default"
   name: home-adguard-link
 spec:
   externalName: home-adguard-link

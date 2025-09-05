@@ -6,7 +6,7 @@ server:
     annotations:
       tailscale.com/expose: "true"
       tailscale.com/hostname: "cloud-argocd"
-      tailscale.com/proxy-class: "enable-tun"
+      tailscale.com/proxy-class: "default"
       omni-kube-service-exposer.sidero.dev/prefix: cloud_argocd
 notifications:
   enabled: true

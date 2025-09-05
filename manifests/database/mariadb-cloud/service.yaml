@@ -4,7 +4,7 @@ metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-mariadb.tailb7050.ts.net'
     tailscale.com/hostname: home-mariadb-link
-    tailscale.com/proxy-class: "enable-tun"
+    tailscale.com/proxy-class: "default"
   name: home-mariadb-link
 spec:
   externalName: home-mariadb-link

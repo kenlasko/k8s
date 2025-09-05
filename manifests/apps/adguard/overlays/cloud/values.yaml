@@ -22,6 +22,6 @@ service:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "cloud-adguard"
-    tailscale.com/proxy-class: "enable-tun"
+    tailscale.com/proxy-class: "default"
 # httpRouteNameOverride: cloud-adguard.ucdialplans.com
 disableHTTPRoute: true

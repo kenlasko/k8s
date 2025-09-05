@@ -12,7 +12,7 @@ serviceAccount:
 auth:
   existingSecret: mariadb-passwords
 commonLabels:
-  tailscale.com/proxy-class: 'enable-tun'
+  tailscale.com/proxy-class: 'default'
 networkPolicy:
   enabled: false
   # extraIngress:
