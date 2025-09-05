@@ -3,8 +3,7 @@ global:
 
 server:
   service:
-    # labels:
-    #   tailscale.com/proxy-class: "enable-tun"
+    servicePortHttp: 8410
     annotations:
       tailscale.com/expose: "true"
       tailscale.com/hostname: "cloud-argocd"

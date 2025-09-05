@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - external-secrets.yaml
 # - networkpolicy.yaml
-#- sealed-secrets.yaml
+# - sealed-secrets.yaml
