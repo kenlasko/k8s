@@ -64,7 +64,7 @@ The following external name services and associated Tailnet machines are configu
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|:----------------|
 | [home-adguard-link](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | home-adguard-link | home-adguard | External-DNS cloud automatic DNS record updating |
 | [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb | Cloud MariaDB replication |
-| [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql | Cloud PostgreSQL replication |
+| [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | home-postgresql-link | home-postgresql | Cloud PostgreSQL replication |
 | [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
 | [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
 | [cloud-mariadb-egress](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-egress | cloud-mariadb | PHPMyAdmin access via home cluster |
