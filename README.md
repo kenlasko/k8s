@@ -26,11 +26,8 @@ The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be buil
 ### Lab Cluster
 This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs on my Windows 11 machine under Hyper-V.
 
-## Related Repositories
-Links to my other repositories mentioned or used in this repo:
-- [NetbootXYZ](https://github.com/kenlasko/docker-rpi1/tree/main/netbootxyz): Simplified PXE boot setup for Omni-managed Talos nodes.
-- [NixOS](https://github.com/kenlasko/nixos-wsl): A declarative OS modified to support my Kubernetes cluster
-- [Omni](https://github.com/kenlasko/omni): Creates and manages the Kubernetes clusters.
+## Inter-Cluster Communication
+I use the [Tailscale Operator](/manifests/network/tailscale) to securely share data between my home and cloud cluster. I decided to use limited service-level links instead of a cluster-wide link to limit exposure. This does complicate things somewhat, but is generally manageable. 
 
 ## Folder structure
 The relevent folders are laid out in the following manner:
@@ -65,7 +62,7 @@ appName/
 ```
 
 ## Software Updates
-All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
+All software updates are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
 
 The configuration for Renovate is stored in [renovate.json](/renovate.json). The dashboard is available at https://developer.mend.io/github/kenlasko
 
@@ -249,3 +246,10 @@ helm template plex ~/k8s/helm/baseline -n media-apps -f ~/k8s/manifests/media-ap
 ```
 kustomize build k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone | kubectl apply -f -
 ```
+
+
+# Related Repositories
+Links to my other repositories mentioned or used in this repo:
+- [NetbootXYZ](https://github.com/kenlasko/docker-rpi1/tree/main/netbootxyz): Simplified PXE boot setup for Omni-managed Talos nodes.
+- [NixOS](https://github.com/kenlasko/nixos-wsl): A declarative OS modified to support my Kubernetes cluster
+- [Omni](https://github.com/kenlasko/omni): Creates and manages the Kubernetes clusters.
