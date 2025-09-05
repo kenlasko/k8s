@@ -17,4 +17,5 @@ resources:
 - tunnel-cloud-adguard.yaml
 # - tunnel-cloud-argocd.yaml
 # - tunnel-cloud-phpmyadmin.yaml
+- tunnel-cloud-uptime-kuma.yaml
 - tunnel-cloud-vaultwarden.yaml
