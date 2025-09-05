@@ -52,10 +52,10 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-mariadb.tailb7050.ts.net'   # The FQDN of the remote Tailnet service to connect to
-    tailscale.com/hostname: cloud-egress-mariadb                  # The name to use for the Tailnet machine
-  name: cloud-egress-mariadb                                      # The name your application will use to connect to the service
+    tailscale.com/hostname: home-mariadb-link                  # The name to use for the Tailnet machine
+  name: home-mariadb-link                                      # The name your application will use to connect to the service
 spec:
-  externalName: cloud-egress-mariadb
+  externalName: home-mariadb-link
   type: ExternalName
 ```
 
@@ -63,7 +63,7 @@ The following external name services and associated Tailnet machines are configu
 |     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      | Purpose         |
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|:----------------|
 | [home-adguard-link](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | home-adguard-link | home-adguard | External-DNS cloud automatic DNS record updating |
-| [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb | Cloud MariaDB replication |
+| [home-mariadb-link](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | home-mariadb-link | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | home-postgresql-link | home-postgresql | Cloud PostgreSQL replication |
 | [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
 | [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |

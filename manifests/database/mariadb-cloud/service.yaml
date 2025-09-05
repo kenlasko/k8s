@@ -3,9 +3,9 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-mariadb.tailb7050.ts.net'
-    tailscale.com/hostname: cloud-egress-mariadb
+    tailscale.com/hostname: home-mariadb-link
     tailscale.com/proxy-class: "enable-tun"
-  name: cloud-egress-mariadb
+  name: home-mariadb-link
 spec:
-  externalName: cloud-egress-mariadb
+  externalName: home-mariadb-link
   type: ExternalName
