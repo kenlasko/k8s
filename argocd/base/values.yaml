@@ -65,50 +65,6 @@ server:
     limits:
       # cpu: 200m
       memory: 200Mi
-  service:
-    annotations:
-      omni-kube-service-exposer.sidero.dev/prefix: argocd
-      omni-kube-service-exposer.sidero.dev/port: "50104"
-      omni-kube-service-exposer.sidero.dev/label: ArgoCD
-      omni-kube-service-exposer.sidero.dev/icon: |
-        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
-        SW9/Ne9/fjHv7znv0/8H3v/j/4wU9exIGAAA
 configs:
   params:
     server.insecure: true
