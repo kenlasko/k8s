@@ -144,7 +144,7 @@ hubble:
           p78d8aejjze/Pb78qt1+g5Kcjj9VIVfj6u0+/n9VwV/Mvv8HuUF42VkTAAA=
 
 gatewayAPI:
-  enabled: false
+  enabled: true
   # This is needed so that I can route HTTP requests directly to the node
   hostNetwork:
     enabled: true
