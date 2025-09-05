@@ -15,4 +15,4 @@ spec:
     - name: argocd-server
       namespace: argocd
       kind: Service
-      port: 8410  
+      port: 80  

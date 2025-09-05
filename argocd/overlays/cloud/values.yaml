@@ -3,7 +3,6 @@ global:
 
 server:
   service:
-    servicePortHttp: 8410
     annotations:
       tailscale.com/expose: "true"
       tailscale.com/hostname: "cloud-argocd"
