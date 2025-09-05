@@ -72,5 +72,6 @@ Accessing remote HTTP resources via Tailnet introduced some challenges. Setting 
 HTTPRoute ---> Socat Service ---> Socat Pod ---> | Tailnet Machine | ---> Remote Service
 
 This format works well for the limited number of cloud services I want to access via HTTP from my home network. The services that use this format include:
+- [AdGuard](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml)
 - [ArgoCD](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml)
-- [VaultWarden](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml)
+- [Uptime-Kuma](/manifests/network/tailscale/overlays/home/tunnel-cloud-uptime-kuma.yaml)
