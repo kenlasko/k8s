@@ -62,13 +62,14 @@ spec:
 The following external name services and associated Tailnet machines are configured in my clusters:
 |     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      | Purpose         |
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|:----------------|
-| [cloud-egress-adguard](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | cloud-egress-adguard | home-adguard | External-DNS cloud automatic DNS record updating |
+| [home-adguard-link](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | home-adguard-link | home-adguard | External-DNS cloud automatic DNS record updating |
 | [cloud-egress-mariadb](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | cloud-egress-mariadb | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | cloud-egress-postgresql | home-postgresql | Cloud PostgreSQL replication |
-| [cloud-adguard-egress](/manifests/apps/adguard/overlays/home/values-adguard.yaml) | adguard | home | cloud-adguard-egress | cloud-adguard | Web access via home cluster |
+| [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
 | [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
 | [cloud-mariadb-egress](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-egress | cloud-mariadb | PHPMyAdmin access via home cluster |
-| [ cloud-postgresql-egress](/manifests/database/postgresql/overlays/home/service.yaml)] | postgresql | home | cloud-postgresql-egress | cloud-postgresql | PGAdmin access via home cluster |
+| [cloud-postgresql-egress](/manifests/database/postgresql/overlays/home/service.yaml) | postgresql | home | cloud-postgresql-egress | cloud-postgresql | PGAdmin access via home cluster |
+| [cloud-uptime-kuma-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-uptime-kuma.yaml) | tailscale | home | cloud-uptime-kuma-link | cloud-uptime-kuma | Web access via home cluster |
 | [cloud-vaultwarden-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml) | tailscale | home | cloud-vaultwarden-egress | cloud-vaultwarden | Web access via home cluster |
 
 ## Accessing remote HTTP resources via Tailnet

@@ -35,5 +35,3 @@ extraPorts:
 - port: 443
   name: adguard-tls
   protocol: TCP
-# tailscale:
-#   name: cloud-adguard-egress

@@ -9,4 +9,4 @@ spec:
         - name: webhook
           env:
           - name: ADGUARD_URL
-            value: "http://cloud-egress-adguard.external-dns.svc.cluster.local:3000/control/"
+            value: "http://home-adguard-link.external-dns.svc.cluster.local:3000/control/"

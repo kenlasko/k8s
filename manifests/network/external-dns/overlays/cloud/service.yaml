@@ -3,9 +3,9 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: 'home-adguard.tailb7050.ts.net'
-    tailscale.com/hostname: cloud-egress-adguard
+    tailscale.com/hostname: home-adguard-link
     tailscale.com/proxy-class: "enable-tun"
-  name: cloud-egress-adguard
+  name: home-adguard-link
 spec:
-  externalName: cloud-egress-adguard
+  externalName: home-adguard-link
   type: ExternalName
