@@ -4,10 +4,10 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: "cloud-mariadb.tailb7050.ts.net"
-    tailscale.com/hostname: cloud-mariadb-egress
+    tailscale.com/hostname: cloud-mariadb-link
     tailscale.com/proxy-class: "run-on-worker"
-  name: cloud-mariadb-egress
+  name: cloud-mariadb-link
   namespace: mariadb
 spec:
-  externalName: cloud-mariadb-egress
+  externalName: cloud-mariadb-link
   type: ExternalName

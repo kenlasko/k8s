@@ -51,9 +51,9 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: 'home-mariadb.tailb7050.ts.net'   # The FQDN of the remote Tailnet service to connect to
-    tailscale.com/hostname: home-mariadb-link                  # The name to use for the Tailnet machine
-  name: home-mariadb-link                                      # The name your application will use to connect to the service
+    tailscale.com/tailnet-fqdn: 'home-mariadb.tailb7050.ts.net' # The FQDN of the remote Tailnet service to connect to
+    tailscale.com/hostname: home-mariadb-link                   # The name to use for the Tailnet machine
+  name: home-mariadb-link                                       # The name your application will use to connect to the service
 spec:
   externalName: home-mariadb-link
   type: ExternalName

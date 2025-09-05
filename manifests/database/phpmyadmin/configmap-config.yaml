@@ -77,7 +77,7 @@ data:
     /* Authentication type */
     $cfg['Servers'][$i]['auth_type'] = 'cookie';
     /* Server parameters */
-    $cfg['Servers'][$i]['host'] = 'cloud-mariadb-egress';
+    $cfg['Servers'][$i]['host'] = 'cloud-mariadb-link';
     $cfg['Servers'][$i]['port'] = '3306';
     $cfg['Servers'][$i]['compress'] = false;
     $cfg['Servers'][$i]['AllowNoPassword'] = false;
