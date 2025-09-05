@@ -10,9 +10,9 @@ spec:
   - name: cloud-argocd-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:8410,fork,reuseaddr", "tcp-connect:cloud-argocd-link:8410"]
+    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-argocd-link:80"]
     ports:
-    - containerPort: 8410
+    - containerPort: 80
     resources:
       requests:
         cpu: 1m
@@ -44,8 +44,8 @@ spec:
     app: cloud-argocd-tunnel
   ports:
   - protocol: TCP
-    port: 8410
-    targetPort: 8410
+    port: 80
+    targetPort: 80
   type: ClusterIP
 
 ---
@@ -79,4 +79,4 @@ spec:
     - name: cloud-argocd-tunnel
       namespace: tailscale
       kind: Service
-      port: 8410
+      port: 80
