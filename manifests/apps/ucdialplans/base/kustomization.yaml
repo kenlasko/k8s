@@ -9,7 +9,6 @@ resources:
 - cronjob-statupdate.yaml
 - deploy.yaml
 - external-secrets.yaml
-- httproute.yaml
 - networkpolicy.yaml
 #- sealed-secrets.yaml
 - service.yaml
