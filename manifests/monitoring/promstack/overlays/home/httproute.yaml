@@ -1,0 +1,83 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  hostnames:
+  - alertmanager.ucdialplans.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: tls
+      namespace: cilium
+      sectionName: https
+  rules:
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: promstack-alertmanager
+          namespace: monitoring
+          port: 9093
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  hostnames:
+  - grafana.ucdialplans.com
+  parentRefs:
+  - name: tls
+    group: gateway.networking.k8s.io	
+    kind: Gateway
+    namespace: cilium
+    sectionName: https
+  rules:
+  - backendRefs:
+    - name: grafana
+      group: ""	
+      namespace: monitoring
+      kind: Service
+      port: 80
+      weight: 1
+    matches:	
+    - path:	
+        type: PathPrefix	
+        value: /
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  hostnames:
+  - prometheus.ucdialplans.com
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: tls
+      namespace: cilium
+      sectionName: https
+  rules:
+  - backendRefs:
+      - group: ""
+        kind: Service
+        name: promstack-prometheus
+        namespace: monitoring
+        port: 9090
+        weight: 1
+    matches:
+      - path:
+          type: PathPrefix
+          value: /

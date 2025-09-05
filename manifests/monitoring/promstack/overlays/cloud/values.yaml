@@ -40,6 +40,9 @@ alertmanager:
           resources:
             requests:
               storage: 5Gi
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: cloud_alertmanager
 
 grafana:
   persistence:
@@ -47,6 +50,9 @@ grafana:
     size: 10Gi
     storageClassName: local-path
     accessModes: ["ReadWriteOnce"]
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: cloud_grafana
 
 prometheus:
   prometheusSpec:
@@ -58,3 +64,6 @@ prometheus:
           resources:
             requests:
               storage: 20Gi
+  service:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: cloud_prometheus

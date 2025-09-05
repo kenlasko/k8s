@@ -4,8 +4,5 @@ resources:
 - env-grafana.yaml
 - external-secrets-alertmanager.yaml
 - external-secrets-grafana.yaml
-- httproute-alertmanager.yaml
-- httproute-grafana.yaml
-- httproute-prometheus.yaml
 # - sealed-secrets-alertmanager.yaml
 # - sealed-secrets-grafana.yaml
