@@ -17,12 +17,6 @@ resources:
 - external-secrets.yaml
 - httproute.yaml
 patches:
-- path: httproute-patch.yaml
-  target:
-    group: gateway.networking.k8s.io 
-    version: v1
-    kind: HTTPRoute
-    name: argocd
 - path: configmap-patch.yaml
   target:
     group: ""

@@ -9,7 +9,8 @@ spec:
   - name: tls
     namespace: cilium
     sectionName: https
-  hostnames: []
+  hostnames:
+  - lab-argocd.ucdialplans.com
   rules:
   - backendRefs:
     - name: argocd-server
