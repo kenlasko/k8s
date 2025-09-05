@@ -53,7 +53,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/proxy-class: "run-on-worker"
+    tailscale.com/proxy-class: "default"
     tailscale.com/tailnet-fqdn: "cloud-argocd.tailb7050.ts.net"
     tailscale.com/hostname: cloud-argocd-link
   name: cloud-argocd-link

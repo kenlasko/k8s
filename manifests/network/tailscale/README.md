@@ -8,7 +8,7 @@ I use Tailscale to directly access services on remote clusters for things like r
 To authorize my cluster to create machines on the Tailnet, a secret called `operator-oauth` is required that contains OAuth credentials for my Tailnet. The Tailscale Operator will use these credentials for all created machines. This is created via External Secrets Operator. The ESO object is called [external-secrets.yaml](/manifests/network/tailscale/base/external-secrets.yaml).
 
 ## ProxyClass
-A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale endpoint. On the `home` cluster, a single [run-on-worker](/manifests/network/tailscale/overlays/home/proxyclass.yaml) ProxyClass specifies the Tailscale pods should run on worker nodes only as well as use `/dev/tun/` devices exposed by [Smarter Device Manager](/manifests/system/smarter-device-manager). A similar one called [default](/manifests/network/tailscale/overlays/cloud/proxyclass.yaml) (without the worker restriction) is used for the cloud cluster.
+A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale endpoint. On the `home` cluster, a single [default](/manifests/network/tailscale/overlays/home/proxyclass.yaml) ProxyClass specifies the Tailscale pods should run on worker nodes only as well as use `/dev/tun/` devices exposed by [Smarter Device Manager](/manifests/system/smarter-device-manager). A similar ProxyClass called [default](/manifests/network/tailscale/overlays/cloud/proxyclass.yaml) (without the worker restriction) is used for the cloud cluster.
 
 ## Services
 To make a service available on a Tailnet, simply add the following annotations to the service: 
@@ -16,7 +16,7 @@ To make a service available on a Tailnet, simply add the following annotations t
 annotations:
   tailscale.com/expose: true
   tailscale.com/hostname: <name-to-show-on-tailnet>
-  tailscale.com/proxy-class: <run-on-worker|default>
+  tailscale.com/proxy-class: default
 ```
 This will create a machine on the Tailnet attached to the service.
 

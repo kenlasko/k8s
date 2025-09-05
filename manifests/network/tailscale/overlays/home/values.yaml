@@ -12,4 +12,4 @@ operatorConfig:
             values: 
             - "amd64"
 proxyConfig:
-  defaultProxyClass: "run-on-worker"
+  defaultProxyClass: "default"

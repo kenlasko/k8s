@@ -93,7 +93,7 @@ spec:
             annotations:
               tailscale.com/expose: "true"
               tailscale.com/hostname: "home-postgresql"
-              tailscale.com/proxy-class: "run-on-worker"
+              tailscale.com/proxy-class: "default"
           spec:
             type: LoadBalancer
   affinity:

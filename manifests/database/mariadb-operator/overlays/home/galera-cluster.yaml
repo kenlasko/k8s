@@ -52,7 +52,7 @@ spec:
   #   type: LoadBalancer
   #   metadata:
   #     labels:
-  #       tailscale.com/proxy-class: "run-on-worker"
+  #       tailscale.com/proxy-class: "default"
   #     annotations:
   #       lbipam.cilium.io/ips: 192.168.10.10
   #       tailscale.com/expose: "true"

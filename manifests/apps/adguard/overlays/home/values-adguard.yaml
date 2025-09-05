@@ -30,7 +30,7 @@ service:
   # annotations:
   #   tailscale.com/expose: "true"
   #   tailscale.com/hostname: "home-adguard"
-  #   tailscale.com/proxy-class: "run-on-worker"
+  #   tailscale.com/proxy-class: "default"
 extraPorts:
 - port: 443
   name: adguard-tls
