@@ -41,7 +41,7 @@ metadata:
   namespace: tailscale
 spec:
   selector:
-    app: cloud-adguard-egress-tunnel
+    app: cloud-adguard-tunnel
   ports:
   - protocol: TCP
     port: 3000
