@@ -47,4 +47,5 @@ notifications:
 server:
   service:
     annotations:
+      type: LoadBalancer
       lbipam.cilium.io/ips: 192.168.10.22
