@@ -33,7 +33,6 @@ The following services are exposed on my Tailnet:
 | [argocd-server](/argocd/overlays/cloud/values.yaml) | argocd | cloud | cloud-argocd | Web access via home cluster |
 | [mariadb](/manifests/database/mariadb-cloud/values.yaml) | mariadb | cloud | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [postgresql-service](/manifests/database/postgresql/overlays/cloud/cluster.yaml) | postgresql | cloud | cloud-postgresql | PGAdmin access via home cluster |
-| [vaultwarden-service](/manifests/apps/vaultwarden/overlays/cloud/values.yaml) | vaultwarden | cloud | cloud-vaultwarden | Web access via home cluster |
 
 
 ## Connecting to remote services on Tailnet
@@ -67,10 +66,9 @@ The following external name services and associated Tailnet machines are configu
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | home-postgresql-link | home-postgresql | Cloud PostgreSQL replication |
 | [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
 | [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
-| [cloud-mariadb-egress](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-egress | cloud-mariadb | PHPMyAdmin access via home cluster |
+| [cloud-mariadb-link](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-link | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [cloud-postgresql-link](/manifests/database/postgresql/overlays/home/service.yaml) | postgresql | home | cloud-postgresql-link | cloud-postgresql | PGAdmin access via home cluster |
 | [cloud-uptime-kuma-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-uptime-kuma.yaml) | tailscale | home | cloud-uptime-kuma-link | cloud-uptime-kuma | Web access via home cluster |
-| [cloud-vaultwarden-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-vaultwarden.yaml) | tailscale | home | cloud-vaultwarden-egress | cloud-vaultwarden | Web access via home cluster |
 
 ## Accessing remote HTTP resources via Tailnet
 Accessing remote HTTP resources via Tailnet introduced some challenges. Setting up `HTTPRoutes` against `ExternalName` service types doesn't work, so an additional layer has to be used. I used [socat](https://linux.die.net/man/1/socat) as an intermediary pod to proxy HTTP requests from a local HTTPRoute. The general flow looks like this:
