@@ -24,14 +24,13 @@ The following services are exposed on my Tailnet:
 
 |     Service    |  Namespace  | Cluster |  Tailnet Machine Name  | Purpose                                |
 |:--------------:|:-----------:|:-------:|:----------------------:|:---------------------------------------|
-| [adguard-service](/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard | home | home-adguard | External-DNS cloud automatic DNS record updating |
 | [mariadb](/manifests/database/mariadb/values.yaml) | mariadb | home | home-mariadb | Cloud MariaDB replication |
 | [postgresql-service](/manifests/database/postgresql/overlays/home/cluster.yaml) | postgresql | home | home-postgresql | Cloud PostgreSQL replication |
 | [adguard-service](/manifests/apps/adguard/overlays/cloud/values.yaml) | adguard | cloud | cloud-adguard | Web access via home cluster |
 | [argocd-server](/argocd/overlays/cloud/values.yaml) | argocd | cloud | cloud-argocd | Web access via home cluster |
 | [mariadb](/manifests/database/mariadb-cloud/values.yaml) | mariadb | cloud | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [postgresql-service](/manifests/database/postgresql/overlays/cloud/cluster.yaml) | postgresql | cloud | cloud-postgresql | PGAdmin access via home cluster |
-
+| [uptime-kuma-service](/manifests/monitoring/uptime-kuma/overlays/cloud/values.yaml) | uptime-kuma | cloud | cloud-uptime-kuma | Web access via home cluster |
 
 ## Connecting to remote services on Tailnet
 To connect to a remote service via Tailnet, you need to define an `ExternalName` service in the source namespace you want to connect from.  The service must have the following annotations:
@@ -59,7 +58,6 @@ spec:
 The following external name services and associated Tailnet machines are configured in my clusters:
 |     Service            |  Namespace   | Cluster |  Tailnet Machine Name  |      Attached To      | Purpose         |
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|:----------------|
-| [home-adguard-link](/manifests/network/external-dns/overlays/cloud/service.yaml) | external-dns | cloud | home-adguard-link | home-adguard | External-DNS cloud automatic DNS record updating |
 | [home-mariadb-link](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | home-mariadb-link | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | home-postgresql-link | home-postgresql | Cloud PostgreSQL replication |
 | [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
