@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cloud-argocd-egress-tunnel
+  name: cloud-argocd-tunnel
   namespace: tailscale
   labels:
-    app: cloud-argocd-egress-tunnel
+    app: cloud-argocd-tunnel
 spec:
   containers:
-  - name: cloud-argocd-egress-tunnel
+  - name: cloud-argocd-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-argocd-egress:80"]
+    args: ["tcp-listen:8410,fork,reuseaddr", "tcp-connect:cloud-argocd-link:8410"]
     ports:
-    - containerPort: 80
+    - containerPort: 8410
     resources:
       requests:
         cpu: 1m
@@ -37,15 +37,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloud-argocd-egress-tunnel
+  name: cloud-argocd-tunnel
   namespace: tailscale
 spec:
   selector:
-    app: cloud-argocd-egress-tunnel
+    app: cloud-argocd-tunnel
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 8410
+    targetPort: 8410
   type: ClusterIP
 
 ---
@@ -55,10 +55,10 @@ metadata:
   annotations:
     tailscale.com/proxy-class: "run-on-worker"
     tailscale.com/tailnet-fqdn: "cloud-argocd.tailb7050.ts.net"
-    tailscale.com/hostname: cloud-argocd-egress
-  name: cloud-argocd-egress
+    tailscale.com/hostname: cloud-argocd-link
+  name: cloud-argocd-link
 spec:
-  externalName: cloud-argocd-egress
+  externalName: cloud-argocd-link
   type: ExternalName
 
 ---
@@ -76,7 +76,7 @@ spec:
   - "cloud-argocd.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: cloud-argocd-egress-tunnel
+    - name: cloud-argocd-tunnel
       namespace: tailscale
       kind: Service
-      port: 80
+      port: 8410
