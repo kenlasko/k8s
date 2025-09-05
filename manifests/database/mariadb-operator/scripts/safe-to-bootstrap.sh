@@ -3,7 +3,7 @@
 # This script will set 'safe_to_bootstrap' on the selected node (or all)
 
 NODES=("nuc4" "nuc5" "nuc6")
-FILE_PATH="/host/var/mariadb/data/grastate.dat"
+FILE_PATH="/host/var/mariadb-galera/storage/grastate.dat"
 
 # Function to set 'safe_to_bootstrap' on a given node
 set_bootstrap() {

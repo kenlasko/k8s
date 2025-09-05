@@ -2,18 +2,19 @@
 
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
-* [Gitea](/manifests/apps/gitea)
 * [Home Assistant](/manifests/homeops/homeassist)
+* [NextCloud](/manifests/apps/nextcloud)
+* [Paperless](/manifests/apps/paperless)
 * [UCDialplans](/manifests/apps/ucdialplans)
 * [VaultWarden](/manifests/apps/vaultwarden)
 
 All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. 
 
-This uses the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) instead of the original, more manual Bitnami MariaDB Helm chart. Information about that deployment can be found [here](/mariadb)
+This uses the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) instead of the original, more manual Bitnami MariaDB Helm chart. Information about that deployment can be found [here](/manifests/database/mariadb)
 
 # Initial build from backup (no databases on nodes)
 Use this method if there isn't an available local database source on the nodes. This is likely only occuring during a new cluster build. We can recover from backup, which requires a backup exists in the NAS on /share/backup/mariadb
-1. Simply uncomment the `bootstrapFrom` section from the [galera-cluster.yaml](galera-cluster.yaml)
+1. Simply uncomment the `bootstrapFrom` section from the [galera-cluster.yaml](overlays/home/galera-cluster.yaml)
 ```
   # Only use during initial load when the local databases on disk aren't available
   bootstrapFrom:
@@ -46,85 +47,3 @@ If the database files exist on the nodes (under /var/mariadb), we can use the Op
 2. Check the status of the databases on the nodes by running the [mariadb-showgrastate.sh](scripts/mariadb-showgrastate.yaml) script from a computer connected to the cluster
 3. Use the [mariadb-bootstrap.sh](scripts/mariadb-bootstrap.yaml) script to set `safe_to_bootstrap: 1` in `/host/var/mariadb/storage/grastate.dat` on the most appropriate node with the highest sequence number.
 4. Deploy the cluster via ArgoCD. The Operator will build a new cluster using the database files on the existing nodes.
-
-
-# Setup Replication
-The [sync-bootstrap.sh](/mariadb/scripts/sync-bootstrap.sh) script automates the backup, restore and sync config for all MariaDB deployments. If it does not work, the manual steps are in the following sections. Simply run:
-```
-./k8s/manifests/database/mariadb/scripts/database-sync.sh
-```
-
-## Primary DB Backup
-Run `mariadb-backup-sync` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
-```
-kubectl create job -n mariadb --from=cronjob/mariadb-backup-sync mariadb-backup-sync
-```
-
-## MariaDB Standalone Setup
-Run `mariadb-restore` job from `mariadb-standalone` namespace on Home cluster. Do via either ArgoCD or:
-```
-kubectl create job -n mariadb-standalone --from=cronjob/mariadb-restore mariadb-restore-sync
-```
-
-## MariaDB Cloud Setup
-1. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
-2. Run `mariadb-restore` job from `mariadb` namespace on Cloud cluster. Do via either ArgoCD or:
-```
-kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-restore-sync
-```
-3. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
-
-
-## From NAS01 DR Host
-Should be able to run the `mariadb-restore-nas01` job from `mariadb` namespace on Home cluster. Do via either ArgoCD or:
-```
-kubectl create job -n mariadb --from=cronjob/mariadb-restore-nas01 mariadb-restore-sync-nas01
-```
-
-If it doesn't work, use the manual method below.
-
-1. From NAS01 host via SSH:
-```
-NEWEST_SQL_FILE=$(ls -t /backup/mariadb-backup-*.sql /backup/backup.*.sql 2>/dev/null | head -n 1)
-sudo cp $NEWEST_SQL_FILE /share/appdata/docker-vol/mariadb/databases/mariadb-backup.sql
-```
-2. If replication was previously enabled on NAS01, run:
-```
-stop slave;
-drop database gitea;
-drop database homeassist;
-drop database ucdialplans;
-drop database vaultwarden;
-drop database phpmyadmin;
-```
-3. Get to pod shell on NAS01 container via [Portainer](https://portainer.ucdialplans.com) and run:
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/data/mariadb-backup.sql
-```
-
-4. Then run 
-```
-mariadb -u root -p$MARIADB_ROOT_PASSWORD
-```
-```
-set global gtid_slave_pos = "0-1-19420";
-change master to
-    master_host='192.168.10.10',
-    master_user='replicator',
-    master_password='***REDACTED***',
-    master_port=3306,
-    master_connect_retry=10,
-    master_use_gtid=slave_pos;
-
-start slave;
-```
-
-## Replication Errors?
-If you get replication errors, try skipping the error and continuing:
-```
-STOP SLAVE;
-SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;
-START SLAVE;
-SELECT SLEEP(5);
-SHOW SLAVE STATUS;
-```
