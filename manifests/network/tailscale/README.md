@@ -26,7 +26,7 @@ The following services are exposed on my Tailnet:
 
 |     Service    |  Namespace  | Cluster |  Tailnet Machine Name  | Purpose                                |
 |:--------------:|:-----------:|:-------:|:----------------------:|:---------------------------------------|
-|[adguard-service](/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard | home | home-adguard | External-DNS cloud automatic DNS record updating |
+| [adguard-service](/manifests/apps/adguard/overlays/home/values-adguard.yaml) |adguard | home | home-adguard | External-DNS cloud automatic DNS record updating |
 | [mariadb](/manifests/database/mariadb/values.yaml) | mariadb | home | home-mariadb | Cloud MariaDB replication |
 | [postgresql-service](/manifests/database/postgresql/overlays/home/cluster.yaml) | postgresql | home | home-postgresql | Cloud PostgreSQL replication |
 | [adguard-service](/manifests/apps/adguard/overlays/cloud/values.yaml) | adguard | cloud | cloud-adguard | Web access via home cluster |
