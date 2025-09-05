@@ -1,0 +1,18 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames: []
+  rules:
+  - backendRefs:
+    - name: argocd-server
+      namespace: argocd
+      kind: Service
+      port: 80  

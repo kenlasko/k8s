@@ -23,10 +23,5 @@ service:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "cloud-adguard"
     tailscale.com/proxy-class: "enable-tun"
-# extraPorts:
-# - port: 853
-#   name: dns-tls-853
-#   protocol: TCP
-# tailscale:
-#   name: cloud-adguard-egress
-httpRouteNameOverride: cloud-adguard.ucdialplans.com
+# httpRouteNameOverride: cloud-adguard.ucdialplans.com
+disableHTTPRoute: true
