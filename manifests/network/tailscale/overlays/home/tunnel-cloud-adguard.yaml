@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cloud-adguard-tunnel
+  name: cloud-argocd-egress-tunnel
   namespace: tailscale
   labels:
-    app: cloud-adguard-tunnel
+    app: cloud-argocd-egress-tunnel
 spec:
   containers:
-  - name: cloud-adguard-tunnel
+  - name: cloud-argocd-egress-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:3000,fork,reuseaddr", "tcp-connect:cloud-adguard-tunnel:3000"]
+    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-argocd-egress:80"]
     ports:
-    - containerPort: 3000
+    - containerPort: 80
     resources:
       requests:
         cpu: 1m
@@ -37,15 +37,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloud-adguard
+  name: cloud-argocd-egress-tunnel
   namespace: tailscale
 spec:
   selector:
-    app: cloud-adguard-tunnel
+    app: cloud-argocd-egress-tunnel
   ports:
   - protocol: TCP
-    port: 3000
-    targetPort: 3000
+    port: 80
+    targetPort: 80
   type: ClusterIP
 
 ---
@@ -54,18 +54,18 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/proxy-class: "run-on-worker"
-    tailscale.com/tailnet-fqdn: "cloud-adguard.tailb7050.ts.net"
-    tailscale.com/hostname: cloud-adguard-tunnel
-  name: cloud-adguard-tunnel
+    tailscale.com/tailnet-fqdn: "cloud-argocd.tailb7050.ts.net"
+    tailscale.com/hostname: cloud-argocd-egress
+  name: cloud-argocd-egress
 spec:
-  externalName: cloud-adguard-tunnel
+  externalName: cloud-argocd-egress
   type: ExternalName
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: cloud-adguard
+  name: cloud-argocd
   namespace: tailscale
 spec:
   parentRefs:
@@ -73,10 +73,10 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "cloud-adguard.ucdialplans.com"
+  - "cloud-argocd.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: cloud-adguard
+    - name: cloud-argocd-egress-tunnel
       namespace: tailscale
       kind: Service
-      port: 3000
+      port: 80
