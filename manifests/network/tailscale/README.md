@@ -65,7 +65,7 @@ The following external name services and associated Tailnet machines are configu
 | [home-mariadb-link](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | home-mariadb-link | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | home-postgresql-link | home-postgresql | Cloud PostgreSQL replication |
 | [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
-| [cloud-argocd-egress](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-egress | cloud-argocd | Web access via home cluster |
+| [cloud-argocd-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-link | cloud-argocd | Web access via home cluster |
 | [cloud-mariadb-link](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-link | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [cloud-postgresql-link](/manifests/database/postgresql/overlays/home/service.yaml) | postgresql | home | cloud-postgresql-link | cloud-postgresql | PGAdmin access via home cluster |
 | [cloud-uptime-kuma-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-uptime-kuma.yaml) | tailscale | home | cloud-uptime-kuma-link | cloud-uptime-kuma | Web access via home cluster |
