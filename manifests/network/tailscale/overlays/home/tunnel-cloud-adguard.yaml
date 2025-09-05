@@ -10,9 +10,9 @@ spec:
   - name: cloud-adguard-egress-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:80,fork,reuseaddr", "tcp-connect:cloud-adguard-egress:80"]
+    args: ["tcp-listen:3000,fork,reuseaddr", "tcp-connect:cloud-adguard-egress:3000"]
     ports:
-    - containerPort: 80
+    - containerPort: 3000
     resources:
       requests:
         cpu: 1m
