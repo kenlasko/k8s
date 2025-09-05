@@ -15,5 +15,5 @@ service:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "cloud-uptime-kuma"
     tailscale.com/proxy-class: "enable-tun"
-httpRouteNameOverride: cloud-uptime-kuma.ucdialplans.com
+disableHTTPRoute: true
 affinity: false
