@@ -98,7 +98,7 @@ hubble:
     enabled: true
     service:
       annotations:
-        omni-kube-service-exposer.sidero.dev/prefix: cloud-hubble
+        omni-kube-service-exposer.sidero.dev/prefix: cloud_hubble
         omni-kube-service-exposer.sidero.dev/port: "50080"
         omni-kube-service-exposer.sidero.dev/label: Hubble
         omni-kube-service-exposer.sidero.dev/icon: |
