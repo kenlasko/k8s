@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cloud-adguard-egress-tunnel
+  name: cloud-adguard-tunnel
   namespace: tailscale
   labels:
-    app: cloud-adguard-egress-tunnel
+    app: cloud-adguard-tunnel
 spec:
   containers:
-  - name: cloud-adguard-egress-tunnel
+  - name: cloud-adguard-tunnel
     image: alpine/socat:1.8.0.3
     imagePullPolicy: IfNotPresent
-    args: ["tcp-listen:3000,fork,reuseaddr", "tcp-connect:cloud-adguard-tunnel:3000"]
+    args: ["tcp-listen:3000,fork,reuseaddr", "tcp-connect:cloud-adguard-link:3000"]
     ports:
     - containerPort: 3000
     resources:
@@ -37,11 +37,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloud-adguard-egress-tunnel
+  name: cloud-adguard-tunnel
   namespace: tailscale
 spec:
   selector:
-    app: cloud-adguard-egress-tunnel
+    app: cloud-adguard-tunnel
   ports:
   - protocol: TCP
     port: 3000
@@ -55,10 +55,10 @@ metadata:
   annotations:
     tailscale.com/proxy-class: "run-on-worker"
     tailscale.com/tailnet-fqdn: "cloud-adguard.tailb7050.ts.net"
-    tailscale.com/hostname: cloud-adguard-tunnel
-  name: cloud-adguard-tunnel
+    tailscale.com/hostname: cloud-adguard-link
+  name: cloud-adguard-link
 spec:
-  externalName: cloud-adguard-tunnel
+  externalName: cloud-adguard-link
   type: ExternalName
 
 ---
@@ -76,7 +76,7 @@ spec:
   - "cloud-adguard.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: cloud-adguard-egress-tunnel
+    - name: cloud-adguard-tunnel
       namespace: tailscale
       kind: Service
       port: 3000
