@@ -1,4 +1,4 @@
-> :warning: **DEPRECATED**: This has been removed in favour of the more reliable [Bitnami MariaDB Galera Helm Chart](/mariadb). The Operator has proven to be finicky in production and I've had a fair bit of downtime trying to resolve various issues.
+> :warning: **IN PROGRESS**: I'm still working out some issues with this before I replace my now-vile Bitnami MariaDB Galera implementation. Not complete yet.
 
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
@@ -7,7 +7,7 @@
 * [UCDialplans](/manifests/apps/ucdialplans)
 * [VaultWarden](/manifests/apps/vaultwarden)
 
-All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. It is also replicated to a [standalone MariaDB instance(/mariadb-standalone)], should the Galera cluster go down. For even more resilience, the databases are replicated to a Docker-based MariaDB instance running on the NAS as well as a remote MariaDB instance running in Oracle Cloud.
+All databases are replicated to 3 Kubernetes nodes using Galera for high-availability. 
 
 This uses the [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator) instead of the original, more manual Bitnami MariaDB Helm chart. Information about that deployment can be found [here](/mariadb)
 
