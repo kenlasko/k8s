@@ -1,2 +1,2 @@
 # Summary
-[PGAdmin](https://github.com/pgadmin-org/pgadmin4) is a web-based UI for PostgreSQL.
+[PGAdmin](https://github.com/pgadmin-org/pgadmin4) is a web-based UI for PostgreSQL. This deployment is able to manage both my home and cloud-based PostgreSQL instances. Access to the cloud PostgreSQL instance is done via [Tailscale](/manifests/network/tailscale)
