@@ -5,7 +5,7 @@ I use Tailscale to directly access services on remote clusters for things like r
 
 # Configuration
 ## Authentication
-To authorize my cluster to create machines on the Tailnet, a secret called `operator-oauth` is required that contains OAuth credentials for my Tailnet. The Tailscale Operator will use these credentials for all created machines. This is created via External Secrets Operator. The ESO object is called [external-secrets.yaml](/manifests/network/tailscale/base/external-secrets.yaml).
+To authorize my cluster to create machines on the Tailnet, a secret called `operator-oauth` is required that contains OAuth credentials for my Tailnet. The Tailscale Operator uses these credentials for all created machines. This is created via External Secrets Operator. The ESO object is called [external-secrets.yaml](/manifests/network/tailscale/base/external-secrets.yaml).
 
 ## ProxyClass
 A Tailscale ProxyClass defines parameters that are to be applied to a Tailscale endpoint. On the `home` cluster, a single [default](/manifests/network/tailscale/overlays/home/proxyclass.yaml) ProxyClass specifies the Tailscale pods should run on worker nodes only as well as use `/dev/tun/` devices exposed by [Smarter Device Manager](/manifests/system/smarter-device-manager). A similar ProxyClass called [default](/manifests/network/tailscale/overlays/cloud/proxyclass.yaml) (without the worker restriction) is used for the cloud cluster.
