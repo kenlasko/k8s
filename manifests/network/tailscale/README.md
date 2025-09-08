@@ -26,7 +26,7 @@ The following services are exposed on my Tailnet:
 |:--------------:|:-----------:|:-------:|:----------------------:|:---------------------------------------|
 | [mariadb](/manifests/database/mariadb/values.yaml) | mariadb | home | home-mariadb | Cloud MariaDB replication |
 | [postgresql-service](/manifests/database/postgresql/overlays/home/cluster.yaml) | postgresql | home | home-postgresql | Cloud PostgreSQL replication |
-| [adguard-service](/manifests/apps/adguard/overlays/cloud/values.yaml) | adguard | cloud | cloud-adguard | Web access via home cluster |
+| [adguard-service](/manifests/apps/adguard/overlays/cloud/values.yaml) | adguard | cloud | cloud-adguard | Web access via home cluster and config sync|
 | [argocd-server](/argocd/overlays/cloud/values.yaml) | argocd | cloud | cloud-argocd | Web access via home cluster |
 | [mariadb](/manifests/database/mariadb-cloud/values.yaml) | mariadb | cloud | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [postgresql-service](/manifests/database/postgresql/overlays/cloud/cluster.yaml) | postgresql | cloud | cloud-postgresql | PGAdmin access via home cluster |
@@ -60,7 +60,7 @@ The following external name services and associated Tailnet machines are configu
 |:----------------------:|:------------:|:-------:|:----------------------:|:---------------------:|:----------------|
 | [home-mariadb-link](/manifests/database/mariadb-cloud/service.yaml) | mariadb | cloud | home-mariadb-link | home-mariadb | Cloud MariaDB replication |
 | [home-postgresql](/manifests/database/postgresql/overlays/cloud/service.yaml) | postgresql | cloud | home-postgresql-link | home-postgresql | Cloud PostgreSQL replication |
-| [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster |
+| [cloud-adguard-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-adguard.yaml) | tailscale | home | cloud-adguard-link | cloud-adguard | Web access via home cluster and config sync |
 | [cloud-argocd-link](/manifests/network/tailscale/overlays/home/tunnel-cloud-argocd.yaml) | tailscale | home | cloud-argocd-link | cloud-argocd | Web access via home cluster |
 | [cloud-mariadb-link](/manifests/database/phpmyadmin/service.yaml) | mariadb | home | cloud-mariadb-link | cloud-mariadb | PHPMyAdmin access via home cluster |
 | [cloud-postgresql-link](/manifests/database/postgresql/overlays/home/service.yaml) | postgresql | home | cloud-postgresql-link | cloud-postgresql | PGAdmin access via home cluster |
