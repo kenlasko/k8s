@@ -6,22 +6,21 @@ Replication is configured from the 3-node cluster to the cloud via streaming rep
 
 For streaming to work, the cloud cluster needs to authenticate using the self-generated certificates on the home cluster. This is currently a manual process that has to be repeated every 3 months, until I can figure out how to automate this.
 
-1. Run the following script and copy the contents to the appropriate location in the [AKeyWireless](https://console.akeyless.io/items) `replication-certs` secret:
+1. Run the following script to extract the certificates from the host cluster and update the AKeyless certificate
 ```bash
-echo
-echo "tls.crt:"
-kubectl -n postgresql get secret home-replication -o jsonpath="{.data.tls\.crt}"
-echo
-echo
-echo "ca.crt:"
-kubectl -n postgresql get secret home-ca -o jsonpath="{.data.ca\.crt}"
-```
+SECRET_CONTENT=$(jq -n \
+  --arg CACRT  "$(kubectl -n postgresql get secret home-ca -o jsonpath='{.data.ca\.crt}')" \
+  --arg TLSCRT "$(kubectl -n postgresql get secret home-replication -o jsonpath='{.data.tls\.crt}')" \
+  --arg TLSKEY "$(kubectl -n postgresql get secret home-replication -o jsonpath='{.data.tls\.key}')" \
+  '{ "ca.crt": $CACRT, "tls.crt": $TLSCRT, "tls.key": $TLSKEY }')
 
+akeyless update-secret-val --name postgresql/replication-certs --value "$SECRET_CONTENT"
+```
 2. Delete the `replication-certs` external secret in the cloud to trigger a pull of the updated external secret data.
 3. Kill the `cloud-1` pod to initiate a fresh instance
 
 ## Backups
-Constant backups are being made to a remote S3 bucket, which makes restoration very simple.
+Constant backups are being made to a remote S3 bucket, which makes restoration very simple. This is defined in [cluster.yaml](overlays/home/cluster.yaml) and [backup.yaml](overlays/home/backup.yaml).
 
 # Things I've Found
 ## Recovering from a failed node
