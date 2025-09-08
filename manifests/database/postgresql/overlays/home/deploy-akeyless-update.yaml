@@ -29,7 +29,7 @@ spec:
           volumes:
           - name: update-akeyless-script
             configMap:
-              name: update-akeyless-script-bfh75h4685
+              name: update-akeyless-script
               items:
               - key: update-cloud-certs.sh
                 path: update-cloud-certs.sh
