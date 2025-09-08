@@ -11,6 +11,7 @@ helmCharts:
   additionalValuesFiles:
   - values.yaml
   valuesMerge: merge
+
 resources:
 - ../../base
 - backup.yaml
@@ -18,3 +19,8 @@ resources:
 - database.yaml
 - service.yaml
 - volume.yaml
+
+configMapGenerator:
+- name: update-akeyless
+  files:
+  - ../scripts/update-cloud-certs.sh
