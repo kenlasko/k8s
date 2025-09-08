@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: update-akeyless
+  namespace: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: update-akeyless
+  template:
+    metadata:
+      labels:
+        app: update-akeyless
+    spec:
+      serviceAccountName: update-akeyless
+      containers:
+      - name: update-akeyless
+        image: docker.io/kenlasko/akeyless-cli:1.0
+        envFrom:
+        - secretRef:
+            name: akeyless-creds
+        volumeMounts:
+        - name: script-volume
+          mountPath: /scripts/run.sh
+          subPath: run.sh
+        command: ["/entrypoint.sh"]
+        args: ["/scripts/run.sh"]
+      volumes:
+      - name: script-volume
+        configMap:
+          name: akeyless-script
