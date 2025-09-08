@@ -31,7 +31,7 @@ alertmanager:
       - channel: cloud-alerts
         send_resolved: true
   alertmanagerSpec:
-    externalUrl: 'https://cloud-alertmanager.ucdialplans.com'
+    externalUrl: 'https://cloud_alertmanager-omni.omni.ucdialplans.com'
     storage:
       volumeClaimTemplate:
         spec:
