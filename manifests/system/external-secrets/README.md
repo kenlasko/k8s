@@ -8,7 +8,7 @@ I settled on [AKeyless](https://www.akeyless.io/), which also has a generous fre
 As a backup, in case AKeyless changes their free-tier policy, I've synced all secrets to [Gitlab CI/CD Variables](https://docs.gitlab.com/ci/variables/) using a [ChatGPT-written script](/scripts/gitlab/import-akeyless-secrets.sh). The [ESO Gitlab Variables provider](https://external-secrets.io/latest/provider/gitlab-variables/) supports both name and tag search. However, it does not support folders and all secret names must not include dashes (some of mine do). If I ever do need to move to Gitlab Variables, I will create a script that will convert my existing secrets to match the Gitlab requirements. One other minor issue is that Gitlab doesn't deal with secret names or tags with dots in it. This will need dealing with. The only secret affected is the `keypass.txt` reference in my [UCDialplans codesign-cert secret](/manifests/apps/ucdialplans/base/external-secrets.yaml).
 
 # Installation
-After installing ESO via Helm chart, you must install the manifests that store the secrets for accessing the secret stores. This is stored in NixOS and is normally installed via my [cluster bootstrap script](/scripts/cluster-bootstrap.sh). It contains the secrets for all my secret stores. To install manually, run:
+After installing ESO via Helm chart, you must install the manifests that store the secrets for accessing the secret stores. This is stored in NixOS and is normally installed via my [cluster bootstrap script](/scripts/bootstrap-cluster.sh). It contains the secrets for all my secret stores. To install manually, run:
 ```
 kubectl apply -f /run/secrets/eso-secretstore-secrets.yaml
 ```
