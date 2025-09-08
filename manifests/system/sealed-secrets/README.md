@@ -5,7 +5,7 @@
 To prevent secret leakage since the entire cluster configuration is on Github, I use [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) to safely encrypt my secrets so they can be openly shared on Github.
 
 # Configuration
-Basically everything in the cluster uses Sealed Secrets, so it must be available soon after the cluster has been created. The initial configuration is done via the [Terraform bootstrap sequence](https://github.com/kenlasko/k8s-bootstrap). Post-bootstrap management/updates are handled via [Argo CD](/manifests/argocd).
+Basically everything in the cluster uses Sealed Secrets, so it must be available soon after the cluster has been created. The initial configuration is done via my cluster bootstrap script [k8s-bootstrap.sh](/scripts/bootstrap-cluster.sh). Post-bootstrap management/updates are handled via [Argo CD](/argocd).
 
 # Secret Sealing
 Make sure to use `/run/secrets/sealed-secrets-signing-key` for all new sealed secrets. The secret is securely stored in NixOS.

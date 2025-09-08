@@ -2,7 +2,7 @@
 This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud.
 
 # Replication
-Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](https://github.com/kenlasko/k8s/blob/main/manifests/database/postgresql/overlays/cloud/cluster.yaml).
+Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](postgresql/overlays/cloud/cluster.yaml).
 
 For streaming to work, the cloud cluster needs to authenticate using the self-generated certificates on the home cluster. This is currently a manual process that has to be repeated every 3 months, until I can figure out how to automate this.
 
