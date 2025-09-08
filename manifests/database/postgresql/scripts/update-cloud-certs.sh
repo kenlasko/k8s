@@ -11,4 +11,5 @@ SECRET_CONTENT=$(jq -n \
   '{ "ca.crt": $CACRT, "tls.crt": $TLSCRT, "tls.key": $TLSKEY }')
 
 echo "Updating Akeyless secret used by cloud cluster..."
+sleep infinity
 akeyless update-secret-val --name postgresql/replication-certs --value "$SECRET_CONTENT"

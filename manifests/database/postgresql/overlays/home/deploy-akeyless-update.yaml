@@ -1,32 +1,35 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
   name: update-akeyless
   namespace: postgresql
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: update-akeyless
-  template:
-    metadata:
-      labels:
-        app: update-akeyless
+  schedule: "0 4 * * *"  # runs at 4am UTC daily
+  jobTemplate:
     spec:
-      serviceAccountName: update-akeyless
-      containers:
-      - name: update-akeyless
-        image: docker.io/kenlasko/akeyless-kubectl-cli:1.0
-        envFrom:
-        - secretRef:
-            name: akeyless-creds
-        volumeMounts:
-        - name: script-volume
-          mountPath: /scripts/run.sh
-          subPath: run.sh
-        command: ["/entrypoint.sh"]
-        args: ["/scripts/run.sh"]
-      volumes:
-      - name: script-volume
-        configMap:
-          name: update-akeyless-script
+      template:
+        metadata:
+          labels:
+            app: update-akeyless
+        spec:
+          serviceAccountName: akeyless-cli
+          restartPolicy: OnFailure
+          containers:
+          - name: update-akeyless
+            image: docker.io/kenlasko/akeyless-kubectl-cli:1.0
+            command: ["/entrypoint.sh"]
+            args: ["/scripts/update-cloud-certs.sh"]
+            envFrom:
+            - secretRef:
+                name: akeyless-creds
+            volumeMounts:
+            - name: update-akeyless-script
+              mountPath: /scripts/update-cloud-certs.sh
+              subPath: update-cloud-certs.sh
+          volumes:
+          - name: update-akeyless-script
+            configMap:
+              name: update-akeyless-script-bfh75h4685
+              items:
+              - key: update-cloud-certs.sh
+                path: update-cloud-certs.sh
