@@ -16,7 +16,7 @@ SECRET_CONTENT=$(jq -n \
 
 akeyless update-secret-val --name postgresql/replication-certs --value "$SECRET_CONTENT"
 ```
-2. Delete the `replication-certs` external secret in the cloud to trigger a pull of the updated external secret data.
+2. Delete the `replication-certs` external secret in the cloud to trigger a pull of the updated external secret data, or wait for the scheduled update to happen (every 24h).
 3. Kill the `cloud-1` pod to initiate a fresh instance
 
 ## Backups
