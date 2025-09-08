@@ -16,7 +16,7 @@ spec:
       serviceAccountName: update-akeyless
       containers:
       - name: update-akeyless
-        image: docker.io/kenlasko/akeyless-cli:1.0
+        image: docker.io/kenlasko/akeyless-kubectl-cli:1.0
         envFrom:
         - secretRef:
             name: akeyless-creds

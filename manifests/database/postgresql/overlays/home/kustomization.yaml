@@ -19,6 +19,7 @@ resources:
 - database.yaml
 - external-secrets.yaml
 - service.yaml
+- serviceaccount.yaml
 - volume.yaml
 
 configMapGenerator:
