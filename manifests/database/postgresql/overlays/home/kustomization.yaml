@@ -23,4 +23,4 @@ resources:
 configMapGenerator:
 - name: update-akeyless
   files:
-  - ../scripts/update-cloud-certs.sh
+  - ../../scripts/update-cloud-certs.sh
