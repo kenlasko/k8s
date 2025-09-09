@@ -26,3 +26,5 @@ configMapGenerator:
 - name: update-akeyless-script
   files:
   - ../../scripts/update-cloud-certs.sh
+  options:
+    disableNameSuffixHash: true
