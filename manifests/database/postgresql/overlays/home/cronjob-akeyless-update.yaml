@@ -4,7 +4,7 @@ metadata:
   name: update-akeyless
   namespace: postgresql
 spec:
-  schedule: "0 4 * * *"  # runs at 4am UTC daily
+  schedule: "30 5 * * *"  # runs at 5:30am UTC daily
   jobTemplate:
     spec:
       template:
@@ -33,3 +33,14 @@ spec:
               items:
               - key: update-cloud-certs.sh
                 path: update-cloud-certs.sh
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values: 
+                    - "amd64"

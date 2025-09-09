@@ -4,8 +4,9 @@ This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG
 # Replication
 Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](overlays/cloud/cluster.yaml).
 
-For streaming to work, the cloud cluster needs to authenticate using the self-generated certificates on the home cluster. This is currently a manual process that has to be repeated every 3 months, until I can figure out how to automate this.
+For streaming to work, the cloud cluster needs to authenticate using the self-generated certificates on the home cluster. A [CronJob](overlays/home/cronjob-akeyless-update.yaml) is configured to run a daily check via a custom script called [update-cloud-certs.sh](scripts/update-cloud-certs.sh) and to update the AKeyless secret if the certificate content has changed. 
 
+The manual steps to do this are below, but shouldn't be necessary (at least steps 1 and 2)
 1. Run the [update-cloud-certs.sh](scripts/update-cloud-certs.sh) script to extract the certificates from the home cluster and update the AKeyless PostgreSQL secret
 2. Delete the `replication-certs` external secret in the cloud to trigger a pull of the updated external secret data, or wait for the scheduled update to happen (every 24h).
 3. Kill the `cloud-1` pod to initiate a fresh instance to ensure it uses the new certificates. PostgreSQL may eventually self-update, but I'm not sure.
