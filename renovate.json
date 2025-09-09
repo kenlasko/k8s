@@ -60,6 +60,15 @@
       ],
       "datasourceTemplate": "docker",
       "packageNameTemplate": "kenlasko/cloudnativepg-gis-vchord"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["kustomization.yaml"],
+      "matchStrings": [
+        "cloudnative-pg\/plugin-barman-cloud\/releases\/download\/v(?<currentValue>.*?)\/manifest.yaml"
+      ],
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "cloudnative-pg/plugin-barman-cloud"
     }
   ],
   "packageRules": [
