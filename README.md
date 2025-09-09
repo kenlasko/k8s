@@ -91,7 +91,7 @@ Ensure that Omnictl/Talosctl is ready to go. Installation steps are [in my Omni 
 ## Initial Cluster Setup
 This guide assumes you're using a NixOS distribution that is configured to securely store and present all required certificates. For more information, see [my NixOS repo](https://github.com/kenlasko/nixos-wsl/). Otherwise, you will have to manually ensure all supporting files are present.
 
-Initially, I used tools like Ansible/Terraform to bootstrap the cluster, which worked when each cluster had its own repo. After my changes to use Kustomize and Helm to manage all my clusters from one repo, this no longer worked. After a lot of trial-and-error, I gave up on Terraform and used ChatGPT to create a rather robust Bash script to take care of the entire cluster bootstrapping process. 
+Initially, I used tools like Ansible/Terraform to bootstrap the cluster, which worked when each cluster had its own repo. After my changes to use Kustomize and Helm to manage all my clusters from one repo, this no longer worked. After a lot of trial-and-error, I gave up on Terraform and used ChatGPT to create [a rather robust Bash script](/scripts/bootstrap-cluster.sh) to take care of the entire cluster bootstrapping process. 
 
 Now, all that is needed is to run the following and wait for completion:
 ```
