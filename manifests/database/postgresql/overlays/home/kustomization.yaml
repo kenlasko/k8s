@@ -16,6 +16,7 @@ resources:
 - ../../base
 - backup.yaml
 - cluster.yaml
+- cronjob-akeyless-update.yaml
 - database.yaml
 - external-secrets.yaml
 - service.yaml
