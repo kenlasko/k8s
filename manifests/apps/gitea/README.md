@@ -6,3 +6,5 @@ For more insurance against Github issues, I also use [Gickup](https://github.com
 With all of these options, I should be able to recover from a Github disaster.
 
 Most configuration is done via my [custom Helm chart](/helm/baseline).
+
+However, seeing how I just never use it, I removed it for the time being.

@@ -11,3 +11,5 @@ For this to work, the Kobo e-reader needs to be connected to a PC so its folders
 The book library is stored on the NAS in the `media/books` folder. 
 
 Also included is a book downloader that integrates with Calibre-Web-Automated, which uses the [Calibre Web Automated Book Downloader](https://github.com/calibrain/calibre-web-automated-book-downloader) to download books. Downloaded books are automatically added to the Calibre library. Accessible via https://book-dl.ucdialplans.com
+
+Most configuration is done via my [custom Helm chart](/helm/baseline)

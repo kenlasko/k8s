@@ -1,7 +1,7 @@
 # Introduction
 UCDialplans is my website that allows users to automatically create Teams dialplans for any country in the world. The image is built using Mono and is hosted locally on the internal image registry and on a private Docker repository.
 
-It is accessible to the world via Cloudflare Tunnel.
+It is accessible to the world via my ~~[Cloudflare Tunnel](/manifests/network/cloudflare)~~ Oracle Cloud-based [Pangolin](https://github.com/kenlasko/pangolin) deployment.
 
 Most configuration is done via my [custom Helm chart](/helm/baseline).
 
@@ -11,7 +11,16 @@ Most configuration is done via my [custom Helm chart](/helm/baseline).
 * Requires [InfoCache_Update](/manifests/database/mariadb/procedures.sql) procedure for periodically updating website usage numbers. 
 
 # Disaster Recovery
-Should the home cluster become unavailable for an extended period, UCDialplans.com can be switched to use my Oracle Cloud-based cluster. [MariaDB](/manifests/database/mariadb) is continuously backed up from on-prem, so a switch should be relatively easy. The only thing required is to switch the FQDNs for the Cloudflare Tunnel so that the Cloud tunnel is set to use www.ucdialplans.com and on-prem is switched to www2.ucdialplans.com.
+Should the home cluster become unavailable for an extended period, UCDialplans.com can be switched to use my Oracle Cloud-based cluster. [MariaDB](/manifests/database/mariadb) is continuously backed up from on-prem, so a switch should be relatively easy. 
+
+## Pangolin
+Very simple process:
+1. Login to [Pangolin](https://pangolin.ucdialplans.com)
+2. On the left side, select `Resources` and click on `Edit` beside `UCDialplans Website`
+3. Under `Targets List`, change the `Site` from `K8S Home` to `K8S Cloud` and then click on `Save Settings`
+
+## Cloudflare Tunnel (Deprecated)
+The only thing required is to switch the FQDNs for the Cloudflare Tunnel so that the Cloud tunnel is set to use www.ucdialplans.com and on-prem is switched to www2.ucdialplans.com.
 
 1. Log onto https://dash.cloudflare.com/
 2. Navigate to **Zero Trust**
