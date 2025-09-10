@@ -62,6 +62,15 @@ spec:
       affinity:
         {{- if .Values.affinity }}
         {{- toYaml .Values.affinity | nindent 8 }}
+        {{- else if eq .Values.persistentVolume.type "longhorn" }}
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: storage
+                operator: In
+                values:
+                  - "longhorn"
         {{- else }}
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -72,9 +81,9 @@ spec:
               - key: kubernetes.io/arch
                 operator: In
                 values:
-                - "amd64"
+                  - "amd64"
         {{- end }}
-        {{- end }}
+      {{- end }}
       containers:
       - name: {{ $name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
