@@ -31,6 +31,15 @@ httpRouteFilters:
     add:
     - name: "X-SCHEME"
       value: "https"
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: storage
+          operator: In
+          values:
+          - "longhorn"
 persistentVolume:
   type: longhorn
   size: 5.5Gi
