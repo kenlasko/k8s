@@ -19,9 +19,9 @@ extraVolumeMounts:
   mountPath: /etc/certs
 service:
   port: 3000
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "cloud-adguard"
-    tailscale.com/proxy-class: "default"
+  # annotations:
+  #   tailscale.com/expose: "true"
+  #   tailscale.com/hostname: "cloud-adguard"
+  #   tailscale.com/proxy-class: "default"
 # httpRouteNameOverride: cloud-adguard.ucdialplans.com
 disableHTTPRoute: true
