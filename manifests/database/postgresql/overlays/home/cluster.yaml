@@ -27,14 +27,14 @@ spec:
   # If the namespace is brand-new, we restore using the 'externalClusters' method:
     recovery:
       source: clusterRestore
-      recoveryTarget:
-        targetTime: "2025-05-14 16:57:06.538776+00:00"
+      # recoveryTarget:
+      #   targetTime: "2025-05-14 16:57:06.538776+00:00"
   externalClusters:
   - name: clusterRestore
     plugin:
       name: barman-cloud.cloudnative-pg.io
       parameters:
-        barmanObjectName: cloudflare
+        barmanObjectName: backblaze
         serverName: postgres
 
   postgresql:
