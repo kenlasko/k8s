@@ -10,7 +10,7 @@ spec:
     pg_basebackup:
       source: home-postgresql
   replica:
-    enabled: false
+    enabled: true
     source: home-postgresql
   storage:
     storageClass: local-storage
