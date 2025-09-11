@@ -13,7 +13,7 @@ spec:
     enabled: false
     source: home-postgresql
   storage:
-    storageClass: local-path
+    storageClass: local-storage
     size: 15Gi
 
   # # This should be uncommented if you ever need to use this cluster to restore the primary

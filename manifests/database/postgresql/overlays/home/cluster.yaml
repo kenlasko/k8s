@@ -8,7 +8,7 @@ spec:
   instances: 3
   failoverDelay: 15
   storage:
-    storageClass: local-path
+    storageClass: local-storage
     size: 15Gi
   enableSuperuserAccess: true
   superuserSecret:
