@@ -35,7 +35,7 @@ spec:
       name: barman-cloud.cloudnative-pg.io
       parameters:
         barmanObjectName: backblaze
-        serverName: postgres
+        serverName: home
 
   postgresql:
     shared_preload_libraries:
