@@ -18,24 +18,24 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  # bootstrap:
+  bootstrap:
     # If the namespace still exists and there is a backup object, we can just restore using the below method:
     # recovery:
     #   backup:
     #     name: daily-20250514170109
 
   # If the namespace is brand-new, we restore using the 'externalClusters' method:
-  #   recovery:
-  #     source: clusterRestore
-  #     recoveryTarget:
-  #       targetTime: "2025-05-14 16:57:06.538776+00:00"
-  # externalClusters:
-  # - name: clusterRestore
-  #   plugin:
-  #     name: barman-cloud.cloudnative-pg.io
-  #     parameters:
-  #       barmanObjectName: cloudflare
-  #       serverName: postgres
+    recovery:
+      source: clusterRestore
+      recoveryTarget:
+        targetTime: "2025-05-14 16:57:06.538776+00:00"
+  externalClusters:
+  - name: clusterRestore
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: cloudflare
+        serverName: postgres
 
   postgresql:
     shared_preload_libraries:
