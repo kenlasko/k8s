@@ -50,6 +50,7 @@ spec:
     isWALArchiver: true
     parameters:
       barmanObjectName: backblaze
+      
 
   managed:
     roles:
