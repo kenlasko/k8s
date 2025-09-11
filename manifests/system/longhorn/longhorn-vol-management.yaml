@@ -13,7 +13,7 @@ spec:
   labels:
     job: default-backups
   parameters:
-    full-backup-interval: "24"
+    full-backup-interval: "12"
 
 ---
 apiVersion: longhorn.io/v1beta2
