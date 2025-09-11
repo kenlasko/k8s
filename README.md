@@ -93,6 +93,8 @@ This guide assumes you're using a NixOS distribution that is configured to secur
 
 Initially, I used tools like Ansible/Terraform to bootstrap the cluster, which worked when each cluster had its own repo. After my changes to use Kustomize and Helm to manage all my clusters from one repo, this no longer worked. After a lot of trial-and-error, I gave up on Terraform and used ChatGPT to create [a rather robust Bash script](/scripts/bootstrap-cluster.sh) to take care of the entire cluster bootstrapping process. 
 
+> :warning: If this is a rebuild of either the home or cloud clusters, make sure to delete all [Tailscale machines](/manifests/network/tailscale) related to the cluster. Otherwise, Tailscale will create duplicate machines with `-1` appended to them. Causes all sorts of weird issues.
+
 Now, all that is needed is to run the following and wait for completion:
 ```
 ~/k8s/scripts/bootstrap-cluster.sh
