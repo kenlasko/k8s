@@ -24,7 +24,7 @@ spec:
     enabled: true
     isWALArchiver: true
     parameters:
-      barmanObjectName: backblaze
+      barmanObjectName: cloudflare
 
   enableSuperuserAccess: true
   superuserSecret:
