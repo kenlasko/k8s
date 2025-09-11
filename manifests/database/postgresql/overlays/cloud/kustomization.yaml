@@ -13,7 +13,7 @@ helmCharts:
   valuesMerge: merge
 resources:
 - ../../base
-# - backup.yaml
+- backup.yaml
 - cluster.yaml
 - external-secrets.yaml
 # - sealed-secrets.yaml
