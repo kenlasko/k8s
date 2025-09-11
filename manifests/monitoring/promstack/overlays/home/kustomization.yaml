@@ -7,15 +7,12 @@ helmCharts:
   version: 77.6.0
   releaseName: promstack
   namespace: monitoring
+  includeCRDs: true
   valuesFile: ../../base/values.yaml
   additionalValuesFiles:
   - values.yaml
   valuesMerge: merge
-- name: prometheus-operator-crds
-  repo: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-  version: 23.0.0
-  releaseName: prometheus-operator-crds
-  namespace: monitoring
+
 resources:
 - ../../base
 - httproute.yaml
