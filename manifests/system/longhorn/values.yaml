@@ -29,7 +29,7 @@ defaultSettings:
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: storage:longhorn
 
-defaultBackukpStore:
+defaultBackupStore:
   backupTarget: "nfs://192.168.1.3:/backup/longhorny"  #s3://longhorn@default/
   backupTargetCredentialSecret: nfs-creds   #s3-creds
 
