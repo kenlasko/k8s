@@ -42,7 +42,7 @@ spec:
         server: cloud
   - name: clusterBackup
     barmanObjectStore:
-      destinationPath: https://s3.us-east-005.backblazeb2.com/klasko-postgresql
+      destinationPath: s3://s3.us-east-005.backblazeb2.com/klasko-postgresql
       serverName: cloud
       azureCredentials:
         storageAccount:
