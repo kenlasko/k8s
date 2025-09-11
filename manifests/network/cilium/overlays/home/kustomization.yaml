@@ -7,6 +7,8 @@ helmCharts:
   releaseName: cilium
   namespace: cilium
   valuesFile: values.yaml
+  apiVersions:
+  - gateway.networking.k8s.io/v1/GatewayClass
 resources:
 - ../../base
 - bgp-config.yaml

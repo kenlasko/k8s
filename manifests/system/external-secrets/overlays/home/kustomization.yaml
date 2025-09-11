@@ -12,4 +12,4 @@ helmCharts:
   valuesMerge: merge
 resources:
 - ../../base
-- namespace.yaml
+#- namespace.yaml
