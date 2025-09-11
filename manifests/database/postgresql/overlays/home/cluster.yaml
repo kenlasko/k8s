@@ -36,10 +36,10 @@ spec:
     plugin:
       name: barman-cloud.cloudnative-pg.io
       enabled: true
-      isWALArchiver: true 
+      isWALArchiver: false
       parameters:
-        barmanObjectName: cloudflare
-        server: cloud
+        barmanObjectName: backblaze
+        # server: cloud
 
   postgresql:
     shared_preload_libraries:
@@ -51,7 +51,7 @@ spec:
     isWALArchiver: false
     parameters:
       barmanObjectName: cloudflare
-      server: home
+      # server: home
 
   managed:
     roles:
