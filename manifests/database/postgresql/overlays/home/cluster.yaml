@@ -39,6 +39,7 @@ spec:
       isWALArchiver: true 
       parameters:
         barmanObjectName: backblaze
+        server: cloud
 
   postgresql:
     shared_preload_libraries:

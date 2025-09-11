@@ -17,7 +17,7 @@ spec:
     size: 15Gi
 
   # # This should be uncommented if you ever need to use this cluster to restore the primary
-  # # cluster. It will backup to Cloudflare S3 storage, which can then be used by the primary 
+  # # cluster. It will backup to Backblaze S3 storage, which can then be used by the primary 
   # # cluster to restore.
   plugins:
   - name: barman-cloud.cloudnative-pg.io
