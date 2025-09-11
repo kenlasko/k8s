@@ -4,7 +4,7 @@ kind: PersistentVolume
 metadata:
   name: postgresql-data-nuc4
 spec:
-  storageClassName: local-path
+  storageClassName: local-storage
   capacity:
     storage: 15Gi
   accessModes:
@@ -27,7 +27,7 @@ kind: PersistentVolume
 metadata:
   name: postgresql-data-nuc5
 spec:
-  storageClassName: local-path
+  storageClassName: local-storage
   capacity:
     storage: 15Gi
   accessModes:
@@ -50,7 +50,7 @@ kind: PersistentVolume
 metadata:
   name: postgresql-data-nuc6
 spec:
-  storageClassName: local-path
+  storageClassName: local-storage
   capacity:
     storage: 15Gi
   accessModes:
