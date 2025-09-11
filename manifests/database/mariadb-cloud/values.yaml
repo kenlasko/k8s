@@ -25,10 +25,10 @@ primary:
   persistence:
     storageClass: 'local-path'
     existingClaim: 'mariadb-pvc'
-  # service:
-  #   annotations:
-  #     tailscale.com/expose: 'true'
-  #     tailscale.com/hostname: 'cloud-mariadb'
+  service:
+    annotations:
+      tailscale.com/expose: 'true'
+      tailscale.com/hostname: 'cloud-mariadb'
   resources:
     requests:
       cpu: 20m
