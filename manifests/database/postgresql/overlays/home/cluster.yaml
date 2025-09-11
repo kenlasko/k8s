@@ -21,7 +21,7 @@ spec:
   bootstrap:
     # If the namespace is brand-new, we restore using the 'externalClusters' method:
     recovery:
-      source: clusterBackup
+      source: clusterRestore
 
     ## If the namespace still exists and there is a backup object, we can just restore using the below method:
     # recovery:
