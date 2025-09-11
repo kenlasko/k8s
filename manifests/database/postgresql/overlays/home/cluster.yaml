@@ -21,7 +21,7 @@ spec:
   bootstrap:
     # If the namespace is brand-new, we restore using the 'externalClusters' method:
     recovery:
-      source: clusterRestore
+      source: clusterBackup
 
     ## If the namespace still exists and there is a backup object, we can just restore using the below method:
     # recovery:
@@ -40,6 +40,19 @@ spec:
       parameters:
         barmanObjectName: cloudflare
         server: cloud
+  - name: clusterBackup
+    barmanObjectStore:
+      destinationPath: https://s3.us-east-005.backblazeb2.com/klasko-postgresql
+      serverName: cloud
+      azureCredentials:
+        storageAccount:
+          name: s3-backup-backblaze-postgresql
+          key: AWS_ACCESS_KEY_ID
+        storageKey:
+          name: s3-backup-backblaze-postgresql
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        maxParallel: 8
 
   postgresql:
     shared_preload_libraries:
@@ -47,10 +60,10 @@ spec:
 
   plugins:
   - name: barman-cloud.cloudnative-pg.io
-    enabled: true
+    enabled: false
     isWALArchiver: true
     parameters:
-      barmanObjectName: cloudflare
+      barmanObjectName: backblaze
 
   managed:
     roles:
