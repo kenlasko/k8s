@@ -10,10 +10,10 @@ securityContext:
 persistentVolume:
   type: local-path
   mountPath: /app/data
-# service:
-#   annotations:
-#     tailscale.com/expose: "true"
-#     tailscale.com/hostname: "cloud-uptime-kuma"
-#     tailscale.com/proxy-class: "default"
+service:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "cloud-uptime-kuma"
+    tailscale.com/proxy-class: "default"
 disableHTTPRoute: true
 affinity: false
