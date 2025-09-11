@@ -40,20 +40,6 @@ spec:
       parameters:
         barmanObjectName: cloudflare
         server: cloud
-  - name: clusterBackup
-    barmanObjectStore:
-      destinationPath: "s3://klasko-postgresql"
-      endpointURL: "https://s3.us-east-005.backblazeb2.com"
-      serverName: cloud
-      azureCredentials:
-        storageAccount:
-          name: s3-backup-backblaze-postgresql
-          key: AWS_ACCESS_KEY_ID
-        storageKey:
-          name: s3-backup-backblaze-postgresql
-          key: AWS_SECRET_ACCESS_KEY
-      wal:
-        maxParallel: 8
 
   postgresql:
     shared_preload_libraries:
@@ -62,9 +48,10 @@ spec:
   plugins:
   - name: barman-cloud.cloudnative-pg.io
     enabled: false
-    isWALArchiver: true
+    isWALArchiver: false
     parameters:
-      barmanObjectName: backblaze
+      barmanObjectName: cloudflare
+      server: home
 
   managed:
     roles:
