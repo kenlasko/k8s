@@ -38,7 +38,7 @@ spec:
       enabled: true
       isWALArchiver: true 
       parameters:
-        barmanObjectName: backblaze
+        barmanObjectName: cloudflare
         server: cloud
 
   postgresql:
@@ -50,7 +50,7 @@ spec:
     enabled: true
     isWALArchiver: true
     parameters:
-      barmanObjectName: backblaze
+      barmanObjectName: cloudflare
 
   managed:
     roles:
