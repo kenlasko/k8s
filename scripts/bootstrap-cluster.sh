@@ -169,7 +169,7 @@ while true; do
 
     if [ "$external_ok" = false ]; then
         echo "Applying External-Secrets manifests..."
-        if kubectl apply -f ~/external-secrets.yaml; then
+        if kubectl apply --server-side -f ~/external-secrets.yaml; then
             external_ok=true
             echo "✅ External-Secrets manifests applied successfully."
         else

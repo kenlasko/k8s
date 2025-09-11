@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - bitwarden-ca.yaml
 - secretstore.yaml
+- https://raw.githubusercontent.com/external-secrets/external-secrets/main/deploy/crds/bundle.yaml
