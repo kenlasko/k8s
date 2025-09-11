@@ -1,19 +1,19 @@
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
-  name: nightly-backups
+  name: default-backups
   namespace: longhorn
 spec:
-  cron: "0 5 * * *"
+  cron: "0 0,8,16 * * *"
   task: backup
   groups:
   - default
-  retain: 7
+  retain: 12
   concurrency: 5
   labels:
-    job: nightly-backups
+    job: default-backups
   parameters:
-    full-backup-interval: "4"
+    full-backup-interval: "24"
 
 ---
 apiVersion: longhorn.io/v1beta2
