@@ -33,7 +33,7 @@ spec:
     plugin:
       name: barman-cloud.cloudnative-pg.io
       enabled: true
-      isWALArchiver: true
+      isWALArchiver: true   # Setting this to false allowed me to restore from an existing backup. Assuming future backups will work with this option enabled.
       parameters:
         barmanObjectName: backblaze
 
