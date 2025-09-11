@@ -1,6 +1,8 @@
 nameOverride: promstack
 crds:
   enabled: true
+  upgradeJob:
+    enabled: true
 defaultRules:
   create: true
   rules:
