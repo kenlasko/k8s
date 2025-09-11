@@ -47,19 +47,19 @@ spec:
               tailscale.com/hostname: "cloud-postgresql"
           spec:
             type: ClusterIP
-  externalClusters:
-  - name: home-postgresql
-    connectionParameters:
-      host: home-postgresql
-      user: streaming_replica
-      sslmode: verify-full
-      dbname: postgres
-    sslKey:
-      name: replication-certs
-      key: tls.key
-    sslCert:
-      name: replication-certs
-      key: tls.crt
-    sslRootCert:
-      name: replication-certs
-      key: ca.crt
+  # externalClusters:
+  # - name: home-postgresql
+  #   connectionParameters:
+  #     host: home-postgresql
+  #     user: streaming_replica
+  #     sslmode: verify-full
+  #     dbname: postgres
+  #   sslKey:
+  #     name: replication-certs
+  #     key: tls.key
+  #   sslCert:
+  #     name: replication-certs
+  #     key: tls.crt
+  #   sslRootCert:
+  #     name: replication-certs
+  #     key: ca.crt
