@@ -18,10 +18,10 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  bootstrap:
-    # If the namespace is brand-new, we restore using an existing backup object called 'clusterRestore':
-    recovery:
-      source: clusterRestore
+  # bootstrap:
+  #   # If the namespace is brand-new, we restore using an existing backup object called 'clusterRestore':
+  #   recovery:
+  #     source: clusterRestore
     ## If the namespace still exists and there is a backup object, we can just restore using the below method:
     #   backup:
     #     name: daily-20250514170109
