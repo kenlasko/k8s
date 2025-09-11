@@ -8,7 +8,7 @@ spec:
   task: backup
   groups:
   - default
-  retain: 12
+  retain: 24
   concurrency: 5
   labels:
     job: default-backups
