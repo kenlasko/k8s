@@ -1,0 +1,27 @@
+image:
+  repository: ersatztv/ersatztv
+  tag: v25.5.0
+  registry: ghcr.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+resources:
+  requests:
+    cpu: 2m
+    memory: 100Mi
+  limits:
+    # cpu: 1000m
+    memory: 2.0Gi  # Don't go below this. Even though it looks like its not using memory, the pod will get OOMKilled as soon as there's any load.
+service:
+  port: 8409 
+persistentVolume:
+  type: nfs
+  size: 700Mi
+media:
+  enabled: true
