@@ -11,6 +11,17 @@ My home cluster runs on 6 mini-PCs named `NUC1` through to `NUC6`. NUC1-NUC3 are
 * [MariaDB](/manifests/database/mariadb) and [PostgreSQL](/manifests/database/postgresql) requires local storage, which is available on NUC4-NUC6.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC6 in order to keep workloads off the control-plane nodes
 
+#### Server Specs
+| Name | Make/Model           |  CPU                                           |  RAM                 |  Disk          | Purpose       |
+|:----:|:---------------------|:-----------------------------------------------|:---------------------|:---------------|:--------------|
+| NUC1 | Intel NUC6CAYH       | Intel Celeron J3455 (2M Cache, up to 2.30 GHz) | 8 GB DDR3L-1600/1866 | 500 GB SSD     | Control Plane |
+| NUC2 | Intel NUC6CAYH       | Intel Celeron J3455 (2M Cache, up to 2.30 GHz) | 8 GB DDR3L-1600/1866 | 500 GB SSD     | Control Plane |
+| NUC3 | Beelink U59 Pro      | Intel Celeron N5105 (4M Cache, up to 2.90 GHz) | 16 GB DDR4-2400      | 500 GB M.2 SSD | Control Plane |
+| NUC4 | Beelink U59 Pro      | Intel Celeron N5105 (4M Cache, up to 2.90 GHz) | 16 GB DDR4-2400      | 500 GB M.2 SSD | Worker        |
+| NUC5 | Beelink Mini S12 Pro | Intel N100 (6M Cache, up to 3.40 GHz)          | 16 GB DDR4-3400      | 500 GB M.2 SSD | Worker        |
+| NUC6 | Beelink Mini S12 Pro | Intel N100 (6M Cache, up to 3.40 GHz)          | 16 GB DDR4-3400      | 500 GB M.2 SSD | Worker        |
+
+
 ### Cloud Cluster
 This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.com) and is used as a disaster-recovery solution for my home cluster. It replicates the function of some critical services:
 * MariaDB

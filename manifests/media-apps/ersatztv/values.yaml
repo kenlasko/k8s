@@ -43,6 +43,5 @@ affinity:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nuc3
           - nuc5
           - nuc6
