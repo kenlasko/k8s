@@ -1,4 +1,6 @@
-> :warning: **IN PROGRESS**: I'm still working out some issues with this before I replace my now-vile Bitnami MariaDB Galera implementation. Not complete yet.
+> [!WARNING]  
+> **IN PROGRESS**
+> I'm still working out some issues with this before I replace my now-vile Bitnami MariaDB Galera implementation. Not complete yet.
 
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
