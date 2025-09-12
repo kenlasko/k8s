@@ -12,7 +12,6 @@ helmCharts:
   additionalValuesFiles:
   - values.yaml
   valuesMerge: merge
-
 resources:
 - ../../base
 - httproute.yaml

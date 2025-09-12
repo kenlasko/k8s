@@ -11,6 +11,7 @@ helmCharts:
   additionalValuesFiles:
   - values.yaml
   valuesMerge: merge
+  includeCRDs: true
 resources:
 - ../../base
 - volumes.yaml
