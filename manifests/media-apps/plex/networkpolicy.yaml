@@ -11,6 +11,7 @@ spec:
     - fromEntities:
         - ingress
         - remote-node
+        - world
       toPorts:
         - ports:
             - port: "32400"
