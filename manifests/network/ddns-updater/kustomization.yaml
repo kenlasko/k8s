@@ -8,3 +8,5 @@ helmCharts:
   releaseName: ddns-updater
   namespace: ddns-updater
   valuesFile: values.yaml
+resources:
+- external-secrets.yaml
