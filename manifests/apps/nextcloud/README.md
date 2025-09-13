@@ -8,3 +8,6 @@ All my documents on my Windows PC are quickly and reliably synced to Nextcloud, 
 [Collabora](https://github.com/collabora) is used for cloud-based app access (like Excel, Word etc). It works very well for my needs.
 
 Nextcloud requires [MariaDB](/manifests/database/mariadb) and [Redis](/manifests/database/redis) to run.
+
+# Tips
+- the `occ` command can be found in `/var/www/html`
