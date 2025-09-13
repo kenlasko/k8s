@@ -15,7 +15,7 @@ primary:
     type: hard
     key: kubernetes.io/hostname
     values: 
-    - nuc3
+    - nuc7
   priorityClassName: high-priority
   resources:
     requests:

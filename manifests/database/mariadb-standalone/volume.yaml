@@ -32,7 +32,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nuc3
+          - nuc7
 
 
 ---
