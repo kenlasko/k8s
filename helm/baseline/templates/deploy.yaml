@@ -57,7 +57,7 @@ spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
       priorityClassName: {{ .Values.priorityClassName | default "low-priority" }}
-      # Optional affinity rules.
+      # Optional affinity rules. Defaults to scheduling away from control-plane nodes
       {{- if not (eq (.Values.affinity | toString) "false") }} 
       affinity:
         {{- if .Values.affinity }}
@@ -71,6 +71,7 @@ spec:
                 operator: In
                 values:
                   - "longhorn"
+        {{- end }}
       {{- end }}
       containers:
       - name: {{ $name }}
