@@ -57,11 +57,11 @@ spec:
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
       priorityClassName: {{ .Values.priorityClassName | default "low-priority" }}
-      # Optional affinity rules. Defaults to scheduling away from control-plane nodes
+      # Optional affinity rules.
       {{- if not (eq (.Values.affinity | toString) "false") }} 
       affinity:
         {{- if .Values.affinity }}
-        {{- toYaml .Values.affinity | nindent 8 }}
+          {{- toYaml .Values.affinity | nindent 8 }}
         {{- else if eq .Values.persistentVolume.type "longhorn" }}
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -71,18 +71,6 @@ spec:
                 operator: In
                 values:
                   - "longhorn"
-        {{- else }}
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/control-plane
-                operator: DoesNotExist
-              - key: kubernetes.io/arch
-                operator: In
-                values:
-                  - "amd64"
-        {{- end }}
       {{- end }}
       containers:
       - name: {{ $name }}
