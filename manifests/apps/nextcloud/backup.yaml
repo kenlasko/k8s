@@ -25,17 +25,6 @@ spec:
     #   runAsGroup: 100
     #   seccompProfile:
     #     type: RuntimeDefault
-    moverAffinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-            - key: kubernetes.io/arch
-              operator: In
-              values: 
-              - "amd64"
 
 ---
 apiVersion: volsync.backube/v1alpha1
@@ -64,14 +53,3 @@ spec:
     #   runAsGroup: 100
     #   seccompProfile:
     #     type: RuntimeDefault
-    moverAffinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-            - key: kubernetes.io/arch
-              operator: In
-              values: 
-              - "amd64"
