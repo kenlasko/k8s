@@ -37,17 +37,17 @@ webhook:
     limits:
       # cpu: 100m
       memory: 20Mi
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
+  # affinity:
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: node-role.kubernetes.io/control-plane
+  #           operator: Exists
+  #         - key: kubernetes.io/arch
+  #           operator: In
+  #           values: 
+  #           - "amd64"
   volumes:
   - name: serviceaccount-token
     projected:
@@ -84,17 +84,17 @@ cainjector:
     limits:
       # cpu: 80m
       memory: 80Mi  
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
+  # affinity:
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: node-role.kubernetes.io/control-plane
+  #           operator: Exists
+  #         - key: kubernetes.io/arch
+  #           operator: In
+  #           values: 
+  #           - "amd64"
   volumes:
   - name: serviceaccount-token
     projected:
@@ -124,17 +124,17 @@ startupapicheck:
   automountServiceAccountToken: false
   serviceAccount:
     automountServiceAccountToken: false
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"
+  # affinity:
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: node-role.kubernetes.io/control-plane
+  #           operator: Exists
+  #         - key: kubernetes.io/arch
+  #           operator: In
+  #           values: 
+  #           - "amd64"
   volumes:
   - name: serviceaccount-token
     projected:
