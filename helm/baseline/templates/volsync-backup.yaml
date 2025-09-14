@@ -44,6 +44,6 @@ spec:
     {{- end }}
     moverAffinity:
       {{- if .Values.affinity }}
-`      {{- toYaml .Values.affinity | nindent 6 }}
+       {{- toYaml .Values.affinity | nindent 6 }}
       {{- end }}
 {{ end }}
