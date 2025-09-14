@@ -91,31 +91,9 @@ hubble:
       limits:
         # cpu: 75m
         memory: 80Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-            - key: kubernetes.io/arch
-              operator: In
-              values: 
-              - "amd64"
 
   ui:
     enabled: true
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-            - key: kubernetes.io/arch
-              operator: In
-              values: 
-              - "amd64"
     backend:
       resources:
         requests:
@@ -201,14 +179,3 @@ operator:
     limits:
       # cpu: 100m
       memory: 200Mi
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: node-role.kubernetes.io/control-plane
-            operator: DoesNotExist
-          - key: kubernetes.io/arch
-            operator: In
-            values: 
-            - "amd64"

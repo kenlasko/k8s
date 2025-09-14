@@ -8,9 +8,9 @@ helmCharts:
   releaseName: mariadb-operator
   namespace: mariadb-test
   valuesFile: ../../base/values.yaml
-  additionalValuesFiles:
-  - values.yaml
-  valuesMerge: merge
+  # additionalValuesFiles:
+  # - values.yaml
+  # valuesMerge: merge
 - name: mariadb-operator-crds
   repo: https://mariadb-operator.github.io/mariadb-operator
   version: 25.8.3

@@ -7,8 +7,5 @@ helmCharts:
   releaseName: external-secrets
   namespace: external-secrets
   valuesFile: ../../base/values.yaml
-  additionalValuesFiles:
-  - values.yaml
-  valuesMerge: merge
 resources:
 - ../../base

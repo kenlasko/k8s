@@ -1,15 +1,5 @@
 global:
   domain: argocd.ucdialplans.com
-  affinity:
-    nodeAffinity:
-      type: hard
-      matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
-      - key: kubernetes.io/arch
-        operator: In
-        values: 
-        - "amd64"
 redis:
   enabled: false
 externalRedis:
@@ -31,16 +21,3 @@ notifications:
     #   - slack:home-argocd-updates
     #   triggers:
     #   - on-sync-succeeded
-    
-  haproxy:
-    additionalAffinities:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-            - key: kubernetes.io/arch
-              operator: In
-              values: 
-              - "amd64"

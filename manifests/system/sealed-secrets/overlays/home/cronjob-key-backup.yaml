@@ -14,17 +14,6 @@ spec:
         spec:
           serviceAccount: keybackup-service-account
           serviceAccountName: keybackup-service-account
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
-                  - key: kubernetes.io/arch
-                    operator: In
-                    values: 
-                    - "amd64"
           restartPolicy: OnFailure
           containers:
           - name: backup-sealed-secret-key

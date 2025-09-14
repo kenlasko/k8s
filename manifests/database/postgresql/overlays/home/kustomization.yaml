@@ -8,9 +8,9 @@ helmCharts:
   releaseName: postgresql
   namespace: postgresql
   valuesFile: ../../base/values.yaml
-  additionalValuesFiles:
-  - values.yaml
-  valuesMerge: merge
+  # additionalValuesFiles:
+  # - values.yaml
+  # valuesMerge: merge
 
 resources:
 - ../../base
@@ -29,11 +29,3 @@ configMapGenerator:
   - ../../scripts/update-cloud-certs.sh
   options:
     disableNameSuffixHash: true
-
-patches:
-- path: deploy-patch-barmancloud.yaml
-  target:
-    group: apps
-    version: v1
-    kind: Deployment
-    name: barman-cloud
