@@ -68,6 +68,9 @@ spec:
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: tailscale
+      toPorts:
+        - ports:
+            - port: "3000"
     - toEndpoints:
         - {}
       toPorts:
