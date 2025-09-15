@@ -26,9 +26,11 @@ extraVolumes:
 - name: oci-config-file
   secret:
     secretName: oci-config-file
+    defaultMode: 400
 - name: oci-private-key
   secret:
     secretName: oci-private-key
+    defaultMode: 400
 extraVolumeMounts:
 - name: oci-config-file
   mountPath: /oracle/.oci
