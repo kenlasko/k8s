@@ -21,6 +21,9 @@ securityContext:
 #     # cpu: 250m
 #     memory: 30Mi
 command: ["bash","-c","sleep 99d"]
+env:
+- name: OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING
+  value: "True"
 disableHTTPRoute: true
 extraVolumes:
 - name: oci-config-file
