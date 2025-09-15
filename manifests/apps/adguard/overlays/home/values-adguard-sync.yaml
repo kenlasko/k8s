@@ -64,7 +64,7 @@ env:
       name: adguard-creds
       key: password
 - name: REPLICA3_URL
-  value: "http://cloud-adguard-tunnel:3000"
+  value: "cloud-adguard-tunnel:3000"
 - name: REPLICA3_USERNAME
   valueFrom:
     secretKeyRef:
