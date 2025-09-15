@@ -23,11 +23,11 @@ priorityClassName: low-priority
 command: ["bash","-c","sleep 99d"]
 disableHTTPRoute: true
 extraVolumes:
-- name: config
+- name: oci-config-file
   secret:
     secretName: oci-config-file
 extraVolumeMounts:
-- name: config
+- name: oci-config-file
   mountPath: /oracle/.oci
   readOnly: true
   
