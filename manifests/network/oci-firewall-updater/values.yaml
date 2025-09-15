@@ -20,7 +20,7 @@ priorityClassName: low-priority
 #   limits:
 #     # cpu: 250m
 #     memory: 30Mi
-command: ["/bin/bash"]
+command: ["bash"]
 disableHTTPRoute: true
 extraVolumes:
 - name: oci-config-file
