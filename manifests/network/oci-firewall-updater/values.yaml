@@ -28,8 +28,7 @@ extraVolumes:
     secretName: oci-config-file
 extraVolumeMounts:
 - name: config
-  mountPath: /oracle/.oci/config
-  subPath: config
+  mountPath: /oracle/.oci
   readOnly: true
   
 
