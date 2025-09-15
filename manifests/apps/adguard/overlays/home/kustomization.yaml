@@ -19,3 +19,4 @@ resources:
 - ../../base
 - networkpolicy.yaml
 - service.yaml
+- tunnel-cloud-adguard.yaml
