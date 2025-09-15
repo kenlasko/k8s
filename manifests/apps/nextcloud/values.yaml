@@ -47,11 +47,11 @@ nextcloud:
         key: redis-password
   mail:
     enabled: true
-    fromAddress: nextcloud@ucdialplans.com
+    fromAddress: nextcloud
     domain: ucdialplans.com
     smtp:
       host: mail.smtp2go.com
-      secure: tls
+      secure: starttls
       port: 587
       authtype: LOGIN
 
