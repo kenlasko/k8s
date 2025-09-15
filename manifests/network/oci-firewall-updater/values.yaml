@@ -1,0 +1,34 @@
+image:
+  repository: oracle/oci-cli
+  tag: 20250903
+  registry: ghcr.io
+priorityClassName: low-priority
+# securityContext:
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: false
+#   runAsNonRoot: true
+#   runAsUser: 1000
+#   runAsGroup: 100
+#   seccompProfile:
+#     type: RuntimeDefault
+#   capabilities:
+#     drop: ["ALL"]
+# resources:
+#   requests:
+#     cpu: 1m
+#     memory: 7Mi
+#   limits:
+#     # cpu: 250m
+#     memory: 30Mi
+command: ["/bin/bash"]
+extraVolumes:
+- name: oci-config-file
+  secret:
+    secretName: oci-config-file
+    defaultMode: 0400
+extraVolumeMounts:
+- name: oci-config-file
+  mountPath: /oracle/.oci/config
+  readOnly: true
+  
+
