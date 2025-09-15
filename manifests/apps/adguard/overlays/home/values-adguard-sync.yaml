@@ -75,6 +75,8 @@ env:
     secretKeyRef:
       name: adguard-creds
       key: password
+- name: REPLICA3_INSECURE_SKIP_VERIFY
+  value: true
 - name: CRON
   value: "*/1 * * * *" 
 - name: LOG_LEVEL
