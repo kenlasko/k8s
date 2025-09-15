@@ -30,6 +30,7 @@ extraVolumes:
 extraVolumeMounts:
 - name: oci-config-file
   mountPath: /oracle/.oci/config
+  subPath: config
   readOnly: true
   
 
