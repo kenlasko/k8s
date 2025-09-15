@@ -11,3 +11,16 @@ For outside the home, an instance running on my [Oracle Cloud Omni cluster](http
 Stateful files are stored and accessed on the NAS via NFS through `/appdata/vol/adguard`. It is regularly backed up to Cloudflare S3 storage via [Volsync](/manifests/system/volsync).
 
 Most configuration is done via my [custom Helm chart](/helm/baseline).
+
+# Notes
+## Adguard Sync Error
+Adguard Sync throws this error about cloud-adguard on every sync
+
+```
+ERROR sync sync/action-general.go:247 error setting tls config {"from": "adguard-service:3000", "to": "cloud-adguard-link:3000", "enabled": true, "error": "400 Bad Request(port 443 for HTTPS is not available\n)"}
+```
+
+It's trying to set TLS to enabled along with the port 443, but for whatever reason, the cloud instance does not allow port 443. I've manually set it to 8443 in `AdGuardHome.yaml`, which allows everything to work. Syncing works fine other than this one setting.
+
+The error can be safely ignored.
+

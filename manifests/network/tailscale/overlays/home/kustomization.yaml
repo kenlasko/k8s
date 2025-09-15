@@ -14,6 +14,6 @@ helmCharts:
 resources:
 - ../../base
 - proxyclass.yaml
-# - tunnel-cloud-adguard.yaml
+- tunnel-cloud-adguard.yaml
 - tunnel-cloud-argocd.yaml
 - tunnel-cloud-uptime-kuma.yaml
