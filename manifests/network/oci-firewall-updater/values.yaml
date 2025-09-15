@@ -25,7 +25,7 @@ disableHTTPRoute: true
 extraVolumes:
 - name: oci-config-file
   secret:
-    secretName: oci-config-file
+    secretName: config
 extraVolumeMounts:
 - name: oci-config-file
   mountPath: /oracle/.oci
