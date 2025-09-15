@@ -64,7 +64,7 @@ env:
       name: adguard-creds
       key: password
 - name: REPLICA3_URL
-  value: "https://cloud-adguard.ucdialplans.com"
+  value: "https://cloud-adguard.ucdialplans.com:8443"
 - name: REPLICA3_USERNAME
   valueFrom:
     secretKeyRef:
