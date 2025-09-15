@@ -1,6 +1,6 @@
 image:
   repository: oracle/oci-cli
-  tag: "20250910"
+  tag: "20250903"
   registry: ghcr.io
 priorityClassName: low-priority
 # securityContext:
@@ -29,7 +29,7 @@ extraVolumes:
     defaultMode: 0400
 extraVolumeMounts:
 - name: oci-config-file
-  mountPath: /oracle/.oci
+  mountPath: /oracle/.oci/config
   subPath: config
   readOnly: true
   
