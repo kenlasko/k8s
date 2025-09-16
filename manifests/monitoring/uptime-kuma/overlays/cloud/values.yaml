@@ -16,4 +16,13 @@ service:
     tailscale.com/hostname: "cloud-uptime-kuma"
     tailscale.com/proxy-class: "default"
 disableHTTPRoute: true
-affinity: false
+# backup:
+#   location: cloudflare
+#   copyMethod: Direct
+#   schedule: "25 6 * * *"  # 6:25am every day
+#   retentionPolicy:
+#     hourly: 0
+#     daily: 4
+#     weekly: 0
+#     monthly: 0
+#     yearly: 0
