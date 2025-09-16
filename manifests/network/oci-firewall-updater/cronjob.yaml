@@ -4,9 +4,9 @@ metadata:
   name: oci-update-security-rule
   namespace: oci
 spec:
-  # Run every 5 minutes (adjust as needed)
-  schedule: "*/5 * * * *"
-  suspend: true
+  # Run every 15 minutes
+  schedule: "*/15 * * * *"
+  suspend: false
   concurrencyPolicy: Replace
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1

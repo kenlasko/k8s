@@ -21,6 +21,12 @@ if [[ -z "$HOME_IP" ]]; then
 fi
 log "Resolved $DNS_NAME to $HOME_IP"
 
+# --- Step 1b: Check if it's a public IP ---
+if [[ "$HOME_IP" =~ ^192\.168\. ]]; then
+  log "❌ Resolved IP $HOME_IP is a private 192.168.x.x address, aborting update."
+  exit 1
+fi
+
 # --- Step 2: Get current ingress rules from OCI ---
 if ! INGRESS_RULES=$(oci network security-list get --security-list-id "$SECURITY_LIST_ID" 2>/dev/null | jq '.data."ingress-security-rules"'); then
   log "❌ Failed to fetch ingress rules from OCI"
@@ -52,7 +58,7 @@ if [[ "$HOME_IP" != "$CURRENT_IP" ]]; then
 
   if oci network security-list update \
        --security-list-id "$SECURITY_LIST_ID" \
-       --ingress-security-rules "$UPDATED_RULES"; then
+       --ingress-security-rules "$UPDATED_RULES" --force; then
     log "✅ Security list updated successfully."
   else
     log "❌ Failed to update security list."

@@ -1,0 +1,2 @@
+# Introduction
+My cloud cluster requires access from my home network for Omni. Until I can lock down the specific required ports, I have an ingress rule that allows unfettered access from my home network. This script ensures the ingress rule matches my home public IP address.
