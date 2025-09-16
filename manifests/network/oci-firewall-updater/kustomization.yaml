@@ -10,3 +10,9 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - external-secrets.yaml
+configMapGenerator:
+- name: update-security-rule
+  files:
+  - update-security-rule.sh
+  options:
+    disableNameSuffixHash: true
