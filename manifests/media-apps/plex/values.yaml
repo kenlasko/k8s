@@ -1,10 +1,10 @@
 image:
-  # repository: home-operations/plex
-  # tag: 1.42.1.10060
-  # registry: ghcr.io
-  repository: plexinc/pms-docker
-  tag: latest
-  registry: docker.io
+  repository: home-operations/plex
+  tag: 1.42.1.10060
+  registry: ghcr.io
+  # repository: plexinc/pms-docker
+  # tag: latest
+  # registry: docker.io
 
 # securityContext:
 #   allowPrivilegeEscalation: false
