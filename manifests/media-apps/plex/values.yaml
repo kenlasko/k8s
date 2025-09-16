@@ -6,15 +6,15 @@ image:
   # tag: latest
   # registry: docker.io
 
-# securityContext:
-#   allowPrivilegeEscalation: false
-#   readOnlyRootFilesystem: false
-#   runAsNonRoot: true
-#   runAsUser: 1000
-#   seccompProfile:
-#     type: RuntimeDefault
-#   capabilities:
-#     drop: ["ALL"]
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
 env:
 - name: HOSTNAME
   value: plex.ucdialplans.com
