@@ -26,13 +26,6 @@ data:
       - CiliumIdentity
       clusters:
       - "*"
-    - apiGroups:
-      - velero.io
-      kinds:
-      - Backup
-      - Restore
-      clusters:
-      - "*"
   # This is used so that ArgoCD "app-of-apps" application (such as my argocd-apps and media-apps) will be processed properly
   resource.customizations: |
     argoproj.io/Application:
