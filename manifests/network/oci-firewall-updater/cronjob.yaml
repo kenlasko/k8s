@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: oci-update-security-rule
+  namespace: oci
+spec:
+  # Run every 5 minutes (adjust as needed)
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Replace
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          priorityClassName: low-priority
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: ["ALL"]
+          containers:
+          - name: update-security-rule
+            image: ghcr.io/oracle/oci-cli:v20250910
+            command: ["/bin/bash", "-c", "/scripts/update-security-rule.sh"]
+            env:
+            - name: OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING
+              value: "True"
+            volumeMounts:
+            - name: oci-config-file
+              mountPath: /oracle/.oci
+              readOnly: true
+            - name: oci-private-key
+              mountPath: /certs
+              readOnly: true
+            - name: update-security-rule
+              mountPath: /scripts/update-security-rule.sh
+              subPath: update-security-rule.sh
+              readOnly: true
+          volumes:
+          - name: oci-config-file
+            secret:
+              secretName: oci-config-file
+          - name: oci-private-key
+            secret:
+              secretName: oci-private-key
+          - name: update-security-rule
+            configMap:
+              name: update-security-rule
+              items:
+              - key: update-security-rule.sh
+                path: update-security-rule.sh
+                mode: 0755
