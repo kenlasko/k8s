@@ -22,6 +22,11 @@ env:
   value: "100"           
 - name: TZ
   value: "America/Toronto"
+- name: PLEX_CLAIM
+  valueFrom:
+    secretKeyRef:
+      name: plex-claim-token
+      key: plex-claim-token
 resources:
   requests:
     cpu: 10m
