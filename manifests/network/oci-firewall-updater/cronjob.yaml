@@ -6,6 +6,7 @@ metadata:
 spec:
   # Run every 5 minutes (adjust as needed)
   schedule: "*/5 * * * *"
+  suspend: true
   concurrencyPolicy: Replace
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
