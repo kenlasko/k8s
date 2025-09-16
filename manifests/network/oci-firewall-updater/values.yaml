@@ -36,6 +36,7 @@ extraVolumes:
     items:
     - key: update-security-rule.sh
       path: update-security-rule.sh
+    defaultMode: 0755
     name: update-security-rule
   name: update-security-rule
 extraVolumeMounts:
