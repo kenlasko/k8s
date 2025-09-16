@@ -1,4 +1,8 @@
 #!/bin/bash
+# This script updates the OCI ingress security list to allow access from the current home IP address.
+# It checks the current public IP address of a specified DNS name and updates the security list if the IP has changed.
+# Works in conjunction with DDNS-Updater running at home which ensures the public DNS name always points to the current home IP.
+
 DNS_NAME="home.ucdialplans.com"
 SECURITY_LIST_ID="ocid1.securitylist.oc1.ca-toronto-1.aaaaaaaajhnvoq3w4nsfb2pigc2icp4vczxcufq7v3b42jjunubdc6oma7sa"
 
