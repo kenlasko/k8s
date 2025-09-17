@@ -6,4 +6,4 @@ helmCharts:
   version: 0.13.0
   releaseName: volsync
   namespace: volsync
-  valuesFile: values.yaml
+  valuesFile: ../../base/values.yaml

@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/system/volsync
+    path: manifests/system/volsync/overlays/home
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
