@@ -82,3 +82,27 @@ spec:
   resources:
     requests:
       storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-adguard-temp
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 6Gi
+  volumeMode: Filesystem
+  local:
+    path: /var/backup-temp
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - onode1
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path

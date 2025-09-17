@@ -15,4 +15,4 @@ resources:
 - ../../base
 - backup.yaml
 - external-secrets.yaml
-- volumes.yaml
+- volume.yaml
