@@ -81,6 +81,23 @@
     }
   ],
   "packageRules": [
+      {
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor", 
+        "patch",
+        "digest"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/oracle/oci-cli"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "ignoreTests": true
+    },
     {
       "matchManagers": [
         "argocd",
