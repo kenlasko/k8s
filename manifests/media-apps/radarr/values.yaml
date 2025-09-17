@@ -1,6 +1,6 @@
 image:
-  repository: 11notes/docker-radarr #home-operations/radarr
-  tag: 1.5.5  #5.28.0
+  repository: 11notes/radarr #home-operations/radarr
+  tag: 5.27.5  #5.28.0
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
