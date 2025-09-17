@@ -1,0 +1,26 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: uptime-kuma
+  namespace: uptime-kuma
+spec:
+  restic:
+    cacheCapacity: 5Gi
+    copyMethod: Direct
+    moverSecurityContext:
+      runAsGroup: 100
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    pruneIntervalDays: 3
+    repository: s3-backup-cloudflare-uptime-kuma
+    retain:
+      daily: 7
+      hourly: 0
+      monthly: 0
+      weekly: 2
+      yearly: 0
+  sourcePVC: pvc-uptime-kuma
+  trigger:
+    schedule: 05 6 * * *
