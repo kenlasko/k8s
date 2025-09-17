@@ -4,3 +4,4 @@ resources:
 - gateway.yaml
 - httproute.yaml
 - letsencrypt-wildcard.yaml
+- github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.3.0
