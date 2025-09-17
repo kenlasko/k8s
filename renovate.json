@@ -62,15 +62,6 @@
       ],
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "cloudnative-pg/plugin-barman-cloud"
-    },
-    {
-      "customType": "regex",
-      "fileMatch": ["kustomization.yaml"],
-      "matchStrings": [
-        "kubernetes-csi\/external-snapshotter\/(?<currentValue>v[0-9\\.]+)\/client\/config.*.yaml"
-      ],
-      "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "kubernetes-csi/external-snapshotter"
     }
   ],
   "packageRules": [
