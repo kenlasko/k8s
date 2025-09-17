@@ -8,19 +8,12 @@
     "enabled": true
   },
   "enabledManagers": [
-    "argocd",
     "custom.regex",
     "helm-values",
     "kubernetes",
     "kustomize",
     "pre-commit"
   ],
-  "argocd": {
-    "fileMatch": [
-      "argocd-apps/.*\\.yaml$",
-      "manifests/argocd/argocd.yaml$"
-    ]
-  },
   "helm-values": {
     "fileMatch": [
       "^manifests/.*values.*\\.yaml$"
@@ -81,26 +74,8 @@
     }
   ],
   "packageRules": [
-      {
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor", 
-        "patch",
-        "digest"
-      ],
-      "matchPackageNames": [
-        "ghcr.io/oracle/oci-cli"
-      ],
-      "automerge": true,
-      "automergeType": "branch",
-      "ignoreTests": true
-    },
     {
       "matchManagers": [
-        "argocd",
         "helm-values",
         "kubernetes",
         "kustomize",
@@ -117,7 +92,6 @@
     },
     {
       "matchManagers": [
-        "argocd",
         "helm-values",
         "kubernetes",
         "kustomize"
@@ -151,6 +125,7 @@
         "kubernetes"
       ],
       "matchPackageNames": [
+        "ghcr.io/oracle/oci-cli",
         "ghcr.io/calibrain/calibre-web-automated-book-downloader"
       ],
       "matchUpdateTypes": [
