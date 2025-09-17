@@ -6,6 +6,7 @@ metadata:
 spec:
   restic:
     cacheCapacity: 5Gi
+    cacheStorageClassName: local-path
     copyMethod: Direct
     moverSecurityContext:
       runAsGroup: 100
