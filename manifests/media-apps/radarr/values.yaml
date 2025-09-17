@@ -1,6 +1,6 @@
 image:
-  repository: 11notes/radarr #home-operations/radarr
-  tag: 5.27.5  #5.28.0
+  repository: home-operations/radarr
+  tag: 5.28.0
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
@@ -36,7 +36,6 @@ media:
 persistentVolume:
   type: nfs
   size: 2.5Gi
-  mountPath: /radarr/etc
 backup:
   location: cloudflare
   schedule: "00 07 * * *"
