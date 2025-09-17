@@ -8,6 +8,7 @@ spec:
   - ReadWriteOnce
   capacity:
     storage: 5Gi
+  volumeMode: Filesystem
   local:
     path: /var/backup-temp
   nodeAffinity:
