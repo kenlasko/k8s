@@ -10,8 +10,8 @@ spec:
     copyMethod: Direct
     moverSecurityContext:
       runAsGroup: 100
-      runAsNonRoot: true
-      runAsUser: 1000
+      runAsNonRoot: false
+      runAsUser: 0
       seccompProfile:
         type: RuntimeDefault
     pruneIntervalDays: 3
