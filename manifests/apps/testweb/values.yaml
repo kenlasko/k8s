@@ -6,7 +6,7 @@ service:
   port: 8080
 persistentVolume:
   type: local-path
-  volsize: 1Mi
+  size: 1Mi
   mountPath: /serve
 affinity:
   nodeAffinity:
