@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: cloudflare-s3-backup-uptime-kuma
+    repository: s3-backup-cloudflare-uptime-kuma
     destinationPVC: pvc-uptime-kuma
     copyMethod: Direct
     enableFileDeletion: true
