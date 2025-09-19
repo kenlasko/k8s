@@ -13,7 +13,7 @@ helmCharts:
   # valuesMerge: merge
 - name: mariadb-operator-crds
   repo: https://mariadb-operator.github.io/mariadb-operator
-  version: 25.8.3
+  version: 25.8.4
   releaseName: mariadb-operator
   namespace: mariadb-test
 resources:
