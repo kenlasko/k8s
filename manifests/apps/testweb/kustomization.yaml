@@ -8,4 +8,4 @@ helmCharts:
   namespace: testweb
   valuesFile: values.yaml
 resources:
-# - networkpolicy.yaml
+- volume.yaml

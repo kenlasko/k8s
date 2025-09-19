@@ -4,10 +4,6 @@ image:
   registry: docker.io
 service:
   port: 8080
-persistentVolume:
-  type: local-path
-  size: 1Mi
-  mountPath: /serve
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
