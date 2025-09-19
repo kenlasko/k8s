@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 1Mi
   local:
-    path: /var/testweb
+    path: /var/mariadb-galera
   nodeAffinity:
     required:
       nodeSelectorTerms:
