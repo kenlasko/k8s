@@ -7,4 +7,14 @@ service:
 persistentVolume:
   type: local-path
   volsize: 1Mi
-  
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - onode1
+          - nuc4
+
