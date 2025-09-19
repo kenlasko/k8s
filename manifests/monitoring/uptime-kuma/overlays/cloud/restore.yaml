@@ -1,0 +1,26 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: uptime-kuma
+  namespace: uptime-kuma
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: cloudflare-s3-backup-uptime-kuma
+    destinationPVC: pvc-uptime-kuma
+    copyMethod: Direct
+    enableFileDeletion: true
+    cleanupTempPVC: true
+    cleanupCachePVC: true
+    storageClassName: local-path
+    cacheStorageClassName: local-path
+    # restoreAsOf: "2025-03-05T06:50:00Z"
+    # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
+    moverSecurityContext:
+      runAsUser: 0
+      runAsGroup: 100
+      runAsNonRoot: false
+      seccompProfile:
+        type: RuntimeDefault

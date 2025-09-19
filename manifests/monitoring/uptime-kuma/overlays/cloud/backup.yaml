@@ -9,9 +9,9 @@ spec:
     cacheStorageClassName: local-path
     copyMethod: Direct
     moverSecurityContext:
+      runAsUser: 0
       runAsGroup: 100
       runAsNonRoot: false
-      runAsUser: 0
       seccompProfile:
         type: RuntimeDefault
     pruneIntervalDays: 3
