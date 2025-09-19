@@ -12,6 +12,5 @@ affinity:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - onode1
           - nuc4
 
