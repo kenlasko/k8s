@@ -117,5 +117,6 @@ spec:
           operator: In
           values:
           - onode1
+          - nuc4
 {{- end }}
 {{- end }}

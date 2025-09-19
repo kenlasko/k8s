@@ -1,0 +1,10 @@
+image:
+  repository: jdkelley/simple-http-server
+  tag: latest
+  registry: docker.io
+service:
+  port: 8080
+persistentVolume:
+  type: local-path
+  volsize: 1Mi
+  
