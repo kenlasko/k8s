@@ -42,13 +42,6 @@ spec:
           value: America/Toronto
         image: docker.io/jdkelley/simple-http-server:latest
         imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-          initialDelaySeconds: 15
-          periodSeconds: 60
-          timeoutSeconds: 5
         name: testweb
         ports:
         - containerPort: 8080
