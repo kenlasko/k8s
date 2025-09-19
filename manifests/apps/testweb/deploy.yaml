@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+  labels:
+    app.kubernetes.io/name: testweb
+    app.kubernetes.io/version: latest
+  name: testweb
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: testweb
+  serviceName: testweb
+  template:
+    metadata:
+      labels:
+        app: testweb
+        app.kubernetes.io/name: testweb
+        app.kubernetes.io/version: latest
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - nuc4
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "100"
+        - name: TZ
+          value: America/Toronto
+        image: docker.io/jdkelley/simple-http-server:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 60
+          timeoutSeconds: 5
+        name: testweb
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        resizePolicy:
+        - resourceName: cpu
+          restartPolicy: NotRequired
+        - resourceName: memory
+          restartPolicy: NotRequired
+        resources: {}
+        volumeMounts:
+        - mountPath: /serve
+          name: testweb-config
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      priorityClassName: low-priority
+      restartPolicy: Always
+      volumes:
+      - name: testweb-config
+        persistentVolumeClaim:
+          claimName: pvc-testweb
+  updateStrategy:
+    type: RollingUpdate
