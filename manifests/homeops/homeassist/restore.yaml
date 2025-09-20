@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: cloudflare-s3-backup-homeassist
+    repository: s3-backup-cloudflare-homeassist
     destinationPVC: nfs-homeassist
     copyMethod: Direct
     enableFileDeletion: true

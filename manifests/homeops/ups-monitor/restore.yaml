@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: cloudflare-s3-backup-ups-monitor
+    repository: s3-backup-cloudflare-ups-monitor
     destinationPVC: nfs-ups-monitor
     copyMethod: Direct
     enableFileDeletion: true
@@ -20,7 +20,6 @@ spec:
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
       runAsNonRoot: false
-      runAsUser: 1000
-      runAsGroup: 100
+      runAsUser: 0
       seccompProfile:
         type: RuntimeDefault
