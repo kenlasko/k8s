@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: cloudflare-s3-backup-portainer
+    repository: s3-backup-cloudflare-portainer
     destinationPVC: nfs-portainer
     copyMethod: Direct
     enableFileDeletion: true
@@ -20,7 +20,7 @@ spec:
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
       runAsNonRoot: false
-      runAsUser: 1000
+      runAsUser: 0
       runAsGroup: 100
       seccompProfile:
         type: RuntimeDefault

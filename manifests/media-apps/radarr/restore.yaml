@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: oracle-s3-backup-radarr
+    repository: s3-backup-cloudflare-radarr
     destinationPVC: nfs-radarr
     copyMethod: Direct
     enableFileDeletion: true

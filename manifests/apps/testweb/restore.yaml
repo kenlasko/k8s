@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: uptime-kuma
-  namespace: uptime-kuma
+  name: testweb
+  namespace: testweb
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-cloudflare-uptime-kuma
-    destinationPVC: pvc-uptime-kuma
+    repository: s3-backup-cloudflare-testweb
+    destinationPVC: pvc-testweb
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
@@ -29,14 +29,14 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-uptimekuma-restore
+  name: pv-testweb-restore
 spec:
   accessModes:
   - ReadWriteOnce
   capacity:
     storage: 1Gi
   local:
-    path: /var/uptime-kuma
+    path: /var/testweb
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -44,6 +44,6 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - onode1
+          - nuc4
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path

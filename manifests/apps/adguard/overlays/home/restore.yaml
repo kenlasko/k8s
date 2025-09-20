@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: cloudflare-s3-backup-adguard
+    repository: s3-backup-cloudflare-adguard
     destinationPVC: nfs-adguard
     copyMethod: Direct
     enableFileDeletion: true

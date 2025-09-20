@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: vaultwarden
-  namespace: vaultwarden
+  name: nextcloud
+  namespace: nextcloud
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-cloudflare-vaultwarden
-    destinationPVC: nfs-vaultwarden
+    repository: s3-backup-cloudflare-nextcloud
+    destinationPVC: nfs-nextcloud
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
@@ -20,7 +20,7 @@ spec:
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
       runAsNonRoot: false
-      runAsUser: 1000
+      runAsUser: 0
       runAsGroup: 100
       seccompProfile:
         type: RuntimeDefault

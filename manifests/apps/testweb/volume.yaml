@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 1Mi
   local:
-    path: /var/mariadb-galera
+    path: /var/testweb
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -32,4 +32,28 @@ spec:
   resources:
     requests:
       storage: 1Mi
+  storageClassName: local-path
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-testweb-temp
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  local:
+    path: /var/backup-temp
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc4
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-path

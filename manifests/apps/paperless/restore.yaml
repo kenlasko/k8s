@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: vaultwarden
-  namespace: vaultwarden
+  name: paperless
+  namespace: paperless
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-cloudflare-vaultwarden
-    destinationPVC: nfs-vaultwarden
+    repository: s3-backup-cloudflare-paperless
+    destinationPVC: nfs-paperless
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
@@ -20,7 +20,7 @@ spec:
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
       runAsNonRoot: false
-      runAsUser: 1000
-      runAsGroup: 100
+      runAsUser: 0
+      runAsGroup: 1000
       seccompProfile:
         type: RuntimeDefault

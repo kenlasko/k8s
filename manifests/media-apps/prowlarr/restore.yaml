@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: oracle-s3-backup-prowlarr
+    repository: s3-backup-oracle-prowlarr
     destinationPVC: nfs-prowlarr
     copyMethod: Direct
     enableFileDeletion: true
@@ -21,6 +21,6 @@ spec:
     moverSecurityContext:
       runAsNonRoot: false
       runAsUser: 1000
-      runAsGroup: 100
+      runAsGroup: 0
       seccompProfile:
         type: RuntimeDefault
