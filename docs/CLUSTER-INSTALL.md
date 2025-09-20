@@ -2,13 +2,15 @@
 Before installing the cluster, ensure you have the following:
 
 - SideroLabs Omni must be ready to go. Installation steps are in the repository link below:
-[Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
+    - [Omni On-Prem installation and configuration](https://github.com/kenlasko/omni/)
 
 - You will need a workstation (preferably Linux-based) with several tools to get things rolling. Choose one of the following approaches:
     - [Workstation Prep Instructions for Ubuntu-based distributions](/docs/WORKSTATION.md)
     - [NixOS Workstation Build](https://github.com/kenlasko/nixos-wsl/)
 
 - Most of the workloads use NAS-based storage for persistent data. The [NAS Configuration](/docs/NASCONFIG.md) doc shows the configuration for the various things that need to be ready before the cluster can be spun up.
+
+- If this is a rebuild of the existing cluster, make sure to delete all relevant [Tailscale machines](/manifests/network/tailscale) from the [Tailscale Admin Console](https://login.tailscale.com/admin/machines). Otherwise, Tailscale will create duplicate machines with `-1` appended to them. Causes all sorts of weird issues and just looks messy.
 
 # Kubernetes Install
 Ensure that Omnictl/Talosctl is available and connected to your Omni installation and associated servers. Installation steps are [in my Omni repo](https://github.com/kenlasko/omni/).
