@@ -9,7 +9,7 @@ spec:
   ports:
   - appProtocol: http
     name: web
-    port: 8080
+    port: 8000
     protocol: TCP
     targetPort: http
   selector:

@@ -16,4 +16,4 @@ spec:
     - kind: Service
       name: testweb-service
       namespace: testweb
-      port: 8080
+      port: 8000

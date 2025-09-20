@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/name: testweb
     app.kubernetes.io/version: latest
   name: testweb
+  namespace: testweb
 spec:
   replicas: 1
   revisionHistoryLimit: 2
@@ -44,7 +45,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: testweb
         ports:
-        - containerPort: 8080
+        - containerPort: 8000
           name: http
           protocol: TCP
         resizePolicy:
