@@ -1,7 +1,7 @@
 # Introduction
 [Tailscale Operator](https://tailscale.com/kb/1236/kubernetes-operator) allows for secured access between workloads on different systems connected via a Tailscale network.
 
-I use Tailscale to directly access services on remote clusters for things like replication and updates. I also use it to access cloud cluster HTTP resources via `HTTPRoutes` published on the home cluster.
+I use Tailscale to directly access services on remote clusters for things like replication and updates. I also use it to access cloud cluster HTTP resources via `HTTPRoutes` published on the home cluster. The [Tailscale Admin Console](https://login.tailscale.com/admin/machines) shows the current status of all Tailscale nodes.
 
 # Configuration
 ## Authentication
