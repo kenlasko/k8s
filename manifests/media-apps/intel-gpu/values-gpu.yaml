@@ -2,3 +2,10 @@ name: intel-device-plugins-gpu
 sharedDevNum: 1
 logLevel: 2
 nodeFeatureRule: false
+resources:
+  requests:
+    cpu: 1m
+    memory: 10Mi
+  limits:
+    cpu: 100m
+    memory: 80Mi

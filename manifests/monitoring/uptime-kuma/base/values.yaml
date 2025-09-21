@@ -19,7 +19,7 @@ env:
   value: "3001"
 resources:
   requests:
-    cpu: 20m
+    cpu: 15m
     memory: 140Mi
   limits:
     # cpu: 600m

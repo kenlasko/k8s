@@ -19,8 +19,8 @@ env:
 args: ["--requirepass", "$(REDIS_PASSWORD)"]
 resources:
   requests:
-    cpu: 30m
-    memory: 20Mi
+    cpu: 10m
+    memory: 40Mi
   limits:
     memory: 1.5Gi
 service:

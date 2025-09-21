@@ -13,8 +13,8 @@ securityContext:
     drop: ["ALL"]
 resources:
   requests:
-    cpu: 2m
-    memory: 100Mi
+    cpu: 100m
+    memory: 650Mi
     gpu.intel.com/i915: "1"
   limits:
     # cpu: 1000m
@@ -27,6 +27,9 @@ persistentVolume:
   size: 700Mi
 media:
   enabled: true
+backup:
+  location: cloudflare
+  schedule: "40 06 * * *"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:

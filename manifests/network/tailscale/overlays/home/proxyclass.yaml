@@ -8,10 +8,10 @@ spec:
       tailscaleContainer:
         resources:
           requests:
-            cpu: 15m
-            memory: 70Mi
+            cpu: 2m
+            memory: 30Mi
           limits:
             # cpu: 100m
-            memory: 325Mi
+            memory: 100Mi
             smarter-devices/net_tun: "1"
 

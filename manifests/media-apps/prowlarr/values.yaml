@@ -14,7 +14,7 @@ securityContext:
 resources:
   requests:
     cpu: 2m
-    memory: 120Mi
+    memory: 160Mi
   limits:
     # cpu: 500m
     memory: 250Mi

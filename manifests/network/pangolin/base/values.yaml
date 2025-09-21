@@ -23,8 +23,8 @@ envFrom:
     name: newt-config
 resources:
   requests:
-    cpu: 5m
-    memory: 35Mi
+    cpu: 1m
+    memory: 45Mi
   limits:
     memory: 100Mi
 disableHTTPRoute: true

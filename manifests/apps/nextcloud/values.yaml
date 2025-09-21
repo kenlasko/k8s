@@ -70,7 +70,7 @@ collabora:
       --o:ssl.termination=true
   resources:
     requests:
-      cpu: 4m
+      cpu: 2m
       memory: 470Mi
     limits:
       memory: 750Mi
