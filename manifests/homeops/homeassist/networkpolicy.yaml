@@ -62,6 +62,13 @@ spec:
             - port: "3000"
     - toEndpoints:
         - matchLabels:
+            app.kubernetes.io/name: dead-man-hand
+            k8s:io.kubernetes.pod.namespace: dead-man-hand
+      toPorts:
+        - ports:
+            - port: "8080"
+    - toEndpoints:
+        - matchLabels:
             app.kubernetes.io/name: mariadb
             k8s:io.kubernetes.pod.namespace: mariadb
       toPorts:
