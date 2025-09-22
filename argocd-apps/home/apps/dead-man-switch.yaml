@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dead-man-switch
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "99"
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:kenlasko/k8s.git"
+    path: manifests/apps/dead-man-switch
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: dms
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/enforce-version: latest
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  info:
+  - name: "Repository:"
+    value: "https://github.com/jhonderson/gone-man-switch"

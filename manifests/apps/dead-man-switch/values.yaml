@@ -1,0 +1,43 @@
+image:
+  repository: jhonderson/gone-man-switch
+  tag: v0.1.10
+  registry: docker.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  runAsUser: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: TZ
+  value: "America/Toronto"
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+resources:
+  requests:
+    cpu: 10m
+    memory: 50Mi
+  limits:
+    # cpu: 200m
+    memory: 100Mi
+service:
+  port: 3000
+httpRouteNameOverride: dms.ucdialplans.com
+# livenessProbe:
+#   httpGet:
+#     path: /healthz
+#     port: http
+#   initialDelaySeconds: 15
+#   periodSeconds: 60
+#   timeoutSeconds: 5
+persistentVolume:
+  type: nfs
+  size: 125Mi
+  mountPath: /app/data

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: dms
+data:
+  SERVER_URL: "https://dms.ucdialplans.com"
+  SMTP_HOST: "mail.smtp2go.com"
+  SMTP_PORT: "587" 
+  SMTP_SECURE: "true"
+  SMTP_FROM: "klasko@ucdialplans.com"
