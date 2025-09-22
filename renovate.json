@@ -101,9 +101,7 @@
         "helm-values"
       ],
       "matchPackageNames": [
-        "ghcr.io/home-operations/home-assistant",
-        "ghcr.io/immich-app/immich-server",
-        "ghcr.io/immich-app/immich-machine-learning"
+        "ghcr.io/home-operations/home-assistant"
       ],
       "matchUpdateTypes": [
         "major",
