@@ -4,20 +4,14 @@ image:
   registry: ghcr.io
 priorityClassName: low-priority
 securityContext:
-  # allowPrivilegeEscalation: true
-  # readOnlyRootFilesystem: false
-  # runAsNonRoot: false
-  # runAsUser: 0
-  # runAsGroup: 1000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  runAsUser: 0
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - "CHOWN"
-    # - "SETGID"
-    # - "SETUID"
-    # - "DAC_OVERRIDE"
 env:
 - name: TZ
   value: "America/Toronto"

@@ -5,7 +5,7 @@ metadata:
   namespace: dead-man-hand
 data:
   DMH_CONFIG_FILE: "/data/config.yaml"
-  DMH_COMPONETS: "vault,dmh"
+  DMH_COMPONENTS: "vault,dmh"
   DMH_VAULT__FILE: "/data/vault.json"
   DMH_STATE__FILE: "/data/state.json"
   DMH_REMOTE_VAULT__URL: "http://127.0.0.1:8080"
