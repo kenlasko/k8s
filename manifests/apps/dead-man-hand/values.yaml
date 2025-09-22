@@ -35,3 +35,7 @@ resources:
     memory: 100Mi
 service:
   port: 8080
+persistentVolume:
+  type: nfs
+  size: 150Mi
+  mountPath: /data
