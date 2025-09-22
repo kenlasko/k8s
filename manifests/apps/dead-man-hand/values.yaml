@@ -1,0 +1,44 @@
+image:
+  repository: bkupidura/dead-man-hand
+  tag: 0.3.2.1
+  registry: ghcr.io
+priorityClassName: low-priority
+securityContext:
+  # allowPrivilegeEscalation: true
+  # readOnlyRootFilesystem: false
+  # runAsNonRoot: false
+  # runAsUser: 0
+  # runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
+    # - "DAC_OVERRIDE"
+env:
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 10m
+    memory: 50Mi
+  limits:
+    # cpu: 200m
+    memory: 100Mi
+service:
+  port: 8080
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+persistentVolume:
+  type: nfs
+  size: 15Mi
+  mountPath: /data
+backup:
+  location: cloudflare
+  schedule: "55 06 * * *"
