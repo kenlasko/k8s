@@ -20,6 +20,8 @@ envFrom:
     name: env-vars
 - secretRef:
     name: smtp2go-credentials
+- secretRef:
+    name: env-secrets
 resources:
   requests:
     cpu: 10m
