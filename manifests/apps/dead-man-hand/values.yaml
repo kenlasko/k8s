@@ -19,6 +19,8 @@ envFrom:
 - configMapRef:
     name: env-vars
 - secretRef:
+    name: env-secrets
+- secretRef:
     name: smtp2go-credentials
 resources:
   requests:
