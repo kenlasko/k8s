@@ -1,0 +1,1 @@
+dmh-cli action test --kind mail --data "{\"message\":\"I'm dead,\nso here's some shit to know\n\nTake care!\",\"destination\":[\"ken.lasko@gmail.com\"],\"subject\":\"Boo! I'm dead!\"}"
