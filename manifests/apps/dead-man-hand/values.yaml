@@ -29,6 +29,13 @@ resources:
     memory: 100Mi
 service:
   port: 8080
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 60
+  timeoutSeconds: 5
 persistentVolume:
   type: nfs
   size: 150Mi
