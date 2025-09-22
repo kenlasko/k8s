@@ -4,7 +4,7 @@ metadata:
   name: env-vars
   namespace: dead-man-hand
 data:
-  DMH_CONFIG_FILE: "/data/config.yaml"
+  # DMH_CONFIG_FILE: "/data/config.yaml"
   DMH_COMPONENTS: "vault,dmh"
   DMH_VAULT__FILE: "/data/vault.json"
   DMH_STATE__FILE: "/data/state.json"
