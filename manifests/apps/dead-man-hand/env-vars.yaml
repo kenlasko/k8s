@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: dead-man-hand
+data:
+  DMH_COMPONETS: "vault,dmh"
+  DMH_VAULT__FILE: "/data/vault.json"
+  DMH_STATE__FILE: "/data/state.json"
+  DMH_REMOTE_VAULT__URL: "http://127.0.0.1:8080"
+  DMH_ACTION__PROCESS_UNIT: "hour"

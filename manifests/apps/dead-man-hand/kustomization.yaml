@@ -4,8 +4,8 @@ helmGlobals:
   chartHome: ../../../helm
 helmCharts:
 - name: baseline
-  releaseName: paperless
-  namespace: paperless
+  releaseName: dead-man-hand
+  namespace: dead-man-hand
   valuesFile: values.yaml
 resources:
 - env-vars.yaml

@@ -21,6 +21,11 @@ securityContext:
 env:
 - name: TZ
   value: "America/Toronto"
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
 resources:
   requests:
     cpu: 10m
@@ -30,15 +35,3 @@ resources:
     memory: 100Mi
 service:
   port: 8080
-envFrom:
-- configMapRef:
-    name: env-vars
-- secretRef:
-    name: env-secrets
-persistentVolume:
-  type: nfs
-  size: 15Mi
-  mountPath: /data
-backup:
-  location: cloudflare
-  schedule: "55 06 * * *"
