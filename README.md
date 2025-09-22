@@ -41,7 +41,7 @@ This is my Kubernetes lab environment, which I have historically used to test ou
 I use the [Tailscale Operator](/manifests/network/tailscale) to securely share data between my home and cloud cluster. I decided to use limited service-level links instead of a cluster-wide link to limit exposure. This does complicate things somewhat, but is generally manageable. 
 
 ## Folder structure
-The relevent folders are laid out in the following manner:
+The folders are laid out in the following manner:
 - [argocd](/argocd): the "brains" of the operation that controls the creation/management of all resources
 - [argocd-apps](/argocd-apps): where all the ArgoCD application definitions reside. This basically tells ArgoCD where to find the relevant manifests for each application. Broken down by type (app, database, system etc). The ArgoCD applications reference manifests stored in the [manifests](/manifests) folder.
 - [docs](/docs): documents
