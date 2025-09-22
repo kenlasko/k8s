@@ -8,5 +8,5 @@ data:
   SMTP_HOST: "mail.smtp2go.com"
   SMTP_PORT: "587" 
   SMTP_SECURE: "false"
-  SMTP_FROM: "klasko@ucdialplans.com"
+  SMTP_FROM: "dms@ucdialplans.com"
   SMTP_AUTH_MECHANISM: "LOGIN"
