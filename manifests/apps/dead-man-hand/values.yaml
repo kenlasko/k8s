@@ -31,6 +31,7 @@ resources:
     memory: 100Mi
 service:
   port: 8080
+httpRouteNameOverride: dmh.ucdialplans.com
 livenessProbe:
   httpGet:
     path: /healthz
