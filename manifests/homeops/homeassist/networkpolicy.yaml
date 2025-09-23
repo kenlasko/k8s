@@ -63,7 +63,7 @@ spec:
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: dead-man-hand
-            k8s:io.kubernetes.pod.namespace: dead-man-hand
+            k8s:io.kubernetes.pod.namespace: dmh
       toPorts:
         - ports:
             - port: "8080"
