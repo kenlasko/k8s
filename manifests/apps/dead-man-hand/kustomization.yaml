@@ -4,8 +4,8 @@ helmGlobals:
   chartHome: ../../../helm
 helmCharts:
 - name: baseline
-  releaseName: dead-man-hand
-  namespace: dead-man-hand
+  releaseName: dmh
+  namespace: dmh
   valuesFile: values.yaml
 resources:
 - env-vars.yaml

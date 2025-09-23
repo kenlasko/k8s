@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: env-vars
-  namespace: dead-man-hand
+  namespace: dmh
 data:
   DMH_CONFIG_FILE: "/data/config.yaml"
   DMH_COMPONENTS: "vault,dmh"
