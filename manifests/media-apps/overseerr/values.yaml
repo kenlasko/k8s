@@ -1,19 +1,21 @@
 image:
-  repository: linuxserver/overseerr
+  repository: sctx/overseerr
   tag: 1.34.0
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
-    - "DAC_OVERRIDE"
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
+    # - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 3m
@@ -28,3 +30,4 @@ extraHTTPRouteHostnames:
 persistentVolume:
   type: longhorn
   size: 250Mi
+  mountPath: /app/config
