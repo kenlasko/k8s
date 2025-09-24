@@ -78,7 +78,7 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: nas01-s3-backup-{{ $name }}
+    name: s3-backup-{{ .Values.backup.location | default "nas01" }}-{{ $name }}
   {{ end }}
   
 {{- else if eq .Values.persistentVolume.type "local-path" }}
