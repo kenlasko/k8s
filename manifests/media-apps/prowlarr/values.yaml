@@ -1,12 +1,13 @@
 image:
-  repository: home-operations/prowlarr
-  tag: 2.1.2.5186
+  repository: 11notes/prowlarr
+  tag: 2.1.6  # 2.1.2.5186
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
+  runAsGroup: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
@@ -34,6 +35,14 @@ media:
 persistentVolume:
   type: nfs
   size: 600Mi
+  mountPath: /prowlarr/etc
+extraVolumes:
+- name: tmpfs
+  emptyDir:
+    medium: Memory
+extraVolumeMounts:
+- name: tmpfs
+  mountPath: /tmp
 backup:
   location: oracle
   schedule: "55 06 * * *"
