@@ -1,14 +1,15 @@
 image:
-  repository: home-operations/radarr
-  tag: 6.0.0
+  repository: 11notes/radarr
+  tag: 5.27.5
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
+  runAsGroup: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
@@ -36,6 +37,14 @@ media:
 persistentVolume:
   type: nfs
   size: 2.5Gi
+  mountPath: /radarr/etc
+extraVolumes:
+- name: tmpfs
+  emptyDir:
+    medium: Memory
+extraVolumeMounts:
+- name: tmpfs
+  mountPath: /tmp
 backup:
   location: cloudflare
   schedule: "00 07 * * *"
