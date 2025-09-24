@@ -43,3 +43,7 @@ persistentVolume:
   type: nfs
   size: 150Mi
   mountPath: /data
+backup:
+  location: cloudflare
+  schedule: "55 06 * * *"
+  
