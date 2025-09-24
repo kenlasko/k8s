@@ -1,18 +1,20 @@
 image:
-  repository: linuxserver/transmission
+  repository: home-operations/transmission
   tag: 4.0.6
-  registry: docker.io
+  registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    add:
-    - "CHOWN"
-    - "SETGID"
-    - "SETUID"
+    # add:
+    # - "CHOWN"
+    # - "SETGID"
+    # - "SETUID"
 resources:
   requests:
     cpu: 2m
