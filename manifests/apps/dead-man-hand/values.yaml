@@ -6,8 +6,8 @@ priorityClassName: low-priority
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
-  runAsNonRoot: false
-  runAsUser: 0
+  runAsNonRoot: true
+  runAsUser: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
