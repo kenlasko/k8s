@@ -1,4 +1,4 @@
-# config:
-#   device_include: (sd|nvme).*
 serviceMonitor:
+  enabled: true
+prometheusRules:
   enabled: true
