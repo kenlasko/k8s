@@ -41,7 +41,7 @@ persistentVolume:
 extraVolumes:
 - name: tmpfs
   emptyDir:
-    medium: memory
+    medium: Memory
 extraVolumeMounts:
 - name: tmpfs
   mountPath: /tmp
