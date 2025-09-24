@@ -1,0 +1,4 @@
+config:
+  device_include: /dev/(sd|nvme).*
+serviceMonitor:
+  enabled: true

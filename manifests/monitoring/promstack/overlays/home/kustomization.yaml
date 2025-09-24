@@ -12,6 +12,13 @@ helmCharts:
   additionalValuesFiles:
   - values.yaml
   valuesMerge: merge
+- name: prometheus-smartctl-exporter
+  repo: oci://ghcr.io/prometheus-community/charts/prometheus-smartctl-exporter
+  version: 0.15.4
+  releaseName: prometheus-smartctl-exporter
+  namespace: monitoring
+  includeCRDs: true
+  valuesFile: values-smartctl.yaml
 resources:
 - ../../base
 - httproute.yaml
