@@ -11,10 +11,6 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - "CHOWN"
-    # - "SETGID"
-    # - "SETUID"
 resources:
   requests:
     cpu: 2m

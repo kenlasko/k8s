@@ -128,12 +128,20 @@
     },
     {
       "matchManagers": [
+        "kustomize"
+      ],
+      "matchPackageNames": [
+        "kube-prometheus-stack"
+      ],
+      "schedule": ["* * * * 3"]
+    },
+    {
+      "matchManagers": [
         "helm-values",
         "kubernetes"
       ],
       "matchPackageNames": [
-        "docker.io/linuxserver/overseerr",
-        "docker.io/linuxserver/transmission"
+        "docker.io/linuxserver/overseerr"
       ],
       "allowedVersions": "<=9.9"
     }
