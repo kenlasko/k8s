@@ -6,7 +6,7 @@ extraLabels:
   appGroup: media-arr
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 1000
@@ -38,6 +38,13 @@ persistentVolume:
   type: nfs
   size: 1Gi
   mountPath: /sonarr/etc
+extraVolumes:
+- name: tmpfs
+  emptyDir:
+    medium: memory
+extraVolumeMounts:
+- name: tmpfs
+  mountPath: /tmp
 backup:
   location: oracle
   schedule: "05 07 * * *"
