@@ -1,14 +1,15 @@
 image:
-  repository: home-operations/sonarr
-  tag: 4.0.15.2940
+  repository: 11notes/sonarr
+  tag: 4.0.15
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
+  runAsGroup: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
@@ -36,6 +37,7 @@ media:
 persistentVolume:
   type: nfs
   size: 1Gi
+  mountPath: /sonarr/etc
 backup:
   location: oracle
   schedule: "05 07 * * *"
