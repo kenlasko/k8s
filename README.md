@@ -5,9 +5,11 @@ The clusters are built on Sidero Lab's [Talos OS](https://github.com/siderolabs/
 
 ## Cluster Descriptions
 ### Home Cluster
+This is my primary cluster which is used to self-host numerous applications, from the [*arr stack and its supporting apps/tools](/manifests/media-apps) to [Home Assistant](/manifests/homeops/homeassist) to replacements for cloud-services such as [Nextcloud](/manifests/apps/nextcloud).
+
 My home cluster runs on 7 mini-PCs named `NUC1` through to `NUC7`. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC7 are workers. While this repo can be used for any environment, some workloads require (or benefit from) hardware that is specific to certain named nodes. The manifests are configured for this. For example:
 * [Plex](/manifests/media-apps/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC4 or NUC7 which run the older N95 if necessary.
-* [Home Assistant](/manifests/homeops/homeassist) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
+* My [Home Assistant appstack](/manifests/homeops) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
 * [MariaDB](/manifests/database/mariadb) and [PostgreSQL](/manifests/database/postgresql) requires local storage, which is available on NUC4-NUC7.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC7 in order to keep workloads off the control-plane nodes
 
@@ -35,7 +37,10 @@ The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most
 The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](/docs/ORACLE-TALOS-PREP.md).
 
 ### Lab Cluster
-This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs on my Windows 11 machine under Hyper-V.
+This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs as needed on my Windows 11 machine under Hyper-V. It is not typically in use.
+
+## Remote Access
+Most services are only accessed by myself and are only available via my local network or my Unifi-hosted Wireguard VPN. Services that are publically available such as [UCDialplans.com](https://www.ucdialplans.com) or [Overseerr](/manifests/media-apps/overseerr) (for my family) are published via my dedicated [cloud-based Pangolin instance](https://github.com/kenlasko/pangolin).
 
 ## Inter-Cluster Communication
 I use the [Tailscale Operator](/manifests/network/tailscale) to securely share data between my home and cloud cluster. I decided to use limited service-level links instead of a cluster-wide link to limit exposure. This does complicate things somewhat, but is generally manageable. 
