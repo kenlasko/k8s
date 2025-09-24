@@ -1,5 +1,8 @@
+config:
+  device_exclude: sd[b-z]$
 serviceMonitor:
   enabled: true
+  # This replaces the pod IP/port with the node name associated with the disk
   relabelings:
   - sourceLabels: [__meta_kubernetes_pod_node_name]
     targetLabel: instance
