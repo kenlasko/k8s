@@ -19,7 +19,7 @@ spec:
     # restoreAsOf: "2025-03-05T06:50:00Z"
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
-      runAsNonRoot: false
-      runAsUser: 0
+      runAsNonRoot: true
+      runAsUser: 1000
       seccompProfile:
         type: RuntimeDefault
