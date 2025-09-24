@@ -1,6 +1,6 @@
 image:
   repository: sctx/overseerr
-  tag: 1.34.0
+  tag: develop
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
