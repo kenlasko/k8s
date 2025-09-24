@@ -7,15 +7,11 @@ securityContext:
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
+  runAsGroup: 1000
   seccompProfile:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-    # add:
-    # - "CHOWN"
-    # - "SETGID"
-    # - "SETUID"
-    # - "DAC_OVERRIDE"
 resources:
   requests:
     cpu: 3m
