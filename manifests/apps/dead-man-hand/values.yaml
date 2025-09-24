@@ -24,11 +24,11 @@ envFrom:
     name: smtp2go-credentials
 resources:
   requests:
-    cpu: 10m
-    memory: 50Mi
+    cpu: 1m
+    memory: 4Mi
   limits:
     # cpu: 200m
-    memory: 100Mi
+    memory: 20Mi
 service:
   port: 8080
 httpRouteNameOverride: dmh.ucdialplans.com
