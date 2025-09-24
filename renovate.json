@@ -89,7 +89,6 @@
       ],
       "matchPackageNames": [
         "cilium",
-        "docker.io/instantlinux/nut-upsd",
         "**/gateway-api.git",
         "longhorn",
         "**/mariadb-galera"
