@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    lbipam.cilium.io/ips: 192.168.10.12
+  labels:
+    app: transmission
+  name: transmission-external-service
+  namespace: media-apps
+spec:
+  externalTrafficPolicy: Local
+  ports:
+    - name: remotedata-tcp
+      port: 42615
+      protocol: TCP
+      targetPort: null
+    - name: remotedata-udp
+      port: 42615
+      protocol: UDP
+      targetPort: null
+  selector:
+    app: transmission
+  type: LoadBalancer
