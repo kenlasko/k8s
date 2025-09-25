@@ -23,7 +23,7 @@ persistence:
 defaultSettings:
   allowVolumeCreationWithDegradedAvailability: false
   defaultDataLocality: "best-effort"
-  freezeFilesystemForSnapshot: true
+  freezeFilesystemForSnapshot: "ignored"
   restoreVolumeRecurringJobs: true
   systemManagedComponentsNodeSelector: storage:longhorn
 
