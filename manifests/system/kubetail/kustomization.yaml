@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
 - name: kubetail
   repo: https://kubetail-org.github.io/helm-charts
-  version: 0.15.0
+  version: 0.15.1
   releaseName: kubetail
   namespace: kubetail
   valuesFile: values.yaml
