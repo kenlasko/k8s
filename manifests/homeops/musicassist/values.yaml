@@ -1,6 +1,6 @@
 image:
   repository: music-assistant/server
-  tag: 2.5.8
+  tag: 2.6.0
   registry: ghcr.io
 priorityClassName: high-priority
 hostNetwork: true
