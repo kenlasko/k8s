@@ -14,6 +14,18 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
+  name: homeassist
+  namespace: postgresql
+spec:
+  name: homeassist
+  owner: homeassist
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
   name: immich
   namespace: postgresql
 spec:
@@ -115,5 +127,17 @@ metadata:
 spec:
   name: sonarr-logs
   owner: sonarr
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: vaultwarden
+  namespace: postgresql
+spec:
+  name: vaultwarden
+  owner: vaultwarden
   cluster:
     name: home
