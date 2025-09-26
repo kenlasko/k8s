@@ -1,5 +1,11 @@
 # Summary
-This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud.
+This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud. It hosts databases for the following apps:
+
+* [Immich](/manifests/media-apps/immich)
+* [Paperless](/manifests/apps/paperless)
+* [Prowlarr](/manifests/media-apps/prowlarr)
+* [Radarr](/manifests/media-apps/radarr)
+* [Sonarr](/manifests/media-apps/sonarr)
 
 # Replication
 Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](overlays/cloud/cluster.yaml).

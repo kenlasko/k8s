@@ -5,8 +5,8 @@ metadata:
   namespace: paperless
 data:
   PAPERLESS_CONSUMER_DISABLE: "true"
-  PAPERLESS_DBENGINE: postgresql  #postgresql  # mariadb
-  PAPERLESS_DBHOST: home-rw.postgresql.svc.cluster.local # home-rw.postgresql.svc.cluster.local  # mariadb.mariadb.svc.cluster.local
+  PAPERLESS_DBENGINE: postgresql
+  PAPERLESS_DBHOST: home-rw.postgresql.svc.cluster.local
   PAPERLESS_DBPORT: "5432"
   PAPERLESS_URL: "https://paperless.ucdialplans.com"
   USERMAP_UID: "1000"
