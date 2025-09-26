@@ -65,6 +65,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-immich
+    - name: nextcloud
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-nextcloud
     - name: paperless
       ensure: present
       login: true
