@@ -9,3 +9,9 @@ serviceMonitor:
     action: replace
 prometheusRules:
   enabled: true
+resources:
+  requests:
+    cpu: 1m
+    memory: 25Mi
+  limits:
+    memory: 50Mi
