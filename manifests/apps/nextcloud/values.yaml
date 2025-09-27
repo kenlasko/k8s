@@ -2,8 +2,8 @@ internalDatabase:
   enabled: false
 externalDatabase:
   enabled: true
-  type: postgresql # mysql  postgresql
-  host: home-rw.postgresql.svc.cluster.local   # mariadb.mariadb.svc.cluster.local  home-rw.postgresql.svc.cluster.local 
+  type: mysql # mysql  postgresql
+  host: mariadb.mariadb.svc.cluster.local  # mariadb.mariadb.svc.cluster.local  home-rw.postgresql.svc.cluster.local 
   database: nextcloud
   existingSecret:
     enabled: true
