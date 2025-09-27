@@ -1,7 +1,6 @@
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
 * [Home Assistant](/manifests/homeops/homeassist)
-* [NextCloud](/manifests/apps/nextcloud)
 * [UCDialplans](/manifests/apps/ucdialplans)
 * [VaultWarden](/manifests/apps/vaultwarden)
 

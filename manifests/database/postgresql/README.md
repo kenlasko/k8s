@@ -2,6 +2,7 @@
 This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud. It hosts databases for the following apps:
 
 * [Immich](/manifests/media-apps/immich)
+* [NextCloud](/manifests/apps/nextcloud)
 * [Paperless](/manifests/apps/paperless)
 * [Prowlarr](/manifests/media-apps/prowlarr)
 * [Radarr](/manifests/media-apps/radarr)

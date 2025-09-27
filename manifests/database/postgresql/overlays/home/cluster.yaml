@@ -57,6 +57,14 @@ spec:
 
   managed:
     roles:
+    - name: homeassist
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-homeassist
     - name: immich
       ensure: present
       login: true
@@ -105,6 +113,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-sonarr
+    - name: vaultwarden
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-vaultwarden
 
     services:
       additional:
