@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - env-vars.yaml
 - external-secrets.yaml
-- networkpolicy.yaml
+#- networkpolicy.yaml
