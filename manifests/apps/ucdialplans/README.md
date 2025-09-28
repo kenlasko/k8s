@@ -32,3 +32,42 @@ The only thing required is to switch the FQDNs for the Cloudflare Tunnel so that
 8. Save and exit
 
 When the main cluster comes back online, simply reverse the steps when ready.
+
+## Useful MariaDB SQL queries
+### Add user donation
+```
+set @UserID = '123123123123123123' COLLATE utf8mb4_general_ci;
+set @DonationAmount = 10 COLLATE utf8mb4_general_ci;
+
+UPDATE Users SET Donation = IFNULL((SELECT Donation FROM Users WHERE UserID = @UserID),0) + @DonationAmount, LastDonation = CURDATE(), DonationCount = IFNULL((SELECT DonationCount FROM Users WHERE UserID = @UserID),0) + 1 WHERE UserID = @UserID;
+```
+
+### Check for email updates
+```
+SELECT Rulesets.ID, Rulesets.CountryID, Rulesets.Date, Rulesets.GWType, Rulesets.NPA, Rulesets.NXX,
+Rulesets.City, Rulesets.StateProv, Rulesets.CustomRule, Rulesets.SIPTrunk, Rulesets.SevenDigitRules, 
+Rulesets.ExtAccessNum, Rulesets.BlockCallIDCode, Rulesets.BlockCallIDRepl, Rulesets.Email, 
+CAST(UNCOMPRESS(Rulesets.Ruleset) AS VARCHAR(400000)) AS UserRuleset, CAST(UNCOMPRESS(PrefixList.Ruleset) AS VARCHAR(400000)) AS PrefixRuleset, CAST(UNCOMPRESS(PrefixList.XMLData) AS VARCHAR(400000)) AS XMLData 
+FROM Rulesets Rulesets 
+JOIN NANPA_Prefix PrefixList ON PrefixList.Prefix = CONCAT(Rulesets.NPA,Rulesets.NXX) 
+WHERE (Rulesets.Email <> '' AND Rulesets.Ruleset IS NOT NULL AND SimpleRules = 0 AND (DateDiff(CURDATE(),Rulesets.Date) > 60 AND (DateDiff(CURDATE(),Rulesets.LastUpdate) > 60 OR Rulesets.LastUpdate IS NULL))) AND (Rulesets.Ruleset <> PrefixList.Ruleset OR Rulesets.Ruleset IS NULL OR PrefixList.Ruleset IS NULL OR DateDiff(CURDATE(), PrefixList.LastUpdate) > 60) 
+ORDER BY PrefixList.LastUpdate, Rulesets.LastUpdate ASC LIMIT 25;
+```
+
+### Find user by name/email
+```
+SET @namesearch = 'jansen' COLLATE utf8mb4_general_ci;
+
+SELECT Users.UserID, Users.FirstName, Users.LastName, Users.EmailAddress, Users.DonationCount, Users.Donation, Users.LastDonation as LastDonation, Count(*) AS Frequency, MAX(Rulesets.Date) AS LastUsed FROM Rulesets 
+INNER JOIN Users ON Rulesets.UserID = Users.UserID
+WHERE EmailAddress LIKE CONCAT('%', @namesearch, '%') OR LastName LIKE CONCAT('%', @namesearch, '%') OR FirstName LIKE CONCAT('%', @namesearch, '%')
+GROUP BY Users.UserID, Users.FirstName, Users.LastName, Users.EmailAddress, Users.DonationCount, Users.LastDonation, Users.Donation
+ORDER BY Frequency DESC;
+```
+
+# Delete email from all rulesets
+```
+UPDATE `Rulesets`
+SET Email = ''
+WHERE Email = 'Turd.Ferguson@contoso.com'
+```
