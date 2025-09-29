@@ -134,6 +134,18 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
+  name: ucdialplans
+  namespace: postgresql
+spec:
+  name: ucdialplans
+  owner: ucdialplans
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
   name: vaultwarden
   namespace: postgresql
 spec:
