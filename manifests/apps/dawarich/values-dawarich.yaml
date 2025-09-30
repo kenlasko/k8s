@@ -1,6 +1,6 @@
 image:
   repository: freikin/dawarich
-  tag: 0.32.0
+  tag: 0.33.0
   registry: docker.io
 priorityClassName: low-priority
 command: ["web-entrypoint.sh"]
