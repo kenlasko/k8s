@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: statupdate-script
-  namespace: mariadb
+  namespace: ucdialplans
   labels:
     app: ucdialplans
     argocd.argoproj.io/instance: ucdialplans
