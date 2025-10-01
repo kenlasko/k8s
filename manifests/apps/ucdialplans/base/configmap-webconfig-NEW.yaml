@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ucdialplans-webconfig
+  namespace: ucdialplans
+  labels:
+    app: ucdialplans
+    argocd.argoproj.io/instance: ucdialplans
+data:
+  web.config: |
+    <?xml version="1.0" encoding="utf-8"?>
+    <configuration>
+      <system.web>
+        <httpCookies httpOnlyCookies="true" requireSSL="true" />
+        <httpRuntime targetFramework="4.8" enableVersionHeader="false" />
+        <compilation targetFramework="4.8" />
+        <pages>
+          <namespaces>
+            <add namespace="System" />
+            <add namespace="System.Xml" />
+            <add namespace="System.Net" />
+            <add namespace="System.IO" />
+            <add namespace="System.Diagnostics"/>
+            <add namespace="System.Text.RegularExpressions" />
+            <add namespace="System.Collections.Generic" />
+            <add namespace="System.Collections.Specialized" />
+          </namespaces>
+        </pages>
+        <sessionState timeout="30" />
+        <customErrors mode="On" defaultRedirect="https://www.ucdialplans.com/errorpage.html" />
+      </system.web>
+      <system.webServer>
+        <security>
+          <requestFiltering>
+            <verbs>
+              <add verb="TRACE" allowed="false" />
+              <add verb="TRACK" allowed="false" />
+            </verbs>
+          </requestFiltering>
+        </security>
+        <httpProtocol>
+          <customHeaders>
+            <add name="X-Content-Type-Options" value="nosniff" />
+            <add name="X-Permitted-Cross-Domain-Policies" value="none" />
+            <remove name="X-Powered-By" />
+          </customHeaders>
+        </httpProtocol>
+        <staticContent>
+          <mimeMap fileExtension=".ps1" mimeType="file/download" />
+          <clientCache cacheControlMode="UseMaxAge" cacheControlMaxAge="7.00:00:00" />
+        </staticContent>
+        <urlCompression doDynamicCompression="true" />
+        <httpRedirect enabled="false" destination="https://www.ucdialplans.com" exactDestination="true" />
+      </system.webServer>
+      <system.data>
+        <DbProviderFactories>
+          <add name="Npgsql Data Provider" invariant="Npgsql" description=".Net Framework Data Provider for PostgreSQL" type="Npgsql.NpgsqlFactory, Npgsql, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7" />
+        </DbProviderFactories>
+      </system.data>
+      <connectionStrings>
+        <add connectionString="Host={0};Database={1};Username={2};Password={3};SSL Mode=Disable" name="PostgreSQL" providerName="Npgsql" />
+      </connectionStrings>
+      <appSettings>
+        <add key="webPages:Version" value="3.0" />
+      </appSettings>
+    </configuration>
+    <!--ProjectGuid: b63b6e0f-a0e0-4a7e-adb9-2600ccd061c9-->
