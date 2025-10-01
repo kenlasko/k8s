@@ -62,7 +62,7 @@ spec:
                   key: DB_PASSWORD
             volumeMounts:
             - name: statupdate-script
-              mountPath: /script/statupdate.sql
+              mountPath: /scripts/statupdate.sql
               subPath: statupdate.sql
             command: 
             - /bin/sh
