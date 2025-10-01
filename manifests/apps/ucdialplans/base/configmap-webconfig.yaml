@@ -24,7 +24,6 @@ data:
             <add namespace="System.Text.RegularExpressions" />
             <add namespace="System.Collections.Generic" />
             <add namespace="System.Collections.Specialized" />
-            <add namespace="MySqlConnector" />
           </namespaces>
         </pages>
         <sessionState timeout="30" />
@@ -55,11 +54,11 @@ data:
       </system.webServer>
       <system.data>
         <DbProviderFactories>
-            <add name="MySqlConnector" invariant="MySqlConnector" description="MySQL Connector for .NET" type="MySqlConnector.MySqlConnectorFactory, MySqlConnector, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92" />
+          <add name="Npgsql Data Provider" invariant="Npgsql" description=".Net Framework Data Provider for PostgreSQL" type="Npgsql.NpgsqlFactory, Npgsql, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7" />
         </DbProviderFactories>
       </system.data>
       <connectionStrings>
-        <add connectionString="server={0};database={1};uid={2};pwd={3};ConvertZeroDateTime=True;" name="UCDialplansDB" providerName="MySqlConnector" />
+        <add connectionString="Host={0};Database={1};Username={2};Password={3};SSL Mode=Disable" name="PostgreSQL" providerName="Npgsql" />
       </connectionStrings>
       <appSettings>
         <add key="webPages:Version" value="3.0" />

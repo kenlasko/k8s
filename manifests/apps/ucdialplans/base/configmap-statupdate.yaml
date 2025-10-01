@@ -8,23 +8,35 @@ metadata:
     argocd.argoproj.io/instance: ucdialplans
 data:
   statupdate.sql: |
-    UPDATE InfoCache SET Value = CASE
-        WHEN Attribute = 'TotalRegions' THEN 
-      (SELECT SUM(UniqueRegions) FROM (SELECT COUNT(DISTINCT CONCAT(City, '-', StateProv)) AS UniqueRegions FROM NANPA_Prefix
-          UNION ALL
-          SELECT COUNT(DISTINCT CONCAT(CountryID, '-', Region)) AS UniqueRegions FROM AreaCodes
-          UNION ALL
-          SELECT COUNT(DISTINCT Region) AS UniqueRegions FROM AreaCodes_NZ
-      ) AS CombinedSubquery)
-        WHEN Attribute = 'TotalUsers' THEN 
-      (SELECT Count(*) FROM Users)
-        WHEN Attribute = 'TotalRulesets' THEN 
-      (SELECT Count(*) FROM Rulesets)
-        WHEN Attribute = 'TotalExtensions' THEN 
-      (SELECT Count(*) FROM Extensions)
+    -- Update InfoCache with calculated values
+    UPDATE InfoCache
+    SET Value = CASE
+        WHEN Attribute = 'TotalRegions' THEN (
+            SELECT SUM(UniqueRegions) 
+            FROM (
+                SELECT COUNT(DISTINCT (City || '-' || StateProv)) AS UniqueRegions
+                FROM NANPA_Prefix
+                UNION ALL
+                SELECT COUNT(DISTINCT (CountryID || '-' || Region)) AS UniqueRegions
+                FROM AreaCodes
+                UNION ALL
+                SELECT COUNT(DISTINCT Region) AS UniqueRegions
+                FROM AreaCodes_NZ
+            ) AS CombinedSubquery
+        )
+        WHEN Attribute = 'TotalUsers' THEN (
+            SELECT COUNT(*) FROM Users
+        )
+        WHEN Attribute = 'TotalRulesets' THEN (
+            SELECT COUNT(*) FROM Rulesets
+        )
+        WHEN Attribute = 'TotalExtensions' THEN (
+            SELECT COUNT(*) FROM Extensions
+        )
         ELSE Value
     END;
 
+    -- Refresh top 10 countries
     TRUNCATE TABLE InfoCache_Top10_Countries;
     INSERT INTO InfoCache_Top10_Countries (Country, Rulesets)
     SELECT dr.CountryName AS Country, COUNT(*) AS Rulesets
@@ -34,10 +46,11 @@ data:
     ORDER BY Rulesets DESC
     LIMIT 10;
 
+    -- Refresh top 10 regions
     TRUNCATE TABLE InfoCache_Top10_Regions;
     INSERT INTO InfoCache_Top10_Regions (City, CountryID, Frequency)
     SELECT City, CountryID, COUNT(*) AS Frequency
-    FROM Rulesets -- Replace with your actual table name
+    FROM Rulesets
     GROUP BY City, CountryID
     ORDER BY Frequency DESC
     LIMIT 10;
