@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: mariadb-ucdialplans-statupdate
-  namespace: mariadb
+  name: ucdialplans-statupdate
+  namespace: ucdialplans
 spec:
   schedule: "0 */12 * * *"  # Once every 12 hours
   suspend: false 
@@ -19,15 +19,15 @@ spec:
           automountServiceAccountToken: false
           restartPolicy: Never
           containers:
-          - name: mariadb-ucdialplans-statusupdate
-            image: docker.io/mariadb:12.0.2
+          - name: ucdialplans-statupdate
+            image: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
               runAsNonRoot: true
-              runAsUser: 1001
-              runAsGroup: 100
+              runAsUser: 26
+              runAsGroup: 26
               seccompProfile:
                 type: RuntimeDefault
               capabilities:
@@ -39,12 +39,9 @@ spec:
               limits:
                 # cpu: 200m
                 memory: 400Mi
-            env: 
-            - name: MARIADB_ROOT_PW 
-              valueFrom: 
-                secretKeyRef: 
-                  name: mariadb-passwords
-                  key: mariadb-root-password
+            envFrom:
+            - secretRef:
+                name: credentials
             volumeMounts:
             - name: statupdate-script
               mountPath: /script/statupdate.sql
@@ -53,7 +50,7 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Updating UCDialplans.com statistics..." &&
-              mariadb -B -N -h mariadb.mariadb.svc.cluster.local -P 3306 -uroot -p$MARIADB_ROOT_PW -D ucdialplans < /script/statupdate.sql &&
+              psql "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_SERVER):5432/$(DB_DATABASE)" -f /scripts/statupdate.sql &&
               echo "$(date +%F_%T) Finished!"
           volumes:
           - configMap:
