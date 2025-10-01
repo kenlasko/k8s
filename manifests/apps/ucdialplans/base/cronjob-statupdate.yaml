@@ -39,9 +39,27 @@ spec:
               limits:
                 # cpu: 200m
                 memory: 400Mi
-            envFrom:
-            - secretRef:
-                name: credentials
+            env:
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_SERVER
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_DATABASE
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_USERNAME
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_PASSWORD
             volumeMounts:
             - name: statupdate-script
               mountPath: /script/statupdate.sql
@@ -50,7 +68,7 @@ spec:
             - /bin/sh
             - -c
             - echo "$(date +%F_%T) Updating UCDialplans.com statistics..." &&
-              psql "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_SERVER):5432/$(DB_DATABASE)" -f /scripts/statupdate.sql &&
+              psql -f /scripts/statupdate.sql &&
               echo "$(date +%F_%T) Finished!"
           volumes:
           - configMap:
