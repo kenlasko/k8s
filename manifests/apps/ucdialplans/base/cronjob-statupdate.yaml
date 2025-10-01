@@ -20,7 +20,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: ucdialplans-statupdate
-            image: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
+            image: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.3.0
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
