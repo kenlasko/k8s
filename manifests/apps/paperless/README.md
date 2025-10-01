@@ -3,4 +3,4 @@
 
 I haven't made much use of this yet. Been struggling to find a real use for it, instead of just relying on [Nextcloud](/manifests/apps/nextcloud). It is handy for digitized scans and whatnot, but I'm still not making full use of it.
 
-It requires [MariaDB](/manifests/database/mariadb) and [Redis](/manifests/database/redis) to run.
+It requires [PostgreSQL](/manifests/database/postgresql) and [Redis](/manifests/database/redis) to run.

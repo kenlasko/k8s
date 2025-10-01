@@ -3,15 +3,17 @@ UCDialplans is my website that allows users to automatically create Teams dialpl
 
 It is accessible to the world via my ~~[Cloudflare Tunnel](/manifests/network/cloudflare)~~ Oracle Cloud-based [Pangolin](https://github.com/kenlasko/pangolin) deployment.
 
+Backend storage is provided by [PostgreSQL](/manifests/database/postgresql).
+
 Most configuration is done via my [custom Helm chart](/helm/baseline).
 
 # Prerequisites
 ## Database
-* Requires access to `ucdialplans` database on MariaDB via `UCDialplans_Website` user account. 
-* Requires [InfoCache_Update](/manifests/database/mariadb/procedures.sql) procedure for periodically updating website usage numbers. 
+* Requires access to `ucdialplans` database on [PostgreSQL](/manifests/database/postgresql) via `ucdialplans` user account. 
+* Requires [InfoCache_Update](/manifests/apps/ucdialplans/cronjob-statupdate.yaml) procedure for periodically updating website usage numbers. 
 
 # Disaster Recovery
-Should the home cluster become unavailable for an extended period, UCDialplans.com can be switched to use my Oracle Cloud-based cluster. [MariaDB](/manifests/database/mariadb) is continuously backed up from on-prem, so a switch should be relatively easy. 
+Should the home cluster become unavailable for an extended period, UCDialplans.com can be switched to use my Oracle Cloud-based cluster. [PostgreSQL](/manifests/database/postgresql) is continuously backed up from on-prem, so a switch should be relatively easy. 
 
 ## Pangolin
 Very simple process:

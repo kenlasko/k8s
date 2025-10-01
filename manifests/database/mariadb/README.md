@@ -1,3 +1,6 @@
+> [!WARNING]
+> MariaDB has been deprecated in favour of [CloudNative PostgreSQL](/manifests/database/postgresql). After the [Bitnami debacle](https://thenewstack.io/broadcom-ends-free-bitnami-images-forcing-users-to-find-alternatives/), I had considered moving to the excellent [MariaDB Operator](https://github.com/mariadb-operator/mariadb-operator), but since I was already using CNPG successfully for some workloads, I elected to migrate everything to that, instead of managing two database platforms. This part of the repo is kept around for historical purposes.
+
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:
 * [Home Assistant](/manifests/homeops/homeassist)

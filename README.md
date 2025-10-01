@@ -10,7 +10,7 @@ This is my primary cluster which is used to self-host numerous applications, fro
 My home cluster runs on 7 mini-PCs named `NUC1` through to `NUC7`. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC7 are workers. While this repo can be used for any environment, some workloads require (or benefit from) hardware that is specific to certain named nodes. The manifests are configured for this. For example:
 * [Plex](/manifests/media-apps/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC4 or NUC7 which run the older N95 if necessary.
 * My [Home Assistant appstack](/manifests/homeops) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
-* [MariaDB](/manifests/database/mariadb) and [PostgreSQL](/manifests/database/postgresql) requires local storage, which is available on NUC4-NUC7.
+* [PostgreSQL](/manifests/database/postgresql) requires local storage, which is available on NUC4-NUC7.
 * [Longhorn](/manifests/system/longhorn) is configured to only run on NUC4-NUC7 in order to keep workloads off the control-plane nodes
 
 #### Server Specs
@@ -26,13 +26,12 @@ My home cluster runs on 7 mini-PCs named `NUC1` through to `NUC7`. NUC1-NUC3 are
 
 ### Cloud Cluster
 This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.com) and is used as a disaster-recovery solution for my home cluster. It replicates the function of some critical services:
-* MariaDB
 * PostgreSQL
 * AdGuard Home
 * VaultWarden
 * UCDialplans website
 
-The MariaDB/PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to my home network via Wireguard.
+The PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to my home network via Wireguard.
 
 The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](/docs/ORACLE-TALOS-PREP.md).
 
@@ -85,7 +84,6 @@ The configuration for Renovate is stored in [renovate.json](/renovate.json). The
 Renovate is set to automatically and silently upgrade every software package EXCEPT for the following:
 * [Cilium](/manifests/network/cilium)
 * [Longhorn](/manifests/system/longhorn)
-* [MariaDB](/manifests/database/mariadb)
 * [PostgreSQL](/manifests/database/postgresql)
 
 When upgrades for the above packages are found, Renovate will create a pull request that has to be manually approved (or denied). Once approved, ArgoCD manages the actual upgrade as with any other software.
@@ -118,7 +116,6 @@ helm template plex ~/k8s/helm/baseline -n media-apps -f ~/k8s/manifests/media-ap
 ```
 kustomize build k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone | kubectl apply -f -
 ```
-
 
 # Related Repositories
 Links to my other repositories mentioned or used in this repo:

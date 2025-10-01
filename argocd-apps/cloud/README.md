@@ -17,8 +17,7 @@ Apps that basically everything else depends on:
 ## Sync Wave 1
 * [Cloudflare Tunnel](/manifests/network/cloudflare-tunnel)
 * [Longhorn](/manifests/system/longhorn)
-* [MariaDB](/manifests/database/mariadb)
-* [PHPMyAdmin](/manifests/database/phpmyadmin)
+* [PostgreSQL](/manifests/database/postgresql)
 * [Registry](/manifests/system/registry)
 
 ## Sync Wave 2
