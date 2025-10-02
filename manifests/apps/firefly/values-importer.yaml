@@ -6,10 +6,10 @@ config:
   env:
     IGNORE_DUPLICATE_ERRORS: "false"
     TZ: "America/Toronto"
-securityContext:
-  capabilities:
-    drop:
-    - ALL
-  readOnlyRootFilesystem: false
+# securityContext:
+#   capabilities:
+#     drop:
+#     - ALL
+#   readOnlyRootFilesystem: false
   # runAsNonRoot: true
   # runAsUser: 1000    
