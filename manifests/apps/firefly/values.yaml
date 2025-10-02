@@ -19,7 +19,7 @@ config:
     DB_DATABASE: firefly
     DEFAULT_LANGUAGE: "en_CA"
     DEFAULT_LOCALE: "en_CA"
-    LC_ALL=en_CA.utf8
+    LC_ALL: "en_CA.utf8"
     TZ: "America/Toronto"
     TRUSTED_PROXIES: "**"
 
