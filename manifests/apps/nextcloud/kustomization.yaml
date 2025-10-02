@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
 - name: nextcloud
   repo: https://nextcloud.github.io/helm/
-  version: 8.0.3
+  version: 8.1.0
   releaseName: nextcloud
   namespace: nextcloud
   valuesFile: values.yaml
