@@ -1,0 +1,15 @@
+fireflyiii:
+  url: "http://firefly:80"
+  vanityUrl: "https://firefly.ucdialplans.com"
+config:
+  existingSecret: firefly-secrets
+  env:
+    IGNORE_DUPLICATE_ERRORS: "false"
+    TZ: "America/Toronto"
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000    
