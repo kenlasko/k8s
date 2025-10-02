@@ -1,3 +1,4 @@
+fullNameOverride: firefly
 image:
   registry: "docker.io"
   repository: "fireflyiii/core"
