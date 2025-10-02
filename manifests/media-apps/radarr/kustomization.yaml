@@ -8,4 +8,5 @@ helmCharts:
   namespace: media-apps
   valuesFile: values.yaml
 resources:
+- database.yaml
 - networkpolicy.yaml

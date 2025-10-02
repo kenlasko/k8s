@@ -8,6 +8,7 @@ helmCharts:
   namespace: immich
   valuesFile: values.yaml
 resources:
+- database.yaml
 - external-secrets.yaml
 - httproute.yaml
 # - sealed-secrets.yaml
