@@ -1,8 +1,8 @@
 image:
   registry: "docker.io"
   repository: "fireflyiii/core"
-  tag: v6.4.0
-  
+  tag: version-6.4.0
+
 persistence:
   enabled: true
   storageClassName: nfs-csi
