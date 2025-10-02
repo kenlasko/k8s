@@ -24,7 +24,7 @@ controller:
       memory: 500Mi
     limits:
       # cpu: 1500m
-      memory: 1800Mi
+      memory: 1900Mi
 
 crds:
   install: true
