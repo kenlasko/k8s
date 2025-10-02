@@ -11,8 +11,8 @@ persistence:
   storage: 1.2Gi
   existingClaim: nfs-firefly
 
-configs:
-  existingSecret: useraccount-firefly
+config:
+  existingSecret: firefly-secrets
   env:
     DB_HOST: home-rw.postgresql.svc.cluster.local
     DB_PORT: "5432"
