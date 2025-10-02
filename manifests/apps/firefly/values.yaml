@@ -17,8 +17,9 @@ config:
     DB_HOST: home-rw.postgresql.svc.cluster.local
     DB_PORT: "5432"
     DB_DATABASE: firefly
-    DEFAULT_LANGUAGE: "en_US"
-    DEFAULT_LOCALE: "equal"
+    DEFAULT_LANGUAGE: "en_CA"
+    DEFAULT_LOCALE: "en_CA"
+    LC_ALL=en_CA.utf8
     TZ: "America/Toronto"
     TRUSTED_PROXIES: "**"
 
