@@ -1,0 +1,26 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: pgadmin
+  namespace: postgresql
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: s3-backup-cloudflare-postgresql
+    destinationPVC: nfs-postgresql
+    copyMethod: Direct
+    enableFileDeletion: true
+    cleanupTempPVC: true
+    cleanupCachePVC: true
+    storageClassName: nfs-csi
+    cacheStorageClassName: nfs-csi-dynamic-backup
+    # restoreAsOf: "2025-03-05T06:50:00Z"
+    # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
+    moverSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 5050
+      runAsGroup: 5050
+      seccompProfile:
+        type: RuntimeDefault

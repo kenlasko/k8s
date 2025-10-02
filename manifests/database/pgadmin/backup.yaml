@@ -1,0 +1,27 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: pgadmin
+spec:
+  sourcePVC: nfs-pgadmin
+  trigger:
+    schedule: "05 7 * * *" # 7:05 UTC every day
+  restic:
+    pruneIntervalDays: 4
+    repository: s3-backup-cloudflare-pgadmin
+    retain:
+      hourly: 0
+      daily: 3
+      weekly: 0
+      monthly: 0
+      yearly: 0
+    copyMethod: Clone
+    volumeSnapshotClassName: nfs
+    storageClassName: nfs-csi-dynamic-backup
+    moverSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 5050
+      runAsGroup: 5050
+      seccompProfile:
+        type: RuntimeDefault
