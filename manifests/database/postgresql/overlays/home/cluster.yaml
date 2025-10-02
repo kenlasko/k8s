@@ -57,6 +57,14 @@ spec:
 
   managed:
     roles:
+    - name: firefly
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-firefly
     - name: homeassist
       ensure: present
       login: true

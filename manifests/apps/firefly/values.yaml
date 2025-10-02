@@ -1,0 +1,30 @@
+image:
+  registry: "docker.io"
+  repository: "fireflyiii/core"
+  tag: v6.4.0
+  
+persistence:
+  enabled: true
+  storageClassName: nfs-csi
+  accessModes: ReadWriteMany
+  storage: 1.2Gi
+  existingClaim: nfs-firefly
+
+configs:
+  existingSecret: useraccount-firefly
+  env:
+    DB_HOST: home-rw.postgresql.svc.cluster.local
+    DB_PORT: "5432"
+    DB_DATABASE: firefly
+    DEFAULT_LANGUAGE: "en_US"
+    DEFAULT_LOCALE: "equal"
+    TZ: "America/Toronto"
+    TRUSTED_PROXIES: "**"
+
+cronjob:
+  # -- Set to true to enable the CronJob. Note that you need to specify either cronjob.auth.existingSecret or cronjob.auth.token for it to actually be deployed.
+  enabled: false
+
+service:
+  type: ClusterIP
+  port: 80
