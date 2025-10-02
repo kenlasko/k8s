@@ -52,7 +52,7 @@ spec:
               operator: Exists
       toPorts:
         - ports:
-            - port: "3306"
+            - port: "5432"
     - toEndpoints:
         - matchLabels:
             cnpg.io/cluster: "home"

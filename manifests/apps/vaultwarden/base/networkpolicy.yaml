@@ -41,7 +41,7 @@ spec:
               operator: Exists
       toPorts:
         - ports:
-            - port: "3306"
+            - port: "5432"
     - toCIDRSet:
         - cidr: 0.0.0.0/0
       toPorts:
