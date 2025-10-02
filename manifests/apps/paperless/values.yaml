@@ -4,7 +4,7 @@ image:
   registry: ghcr.io
 priorityClassName: low-priority
 extraLabels:
-  mariadb-client: "true"
+  cnpg-client: "true"
 securityContext:
   allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false

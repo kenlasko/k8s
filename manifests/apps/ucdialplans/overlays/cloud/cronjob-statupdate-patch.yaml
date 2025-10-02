@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: mariadb-ucdialplans-statupdate
-  namespace: mariadb
+  name: ucdialplans-statupdate
+  namespace: ucdialplans
 spec:
   suspend: true

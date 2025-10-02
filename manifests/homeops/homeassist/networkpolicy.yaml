@@ -69,13 +69,6 @@ spec:
             - port: "8080"
     - toEndpoints:
         - matchLabels:
-            app.kubernetes.io/name: mariadb
-            k8s:io.kubernetes.pod.namespace: mariadb
-      toPorts:
-        - ports:
-            - port: "3306"
-    - toEndpoints:
-        - matchLabels:
             app.kubernetes.io/name: plex
             k8s:io.kubernetes.pod.namespace: media-apps
     - toEndpoints:

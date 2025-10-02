@@ -10,4 +10,4 @@ spec:
   template:
     metadata:
       labels:
-        mariadb-client: "true"
+        cnpg-client: "true"

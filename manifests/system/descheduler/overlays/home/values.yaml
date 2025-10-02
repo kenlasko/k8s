@@ -33,11 +33,9 @@ deschedulerPolicy:
           pods: 50
         evictableNamespaces:
           exclude:
-          - homeassist
+          - homeops
           - kube-system
-          - mariadb
-          - mariadb-standalone
-          - intel-gpu
+          - postgresql
     plugins:
       balance:
         enabled:

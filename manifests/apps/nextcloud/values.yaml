@@ -2,10 +2,8 @@ internalDatabase:
   enabled: false
 externalDatabase:
   enabled: true
-  type: postgresql # mysql  postgresql
-  host: home-rw.postgresql.svc.cluster.local   # mariadb.mariadb.svc.cluster.local  home-rw.postgresql.svc.cluster.local 
-  database: nextcloud
-  existingSecret:
+  type: postgresql
+  host: home-rw.postgresql.svc.cluster.local
     enabled: true
     secretName: nextcloud-db-credentials
     usernameKey: username
@@ -76,7 +74,7 @@ collabora:
       memory: 750Mi
 
 deploymentLabels:
-  mariadb-client: "true"
+  cnpg-client: "true"
 
 persistence:
   enabled: true

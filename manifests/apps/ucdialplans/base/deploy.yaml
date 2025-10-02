@@ -17,7 +17,7 @@ spec:
       labels:
         app: ucdialplans
         name: ucdialplans
-        mariadb-client: "true"
+        cnpg-client: "true"
     spec:
       restartPolicy: Always
       automountServiceAccountToken: false

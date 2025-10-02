@@ -28,7 +28,7 @@ spec:
               - matchPattern: "*"
     - toEndpoints:
         - matchLabels:
-            mariadb-client: "true"
+            cnpg-client: "true"
           matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: Exists

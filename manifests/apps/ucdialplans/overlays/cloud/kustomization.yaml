@@ -14,8 +14,8 @@ patches:
     group: batch
     version: v1
     kind: CronJob
-    name: mariadb-ucdialplans-statupdate
-    namespace: mariadb
+    name: ucdialplans-statupdate
+    namespace: ucdialplans
 - path: deploy-patch.yaml
   target:
     group: apps
