@@ -7,7 +7,7 @@ helmCharts:
     releaseName: firefly
     namespace: firefly
     valuesFile: values.yaml
-  - name: data-importer
+  - name: importer
     repo: https://firefly-iii.github.io/kubernetes
     version: 1.5.0
     releaseName: firefly-importer
