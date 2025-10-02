@@ -31,6 +31,8 @@ dmh-cli action test --kind mail --data "{\"message\": \"Are you still alive?\n\n
 ```
 
 ## Prompt after inactivity
+Configures an alert to be sent after x number of hours/days to remind me to check-in. Should only trigger if Home Assistant isn't updating DMH via the automation I've created for this. 
+
 Run this from inside DMH pod:
 ```
 dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 24 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dead-man-hand.ucdialplans.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
