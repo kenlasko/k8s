@@ -33,13 +33,13 @@ spec:
       sslmode: verify-full
       dbname: postgres
     sslKey:
-      name: replication-certs
+      name: home-replication
       key: tls.key
     sslCert:
-      name: replication-certs
+      name: home-replication
       key: tls.crt
     sslRootCert:
-      name: replication-certs
+      name: home-ca
       key: ca.crt
 
   postgresql:
