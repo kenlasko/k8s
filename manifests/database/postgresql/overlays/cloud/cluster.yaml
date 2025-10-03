@@ -13,7 +13,7 @@ spec:
       source: home-cluster-backupsource
   replica:
     enabled: true
-    source: home-postgresql
+    source: home-cluster-backupsource  #home-postgresql
   storage:
     storageClass: local-storage
     size: 15Gi
