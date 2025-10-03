@@ -14,7 +14,7 @@ helmCharts:
   valuesMerge: merge
 - name: prometheus-smartctl-exporter
   repo: https://prometheus-community.github.io/helm-charts
-  version: 0.15.4
+  version: 0.16.0
   releaseName: prometheus-smartctl-exporter
   namespace: monitoring
   includeCRDs: true
