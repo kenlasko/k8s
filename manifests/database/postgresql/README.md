@@ -13,7 +13,9 @@ This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG
 
 
 # Replication
-Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](overlays/cloud/cluster.yaml).
+Replication is configured from the 3-node cluster to two separate instances, using WAL streaming replication from the primary:
+- A [single node server](overlays/home/cluster-standby.yaml) in the same K8S cluster/namespace as the production cluster to act as a secondary failover, if the primary cluster fails
+- An [Oracle Cloud single node server](overlays/cloud/cluster.yaml) to act as a DR node
 
 For streaming to work, the cloud cluster needs to authenticate using the self-generated certificates on the home cluster. A [CronJob](overlays/home/cronjob-akeyless-update.yaml) is configured to run a daily check via a custom script called [update-cloud-certs.sh](scripts/update-cloud-certs.sh) and to update the AKeyless secret if the certificate content has changed. 
 
