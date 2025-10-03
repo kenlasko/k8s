@@ -14,7 +14,7 @@ helmCharts:
 
 resources:
 - ../../base
-# - backup.yaml
+- backup.yaml
 - cluster.yaml
 - cronjob-akeyless-update.yaml
 - external-secrets.yaml

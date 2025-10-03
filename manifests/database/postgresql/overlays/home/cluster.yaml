@@ -27,7 +27,7 @@ spec:
   # bootstrap:
   #   # If the namespace is brand-new, we restore using an existing backup object called 'clusterRestore':
   #   recovery:
-  #     source: clusterRestore
+  #     source: s3-backupsource
     ## If the namespace still exists and there is a backup object, we can just restore using the below method:
     #   backup:
     #     name: daily-20250514170109
@@ -35,11 +35,11 @@ spec:
       # recoveryTarget:
       #   targetTime: "2025-05-14 16:57:06.538776+00:00"
   externalClusters:
-  - name: clusterRestore
+  - name: s3-backupsource
     plugin:
       name: barman-cloud.cloudnative-pg.io
       enabled: true
-      isWALArchiver: false
+      isWALArchiver: true
       parameters:
         barmanObjectName: backblaze
 
