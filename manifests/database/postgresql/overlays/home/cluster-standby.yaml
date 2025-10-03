@@ -1,0 +1,38 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: standby
+  namespace: postgresql
+spec:
+  imageName: kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1
+  instances: 1
+  bootstrap:
+    pg_basebackup:
+      source: home-postgresql
+  replica:
+    enabled: true
+    source: home-postgresql 
+  storage:
+    storageClass: local-storage
+    size: 14Gi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 250Mi
+    limits:
+      memory: 1Gi
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgresql-superuser
+
+  externalClusters:
+  - name: home-postgresql
+    connectionParameters:
+      host: home-r.postgresql.postgresql.svc.cluster.local
+      user: streaming_replica
+      sslmode: verify-full
+      dbname: postgres
+
+  postgresql:
+    shared_preload_libraries:
+    - "vchord.so"

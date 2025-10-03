@@ -66,3 +66,26 @@ spec:
           operator: In
           values:
           - nuc6
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgresql-data-nuc7
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 14Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/var/postgresql"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc7

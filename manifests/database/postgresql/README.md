@@ -1,12 +1,16 @@
 # Summary
 This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud. It hosts databases for the following apps:
 
+* [Home Assistant](/manifests/homeops/homeassist)
 * [Immich](/manifests/media-apps/immich)
 * [NextCloud](/manifests/apps/nextcloud)
 * [Paperless](/manifests/apps/paperless)
 * [Prowlarr](/manifests/media-apps/prowlarr)
 * [Radarr](/manifests/media-apps/radarr)
 * [Sonarr](/manifests/media-apps/sonarr)
+* [UCDialplans Website](/manifests/apps/ucdialplans)
+* [Vaultwarden](/manifests/apps/vaultwarden)
+
 
 # Replication
 Replication is configured from the 3-node cluster to the cloud via streaming replica defined in the cloud cluster's [cluster.yaml](overlays/cloud/cluster.yaml).
@@ -19,7 +23,9 @@ The manual steps to do this are below, but shouldn't be necessary (at least step
 3. Kill the `cloud-1` pod in the cloud cluster to initiate a fresh instance to ensure it uses the new certificates. PostgreSQL may eventually self-update, but I'm not sure.
 
 ## Backups
-Constant backups are being made to a remote S3 bucket, which makes restoration very simple. This is defined in [cluster.yaml](overlays/home/cluster.yaml) and [backup.yaml](overlays/home/backup.yaml).
+Constant backups are being made to a remote S3 bucket, which makes restoration very simple. This is defined in [cluster.yaml](overlays/home/cluster.yaml) and [backup.yaml](overlays/home/backup.yaml). Normally, the `cnpg` plugin should show the status of continuous backups, but this is [currently broken](https://github.com/cloudnative-pg/cloudnative-pg/issues/8276). In the meantime, status checks can be done via the following (taken from [this comment](https://github.com/cloudnative-pg/cloudnative-pg/issues/8276#issuecomment-3162854414) on the issue):
+
+For now, the most reliable way to monitor WAL archiving and backup health with plugins is to check the Cluster status conditions (`ContinuousArchiving: True`, `LastBackupSucceeded: True`) and the `ObjectStore` CRD's `ServerRecoveryWindow` fields (`firstRecoverabilityPoint`, `lastSuccessfulBackupTime`) [docs](https://cloudnative-pg.io/plugin-barman-cloud/docs/concepts/). Pod logs are also essential for catching silent failures or S3 compatibility issues.
 
 # Things I've Found
 ## Recovering from a failed node
