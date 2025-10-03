@@ -28,7 +28,7 @@ spec:
   externalClusters:
   - name: home-postgresql
     connectionParameters:
-      host: home-r.postgresql.postgresql.svc.cluster.local
+      host: home-r
       user: streaming_replica
       sslmode: verify-full
       dbname: postgres
