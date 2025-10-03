@@ -9,6 +9,8 @@ spec:
   bootstrap:
     pg_basebackup:
       source: home-postgresql
+    recovery:
+      source: home-cluster-backupsource
   replica:
     enabled: true
     source: home-postgresql
@@ -48,6 +50,12 @@ spec:
           spec:
             type: ClusterIP
   externalClusters:
+  - name: home-cluster-backupsource
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: backblaze
+        serverName: home
   - name: home-postgresql
     connectionParameters:
       host: home-postgresql
