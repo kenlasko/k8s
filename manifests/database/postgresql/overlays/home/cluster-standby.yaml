@@ -32,6 +32,15 @@ spec:
       user: streaming_replica
       sslmode: verify-full
       dbname: postgres
+    sslKey:
+      name: replication-certs
+      key: tls.key
+    sslCert:
+      name: replication-certs
+      key: tls.crt
+    sslRootCert:
+      name: replication-certs
+      key: ca.crt
 
   postgresql:
     shared_preload_libraries:
