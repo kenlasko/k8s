@@ -25,6 +25,7 @@ spec:
   egress:
     - toEntities:
         - cluster
+        - world
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -36,5 +37,3 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEntities:
-        - world
