@@ -1,12 +1,12 @@
-securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  runAsNonRoot: false
-  runAsUser: 0
-  seccompProfile:
-    type: RuntimeDefault
-  capabilities:
-    drop: ["ALL"]
+#securityContext:
+#  allowPrivilegeEscalation: false
+#  readOnlyRootFilesystem: true
+#  runAsNonRoot: false
+#  runAsUser: 0
+#  seccompProfile:
+#    type: RuntimeDefault
+#  capabilities:
+#    drop: ["ALL"]
 persistentVolume:
   type: local-path
   mountPath: /app/data
