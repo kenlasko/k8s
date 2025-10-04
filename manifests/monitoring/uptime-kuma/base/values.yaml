@@ -1,5 +1,5 @@
 image:
-  repository: k3rnel-pan1c/uptime-kuma
+  repository: louislam/uptime-kuma
   tag: 1.23.16
   registry: quay.io
 priorityClassName: low-priority
