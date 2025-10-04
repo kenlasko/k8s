@@ -3,15 +3,15 @@ image:
   tag: 1.23.16
   registry: docker.io
 priorityClassName: low-priority
-securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 1000
-  seccompProfile:
-    type: RuntimeDefault
-  capabilities:
-    drop: ["ALL"]
+# securityContext:
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: true
+#   runAsNonRoot: true
+#   runAsUser: 1000
+#   seccompProfile:
+#     type: RuntimeDefault
+#   capabilities:
+#     drop: ["ALL"]
 env:
 - name: UPTIME_KUMA_PORT
   value: "3001"
