@@ -8,21 +8,21 @@ I've configured Home Assistant via `Browser-Mod` to trigger an automation every 
 If I don't visit Home Assistant for a week, DMH will start sending me daily emails until I either open Home Assistant (triggering the automation) or directly visiting https://dmh.ucdialplans.com/api/alive. If I don't respond for a total of 2 weeks, the email to my wife will be sent.
 
 ## Script Update
-I have a script stored within my NixOS secrets that can be used to create a new action (can't modify the existing one) should my financial info need updating. THe script shouldn't be modified directly It is generated via SOPS and NixOS so it can be stored securely in my Git repo. 
-The [~/nixos/config/sops.nix](https://github.com/kenlasko/nixos-wsl/blob/main/config/sops.nix) NixOS flake makes the script available to the host OS.
+I have the message text securely stored in my NixOS secrets that can be used to create a new action (can't modify the existing one) should my financial info need updating.
+
+The [~/nixos/config/sops.nix](https://github.com/kenlasko/nixos-wsl/blob/main/config/sops.nix) NixOS flake makes the content available to the host OS as a file in `/run/secrets`
 
 To modify the contents:
 1. Edit the `secrets.yaml` using SOPS: `sops --config ~/nixos/.sops.yaml ~/nixos/config/secrets.yaml`
-2. Search for the `dmh-create-action.sh` script
+2. Search for the `dmh-email-message` text
 3. Make the necessary modifications and save the contents
 4. Run `sudo nixos-rebuild switch` to update the decrypted file
-#
+
 The action is already active in the pod. This script is only necessary if changes are made to the financial details. To replace the existing action:
 1. EXEC into the `dead-man-hand-0` pod either via [K9S](https://github.com/derailed/k9s) or via `kubectl exec -it -n dmh dead-man-hand-0 -- sh`
-1. Run `dmh-cli action ls` to get a list of current actions. There should be two. One is a reminder action. The other is the email to my wife.
-2. Find the UUID for the wife email action and run `dmh-cli action delete --uuid <ENTERUUIDHERE>`
-3. From the base OS, run the script with the updated instructions. You should get a message back that says `Action created successfully`
-
+2. Run `dmh-cli action ls` to get a list of current actions. There should be two. One is a reminder action. The other is the email to my wife.
+3. Find the UUID for the wife email action and run `dmh-cli action delete --uuid <ENTERUUIDHERE>`
+4. From the base OS, run the `~/nixos/scripts/dmh-create-action.sh` script with the updated instructions. You should get a message back that says `Action created successfully`
 
 ## Testing action
 Run this from inside DMH pod:
@@ -35,5 +35,5 @@ Configures an alert to be sent after x number of hours/days to remind me to chec
 
 Run this from inside DMH pod:
 ```
-dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 24 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dead-man-hand.ucdialplans.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
+dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 48 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dead-man-hand.ucdialplans.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
 ```
