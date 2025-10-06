@@ -90,6 +90,7 @@
       "matchPackageNames": [
         "cilium",
         "**/gateway-api.git",
+        "kubernetes-sigs/gateway-api",
         "longhorn",
         "**/mariadb-galera",
         "**/kenlasko/ucdialplans"
