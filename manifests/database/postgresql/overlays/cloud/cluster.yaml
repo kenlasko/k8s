@@ -7,8 +7,8 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
   instances: 1
   bootstrap:
-    pg_basebackup:
-      source: home-postgresql
+    # pg_basebackup:
+    #   source: home-postgresql
     # Recovery from Backblaze is faster, but doesn't seem to get the WALs
     recovery:
       source: home-cluster-backupsource
