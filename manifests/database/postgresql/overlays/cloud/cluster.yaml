@@ -7,11 +7,18 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
   instances: 1
   bootstrap:
+    # Bootstrapping directly from the primary is extremely slow over Tailscale and takes over 10h. Not recommended
+    # After the initial sync, the ongoing replication seems to fail on missing WALs, even though they are supposedly
+    # never deleted from the primary. Better to use the Backblaze S3 'home-cluster-backupsource'
     # pg_basebackup:
     #   source: home-postgresql
-    # Recovery from Backblaze is faster, but doesn't seem to get the WALs
     recovery:
       source: home-cluster-backupsource
+  # The ongoing replication from the primary seems to work fine over Tailscale.
+  # For initial replica sync, using the S3 source (home-cluster-backupsource) is much faster, but should switch
+  # to the primary (home-postgresql) for ongoing replication. Otherwise, CNPG seems to continuously search for WALs that haven't
+  # been archived to S3 yet. This causes high CPU load on the secondary, and probably incurs additional S3 costs as it continually
+  # hits the S3 API.
   replica:
     enabled: true
     source: home-postgresql  # home-postgresql  home-cluster-backupsource
@@ -50,7 +57,11 @@ spec:
               tailscale.com/hostname: "cloud-postgresql"
           spec:
             type: ClusterIP
+
+  # Defines the connection parameters for the external clusters referenced in the
+  # bootstrap and replica sections above.
   externalClusters:
+  # This is the Backblaze S3 backup source from the home cluster
   - name: home-cluster-backupsource
     plugin:
       name: barman-cloud.cloudnative-pg.io
@@ -59,6 +70,7 @@ spec:
       parameters:
         barmanObjectName: backblaze
         serverName: home
+  # This is the primary PostgreSQL cluster at home, accessed over Tailscale
   - name: home-postgresql
     connectionParameters:
       host: home-postgresql
