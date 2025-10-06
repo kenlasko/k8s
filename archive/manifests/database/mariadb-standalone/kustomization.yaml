@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
 - name: mariadb
   repo: oci://registry-1.docker.io/bitnamicharts
-  version: 22.0.0
+  version: 23.0.4
   releaseName: mariadb-standalone
   namespace: mariadb-standalone
   valuesFile: values.yaml
