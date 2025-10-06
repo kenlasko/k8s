@@ -26,7 +26,8 @@
       "tunnel"
     ],
     "ignorePaths": [
-      "**/*-patch.yaml"
+      "**/*-patch.yaml",
+      "^archive/**"
     ]
   },
   "kustomize": {
@@ -34,6 +35,9 @@
       "deploy",
       "cronjob",
       "tunnel"
+    ],
+    "ignorePaths": [
+      "^archive/**"
     ]
   },
   "hostRules": [
