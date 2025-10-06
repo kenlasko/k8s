@@ -10,11 +10,11 @@ spec:
     pg_basebackup:
       source: home-postgresql
     # Recovery from Backblaze is faster, but doesn't seem to get the WALs
-    # recovery:
-    #   source: home-cluster-backupsource
+    recovery:
+      source: home-cluster-backupsource
   replica:
     enabled: true
-    source: home-postgresql  # home-postgresql  home-cluster-backupsource
+    source: home-cluster-backupsource  # home-postgresql  home-cluster-backupsource
   storage:
     storageClass: local-storage
     size: 15Gi
