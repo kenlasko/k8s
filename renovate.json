@@ -27,7 +27,7 @@
     ],
     "ignorePaths": [
       "**/*-patch.yaml",
-      "^archive/.*"
+      "archive/.*"
     ]
   },
   "kustomize": {
@@ -37,7 +37,7 @@
       "tunnel"
     ],
     "ignorePaths": [
-      "^archive/.*"
+      "archive/.*"
     ]
   },
   "hostRules": [
