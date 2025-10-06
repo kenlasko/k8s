@@ -17,6 +17,9 @@
   "helm-values": {
     "fileMatch": [
       "^manifests/.*values.*\\.yaml$"
+    ],
+    "ignorePaths": [
+      "archive/**"
     ]
   },
   "kubernetes": {
@@ -27,7 +30,7 @@
     ],
     "ignorePaths": [
       "**/*-patch.yaml",
-      "archive/.*"
+      "archive/**"
     ]
   },
   "kustomize": {
@@ -37,7 +40,7 @@
       "tunnel"
     ],
     "ignorePaths": [
-      "archive/.*"
+      "archive/**"
     ]
   },
   "hostRules": [
