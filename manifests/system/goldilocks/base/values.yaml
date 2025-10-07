@@ -2,6 +2,8 @@ vpa:
   enabled: true
 controller:
   enabled: true
+  flags:
+    on-by-default: true
   resources:
     requests:
       cpu: 25m
