@@ -98,8 +98,7 @@
         "cilium",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
-        "longhorn",
-        "docker.io/zwavejs/zwave-js-ui"
+        "longhorn"
       ],
       "automerge": false
     },
