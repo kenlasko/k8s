@@ -12,7 +12,7 @@ helmCharts:
 resources:
 - ../../base
 - bgp-config.yaml
-- httproute.yaml
+# - httproute.yaml
 patches:
 - path: gateway-patch.yaml
   target:
