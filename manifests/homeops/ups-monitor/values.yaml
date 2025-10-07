@@ -18,12 +18,12 @@ resources:
   requests:
     cpu: 1m
     memory: 3Mi
-    smarter-devices/hidraw0: 1
+    smarter-devices/hidraw: 1
     # smarter-devices/bus_usb_001_003: 1
   limits:
     # cpu: 1m
     memory: 5Mi
-    smarter-devices/hidraw0: 1
+    smarter-devices/hidraw: 1
     # smarter-devices/bus_usb_001_003: 1
 service:
   port: 3493
