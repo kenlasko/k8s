@@ -13,7 +13,7 @@ spec:
   - "goldilocks.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: goldilocks-web
+    - name: goldilocks-dashboard
       namespace: goldilocks
       kind: Service
       port: 80
