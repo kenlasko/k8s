@@ -4,6 +4,6 @@ config: |
   - devicematch: ^bus.*$
     nummaxdevices: 20
   - devicematch: ^hidraw.*$
-    nummaxdevices: 20
+    nummaxdevices: 40
   - devicematch: ^*tun$
     nummaxdevices: 10
