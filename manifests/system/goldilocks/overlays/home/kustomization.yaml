@@ -12,4 +12,4 @@ helmCharts:
   # valuesMerge: replace
 resources:
 - ../../base
-- httproute.yaml
+#- httproute.yaml

@@ -1,5 +1,6 @@
 vpa:
   enabled: true
+  
 controller:
   enabled: true
   flags:
