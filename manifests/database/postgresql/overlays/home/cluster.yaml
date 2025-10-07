@@ -44,6 +44,8 @@ spec:
         barmanObjectName: backblaze
 
   postgresql:
+    parameters:
+      wal_keep_size: "5GB"
     shared_preload_libraries:
     - "vchord.so"
 
