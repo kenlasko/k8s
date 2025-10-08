@@ -9,7 +9,7 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 env:
-- name NUT_DEBUG_LEVEL
+- name: NUT_DEBUG_LEVEL
   value: 5
 - name: TZ
   value: "America/Toronto"
