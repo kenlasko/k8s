@@ -1,2 +1,0 @@
-# Summary
-Each media application creates backups in their local volume. The [media-apps backup script](/manifests/media-apps/backup/configmap-script.yaml) backs up these volumes to the NAS every night, so even if Longhorn backups are corrupted (has happened before), I have a way to restore the data.
