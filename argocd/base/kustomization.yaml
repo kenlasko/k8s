@@ -5,4 +5,4 @@ resources:
 - external-secrets.yaml
 - kubeapi-serviceaccount.yaml
 - priorityclass.yaml
-# - sealed-secrets.yaml
+- appsets/homeops.yaml
