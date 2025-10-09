@@ -4,13 +4,17 @@ metadata:
   name: testapps
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
-    - directory:
-        path: manifests/testapps
-        recurse: true
+  - git:
+      repoURL: git@github.com:kenlasko/k8s.git
+      revision: HEAD
+      directories:
+        - path: manifests/testapps/*
   template:
     metadata:
-      name: "{{path.basename}}"
+      name: '{{.path.basename}}'
       labels:
         app.kubernetes.io/part-of: testapps
         app.kubernetes.io/managed-by: argocd
@@ -18,13 +22,14 @@ spec:
       project: default
       source:
         repoURL: git@github.com:kenlasko/k8s.git
-        path: "{{path}}"
+        targetRevision: HEAD
+        path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: testapps
+        namespace: '{{.path.basename}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
-        - CreateNamespace=true
+          - CreateNamespace=true
