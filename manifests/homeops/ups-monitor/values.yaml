@@ -10,7 +10,7 @@ securityContext:
     type: RuntimeDefault
 env:
 - name: NUT_DEBUG_LEVEL
-  value: "3"
+  value: "2"
 - name: TZ
   value: "America/Toronto"
 envFrom:
