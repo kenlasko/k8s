@@ -98,7 +98,8 @@
         "cilium",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
-        "longhorn"
+        "longhorn",
+        "csi-driver-nfs"
       ],
       "automerge": false
     },
