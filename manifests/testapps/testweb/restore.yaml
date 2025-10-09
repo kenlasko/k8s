@@ -1,0 +1,49 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: testweb
+  namespace: testweb
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: s3-backup-cloudflare-testweb
+    destinationPVC: pvc-testweb
+    copyMethod: Direct
+    enableFileDeletion: true
+    cleanupTempPVC: true
+    cleanupCachePVC: true
+    storageClassName: local-path
+    cacheStorageClassName: local-path
+    # restoreAsOf: "2025-03-05T06:50:00Z"
+    # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
+    moverSecurityContext:
+      runAsUser: 0
+      runAsGroup: 100
+      runAsNonRoot: false
+      seccompProfile:
+        type: RuntimeDefault
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-testweb-restore
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  local:
+    path: /var/testweb
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc4
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-path

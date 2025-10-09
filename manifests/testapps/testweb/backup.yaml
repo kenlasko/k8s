@@ -1,0 +1,27 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: testweb
+  namespace: testweb
+spec:
+  restic:
+    cacheCapacity: 5Gi
+    cacheStorageClassName: local-path
+    copyMethod: Direct
+    moverSecurityContext:
+      runAsUser: 0
+      runAsGroup: 100
+      runAsNonRoot: false
+      seccompProfile:
+        type: RuntimeDefault
+    pruneIntervalDays: 3
+    repository: s3-backup-cloudflare-testweb
+    retain:
+      daily: 7
+      hourly: 0
+      monthly: 0
+      weekly: 2
+      yearly: 0
+  sourcePVC: pvc-testweb
+  trigger:
+    schedule: 15 5 * * *

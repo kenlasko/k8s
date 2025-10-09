@@ -12,7 +12,7 @@ helmCharts:
   valuesMerge: merge
 resources:
 - ../../base
-# - ../appsets/homeops.yaml
+- ../appsets/testapps.yaml
 - argocd-apps.yaml
 - argocd.yaml
 - external-secrets.yaml

@@ -1,27 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: homeops
-  namespace: homeops
+  name: testapps
+  namespace: testapps
 spec:
   generators:
     - directory:
-        path: manifests/homeops
+        path: manifests/testapps
         recurse: true
   template:
     metadata:
       name: "{{path.basename}}"
       labels:
-        app.kubernetes.io/part-of: homeops
+        app.kubernetes.io/part-of: testapps
         app.kubernetes.io/managed-by: argocd
     spec:
       project: default
       source:
         repoURL: git@github.com:kenlasko/k8s.git
-        path: "manifests/homeops/{{path.basename}}"
+        path: "manifests/testapps/{{path.basename}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: homeops
+        namespace: testapps
       syncPolicy:
         automated:
           prune: true
