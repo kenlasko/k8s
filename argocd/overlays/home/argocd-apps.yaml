@@ -12,9 +12,9 @@ spec:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: argocd-apps/home/apps
     targetRevision: HEAD
-  - repoURL: "git@github.com:kenlasko/k8s.git"
-    path: argocd-apps/home/database
-    targetRevision: HEAD
+  # - repoURL: "git@github.com:kenlasko/k8s.git"
+  #   path: argocd-apps/home/database
+  #   targetRevision: HEAD
   # - repoURL: "git@github.com:kenlasko/k8s.git"
   #   path: argocd-apps/home/homeops
   #   targetRevision: HEAD

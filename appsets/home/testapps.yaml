@@ -44,5 +44,6 @@ spec:
       {{- if eq .path.basename "testapp" }}
       syncPolicy:
         syncOptions:
+        - CreateNamespace=true
         - ServerSideApply=true
       {{- end }}

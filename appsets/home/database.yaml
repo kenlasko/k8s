@@ -39,9 +39,13 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
+      {{- if eq .path.basename "redis" }}
+      destination:
+        namespace: redis
+      {{- end }}
+      {{- if eq .path.basename "postgresql" }}
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
-        {{- if eq .path.basename "postgresql" }}
         - ServerSideApply=true
-        {{- end }}
+      {{- end }}
