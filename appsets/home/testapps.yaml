@@ -18,8 +18,8 @@ spec:
     metadata:
       name: '{{.path.basename}}'
       labels:
-        app-source: testapps
-        managed-by: applicationset
+        app.kubernetes.io/part-of: testapps
+        app.kubernetes.io/managed-by: argocd
     spec:
       project: default
       source:
