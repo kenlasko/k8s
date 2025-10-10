@@ -28,7 +28,7 @@ spec:
         path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: postgresql
+        namespace: cnpg
       syncPolicy:
         managedNamespaceMetadata:
           labels:
