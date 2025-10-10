@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: update-akeyless
-  namespace: postgresql
+  namespace: cnpg
 spec:
   schedule: "30 5 * * *"  # runs at 5:30am UTC daily
   jobTemplate:

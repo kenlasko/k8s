@@ -3,7 +3,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: pgadmin
-  namespace: postgresql
+  namespace: cnpg
 spec:
   parentRefs:
   - name: tls
@@ -14,6 +14,6 @@ spec:
   rules:
   - backendRefs:
     - name: pgadmin-pgadmin4
-      namespace: postgresql
+      namespace: cnpg
       kind: Service
       port: 80

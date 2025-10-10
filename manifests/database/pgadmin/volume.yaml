@@ -24,7 +24,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nfs-pgadmin
-  namespace: postgresql
+  namespace: cnpg
 spec:
   storageClassName: nfs-csi
   volumeName: nfs-pgadmin

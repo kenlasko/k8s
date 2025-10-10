@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: home
-  namespace: postgresql
+  namespace: cnpg
 spec:
   imageName: kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1
   instances: 3

@@ -5,7 +5,7 @@ helmCharts:
   repo: https://helm.runix.net/
   version: 1.50.0
   releaseName: pgadmin
-  namespace: postgresql
+  namespace: cnpg
   valuesFile: values.yaml
 resources:
 - backup.yaml

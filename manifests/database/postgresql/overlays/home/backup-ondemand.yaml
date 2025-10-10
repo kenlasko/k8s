@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
   name: manual-backup
-  namespace: postgresql
+  namespace: cnpg
 spec:
   cluster:
     name: home

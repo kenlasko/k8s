@@ -7,7 +7,7 @@ metadata:
     tailscale.com/hostname: cloud-postgresql-link
     tailscale.com/proxy-class: "default"
   name: cloud-postgresql-link
-  namespace: postgresql
+  namespace: cnpg
 spec:
   externalName: cloud-postgresql-link
   type: ExternalName
