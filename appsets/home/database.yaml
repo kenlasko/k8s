@@ -37,6 +37,9 @@ spec:
         automated:
           prune: true
           selfHeal: true
+  templatePatch: |
+    spec:
+      syncPolicy:
         syncOptions:
         - CreateNamespace=true
         {{- if eq .path.basename "postgresql" }}

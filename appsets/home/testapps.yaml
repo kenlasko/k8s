@@ -36,6 +36,10 @@ spec:
   templatePatch: |
     spec:
       syncPolicy:
+      {{- if eq .path.basename "testweb" }}
+      destination:
+        namespace: testwebsite
+      {{- end }}
         syncOptions:
         - CreateNamespace=true
         {{- if eq .path.basename "testapp" }}
