@@ -12,8 +12,6 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/homeops/*
-        # - path: manifests/homeops
-        #   exclude: true
   template:
     metadata:
       name: '{{.path.basename}}'
@@ -30,6 +28,10 @@ spec:
         server: https://kubernetes.default.svc
         namespace: '{{.path.basename}}'
       syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
+            pod-security.kubernetes.io/enforce-version: latest
         automated:
           prune: true
           selfHeal: true
