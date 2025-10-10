@@ -26,7 +26,7 @@ spec:
         path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.path.basename}}'
+        namespace: homeops
       syncPolicy:
         managedNamespaceMetadata:
           labels:
