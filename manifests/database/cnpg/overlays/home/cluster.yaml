@@ -32,8 +32,8 @@ spec:
     #   backup:
     #     name: daily-20250514170109
     ## If you want to restore to a specific point in time, use the below method:
-      # recoveryTarget:
-      #   targetTime: "2025-05-14 16:57:06.538776+00:00"
+      recoveryTarget:
+        targetTime: "2025-10-10 15:00:00.000000+00:00"
   externalClusters:
   - name: s3-backupsource
     plugin:
