@@ -3,15 +3,14 @@ kind: Kustomization
 helmCharts:
 - name: immich
   repo: oci://ghcr.io/immich-app/immich-charts
-  version: 0.10.0
+  version: 0.9.0
   releaseName: immich
-  namespace: immich
+  namespace: media-apps
   valuesFile: values.yaml
 resources:
 - database.yaml
 - external-secrets.yaml
 - httproute.yaml
-# - sealed-secrets.yaml
 - volume.yaml
 patches:
 - path: server-patch.yaml
