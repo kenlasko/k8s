@@ -5,4 +5,5 @@ resources:
 - deploy.yaml
 - external-secrets.yaml
 - httproute.yaml
+- service.yaml
 - volume.yaml
