@@ -43,7 +43,7 @@ spec:
     serverAltDNSNames:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
-    - "home-postgresql.svc.cluster.local"
+    - "home-cnpg.svc.cluster.local"
   managed:
     services:
       additional:

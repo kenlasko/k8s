@@ -14,7 +14,7 @@ serverDefinitions:
       Group: "Servers"
       Port: 5432
       Username: postgres
-      Host: home-rw.postgresql.svc.cluster.local
+      Host: home-rw.cnpg.svc.cluster.local
       MaintenanceDB: "postgres"
 persistentVolume:
   enabled: true

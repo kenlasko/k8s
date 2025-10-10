@@ -5,7 +5,7 @@ metadata:
   namespace: dawarich
 data:
   RAILS_ENV: "development"
-  DATABASE_HOST: "home-rw.postgresql.svc.cluster.local"
+  DATABASE_HOST: "home-rw.cnpg.svc.cluster.local"
   DATABASE_NAME: "dawarich"
   QUEUE_DATABASE_NAME: "dawarich-queue"
   BACKGROUND_PROCESSING_CONCURRENCY: "10"

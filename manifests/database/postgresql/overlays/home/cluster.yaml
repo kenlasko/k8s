@@ -23,7 +23,7 @@ spec:
     serverAltDNSNames:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
-    - "home-postgresql.svc.cluster.local"
+    - "home-cnpg.svc.cluster.local"
   # bootstrap:
   #   # If the namespace is brand-new, we restore using an existing backup object called 'clusterRestore':
   #   recovery:
