@@ -33,6 +33,8 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
   templatePatch: |
     spec:
       syncPolicy:
@@ -40,8 +42,7 @@ spec:
       destination:
         namespace: testwebsite
       {{- end }}
-        syncOptions:
-        - CreateNamespace=true
         {{- if eq .path.basename "testapp" }}
+        syncOptions:
         - ServerSideApply=true
         {{- end }}
