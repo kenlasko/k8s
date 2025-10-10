@@ -33,12 +33,11 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-        - CreateNamespace=true
   templatePatch: |
     spec:
       syncPolicy:
         syncOptions:
+        - CreateNamespace=true
         {{- if eq .path.basename "testapp" }}
         - ServerSideApply=true
         {{- end }}
