@@ -37,12 +37,12 @@ spec:
         - CreateNamespace=true
   templatePatch: |
     spec:
-      syncPolicy:
       {{- if eq .path.basename "testweb" }}
       destination:
         namespace: testwebsite
       {{- end }}
-        {{- if eq .path.basename "testapp" }}
+      {{- if eq .path.basename "testapp" }}
+      syncPolicy:
         syncOptions:
         - ServerSideApply=true
-        {{- end }}
+      {{- end }}
