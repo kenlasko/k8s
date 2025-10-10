@@ -38,9 +38,8 @@ spec:
   - name: s3-backupsource
     plugin:
       name: barman-cloud.cloudnative-pg.io
-      enabled: true
+      enabled: false
       isWALArchiver: false
-      name: home
       parameters:
         barmanObjectName: backblaze
 
