@@ -11,13 +11,15 @@ spec:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
       directories:
-      - path: manifests/testapps
+        - path: manifests/testapps/*
+        - path: manifests/testapps
+          exclude: true
   template:
     metadata:
       name: '{{.path.basename}}'
       labels:
-        app.kubernetes.io/part-of: testapps
-        app.kubernetes.io/managed-by: argocd
+        app-source: testapps
+        managed-by: applicationset
     spec:
       project: default
       source:
@@ -32,4 +34,4 @@ spec:
           prune: true
           selfHeal: true
         syncOptions:
-          - CreateNamespace=true
+        - CreateNamespace=true
