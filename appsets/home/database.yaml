@@ -37,6 +37,9 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
   templatePatch: |
     spec:
       {{- if eq .path.basename "redis" }}
@@ -44,9 +47,4 @@ spec:
         server: https://kubernetes.default.svc
         namespace: redis
       {{- end }}
-      {{- if eq .path.basename "cnpg" }}
-      syncPolicy:
-        syncOptions:
-        - CreateNamespace=true
-        - ServerSideApply=true
-      {{- end }}
+
