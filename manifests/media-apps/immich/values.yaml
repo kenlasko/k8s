@@ -44,7 +44,6 @@ machine-learning:
   persistence:
     cache:
       enabled: true
-      type: pvc
       accessMode: ReadWriteMany
       storageClass: nfs-csi-dynamic
 
