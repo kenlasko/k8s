@@ -1,5 +1,5 @@
 > [!WARNING]  
-> I was trying this out to replace my now-vile [Bitnami](https://thenewstack.io/broadcom-ends-free-bitnami-images-forcing-users-to-find-alternatives/) MariaDB Galera implementation, but have since decided to move all database workloads to [CloudNative PostgreSQL](/manifests/database/postgresql). This part of the repo is kept around for historical purposes.
+> I was trying this out to replace my now-vile [Bitnami](https://thenewstack.io/broadcom-ends-free-bitnami-images-forcing-users-to-find-alternatives/) MariaDB Galera implementation, but have since decided to move all database workloads to [CloudNative PostgreSQL](/manifests/database/cnpg). This part of the repo is kept around for historical purposes.
 
 # Introduction
 [MariaDB](https://mariadb.org/) is the database provider of choice for the cluster. It hosts databases for the following applications:

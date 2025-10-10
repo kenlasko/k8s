@@ -1,4 +1,4 @@
-fullnameOverride: postgresql-controller
+fullnameOverride: cnpg-controller
 podLabels:
   app.kubernetes.io/component: database
 resources:

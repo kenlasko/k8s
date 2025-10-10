@@ -25,5 +25,5 @@ Example:
 # Tips and Tricks
 How to read the contents of a sealed secret that isn't deployed in the cluster using [decrypt-sealedsecret.sh](/scripts/decrypt-sealedsecret.sh)
 ```
-./k8s/scripts/decrypt-sealedsecret.sh ~/k8s/manifests/database/postgresql/sealed-secrets_DISABLED.yaml
+./k8s/scripts/decrypt-sealedsecret.sh ~/k8s/manifests/database/cnpg/sealed-secrets_DISABLED.yaml
 ```

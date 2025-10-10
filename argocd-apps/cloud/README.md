@@ -17,7 +17,7 @@ Apps that basically everything else depends on:
 ## Sync Wave 1
 * [Cloudflare Tunnel](/manifests/network/cloudflare-tunnel)
 * [Longhorn](/manifests/system/longhorn)
-* [PostgreSQL](/manifests/database/postgresql)
+* [PostgreSQL](/manifests/database/cnpg)
 * [Registry](/manifests/system/registry)
 
 ## Sync Wave 2

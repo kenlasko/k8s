@@ -44,7 +44,7 @@ spec:
         server: https://kubernetes.default.svc
         namespace: redis
       {{- end }}
-      {{- if eq .path.basename "postgresql" }}
+      {{- if eq .path.basename "cnpg" }}
       syncPolicy:
         syncOptions:
         - CreateNamespace=true

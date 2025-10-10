@@ -1,7 +1,7 @@
 # Introduction
 This folder contains the Argo CD application definitions for most of the Kubernetes workloads, excluding the media-apps, which depend on [Longhorn](/manifests/system/longhorn) volumes being available and restored from backup. This is currently a manual process.
 
-It is starting to make use of [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to ensure that apps like [PostgreSQL databases](/manifests/database/postgresql) and [Longhorn](/manifests/system/longhorn) are up before the apps that depend on them (like [VaultWarden](/manifests/apps/vaultwarden) and others). The lower the number, the earlier in the process the app gets deployed.
+It is starting to make use of [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to ensure that apps like [PostgreSQL databases](/manifests/database/cnpg) and [Longhorn](/manifests/system/longhorn) are up before the apps that depend on them (like [VaultWarden](/manifests/apps/vaultwarden) and others). The lower the number, the earlier in the process the app gets deployed.
 
 All software updates (excluding Kubernetes and OS) are managed via [Renovate](https://github.com/renovatebot/renovate). Renovate watches the Github repo and checks for software version updates on any Helm chart, ArgoCD application manifest or deployment manifest. If an update is found, Renovate will update the version in the repo and let ArgoCD handle the actual upgrade. All updates are logged in the repo as commits.
 
@@ -23,7 +23,7 @@ Apps that basically everything else depends on:
 ## Sync Wave 1
 * [Cloudflare Tunnel](/manifests/network/cloudflare-tunnel)
 * [Longhorn](/manifests/system/longhorn)
-* [PostgreSQL](/manifests/database/postgresql)
+* [PostgreSQL](/manifests/database/cnpg)
 * [PGAdmin](/manifests/database/pgadmin)
 * [Registry](/manifests/system/registry)
 * [VolSync](/manifests/system/volsync)
