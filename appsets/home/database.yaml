@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: database
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - git:
+      repoURL: git@github.com:kenlasko/k8s.git
+      revision: HEAD
+      directories:
+        - path: manifests/database/*
+  template:
+    metadata:
+      name: '{{.path.basename}}'
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+      labels:
+        app.kubernetes.io/part-of: database
+        app.kubernetes.io/managed-by: argocd
+    spec:
+      project: default
+      source:
+        repoURL: git@github.com:kenlasko/k8s.git
+        targetRevision: HEAD
+        path: '{{.path.path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: postgresql
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: baseline
+            pod-security.kubernetes.io/enforce-version: latest
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
