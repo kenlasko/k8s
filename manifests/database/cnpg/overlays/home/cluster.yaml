@@ -33,13 +33,13 @@ spec:
     #     name: daily-20250514170109
     ## If you want to restore to a specific point in time, use the below method:
       recoveryTarget:
-        targetTime: "2025-10-10 11:00:00.000000+00:00"
+        targetTime: "2025-10-10 15:00:00.000000+00:00"
   externalClusters:
   - name: s3-backupsource
     plugin:
       name: barman-cloud.cloudnative-pg.io
       enabled: true
-      isWALArchiver: false
+      isWALArchiver: false  # This needs to be false during restore, true otherwise
       parameters:
         barmanObjectName: backblaze
 
@@ -50,12 +50,14 @@ spec:
     - "vchord.so"
 
   # This enables backups to S3 storage
-  plugins:
-  - name: barman-cloud.cloudnative-pg.io
-    enabled: false
-    isWALArchiver: false
-    parameters:
-      barmanObjectName: cloudflare
+  # I think I need to disable this entire section when restoring from backup to avoid conflicts
+  # What I did before was to change the barmanObjectName to cloudflare
+  # plugins:
+  # - name: barman-cloud.cloudnative-pg.io
+  #   enabled: false
+  #   isWALArchiver: false
+  #   parameters:
+  #     barmanObjectName: backblaze
 
   managed:
     roles:
