@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: vaultwarden
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: vaultwarden
   owner: vaultwarden

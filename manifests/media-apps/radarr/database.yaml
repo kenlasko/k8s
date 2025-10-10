@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: radarr
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: radarr
   owner: radarr
@@ -15,7 +15,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: radarr-logs
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: radarr-logs
   owner: radarr

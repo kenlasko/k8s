@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: firefly
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: firefly
   owner: firefly

@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: nextcloud
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: nextcloud
   owner: nextcloud

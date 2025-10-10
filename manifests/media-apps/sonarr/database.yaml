@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: sonarr
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: sonarr
   owner: sonarr
@@ -15,7 +15,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: sonarr-logs
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: sonarr-logs
   owner: sonarr

@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: prowlarr
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: prowlarr
   owner: prowlarr
@@ -15,7 +15,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: prowlarr-logs
-  namespace: postgresql
+  namespace: cnpg
 spec:
   name: prowlarr-logs
   owner: prowlarr

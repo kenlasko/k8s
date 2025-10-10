@@ -50,8 +50,7 @@ spec:
     - "vchord.so"
 
   # This enables backups to S3 storage
-  # I think I need to disable this entire section when restoring from backup to avoid conflicts
-  # What I did before was to change the barmanObjectName to cloudflare
+  # Need to disable this entire section when restoring from backup to avoid conflicts. Not enough to set enabled or isWALArchiver to false
   # plugins:
   # - name: barman-cloud.cloudnative-pg.io
   #   enabled: false

@@ -89,7 +89,7 @@ spec:
     - toEndpoints:
         - matchLabels:
             cnpg.io/cluster: home
-            io.kubernetes.pod.namespace: postgresql
+            io.kubernetes.pod.namespace: cnpg
       toPorts:
         - ports:
             - port: "5432"
