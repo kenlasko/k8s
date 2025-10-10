@@ -52,7 +52,7 @@ spec:
   # This enables backups to S3 storage
   plugins:
   - name: barman-cloud.cloudnative-pg.io
-    enabled: false
+    enabled: true
     isWALArchiver: false
     parameters:
       barmanObjectName: backblaze
