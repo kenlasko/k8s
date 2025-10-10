@@ -5,9 +5,9 @@
 
 echo "Pulling latest PostgreSQL replication certs from home cluster..."
 SECRET_CONTENT=$(jq -n \
-  --arg CACRT  "$(kubectl -n postgresql get secret home-ca -o jsonpath='{.data.ca\.crt}')" \
-  --arg TLSCRT "$(kubectl -n postgresql get secret home-replication -o jsonpath='{.data.tls\.crt}')" \
-  --arg TLSKEY "$(kubectl -n postgresql get secret home-replication -o jsonpath='{.data.tls\.key}')" \
+  --arg CACRT  "$(kubectl -n cnpg get secret home-ca -o jsonpath='{.data.ca\.crt}')" \
+  --arg TLSCRT "$(kubectl -n cnpg get secret home-replication -o jsonpath='{.data.tls\.crt}')" \
+  --arg TLSKEY "$(kubectl -n cnpg get secret home-replication -o jsonpath='{.data.tls\.key}')" \
   '{ "ca.crt": $CACRT, "tls.crt": $TLSCRT, "tls.key": $TLSKEY }')
 
 echo "Comparing with existing Akeyless secret..."
