@@ -41,6 +41,7 @@ spec:
     spec:
       {{- if eq .path.basename "redis" }}
       destination:
+        server: https://kubernetes.default.svc
         namespace: redis
       {{- end }}
       {{- if eq .path.basename "postgresql" }}
