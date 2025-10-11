@@ -99,7 +99,7 @@
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
         "longhorn",
-        "**immich**"
+        "**homeassist**"
       ],
       "automerge": false
     },
