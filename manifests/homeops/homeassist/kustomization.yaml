@@ -10,5 +10,6 @@ helmCharts:
 resources:
 - database.yaml
 - external-secrets.yaml
+- namespace.yaml
 #- networkpolicy.yaml
 - serviceaccount.yaml
