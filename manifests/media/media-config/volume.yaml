@@ -90,10 +90,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/backup/media
+    volumeHandle: 192.168.1.3/backup/media-apps
     volumeAttributes:
       server: 192.168.1.3
-      share: /backup/media
+      share: /backup/media-apps
 
 ---
 apiVersion: v1
