@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/apps/garminupload
+    path: manifests/apps/garmin-upload/overlays/home
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
