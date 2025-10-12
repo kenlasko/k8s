@@ -15,7 +15,7 @@ applicationSet:
       memory: 30Mi
     limits:
       # cpu: 200m
-      memory: 50Mi
+      memory: 100Mi
 
 controller:
   resources:
