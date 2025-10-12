@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - external-secrets.yaml
 - letsencrypt-dns-wildcard.yaml
-#- sealed-secrets.yaml
+- namespace.yaml

@@ -19,14 +19,8 @@ spec:
     - /spec/externalName
     kind: Service
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: baseline
-        pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Website:"
     value: "https://adguard.com/en/adguard-home/overview.html"
