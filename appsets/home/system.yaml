@@ -31,13 +31,13 @@ spec:
         automated:
           prune: true
           selfHeal: true
-  # templatePatch: |
-  #   spec:
-  #     {{- if eq .path.basename "external-secrets" }}
-  #     syncPolicy:
-  #       syncOptions:
-  #       - ServerSideApply=true
-  #     {{- end }}
+  templatePatch: |
+    {{- if eq .path.basename "external-secrets" }}
+    spec:
+      syncPolicy:
+        syncOptions:
+        - ServerSideApply=true
+    {{- end }}
 
 
 
