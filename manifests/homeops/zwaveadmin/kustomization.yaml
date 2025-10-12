@@ -8,5 +8,4 @@ helmCharts:
   namespace: homeops
   valuesFile: values.yaml
 resources:
-- namespace.yaml
 - networkpolicy.yaml
