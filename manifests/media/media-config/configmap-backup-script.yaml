@@ -8,11 +8,11 @@ data:
     #! /bin/sh
 
     echo 'Backing up Overseerr'
-    kubectl cp -n media overseerr-0:/config/db/. /backup/overseerr/db/.
-    kubectl cp -n media overseerr-0:/config/settings.json /backup/overseerr/settings.json
+    kubectl cp -n media overseerr-0:/app/config/db/. /backup/overseerr/db/.
+    kubectl cp -n media overseerr-0:/app/config/settings.json /backup/overseerr/settings.json
 
     echo 'Backing up SABNZBD'
-    kubectl cp -n media sabnzbd-0:/config/Downloads/. /backup/sabnzbd/.
+    kubectl cp -n media sabnzbd-0:/sabnzbd/etc/Downloads/. /backup/sabnzbd/.
     
     echo 'Backing up Tautulli'
     kubectl cp -n media tautulli-0:/config/backups/. /backup/tautulli/.
