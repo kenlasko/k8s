@@ -36,4 +36,4 @@ spec:
             pod-security.kubernetes.io/enforce-version: latest
         automated:
           prune: true
-          selfHeal: true
+          selfHeal: false
