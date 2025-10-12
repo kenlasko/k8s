@@ -5,5 +5,5 @@ resources:
 # - database.yaml
 - homeops.yaml
 - media.yaml
-# - system.yaml
+- system.yaml
 # - testapps.yaml
