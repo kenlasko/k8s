@@ -31,12 +31,16 @@ spec:
         automated:
           prune: true
           selfHeal: true
-  # templatePatch: |
-  #   spec:
-  #     {{- if eq .path.basename "external-secrets" }}
-  #     syncPolicy:
-  #       syncOptions:
-  #       - ServerSideApply=true
+  templatePatch: |
+    spec:
+      {{- if eq .path.basename "external-secrets" }}
+      syncPolicy:
+        syncOptions:
+        - ServerSideApply=true
+      {{- end }}
+
+
+
   #     {{- else if eq .path.basename "intel-device-plugins" }}
   #     ignoreDifferences:
   #     - group: "*"
@@ -46,4 +50,3 @@ spec:
   #     syncPolicy:
   #       syncOptions:
   #       - RespectIgnoreDifferences=true
-  #     {{- end }}
