@@ -15,4 +15,6 @@ helmCharts:
   namespace: intel-gpu
   includeCRDs: true
   valuesFile: values-operator.yaml
+resources:
+- namespace.yaml
 

@@ -15,14 +15,8 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: reloader
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: baseline
-        pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Website/Documentation:"
     value: "https://docs.stakater.com/reloader/"

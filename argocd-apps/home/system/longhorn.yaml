@@ -17,8 +17,6 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Website:"
     value: "https://longhorn.io/"

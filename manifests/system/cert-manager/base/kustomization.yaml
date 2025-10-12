@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - clusterissuer.yaml
 - external-secrets.yaml
-#- sealed-secrets.yaml
+- namespace.yaml

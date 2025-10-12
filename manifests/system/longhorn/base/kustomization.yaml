@@ -11,3 +11,4 @@ resources:
 - external-secrets.yaml
 - httproute.yaml
 - longhorn-vol-management.yaml
+- namespace.yaml

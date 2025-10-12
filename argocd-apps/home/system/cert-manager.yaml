@@ -15,14 +15,9 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: cert-manager
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: restricted
-        pod-security.kubernetes.io/enforce-version: latest
     automated:
+      prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Website:"
     value: "https://cert-manager.io/"

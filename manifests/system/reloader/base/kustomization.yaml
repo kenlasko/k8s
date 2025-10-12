@@ -7,3 +7,5 @@ helmCharts:
   releaseName: reloader
   namespace: reloader
   valuesFile: values.yaml
+resources:
+- namespace.yaml

@@ -7,3 +7,5 @@ helmCharts:
   releaseName: volsync
   namespace: volsync
   valuesFile: ../../base/values.yaml
+resources:
+- ../../base

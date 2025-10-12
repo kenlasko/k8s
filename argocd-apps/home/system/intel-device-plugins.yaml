@@ -20,14 +20,9 @@ spec:
     jsonPointers:
     - /spec/resourceManager
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: privileged
-        pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
     - RespectIgnoreDifferences=true
   info:
   - name: "Documentation:"

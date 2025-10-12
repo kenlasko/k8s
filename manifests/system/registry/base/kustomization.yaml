@@ -8,4 +8,5 @@ helmCharts:
   namespace: registry
   valuesFile: values.yaml
 resources:
+- namespace.yaml
 - networkpolicy.yaml
