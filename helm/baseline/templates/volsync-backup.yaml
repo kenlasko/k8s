@@ -5,6 +5,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   # The PVC to be backed up
   sourcePVC: {{ if .Values.backup.claimName }}{{ .Values.backup.claimName }}{{ else }}nfs-{{ coalesce .Values.nameOverride .Release.Name }}{{ end }}
