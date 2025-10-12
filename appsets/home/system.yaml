@@ -31,19 +31,19 @@ spec:
         automated:
           prune: true
           selfHeal: true
-  templatePatch: |
-    spec:
-      {{- if eq .path.basename "external-secrets" }}
-      syncPolicy:
-        syncOptions:
-        - ServerSideApply=true
-      {{- else if eq .path.basename "intel-device-plugins" }}
-      ignoreDifferences:
-      - group: "*"
-        kind: GpuDevicePlugin
-        jsonPointers:
-        - /spec/resourceManager
-      syncPolicy:
-        syncOptions:
-        - RespectIgnoreDifferences=true
-      {{- end }}
+  # templatePatch: |
+  #   spec:
+  #     {{- if eq .path.basename "external-secrets" }}
+  #     syncPolicy:
+  #       syncOptions:
+  #       - ServerSideApply=true
+  #     {{- else if eq .path.basename "intel-device-plugins" }}
+  #     ignoreDifferences:
+  #     - group: "*"
+  #       kind: GpuDevicePlugin
+  #       jsonPointers:
+  #       - /spec/resourceManager
+  #     syncPolicy:
+  #       syncOptions:
+  #       - RespectIgnoreDifferences=true
+  #     {{- end }}
