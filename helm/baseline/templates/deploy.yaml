@@ -12,6 +12,7 @@ apiVersion: apps/v1
 kind: {{ .Values.appKind | default "StatefulSet" }}
 metadata:
   name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ $name }}
     app.kubernetes.io/version: {{ $tag }}
