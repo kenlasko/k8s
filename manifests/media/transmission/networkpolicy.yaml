@@ -1,0 +1,45 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  endpointSelector:
+    matchLabels:
+      app: transmission
+  ingress:
+    - fromEntities:
+        - ingress
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "9091"
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "42615"
+    - fromEndpoints:
+        - matchLabels:
+            appGroup: media-arr
+      toPorts:
+        - ports:
+            - port: "9091"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: cloudflare-tunnel
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "9091"
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+    - toEntities:
+        - world

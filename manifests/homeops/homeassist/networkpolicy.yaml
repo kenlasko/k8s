@@ -70,7 +70,7 @@ spec:
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: plex
-            k8s:io.kubernetes.pod.namespace: media-apps
+            k8s:io.kubernetes.pod.namespace: media
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: uptime-kuma

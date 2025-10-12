@@ -3,6 +3,6 @@ Redis is a fast, in-memory key-value database often used for caching, real-time 
 - [ArgoCD](/argocd)
 - [NextCloud](/manifests/apps/nextcloud)
 - [Paperless](/manifests/apps/paperless)
-- [Immich](/manifests/media-apps/immich)
+- [Immich](/manifests/media/immich)
 
 Since it is an app that is required by ArgoCD, it is part of the initial [cluster bootstrapping process](/#initial-cluster-setup). 

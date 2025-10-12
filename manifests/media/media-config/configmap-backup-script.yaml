@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-media-script
+  namespace: media
+data:
+  backup-media.sh: |
+    #! /bin/sh
+
+    echo 'Backing up Overseerr'
+    kubectl cp -n media overseerr-0:/config/db/. /backup/overseerr/db/.
+    kubectl cp -n media overseerr-0:/config/settings.json /backup/overseerr/settings.json
+
+    echo 'Backing up SABNZBD'
+    kubectl cp -n media sabnzbd-0:/config/Downloads/. /backup/sabnzbd/.
+    
+    echo 'Backing up Tautulli'
+    kubectl cp -n media tautulli-0:/config/backups/. /backup/tautulli/.
+    echo 'Deleting old Tautulli backups'
+    TAUTULLICOUNT=$(find /backup/tautulli -type f -mtime -1 | wc -l)
+    if [ $TAUTULLICOUNT -gt 24 ]
+    then
+      find /backup/tautulli/* -mtime +2 -exec rm {} \;
+    fi
+
+    echo 'Deleting old Plex backup'
+    rm -rf /backup/plex/*
+    echo 'Backing up Plex'
+    kubectl exec -n media plex-0 -- tar czf - --exclude=Library/Application\ Support/Plex\ Media\ Server/Cache/* /config/. > /backup/plex/plex.tar.gz
+    echo 'Backup complete!'  

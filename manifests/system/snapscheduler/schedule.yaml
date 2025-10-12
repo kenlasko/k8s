@@ -3,7 +3,7 @@ apiVersion: snapscheduler.backube/v1
 kind: SnapshotSchedule
 metadata:
   name: hourly
-  namespace: media-apps
+  namespace: media
 spec:
   disabled: false
   retention:

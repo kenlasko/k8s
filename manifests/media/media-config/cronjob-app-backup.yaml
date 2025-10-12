@@ -1,0 +1,62 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: media-app-backup
+  namespace: media
+spec:
+  schedule: "0 4 * * *"  # Start 3am UTC every day
+  suspend: false
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: media-service-account
+          serviceAccountName: media-service-account
+          restartPolicy: OnFailure
+          containers:
+          - name: backup-media
+            image: docker.io/alpine/k8s:1.34.1
+            imagePullPolicy: IfNotPresent
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 500m
+                memory: 160Mi
+              limits:
+                # cpu: 1500m
+                #memory: 300Mi
+            command: 
+            - /bin/sh
+            - -c
+            - /script/backup-media.sh
+            env:
+            - name: TZ
+              value: "America/Toronto"
+            volumeMounts:
+            - name: backup
+              mountPath: /backup
+            - name: backup-media-script
+              mountPath: /script/backup-media.sh
+              subPath: backup-media.sh
+          volumes:
+          - name: backup
+            persistentVolumeClaim:
+              claimName: nfs-media-app-backup
+          - configMap:
+              items:
+              - key: backup-media.sh
+                path: backup-media.sh
+              name: backup-media-script
+              defaultMode: 0555
+            name: backup-media-script
