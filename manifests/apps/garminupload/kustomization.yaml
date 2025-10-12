@@ -6,7 +6,7 @@ resources:
 - resources/deploy.yaml
 - resources/external-secrets.yaml
 # - resources/restore.yaml
-# - resources/sealed-secrets.yaml
+- resources/namespace.yaml
 - resources/volume.yaml
 
 configMapGenerator:

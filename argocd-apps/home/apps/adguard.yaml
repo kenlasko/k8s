@@ -20,6 +20,7 @@ spec:
     kind: Service
   syncPolicy:
     automated:
+      prune: true
       selfHeal: true
   info:
   - name: "Website:"

@@ -17,4 +17,5 @@ resources:
 - database.yaml
 - external-secrets.yaml
 - httproute.yaml
+- namespace.yaml
 - volume.yaml

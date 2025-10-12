@@ -10,3 +10,4 @@ helmCharts:
 resources:
 - env-vars.yaml
 - external-secrets.yaml
+- namespace.yaml
