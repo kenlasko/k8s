@@ -11,10 +11,10 @@ spec:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
       directories:
-        - path: manifests/apps/*
+        - path: manifests/apps/*/overlays/home
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "10"
       labels:
@@ -24,7 +24,7 @@ spec:
       source:
         repoURL: git@github.com:kenlasko/k8s.git
         targetRevision: HEAD
-        path: '{{.path.path}}/overlays/home'
+        path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
       syncPolicy:
