@@ -1,0 +1,4 @@
+singleBinary:
+  persistence:
+    storageClass: nfs-csi-dynamic
+    size: 20Gi

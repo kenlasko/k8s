@@ -33,9 +33,6 @@ loki:
 
 singleBinary:
   replicas: 1
-  persistence:
-    storageClass: nfs-csi-dynamic
-    size: 20Gi
   resources:
     requests:
       cpu: 7m
