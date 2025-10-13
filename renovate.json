@@ -98,8 +98,7 @@
         "cilium",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
-        "longhorn",
-        "**home-assistant**"
+        "longhorn"
       ],
       "automerge": false
     },
