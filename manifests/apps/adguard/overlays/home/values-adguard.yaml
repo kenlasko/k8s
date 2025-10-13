@@ -19,6 +19,10 @@ backup:
   schedule: "05 6 * * *"
 service:
   port: 3000
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "home-adguard"
+    tailscale.com/proxy-class: "default"
 extraPorts:
 - port: 443
   name: adguard-tls
