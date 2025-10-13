@@ -47,7 +47,7 @@ metadata:
     tailscale.com/hostname: cloud-uptime-kuma-link
   name: cloud-uptime-kuma-link
 spec:
-  externalName: cloud-uptime-kuma-link
+  # externalName: cloud-uptime-kuma-link
   type: ExternalName
 
 ---
