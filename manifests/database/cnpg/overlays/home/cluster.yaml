@@ -24,8 +24,8 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  # bootstrap:
-  #   # If the namespace is brand-new, we restore using an existing backup object called 's3-backupsource':
+  bootstrap:
+    # If the namespace is brand-new, we restore using an existing backup object called 's3-backupsource':
     recovery:
       source: s3-backupsource
     ## If the namespace still exists and there is a backup object, we can just restore using the below method:
@@ -39,7 +39,7 @@ spec:
     plugin:
       name: barman-cloud.cloudnative-pg.io
       enabled: true
-      isWALArchiver: true  # This needs to be false during restore, true otherwise
+      isWALArchiver: false  # This needs to be false during restore, true otherwise
       parameters:
         barmanObjectName: backblaze
 
