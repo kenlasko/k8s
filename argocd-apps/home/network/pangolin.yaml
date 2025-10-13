@@ -21,8 +21,6 @@ spec:
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Documentation:"
     value: "https://docs.fossorial.io/Getting%20Started/overview"

@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/network/oci-firewall-updater
+    path: manifests/network/oci-firewall-updater/overlays/cloud
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
@@ -18,6 +18,5 @@ spec:
         pod-security.kubernetes.io/enforce: baseline
         pod-security.kubernetes.io/enforce-version: latest
     automated:
+      prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true

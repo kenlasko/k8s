@@ -21,8 +21,6 @@ spec:
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Documentation:"
     value: "https://kubernetes-sigs.github.io/external-dns/v0.15.0/"

@@ -21,8 +21,6 @@ spec:
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Repository:"
     value: "https://github.com/qdm12/ddns-updater"
