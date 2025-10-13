@@ -11,10 +11,10 @@ spec:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
       directories:
-        - path: manifests/system/*
+        - path: manifests/system/*/overlays/home
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "1"
       labels:
@@ -24,7 +24,7 @@ spec:
       source:
         repoURL: git@github.com:kenlasko/k8s.git
         targetRevision: HEAD
-        path: '{{.path.path}}/overlays/home'
+        path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
       syncPolicy:
@@ -32,21 +32,9 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- if eq .path.basename "external-secrets" }}
+    {{- if eq (index .path.segments 2) "external-secrets" }}
     spec:
       syncPolicy:
         syncOptions:
         - ServerSideApply=true
     {{- end }}
-
-
-
-  #     {{- else if eq .path.basename "intel-device-plugins" }}
-  #     ignoreDifferences:
-  #     - group: "*"
-  #       kind: GpuDevicePlugin
-  #       jsonPointers:
-  #       - /spec/resourceManager
-  #     syncPolicy:
-  #       syncOptions:
-  #       - RespectIgnoreDifferences=true
