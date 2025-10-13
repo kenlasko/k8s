@@ -6,5 +6,6 @@ resources:
 - homeops.yaml
 - media.yaml
 - monitoring.yaml
+- network.yaml
 - system.yaml
 # - testapps.yaml
