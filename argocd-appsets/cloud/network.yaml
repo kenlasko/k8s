@@ -32,7 +32,8 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- if eq (index .path.segments 2) "tailscale" }}
+    {{- $app := index .path.segments 2 }}
+    {{- if or (eq $app "tailscale") (eq $app "external-dns") }}
     spec:
       ignoreDifferences:
       - jsonPointers:

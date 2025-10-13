@@ -31,11 +31,3 @@ spec:
         automated:
           prune: true
           selfHeal: true
-  templatePatch: |
-    {{- if eq (index .path.segments 2) "external-dns" }}
-    spec:
-      ignoreDifferences:
-      - jsonPointers:
-        - /spec/externalName
-        kind: Service
-    {{- end }}
