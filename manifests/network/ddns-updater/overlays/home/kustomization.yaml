@@ -7,6 +7,6 @@ helmCharts:
 - name: baseline
   releaseName: ddns-updater
   namespace: ddns-updater
-  valuesFile: ../../values.yaml
+  valuesFile: ../../base/values.yaml
 resources:
 - ../../base
