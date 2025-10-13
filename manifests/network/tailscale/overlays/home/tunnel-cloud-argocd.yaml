@@ -47,7 +47,7 @@ metadata:
     tailscale.com/hostname: cloud-argocd-link
   name: cloud-argocd-link
 spec:
-  # externalName: cloud-argocd-link
+  externalName: cloud-argocd-link
   type: ExternalName
 
 ---

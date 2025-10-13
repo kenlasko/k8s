@@ -31,3 +31,11 @@ spec:
         automated:
           prune: true
           selfHeal: true
+  templatePatch: |
+    {{- if eq .path.basename "tailscale" }}
+    spec:
+      ignoreDifferences:
+      - jsonPointers:
+        - /spec/externalName
+        kind: Service
+    {{- end }}

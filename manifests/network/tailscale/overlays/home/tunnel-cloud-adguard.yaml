@@ -48,7 +48,7 @@ metadata:
   name: cloud-adguard-link
   namespace: tailscale
 spec:
-  # externalName: cloud-adguard-link
+  externalName: cloud-adguard-link
   type: ExternalName
 
 ---
