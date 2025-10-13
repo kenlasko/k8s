@@ -34,6 +34,10 @@ spec:
   templatePatch: |
     {{- if eq (index .path.segments 2) "cnpg" }}
     spec:
+      ignoreDifferences:
+      - jsonPointers:
+        - /spec/externalName
+        kind: Service
       syncPolicy:
         syncOptions:
         - ServerSideApply=true
