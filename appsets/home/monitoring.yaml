@@ -32,7 +32,7 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- if eq .path.basename "external-secrets" }}
+    {{- if eq .path.basename "promstack" }}
     spec:
       syncPolicy:
         syncOptions:
