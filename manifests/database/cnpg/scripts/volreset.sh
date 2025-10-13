@@ -2,7 +2,7 @@
 
 # This script will delete the contents of a given folder on all the selected nodes. Used for clearing out database folders before a new cluster build
 
-NODES=("nuc4" "nuc5" "nuc6" "onode1")
+NODES=("nuc4" "nuc5" "nuc6" "nuc7" "onode1")
 FOLDER_PATH="/host/var/postgresql"
 
 # Function to clean up the folder on a given node
