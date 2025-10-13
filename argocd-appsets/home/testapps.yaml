@@ -11,7 +11,7 @@ spec:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
       directories:
-        - path: manifests/testapps/*
+        - path: manifests/testapps/*/overlays/home
   template:
     metadata:
       name: '{{.path.basename}}'
@@ -24,7 +24,7 @@ spec:
       source:
         repoURL: git@github.com:kenlasko/k8s.git
         targetRevision: HEAD
-        path: '{{.path.path}}/overlays/home'
+        path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
       syncPolicy:
