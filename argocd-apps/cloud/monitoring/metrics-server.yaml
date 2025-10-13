@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/monitoring/metrics-server
+    path: manifests/monitoring/metrics-server/overlays/cloud
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
