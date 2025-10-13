@@ -9,9 +9,6 @@ spec:
   - repoURL: "git@github.com:kenlasko/k8s.git"
     path: argocd-apps/home/database
     targetRevision: HEAD
-  # - repoURL: "git@github.com:kenlasko/k8s.git"
-  #   path: argocd-apps/home/network
-  #   targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
     namespace: argocd

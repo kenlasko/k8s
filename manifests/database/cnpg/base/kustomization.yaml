@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: cnpg
 resources:
 - backupsource.yaml
-- https://github.com/cloudnative-pg/plugin-barman-cloud/releases/download/v0.7.0/manifest.yaml
 - external-secrets.yaml
-#- sealed-secrets.yaml
+- namespace.yaml
+- https://github.com/cloudnative-pg/plugin-barman-cloud/releases/download/v0.7.0/manifest.yaml

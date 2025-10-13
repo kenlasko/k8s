@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "git@github.com:kenlasko/k8s.git"
-    path: manifests/database/pgadmin
+    path: manifests/database/pgadmin/overlays/home
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
@@ -21,8 +21,6 @@ spec:
         pod-security.kubernetes.io/enforce-version: latest
     automated:
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Website:"
     value: "https://www.pgadmin.org/"

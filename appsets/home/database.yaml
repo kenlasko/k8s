@@ -16,35 +16,25 @@ spec:
     metadata:
       name: '{{.path.basename}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "1"
+        argocd.argoproj.io/sync-wave: "2"
       labels:
-        app.kubernetes.io/part-of: database
         app.kubernetes.io/managed-by: argocd
     spec:
       project: default
       source:
         repoURL: git@github.com:kenlasko/k8s.git
         targetRevision: HEAD
-        path: '{{.path.path}}'
+        path: '{{.path.path}}/overlays/home'
       destination:
         server: https://kubernetes.default.svc
-        namespace: cnpg
       syncPolicy:
-        managedNamespaceMetadata:
-          labels:
-            pod-security.kubernetes.io/enforce: baseline
-            pod-security.kubernetes.io/enforce-version: latest
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-        - CreateNamespace=true
-        - ServerSideApply=true
   templatePatch: |
+    {{- if eq .path.basename "cnpg" }}
     spec:
-      {{- if eq .path.basename "redis" }}
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: redis
-      {{- end }}
-
+      syncPolicy:
+        syncOptions:
+        - ServerSideApply=true
+    {{- end }}
