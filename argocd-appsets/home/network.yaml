@@ -11,10 +11,10 @@ spec:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
       directories:
-        - path: manifests/network/*
+        - path: manifests/network/*/overlays/home
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "1"
       labels:
