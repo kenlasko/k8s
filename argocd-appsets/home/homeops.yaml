@@ -11,7 +11,7 @@ spec:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
       directories:
-        - path: manifests/homeops/*/overlays/home
+        - path: manifests/homeops/*
   template:
     metadata:
       name: '{{index .path.segments 2}}'
