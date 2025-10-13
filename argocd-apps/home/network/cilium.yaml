@@ -43,9 +43,8 @@ spec:
     - /data/ca.key
   syncPolicy:
     automated:
+      prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   info:
   - name: "Website:"
     value: "https://cilium.io/"
