@@ -12,38 +12,22 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/testapps/*
-        - path: manifests/testapps
-          exclude: true
   template:
     metadata:
       name: '{{.path.basename}}'
+      annotations:
+        argocd.argoproj.io/sync-wave: "99"
       labels:
-        app.kubernetes.io/part-of: testapps
         app.kubernetes.io/managed-by: argocd
     spec:
       project: default
       source:
         repoURL: git@github.com:kenlasko/k8s.git
         targetRevision: HEAD
-        path: '{{.path.path}}'
+        path: '{{.path.path}}/overlays/home'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.path.basename}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-        - CreateNamespace=true
-  templatePatch: |
-    spec:
-      {{- if eq .path.basename "testweb" }}
-      destination:
-        namespace: testwebsite
-      {{- end }}
-      {{- if eq .path.basename "testapp" }}
-      syncPolicy:
-        syncOptions:
-        - CreateNamespace=true
-        - ServerSideApply=true
-      {{- end }}
