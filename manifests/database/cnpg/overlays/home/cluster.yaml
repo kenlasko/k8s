@@ -24,22 +24,12 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  # bootstrap:
-  #   # If the namespace is brand-new, we restore using an existing backup object called 's3-backupsource':
-  #   recovery:
-  #     source: s3-backupsource
-    ## If the namespace still exists and there is a backup object, we can just restore using the below method:
-    #   backup:
-    #     name: daily-20250514170109
-    ## If you want to restore to a specific point in time, use the below method:
-      # recoveryTarget:
-      #   targetTime: "2025-10-10 15:00:00.000000+00:00"
   externalClusters:
   - name: s3-backupsource
     plugin:
       name: barman-cloud.cloudnative-pg.io
       enabled: true
-      isWALArchiver: true  # This needs to be false during restore, true otherwise
+      isWALArchiver: true
       parameters:
         barmanObjectName: backblaze
 
@@ -50,7 +40,6 @@ spec:
     - "vchord.so"
 
   # This enables backups to S3 storage
-  # Need to disable this entire section when restoring from backup to avoid conflicts. Not enough to set enabled or isWALArchiver to false
   plugins:
   - name: barman-cloud.cloudnative-pg.io
     enabled: true

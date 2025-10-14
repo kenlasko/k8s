@@ -18,7 +18,7 @@ resources:
 - httproute.yaml
 - kubeapi-httproute.yaml
 patches:
-- path: configmap-patch.yaml
+- path: cluster-patch.yaml
   target:
     group: ""
     version: v1
