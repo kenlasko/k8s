@@ -12,6 +12,8 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/testapps/*/overlays/home
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
