@@ -6,7 +6,7 @@ This deployment makes use of [Argo CD ApplicationSets](https://argo-cd.readthedo
 |     Type    |  Description              |Syncwave| 
 |:-----------:|:-------------------------:|:------:|
 | [apps](/manifests/apps) | General applications | 10 | 
-| [database](/manifests/database) | PostgreSQL/Redis | 2 |
+| [database](/manifests/database) | PostgreSQL/Redis | 1 |
 | [homeops](/manifests/homeops) | Home Assistant and supporting apps | 10 |
 | [media](/manifests/media) | Media apps (Plex/Radarr/Sonarr/etc) | 99 | 
 | [monitoring](/manifests/monitoring) | Prometheus/Grafana/Loki etc | 15 | 
