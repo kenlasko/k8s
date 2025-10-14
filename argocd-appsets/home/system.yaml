@@ -33,7 +33,6 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        preserveResourcesOnDeletion: true
   templatePatch: |
     {{- if eq (index .path.segments 2) "external-secrets" }}
     spec:
