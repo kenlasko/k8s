@@ -12,6 +12,8 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/homeops/*
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
@@ -37,6 +39,5 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        preserveResourcesOnDeletion: true
         syncOptions:
         - CreateNamespace=true

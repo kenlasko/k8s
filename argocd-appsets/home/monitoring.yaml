@@ -12,6 +12,8 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/monitoring/*/overlays/home
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
@@ -31,7 +33,6 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        preserveResourcesOnDeletion: true
   templatePatch: |
     {{- if eq (index .path.segments 2) "promstack" }}
     spec:

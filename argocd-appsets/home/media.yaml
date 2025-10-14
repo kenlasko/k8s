@@ -12,6 +12,8 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/media/*
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{.path.basename}}'
@@ -37,4 +39,3 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        preserveResourcesOnDeletion: true
