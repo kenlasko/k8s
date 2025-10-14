@@ -30,6 +30,13 @@ Constant backups are being made to a remote S3 bucket, which makes restoration v
 For now, the most reliable way to monitor WAL archiving and backup health with plugins is to check the Cluster status conditions (`ContinuousArchiving: True`, `LastBackupSucceeded: True`) and the `ObjectStore` CRD's `ServerRecoveryWindow` fields (`firstRecoverabilityPoint`, `lastSuccessfulBackupTime`) [docs](https://cloudnative-pg.io/plugin-barman-cloud/docs/concepts/). Pod logs are also essential for catching silent failures or S3 compatibility issues.
 
 # Things I've Found
+## Restoring the cluster after a failure
+When the cluster fails and needs rebuilding, a few things need to happen before restoring:
+- Delete the contents of the database folders on the nodes using the [volreset.sh](scripts/volreset.sh) script.
+- Delete the PVs assigned to the previous cluster, so that CNPG can reclaim them
+- Enable the [patch-recovery.yaml](overlays/home/patch-recovery.yaml) patch in the [kustomization.yaml](overlays/home/kustomization.yaml) and disable once recovery is complete
+
+
 ## Recovering from a failed node
 I had a pod not come back properly after a node upgrade. Thankfully it was Home-3. The controller was throwing errors about being unable to connect to the pod, and the pod couldn't communicate with the controller. I tried to scale the cluster to 2 pods, but it kept failing to communicate with the pod.
 
