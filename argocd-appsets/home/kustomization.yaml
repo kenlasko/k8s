@@ -8,4 +8,4 @@ resources:
 - monitoring.yaml
 - network.yaml
 - system.yaml
-- testapps.yaml
+# - testapps.yaml
