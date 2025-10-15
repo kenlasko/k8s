@@ -15,6 +15,7 @@ resources:
 - cluster.yaml
 - cluster-standby.yaml
 - cronjob-akeyless-update.yaml
+- cronjob-pgdump.yaml
 - external-secrets.yaml
 - service.yaml
 - serviceaccount.yaml
