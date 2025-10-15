@@ -57,6 +57,7 @@ spec:
               BACKUP_ROOT="/backup/" &&
               BACKUP_DIR="$BACKUP_ROOT/$DAY" &&
               ARCHIVE_FILE="$BACKUP_ROOT/postgres_backup_${DAY}.tar.gz"
+              mkdir -p "$BACKUP_DIR" && 
               echo "$(date +%F_%T) Backing up global objects..." &&
               pg_dumpall --globals-only -f "$BACKUP_DIR/globals.sql" &&
               echo "$(date +%F_%T) Globals saved to $BACKUP_DIR/globals.sql" &&
