@@ -58,9 +58,9 @@ spec:
               echo "$(date +%F_%T) Backing up global objects..." &&
               pg_dumpall --globals-only -f "$BACKUP_DIR/globals.sql" &&
               echo "$(date +%F_%T) Globals saved to $BACKUP_DIR/globals.sql" &&
-              DBS=$(psql -At -c "SELECT datname FROM pg_database WHERE datistemplate = false;")
+              DBS=$(psql -At -c "SELECT datname FROM pg_database WHERE datistemplate = false;") &&
               for DB in $DBS; do &&
-                  echo "Dumping database: $DB ..." &&
+                  echo "Dumping database $DB ..." &&
                   pg_dump -U "$USER" -h "$HOST" -p "$PORT" -Fc -f "$BACKUP_DIR/${DB}.dump" "$DB" &&
               done &&
               echo "$(date +%F_%T) All databases have been backed up."
