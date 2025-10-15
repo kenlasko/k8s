@@ -22,6 +22,6 @@ spec:
       monthly: 0
       weekly: 2
       yearly: 0
-  sourcePVC: pvc-adguard
+  sourcePVC: adguard-conf
   trigger:
     schedule: 05 5 * * *
