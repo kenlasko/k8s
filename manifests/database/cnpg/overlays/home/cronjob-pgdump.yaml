@@ -54,7 +54,7 @@ spec:
             - -c
             - DAY=$(date +%A) &&
               DATE=$(date +%F) &&
-              BACKUP_ROOT="/backup/" &&
+              BACKUP_ROOT="/backup" &&
               BACKUP_DIR="$BACKUP_ROOT/$DAY" &&
               ARCHIVE_FILE="$BACKUP_ROOT/postgres_backup_${DAY}.tar.gz" &&
               mkdir -p "$BACKUP_DIR" && 
