@@ -55,6 +55,7 @@ spec:
             - DAY=$(date +%A) &&
               DATE=$(date +%F) &&
               BACKUP_DIR=/backup &&
+              sleep 999999
               echo "$(date +%F_%T) Backing up global objects..." &&
               pg_dumpall --globals-only -f "$BACKUP_DIR/globals.sql" &&
               echo "$(date +%F_%T) Globals saved to $BACKUP_DIR/globals.sql" &&
