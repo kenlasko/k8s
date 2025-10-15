@@ -1,4 +1,4 @@
-replicas: 0
+replicas: 1
 disableHTTPRoute: true
 persistentVolume:
   type: local-path
