@@ -48,22 +48,26 @@ spec:
                   name: postgresql-superuser
                   key: password
             - name: PGHOST
-              value: home-r
+              value: home-rw
             command: 
             - /bin/sh
             - -c
             - DAY=$(date +%A) &&
               DATE=$(date +%F) &&
-              BACKUP_DIR=/backup &&
-              sleep 999999 &&
+              BACKUP_ROOT="/backup/" &&
+              BACKUP_DIR="$BACKUP_ROOT/$DAY" &&
+              ARCHIVE_FILE="$BACKUP_ROOT/postgres_backup_${DAY}.tar.gz"
               echo "$(date +%F_%T) Backing up global objects..." &&
               pg_dumpall --globals-only -f "$BACKUP_DIR/globals.sql" &&
               echo "$(date +%F_%T) Globals saved to $BACKUP_DIR/globals.sql" &&
               DBS=$(psql -At -c "SELECT datname FROM pg_database WHERE datistemplate = false;") &&
               for DB in $DBS; do 
                   echo "Dumping database $DB ...";
-                  pg_dump -U "$USER" -h "$HOST" -p "$PORT" -Fc -f "$BACKUP_DIR/${DB}.dump" "$DB";
+                  pg_dump -Fc -f "$BACKUP_DIR/${DB}.dump" "$DB";
               done &&
+              echo "Compressing all dumps into $ARCHIVE_FILE ..." &&
+              tar -czf "$ARCHIVE_FILE" -C "$BACKUP_DIR" . &&
+              rm -rf $BACKUP_DIR &&
               echo "$(date +%F_%T) All databases have been backed up."
             volumeMounts:
             - name: data
