@@ -43,5 +43,5 @@ spec:
       key: ca.crt
 
   postgresql:
-    shared_preload_libraries:
-    - "vchord.so"
+    # shared_preload_libraries:
+    # - "vchord.so"
