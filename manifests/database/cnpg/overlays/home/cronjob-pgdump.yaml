@@ -17,7 +17,7 @@ spec:
           automountServiceAccountToken: false
           containers:
           - name: pgdump
-            image: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
+            image: ghcr.io/cloudnative-pg/postgresql:17.6-standard-trixie
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
