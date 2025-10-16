@@ -4,7 +4,10 @@ metadata:
   name: home
   namespace: cnpg
 spec:
-  imageName: kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1
+  # Use ghcr.io/cloudnative-pg/postgresql:16.10-standard-trixie for basic usage
+  # Use ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0 for vchord (Immich)
+  # Use kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1 for vchord (Immich) and GIS (Dawarich)
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.10-standard-trixie
   instances: 3
   failoverDelay: 15
   storage:
@@ -36,8 +39,7 @@ spec:
   postgresql:
     parameters:
       wal_keep_size: "5GB"
-    shared_preload_libraries:
-    - "vchord.so"
+    shared_preload_libraries: []
 
   # This enables backups to S3 storage
   plugins:
