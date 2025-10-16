@@ -4,7 +4,7 @@ metadata:
   name: cloud
   namespace: cnpg
 spec:
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.10-minimal-trixie # ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
   instances: 1
   bootstrap:
     # Bootstrapping directly from the primary is extremely slow over Tailscale and takes over 10h. Not recommended
