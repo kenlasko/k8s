@@ -4,5 +4,6 @@ resources:
 - configmap.yaml
 - external-secrets.yaml
 - kubeapi-serviceaccount.yaml
+- namespace.yaml
 - priorityclass.yaml
 

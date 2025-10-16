@@ -141,13 +141,6 @@ if ! kubectl get nodes --context="$selected_context" >/dev/null 2>&1; then
     exit 1
 fi
 
-# Create namespaces once (skip if already exists)
-kubectl create namespace cilium --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace cert-manager --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace redis --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
-
 # Apply secretstore secrets from /run/secrets/eso-secretstore-secrets.yaml
 kubectl apply -f /run/secrets/eso-secretstore-secrets.yaml
 
