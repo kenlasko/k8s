@@ -4,7 +4,7 @@ metadata:
   name: standby
   namespace: cnpg
 spec:
-  imageName: kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1  #ghcr.io/cloudnative-pg/postgresql:16.10-minimal-trixie
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.10-minimal-trixie # kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1
   instances: 1
   bootstrap:
     pg_basebackup:
