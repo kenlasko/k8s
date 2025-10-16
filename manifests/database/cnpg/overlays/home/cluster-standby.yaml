@@ -4,7 +4,7 @@ metadata:
   name: standby
   namespace: cnpg
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.10-minimal-trixie
+  imageName: kenlasko/cloudnativepg-gis-vchord:16.9-vc0.4.2-1  #ghcr.io/cloudnative-pg/postgresql:16.10-minimal-trixie
   instances: 1
   bootstrap:
     pg_basebackup:
@@ -42,6 +42,4 @@ spec:
       name: home-ca
       key: ca.crt
 
-  postgresql:
-    # shared_preload_libraries:
-    # - "vchord.so"
+  postgresql: []
