@@ -27,9 +27,9 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  bootstrap:
-    recovery:
-      source: s3-backupsource
+  # bootstrap:
+  #   recovery:
+  #     source: s3-backupsource
   #     recoveryTarget:
   #       targetTime: "2025-10-16 16:58:00.000000+00:00"
   externalClusters:
