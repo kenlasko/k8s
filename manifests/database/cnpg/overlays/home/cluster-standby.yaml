@@ -45,5 +45,5 @@ spec:
       name: home-ca
       key: ca.crt
 
-  postgresql: {}
+  postgresql:
     shared_preload_libraries: []
