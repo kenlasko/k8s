@@ -42,6 +42,6 @@ spec:
       name: home-ca
       key: ca.crt
 
-  postgresql:
-    shared_preload_libraries:
-    - "vchord.so"
+  postgresql: []
+#    shared_preload_libraries:
+#    - "vchord.so"
