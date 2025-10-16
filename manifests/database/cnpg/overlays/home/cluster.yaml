@@ -27,9 +27,9 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-postgresql.svc.cluster.local"
-  bootstrap:
-    recovery:
-      source: s3-backupsource
+  # bootstrap:
+  #   recovery:
+  #     source: s3-backupsource
   externalClusters:
   - name: s3-backupsource
     plugin:
