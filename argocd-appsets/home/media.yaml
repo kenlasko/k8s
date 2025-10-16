@@ -32,10 +32,6 @@ spec:
         server: https://kubernetes.default.svc
         namespace: media
       syncPolicy:
-        managedNamespaceMetadata:
-          labels:
-            pod-security.kubernetes.io/enforce: baseline
-            pod-security.kubernetes.io/enforce-version: latest
-        # automated:
-        #   prune: true
-        #   selfHeal: true
+        automated:
+          prune: true
+          selfHeal: true
