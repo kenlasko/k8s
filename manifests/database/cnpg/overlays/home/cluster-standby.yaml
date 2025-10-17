@@ -12,14 +12,6 @@ spec:
   bootstrap:
     recovery:
       source: s3-backupsource
-  externalClusters:
-  - name: s3-backupsource
-    plugin:
-      name: barman-cloud.cloudnative-pg.io
-      enabled: true
-      isWALArchiver: true
-      parameters:
-        barmanObjectName: backblaze
   replica:
     enabled: true
     source: home-postgresql 
@@ -52,6 +44,12 @@ spec:
     sslRootCert:
       name: home-ca
       key: ca.crt
-
+  - name: s3-backupsource
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      enabled: true
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: backblaze
   postgresql:
     shared_preload_libraries: []
