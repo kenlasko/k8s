@@ -10,8 +10,16 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17.6-standard-trixie
   instances: 1
   bootstrap:
-    pg_basebackup:
-      source: home-postgresql
+    recovery:
+      source: s3-backupsource
+  externalClusters:
+  - name: s3-backupsource
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      enabled: true
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: backblaze
   replica:
     enabled: true
     source: home-postgresql 
