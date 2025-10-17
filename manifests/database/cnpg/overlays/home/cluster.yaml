@@ -43,7 +43,7 @@ spec:
 
   postgresql:
     parameters:
-      wal_keep_size: "5GB"
+      wal_keep_size: "1GB"
     shared_preload_libraries: []
 
   # This enables backups to S3 storage
