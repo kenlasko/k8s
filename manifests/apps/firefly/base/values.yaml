@@ -17,9 +17,9 @@ config:
     DB_HOST: home-rw.cnpg.svc.cluster.local
     DB_PORT: "5432"
     DB_DATABASE: firefly
-    DEFAULT_LANGUAGE: "en_CA"
-    DEFAULT_LOCALE: "en_CA"
-    LC_ALL: "en_CA.utf8"
+    DEFAULT_LANGUAGE: "en_US"
+    DEFAULT_LOCALE: "en_US"
+    LC_ALL: "en_US.utf8"
     TZ: "America/Toronto"
     TRUSTED_PROXIES: "**"
 
