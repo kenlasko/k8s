@@ -6,4 +6,3 @@ resources:
 - kubeapi-serviceaccount.yaml
 - namespace.yaml
 - priorityclass.yaml
-

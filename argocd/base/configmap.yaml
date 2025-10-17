@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   admin.enabled: "false"  # disable built-in admin account
+  # This allows ArgoCD to use Helm charts as applications
   kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
   # Used for Github authentication
@@ -27,6 +28,7 @@ data:
       clusters:
       - "*"
   # This is used so that ArgoCD "app-of-apps" application (such as my argocd-apps and media-apps) will be processed properly
+  # I've since switched to using the ArgoCD ApplicationSet controller for all my apps, but leaving this here just in case
   resource.customizations: |
     argoproj.io/Application:
       health.lua: |
