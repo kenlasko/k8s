@@ -16,7 +16,7 @@ spec:
   #   preserveResourcesOnDeletion: true
   template:
     metadata:
-      name: '{{index .path.segments 1}}h{{index .path.segments 2}}'
+      name: '{{index .path.segments 1}}-{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "99"
       labels:
