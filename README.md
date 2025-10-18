@@ -47,13 +47,13 @@ I use the [Tailscale Operator](/manifests/network/tailscale) to securely share d
 ## Folder structure
 The folders are laid out in the following manner:
 - [argocd](/argocd): the "brains" of the operation that controls the creation/management of all resources
-- [argocd-apps](/argocd-apps): where all the ArgoCD application definitions reside. This basically tells ArgoCD where to find the relevant manifests for each application. Broken down by type (app, database, system etc). The ArgoCD applications reference manifests stored in the [manifests](/manifests) folder.
+- [argocd-appsets](/argocd-appsets): where all the ArgoCD ApplicationSet definitions reside. An ApplicationSet automates the creation of ArgoCD Application definitions, which tells ArgoCD where to find the relevant manifests for each application. Broken down by type (app, database, system etc). The ArgoCD applications reference manifests stored in the [manifests](/manifests) folder.
 - [docs](/docs): documents
 - [manifests](/manifests): all the manifests used by each application. Broken down by type (app, database, system etc) then by name. Used by [ArgoCD applications](/argocd-apps).
 - [helm](/helm/baseline): where I keep my universal Helm chart for most non-Helm based applications
 - [scripts](/scripts): a mish-mash of scripts used for various purposes
 
-Applications that are used by multiple clusters are structured for [Kustomize](https://kustomize.io/) by following this structure underneath [manifests](/manifests):
+Applications are structured for [Kustomize](https://kustomize.io/) by following this structure underneath [manifests](/manifests):
 ```
 appName/
 ├── base/
@@ -104,7 +104,7 @@ Many container images do not have any tools like `nc` to check network port conn
 
 ## Validate Kustomize manifests
 ```
-kustomize build ~/k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/kustomize-test.yaml
+kustomize build ~/k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load-restrictor LoadRestrictionsNone > ~/test-kustomize.yaml
 ```
 
 ## Validate Homegrown Helm Chart

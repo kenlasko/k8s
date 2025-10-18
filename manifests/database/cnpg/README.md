@@ -33,7 +33,7 @@ For now, the most reliable way to monitor WAL archiving and backup health with p
 ## Restoring the cluster after a failure
 When the cluster fails and needs rebuilding, a few things need to happen before restoring:
 - Delete the contents of the database folders on the nodes using the [volreset.sh](scripts/volreset.sh) script.
-- Delete the PVs assigned to the previous cluster, so that CNPG can reclaim them
+- Delete the PVs assigned to the previous cluster, so that CNPG can reclaim them. Tip: if you want the pod order to sequentially match up with the nodes (home-1 on NUC4, home-2 on NUC5 etc.), only delete the PV associated with NUC4 first, then NUC5 after NUC4 claims the PV, etc.
 - Enable the [patch-recovery.yaml](overlays/home/patch-recovery.yaml) patch in the [kustomization.yaml](overlays/home/kustomization.yaml) and disable once recovery is complete
 
 
