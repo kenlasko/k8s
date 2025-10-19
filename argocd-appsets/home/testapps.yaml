@@ -14,7 +14,7 @@ spec:
         directories:
         - path: manifests/testapps/*/overlays/home
         files:
-        - path: "{{.path.path}}/custom-config.yaml"
+        - path: manifests/testapps/*/overlays/home/custom-config.yaml
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
