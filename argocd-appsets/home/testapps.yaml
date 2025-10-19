@@ -42,13 +42,12 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
   templatePatch: |
     {{- if .custom.path }}
     spec:
       syncPolicy:
         automated:
+          $patch: replace
           allowEmpty: true
           prune: false
           selfHeal: false
