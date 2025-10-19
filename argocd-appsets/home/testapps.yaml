@@ -50,12 +50,12 @@ spec:
       syncPolicy:
         automated:
         {{- if ne .autoSync false }}
+          prune: true
+          selfHeal: true
+        {{- else }}
           allowEmpty: true
           prune: false
           selfHeal: false
-        {{- else }}
-          prune: true
-          selfHeal: true
         {{- end }}
         syncOptions:
         {{- if ne .createNamespace false }}
