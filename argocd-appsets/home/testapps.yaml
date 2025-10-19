@@ -53,9 +53,7 @@ spec:
           selfHeal: false
         {{- end }}
         syncOptions:
-        {{- if eq (.custom.createNamespace | toString) "false" }}
-          - CreateNamespace=false
-        {{- else }}
+        {{- if eq (.custom.createNamespace | toString) "true" }}
           - CreateNamespace=true
         {{- end }}
     {{- end }}
