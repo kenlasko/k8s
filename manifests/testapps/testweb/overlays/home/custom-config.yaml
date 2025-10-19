@@ -1,4 +1,4 @@
 #additionalSyncOptions:
 #  - ServerSideApply=true
-createNamespace: false
+createNamespace: true
 autoSync: false
