@@ -18,7 +18,7 @@ spec:
               directories:
               - path: manifests/testapps/*/overlays/home
               values:
-                selector: '{{ path.path}}'
+                selector: '{{ .path.path}}'
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
@@ -26,7 +26,7 @@ spec:
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
               values:
-                selector: '{{ path.path}}'
+                selector: '{{ .path.path}}'
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
