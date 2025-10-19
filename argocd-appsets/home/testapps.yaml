@@ -52,9 +52,6 @@ spec:
           selfHeal: false
         {{- end }}
         syncOptions:
-        {{- if (not (eq (default true .createNamespace) false)) }}
-          - CreateNamespace=true
-        {{- end }}
         {{- range (default (list) .additionalSyncOptions) }}
           - {{ . }}
         {{- end }}
