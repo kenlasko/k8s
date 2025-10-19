@@ -5,31 +5,20 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=default"]
+  goTemplateOptions: ["missingkey=error"]
   generators:
-    - merge:
-        mergeKeys: ["files"]
-        generators:
-          - git:
-              repoURL: git@github.com:kenlasko/k8s.git
-              revision: HEAD
-              requeueAfterSeconds: 15
-              directories:
-              - path: manifests/monitoring/*/overlays/home
-          - git:
-              repoURL: git@github.com:kenlasko/k8s.git
-              revision: HEAD
-              requeueAfterSeconds: 15
-              files:
-              - path: manifests/monitoring/*/overlays/home/custom-config.yaml
-  # syncPolicy:
-  #   preserveResourcesOnDeletion: true
+  - git:
+      repoURL: git@github.com:kenlasko/k8s.git
+      revision: HEAD
+      directories:
+        - path: manifests/monitoring/*/overlays/home
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "15"
-        debug-all: '{{. | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
@@ -45,20 +34,9 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- if .path.filename }}
+    {{- if eq (index .path.segments 2) "promstack" }}
     spec:
       syncPolicy:
-        automated:
-        {{- if ne .autoSync false }}
-          prune: true
-          selfHeal: true
-        {{- else }}
-          allowEmpty: true
-          prune: false
-          selfHeal: false
-        {{- end }}
         syncOptions:
-        {{- range .syncOptions }}
-          - {{ . }}
-        {{- end }}
+        - ServerSideApply=true
     {{- end }}
