@@ -1,4 +1,3 @@
-#additionalSyncOptions:
-#  - ServerSideApply=true
 createNamespace: true
 autoSync: false
+testConfig: true
