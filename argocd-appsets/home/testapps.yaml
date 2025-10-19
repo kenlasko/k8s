@@ -20,7 +20,6 @@ spec:
               revision: HEAD
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
-              pathParamPrefix: custom
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
@@ -28,8 +27,8 @@ spec:
       name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "99"
-        debug-custom-path: '{{.custom.path | default "no-custom-path"}}'
-        debug-custom-data: '{{.custom | toJson}}'
+        debug-autosync: '{{.autoSync | default "not-set"}}'
+        debug-createns: '{{.createNamespace | default "not-set"}}'
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
@@ -44,12 +43,3 @@ spec:
         automated:
           prune: true
           selfHeal: true
-  templatePatch: |
-    {{- if .custom.path }}
-    spec:
-      syncPolicy:
-        automated:
-          allowEmpty: true
-          prune: false
-          selfHeal: false
-    {{- end }}
