@@ -49,10 +49,13 @@ spec:
     spec:
       syncPolicy:
         automated:
-        {{- if ne .autoSync true }}
+        {{- if ne .autoSync false }}
           allowEmpty: true
           prune: false
           selfHeal: false
+        {{- else }}
+          prune: true
+          selfHeal: true
         {{- end }}
         syncOptions:
         {{- if ne .createNamespace false }}
