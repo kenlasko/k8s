@@ -8,7 +8,7 @@ spec:
   goTemplateOptions: ["missingkey=zero"]
   generators:
     - merge:
-        mergeKeys: ["directories","files"]
+        mergeKeys: ["directories.path","files.path"]
         generators:
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
