@@ -49,8 +49,6 @@ spec:
         {{- if eq (.custom.autoSync | toString) "false" }}
         automated:
           allowEmpty: true
-          prune: false
-          selfHeal: false
         {{- end }}
         syncOptions:
         {{- if eq (.custom.createNamespace | toString) "true" }}
