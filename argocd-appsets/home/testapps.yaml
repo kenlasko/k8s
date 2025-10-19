@@ -52,9 +52,10 @@ spec:
           selfHeal: false
         {{- end }}
         syncOptions:
-        {{- if ne .createNamespace false }}
+      {{- if (and (hasKey . "createNamespace") (eq (index . "createNamespace") true)) }}
           - CreateNamespace=true
-        {{- end }}
+      {{- end }}
+      {{- if ha
         {{- range .additionalSyncOptions }}
           - {{ . }}
         {{- end }}
