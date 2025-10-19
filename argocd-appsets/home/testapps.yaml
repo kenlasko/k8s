@@ -9,29 +9,25 @@ spec:
   generators:
     - merge:
         mergeKeys:
-        - appName
+        - files
         generators:
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
               requeueAfterSeconds: 15
-              directories:
-              - path: manifests/testapps/*/overlays/home
-              values:
-                appName: '{{index .path.segments 2}}'
+              files:
+              - path: manifests/testapps/*/overlays/home/kustomization.yaml
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
               requeueAfterSeconds: 15
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
-              values:
-                appName: '{{index .path.segments 2}}'
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
     metadata:
-      name: '{{.appName}}'
+      name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "99"
         debug-all: '{{. | toJson}}'
@@ -50,8 +46,7 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- if .files }}
-    {{- with (first .files) }}
+    {{- if .path.filename }}
     spec:
       syncPolicy:
         automated:
@@ -67,5 +62,4 @@ spec:
         {{- range .syncOptions }}
           - {{ . }}
         {{- end }}
-    {{- end }}
     {{- end }}
