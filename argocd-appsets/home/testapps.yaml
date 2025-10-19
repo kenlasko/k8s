@@ -40,17 +40,16 @@ spec:
         server: https://kubernetes.default.svc
       syncPolicy:
         automated:
-          {{- if and .custom.path (eq (.custom.autoSync | toString) "false") }}
-          prune: false
-          selfHeal: false
-          allowEmpty: true
-          {{- else }}
           prune: true
           selfHeal: true
-          {{- end }}
         syncOptions:
-          {{- if and .custom.path (eq (.custom.createNamespace | toString) "false") }}
-          - CreateNamespace=false
-          {{- else }}
           - CreateNamespace=true
-          {{- end }}
+  templatePatch: |
+    {{- if .custom.path }}
+    spec:
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          prune: false
+          selfHeal: false
+    {{- end }}
