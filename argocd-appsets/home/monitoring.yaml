@@ -22,8 +22,8 @@ spec:
               requeueAfterSeconds: 15
               files:
               - path: manifests/monitoring/*/overlays/home/custom-config.yaml
-  syncPolicy:
-    preserveResourcesOnDeletion: true
+  # syncPolicy:
+  #   preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
