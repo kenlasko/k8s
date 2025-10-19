@@ -1,0 +1,2 @@
+additionalSyncOptions:
+  - ServerSideApply=true
