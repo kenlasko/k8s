@@ -47,6 +47,10 @@ spec:
   templatePatch: |
     {{- if .path.filename }}
     spec:
+      ignoreDifferences:
+      {{- range .ignoreDifferences }}
+        - {{ . }}
+      {{- end }}
       syncPolicy:
         automated:
         {{- if ne .autoSync false }}
