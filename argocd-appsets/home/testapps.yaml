@@ -5,11 +5,11 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=zero"]
+  goTemplateOptions: ["missingkey=invalid"]
   generators:
     - merge:
         mergeKeys:
-        - values.selector
+        - files
         generators:
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
@@ -17,16 +17,12 @@ spec:
               requeueAfterSeconds: 15
               directories:
               - path: manifests/testapps/*/overlays/home
-              values:
-                selector: 'a'
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
               requeueAfterSeconds: 15
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
-              values:
-                selector: 'b'
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
