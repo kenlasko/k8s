@@ -28,6 +28,8 @@ spec:
       name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "99"
+        debug-custom-path: '{{.custom.path | default "no-custom-path"}}'
+        debug-custom-data: '{{.custom | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
@@ -47,7 +49,6 @@ spec:
     spec:
       syncPolicy:
         automated:
-          $patch: replace
           allowEmpty: true
           prune: false
           selfHeal: false
