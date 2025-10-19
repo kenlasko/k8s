@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=zero"]
+  goTemplateOptions: ["missingkey=default"]
   generators:
     - merge:
         mergeKeys: ["path"]
@@ -46,12 +46,12 @@ spec:
     spec:
       syncPolicy:
         automated:
-        {{- if (not (eq (default false .autoSync) false)) }}
+        {{- if ne .autoSync false }}
           allowEmpty: true
           prune: false
           selfHeal: false
         {{- end }}
         syncOptions:
-        {{- range (default (list) .additionalSyncOptions) }}
+        {{- range .additionalSyncOptions }}
           - {{ . }}
         {{- end }}
