@@ -43,17 +43,17 @@ spec:
           prune: true
           selfHeal: true
  templatePatch: |
-  spec:
-    syncPolicy:
-      {{- if (default true .autoSync) }}
-      automated:
-        prune: true
-        selfHeal: true
-      {{- end }}
-      syncOptions:
-      {{- if (default true .createNamespace) }}
-        - CreateNamespace=true
-      {{- end }}
-      {{- range (default (list) .additionalSyncOptions) }}
-        - {{ . }}
-      {{- end }}
+   spec:
+     syncPolicy:
+       {{- if (default true .autoSync) }}
+       automated:
+         prune: true
+         selfHeal: true
+       {{- end }}
+       syncOptions:
+       {{- if (default true .createNamespace) }}
+         - CreateNamespace=true
+       {{- end }}
+       {{- range (default (list) .additionalSyncOptions) }}
+         - {{ . }}
+       {{- end }}
