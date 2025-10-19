@@ -26,8 +26,6 @@ spec:
       name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "99"
-        debug-autosync: '{{.autoSync | default "not-set"}}'
-        debug-createns: '{{.createNamespace | default "not-set"}}'
         debug-all: '{{. | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd
