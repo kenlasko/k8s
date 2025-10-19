@@ -45,16 +45,15 @@ spec:
   templatePatch: |
     spec:
       syncPolicy:
+        {{- if (default true .autoSync) }}
         automated:
-        {{- if ne .autoSync false }}
-          allowEmpty: true
-          prune: false
-          selfHeal: false
+          prune: true
+          selfHeal: true
         {{- end }}
         syncOptions:
-        {{- if ne .createNamespace false }}
+        {{- if (default true .createNamespace) }}
           - CreateNamespace=true
         {{- end }}
-        {{- range .additionalSyncOptions }}
+        {{- range (default (list) .additionalSyncOptions) }}
           - {{ . }}
         {{- end }}
