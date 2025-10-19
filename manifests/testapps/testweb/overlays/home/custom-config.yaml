@@ -1,2 +1,2 @@
-autoSync: false
-createNamespace: true
+autoSync: true
+createNamespace: false
