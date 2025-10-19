@@ -12,8 +12,8 @@ spec:
       revision: HEAD
       directories:
         - path: manifests/apps/*/overlays/home
-  # syncPolicy:
-  #   preserveResourcesOnDeletion: true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
