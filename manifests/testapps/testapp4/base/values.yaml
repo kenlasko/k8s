@@ -1,0 +1,10 @@
+image:
+  repository: traefik/whoami
+  tag: v1.11
+  registry: docker.io
+service:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  port: 80
+  annotations:
+    lbipam.cilium.io/ips: 192.168.10.20
