@@ -16,6 +16,7 @@ spec:
               requeueAfterSeconds: 15
               directories:
               - path: manifests/testapps/*/overlays/home
+              pathParamPrefix: base
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
