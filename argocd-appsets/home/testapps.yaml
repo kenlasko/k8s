@@ -39,7 +39,8 @@ spec:
     spec:
       info:
       {{- range .info }}
-        - {{ . }}
+        - name: "{{ .name }}"
+          value: "{{ .value }}"
       {{- end }}
       syncPolicy:
         automated:
