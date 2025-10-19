@@ -1,2 +1,2 @@
-additionalSyncOptions:
-  - ServerSideApply=true
+#additionalSyncOptions:
+#  - ServerSideApply=true
