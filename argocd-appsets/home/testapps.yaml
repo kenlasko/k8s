@@ -9,7 +9,7 @@ spec:
   generators:
     - merge:
         mergeKeys:
-        - files
+        - path.path
         generators:
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
