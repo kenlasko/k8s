@@ -1,2 +1,3 @@
 #additionalSyncOptions:
 #  - ServerSideApply=true
+createNamespace: true
