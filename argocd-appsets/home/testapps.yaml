@@ -7,19 +7,19 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    # - matrix:
-    #     generators:
+    - matrix:
+        generators:
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
               directories:
               - path: manifests/testapps/*/overlays/home
-          # - git:
-          #     repoURL: git@github.com:kenlasko/k8s.git
-          #     revision: HEAD
-          #     files:
-          #     - path: manifests/testapps/*/overlays/home/custom-config.yaml
-          #     pathParamPrefix: custom
+          - git:
+              repoURL: git@github.com:kenlasko/k8s.git
+              revision: HEAD
+              files:
+              - path: manifests/testapps/*/overlays/home/custom-config.yaml
+              pathParamPrefix: custom
   # syncPolicy:
   #   preserveResourcesOnDeletion: true
   template:
