@@ -5,33 +5,18 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=invalid"]
+  goTemplateOptions: ["missingkey=zero"]
   generators:
-    - merge:
-        mergeKeys:
-          - path.path # Use the full path as the unique key
-        generators:
-          # Generator 1: Finds a file that exists in every app directory
-          # This establishes the complete list of applications.
-          - git:
-              repoURL: git@github.com:kenlasko/k8s.git
-              revision: HEAD
-              requeueAfterSeconds: 15
-              files:
-                - path: "manifests/testapps/*/overlays/home/kustomization.yaml"
-
-          # Generator 2: Finds the optional custom-config.yaml
-          # This generator will only return results for apps that have the override file.
-          - git:
-              repoURL: git@github.com:kenlasko/k8s.git
-              revision: HEAD
-              requeueAfterSeconds: 15
-              files:
-                - path: "manifests/testapps/*/overlays/home/custom-config.yaml"
-
+  - git:
+      repoURL: git@github.com:kenlasko/k8s.git
+      revision: HEAD
+      requeueAfterSeconds: 15
+      files:
+      - path: manifests/testapps/*/overlays/home/custom-config.yaml
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
-      # Extract the app name from the path.
       name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "99"
@@ -43,20 +28,15 @@ spec:
       source:
         repoURL: git@github.com:kenlasko/k8s.git
         targetRevision: HEAD
-        # Use .path.path which points to the directory of the matched file.
         path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
-      # Default syncPolicy if no custom-config.yaml is found
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-
-  # templatePatch will only be applied if the second generator found a file.
   templatePatch: |
-    {{- if .files }}
-    {{- with (last .files) }}
+    {{- if .path.filename }}
     spec:
       syncPolicy:
         automated:
@@ -72,5 +52,4 @@ spec:
         {{- range .syncOptions }}
           - {{ . }}
         {{- end }}
-    {{- end }}
     {{- end }}
