@@ -1,5 +1,5 @@
 autoSync: true
 ignoreDifferences:
-- jsonPointers:
-  - /spec/externalName
-  kind: Service
+  - jsonPointers:
+    - /spec/externalName
+    kind: Service
