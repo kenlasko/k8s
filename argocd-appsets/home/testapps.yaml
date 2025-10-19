@@ -22,6 +22,7 @@ spec:
               requeueAfterSeconds: 15
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
+              ignoreMissing: true
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
