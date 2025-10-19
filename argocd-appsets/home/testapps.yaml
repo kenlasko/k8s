@@ -7,14 +7,21 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=default"]
   generators:
-    - git:
-        repoURL: git@github.com:kenlasko/k8s.git
-        revision: HEAD
-        requeueAfterSeconds: 15
-        directories:
-        - path: manifests/testapps/*/overlays/home
-        files:
-        - path: manifests/testapps/*/overlays/home/custom-config.yaml
+    - merge:
+        mergeKeys: ["files"]
+        generators:
+          - git:
+              repoURL: git@github.com:kenlasko/k8s.git
+              revision: HEAD
+              requeueAfterSeconds: 15
+              directories:
+              - path: manifests/testapps/*/overlays/home
+          - git:
+              repoURL: git@github.com:kenlasko/k8s.git
+              revision: HEAD
+              requeueAfterSeconds: 15
+              files:
+              - path: manifests/testapps/*/overlays/home/custom-config.yaml
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
