@@ -55,7 +55,3 @@ spec:
       {{- if (and (hasKey . "createNamespace") (eq (index . "createNamespace") true)) }}
           - CreateNamespace=true
       {{- end }}
-      {{- if ha
-        {{- range .additionalSyncOptions }}
-          - {{ . }}
-        {{- end }}
