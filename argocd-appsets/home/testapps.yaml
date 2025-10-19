@@ -46,15 +46,15 @@ spec:
     spec:
       syncPolicy:
         automated:
-        {{- if ne custom.autoSync false }}
+        {{- if ne .autoSync false }}
           allowEmpty: true
           prune: false
           selfHeal: false
         {{- end }}
         syncOptions:
-        {{- if ne custom.createNamespace false }}
+        {{- if ne .createNamespace false }}
           - CreateNamespace=true
         {{- end }}
-        {{- range custom.additionalSyncOptions }}
+        {{- range .additionalSyncOptions }}
           - {{ . }}
         {{- end }}
