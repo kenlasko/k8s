@@ -44,6 +44,7 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
+    {{- if .path.filename }}
     spec:
       syncPolicy:
         automated:
@@ -59,3 +60,4 @@ spec:
         {{- range .additionalSyncOptions }}
           - {{ . }}
         {{- end }}
+    {{- end }}
