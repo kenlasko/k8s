@@ -1,5 +1,0 @@
-autoSync: true
-ignoreDifferences:
-  - jsonPointers:
-    - /spec/externalName
-    kind: Service
