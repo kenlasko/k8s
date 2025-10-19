@@ -46,12 +46,12 @@ spec:
     spec:
       syncPolicy:
         automated:
-        {{- if ne custom.autoSync false }}
+        {{- if ne .autoSync false }}
           allowEmpty: true
           prune: false
           selfHeal: false
         {{- end }}
         syncOptions:
-        {{- range custom.additionalSyncOptions }}
+        {{- range .additionalSyncOptions }}
           - {{ . }}
         {{- end }}
