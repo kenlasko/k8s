@@ -1,2 +1,4 @@
 autoSync: true
 createNamespace: true
+additionalSyncOptions:
+- ServerSideApply=true
