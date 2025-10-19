@@ -17,6 +17,7 @@ spec:
           - git:
               repoURL: git@github.com:kenlasko/k8s.git
               revision: HEAD
+              requeueAfterSeconds: 20
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
   syncPolicy:
