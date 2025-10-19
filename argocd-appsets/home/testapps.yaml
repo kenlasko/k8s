@@ -37,6 +37,10 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
+      info:
+      {{- range .info }}
+        - {{ . }}
+      {{- end }}
       syncPolicy:
         automated:
         {{- if ne .autoSync false }}
