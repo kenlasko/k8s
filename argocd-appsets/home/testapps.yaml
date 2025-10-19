@@ -46,7 +46,7 @@ spec:
     spec:
       syncPolicy:
         automated:
-        {{- if (not (eq (default true .autoSync) false)) }}
+        {{- if (not (eq (default false .autoSync) false)) }}
           allowEmpty: true
           prune: false
           selfHeal: false
