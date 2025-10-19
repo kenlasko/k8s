@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=default"]
+  goTemplateOptions: ["missingkey=zero"]
   generators:
     - merge:
         mergeKeys: ["path"]
@@ -22,7 +22,6 @@ spec:
               requeueAfterSeconds: 15
               files:
               - path: manifests/testapps/*/overlays/home/custom-config.yaml
-                ignoreMissing: true
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
