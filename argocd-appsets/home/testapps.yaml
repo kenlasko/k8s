@@ -39,7 +39,7 @@ spec:
     spec:
       {{- if .ignoreDifferences }}
       ignoreDifferences:
-      {{ toYaml .ignoreDifferences | indent 8 }}
+      {{ toYaml .ignoreDifferences | indent 10 }}
       {{- end }}
       info:
       {{- range .info }}
