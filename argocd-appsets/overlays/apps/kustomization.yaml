@@ -16,3 +16,9 @@ patches:
     - op: replace
       path: /metadata/name
       value: apps
+- target:
+    kind: ApplicationSet
+  patch: |
+    - op: replace
+      path: /spec/generators/0/files/0/path
+      value: manifests/apps/*/overlays/cloud/argocd-override.yaml
