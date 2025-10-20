@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base-appset.yaml
+patches:
+- target:
+    kind: ApplicationSet
+    name: BASE_APPS_PLACEHOLDER
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: labops
+    - op: replace
+      path: /spec/generators/0/git/files/0/path
+      value: "manifests/labops/*/overlays/lab/argocd-override.yaml"
+    - op: replace
+      path: /spec/template/metadata/annotations/argocd.argoproj.io~1sync-wave
+      value: "10"
