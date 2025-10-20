@@ -38,10 +38,14 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
-      {{- if .ignoreDifferences }}
-      ignoreDifferences:
-      {{ toYaml .ignoreDifferences | indent 10 }}
+    {{- if .ignoreDifferences }}
+    ignoreDifferences:
+      {{- if kindIs "slice" .ignoreDifferences }}
+      {{ toYaml .ignoreDifferences | indent 6 }}
+      {{- else if kindIs "map" .ignoreDifferences }}
+        - {{ toYaml .ignoreDifferences | nindent 8 | trim }}
       {{- end }}
+    {{- end }}
       info:
       {{- range .info }}
         - name: "{{ .name }}"
