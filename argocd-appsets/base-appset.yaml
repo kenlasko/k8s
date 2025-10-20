@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: apps
+  # This name will be overridden by Kustomize
+  name: BASE_APPS_PLACEHOLDER 
   namespace: argocd
 spec:
   goTemplate: true
@@ -12,14 +13,15 @@ spec:
       revision: HEAD
       requeueAfterSeconds: 15
       files:
-      - path: manifests/apps/*/overlays/home/argocd-override.yaml
+      # This path will be overridden by Kustomize
+      - path: PATH_PLACEHOLDER
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "10"
+        argocd.argoproj.io/sync-wave: "0"
         debug-all: '{{. | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd
