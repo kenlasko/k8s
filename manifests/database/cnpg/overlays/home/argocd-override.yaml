@@ -1,4 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+ignoreDifferences:
+- jsonPointers:
+  - /spec/externalName
+  kind: Service
 syncOptions:
 - ServerSideApply=true
 info:
