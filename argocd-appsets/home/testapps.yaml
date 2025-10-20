@@ -37,6 +37,16 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
+      {{- if .ignoreDifferences }}
+      ignoreDifferences:
+      {{- range .ignoreDifferences }}
+        - jsonPointers:
+        {{- range .jsonPointers }}
+          - {{ . }}
+        {{- end }}
+          kind: {{ .kind }}
+      {{- end }}
+      {{- end }}
       info:
       {{- range .info }}
         - name: "{{ .name }}"
