@@ -46,7 +46,7 @@ redis:
       memory: 15Mi
     limits:
       # cpu: 160m
-      memory: 50Mi
+      memory: 75Mi
 
 repoServer:
   resources:
