@@ -21,6 +21,7 @@ spec:
       annotations:
         argocd.argoproj.io/sync-wave: "99"
         debug-all: '{{. | toJson}}'
+        rendered-patch: "{{ toYaml . | nindent 2 }}"
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
