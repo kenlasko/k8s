@@ -21,7 +21,6 @@ spec:
       annotations:
         argocd.argoproj.io/sync-wave: "99"
         debug-all: '{{. | toJson}}'
-        rendered-patch: "{{ toYaml . | nindent 2 }}"
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
@@ -38,14 +37,16 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
-    {{- if .ignoreDifferences }}
-    ignoreDifferences:
-      {{- if kindIs "slice" .ignoreDifferences }}
-      {{ toYaml .ignoreDifferences | indent 6 }}
-      {{- else if kindIs "map" .ignoreDifferences }}
-        - {{ toYaml .ignoreDifferences | nindent 8 | trim }}
+      {{- if .ignoreDifferences }}
+      ignoreDifferences:
+      {{- range .ignoreDifferences }}
+        - jsonPointers:
+        {{- range .jsonPointers }}
+          - {{ . }}
+        {{- end }}
+          kind: {{ .kind }}
       {{- end }}
-    {{- end }}
+      {{- end }}
       info:
       {{- range .info }}
         - name: "{{ .name }}"
