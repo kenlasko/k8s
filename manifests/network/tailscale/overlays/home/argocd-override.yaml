@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://tailscale.com/"
+- name: "Documentation:"
+  value: "https://tailscale.com/kb/1236/kubernetes-operator"
+- name: "Repository:"
+  value: "https://github.com/tailscale/tailscale"

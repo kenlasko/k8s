@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://radarr.video/"
+- name: "Documentation:"
+  value: "https://wiki.servarr.com/radarr/"
+- name: "Repository:"
+  value: "https://github.com/Radarr/Radarr"

@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://www.plex.tv/"
+- name: "Documentation:"
+  value: "https://support.plex.tv/articles/"
+- name: "Repository:"
+  value: "https://github.com/plexinc/pms-docker"

@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://hub.docker.com/_/registry"
+- name: "Documentation:"
+  value: "https://distribution.github.io/distribution/"
+- name: "Repository:"
+  value: "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry"
