@@ -37,6 +37,10 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
+      {{- if .ignoreDifferences }}
+      ignoreDifferences:
+      {{- .ignoreDifferences | toYaml | nindent 4 }}
+      {{- end }}
       info:
       {{- range .info }}
         - name: "{{ .name }}"
