@@ -1,4 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+ignoreDifferences:
+- jsonPointers:
+  - /spec/externalName
+  kind: Service
 info:
 - name: "Documentation:"
   value: "https://kubernetes-sigs.github.io/external-dns/v0.15.0/"
