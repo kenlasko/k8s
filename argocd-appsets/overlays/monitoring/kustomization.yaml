@@ -8,3 +8,11 @@ configMapGenerator:
   literals:
   - category=monitoring
   - syncWave=15
+
+patches:
+- target:
+    kind: ApplicationSet
+  patch: |
+    - op: replace
+      path: /metadata/name
+      value: monitoring

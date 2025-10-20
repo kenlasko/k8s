@@ -8,3 +8,11 @@ configMapGenerator:
   literals:
   - category=database
   - syncWave=1
+
+patches:
+- target:
+    kind: ApplicationSet
+  patch: |
+    - op: replace
+      path: /metadata/name
+      value: database

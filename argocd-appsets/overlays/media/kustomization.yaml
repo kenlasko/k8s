@@ -8,3 +8,11 @@ configMapGenerator:
   literals:
   - category=homeops
   - syncWave=10
+
+patches:
+- target:
+    kind: ApplicationSet
+  patch: |
+    - op: replace
+      path: /metadata/name
+      value: homeops

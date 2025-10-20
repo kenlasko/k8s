@@ -8,3 +8,11 @@ configMapGenerator:
   literals:
   - category=apps
   - syncWave=10
+
+patches:
+- target:
+    kind: ApplicationSet
+  patch: |
+    - op: replace
+      path: /metadata/name
+      value: apps
