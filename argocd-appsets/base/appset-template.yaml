@@ -20,13 +20,13 @@ spec:
 
   template:
     metadata:
-      name: '{{ .category }}-{{ index .path.segments 2 }}'
+      name: '{{ index .path.segments 2 }}'
       labels:
         app.kubernetes.io/managed-by: argocd
         cluster: '{{ .clusterName }}'
         category: '{{ .category }}'
       annotations:
-        argocd.argoproj.io/sync-wave: "99"
+        argocd.argoproj.io/sync-wave: '{{ .syncWave | default "0" }}'
 
     spec:
       project: default

@@ -7,3 +7,4 @@ configMapGenerator:
 - name: appset-vars
   literals:
   - category=apps
+  - syncWave=10

@@ -12,7 +12,7 @@ spec:
       revision: HEAD
       requeueAfterSeconds: 15
       files:
-      - path: manifests/homeops/*/argocd-override.yaml
+      - path: manifests/homeops/*/overlays/home/argocd-override.yaml
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
