@@ -39,13 +39,7 @@ spec:
     spec:
       {{- if .ignoreDifferences }}
       ignoreDifferences:
-      {{- range .ignoreDifferences }}
-        - jsonPointers:
-        {{- range .jsonPointers }}
-          - {{ . }}
-        {{- end }}
-          kind: {{ .kind }}
-      {{- end }}
+        {{ toYaml .ignoreDifferences | indent 6 }}
       {{- end }}
       info:
       {{- range .info }}
