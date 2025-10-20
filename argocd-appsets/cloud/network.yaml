@@ -10,13 +10,17 @@ spec:
   - git:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
-      directories:
-        - path: manifests/network/*/overlays/cloud
+      requeueAfterSeconds: 15
+      files:
+      - path: manifests/network/*/overlays/cloud/argocd-override.yaml
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "1"
+        argocd.argoproj.io/sync-wave: "99"
+        debug-all: '{{. | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
