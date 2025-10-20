@@ -4,7 +4,7 @@ resources:
 - ../../base/appset-template.yaml
 
 configMapGenerator:
-- name: appset-vars
+- name: appset-vars-system
   literals:
   - category=system
   - syncWave=1

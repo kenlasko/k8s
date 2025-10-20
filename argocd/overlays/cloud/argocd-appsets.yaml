@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: git@github.com:kenlasko/k8s.git
     targetRevision: HEAD
-    path: argocd-appsets/cloud
+    path: argocd-appsets/clusters/cloud
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

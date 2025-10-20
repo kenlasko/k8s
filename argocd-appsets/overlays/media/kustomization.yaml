@@ -4,9 +4,9 @@ resources:
 - ../../base/appset-template.yaml
 
 configMapGenerator:
-- name: appset-vars
+- name: appset-vars-media
   literals:
-  - category=homeops
+  - category=media
   - syncWave=10
 
 patches:
@@ -15,4 +15,4 @@ patches:
   patch: |
     - op: replace
       path: /metadata/name
-      value: homeops
+      value: media
