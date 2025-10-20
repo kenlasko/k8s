@@ -1,3 +1,2 @@
-autoSync: false
 syncOptions:
 - ServerSideApply=true
