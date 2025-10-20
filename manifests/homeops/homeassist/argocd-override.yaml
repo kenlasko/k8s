@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://www.home-assistant.io/"
+- name: "Documentation:"
+  value: "https://www.home-assistant.io/installation/"
+- name: "Repository:"
+  value: "https://github.com/home-assistant"
