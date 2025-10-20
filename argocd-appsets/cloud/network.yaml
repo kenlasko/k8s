@@ -32,11 +32,27 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- $app := index .path.segments 2 }}
-    {{- if or (eq $app "tailscale") (eq $app "external-dns") }}
     spec:
+      {{- if .ignoreDifferences }}
       ignoreDifferences:
-      - jsonPointers:
-        - /spec/externalName
-        kind: Service
-    {{- end }}
+      {{- .ignoreDifferences | toYaml | nindent 4 }}
+      {{- end }}
+      info:
+      {{- range .info }}
+        - name: "{{ .name }}"
+          value: "{{ .value }}"
+      {{- end }}
+      syncPolicy:
+        automated:
+        {{- if ne .autoSync false }}
+          prune: true
+          selfHeal: true
+        {{- else }}
+          allowEmpty: true
+          prune: false
+          selfHeal: false
+        {{- end }}
+        syncOptions:
+        {{- range .syncOptions }}
+          - {{ . }}
+        {{- end }}
