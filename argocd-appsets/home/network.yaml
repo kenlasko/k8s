@@ -10,15 +10,17 @@ spec:
   - git:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
-      directories:
-        - path: manifests/network/*/overlays/home
+      requeueAfterSeconds: 15
+      files:
+      - path: manifests/network/*/overlays/home/argocd-override.yaml
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "1"
+        argocd.argoproj.io/sync-wave: "99"
+        debug-all: '{{. | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
@@ -34,10 +36,27 @@ spec:
           prune: true
           selfHeal: true
   templatePatch: |
-    {{- if eq (index .path.segments 2) "tailscale" }}
     spec:
+      {{- if .ignoreDifferences }}
       ignoreDifferences:
-      - jsonPointers:
-        - /spec/externalName
-        kind: Service
-    {{- end }}
+      {{- .ignoreDifferences | toYaml | nindent 4 }}
+      {{- end }}
+      info:
+      {{- range .info }}
+        - name: "{{ .name }}"
+          value: "{{ .value }}"
+      {{- end }}
+      syncPolicy:
+        automated:
+        {{- if ne .autoSync false }}
+          prune: true
+          selfHeal: true
+        {{- else }}
+          allowEmpty: true
+          prune: false
+          selfHeal: false
+        {{- end }}
+        syncOptions:
+        {{- range .syncOptions }}
+          - {{ . }}
+        {{- end }}
