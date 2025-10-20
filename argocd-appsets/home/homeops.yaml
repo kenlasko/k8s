@@ -19,7 +19,7 @@ spec:
     metadata:
       name: '{{index .path.segments 2}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "99"
+        argocd.argoproj.io/sync-wave: "10"
         debug-all: '{{. | toJson}}'
       labels:
         app.kubernetes.io/managed-by: argocd

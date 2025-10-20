@@ -1,12 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 helmGlobals:
-  chartHome: ../../../helm
+  chartHome: ../../../../helm
 helmCharts:
 - name: baseline
-  releaseName: prowlarr
+  releaseName: ersatztv
   namespace: media
   valuesFile: values.yaml
 resources:
-- database.yaml
-- networkpolicy.yaml
+#- networkpolicy.yaml
