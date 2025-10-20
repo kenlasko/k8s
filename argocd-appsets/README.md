@@ -1,5 +1,7 @@
 # Introduction
-This folder contains the Argo CD ApplicationSet definitions for all Kubernetes workloads. There are three sets of ApplicationSets: one each for the home, cloud and lab clusters. The main difference is that the cloud cluster doesn't have ApplicationSets for HomeOps or Media workloads.
+This folder contains the Argo CD ApplicationSet definitions for all Kubernetes workloads. There are three sets of ApplicationSets: one each for the home, cloud and lab clusters. The main difference is that the cloud cluster doesn't have ApplicationSets for HomeOps or Media workloads and the lab cluster has even fewer.
+
+The ApplicationSets themselves are based on a single [base-appset.yaml](/argocd-appsets/base-appset.yaml) with the necessary bits kustomized for each application.
 
 Each application requires the presence of a file called `argocd-override.yaml`. This file can be used to add ArgoCD application overrides for the apps that require it. In most cases, its used to add informational links about the app. 
 
