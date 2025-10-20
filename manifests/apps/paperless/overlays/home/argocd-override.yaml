@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://docs.paperless-ngx.com"
+- name: "Documentation:"
+  value: "https://docs.paperless-ngx.com/setup/"
+- name: "Repository:"
+  value: "https://github.com/paperless-ngx/paperless-ngx"
