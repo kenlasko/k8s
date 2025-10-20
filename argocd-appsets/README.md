@@ -1,5 +1,7 @@
 # Introduction
-This folder contains the Argo CD ApplicationSet definitions for all Kubernetes workloads. There are two sets of ApplicationSets: one for the home cluster and one for the cloud. The main difference is that the cloud cluster doesn't have ApplicationSets for HomeOps or Media workloads.
+This folder contains the Argo CD ApplicationSet definitions for all Kubernetes workloads. There are three sets of ApplicationSets: one each for the home, cloud and lab clusters. The main difference is that the cloud cluster doesn't have ApplicationSets for HomeOps or Media workloads.
+
+Each application requires the presence of a file called `argocd-override.yaml`. This file can be used to add ArgoCD application overrides for the apps that require it. In most cases, its used to add informational links about the app. 
 
 It makes use of [Argo CD sync-waves](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-waves/) to ensure that apps like [PostgreSQL databases](/manifests/database/cnpg) and [Longhorn](/manifests/system/longhorn) are up before the apps that depend on them (like [VaultWarden](/manifests/apps/vaultwarden) and others). The lower the number, the earlier in the process the app gets deployed.
 

@@ -13,7 +13,7 @@ This deployment makes use of [Argo CD ApplicationSets](https://argo-cd.readthedo
 | [network](/manifests/network) | Cilium and other networking apps | 1 |
 | [system](/manifests/system) | System-related apps | 1 |
 
-Whether or not a given application is deployed on the home, cloud or lab cluster depends on the presense of `overlays/home`, `overlays/cloud` or `overlays/lab` within the application folder. If any are present (along with a kustomization.yaml), then the application will be deployed on the given cluster.
+Whether or not a given application is deployed on the home, cloud or lab cluster depends on the presense of `overlays/home`, `overlays/cloud` or `overlays/lab` within the application folder. If any are present (along with a `kustomization.yaml` and a `argocd-override.yaml`), then the application will be deployed on the given cluster.
 
 # Authentication
 ArgoCD is configured to use Github authentication instead of the built-in admin account. Github authentication uses [Github OAuth Apps](https://github.com/settings/developers), which is found under `User - Settings - Developer settings - OAuth Apps`. Steps to configure: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#dex
