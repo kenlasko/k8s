@@ -1,1 +1,8 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Website:"
+  value: "https://github.com/backube/volsyncvol"
+- name: "Documentation:"
+  value: "https://volsync.readthedocs.io/en/stable/"
+- name: "Repository:"
+  value: "https://github.com/backube/volsyncvol"
