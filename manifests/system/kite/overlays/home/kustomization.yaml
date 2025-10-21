@@ -1,12 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+# Don't want to apply namespace from base, but if I don't, then several resources don't get the namespace because they are missing in the template
+# Opened a ticket for this: https://github.com/zxh326/kite/issues/195
 namespace: kube-system
 helmCharts:
 - name: kite
   repo: https://zxh326.github.io/kite
   version: 0.6.9
   releaseName: kite
-  namespace: kube-system
+  namespace: kube-system  # This should be sufficient to set the namespace for all resources, but only if the namespace is explicitly defined in all templates
   valuesFile: ../../base/values.yaml
 resources:
 - ../../base
