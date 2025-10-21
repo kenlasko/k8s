@@ -2,3 +2,6 @@ anonymousUserEnabled: true
 # db:
 #   type: postgres
 #   dsn: postgresql://$DBUSER:$DBPASSWORD@home-rw.cnpg.svc.cluster.local:5432/kite
+extraEnvs:
+- name: "NODE_TERMINAL_IMAGE"
+  value: "nicolaka/netshoot"
