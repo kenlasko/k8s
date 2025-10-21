@@ -80,6 +80,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-immich
+    - name: kite
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-kite
     - name: nextcloud
       ensure: present
       login: true
