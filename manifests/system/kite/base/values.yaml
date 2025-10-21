@@ -1,4 +1,4 @@
 anonymousUserEnabled: true
 db:
   type: postgres
-  dsn: postgresql://$DBUSER:$DBPASSWORD@home-rw.postgresql.svc.cluster.local:5432/kite
+  dsn: postgresql://$DBUSER:$DBPASSWORD@home-rw.cnpg.svc.cluster.local:5432/kite
