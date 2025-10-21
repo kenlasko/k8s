@@ -8,4 +8,4 @@ resources:
 - monitoring
 - network
 - system
-- testapps
+# - testapps
