@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kite
+  namespace: kube-system
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "kite.ucdialplans.com"
+  rules:
+  - backendRefs:
+    - name: kite-service
+      namespace: kube-system
+      kind: Service
+      port: 8080
