@@ -13,7 +13,7 @@ spec:
   - "kite.ucdialplans.com"
   rules:
   - backendRefs:
-    - name: kite-service
+    - name: kite
       namespace: kube-system
       kind: Service
       port: 8080
