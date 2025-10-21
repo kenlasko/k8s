@@ -17,7 +17,6 @@ resources:
 - cronjob-akeyless-update.yaml
 - cronjob-pgdump.yaml
 - database.yaml
-- deployment.yaml
 - external-secrets.yaml
 - service.yaml
 - serviceaccount.yaml
