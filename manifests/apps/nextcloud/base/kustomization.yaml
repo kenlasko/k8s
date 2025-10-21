@@ -9,7 +9,7 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - backup.yaml
-- database.yaml
+# - database.yaml
 - external-secrets.yaml
 - httproute.yaml
 - namespace.yaml
