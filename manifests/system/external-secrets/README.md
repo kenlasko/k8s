@@ -134,7 +134,36 @@ spec:
       property: keypass.txt
 ```
 
-## Use a template to modify the secret
+## Build a secret using templates
+```
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: kite-cnpg-dsn
+  namespace: kube-system
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: kite-cnpg-dsn
+    template:
+      engineVersion: v2
+      data:
+        DB_DSN: "host=home-rw.cnpg.svc.cluster.local port=5432 user={{ .dbUsername }} password={{ .dbPassword }} dbname=kite"
+  data:
+  - secretKey: dbUsername
+    remoteRef:
+      key: /database/kite
+      property: username
+  - secretKey: dbPassword
+    remoteRef:
+      key: /database/kite
+      property: password
+```
+
 ```
 ---
 apiVersion: external-secrets.io/v1
