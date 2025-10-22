@@ -1,1 +1,7 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+ignoreDifferences:
+- group: ""
+  kind: Deployment
+  name: argocd-controller
+  jsonPointers:
+  - /metadata/annotations/operator.prometheus.io~1version
