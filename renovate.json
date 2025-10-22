@@ -74,6 +74,15 @@
   "packageRules": [
     {
       "matchManagers": [
+        "kustomize"
+      ],
+      "matchPackageNames": [
+        "kube-prometheus-stack"
+      ],
+      "enabled": false
+    },
+    {
+      "matchManagers": [
         "helm-values",
         "kubernetes",
         "kustomize",
@@ -133,15 +142,6 @@
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
-    },
-    {
-      "matchManagers": [
-        "kustomize"
-      ],
-      "matchPackageNames": [
-        "kube-prometheus-stack"
-      ],
-      "schedule": ["* * * * 3"]
     }
   ]
 }
