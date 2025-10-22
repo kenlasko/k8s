@@ -159,3 +159,25 @@ spec:
       key: /s3/cloudflare
       property: RESTIC_REPOSITORY
 ```
+
+## Don't double-encode a secret that's already stored in Base64
+```
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: kubeconfig-cloud
+  namespace: kube-system
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: kubeconfig-cloud
+  data:
+  - secretKey: kubeconfig-cloud
+    remoteRef:
+      key: /kite/kubeconfig-cloud
+      decodingStrategy: Base64
+```
