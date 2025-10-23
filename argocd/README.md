@@ -13,6 +13,8 @@ This deployment makes use of [Argo CD ApplicationSets](https://argo-cd.readthedo
 | [network](/manifests/network) | Cilium and other networking apps | 1 |
 | [system](/manifests/system) | System-related apps | 1 |
 
+The few apps that need to be fully up-and-running before anything else (Cilium, Cert-Manager, External-Secrets, CSI-Drivers, Redis and ArgoCD) have their SyncWave overridden to 0 via `argocd-override.yaml`.
+
 Whether or not a given application is deployed on the home, cloud or lab cluster depends on the presense of `overlays/home`, `overlays/cloud` or `overlays/lab` within the application folder. If any are present (along with a `kustomization.yaml` and a `argocd-override.yaml`), then the application will be deployed on the given cluster.
 
 # Authentication

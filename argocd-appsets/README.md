@@ -20,3 +20,5 @@ The configuration for Renovate is stored in [renovate.json](/renovate.json). The
 | [monitoring](/manifests/monitoring) | Prometheus/Grafana/Loki etc | 15 | 
 | [network](/manifests/network) | Cilium and other networking apps | 1 |
 | [system](/manifests/system) | System-related apps | 1 |
+
+The few apps that need to be fully up-and-running before anything else (Cilium, Cert-Manager, External-Secrets, CSI-Drivers, Redis and ArgoCD) have their SyncWave overridden to 0 via `argocd-override.yaml`.
