@@ -15,4 +15,4 @@ patches:
       value: "manifests/database/*/overlays/lab/argocd-override.yaml"
     - op: replace
       path: /spec/template/metadata/annotations/argocd.argoproj.io~1sync-wave
-      value: "1"
+      '{{ .syncWave | default "1" }}'
