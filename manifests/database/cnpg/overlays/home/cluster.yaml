@@ -29,8 +29,6 @@ spec:
   bootstrap:
     recovery:
       source: s3-backupsource
-  #     recoveryTarget:
-  #       targetTime: "2025-10-16 16:58:00.000000+00:00"
   externalClusters:
   - name: s3-backupsource
     plugin:
