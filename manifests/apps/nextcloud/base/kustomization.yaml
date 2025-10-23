@@ -6,7 +6,7 @@ namespace: nextcloud
 helmCharts:
 - name: nextcloud
   repo: https://nextcloud.github.io/helm/
-  version: 8.4.1
+  version: 8.5.0
   releaseName: nextcloud
   namespace: nextcloud # This should be sufficient to set the namespace for all resources, but only if the namespace is explicitly defined in all templates
   valuesFile: values.yaml
