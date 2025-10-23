@@ -1,20 +1,8 @@
 # Normally, I prefer to keep the database specification in the application's own kustomization.
-# However, in this case, the Helm charts for Kite and Nextcloud do not properly handle namespaces for several resources.
+# However, in this case, the Helm charts for Nextcloud do not properly handle namespaces for several resources.
 # This requires me to hard-set the namespace in the kustomization, which breaks the Database resource, because it needs to be applied to the "cnpg" namespace,
 # but the override forces it to the application's namespace.
 # To avoid this problem, I am placing the Database resources in this overlay, where I can control the namespace directly.
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: kite
-  namespace: cnpg
-spec:
-  name: kite
-  owner: kite
-  cluster:
-    name: home
 
 ---
 apiVersion: postgresql.cnpg.io/v1
