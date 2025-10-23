@@ -11,7 +11,6 @@ spec:
   - git:
       repoURL: git@github.com:kenlasko/k8s.git
       revision: HEAD
-      requeueAfterSeconds: 15
       files:
       # This path will be overridden by Kustomize
       - path: PATH_PLACEHOLDER
