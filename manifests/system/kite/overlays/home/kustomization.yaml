@@ -6,7 +6,7 @@ namespace: kube-system
 helmCharts:
 - name: kite
   repo: https://zxh326.github.io/kite
-  version: 0.6.9
+  version: 0.7.0
   releaseName: kite
   namespace: kube-system  # This should be sufficient to set the namespace for all resources, but only if the namespace is explicitly defined in all templates
   valuesFile: ../../base/values.yaml
