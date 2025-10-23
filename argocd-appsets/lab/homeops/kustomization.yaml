@@ -9,10 +9,10 @@ patches:
   patch: |-
     - op: replace
       path: /metadata/name
-      value: labops
+      value: homeops
     - op: replace
       path: /spec/generators/0/git/files/0/path
-      value: "manifests/labops/*/overlays/lab/argocd-override.yaml"
+      value: "manifests/home/*/overlays/lab/argocd-override.yaml"
     - op: replace
       path: /spec/template/metadata/annotations/argocd.argoproj.io~1sync-wave
       value: "10"

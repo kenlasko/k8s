@@ -6,3 +6,4 @@ info:
   value: "https://github.com/external-secrets/external-secrets"
 syncOptions:
 - ServerSideApply=true
+syncWave: "0"

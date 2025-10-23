@@ -21,8 +21,7 @@ spec:
     metadata:
       name: '{{index .path.segments 2}}'
       annotations:
-        argocd.argoproj.io/sync-wave: "0" # This value may be overridden by Kustomize
-        debug-all: '{{. | toJson}}'
+        argocd.argoproj.io/sync-wave: '{{ .syncWave | default "0" }}'
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
