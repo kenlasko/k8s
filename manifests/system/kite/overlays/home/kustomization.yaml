@@ -9,23 +9,23 @@ helmCharts:
   valuesFile: ../../base/values.yaml
 resources:
 - ../../base
-patches:
-- target:
-    kind: Deployment
-    name: kite
-  patch: |-
-    - op: add
-      path: /spec/template/spec/containers/0/envFrom/-
-      value:
-        secretRef:
-          name: kite-db-credentials
-    - op: add
-      path: /spec/template/spec/containers/0/envFrom/-
-      value:
-        secretRef:
-          name: kite-secrets
-    - op: add
-      path: /spec/template/spec/containers/0/envFrom/-
-      value:
-        secretRef:
-          name: kite-cnpg-dsn
+# patches:
+# - target:
+#     kind: Deployment
+#     name: kite
+#   patch: |-
+#     - op: add
+#       path: /spec/template/spec/containers/0/envFrom/-
+#       value:
+#         secretRef:
+#           name: kite-db-credentials
+#     - op: add
+#       path: /spec/template/spec/containers/0/envFrom/-
+#       value:
+#         secretRef:
+#           name: kite-secrets
+#     - op: add
+#       path: /spec/template/spec/containers/0/envFrom/-
+#       value:
+#         secretRef:
+#           name: kite-cnpg-dsn
