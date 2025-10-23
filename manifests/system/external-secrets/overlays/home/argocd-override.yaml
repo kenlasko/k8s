@@ -1,9 +1,9 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+syncWave: "0"
+syncOptions:
+- ServerSideApply=true
 info:
 - name: "Website:"
   value: "https://external-secrets.io/latest/"
 - name: "Repository:"
   value: "https://github.com/external-secrets/external-secrets"
-syncOptions:
-- ServerSideApply=true
-syncWave: "0"
