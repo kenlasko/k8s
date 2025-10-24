@@ -1,7 +1,7 @@
 nameOverride: adguard-sync
 image:
   repository: bakito/adguardhome-sync
-  tag: v0.8.1
+  tag: v0.8.2
   registry: ghcr.io
 priorityClassName: medium-priority
 securityContext:
