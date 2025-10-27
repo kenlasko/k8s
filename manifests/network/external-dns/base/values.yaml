@@ -24,10 +24,10 @@ provider:
     resources:
       requests:
         cpu: 2m
-        memory: 10Mi
+        memory: 100Mi
       limits:
         # cpu: 100m
-        memory: 20Mi
+        memory: 150Mi
     env:
     - name: SERVER_HOST
       value: "0.0.0.0" 
