@@ -1,6 +1,0 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: tls
-  annotations:
-    external-dns.alpha.kubernetes.io/target: 'onode1.ucdialplans.com'

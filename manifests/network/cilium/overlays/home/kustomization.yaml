@@ -12,11 +12,6 @@ helmCharts:
 resources:
 - ../../base
 - bgp-config.yaml
-# - httproute.yaml
-patches:
-- path: gateway-patch.yaml
-  target:
-    group: gateway.networking.k8s.io
-    version: v1
-    kind: Gateway
-    name: tls
+- gateway.yaml
+- httproute-redirect.yaml
+- letsencrypt-wildcard.yaml

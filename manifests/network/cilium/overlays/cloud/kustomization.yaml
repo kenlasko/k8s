@@ -10,18 +10,5 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - ../../base
-- ip-pool.yaml
-- l2-announce.yaml 
-patches:
-- path: gateway-patch.yaml
-  target:
-    group: gateway.networking.k8s.io
-    version: v1
-    kind: Gateway
-    name: tls
-- path: httproute-patch.yaml
-  target:
-    group: gateway.networking.k8s.io 
-    version: v1
-    kind: HTTPRoute
-    name: hubble
+# - ip-pool.yaml
+# - l2-announce.yaml
