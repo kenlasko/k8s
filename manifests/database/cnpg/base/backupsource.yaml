@@ -4,7 +4,7 @@ kind: ObjectStore
 metadata:
   name: backblaze
 spec:
-  retentionPolicy: "1d"
+  retentionPolicy: "7d"
   configuration:
     endpointURL: "https://s3.us-east-005.backblazeb2.com/"
     destinationPath: "s3://klasko-postgresql"
