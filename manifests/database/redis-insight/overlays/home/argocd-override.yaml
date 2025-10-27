@@ -1,0 +1,9 @@
+# This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+syncWave: "0"
+info:
+- name: "Website:"
+  value: "https://redis.io/"
+- name: "Documentation:"
+  value: "https://redis.io/docs/latest/"
+- name: "Repository:"
+  value: "https://github.com/redis/redis"
