@@ -1,5 +1,5 @@
 repos:
   - repo: https://github.com/GitGuardian/ggshield
-    rev: v1.44.0
+    rev: v1.44.1
     hooks:
       - id: ggshield
