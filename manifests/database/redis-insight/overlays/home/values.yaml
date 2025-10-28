@@ -1,3 +1,17 @@
+env:
+- name: TZ
+  value: "America/Toronto"
+- name: RI_REDIS_HOST
+  value: "redis-service"
+- name: RI_REDIS_PORT
+  value: "6379"
+- name: RI_USERNAME
+  value: "default"
+envFrom:
+- secretRef:
+    name: redis-password-insight
 persistentVolume:
   type: nfs
+  size: 20Mi
   mountPath: /data
+httpRouteNameOverride: redis.ucdialplans.com

@@ -8,8 +8,8 @@ helmCharts:
   releaseName: redis-insight
   namespace: redis
   valuesFile: ../../base/values.yaml
-  # additionalValuesFiles:
-  # - values.yaml
-  # valuesMerge: merge
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
 resources:
 - ../../base

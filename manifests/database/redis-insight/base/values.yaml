@@ -21,8 +21,3 @@ resources:
 service:
   port: 5540
 livenessProbe: false
-httpRouteNameOverride: redis.ucdialplans.com
-persistentVolume:
-  type: nfs
-  size: 20Mi
-  mountPath: /data
