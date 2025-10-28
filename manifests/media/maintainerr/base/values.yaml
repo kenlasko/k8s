@@ -1,7 +1,7 @@
 image:
-  repository: jorenn92/maintainerr
+  repository: maintainerr/maintainerr
   tag: 2.20.0
-  registry: docker.io
+  registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
