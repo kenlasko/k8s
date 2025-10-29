@@ -1,6 +1,6 @@
 image:
   repository: oracle/oci-cli
-  tag: "20251022"
+  tag: "20251029"
   registry: ghcr.io
 priorityClassName: low-priority
 securityContext:
