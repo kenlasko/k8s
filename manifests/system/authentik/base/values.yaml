@@ -1,0 +1,32 @@
+global:
+  envFrom:
+  - secretRef:
+      name: authentik-secrets
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+  env:
+  - name: AUTHENTIK_POSTGRESQL__SSLROOTCERT
+    value: /etc/postgres-ca/ca.crt
+  volumes:
+  - name: cnpg-ca
+    secret:
+      secretName: cnpg-ca
+  volumeMounts:
+  - name: cnpg-ca
+    mountPath: /etc/postgres-ca
+    readOnly: true
+
+authentik:
+  email:
+    host: mail.smtp2go.com
+    port: 587
+    use_tls: true
+    from: authentik@ucdialplans.com
+  postgresql:
+    host: home-rw.cnpg.svc.cluster.local
+    port: 5432
+    name: authentik
+  redis:
+    host: redis-service.redis.svc.cluster.local
