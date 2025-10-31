@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
 - name: kite
   repo: https://zxh326.github.io/kite
-  version: 0.7.0
+  version: 0.7.1
   releaseName: kite
   namespace: kube-system
   valuesFile: ../../base/values.yaml
