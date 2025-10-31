@@ -34,7 +34,7 @@ authentik:
 server:
   containerSecurityContext:
     runAsNonRoot: true
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     allowPrivilegeEscalation: false
     seccomProfile:
       type: RuntimeDefault
