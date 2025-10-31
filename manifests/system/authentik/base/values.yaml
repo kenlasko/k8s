@@ -36,7 +36,7 @@ server:
     runAsNonRoot: true
     readOnlyRootFilesystem: false
     allowPrivilegeEscalation: false
-    seccomProfile:
+    seccompProfile:
       type: RuntimeDefault
     capabilities:
       drop:
