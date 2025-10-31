@@ -71,7 +71,7 @@ service:
   externalTrafficPolicy: Cluster
   annotations:
     lbipam.cilium.io/ips: 192.168.10.10
-    external-dns.alpha.kubernetes.io/hostname: mariadb-access.ucdialplans.com
+    
     tailscale.com/expose: "true"
     tailscale.com/hostname: "home-mariadb"
     tailscale.com/proxy-class: "default"
