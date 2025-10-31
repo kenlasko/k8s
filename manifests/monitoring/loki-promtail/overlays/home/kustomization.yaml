@@ -13,7 +13,7 @@ helmCharts:
   valuesMerge: merge
 - name: promtail
   repo: https://grafana.github.io/helm-charts
-  version: 6.17.0
+  version: 6.17.1
   releaseName: loki-promtail
   namespace: monitoring
   valuesFile: ../../base/values-promtail.yaml
