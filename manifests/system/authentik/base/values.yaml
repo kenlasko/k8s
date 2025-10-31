@@ -30,3 +30,18 @@ authentik:
     name: authentik
   redis:
     host: redis-service.redis.svc.cluster.local
+
+server:
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccomProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+      - ALL
+  route:
+    enabled: true
+    hostnames: 
+    - authentik.ucdialplans.com
