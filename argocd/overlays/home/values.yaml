@@ -10,7 +10,7 @@ server:
     type: LoadBalancer
     annotations:
       lbipam.cilium.io/ips: 192.168.10.5
-      external-dns.alpha.kubernetes.io/hostname: argocd-service.ucdialplans.com
+      external-dns.alpha.kubernetes.io/hostname: argocd-server.ucdialplans.com
 
 notifications:
   argocdUrl: "https://argocd.ucdialplans.com"
