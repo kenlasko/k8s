@@ -42,6 +42,7 @@ server:
       drop:
       - ALL
   route:
-    enabled: true
-    hostnames: 
-    - authentik.ucdialplans.com
+    main:
+      enabled: true
+      hostnames: 
+      - authentik.ucdialplans.com
