@@ -22,5 +22,7 @@ spec:
     relabelings:
     - sourceLabels: [__meta_kubernetes_namespace]
       targetLabel: namespace
+      action: replace
     - sourceLabels: [__meta_kubernetes_pod_name]
       targetLabel: pod
+      action: replace
