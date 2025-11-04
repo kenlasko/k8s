@@ -1,25 +1,17 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: podmonitor-home
+  labels:
+    cnpg.io/cluster: home
+  name: home
   namespace: cnpg
 spec:
+  namespaceSelector:
+    matchNames:
+    - cnpg
+  podMetricsEndpoints:
+  - port: metrics
   selector:
     matchLabels:
       cnpg.io/cluster: home
-  podMetricsEndpoints:
-  - port: metrics
-    scheme: https
-    tlsConfig:
-      ca:
-        secret:
-          name: home-ca
-          key: ca.crt
-      serverName: home-rw
-    # relabelings:
-    # - sourceLabels: [__meta_kubernetes_namespace]
-    #   targetLabel: namespace
-    #   action: replace
-    # - sourceLabels: [__meta_kubernetes_pod_name]
-    #   targetLabel: pod
-    #   action: replace
+      cnpg.io/podRole: instance

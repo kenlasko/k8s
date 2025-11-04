@@ -50,10 +50,7 @@ spec:
     isWALArchiver: true
     parameters:
       barmanObjectName: backblaze
-      
-  monitoring:
-    enablePodMonitor: true
-    
+
   managed:
     roles:
     - name: authentik
