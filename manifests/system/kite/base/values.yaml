@@ -1,4 +1,5 @@
-anonymousUserEnabled: true
+anonymousUserEnabled: false
+debug: true
 db:
   type: postgres
 secret:
