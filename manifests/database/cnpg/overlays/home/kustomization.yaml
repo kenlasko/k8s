@@ -18,6 +18,7 @@ resources:
 - cronjob-pgdump.yaml
 - database.yaml
 - external-secrets.yaml
+- podmonitor.yaml
 - service.yaml
 - serviceaccount.yaml
 - volume.yaml
