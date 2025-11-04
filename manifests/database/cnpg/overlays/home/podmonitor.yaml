@@ -16,9 +16,6 @@ spec:
           name: home-ca
           key: ca.crt
       serverName: home-rw
-    bearerTokenSecret:
-      key: ''
-      name: ''
     relabelings:
     - sourceLabels: [__meta_kubernetes_namespace]
       targetLabel: namespace
