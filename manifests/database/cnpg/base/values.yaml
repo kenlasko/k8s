@@ -1,6 +1,8 @@
 fullnameOverride: cnpg-controller
 podLabels:
   app.kubernetes.io/component: database
+monitoring:
+  podMonitorEnabled: true
 resources:
   requests:
     cpu: 3m
