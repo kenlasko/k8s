@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      "cnpg.io/cluster": home
+      cnpg.io/cluster: home
   podMetricsEndpoints:
   - port: metrics
     scheme: https
@@ -16,3 +16,11 @@ spec:
           name: home-ca
           key: ca.crt
       serverName: home-rw
+    bearerTokenSecret:
+      key: ''
+      name: ''
+    relabelings:
+    - sourceLabels: [__meta_kubernetes_namespace]
+      targetLabel: namespace
+    - sourceLabels: [__meta_kubernetes_pod_name]
+      targetLabel: pod
