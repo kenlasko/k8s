@@ -65,16 +65,16 @@ server:
     limits:
       # cpu: 200m
       memory: 200Mi
-  clusterRoleRules:
-    enabled: true
-    rules:
-    # Allow exec into pods
-    - apiGroups:
-      - ""
-      resources:
-      - pods/exec
-      verbs:
-      - create
+  # clusterRoleRules:
+  #   enabled: true
+  #   rules:
+  #   # Allow exec into pods
+  #   - apiGroups:
+  #     - ""
+  #     resources:
+  #     - pods/exec
+  #     verbs:
+  #     - create
 
 
 configs:
