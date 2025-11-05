@@ -25,7 +25,7 @@ authentik:
     use_tls: true
     from: authentik@ucdialplans.com
   postgresql:
-    host: pooler-home-rw.cnpg.svc.cluster.local
+    host: home-rw.cnpg.svc.cluster.local
     port: 5432
     name: authentik
   redis:
