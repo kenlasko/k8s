@@ -10,7 +10,7 @@ global:
   - name: AUTHENTIK_POSTGRESQL__SSLROOTCERT
     value: /etc/postgres-ca/ca.crt
   - name: AUTHENTIK_POSTGRESQL__CONN_MAX_AGE
-    value: 0
+    value: "0"
   volumes:
   volumes:
   - name: cnpg-ca
