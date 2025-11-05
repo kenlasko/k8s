@@ -18,7 +18,7 @@ spec:
           priorityClassName: low-priority
           containers:
           - name: update-security-rule
-            image: ghcr.io/oracle/oci-cli:20251029
+            image: ghcr.io/oracle/oci-cli:20251105
             command: ["/bin/bash", "-c", "/scripts/update-security-rule.sh"]
             securityContext:
               allowPrivilegeEscalation: false
