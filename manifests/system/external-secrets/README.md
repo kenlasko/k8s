@@ -152,7 +152,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        DB_DSN: "host=home-rw.cnpg.svc.cluster.local port=5432 user={{ .dbUsername }} password={{ .dbPassword }} dbname=kite"
+        DB_DSN: "host=pooler-home-rw.cnpg.svc.cluster.local port=5432 user={{ .dbUsername }} password={{ .dbPassword }} dbname=kite"
   data:
   - secretKey: dbUsername
     remoteRef:
