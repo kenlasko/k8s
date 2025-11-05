@@ -107,8 +107,7 @@
         "cilium",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
-        "longhorn",
-        "loki"
+        "longhorn"
       ],
       "automerge": false
     },
