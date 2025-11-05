@@ -3,6 +3,9 @@ podLabels:
   app.kubernetes.io/component: database
 monitoring:
   podMonitorEnabled: true
+  grafanaDashboard:
+    create: true
+    namespace: monitoring
 resources:
   requests:
     cpu: 3m
