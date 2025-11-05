@@ -1,6 +1,6 @@
 image:
   repository: 11notes/sonarr
-  tag: 4.0.15
+  tag: 4.0.16
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
