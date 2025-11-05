@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   admin.enabled: "false"  # disable built-in admin account
+  exec.enabled: "true"  # enable exec plugin support
   # This allows ArgoCD to use Helm charts as applications
   kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
