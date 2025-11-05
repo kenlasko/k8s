@@ -21,6 +21,7 @@ spec:
       name: '{{index .path.segments 2}}'
       annotations:
         argocd.argoproj.io/sync-wave: "0" # This value may be overridden by Kustomize
+        pref.argocd.argoproj.io/default-view: "pods"
       labels:
         app.kubernetes.io/managed-by: argocd
     spec:
