@@ -9,10 +9,10 @@ spec:
     endpointURL: "https://s3.us-east-005.backblazeb2.com/"
     destinationPath: "s3://klasko-postgresql"
     wal:
-      compression: gzip
+      compression: bzip2
       maxParallel: 4
     data:
-      compression: gzip
+      compression: bzip2
     s3Credentials:
       accessKeyId:
         name: s3-backup-backblaze-postgresql
@@ -32,10 +32,10 @@ spec:
     endpointURL: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com/"
     destinationPath: "s3://postgresql"
     wal:
-      compression: gzip
+      compression: bzip2
       maxParallel: 4
     data:
-      compression: gzip
+      compression: bzip2
     s3Credentials:
       accessKeyId:
         name: s3-backup-cloudflare-postgresql
@@ -55,10 +55,10 @@ spec:
     endpointURL: "https://yzimm6ocyme1.compat.objectstorage.ca-toronto-1.oraclecloud.com/"
     destinationPath: "s3://postgresql"
     wal:
-      compression: gzip
+      compression: bzip2
       maxParallel: 4
     data:
-      compression: gzip
+      compression: bzip2
     s3Credentials:
       accessKeyId:
         name: s3-backup-oracle-postgresql
@@ -78,10 +78,10 @@ spec:
     endpointURL: "http://nas01.ucdialplans.com:8010"
     destinationPath: "s3://postgresql"
     wal:
-      compression: gzip
+      compression: bzip2
       maxParallel: 4
     data:
-      compression: gzip
+      compression: bzip2
     s3Credentials:
       accessKeyId:
         name: s3-backup-nas01-postgresql
