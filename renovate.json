@@ -86,7 +86,8 @@
         "helm-values",
         "kubernetes",
         "kustomize",
-        "pre-commit"
+        "pre-commit",
+        "regex"
       ],
       "matchUpdateTypes": [
         "minor", 
