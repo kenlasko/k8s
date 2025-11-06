@@ -47,3 +47,5 @@ spec:
 
   postgresql:
     shared_preload_libraries: []
+    parameters:
+      max_connections: "200"

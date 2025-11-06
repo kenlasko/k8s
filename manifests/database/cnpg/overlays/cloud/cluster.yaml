@@ -47,6 +47,12 @@ spec:
     - "home-postgresql.tailb7050.ts.net"
     - "home-postgresql"
     - "home-cnpg.svc.cluster.local"
+
+  postgresql:
+    shared_preload_libraries: []
+    parameters:
+      max_connections: "200"
+  
   managed:
     services:
       additional:
