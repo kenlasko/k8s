@@ -12,7 +12,7 @@ spec:
       compression: zstd
       maxParallel: 4
     data:
-      compression: bzip2
+      compression: gzip
     s3Credentials:
       accessKeyId:
         name: s3-backup-backblaze-postgresql
@@ -35,7 +35,7 @@ spec:
       compression: zstd
       maxParallel: 4
     data:
-      compression: bzip2
+      compression: gzip
     s3Credentials:
       accessKeyId:
         name: s3-backup-cloudflare-postgresql
@@ -58,7 +58,7 @@ spec:
       compression: zstd
       maxParallel: 4
     data:
-      compression: bzip2
+      compression: gzip
     s3Credentials:
       accessKeyId:
         name: s3-backup-oracle-postgresql
@@ -81,7 +81,7 @@ spec:
       compression: zstd
       maxParallel: 4
     data:
-      compression: bzip2
+      compression: gzip
     s3Credentials:
       accessKeyId:
         name: s3-backup-nas01-postgresql
