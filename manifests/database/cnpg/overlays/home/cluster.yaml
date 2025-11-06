@@ -13,10 +13,7 @@ spec:
     storageClass: local-storage
     size: 15Gi
   primaryUpdateStrategy: unsupervised
-  switchoverDelay: 10s
-  enableInstanceManager: true
-  instanceManager:
-    enablePodDisruptionBudget: true
+  switchoverDelay: 30
   resources:
     requests:
       cpu: 10m
