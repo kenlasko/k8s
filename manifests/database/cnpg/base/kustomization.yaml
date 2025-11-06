@@ -5,4 +5,4 @@ resources:
 - backupsource.yaml
 - external-secrets.yaml
 - namespace.yaml
-- https://github.com/cloudnative-pg/plugin-barman-cloud/releases/download/v0.8.0/manifest.yaml
+- https://github.com/cloudnative-pg/plugin-barman-cloud/releases/download/v0.9.0/manifest.yaml
