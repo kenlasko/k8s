@@ -1,7 +1,7 @@
 image:
   repository: crocodilestick/calibre-web-automated
   tag: V3.1.4
-  registry: docker.io
+  registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
