@@ -1,6 +1,6 @@
 image:
   repository: crocodilestick/calibre-web-automated
-  tag: V3.0.4
+  tag: V3.1.4
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: true
