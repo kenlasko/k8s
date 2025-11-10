@@ -20,7 +20,10 @@ image:
   registry: ""    # Specify the image registry, e.g., "docker.io"
   pullPolicy: IfNotPresent
 
-# Security context
+extraLabels: {}
+
+extraAnnotations: {}
+
 securityContext: {}
 
 # If env: is not defined, will apply the default environment variables
