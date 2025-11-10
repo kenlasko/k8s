@@ -29,15 +29,14 @@
       "tunnel"
     ],
     "ignorePaths": [
-      "**/*-patch.yaml",
+      "**/*patch*.yaml"
       "archive/**"
     ]
   },
   "kustomize": {
     "fileMatch": [
-      "deploy",
-      "cronjob",
-      "tunnel"
+      "kustomization",
+      "patch"
     ],
     "ignorePaths": [
       "archive/**"
