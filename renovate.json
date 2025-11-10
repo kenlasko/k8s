@@ -142,6 +142,11 @@
       "automerge": true,
       "automergeType": "branch",
       "ignoreTests": true
+    },
+    {
+      "matchManagers": ["kustomize"],
+      "matchPackageNames": ["baseline"],
+      "enabled": false
     }
   ]
 }
