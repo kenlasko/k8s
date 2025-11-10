@@ -29,7 +29,7 @@
       "tunnel"
     ],
     "ignorePaths": [
-      "**/*patch*.yaml"
+      "**/*patch*.yaml",
       "archive/**"
     ]
   },
