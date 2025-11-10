@@ -1,7 +1,7 @@
 image:
-  registry: docker.io
   repository: dpage/pgadmin4
   tag: 9.9.0
+  registry: docker.io
 containerSecurityContext:
   enabled: true
   allowPrivilegeEscalation: false
