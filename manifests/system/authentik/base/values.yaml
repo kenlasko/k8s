@@ -12,7 +12,6 @@ global:
   - name: AUTHENTIK_POSTGRESQL__CONN_MAX_AGE
     value: "0"
   volumes:
-  volumes:
   - name: cnpg-ca
     secret:
       secretName: cnpg-ca
