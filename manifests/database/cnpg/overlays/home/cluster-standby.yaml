@@ -9,12 +9,29 @@ spec:
   # Use kenlasko/cloudnativepg-gis-vchord:17.6-vc0.4.2-1 for vchord (Immich) and GIS (Dawarich)
   imageName: ghcr.io/cloudnative-pg/postgresql:17.6-minimal-trixie
   instances: 1
+
+  # Bootstrap from the main home 3-node cluster
+  # bootstrap:
+  #   pg_basebackup:
+  #     source: home-postgresql
+  # replica:
+  #   enabled: true
+  #   source: home-postgresql 
+
+  # Bootstrap from S3 backup to test restore procedures (normally disabled)
   bootstrap:
-    pg_basebackup:
-      source: home-postgresql
-  replica:
-    enabled: true
-    source: home-postgresql 
+    recovery:
+      source: s3-backupsource
+  externalClusters:
+  - name: s3-backupsource
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      enabled: true
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: backblaze
+
+
   storage:
     storageClass: local-storage
     size: 14Gi
@@ -27,6 +44,7 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgresql-superuser
+
 
   externalClusters:
   - name: home-postgresql
