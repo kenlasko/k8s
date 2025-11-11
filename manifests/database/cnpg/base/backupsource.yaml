@@ -10,7 +10,7 @@ spec:
     destinationPath: "s3://klasko-postgresql"
     wal:
       compression: gzip   # zstd might be an issue restoring See https://github.com/cloudnative-pg/plugin-barman-cloud/issues/657. Will test this theory out later
-      maxParallel: 4
+      maxParallel: 1
     data:
       compression: gzip
     s3Credentials:
