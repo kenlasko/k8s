@@ -13,10 +13,10 @@ spec:
     # Bootstrapping directly from the primary is extremely slow over Tailscale and takes over 10h. Not recommended
     # After the initial sync, the ongoing replication seems to fail on missing WALs, even though they are supposedly
     # never deleted from the primary. Better to use the Backblaze S3 'home-cluster-backupsource'
-    # pg_basebackup:
-    #   source: home-postgresql
-    recovery:
-      source: home-cluster-backupsource
+    pg_basebackup:
+      source: home-postgresql
+    # recovery:
+    #   source: home-cluster-backupsource
   # The ongoing replication from the primary seems to work fine over Tailscale.
   # For initial replica sync, using the S3 source (home-cluster-backupsource) is much faster, but should switch
   # to the primary (home-postgresql) for ongoing replication. Otherwise, CNPG seems to continuously search for WALs that haven't
