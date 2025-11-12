@@ -13,7 +13,6 @@ spec:
     # Bootstrapping directly from the primary is extremely slow over Tailscale and takes over 10h. Not recommended
     # After the initial sync, the ongoing replication seems to fail on missing WALs, even though they are supposedly
     # never deleted from the primary. Better to use the Backblaze S3 'home-cluster-backupsource'
-
     recovery:
       source: home-cluster-backupsource
   # The ongoing replication from the primary seems to work fine over Tailscale.
