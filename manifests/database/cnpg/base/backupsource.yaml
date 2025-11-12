@@ -20,6 +20,35 @@ spec:
       secretAccessKey:
         name: s3-backup-backblaze-postgresql
         key: AWS_SECRET_ACCESS_KEY
+  instanceSidecarConfiguration:
+    logLevel: debug
+
+
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: backblaze-zstd
+spec:
+  retentionPolicy: "7d"
+  configuration:
+    endpointURL: "https://s3.us-east-005.backblazeb2.com/"
+    destinationPath: "s3://klasko-postgresql"
+    wal:
+      compression: zstd   # zstd might be an issue restoring See https://github.com/cloudnative-pg/plugin-barman-cloud/issues/657. Will test this theory out later
+      maxParallel: 1
+    data:
+      compression: gzip
+    s3Credentials:
+      accessKeyId:
+        name: s3-backup-backblaze-postgresql
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKey:
+        name: s3-backup-backblaze-postgresql
+        key: AWS_SECRET_ACCESS_KEY
+  instanceSidecarConfiguration:
+    logLevel: debug
+
 
 ---
 apiVersion: barmancloud.cnpg.io/v1
