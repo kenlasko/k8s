@@ -23,7 +23,7 @@ spec:
   # hits the S3 API.
   replica:
     enabled: true
-    source: home-postgresql   # home-postgresql  home-cluster-backupsource
+    source: home-cluster-backupsource  # home-postgresql  home-cluster-backupsource
   storage:
     storageClass: local-storage
     size: 15Gi
