@@ -24,6 +24,17 @@ The manual steps to do this are below, but shouldn't be necessary (at least step
 2. Delete the `replication-certs` external secret in the cloud cluster to trigger a pull of the updated external secret data, or wait for the scheduled update to happen (every 24h).
 3. Kill the `cloud-1` pod in the cloud cluster to initiate a fresh instance to ensure it uses the new certificates. PostgreSQL may eventually self-update, but I'm not sure.
 
+## Monitoring Replication
+I'm using [Uptime Kuma](/manifests/monitoring/uptime-kuma) to alert me via Slack if either the standby or cloud cluster replication gets out-of-sync with the primary. The Uptime Kuma query to use to alert on replication sync issues is:
+```
+DO $$
+BEGIN
+  IF EXTRACT(EPOCH FROM (now() - pg_last_xact_replay_timestamp())) > 120 THEN
+    RAISE EXCEPTION 'Replication lag exceeds 120 seconds';
+  END IF;
+END $$;
+```
+
 ## Backups
 Constant backups are being made to a remote S3 bucket, which makes restoration very simple. This is defined in [cluster.yaml](overlays/home/cluster.yaml) and [backup.yaml](overlays/home/backup.yaml). Normally, the `cnpg` plugin should show the status of continuous backups, but this is [currently broken](https://github.com/cloudnative-pg/cloudnative-pg/issues/8276). In the meantime, status checks can be done via the following (taken from [this comment](https://github.com/cloudnative-pg/cloudnative-pg/issues/8276#issuecomment-3162854414) on the issue):
 
