@@ -2,12 +2,12 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: weekly
+  name: daily
 spec:
   cluster:
     name: home
   immediate: true
-  schedule: "0 0 7 * * 1" # Every Monday at 07:00 UTC
+  schedule: "0 0 7 * * *" # Every Monday at 07:00 UTC
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:

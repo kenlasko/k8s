@@ -13,7 +13,7 @@ helmCharts:
   valuesMerge: merge
 resources:
 - ../../base
-- cluster.yaml
+- cluster-cloud.yaml
 - external-secrets.yaml
 - service.yaml
 - volume.yaml

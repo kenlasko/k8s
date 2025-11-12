@@ -12,7 +12,7 @@ helmCharts:
 resources:
 - ../../base
 - backup.yaml
-- cluster.yaml
+- cluster-home.yaml
 - cluster-standby.yaml
 - cronjob-akeyless-update.yaml
 - cronjob-pgdump.yaml
