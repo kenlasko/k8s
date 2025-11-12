@@ -154,16 +154,16 @@ spec:
       passwordSecret:
         name: useraccount-vaultwarden
 
-    # services:
-    #   additional:
-    #   - selectorType: rw
-    #     updateStrategy: patch
-    #     serviceTemplate:
-    #       metadata:
-    #         name: "postgresql-service"
-    #         annotations:
-    #           tailscale.com/expose: "true"
-    #           tailscale.com/hostname: "home-postgresql"
-    #           tailscale.com/proxy-class: "default"
-    #       spec:
-    #         type: LoadBalancer
+    services:
+      additional:
+      - selectorType: rw
+        updateStrategy: patch
+        serviceTemplate:
+          metadata:
+            name: "postgresql-service"
+            annotations:
+              tailscale.com/expose: "true"
+              tailscale.com/hostname: "home-postgresql"
+              tailscale.com/proxy-class: "default"
+          spec:
+            type: LoadBalancer
