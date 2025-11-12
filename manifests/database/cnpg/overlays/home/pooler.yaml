@@ -8,6 +8,13 @@ spec:
     name: home
   instances: 3
   type: rw
+  serviceTemplateSpec:
+    metadata:
+      name: "postgresql-service"
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "home-postgresql"
+        tailscale.com/proxy-class: "default"
   pgbouncer:
     poolMode: session
     parameters:
