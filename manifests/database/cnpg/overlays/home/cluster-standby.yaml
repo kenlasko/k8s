@@ -19,7 +19,9 @@ spec:
     recovery:
       source: s3-backupsource
       recoveryTarget:
-        targetTime: "2025-11-11 15:00:00.000000+00:00"
+        backupID: 20251110T070003 
+        targetImmediate: true
+        # targetTime: "2025-11-11 15:00:00.000000+00:00"
   replica:
     enabled: true
     source: home-postgresql 
