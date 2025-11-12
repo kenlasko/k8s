@@ -39,6 +39,14 @@ When the cluster fails and needs rebuilding, a few things need to happen before 
 ## Testing Recovery
 Its good practice to regularly test the cluster recovery process. I use my [standby server](overlays/home/cluster-standby.yaml) for this. To test this, you must comment out the `replica` section and set the `bootstrap` recovery options as desired.
 
+The fastest way to test this is to follow these steps:
+1. Make all changes to the [standby cluster manifest](overlays/home/cluster-standby.yaml) and sync with ArgoCD
+2. Log into NUC7 and delete all files under `/host/var/postgresql`. Can use the [volreset.sh](scripts/volreset.sh) script to do this
+3. Delete the `postgresql-data-nuc7` PV
+4. Delete the `standby` CNPG cluster object
+
+Recovery should start shortly.
+
 ## Restore Options
 The [CNPG Recovery section](https://cloudnative-pg.io/documentation/1.20/recovery/) has lots of good info about recovery. A few useful tidbits (this is all set in the `cluster` manifest):
 
