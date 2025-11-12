@@ -36,6 +36,29 @@ When the cluster fails and needs rebuilding, a few things need to happen before 
 - Delete the PVs assigned to the previous cluster, so that CNPG can reclaim them. Tip: if you want the pod order to sequentially match up with the nodes (home-1 on NUC4, home-2 on NUC5 etc.), only delete the PV associated with NUC4 first, then NUC5 after NUC4 claims the PV, etc.
 - Enable the [patch-recovery.yaml](overlays/home/patch-recovery.yaml) patch in the [kustomization.yaml](overlays/home/kustomization.yaml) and disable once recovery is complete
 
+## Restore Options
+The [CNPG Recovery section](https://cloudnative-pg.io/documentation/1.20/recovery/) has lots of good info about recovery. A few useful tidbits (this is all set in the `cluster` manifest):
+
+### Recovering to a specific period
+```
+  bootstrap:
+    recovery:
+      source: s3-backupsource
+      recoveryTarget:
+        targetTime: "2025-11-11 15:00:00.000000+00:00"
+```
+
+### Recovering to a specific backup ID
+Use `targetImmediate` to restore to the most immediate restore point (minimal WAL requirements) 
+```
+  bootstrap:
+    recovery:
+      source: s3-backupsource
+      recoveryTarget:
+        backupID: 20251110T070003 
+        targetImmediate: true
+```
+
 
 ## Recovering from a failed node
 I had a pod not come back properly after a node upgrade. Thankfully it was Home-3. The controller was throwing errors about being unable to connect to the pod, and the pod couldn't communicate with the controller. I tried to scale the cluster to 2 pods, but it kept failing to communicate with the pod.

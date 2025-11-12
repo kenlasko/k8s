@@ -20,9 +20,6 @@ spec:
       secretAccessKey:
         name: s3-backup-backblaze-postgresql
         key: AWS_SECRET_ACCESS_KEY
-  instanceSidecarConfiguration:
-    logLevel: debug
-
 
 ---
 apiVersion: barmancloud.cnpg.io/v1
@@ -46,9 +43,6 @@ spec:
       secretAccessKey:
         name: s3-backup-backblaze-postgresql
         key: AWS_SECRET_ACCESS_KEY
-  instanceSidecarConfiguration:
-    logLevel: debug
-
 
 ---
 apiVersion: barmancloud.cnpg.io/v1
