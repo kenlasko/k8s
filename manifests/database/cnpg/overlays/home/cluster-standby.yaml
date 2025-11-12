@@ -13,15 +13,15 @@ spec:
   # Bootstrap from the main home 3-node cluster
   bootstrap:
     # Boostrap from main cluster for speed
-    # pg_basebackup:
-    #   source: home-postgresql
+    pg_basebackup:
+      source: home-postgresql
     # Bootstrap from S3 backup to test restore procedures (normally disabled)
-    recovery:
-      source: s3-backupsource
-      recoveryTarget:
-        backupID: 20251110T070003 
-        targetImmediate: true
-        # targetTime: "2025-11-11 15:00:00.000000+00:00"
+    # recovery:
+    #   source: s3-backupsource
+    #   recoveryTarget:
+    #     backupID: 20251110T070003 
+    #     targetImmediate: true
+    #     targetTime: "2025-11-11 15:00:00.000000+00:00"
   replica:
     enabled: true
     source: home-postgresql 
