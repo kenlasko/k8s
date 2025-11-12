@@ -36,6 +36,9 @@ When the cluster fails and needs rebuilding, a few things need to happen before 
 - Delete the PVs assigned to the previous cluster, so that CNPG can reclaim them. Tip: if you want the pod order to sequentially match up with the nodes (home-1 on NUC4, home-2 on NUC5 etc.), only delete the PV associated with NUC4 first, then NUC5 after NUC4 claims the PV, etc.
 - Enable the [patch-recovery.yaml](overlays/home/patch-recovery.yaml) patch in the [kustomization.yaml](overlays/home/kustomization.yaml) and disable once recovery is complete
 
+## Testing Recovery
+Its good practice to regularly test the cluster recovery process. I use my [standby server](overlays/home/cluster-standby.yaml) for this. To test this, you must comment out the `replica` section and set the `bootstrap` recovery options as desired.
+
 ## Restore Options
 The [CNPG Recovery section](https://cloudnative-pg.io/documentation/1.20/recovery/) has lots of good info about recovery. A few useful tidbits (this is all set in the `cluster` manifest):
 

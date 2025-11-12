@@ -9,7 +9,7 @@ spec:
     endpointURL: "https://s3.us-east-005.backblazeb2.com/"
     destinationPath: "s3://klasko-postgresql"
     wal:
-      compression: gzip   # zstd might be an issue restoring See https://github.com/cloudnative-pg/plugin-barman-cloud/issues/657. Will test this theory out later
+      compression: zstd
       maxParallel: 1
     data:
       compression: gzip
@@ -32,7 +32,7 @@ spec:
     endpointURL: "https://s3.us-east-005.backblazeb2.com/"
     destinationPath: "s3://klasko-postgresql"
     wal:
-      compression: zstd   # zstd might be an issue restoring See https://github.com/cloudnative-pg/plugin-barman-cloud/issues/657. Will test this theory out later
+      compression: zstd
       maxParallel: 1
     data:
       compression: gzip
