@@ -66,21 +66,22 @@ longhornRecoveryBackend:
 namespaceOverride: "longhorn"
 
 service:
-  annotations:
-    omni-kube-service-exposer.sidero.dev/prefix: longhorn
-    omni-kube-service-exposer.sidero.dev/port: "50081"
-    omni-kube-service-exposer.sidero.dev/label: Longhorn
-    omni-kube-service-exposer.sidero.dev/icon: |
-      H4sICNzvFWkAA2xvbmdob3JuLnN2ZwB9VE1v2zAM/SuEd5YikvpykQToTjt01x12GYw2aQo4bdEE
-      TYth/31PUoqmmbuLZVnP5CP1Hue751t62Y73u0W32e8fL2azw+FgD2ofnm5n4pybAdHR3c2iuxpe
-      V0+/uKObYT+Y+2G7On4jfHu+Wx2+PrwsOkeONETbZ5LeW5+75fxmtd4t57v967ha2utxZ+T3+m4c
-      L76EtYgf/sxn7Ww+a8jHYb8hZPyuLlgXKDorQQdONkal41ISOSPOOo3E3vacRyM2ulgQiYNhpzZl
-      8HA2CV8lb7MK9WJzjpTEimAJltNkZEXIQDj2fkQdQopUcsQ2aEOW5I4rhxTGpJYll02k3vbRU2Sr
-      PGiwmqg92294F7BTRSTZ9CjUN5TScXnHpWyA83FktuKDQcwQ4jXyqrEOtYCAAVUFxWysMIgwymUD
-      Iur5M9bJNNalQNMKtM6VmDLdldbo1vawNSxsY6kdJPuaJdXuH9GtQHQ4bEwrEIeB6uMNobi0rH40
-      GSG98T2oJLRO1RNKiHoelSAupHQjO6uR8buL+WdHVUOLrilrvV53sxMlcco2CoruwUnOQrJBbwP6
-      pl5GU1ObmpoKp0CN0xl3JnCnyr1e3jnPcp5xbaX6EQAXSm3S40oKb6q0J4n0hUdH1+Owgy2rXz7U
-      oqwgJ+hDTt9w5Zr6S42gCOG0pfUJVwkUAJzjs7iMrHkSWGLAJjkh4EaSg2t1mAJioxBaW360yJMR
-      Tyluo2WYEsbwUA4a4Yu6zP88VWX77inTtExNy9eIwVJUX16KQatec1W9aQahapA04Se0uPqp+A6t
-      Pury8tyeSKbZZucxPbhoAk421cmmObwwjJ8Rb7by/WhOjDXhJ6Y6Zdi0MXM6vejj9HrbmuO2Qk2D
-      /hOY3wL7Mr84/aulMtWXfwHNj5TA/QUAAA==
+  ui:
+    annotations:
+      omni-kube-service-exposer.sidero.dev/prefix: longhorn
+      omni-kube-service-exposer.sidero.dev/port: "50081"
+      omni-kube-service-exposer.sidero.dev/label: Longhorn
+      omni-kube-service-exposer.sidero.dev/icon: |
+        H4sICNzvFWkAA2xvbmdob3JuLnN2ZwB9VE1v2zAM/SuEd5YikvpykQToTjt01x12GYw2aQo4bdEE
+        TYth/31PUoqmmbuLZVnP5CP1Hue751t62Y73u0W32e8fL2azw+FgD2ofnm5n4pybAdHR3c2iuxpe
+        V0+/uKObYT+Y+2G7On4jfHu+Wx2+PrwsOkeONETbZ5LeW5+75fxmtd4t57v967ha2utxZ+T3+m4c
+        L76EtYgf/sxn7Ww+a8jHYb8hZPyuLlgXKDorQQdONkal41ISOSPOOo3E3vacRyM2ulgQiYNhpzZl
+        8HA2CV8lb7MK9WJzjpTEimAJltNkZEXIQDj2fkQdQopUcsQ2aEOW5I4rhxTGpJYll02k3vbRU2Sr
+        PGiwmqg92294F7BTRSTZ9CjUN5TScXnHpWyA83FktuKDQcwQ4jXyqrEOtYCAAVUFxWysMIgwymUD
+        Iur5M9bJNNalQNMKtM6VmDLdldbo1vawNSxsY6kdJPuaJdXuH9GtQHQ4bEwrEIeB6uMNobi0rH40
+        GSG98T2oJLRO1RNKiHoelSAupHQjO6uR8buL+WdHVUOLrilrvV53sxMlcco2CoruwUnOQrJBbwP6
+        pl5GU1ObmpoKp0CN0xl3JnCnyr1e3jnPcp5xbaX6EQAXSm3S40oKb6q0J4n0hUdH1+Owgy2rXz7U
+        oqwgJ+hDTt9w5Zr6S42gCOG0pfUJVwkUAJzjs7iMrHkSWGLAJjkh4EaSg2t1mAJioxBaW360yJMR
+        Tyluo2WYEsbwUA4a4Yu6zP88VWX77inTtExNy9eIwVJUX16KQatec1W9aQahapA04Se0uPqp+A6t
+        Pury8tyeSKbZZucxPbhoAk421cmmObwwjJ8Rb7by/WhOjDXhJ6Y6Zdi0MXM6vejj9HrbmuO2Qk2D
+        /hOY3wL7Mr84/aulMtWXfwHNj5TA/QUAAA==
