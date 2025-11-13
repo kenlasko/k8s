@@ -70,3 +70,41 @@ spec:
   resources:
     requests:
       storage: 500Gi
+
+
+# This PV/PVC is used for testing restores
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-nextcloud-restore-test
+  annotations:
+    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+spec:
+  storageClassName: nfs-csi
+  capacity:
+    storage: 400Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: 192.168.1.3/media/nextcloud-restore-test
+    volumeAttributes:
+      server: 192.168.1.3
+      share: /appdata/nextcloud
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-nextcloud-restore-test
+  namespace: nextcloud
+spec:
+  storageClassName: nfs-csi
+  volumeName: nfs-nextcloud-restore-test
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 400Gi

@@ -8,8 +8,8 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-cloudflare-nextcloud
-    destinationPVC: nfs-nextcloud
+    repository: s3-backup-backblaze-nextcloud
+    destinationPVC: nfs-nextcloud-restore-test
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
