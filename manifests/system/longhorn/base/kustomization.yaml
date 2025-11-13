@@ -9,6 +9,6 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - external-secrets.yaml
-- httproute.yaml
+# - httproute.yaml
 - longhorn-vol-management.yaml
 - namespace.yaml
