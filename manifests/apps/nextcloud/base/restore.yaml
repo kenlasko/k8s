@@ -11,7 +11,7 @@ spec:
     repository: s3-backup-backblaze-nextcloud
     destinationPVC: nfs-nextcloud-restore-test
     copyMethod: Direct
-    enableFileDeletion: true
+    enableFileDeletion: false
     cleanupTempPVC: true
     cleanupCachePVC: true
     storageClassName: nfs-csi

@@ -92,7 +92,7 @@ spec:
     volumeHandle: 192.168.1.3/media/nextcloud-restore-test
     volumeAttributes:
       server: 192.168.1.3
-      share: /appdata/nextcloud
+      share: /media/nextcloud-restore-test
 
 ---
 apiVersion: v1
