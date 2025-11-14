@@ -14,7 +14,7 @@ resources:
     cpu: 20m
     memory: 150Mi
   limits:
-    memory: 2.5Gi
+    memory: 3Gi
 
 nextcloud:
   host: nextcloud.ucdialplans.com
