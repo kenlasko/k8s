@@ -10,7 +10,7 @@ provider:
   webhook:
     image:  
       repository: ghcr.io/muhlba91/external-dns-provider-adguard
-      tag: v9.2.0
+      tag: v11.0.0
     securityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: false
