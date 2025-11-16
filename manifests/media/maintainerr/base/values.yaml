@@ -1,6 +1,6 @@
 image:
   repository: maintainerr/maintainerr
-  tag: 2.20.0
+  tag: 2.21.0
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
