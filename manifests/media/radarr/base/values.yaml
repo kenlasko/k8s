@@ -1,6 +1,6 @@
 image:
   repository: 11notes/radarr
-  tag: 5.28.0
+  tag: 6.0.4
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
