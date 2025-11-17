@@ -145,21 +145,22 @@ Backups are triggered via a [Home Assistant](/manifests/homeops/homeassist) auto
 
 The backup script is saved at `~/backup-nas.sh` as below:
 ```
-#!/bin/bash
+#! /bin/bash
 
 rm -f rsync.log
 
-FAILURES=""
+BACKUP_ERRORS=""
 
 run_backup() {
     local src="$1"
     local dest="$2"
     local name="$3"
 
+    echo "Backing up $name"
     rsync -aP --no-perms --no-owner --no-group --delete --log-file=rsync.log "$src" "$dest"
     if [ "$?" -ne 0 ]; then
-        echo "$name backup failed"
-        FAILURES="${FAILURES}<p><b>${name} backup failed</b></p>"
+        echo "$name backup had errors"
+        BACKUP_ERRORS="${BACKUP_ERRORS}<p><b>${name}</b></p>"
     fi
 }
 
@@ -167,58 +168,52 @@ run_backup() {
 run_backup "/mnt/media/movies/"        "/media/movies"                   "Movie"
 run_backup "/mnt/media/tv/"            "/media/other/tv"                 "TV"
 run_backup "/mnt/media/music/"         "/media/other/music"              "Music"
-run_backup "/mnt/backup/media-apps/"   "/media/other/backup/media-apps"  "Media app"
+run_backup "/mnt/backup/media-apps/"   "/media/other/backup/media-apps"  "Media"
 run_backup "/mnt/backup/nextcloud/"    "/media/other/backup/nextcloud"   "Nextcloud"
 run_backup "/mnt/backup/vol/"          "/media/other/backup/vol"         "VolData"
 run_backup "/mnt/backup/cnpg/"         "/media/other/backup/cnpg"        "PostgreSQL"
 run_backup "/mnt/backup/omni/"         "/media/other/backup/omni"        "Omni"
 
-# Email setup
+# This sends an email with the backup report attached via SMTP2Go
 API_KEY="api-<REDACTED>"
 EMAIL_TO="ken.lasko@gmail.com"
 FROM_EMAIL="klasko@ucdialplans.com"
 FROM_NAME="NAS-Backup"
-SUBJECT="NAS Backup Report"
+SUBJECT="NAS Backup report"
 
 # Build HTML body
-if [ -z "$FAILURES" ]; then
+if [ -z "$BACKUP_ERRORS" ]; then
     bodyHTML="<p>All backups completed successfully.</p>"
 else
-    bodyHTML="<p>The following backups failed:</p>${FAILURES}"
+    bodyHTML="<p>The following backups had errors:</p>${BACKUP_ERRORS}"
 fi
 
-# Add generic message
+# This sends a webhook to Home Assistant to notify that the backup is complete. This will initiate a shutdown of BACKUPPC
 bodyHTML="${bodyHTML}<p>Attached is the rsync backup log.</p>"
 
 encodedFile=$(base64 -w 0 rsync.log)
 
-maildata=$(cat <<EOF
-{
-  "sender": "${FROM_EMAIL}",
-  "to": ["${EMAIL_TO}"],
+maildata='{
+  "sender": "klasko@ucdialplans.com",
+  "to": [
+    "ken.lasko@gmail.com"
+  ],
   "subject": "NAS Backup Report",
-  "html_body": "${bodyHTML}",
+  "html_body": "'${bodyHTML}'",
   "attachments": [
     {
-      "fileblob": "${encodedFile}",
+      "fileblob": "'${encodedFile}'",
       "mimetype": "text/plain",
       "filename": "NAS-Backup-Report.txt"
     }
   ]
-}
-EOF
-)
+}'
 
-# Send email
 curl --request POST \
   --url https://api.smtp2go.com/v3/email/send \
   --header "X-Smtp2go-Api-Key: ${API_KEY}" \
   --header "Content-Type: application/json" \
   --data "${maildata}"
 
-# Notify Home Assistant
-curl -X PUT -H "Content-Type: application/json" \
-  -d '{ "key": "value" }' \
-  https://ha.ucdialplans.com/api/webhook/media-backup-<REDACTED>
-
+curl -X PUT -H "Content-Type: application/json" -d '{ "key": "value" }' https://ha.ucdialplans.com/api/webhook/media-backup-<REDACTED>
 ```

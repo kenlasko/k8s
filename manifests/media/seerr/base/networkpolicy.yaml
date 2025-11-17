@@ -1,0 +1,72 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: seerr
+  namespace: media
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: seerr
+  ingress:
+    - fromEntities:
+        - ingress
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "80"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: cloudflare
+            io.kubernetes.pod.namespace: cloudflare
+      toPorts:
+        - ports:
+            - port: "80"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: pangolin-tunnel
+            io.kubernetes.pod.namespace: pangolin
+      toPorts:
+        - ports:
+            - port: "80"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: maintainerr
+      toPorts:
+        - ports:
+            - port: "80"
+  egress:
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "443"
+            - port: "587"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: plex
+      toPorts:
+        - ports:
+            - port: "32400"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: radarr
+      toPorts:
+        - ports:
+            - port: "7878"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: sonarr
+      toPorts:
+        - ports:
+            - port: "8989"
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"

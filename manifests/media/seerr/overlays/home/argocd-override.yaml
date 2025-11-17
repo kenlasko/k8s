@@ -1,0 +1,6 @@
+# This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+info:
+- name: "Documentation:"
+  value: "https://docs.seerr.dev/"
+- name: "Repository:"
+  value: "https://github.com/seerr-team/seerr"

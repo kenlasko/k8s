@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: seer-env
+  namespace: media
+data:
+  DB_TYPE: "postgres"
+  DB_HOST: "pooler-rw.cnpg.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: "seerr"

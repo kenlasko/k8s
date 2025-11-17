@@ -1,0 +1,34 @@
+image:
+  repository: seerr-team/seerr
+  tag: 2.7.3
+  registry: ghcr.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: seerr-env
+- secretRef:
+    name: seerr-secrets
+resources:
+  requests:
+    cpu: 3m
+    memory: 220Mi
+  limits:
+    # cpu: 1000m
+    memory: 700Mi
+service:
+  port: 80
+# extraHTTPRouteHostnames:
+# - media.ucdialplans.com
+persistentVolume:
+  type: nfs
+  size: 650Mi
+  mountPath: /app/config

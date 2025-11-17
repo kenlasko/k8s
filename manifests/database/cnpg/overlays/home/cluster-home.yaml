@@ -129,6 +129,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-radarr
+    - name: seerr
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-seerr
     - name: sonarr
       ensure: present
       login: true
