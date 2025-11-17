@@ -10,7 +10,7 @@ spec:
     destinationPath: "s3://klasko-postgresql"
     wal:
       compression: zstd
-      maxParallel: 1
+      maxParallel: 2
     data:
       compression: gzip
     s3Credentials:
