@@ -1,6 +1,6 @@
 image:
   repository: seerr-team/seerr
-  tag: v2.7.3
+  tag: develop
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
