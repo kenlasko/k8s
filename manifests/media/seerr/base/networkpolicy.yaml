@@ -16,21 +16,10 @@ spec:
             - port: "5055"
     - fromEndpoints:
         - matchLabels:
-            app.kubernetes.io/name: cloudflare
-            io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
-            - port: "5055"
-    - fromEndpoints:
+            app.kubernetes.io/name: maintainerr
         - matchLabels:
             app.kubernetes.io/name: pangolin-tunnel
             io.kubernetes.pod.namespace: pangolin
-      toPorts:
-        - ports:
-            - port: "5055"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: maintainerr
       toPorts:
         - ports:
             - port: "5055"
@@ -59,6 +48,12 @@ spec:
       toPorts:
         - ports:
             - port: "8989"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: tautulli
+      toPorts:
+        - ports:
+            - port: "8181"
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
