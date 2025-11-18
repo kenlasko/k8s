@@ -47,6 +47,8 @@ spec:
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: overseerr
+        - matchLabels:
+            app.kubernetes.io/name: seerr
       toPorts:
         - ports:
             - port: "5055"
