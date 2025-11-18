@@ -17,31 +17,14 @@ spec:
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: cilium
-      toPorts:
-        - ports:
-            - port: "7878"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: cloudflare-tunnel
-            io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
-            - port: "7878"
-    - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: maintainerr
-      toPorts:
-        - ports:
-            - port: "7878"
-    - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: overseerr
-      toPorts:
-        - ports:
-            - port: "7878"
-    - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: prowlarr
+        - matchLabels:
+            app.kubernetes.io/name: seerr
       toPorts:
         - ports:
             - port: "7878"

@@ -16,18 +16,7 @@ spec:
             - port: "9696"
     - fromEndpoints:
         - matchLabels:
-            app.kubernetes.io/name: cloudflare-tunnel
-            io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
-            - port: "9696"
-    - fromEndpoints:
-        - matchLabels:
             app.kubernetes.io/name: radarr
-      toPorts:
-        - ports:
-            - port: "9696"
-    - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: sonarr
       toPorts:

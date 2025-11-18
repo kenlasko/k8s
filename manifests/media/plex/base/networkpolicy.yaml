@@ -17,7 +17,17 @@ spec:
             - port: "32400"
     - fromEndpoints:
         - matchLabels:
-            app.kubernetes.io/name: cloudflare-tunnel
+            app.kubernetes.io/name: maintainerr
+        - matchLabels:
+            app.kubernetes.io/name: overseerr
+        - matchLabels:
+            app.kubernetes.io/name: radarr
+        - matchLabels:
+            app.kubernetes.io/name: seerr
+        - matchLabels:
+            app.kubernetes.io/name: sonarr
+        - matchLabels:
+            app.kubernetes.io/name: tautulli
       toPorts:
         - ports:
             - port: "32400"
@@ -34,51 +44,7 @@ spec:
             - port: "32413"
         - ports:
             - port: "32414"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: ersatztv
-      toPorts:
-        - ports:
-            - port: "32400"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: tautulli
-        - matchLabels:
-            app.kubernetes.io/name: seerr
-      toPorts:
-        - ports:
-            - port: "32400"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: radarr
-      toPorts:
-        - ports:
-            - port: "32400"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: sonarr
-      toPorts:
-        - ports:
-            - port: "32400"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: maintainerr
-      toPorts:
-        - ports:
-            - port: "32400"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: overseerr
-      toPorts:
-        - ports:
-            - port: "32400"
   egress:
-    - toEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: ersatztv
-      toPorts:
-        - ports:
-            - port: "8409"
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
