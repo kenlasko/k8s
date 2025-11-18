@@ -2,11 +2,13 @@
 This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud. It hosts databases for the following apps:
 
 * [Home Assistant](/manifests/homeops/homeassist)
-* [Immich](/manifests/media/immich)
+* [Kite](/manifests/system/kite)
+~ * [Immich](/manifests/media/immich) ~
 * [NextCloud](/manifests/apps/nextcloud)
 * [Paperless](/manifests/apps/paperless)
 * [Prowlarr](/manifests/media/prowlarr)
 * [Radarr](/manifests/media/radarr)
+* [Seerr](/manifests/media/seerr)
 * [Sonarr](/manifests/media/sonarr)
 * [UCDialplans Website](/manifests/apps/ucdialplans)
 * [Vaultwarden](/manifests/apps/vaultwarden)

@@ -8,7 +8,7 @@ The clusters are built on Sidero Lab's [Talos OS](https://github.com/siderolabs/
 This is my primary cluster which is used to self-host numerous applications, from the [*arr stack and its supporting apps/tools](/manifests/media) to [Home Assistant](/manifests/homeops/homeassist) to replacements for cloud services such as [Nextcloud](/manifests/apps/nextcloud).
 
 My home cluster runs on 7 mini-PCs named `NUC1` through to `NUC7`. NUC1-NUC3 are used as control-plane nodes, while NUC4-NUC7 are workers. While this repo can be used for any environment, some workloads require (or benefit from) hardware that is specific to certain named nodes. The manifests are configured for this. For example:
-* [Plex](/manifests/media-apps/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC4 or NUC7 which run the older N95 if necessary.
+* [Plex](/manifests/media/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC4 or NUC7 which run the older N95 if necessary.
 * My [Home Assistant appstack](/manifests/homeops) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
 
 Persistent data is stored mostly on my QNAP NAS. I utilize the [CSI-NFS Provisioner](/manifests/system/csi-drivers) for this. Rather than letting the provisioner automatically generate folders for workloads (which do not use a naming convention that lends itself to easily locating resources), I have elected to manually define PV/PVC pairs along with manually creating the root app folders to ensure application data is easily identifiable.
@@ -113,7 +113,7 @@ kustomize build ~/k8s/manifests/apps/adguard/overlays/home/ --enable-helm --load
 
 ## Validate Homegrown Helm Chart
 ```
-helm template plex ~/k8s/helm/baseline -n media-apps -f ~/k8s/manifests/media-apps/plex/values.yaml > ~/helm-test.yaml
+helm template plex ~/k8s/helm/baseline -n media -f ~/k8s/manifests/media/plex/values.yaml > ~/helm-test.yaml
 ```
 
 ## Generate Kustomize Manifest and Apply to Kubernetes

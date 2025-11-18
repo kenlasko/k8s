@@ -38,10 +38,10 @@ Apps that currently use the `appdata/vol` folder are:
 * [homeassist](/manifests/homeops/homeassist)
 * [pgadmin](/manifests/networking/pgadmin)
 * [portainer](/manifests/apps/portainer)
-* [recyclarr](/manifests/media-apps/recyclarr)
+* [recyclarr](/manifests/media/recyclarr)
 * [registry](/manifests/system/registry)
-* [romm](/manifests/media-apps/romm)
-* [transmission](/manifests/media-apps/transmission)
+* [romm](/manifests/media/romm)
+* [transmission](/manifests/media/transmission)
 * [ucdialplans](/manifests/apps/ucdialplans)
 * [ups-monitor](/manifests/homeops/ups-monitor)
 * [uptime-kuma](/manifests/monitoring/uptime-kuma)
@@ -58,7 +58,7 @@ mkdir adguard esphome garmin-upload gitea homeassist pgadmin portainer recyclarr
 This folder stores data created by backup processes, such as Longhorn and manual backup scripts:
 * [Github Repo Backup](/manifests/apps/gitea/configmap-github-backup.yaml)
 * [MariaDB Backup](/manifests/networking/mariadb/backup-cronjob.yaml)
-* [Media Apps](/manifests/media-apps/backup)
+* [Media Apps](/manifests/media/backup)
 * [NAS AppData Vol Backup](/manifests/system/csi-drivers/configmap-backup-apps-script.yaml)
 * [Sealed Secret Backup](/manifests/system/sealed-secrets/configmap-script.yaml)
 
