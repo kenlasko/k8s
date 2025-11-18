@@ -13,27 +13,27 @@ spec:
         - remote-node
       toPorts:
         - ports:
-            - port: "80"
+            - port: "5055"
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: cloudflare
             io.kubernetes.pod.namespace: cloudflare
       toPorts:
         - ports:
-            - port: "80"
+            - port: "5055"
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: pangolin-tunnel
             io.kubernetes.pod.namespace: pangolin
       toPorts:
         - ports:
-            - port: "80"
+            - port: "5055"
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: maintainerr
       toPorts:
         - ports:
-            - port: "80"
+            - port: "5055"
   egress:
     - toEntities:
         - world
