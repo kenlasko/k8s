@@ -32,6 +32,12 @@ spec:
             - port: "587"
     - toEndpoints:
         - matchLabels:
+            cnpg.io/cluster: home
+      toPorts:
+        - ports:
+            - port: "5432"
+    - toEndpoints:
+        - matchLabels:
             app.kubernetes.io/name: plex
       toPorts:
         - ports:
