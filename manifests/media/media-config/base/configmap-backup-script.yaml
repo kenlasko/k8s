@@ -7,10 +7,6 @@ data:
   backup-media.sh: |
     #! /bin/sh
 
-    echo 'Backing up Overseerr'
-    kubectl cp -n media overseerr-0:/app/config/db/. /backup/overseerr/db/.
-    kubectl cp -n media overseerr-0:/app/config/settings.json /backup/overseerr/settings.json
-
     echo 'Backing up SABNZBD'
     kubectl cp -n media sabnzbd-0:/sabnzbd/etc/Downloads/. /backup/sabnzbd/.
     
