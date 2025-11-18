@@ -26,7 +26,6 @@ resources:
     memory: 700Mi
 service:
   port: 5055
-livenessProbe: "false"
 extraHTTPRouteHostnames:
 - media.ucdialplans.com
 - overseerr.ucdialplans.com
