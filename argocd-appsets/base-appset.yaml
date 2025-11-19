@@ -14,8 +14,8 @@ spec:
       files:
       # This path will be overridden by Kustomize
       - path: PATH_PLACEHOLDER
-  syncPolicy:
-    preserveResourcesOnDeletion: true
+  # syncPolicy:
+  #   preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{index .path.segments 2}}'
