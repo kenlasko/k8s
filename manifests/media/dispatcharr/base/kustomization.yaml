@@ -4,7 +4,7 @@ helmGlobals:
   chartHome: ../../../../helm
 helmCharts:
 - name: baseline
-  releaseName: seerr
+  releaseName: dispatcharr
   namespace: media
   valuesFile: values.yaml
 resources:
