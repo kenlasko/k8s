@@ -47,6 +47,12 @@ spec:
   egress:
     - toEndpoints:
         - matchLabels:
+            app.kubernetes.io/name: dispatcharr
+      toPorts:
+        - ports:
+            - port: "9191"
+    - toEndpoints:
+        - matchLabels:
             io.kubernetes.pod.namespace: kube-system
             k8s-app: kube-dns
       toPorts:
