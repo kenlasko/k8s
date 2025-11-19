@@ -2,11 +2,21 @@ image:
   repository: dispatcharr/dispatcharr
   tag: 0.12.0
   registry: ghcr.io
-envFrom:
-- configMapRef:
-    name: dispatcharr-env
-- secretRef:
-    name: dispatcharr-secrets
+# securityContext:
+#   allowPrivilegeEscalation: true
+#   readOnlyRootFilesystem: false
+#   runAsNonRoot: false
+#   runAsUser: 1000
+#   runAsGroup: 100
+#   seccompProfile:
+#     type: RuntimeDefault
+#   capabilities:
+#     drop: ["ALL"]
+# envFrom:
+# - configMapRef:
+#     name: dispatcharr-env
+# - secretRef:
+#     name: dispatcharr-secrets
 resources:
   requests:
     cpu: 3m
