@@ -65,6 +65,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-authentik
+    - name: dispatcharr
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-dispatcharr
     - name: firefly
       ensure: present
       login: true

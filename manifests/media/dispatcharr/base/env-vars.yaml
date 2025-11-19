@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dispatcharr-env
+  namespace: media
+data:
+  POSTGRES_HOST: "pooler-home-rw.cnpg.svc.cluster.local"
+  POSTGRES_DB: "dispatcharr"
+  REDIS_HOST: "redis-service.redis.svc.cluster.local:6379"
+  DB_NAME: "seerr"
