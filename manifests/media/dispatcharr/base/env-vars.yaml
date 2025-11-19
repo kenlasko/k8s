@@ -7,7 +7,7 @@ data:
   DISPATCHARR_ENV: "aio"
   REDIS_HOST: localhost
   CELERY_BROKER_URL: redis://localhost:6379/0
-  DISPATCHARR_LOG_LEVEL: info
+  DISPATCHARR_LOG_LEVEL: debug
   # POSTGRES_HOST: "pooler-home-rw.cnpg.svc.cluster.local"
   # POSTGRES_DB: "dispatcharr"
   # REDIS_HOST: "redis-service.redis.svc.cluster.local:6379"
