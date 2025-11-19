@@ -1,6 +1,6 @@
 image:
   repository: redis
-  tag: 8.2.3
+  tag: 8.4.0
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
