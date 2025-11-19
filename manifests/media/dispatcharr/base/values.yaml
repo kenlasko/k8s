@@ -27,6 +27,6 @@ resources:
 service:
   port: 9191
 persistentVolume:
-  type: nfs
+  type: longhorn
   size: 450Mi
   mountPath: /data
