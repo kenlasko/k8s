@@ -5,7 +5,10 @@ metadata:
   namespace: media
 data:
   DISPATCHARR_ENV: "aio"
-  POSTGRES_HOST: "pooler-home-rw.cnpg.svc.cluster.local"
-  POSTGRES_DB: "dispatcharr"
-  REDIS_HOST: "redis-service.redis.svc.cluster.local:6379"
-  DB_NAME: "seerr"
+  REDIS_HOST: localhost
+  CELERY_BROKER_URL: redis://localhost:6379/0
+  DISPATCHARR_LOG_LEVEL: info
+  # POSTGRES_HOST: "pooler-home-rw.cnpg.svc.cluster.local"
+  # POSTGRES_DB: "dispatcharr"
+  # REDIS_HOST: "redis-service.redis.svc.cluster.local:6379"
+  # DB_NAME: "seerr"
