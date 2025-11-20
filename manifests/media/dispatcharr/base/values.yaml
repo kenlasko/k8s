@@ -24,7 +24,7 @@ resources:
     gpu.intel.com/i915: "1"
   limits:
     # cpu: 1000m
-    memory: 1500Mi
+    memory: 1800Mi
     gpu.intel.com/i915: "1"
 service:
   port: 9191
