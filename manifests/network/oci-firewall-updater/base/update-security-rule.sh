@@ -2,10 +2,11 @@
 set -euo pipefail
 
 # This script updates the OCI ingress security list to allow access from the current home IP address.
-# It checks the current public IP address of a specified DNS name and updates the security list if the IP has changed.
+# It checks the current public IP address and updates the security list if the IP has changed.
 # Works in conjunction with DDNS-Updater running at home which ensures the public DNS name always points to the current home IP.
 
 DNS_NAME="home.ucdialplans.com"
+PUBLIC_IP_SERVICE="ifconfig.me"
 SECURITY_LIST_ID="ocid1.securitylist.oc1.ca-toronto-1.aaaaaaaajhnvoq3w4nsfb2pigc2icp4vczxcufq7v3b42jjunubdc6oma7sa"
 RULE_DESC="Allow all for home access"
 
@@ -14,12 +15,12 @@ log() {
 }
 
 # --- Step 1: Resolve DNS ---
-HOME_IP=$(ping -c1 -w1 "$DNS_NAME" 2>/dev/null | awk -F'[()]' '/PING/{print $2}' || true)
+HOME_IP=$(curl -s "$PUBLIC_IP_SERVICE" || true)
 if [[ -z "$HOME_IP" ]]; then
-  log "❌ Failed to resolve $DNS_NAME"
+  log "❌ Failed to retrieve public IP from $PUBLIC_IP_SERVICE"
   exit 1
 fi
-log "Resolved $DNS_NAME to $HOME_IP"
+log "Public IP detected via curl: $HOME_IP"
 
 # --- Step 1b: Check if it's a public IP ---
 if [[ "$HOME_IP" =~ ^192\.168\. ]]; then
