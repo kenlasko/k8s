@@ -20,7 +20,7 @@ securityContext:
 #   limits:
 #     # cpu: 250m
 #     memory: 30Mi
-command: ["bash","-c","sleep 99d"]
+command: ["/bin/bash", "-c", "/scripts/update-security-rule.sh"]
 env:
 - name: OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING
   value: "True"

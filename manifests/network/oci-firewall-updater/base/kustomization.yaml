@@ -1,8 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: oci
+helmGlobals:
+  chartHome: ../../../../helm
+helmCharts:
+- name: baseline
+  releaseName: oci-firewall-updater
+  namespace: oci
+  valuesFile: values.yaml
 resources:
-- cronjob.yaml
+# - cronjob.yaml
 - external-secrets.yaml
 - namespace.yaml
 configMapGenerator:
