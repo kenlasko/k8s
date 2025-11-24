@@ -32,8 +32,7 @@ get_public_ip() {
     fi
 
     if [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-      log "Public IP retrieved from $url → $ip"
-      echo "$ip"     # <-- stdout (safe for $(...))
+      echo "$ip"
       return 0
     else
       log "Provider $url returned invalid IP: $ip"
