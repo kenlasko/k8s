@@ -17,6 +17,20 @@ serverDefinitions:
       Username: postgres
       Host: home-rw.cnpg.svc.cluster.local
       MaintenanceDB: "postgres"
+    secondServer: 
+      Name: "Standby"
+      Group: "Servers"
+      Port: 5432
+      Username: postgres
+      Host: standby-rw.cnpg.svc.cluster.local
+      MaintenanceDB: "postgres"
+    thirdServer: 
+      Name: "Cloud"
+      Group: "Servers"
+      Port: 5432
+      Username: postgres
+      Host: cloud-postgresql-link
+      MaintenanceDB: "postgres"
 persistentVolume:
   enabled: true
   accessModes:
