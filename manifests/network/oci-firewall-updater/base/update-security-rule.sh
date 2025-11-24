@@ -4,7 +4,7 @@ set -euo pipefail
 PUBLIC_IP_SERVICE="https://ifconfig.me"
 SECURITY_LIST_ID="ocid1.securitylist.oc1.ca-toronto-1.aaaaaaaajhnvoq3w4nsfb2pigc2icp4vczxcufq7v3b42jjunubdc6oma7sa"
 RULE_DESC="Allow all for home access"
-CHECK_INTERVAL_MINUTES=5
+CHECK_INTERVAL_MINUTES=1
 CACHE_FILE="/tmp/oci_home_ip.cache"
 
 log() {
