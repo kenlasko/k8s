@@ -19,7 +19,7 @@ resources:
     memory: 5Mi
   limits:
     # cpu: 250m
-    memory: 70Mi
+    memory: 150Mi
 command: ["/bin/bash", "-c", "/scripts/update-security-rule.sh"]
 env:
 - name: OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING
