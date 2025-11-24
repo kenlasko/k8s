@@ -25,6 +25,7 @@ env:
 - name: OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING
   value: "True"
 disableHTTPRoute: true
+livenessProbe: "false"
 extraVolumes:
 - name: oci-config-file
   secret:
