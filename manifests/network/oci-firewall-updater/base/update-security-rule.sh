@@ -12,20 +12,36 @@ log() {
 }
 
 get_public_ip() {
-  local ip
-  ip=$(curl -s "$PUBLIC_IP_SERVICE" || true)
+  local providers=(
+    "https://ifconfig.me"
+    "https://api.ipify.org"
+    "https://icanhazip.com"
+    "https://checkip.amazonaws.com"
+  )
 
-  if [[ -z "$ip" ]]; then
-    log "❌ Failed to retrieve public IP"
-    return 1
-  fi
+  for url in "${providers[@]}"; do
+    local ip
+    ip=$(curl -s --max-time 5 "$url" || true)
 
-  if ! [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    log "❌ Invalid public IP returned: $ip"
-    return 1
-  fi
+    if [[ -z "$ip" ]]; then
+      log "Provider $url returned nothing"
+      continue
+    fi
 
-  echo "$ip"
+    # Trim whitespace
+    ip=$(echo "$ip" | tr -d "[:space:]")
+
+    if [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+      log "Public IP retrieved from $url → $ip"
+      echo "$ip"
+      return 0
+    else
+      log "Provider $url returned invalid IP: $ip"
+    fi
+  done
+
+  log "❌ All public IP providers failed."
+  return 1
 }
 
 get_cached_ip() {
