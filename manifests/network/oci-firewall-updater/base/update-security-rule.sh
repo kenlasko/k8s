@@ -23,17 +23,17 @@ get_public_ip() {
     local ip
     ip=$(curl -s --max-time 5 "$url" || true)
 
+    # Trim whitespace
+    ip=$(echo "$ip" | tr -d "[:space:]")
+
     if [[ -z "$ip" ]]; then
       log "Provider $url returned nothing"
       continue
     fi
 
-    # Trim whitespace
-    ip=$(echo "$ip" | tr -d "[:space:]")
-
     if [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
       log "Public IP retrieved from $url → $ip"
-      echo "$ip"
+      echo "$ip"     # <-- stdout (safe for $(...))
       return 0
     else
       log "Provider $url returned invalid IP: $ip"
