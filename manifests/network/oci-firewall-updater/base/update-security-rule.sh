@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-PUBLIC_IP_SERVICE="https://ifconfig.me"
 SECURITY_LIST_ID="ocid1.securitylist.oc1.ca-toronto-1.aaaaaaaajhnvoq3w4nsfb2pigc2icp4vczxcufq7v3b42jjunubdc6oma7sa"
 RULE_DESC="Allow all for home access"
 CHECK_INTERVAL_MINUTES=2
@@ -61,7 +60,7 @@ update_oci_ip() {
   local old_ip="$1"
   local new_ip="$2"
 
-  log "Replacing rule IP $old_ip → $new_ip"
+  log "Replacing OCI firewall rule IP $old_ip → $new_ip"
 
   local rules updated
   rules=$(oci network security-list get --security-list-id "$SECURITY_LIST_ID" | jq '.data."ingress-security-rules"')
@@ -76,17 +75,17 @@ update_oci_ip() {
   if oci network security-list update \
        --security-list-id "$SECURITY_LIST_ID" \
        --ingress-security-rules "$updated" --force; then
-    log "✅ OCI security list updated"
+    log "✅ OCI firewall security list updated"
     save_cached_ip "$new_ip"
   else
-    log "❌ Failed to update OCI"
+    log "❌ Failed to update OCI firewall security list"
     return 1
   fi
 }
 
 # --- Main Loop --------------------------------------------------------
 
-log "Starting OCI Home-IP updater (interval: $CHECK_INTERVAL_MINUTES minutes)"
+log "Starting OCI Security Rule Updater (interval: $CHECK_INTERVAL_MINUTES minutes)"
 
 while true; do
   log "--- Checking IP ---"
@@ -101,17 +100,17 @@ while true; do
   CACHED_IP=$(get_cached_ip)
 
   if [[ -z "$CACHED_IP" ]]; then
-    log "No cached IP found; retrieving from OCI..."
+    log "No cached firewall rule IP found; retrieving from OCI..."
     CACHED_IP=$(get_oci_ip)
 
     if [[ -z "$CACHED_IP" || "$CACHED_IP" == "null" ]]; then
-      log "❌ Could not get current IP from OCI"
+      log "❌ Could not get current firewall rule IP from OCI"
       sleep "${CHECK_INTERVAL_MINUTES}m"
       continue
     fi
 
     save_cached_ip "$CACHED_IP"
-    log "Cached OCI IP initialized: $CACHED_IP"
+    log "Cached OCI firewall rule IP initialized: $CACHED_IP"
   fi
 
   log "Current public IP: $PUBLIC_IP"
