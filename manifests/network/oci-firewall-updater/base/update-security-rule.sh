@@ -4,7 +4,7 @@ set -euo pipefail
 PUBLIC_IP_SERVICE="https://ifconfig.me"
 SECURITY_LIST_ID="ocid1.securitylist.oc1.ca-toronto-1.aaaaaaaajhnvoq3w4nsfb2pigc2icp4vczxcufq7v3b42jjunubdc6oma7sa"
 RULE_DESC="Allow all for home access"
-CHECK_INTERVAL_MINUTES=1
+CHECK_INTERVAL_MINUTES=2
 CACHE_FILE="/tmp/oci_home_ip.cache"
 
 log() {
@@ -100,7 +100,7 @@ while true; do
   fi
 
   log "Current public IP: $PUBLIC_IP"
-  log "Cached OCI IP:    $CACHED_IP"
+  log "Cached OCI IP:     $CACHED_IP"
 
   if [[ "$PUBLIC_IP" != "$CACHED_IP" ]]; then
     log "IP changed → Updating OCI"
