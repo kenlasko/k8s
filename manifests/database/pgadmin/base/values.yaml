@@ -10,21 +10,21 @@ env:
 serverDefinitions:
   enabled: true
   servers:
-    firstServer: 
+    HomeCluster: 
       Name: "Home"
       Group: "Servers"
       Port: 5432
       Username: postgres
       Host: home-rw.cnpg.svc.cluster.local
       MaintenanceDB: "postgres"
-    secondServer: 
+    StandbyServer: 
       Name: "Standby"
       Group: "Servers"
       Port: 5432
       Username: postgres
       Host: standby-rw.cnpg.svc.cluster.local
       MaintenanceDB: "postgres"
-    thirdServer: 
+    CloudServer:
       Name: "Cloud"
       Group: "Servers"
       Port: 5432
