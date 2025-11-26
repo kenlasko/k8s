@@ -7,7 +7,7 @@ image:
 #   readOnlyRootFilesystem: false
 #   runAsNonRoot: false
 #   runAsUser: 1000
-#   runAsGroup: 100
+#   runAsGroup: 0
 #   seccompProfile:
 #     type: RuntimeDefault
 #   capabilities:
