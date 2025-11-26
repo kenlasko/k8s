@@ -12,11 +12,11 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-envFrom:
-- configMapRef:
-    name: seerr-env
-- secretRef:
-    name: seerr-secrets
+# envFrom:
+# - configMapRef:
+#     name: seerr-env
+# - secretRef:
+#     name: seerr-secrets
 resources:
   requests:
     cpu: 3m
