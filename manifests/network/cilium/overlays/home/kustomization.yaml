@@ -21,6 +21,7 @@ resources:
 
 configMapGenerator:
 - name: update-nas-cert-script
+  namespace: cilium
   files:
   - update-nas-cert.sh
   options:
