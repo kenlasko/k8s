@@ -6,7 +6,7 @@
 # stored in the 'nas01-sshkey' secret. This is mounted at /share/homes/kenadmin/.ssh, but by default, SSH 
 # creates a base home folder at /home/kenadmin. To fix this:
 #  1. SSH to the NAS manually once: ssh -i nas01-sshkey kenadmin@192.168.1.3
-#  2. Create a symlink: ln -s /share/CACHEDEV1_DATA/homes/kenadmin /home/kenadmin
+#  2. Create a symlink: sudo ln -s /share/CACHEDEV1_DATA/homes/kenadmin /home/kenadmin
 #  3. Check that kenadmin has permissions to write to the /etc/stunnel folder on the NAS (sudo chmod 755 /etc/stunnel)
 #  4. Make sure kenadmin has permissions to write to the .pem files in /etc/stunnel (sudo chown kenadmin:users /etc/stunnel/*.pem)
 #  5. Make sure the following is in /usr/etc/sudoers (edit with visudo):

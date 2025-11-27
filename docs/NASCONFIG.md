@@ -49,7 +49,7 @@ Apps that currently use the `appdata/vol` folder are:
 * [zwaveadmin](/manifests/homeops/zwaveadmin)
 
 To create these folders on a fresh install (may not be necessary, depending on how the data is restored):
-```
+```bash
 cd /share/appdata
 mkdir adguard esphome garmin-upload gitea homeassist pgadmin portainer recyclarr registry romm transmission ucdialplans ups-monitor uptime-kuma vaultwarden zwaveadmin
 ```
@@ -75,21 +75,51 @@ This folder stores data created by backup processes, such as Longhorn and manual
 ```
 
 To create these folders on a fresh install:
-```
+```bash
 cd /share/backup
 mkdir cnpg k8s longhorn media-apps nas nextcloud omni vol
+```
+
+# NAS LetsEncrypt Certificate Management
+My QNAP NAS has a facility to get certificates from LetsEncrypt, but it requires exposing the NAS to the internet via ports 80/443. This is far too much of a risk since QNAP has an annoying tendancy to fall for ransomware attacks. Instead, I created a [script](/manifests/network/cilium/overlays/home/update-nas-cert.sh) (via ChatGPT/Claude) to take the most recent LetsEncrypt wildcard certificate generated for my Cilium Gateway/HTTPRoutes, copy the certificates to the NAS in the format required and then restarts the necessary services.
+
+The script exists on a [pod](/manifests/network/cilium/overlays/home/deploy-cert-watcher.yaml) that mounts the [wildcard certificate](/manifests/network/cilium/overlays/home/letsencrypt-wildcard.yaml) in a folder. When the certificate is updated, it triggers the update script.
+
+## Configuration Notes
+The script requires a few things are configured properly on the NAS. These might be overwritten by updates.
+
+### Unable to login to NAS with SSH key
+If there is difficulty logging in to the NAS using the SSH key, ensure the NAS has the public key for the private key stored in the 'nas01-sshkey' secret. This is mounted at `/share/homes/kenadmin/.ssh`, but by default, SSH creates a base home folder at `/home/kenadmin`. To fix this, SSH to the NAS manually with password and create a symlink to the "real" home directory:
+```bash
+sudo rm -rf /home/kenadmin
+sudo ln -s /share/CACHEDEV1_DATA/homes/kenadmin /home/kenadmin
+```
+
+### Permissions required for saving certificates
+If a NAS update resets the necessary permissions to files in `/etc/stunnel`, follow these steps:
+```bash
+sudo chmod 755 /etc/stunnel
+sudo chown kenadmin:users /etc/stunnel/*.pem
+```
+
+### Service Restart
+To programatically restart services on the NAS that require `sudo` password entry, update the `/usr/etc/sudoers` file to add the following:
+```
+kenadmin ALL=(ALL) NOPASSWD: /etc/init.d/Qthttpd.sh restart, \
+                             /etc/init.d/thttpd.sh restart, \
+                             /etc/init.d/stunnel.sh restart
 ```
 
 # Backing up the NAS
 To ensure data is recoverable, all the contents are backed up weekly to an old media PC called BACKUPPC (192.168.1.19).
 
 This PC has a number of drives that are merged together into a single volume using [MergerFS](https://github.com/trapexit/mergerfs). MergerFS is installed via:
-```
+```bash
 sudo apt install mergerfs -y
 ```
 
 The drives are configured via `/etc/fstab`
-```
+```bash
 # /etc/fstab: static file system information.
 #
 # This is the fstab file for BACKUPPC. It is used to mount the backup storage on NAS01, which is available via a dedicated 2.5GbE network card.
@@ -122,7 +152,7 @@ The drives are configured via `/etc/fstab`
 ```
 
 BACKUPPC has a dedicated 2.5GBe network interface connected directly to NAS01. The config is done via Netplan:
-```
+```bash
 # This is the network config written by 'subiquity'
 network:
   ethernets:
@@ -144,7 +174,7 @@ Backups are triggered via a [Home Assistant](/manifests/homeops/homeassist) auto
 5. Shuts off BACKUPPC
 
 The backup script is saved at `~/backup-nas.sh` as below:
-```
+```bash
 #! /bin/bash
 
 rm -f rsync.log

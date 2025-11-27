@@ -27,6 +27,9 @@ Cilium is used to advertise all LoadBalancer services to the UDM Pro router usin
 
 [^1]: Adapted from https://medium.com/@scaluch/unifi-os-4-1-and-kubernetes-loadbalancer-822b1dd4d745
 
+## LetsEncrypt Certificate Monitor for NAS
+I created a process to use the LetsEncrypt wildcard certificate generated for Cilium HTTPRoutes on my QNAP NAS. For more information, see the relevant section in [NASCONFIG.md](/docs/NASCONFIG.md#nas-letsencrypt-certificate-management)
+
 # Tips and Tricks
 ## Hubble flow monitoring
 The Hubble UI doesn't show everything for some reason. A better approach is to use the Hubble CLI to observe traffic. This requires port forwarding from one CLI instance to another.
