@@ -26,9 +26,22 @@ spec:
               echo "Secret changed, running script..."
               /scripts/update-nas-cert.sh
             done
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 0
+          seccompProfile:
+            type: RuntimeDefault
         volumeMounts:
         - name: secret-vol
           mountPath: /certs
+        - name: creds-vol
+          mountPath: /creds
         - name: update-nas-cert-script
           mountPath: /scripts/update-nas-cert.sh
           subPath: update-nas-cert.sh
@@ -39,6 +52,9 @@ spec:
       - name: secret-vol
         secret:
           secretName: letsencrypt-wildcard-cert
+      - name: creds-vol
+        secret:
+          secretName: nas-creds
       - name: sshkey-vol
         secret:
           secretName: nas01-sshkey
