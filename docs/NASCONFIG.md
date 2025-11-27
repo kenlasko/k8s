@@ -4,7 +4,7 @@ This cluster makes heavy use of NAS resources for storing stateful files that pl
 This document helps define the configuration of storage used in this Kubernetes cluster.
 
 # Connectivity
-The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like Velero and SnapScheduler. See the application definition for [CSI Drivers](/manifests/system/csi-drivers) for more information. 
+The cluster uses the [NFS CSI driver](https://github.com/kubernetes-csi/csi-driver-nfs) to provide NAS connectivity. Using CSI drivers allow for backups using CSI backup methods like [VolSync](/manifests/system/volsync) and SnapScheduler. See the application definition for [CSI Drivers](/manifests/system/csi-drivers) for more information. 
 
 # Base Folders
 These are the base folders used for the cluster. These are visible in the cluster as NFS shares. Actual location doesn't matter.

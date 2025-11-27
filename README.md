@@ -11,7 +11,7 @@ My home cluster runs on 7 mini-PCs named `NUC1` through to `NUC7`. NUC1-NUC3 are
 * [Plex](/manifests/media/plex) works best on nodes with Intel GPUs for efficient transcoding. NUC5 and NUC6 have the N100 processor, which is best for transcoding, but can run on NUC4 or NUC7 which run the older N95 if necessary.
 * My [Home Assistant appstack](/manifests/homeops) requires access to USB-attached resources such as Zigbee/Z-Wave controllers and a UPS monitor. Obviously, these are plugged into one node, which the pods require access to (currently NUC4).
 
-Persistent data is stored mostly on my QNAP NAS. I utilize the [CSI-NFS Provisioner](/manifests/system/csi-drivers) for this. Rather than letting the provisioner automatically generate folders for workloads (which do not use a naming convention that lends itself to easily locating resources), I have elected to manually define PV/PVC pairs along with manually creating the root app folders to ensure application data is easily identifiable.
+Persistent data is stored mostly on my [QNAP NAS](/docs/NASCONFIG.md) and accessed via NFS. I utilize the [CSI-NFS Provisioner](/manifests/system/csi-drivers) for this. Rather than letting the provisioner automatically generate folders for workloads (which do not use a naming convention that lends itself to easily locating resources), I have elected to manually define PV/PVC pairs along with manually creating the root app folders to ensure application data is easily identifiable.
 
 For workloads that do not play well with NFS (ie SQLite databases common to many of the *arr stack apps), I use [Longhorn](/manifests/system/longhorn). Longhorn uses the local storage on worker nodes to replicate appdata volumes, which provides resilience in case of node failure.
 
