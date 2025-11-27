@@ -81,7 +81,7 @@ mkdir cnpg k8s longhorn media-apps nas nextcloud omni vol
 ```
 
 # NAS LetsEncrypt Certificate Management
-My QNAP NAS has a facility to get certificates from LetsEncrypt, but it requires exposing the NAS to the internet via ports 80/443. This is far too much of a risk since QNAP has an annoying tendancy to fall for ransomware attacks. Instead, I created a [script](/manifests/network/cilium/overlays/home/update-nas-cert.sh) (via ChatGPT/Claude) to take the most recent LetsEncrypt wildcard certificate generated for my Cilium Gateway/HTTPRoutes, copy the certificates to the NAS in the format required and then restarts the necessary services.
+My QNAP NAS has a facility to get certificates from LetsEncrypt, but it requires exposing the NAS to the internet via ports 80/443. This is far too much of a risk since QNAP has an annoying tendancy to fall for ransomware attacks. Instead, I created a [script](/manifests/network/cilium/overlays/home/update-nas-cert.sh) (via ChatGPT/Claude) to take the most recent LetsEncrypt wildcard certificate issued by [CertManager](/manifests/system/certmanager) for my Cilium Gateway/HTTPRoutes, copy the certificates to the NAS in the format required and then restarts the necessary services.
 
 The script exists on a [pod](/manifests/network/cilium/overlays/home/deploy-cert-watcher.yaml) that mounts the [wildcard certificate](/manifests/network/cilium/overlays/home/letsencrypt-wildcard.yaml) in a folder. When the certificate is updated, it triggers the update script.
 
