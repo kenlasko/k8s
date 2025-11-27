@@ -89,7 +89,7 @@ The script exists on a [pod](/manifests/network/cilium/overlays/home/deploy-cert
 The script requires a few things are configured properly on the NAS. These might be overwritten by updates.
 
 ### Unable to login to NAS with SSH key
-If there is difficulty logging in to the NAS using the SSH key, ensure the NAS has the public key for the private key stored in the 'nas01-sshkey' secret. This is mounted at `/share/homes/kenadmin/.ssh`, but by default, SSH creates a base home folder at `/home/kenadmin`. To fix this, SSH to the NAS manually with password and create a symlink to the "real" home directory:
+If there is difficulty logging in to the NAS using the SSH key, ensure the NAS has the public key for the private key stored in the `nas01-sshkey` secret. This is mounted at `/share/homes/kenadmin/.ssh`, but by default, SSH creates a base home folder at `/home/kenadmin`. To fix this, SSH to the NAS manually with password and create a symlink to the "real" home directory:
 ```bash
 sudo rm -rf /home/kenadmin
 sudo ln -s /share/CACHEDEV1_DATA/homes/kenadmin /home/kenadmin
