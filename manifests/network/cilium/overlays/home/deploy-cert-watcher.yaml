@@ -45,9 +45,6 @@ spec:
         - name: update-nas-cert-script
           mountPath: /scripts/update-nas-cert.sh
           subPath: update-nas-cert.sh
-        - name: sshkey-vol
-          mountPath: /scripts/nas01-sshkey
-          subPath: nas01-sshkey
       volumes:
       - name: secret-vol
         secret:
@@ -55,13 +52,6 @@ spec:
       - name: creds-vol
         secret:
           secretName: nas-creds
-      - name: sshkey-vol
-        secret:
-          secretName: nas01-sshkey
-          defaultMode: 0600
-          items:
-          - key: nas01-sshkey
-            path: nas01-sshkey
       - name: update-nas-cert-script
         configMap:
           defaultMode: 0550
