@@ -81,6 +81,9 @@ safe_write() {
     mv "$TMP" "$1"
 }
 
+echo "[INFO] Ensuring SSH key has proper permissions..."
+chmod 600 "$SSH_KEY"
+
 echo "[INFO] Validating input files..."
 check_exists "$CRT"
 check_exists "$KEY"
