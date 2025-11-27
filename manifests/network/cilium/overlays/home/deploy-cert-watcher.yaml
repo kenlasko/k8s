@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: letsencrypt-cert-watcher
+  namespace: cilium
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: letsencrypt-cert-watcher
+  template:
+    metadata:
+      labels:
+        app: letsencrypt-cert-watcher
+    spec:
+      containers:
+      - name: letsencrypt-cert-watcher
+        image: alpine:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            apk add --no-cache inotify-tools openssl openssh
+            echo "Watching for secret updates..."
+            while true; do
+              inotifywait -e modify,create,delete /certs/tls.crt
+              echo "Secret changed, running script..."
+              /scripts/update-nas-cert.sh
+            done
+        volumeMounts:
+        - name: secret-vol
+          mountPath: /certs
+        - name: update-nas-script
+          mountPath: /scripts/update-nas-cert.sh
+          subPath: update-nas-cert.sh
+        - name: sshkey-vol
+          mountPath: /scripts/nas01-sshkey
+          subPath: nas01-sshkey
+      volumes:
+      - name: secret-vol
+        secret:
+          secretName: letsencrypt-wildcard-cert
+      - name: sshkey-vol
+        secret:
+          secretName: nas01-sshkey
+          defaultMode: 0600
+          items:
+          - key: nas01-sshkey
+            path: nas01-sshkey
+      - name: update-nas-script
+        configMap:
+          defaultMode: 0550
+          items:
+          - key: update-nas-cert.sh
+            path: update-nas-cert.sh
+          name: update-nas-script

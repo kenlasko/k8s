@@ -12,6 +12,9 @@ helmCharts:
 resources:
 - ../../base
 - bgp-config.yaml
+- configmap-cert-watcher-script.yaml
+- deploy-cert-watcher.yaml
+- external-secrets.yaml
 - gateway.yaml
 - httproute-redirect.yaml
 - letsencrypt-wildcard.yaml
