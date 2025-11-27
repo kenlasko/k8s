@@ -23,3 +23,5 @@ configMapGenerator:
 - name: update-nas-cert-script
   files:
   - update-nas-cert.sh
+  options:
+    disableNameSuffixHash: true
