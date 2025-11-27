@@ -28,15 +28,15 @@ spec:
             done
         securityContext:
           allowPrivilegeEscalation: false
-          # capabilities:
-          #   drop:
-          #   - ALL
-          # readOnlyRootFilesystem: false
-          # runAsNonRoot: true
-          # runAsUser: 1000
-          # runAsGroup: 0
-          # seccompProfile:
-          #   type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 0
+          seccompProfile:
+            type: RuntimeDefault
         volumeMounts:
         - name: secret-vol
           mountPath: /certs
@@ -45,6 +45,9 @@ spec:
         - name: update-nas-cert-script
           mountPath: /scripts/update-nas-cert.sh
           subPath: update-nas-cert.sh
+        - name: sshkey-vol
+          mountPath: /scripts/nas-sshkey
+          subPath: nas-sshkey
       volumes:
       - name: secret-vol
         secret:
@@ -52,6 +55,13 @@ spec:
       - name: creds-vol
         secret:
           secretName: nas-creds
+      - name: sshkey-vol
+        secret:
+          secretName: nas-sshkey
+          defaultMode: 0600
+          items:
+          - key: nas-sshkey
+            path: nas-sshkey
       - name: update-nas-cert-script
         configMap:
           defaultMode: 0550

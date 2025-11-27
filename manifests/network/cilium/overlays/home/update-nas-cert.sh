@@ -20,7 +20,7 @@ NAS_USER=$(cat /creds/nas-username)
 NAS_HOST=$(cat /creds/nas-host)
 NAS_UCA_PATH="/etc/stunnel/uca.pem"
 NAS_STUNNEL_PATH="/etc/stunnel/stunnel.pem"
-SSH_KEY="/creds/nas-sshkey"
+SSH_KEY="nas-sshkey"
 
 # Track if any files were updated
 FILES_UPDATED=0
@@ -80,9 +80,6 @@ safe_write() {
     printf "%s" "$2" > "$TMP"
     mv "$TMP" "$1"
 }
-
-echo "[INFO] Ensuring SSH key has proper permissions..."
-chmod 600 "$SSH_KEY"
 
 echo "[INFO] Validating input files..."
 check_exists "$CRT"
