@@ -50,7 +50,7 @@ scp_if_different() {
 
     echo "[INFO] Checking if $REMOTE_FILE on NAS differs..."
 
-    if scp -q "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" "$TMP_REMOTE" 2>/dev/null; then
+    if scp -O -i "$SSH_KEY" -o StrictHostKeyChecking=no -q "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" "$TMP_REMOTE" 2>/dev/null; then
         if cmp -s "$LOCAL_FILE" "$TMP_REMOTE"; then
             echo "[INFO] No change for $(basename "$REMOTE_FILE"), skipping upload."
             rm -f "$TMP_REMOTE"
