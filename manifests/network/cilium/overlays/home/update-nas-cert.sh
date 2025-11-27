@@ -16,11 +16,11 @@ UCA_OUT="$OUT_DIR/uca.pem"
 STUNNEL_OUT="$OUT_DIR/stunnel.pem"
 
 # --- NAS settings ---
-NAS_USER="kenadmin"
-NAS_HOST="192.168.1.3"
+NAS_USER=$(cat /creds/nas-username)
+NAS_HOST=$(cat /creds/nas-host)
 NAS_UCA_PATH="/etc/stunnel/uca.pem"
 NAS_STUNNEL_PATH="/etc/stunnel/stunnel.pem"
-SSH_KEY="nas01-sshkey"
+SSH_KEY="/creds/nas-sshkey"
 
 # Track if any files were updated
 FILES_UPDATED=0
