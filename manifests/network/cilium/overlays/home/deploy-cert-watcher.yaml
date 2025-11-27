@@ -29,7 +29,7 @@ spec:
         volumeMounts:
         - name: secret-vol
           mountPath: /certs
-        - name: update-nas-script
+        - name: update-nas-cert-script
           mountPath: /scripts/update-nas-cert.sh
           subPath: update-nas-cert.sh
         - name: sshkey-vol
@@ -52,4 +52,4 @@ spec:
           items:
           - key: update-nas-cert.sh
             path: update-nas-cert.sh
-          name: update-nas-script
+          name: update-nas-cert-script
