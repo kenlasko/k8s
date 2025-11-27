@@ -2,18 +2,8 @@
 
 # Checks for updated LetsEncrypt wildcard cert, validates it, and copies to NAS via SCP.
 # Then restarts necessary services on the NAS to pick up the new cert.
-# If there is difficulty logging in to the NAS, ensure the NAS has the public key for the private key
-# stored in the 'nas01-sshkey' secret. This is mounted at /share/homes/kenadmin/.ssh, but by default, SSH 
-# creates a base home folder at /home/kenadmin. To fix this:
-#  1. SSH to the NAS manually once: ssh -i nas01-sshkey kenadmin@192.168.1.3
-#  2. Create a symlink: sudo ln -s /share/CACHEDEV1_DATA/homes/kenadmin /home/kenadmin
-#  3. Check that kenadmin has permissions to write to the /etc/stunnel folder on the NAS (sudo chmod 755 /etc/stunnel)
-#  4. Make sure kenadmin has permissions to write to the .pem files in /etc/stunnel (sudo chown kenadmin:users /etc/stunnel/*.pem)
-#  5. Make sure the following is in /usr/etc/sudoers (edit with visudo):
 
-    # kenadmin ALL=(ALL) NOPASSWD: /etc/init.d/Qthttpd.sh restart, \
-    #                             /etc/init.d/thttpd.sh restart, \
-    #                             /etc/init.d/stunnel.sh restart
+# For more information, see https://github.com/kenlasko/k8s/blob/main/docs/NASCONFIG.md#nas-letsencrypt-certificate-management
 
 
 set -eu
