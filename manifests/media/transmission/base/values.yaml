@@ -21,17 +21,6 @@ resources:
     memory: 400Mi
 service:
   port: 9091
-#   type: LoadBalancer
-#   externalTrafficPolicy: Local
-#   annotations:
-#     lbipam.cilium.io/ips: 192.168.10.12
-# extraPorts:
-# - port: 42615
-#   name: remotedata-tcp
-#   protocol: TCP
-# - port: 42615
-#   name: remotedata-udp
-#   protocol: UDP
 livenessProbe:
   httpGet:
     path: /transmission/web

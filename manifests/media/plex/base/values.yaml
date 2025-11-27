@@ -10,6 +10,7 @@ securityContext:
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
+  runAsGroup: 0
   seccompProfile:
     type: RuntimeDefault
   capabilities:
@@ -22,7 +23,7 @@ env:
 - name: PLEX_UID
   value: "1000"
 - name: PLEX_GID
-  value: "100"           
+  value: "0"           
 - name: TZ
   value: "America/Toronto"
 - name: PLEX_CLAIM
@@ -41,27 +42,6 @@ resources:
     gpu.intel.com/i915: "1"
 service:
   port: 32400
-#   type: LoadBalancer
-#   externalTrafficPolicy: Local
-#   annotations:
-#     lbipam.cilium.io/ips: 192.168.10.11
-# extraPorts:
-# - port: 32499
-#   name: relay
-# - port: 3005
-#   name: plex-companion
-# - port: 32410
-#   name: gdm-32410
-#   protocol: UDP
-# - port: 32412
-#   name: gdm-32412
-#   protocol: UDP
-# - port: 32413
-#   name: gdm-32413
-#   protocol: UDP
-# - port: 32414
-#   name: gdm-32414
-#   protocol: UDP
 livenessProbe:
   httpGet:
     path: /identity
