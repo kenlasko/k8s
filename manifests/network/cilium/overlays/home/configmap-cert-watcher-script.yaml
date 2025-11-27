@@ -33,6 +33,12 @@ data:
     UCA_OUT="$OUT_DIR/uca.pem"
     STUNNEL_OUT="$OUT_DIR/stunnel.pem"
 
+    # --- NAS settings ---
+    NAS_USER="kenadmin"
+    NAS_HOST="192.168.1.3"
+    NAS_UCA_PATH="/etc/stunnel/uca.pem"
+    NAS_STUNNEL_PATH="/etc/stunnel/stunnel.pem"
+
     # --- Helpers ---
     fail() {
         echo "[ERROR] $1" >&2
@@ -41,6 +47,31 @@ data:
 
     check_exists() {
         [ -f "$1" ] || fail "Required file missing: $1"
+    }
+
+    scp_if_different() {
+        LOCAL_FILE="$1"
+        REMOTE_FILE="$2"
+
+        TMP_REMOTE=$(mktemp)
+
+        echo "[INFO] Checking if $REMOTE_FILE on NAS differs..."
+
+        if scp -q "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" "$TMP_REMOTE" 2>/dev/null; then
+            if cmp -s "$LOCAL_FILE" "$TMP_REMOTE"; then
+                echo "[INFO] No change for $(basename "$REMOTE_FILE"), skipping upload."
+                rm -f "$TMP_REMOTE"
+                return
+            fi
+        else
+            echo "[WARN] Remote file missing, will upload new one."
+        fi
+
+        echo "[INFO] Uploading $(basename "$LOCAL_FILE") → $REMOTE_FILE"
+        scp -q "$LOCAL_FILE" "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" \
+            || fail "Failed SCP upload for $REMOTE_FILE"
+
+        rm -f "$TMP_REMOTE"
     }
 
     safe_write() {

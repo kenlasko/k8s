@@ -46,7 +46,7 @@ spec:
           items:
           - key: nas01-sshkey
             path: nas01-sshkey
-      - name: update-nas-script
+      - name: update-nas-cert-script
         configMap:
           defaultMode: 0550
           items:
