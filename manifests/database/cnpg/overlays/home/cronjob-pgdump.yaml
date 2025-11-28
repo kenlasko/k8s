@@ -73,13 +73,8 @@ spec:
             volumeMounts:
             - name: data
               mountPath: /backup
-            # - name: zipdata
-            #   mountPath: /backup-zip
           restartPolicy: Never #OnFailure
           volumes:
           - name: data
             persistentVolumeClaim:
               claimName: nfs-cnpg-backup
-          # - name: zipdata
-          #   persistentVolumeClaim:
-          #     claimName: nfs-mariadb-zip-backup
