@@ -4,8 +4,9 @@ helmGlobals:
   chartHome: ../../../../helm
 helmCharts:
 - name: baseline
-  releaseName: tautulli
+  releaseName: prefetcharr
   namespace: media
   valuesFile: values.yaml
 resources:
+- external-secrets.yaml
 - networkpolicy.yaml

@@ -22,6 +22,8 @@ spec:
         - matchLabels:
             app.kubernetes.io/name: overseerr
         - matchLabels:
+            app.kubernetes.io/name: prefetcharr
+        - matchLabels:
             app.kubernetes.io/name: prowlarr
         - matchLabels:
             app.kubernetes.io/name: seerr
