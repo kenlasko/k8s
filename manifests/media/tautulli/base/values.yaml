@@ -31,7 +31,7 @@ extraVolumes:
     secretName: tautulli-season-fetch-script
     items:
       - key: season-fetcher.py
-        path: /scripts/season-fetcher.py
+        path: season-fetcher.py
 extraVolumeMounts:
 - name: tautulli-season-fetch-script
   mountPath: /scripts/season-fetcher.py
