@@ -18,8 +18,6 @@ spec:
         - matchLabels:
             app.kubernetes.io/name: maintainerr
         - matchLabels:
-            app.kubernetes.io/name: overseerr
-        - matchLabels:
             app.kubernetes.io/name: prefetcharr
         - matchLabels:
             app.kubernetes.io/name: seerr
@@ -41,6 +39,12 @@ spec:
       toPorts:
         - ports:
             - port: "32400"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: seerr
+      toPorts:
+        - ports:
+            - port: "5055"
     - toEntities:
         - world
       toPorts:

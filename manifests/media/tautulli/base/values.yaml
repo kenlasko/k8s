@@ -25,3 +25,14 @@ media:
 persistentVolume:
   type: longhorn
   size: 2Gi
+extraVolumes:
+- name: tautulli-season-fetch-script
+  secret:
+    secretName: tautulli-season-fetch-script
+    items:
+      - key: season-fetcher.py
+        path: /scripts/season-fetcher.py
+extraVolumeMounts:
+- name: tautulli-season-fetch-script
+  mountPath: /scripts/season-fetcher.py
+  subPath: season-fetcher.py
