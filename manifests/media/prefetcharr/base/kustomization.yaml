@@ -9,4 +9,4 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - external-secrets.yaml
-- networkpolicy.yaml
+#- networkpolicy.yaml
