@@ -10,7 +10,7 @@ securityContext:
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
-  runAsGroup: 3000
+  runAsGroup: 0
   seccompProfile:
     type: RuntimeDefault
   capabilities:

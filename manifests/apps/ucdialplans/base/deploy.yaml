@@ -31,7 +31,7 @@ spec:
           readOnlyRootFilesystem: false
           runAsNonRoot: true
           runAsUser: 1000
-          runAsGroup: 100
+          runAsGroup: 0
           seccompProfile:
             type: RuntimeDefault
           capabilities:
@@ -53,8 +53,6 @@ spec:
         - name: ucdialplans-nginx
           mountPath: /etc/nginx/sites-enabled/default
           subPath: default
-        # - name: nfs-ucdialplans
-        #   mountPath: /var/www/rulesets
         - name: ucdialplans-webconfig
           mountPath: /var/www/web.config
           subPath: web.config
@@ -80,9 +78,6 @@ spec:
         - name: ndots
           value: "1"
       volumes:
-      # - name: nfs-ucdialplans
-      #   persistentVolumeClaim:
-      #     claimName: nfs-ucdialplans
       - configMap:
           items:
           - key: default
