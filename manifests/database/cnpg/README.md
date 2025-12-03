@@ -85,9 +85,13 @@ Use `targetImmediate` to restore to the most immediate restore point (minimal WA
 
 ### Deleting old Backblaze files
 For whatever reason, the Barman Cloud plugin doesn't actually delete files outside of the retention period. It simply marks them as ready to delete. To ensure that Backblaze deletes files after the retention period expires, set a `custom lifecycle rule` with the following settings:
-- File Path:        home
-- Days Till Hide:   (leave blank)
-- Days TilL Delete: 1
+
+| Setting          |   Value   |
+|------------------|:---------:|
+| File Path        |   home    |
+| Days Till Hide   | <blank>   |
+| Days Till Delete |     1     |
+
 
 After a few days, files outside the retention window will be deleted.
 
