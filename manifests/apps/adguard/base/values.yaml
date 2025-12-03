@@ -1,6 +1,6 @@
 image:
   repository: adguard/adguardhome
-  tag: v0.107.69
+  tag: v0.107.70
   registry: docker.io
 priorityClassName: medium-priority
 securityContext:
