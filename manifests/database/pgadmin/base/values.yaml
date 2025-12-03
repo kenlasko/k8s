@@ -40,7 +40,7 @@ persistentVolume:
   existingClaim: nfs-pgadmin
 containerSecurityContext:
   enabled: true
-  allowPrivilegeEscalation: true
+  allowPrivilegeEscalation: false
 resources:
   requests:
     cpu: 1m
