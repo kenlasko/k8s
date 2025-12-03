@@ -84,11 +84,29 @@ Use `targetImmediate` to restore to the most immediate restore point (minimal WA
 ```
 
 ### Deleting old Backblaze files
-For whatever reason, the Barman Cloud plugin doesn't actually delete files outside of the retention period. What it seems to do is create a new file with the same name with a zero byte size, and mark it as `hide`. Not terribly well versed in S2 lingo, so not sure what that means. Am working on a script using the Backblaze B2 CLI.
+For whatever reason, the Barman Cloud plugin doesn't actually delete files outside of the retention period. It simply marks them as ready to delete. To ensure that Backblaze deletes files after the retention period expires, set a `custom lifecycle rule` with the following settings:
+- File Path:        home
+- Days Till Hide:   (leave blank)
+= Days TilL Delete: 1
 
-Get a full list of files (including ones to be deleted)
+After a few days, files outside the retention window will be deleted.
+
+### Backblaze B2 CLI Tips & Tricks
+The Backblaze B2 CLI is installed in my NixOS repo. Handy to get info without logging into the UI.
+
+Get a list of files for all subfolders:
+```
+b2 ls b2://klasko-postgresql --long --recursive
+```
+
+Get a full list of files (including ones to be deleted):
 ```
 b2 ls b2://klasko-postgresql/home/base --versions --long --recursive
+```
+
+Get the total size of all files in the bucket:
+```
+b2 ls b2://klasko-postgresql --long --recursive --versions | awk '{sum += $5} END {printf "%.2f GB\n", sum/1000000000}'
 ```
 
 ## Recovering from a failed node
