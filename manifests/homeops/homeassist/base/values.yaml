@@ -7,7 +7,7 @@ hostNetwork: true
 serviceAccountName: ha-sa-garminupload
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   runAsNonRoot: false
   runAsUser: 0
   runAsGroup: 0
