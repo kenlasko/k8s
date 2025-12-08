@@ -9,5 +9,5 @@ resources:
 - deploy.yaml
 - external-secrets.yaml
 - namespace.yaml
-# - networkpolicy.yaml
+- networkpolicy.yaml
 - service.yaml

@@ -46,14 +46,10 @@ spec:
               - matchPattern: "*"
     - toEndpoints:
         - matchLabels:
-            cnpg-client: "true"
+            cnpg.io/poolerName: "pooler-home-rw"
           matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: Exists
-      toPorts:
-        - ports:
-            - port: "5432"
-    - toEndpoints:
         - matchLabels:
             cnpg.io/cluster: "home"
           matchExpressions:
