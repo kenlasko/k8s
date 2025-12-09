@@ -3,7 +3,7 @@ internalDatabase:
 externalDatabase:
   enabled: true
   type: postgresql
-  host: pooler-home-rw.cnpg.svc.cluster.local
+  host: home-rw.cnpg.svc.cluster.local
   secretName: nextcloud-db-credentials
   usernameKey: username
   passwordKey: password

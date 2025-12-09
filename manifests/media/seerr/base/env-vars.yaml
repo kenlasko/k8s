@@ -5,7 +5,7 @@ metadata:
   namespace: media
 data:
   DB_TYPE: "postgres"
-  DB_HOST: "pooler-home-rw.cnpg.svc.cluster.local"
+  DB_HOST: "home-rw.cnpg.svc.cluster.local"
   DB_PORT: "5432"
   DB_NAME: "seerr"
   TZ: "America/Toronto"

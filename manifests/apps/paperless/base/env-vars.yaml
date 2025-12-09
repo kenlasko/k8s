@@ -6,7 +6,7 @@ metadata:
 data:
   PAPERLESS_CONSUMER_DISABLE: "true"
   PAPERLESS_DBENGINE: postgresql
-  PAPERLESS_DBHOST: pooler-home-rw.cnpg.svc.cluster.local
+  PAPERLESS_DBHOST: home-rw.cnpg.svc.cluster.local
   PAPERLESS_DBPORT: "5432"
   PAPERLESS_URL: "https://paperless.ucdialplans.com"
   USERMAP_UID: "1000"

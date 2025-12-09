@@ -46,7 +46,7 @@ spec:
               - matchPattern: "*"
     - toEndpoints:
         - matchLabels:
-            cnpg.io/poolerName: "pooler-home-rw"
+            cnpg.io/poolerName: "home-rw"
           matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: Exists
