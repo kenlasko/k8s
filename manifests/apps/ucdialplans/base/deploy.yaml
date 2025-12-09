@@ -46,6 +46,8 @@ spec:
         env:
         - name: TZ
           value: "America/Toronto"
+        - name: DB_SERVER
+          value: "home-rw.cnpg.svc.cluster.local"
         envFrom:
         - secretRef:
             name: credentials
