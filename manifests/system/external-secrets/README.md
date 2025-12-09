@@ -210,3 +210,49 @@ spec:
       key: /kite/kubeconfig-cloud
       decodingStrategy: Base64
 ```
+
+## Mix everything together
+```
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: env-secrets
+  namespace: vaultwarden
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: env-secrets
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      mergePolicy: Merge # CRITICAL: This allows the 'dataFrom' keys to exist alongside the template data
+      data:
+        DATABASE_URL: "postgres://{{ .db_user }}:{{ .db_pass }}@home-rw.cnpg.svc.cluster.local:5432/vaultwarden"
+  data:
+  # Database creds for template
+  - secretKey: db_user
+    remoteRef:
+      key: /database/vaultwarden
+      property: username
+  - secretKey: db_pass
+    remoteRef:
+      key: /database/vaultwarden
+      property: password
+  # Pull SMTP creds into same secret
+  - secretKey: SMTP_USERNAME
+    remoteRef:
+      key: /email/smtp2go
+      property: username
+  - secretKey: SMTP_PASSWORD
+    remoteRef:
+      key: /email/smtp2go
+      property: password
+  # Pull all other KV pairs from /vaultwarden
+  dataFrom:
+  - extract:
+      key: /vaultwarden
+```
