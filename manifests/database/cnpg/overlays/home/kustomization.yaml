@@ -19,7 +19,7 @@ resources:
 - database.yaml
 - external-secrets.yaml
 - podmonitor.yaml
-# - pooler.yaml
+- pooler.yaml
 - service.yaml
 - serviceaccount.yaml
 - volume.yaml
