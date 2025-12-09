@@ -3,6 +3,7 @@ ignoreDifferences:
 - jsonPointers:
   - /spec/externalName
   kind: Service
+autoSync: false
 syncOptions:
 - ServerSideApply=true
 info:
