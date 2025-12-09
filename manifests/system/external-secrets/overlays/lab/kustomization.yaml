@@ -9,4 +9,3 @@ helmCharts:
   valuesFile: ../../base/values.yaml
 resources:
 - ../../base
-- namespace.yaml

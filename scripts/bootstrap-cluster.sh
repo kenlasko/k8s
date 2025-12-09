@@ -142,6 +142,8 @@ if ! kubectl get nodes --context="$selected_context" >/dev/null 2>&1; then
 fi
 
 # Apply secretstore secrets from /run/secrets/eso-secretstore-secrets.yaml
+echo "Applying External-Secrets secretstore secrets..."
+kubectl apply -f ~/k8s/manifests/system/external-secrets/base/namespace.yaml
 kubectl apply -f /run/secrets/eso-secretstore-secrets.yaml
 
 # Track per-manifest success
@@ -185,8 +187,8 @@ while true; do
         break
     fi
 
-    echo "🔁 Some resources not ready. Waiting 10 seconds before retry..."
-    sleep 10
+    echo "🔁 Some resources not ready. Waiting 30 seconds before retry to give existing resources time to settle..."
+    sleep 30
 done
 
 echo "Applying CSI Drivers, Redis, and ArgoCD manifests..."
