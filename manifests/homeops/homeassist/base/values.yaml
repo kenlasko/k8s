@@ -1,6 +1,6 @@
 image:
   repository: home-assistant/home-assistant
-  tag: 2025.12.1
+  tag: 2025.12.2
   registry: ghcr.io
 priorityClassName: high-priority
 hostNetwork: true
