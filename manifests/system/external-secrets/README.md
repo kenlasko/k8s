@@ -231,7 +231,7 @@ spec:
       engineVersion: v2
       mergePolicy: Merge # CRITICAL: This allows the 'dataFrom' keys to exist alongside the template data
       data:
-        DATABASE_URL: "postgres://{{ .db_user }}:{{ .db_pass }}@home-rw.cnpg.svc.cluster.local:5432/vaultwarden"
+        DATABASE_URL: "postgresql://{{ .db_user }}:{{ .db_pass }}@home-rw.cnpg.svc.cluster.local:5432/vaultwarden"
   data:
   # Database creds for template
   - secretKey: db_user
