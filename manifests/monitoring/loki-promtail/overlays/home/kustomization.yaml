@@ -4,7 +4,7 @@ namespace: monitoring
 helmCharts:
 - name: loki
   repo: https://grafana.github.io/helm-charts
-  version: 6.46.0
+  version: 6.48.0
   releaseName: loki-promtail
   namespace: monitoring
   valuesFile: ../../base/values-loki.yaml
