@@ -30,7 +30,16 @@ spec:
     - "home-postgresql.svc.cluster.local"
   bootstrap:
     recovery:
+    # Need to also enable the `patch-recovery.yaml` when restoring from backup
+    # Pick either `source` or `backup` method below depending on whether the namespace still exists and has the backup object
+    # Typically, its simpler to just use the S3 backup source.
       source: s3-backupsource
+    # If the namespace still exists and there is a backup object, we can just restore using the below method:
+      # backup:
+      #   name: daily-20250514170109
+    # If you want to restore to a specific point in time, use the below additional setting:
+      # recoveryTarget:
+      #   targetTime: "2026-01-21 15:00:00.000000+00:00"
   externalClusters:
   - name: s3-backupsource
     plugin:
