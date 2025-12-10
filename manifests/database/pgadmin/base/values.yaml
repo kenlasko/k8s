@@ -7,6 +7,8 @@ secretKeys:
   pgadminPasswordKey: postgresql-admin-pw
 env:
   email: ken.lasko@gmail.com
+envVarsFromSecrets:
+- pgadmin-config
 serverDefinitions:
   enabled: true
   servers:
