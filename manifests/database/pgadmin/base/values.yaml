@@ -41,7 +41,7 @@ persistentVolume:
   storageClassName: "nfs"
   existingClaim: nfs-pgadmin
 containerSecurityContext:
-  enabled: true
+  enabled: false
   allowPrivilegeEscalation: false
 resources:
   requests:
