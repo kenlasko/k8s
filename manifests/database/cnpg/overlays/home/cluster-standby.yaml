@@ -4,9 +4,9 @@ metadata:
   name: standby
   namespace: cnpg
 spec:
-  # Use ghcr.io/cloudnative-pg/postgresql:18.1-standard-trixie for basic usage
-  # Use ghcr.io/tensorchord/cloudnative-vectorchord:18.1-0.3.0 for vchord (Immich)
-  # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc0.4.2-1 for vchord (Immich) and GIS (Dawarich)
+  # Use ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie for basic usage
+  # Use ghcr.io/tensorchord/cloudnative-vectorchord:18.1 for vchord (Immich)
+  # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc1.0.0-1 for vchord (Immich) and GIS (Dawarich)
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
   instances: 1
 
