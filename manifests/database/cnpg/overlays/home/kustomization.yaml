@@ -31,7 +31,7 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
 
-Only enable this patch when restoring from backup
+# Only enable this patch when restoring from backup
 patches:
 - target:
     group: ""
