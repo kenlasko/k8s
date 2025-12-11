@@ -20,7 +20,7 @@ serverDefinitions:
       Host: home-rw.cnpg.svc.cluster.local
       MaintenanceDB: "postgres"
       Shared: true
-      SharedUsername: "ken.lasko@gmail.com"
+      # SharedUsername: "ken.lasko@gmail.com"
     StandbyServer: 
       Name: "Standby"
       Group: "Servers"
@@ -29,7 +29,7 @@ serverDefinitions:
       Host: standby-rw.cnpg.svc.cluster.local
       MaintenanceDB: "postgres"
       Shared: true
-      SharedUsername: "ken.lasko@gmail.com"
+      # SharedUsername: "ken.lasko@gmail.com"
     CloudServer:
       Name: "Cloud"
       Group: "Servers"
@@ -38,7 +38,7 @@ serverDefinitions:
       Host: cloud-postgresql-link
       MaintenanceDB: "postgres"
       Shared: true
-      SharedUsername: "ken.lasko@gmail.com"
+      # SharedUsername: "ken.lasko@gmail.com"
 persistentVolume:
   enabled: true
   accessModes:
