@@ -40,11 +40,10 @@ spec:
                 # cpu: 200m
                 memory: 400Mi
             env:
+            - name: TZ
+              value: "America/Toronto"
             - name: PGHOST
-              valueFrom:
-                secretKeyRef:
-                  name: credentials
-                  key: DB_SERVER
+              value: "home-rw.cnpg.svc.cluster.local"
             - name: PGDATABASE
               valueFrom:
                 secretKeyRef:
