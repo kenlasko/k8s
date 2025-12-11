@@ -4,10 +4,10 @@ metadata:
   name: cloud
   namespace: cnpg
 spec:
-  # Use ghcr.io/cloudnative-pg/postgresql:17.6-standard-trixie for basic usage
-  # Use ghcr.io/tensorchord/cloudnative-vectorchord:17.6-0.3.0 for vchord (Immich)
-  # Use kenlasko/cloudnativepg-gis-vchord:17.6-vc0.4.2-1 for vchord (Immich) and GIS (Dawarich)
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.6-minimal-trixie
+  # Use ghcr.io/cloudnative-pg/postgresql:18.1-standard-trixie for basic usage
+  # Use ghcr.io/tensorchord/cloudnative-vectorchord:18.1-0.3.0 for vchord (Immich)
+  # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc0.4.2-1 for vchord (Immich) and GIS (Dawarich)
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
   instances: 1
   bootstrap:
     # Bootstrapping directly from the primary is extremely slow over Tailscale and takes over 10h. Not recommended
