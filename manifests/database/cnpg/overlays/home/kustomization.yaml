@@ -31,11 +31,11 @@ configMapGenerator:
   options:
     disableNameSuffixHash: true
 
-# Only enable this patch when restoring from backup
-# patches:
-# - target:
-#     group: ""
-#     version: v1
-#     kind: Cluster
-#     name: home
-#   path: patch-recovery.yaml
+Only enable this patch when restoring from backup
+patches:
+- target:
+    group: ""
+    version: v1
+    kind: Cluster
+    name: home
+  path: patch-recovery.yaml
