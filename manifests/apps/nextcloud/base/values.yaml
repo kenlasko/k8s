@@ -24,7 +24,7 @@ nextcloud:
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 0
-    runAsNonRoot: true
+    runAsNonRoot: false
     readOnlyRootFilesystem: false
   existingSecret:
     enabled: true
