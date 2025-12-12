@@ -22,9 +22,9 @@ nextcloud:
   - ucdialplans.com
   - nextcloud.ucdialplans.com
   podSecurityContext:
-    runAsUser: 1000
-    runAsGroup: 0
-    runAsNonRoot: false
+    runAsUser: 33
+    runAsGroup: 33
+    runAsNonRoot: true
     readOnlyRootFilesystem: false
   existingSecret:
     enabled: true
