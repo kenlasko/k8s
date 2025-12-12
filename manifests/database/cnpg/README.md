@@ -1,11 +1,12 @@
 # Summary
-This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud. It hosts databases for the following apps:
+This is a highly-available PostgreSQL cluster using the excellent [CloudNativePG Operator](https://cloudnative-pg.io/). Its configured as a 3-node cluster using local storage. It has live replication to a remote PostgreSQL server running on Oracle Cloud and a standalone server in the K8S cluster. It hosts databases for the following apps:
 
 * [Home Assistant](/manifests/homeops/homeassist)
 * [Kite](/manifests/system/kite)
 * ~[Immich](/manifests/media/immich)~
 * [NextCloud](/manifests/apps/nextcloud)
 * [Paperless](/manifests/apps/paperless)
+* [PGAdmin](/manifests/database/pgadmin)
 * [Prowlarr](/manifests/media/prowlarr)
 * [Radarr](/manifests/media/radarr)
 * [Seerr](/manifests/media/seerr)
@@ -41,6 +42,8 @@ END $$;
 Constant backups are being made to a remote S3 bucket, which makes restoration very simple. This is defined in [cluster.yaml](overlays/home/cluster.yaml) and [backup.yaml](overlays/home/backup.yaml). Normally, the `cnpg` plugin should show the status of continuous backups, but this is [currently broken](https://github.com/cloudnative-pg/cloudnative-pg/issues/8276). In the meantime, status checks can be done via the following (taken from [this comment](https://github.com/cloudnative-pg/cloudnative-pg/issues/8276#issuecomment-3162854414) on the issue):
 
 For now, the most reliable way to monitor WAL archiving and backup health with plugins is to check the Cluster status conditions (`ContinuousArchiving: True`, `LastBackupSucceeded: True`) and the `ObjectStore` CRD's `ServerRecoveryWindow` fields (`firstRecoverabilityPoint`, `lastSuccessfulBackupTime`) [docs](https://cloudnative-pg.io/plugin-barman-cloud/docs/concepts/). Pod logs are also essential for catching silent failures or S3 compatibility issues.
+
+I'm also using [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) in a [daily Cronjob](overlays/home/cronjob-pgdump.yaml) to make platform-independent backups of all databases. This has proven to be useful when the S3 backups are unusable or I need to restore a single database. The backups are stored on the NAS.
 
 # Things I've Found
 ## Restoring the cluster after a failure
@@ -81,6 +84,41 @@ Use `targetImmediate` to restore to the most immediate restore point (minimal WA
       recoveryTarget:
         backupID: 20251110T070003 
         targetImmediate: true
+```
+
+### Recovering a single database from pg_dump
+To restore a single database, its generally easier to use the `pg_dump` [daily backup](overlays/home/cronjob-pgdump.yaml) as long as you are comfortable with up to 24h of data loss. To restore:
+1. Copy the desired backup from `NAS01/backup/cnpg` into the [NixOS](https://github.com/kenlasko/nixos-wsl) home directory where `psql` is already configured.
+2. Unzip the archive:
+```bash
+mkdir pg-restore
+tar -xzf postgres_backup_Sunday.tar.gz -C pg-restore
+```
+3. Connect to the cluster via `psql` (My NixOS installation already has the necessary environment variables for server/user/pw, so no additional switches are required)
+4. Drop the database to restore if you want to start clean:
+```sql
+-- Replace this with the database name you want to drop
+\set dbname 'DATABASE_TO_DROP'
+
+-- Terminate active connections
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = :'dbname';
+
+-- Drop the database using dynamic SQL
+DO $$
+BEGIN
+    EXECUTE format('DROP DATABASE %I', :'dbname');
+END$$;
+```
+5. Delete the desired `Database` object from Kubernetes. This will trigger the recreation of the database when ArgoCD recreates the Database object.
+6. Restore the desired database (connection params are assumed to be stored in environment variables):
+```bash
+# Restore to an empty database
+pg_restore -d mydb mydb.dump
+
+# Restore to an existing database
+pg_restore -d mydb --clean --if-exists mydb.dump
 ```
 
 ### Deleting old Backblaze files
