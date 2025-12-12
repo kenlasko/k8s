@@ -24,7 +24,7 @@ spec:
       priorityClassName: high-priority
       containers:
       - name: ucdialplans
-        image: docker.io/kenlasko/ucdialplans:0.6.4   #14.6.7
+        image: docker.io/kenlasko/ucdialplans:0.6.5   #14.6.7
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
