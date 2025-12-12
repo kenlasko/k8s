@@ -25,7 +25,7 @@ spec:
       priorityClassName: medium-priority
       containers:
       - name: calibre-downloader-aa
-        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:v0.3.1
+        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:v0.3.2
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
