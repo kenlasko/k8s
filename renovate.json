@@ -76,8 +76,7 @@
         "kustomize"
       ],
       "matchPackageNames": [
-        "kube-prometheus-stack",
-        "*ucdialplans*"
+        "kube-prometheus-stack"
       ],
       "enabled": false
     },
