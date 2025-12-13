@@ -1,4 +1,5 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+autoSync: true
 info:
 - name: "Documentation:"
   value: "https://github.com/intel/intel-device-plugins-for-kubernetes/blob/main/cmd/gpu_plugin/README.md"
