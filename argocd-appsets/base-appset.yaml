@@ -52,6 +52,7 @@ spec:
           prune: true
           selfHeal: true
         {{- else }}
+          enabled: false
           allowEmpty: true
           prune: false
           selfHeal: false
