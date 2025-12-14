@@ -20,7 +20,7 @@ NAS_USER=$(cat /creds/nas-username)
 NAS_HOST=$(cat /creds/nas-host)
 NAS_UCA_PATH="/etc/stunnel/uca.pem"
 NAS_STUNNEL_PATH="/etc/stunnel/stunnel.pem"
-SSH_KEY="nas-sshkey"
+SSH_KEY="/scripts/nas-sshkey"
 
 # Track if any files were updated
 FILES_UPDATED=0
