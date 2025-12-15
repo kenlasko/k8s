@@ -85,7 +85,7 @@ My QNAP NAS has a facility to get certificates from LetsEncrypt, but it requires
 The script exists on a [pod](/manifests/network/cilium/overlays/home/deploy-cert-watcher.yaml) that mounts the [wildcard certificate](/manifests/network/cilium/overlays/home/letsencrypt-wildcard.yaml) in a folder. When the certificate is updated, it triggers the update script.
 
 ## Configuration Notes
-The script requires a few things are configured properly on the NAS. These seem to be overwritten by updates, so needs to be run after a NAS upgrade.
+The script requires a few things are configured properly on the QNAP NAS. These seem to be overwritten by QNAP updates, so I've created a [script](/scripts/configure-qnap-permissions.sh) that should be run on the QNAP NAS after any QNAP firmware upgrades. This script has been copied to the NAS at `/share/appdata/configure-qnap-permissions.sh`. Alternatively, copy/paste the below commands via SSH on the NAS. 
 
 ### Unable to login to NAS with SSH key
 If there is difficulty logging in to the NAS using the SSH key, ensure the NAS has the public key for the private key stored in the `nas01-sshkey` secret. This is mounted at `/share/homes/kenadmin/.ssh`, but by default, SSH creates a base home folder at `/home/kenadmin`. To fix this, SSH to the NAS manually with password and create a symlink to the "real" home directory:
@@ -102,11 +102,12 @@ sudo chown kenadmin:administrators /etc/stunnel/*.pem
 ```
 
 ### Service Restart
-To programatically restart services on the NAS that require `sudo` password entry, run the following snippet to add a `sudoers` entry:
+To programatically restart services on the NAS that normally require `sudo` password entry, run the following snippet to add a `sudoers` entry:
 ```bash
+ADMINNAME="kenadmin"
 SUDOERS_DIR="/usr/etc/sudoers.d"
-SUDOERS_FILE_NAME="kenadmin-service-restart"
-SUDOERS_FILE_PATH="${SUDOERS_DIR}/${SUDOERS_FILE_NAME}"
+SUDOERS_FILENAME="${ADMINNAME}-service-restart"
+SUDOERS_FILE_PATH="${SUDOERS_DIR}/${SUDOERS_FILENAME}"
 
 # Create sudoers.d directory
 sudo mkdir -p "$SUDOERS_DIR"
@@ -116,10 +117,8 @@ sudo chown admin:administrators "$SUDOERS_DIR"
 sudo chmod 0755 "$SUDOERS_DIR"
 
 # Create the sudoers file
-cat <<'EOF' | sudo tee "$SUDOERS_FILE_PATH" > /dev/null
-kenadmin ALL=(ALL) NOPASSWD: /etc/init.d/Qthttpd.sh restart, \
-                             /etc/init.d/thttpd.sh restart, \
-                             /etc/init.d/stunnel.sh restart
+cat <<EOF | sudo tee "$SUDOERS_FILE_PATH" > /dev/null
+${ADMINNAME} ALL=(ALL) NOPASSWD: /etc/init.d/Qthttpd.sh restart, /etc/init.d/thttpd.sh restart, /etc/init.d/stunnel.sh restart
 EOF
 
 # Set correct ownership and permissions on the sudoers file
