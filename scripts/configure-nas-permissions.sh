@@ -26,7 +26,7 @@ sudo chmod 0755 "$SUDOERS_DIR"
 
 # Create the sudoers file
 cat <<'EOF' | sudo tee "$SUDOERS_FILE_PATH" > /dev/null
-kenadmin ALL=(ALL) NOPASSWD: /etc/init.d/Qthttpd.sh restart, \
+${ADMINNAME} ALL=(ALL) NOPASSWD: /etc/init.d/Qthttpd.sh restart, \
                              /etc/init.d/thttpd.sh restart, \
                              /etc/init.d/stunnel.sh restart
 EOF
