@@ -107,7 +107,8 @@
         "cilium",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
-        "longhorn"
+        "longhorn",
+        "tailscale-operator"
       ],
       "automerge": false
     },
