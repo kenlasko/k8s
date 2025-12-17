@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
   - name: portainer
     repo: https://portainer.github.io/k8s/
-    version: 2.33.5
+    version: 2.33.6
     releaseName: portainer
     namespace: portainer
     valuesFile: values.yaml
