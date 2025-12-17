@@ -1,6 +1,6 @@
 image:
   repository: zwavejs/zwave-js-ui
-  tag: 11.8.2
+  tag: 11.9.0
   registry: docker.io
 priorityClassName: high-priority
 securityContext:
