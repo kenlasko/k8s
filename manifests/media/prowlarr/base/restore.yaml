@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-oracle-prowlarr
+    repository: s3-backup-cloudflare-prowlarr
     destinationPVC: nfs-prowlarr
     copyMethod: Direct
     enableFileDeletion: true

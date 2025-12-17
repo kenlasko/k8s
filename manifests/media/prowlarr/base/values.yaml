@@ -44,5 +44,5 @@ extraVolumeMounts:
 - name: tmpfs
   mountPath: /tmp
 backup:
-  location: oracle
+  location: cloudflare
   schedule: "55 06 * * *"
