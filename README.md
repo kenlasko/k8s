@@ -3,6 +3,8 @@ This is the Git repository that contains all the configuration for my multiple h
 
 The clusters are built on Sidero Lab's [Talos OS](https://github.com/siderolabs/talos) using on-prem [Omni](https://github.com/siderolabs/omni) for low-level cluster management.
 
+I started with Docker containers on Raspberry Pis several years ago and as my usage grew, so did my desire to make things more resilient to failures. I eventually moved away from Docker on a single RPi to [K3S](https://k3s.io) on two or three mini-PCs. That eventually grew into its current iteration on 7 mini-PCs using Talos. It has proven to be extremely stable and resilient to hardware failures. Day-to-day management is minimal. As long as I freeze automatic updates during extended vacations (via [Renovate](https://github.com/renovatebot/renovate)), the cluster functions without intervention for months at a time. As I enjoy tinkering, most issues are self-inflicted. If I screw up too badly, I can rip everything out and recreate the cluster from scratch within a few hours.
+
 ## Cluster Descriptions
 ### Home Cluster
 This is my primary cluster which is used to self-host numerous applications, from the [*arr stack and its supporting apps/tools](/manifests/media) to [Home Assistant](/manifests/homeops/homeassist) to replacements for cloud services such as [Nextcloud](/manifests/apps/nextcloud).
