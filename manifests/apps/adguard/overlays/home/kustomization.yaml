@@ -17,7 +17,5 @@ helmCharts:
   valuesFile: values-adguard-sync.yaml
 resources:
 - ../../base
-- namespace.yaml
 - networkpolicy.yaml
 - service.yaml
-# - tunnel-cloud-adguard.yaml

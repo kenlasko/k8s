@@ -1,6 +1,6 @@
 image:
   repository: mealie-recipes/mealie
-  tag: 3.8.0
+  tag: v3.8.0
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
@@ -34,15 +34,16 @@ envFrom:
     name: mealie-secrets
 resources:
   requests:
-    cpu: 10m
-    memory: 250Mi
+    cpu: 100m
+    memory: 300Mi
   limits:
     memory: 500Mi
 service:
   port: 9000
 persistentVolume:
   type: nfs
-  size: 1.4Gi
+  size: 450Mi
+  mountPath: /app/data
 backup:
   location: cloudflare 
   schedule: "20 7 * * *"
