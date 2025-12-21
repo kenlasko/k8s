@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: mealie
+  namespace: cnpg
+spec:
+  name: mealie
+  owner: mealie
+  cluster:
+    name: home

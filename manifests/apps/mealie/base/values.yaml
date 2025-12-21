@@ -1,0 +1,48 @@
+image:
+  repository: mealie-recipes/mealie
+  tag: 3.8.0
+  registry: ghcr.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: ALLOW_SIGNUP
+  value: "false"
+- name: BASE_URL
+  value: "https://mealie.ucdialplans.com"
+- name: PUID
+  value: "1000"
+- name: PGID
+  value: "0"           
+- name: TZ
+  value: "America/Toronto"
+- name: DB_ENGINE
+  value: "postgres"
+- name: POSTGRES_SERVER
+  value: "home-rw.cnpg.svc.cluster.local"
+- name: POSTGRES_DB
+  value: "mealie"
+envFrom:
+- secretRef:
+    name: mealie-secrets
+resources:
+  requests:
+    cpu: 10m
+    memory: 250Mi
+  limits:
+    memory: 500Mi
+service:
+  port: 9000
+persistentVolume:
+  type: nfs
+  size: 1.4Gi
+backup:
+  location: cloudflare 
+  schedule: "20 7 * * *"
