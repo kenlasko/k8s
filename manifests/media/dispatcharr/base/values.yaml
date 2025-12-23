@@ -1,6 +1,6 @@
 image:
   repository: dispatcharr/dispatcharr
-  tag: 0.15.0
+  tag: 0.15.1
   registry: ghcr.io
 # securityContext:
 #   allowPrivilegeEscalation: true
