@@ -24,7 +24,7 @@ spec:
   # but will switch to the replica source for the WALs. Since the primary cluster doesn't keep WALs for more than a few hours, this will probably fail.
   replica:
     enabled: true
-    source: home-postgresql  # home-postgresql  home-cluster-backupsource
+    source: home-cluster-backupsource # home-postgresql  home-cluster-backupsource
   storage:
     storageClass: local-storage
     size: 15Gi
