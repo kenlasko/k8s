@@ -25,7 +25,7 @@ spec:
       priorityClassName: medium-priority
       containers:
       - name: cloudflare-bypass
-        image: ghcr.io/sarperavci/cloudflarebypassforscraping@sha256:ce399dce839cdcbe1314bd72edb8d32dc8127c05d10a9d682dcfa88bae742a14
+        image: ghcr.io/sarperavci/cloudflarebypassforscraping@sha256:fe540cace0be8ce09d22a8b22299cf2d562d65d72149f545dc7fc382ca342410
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
