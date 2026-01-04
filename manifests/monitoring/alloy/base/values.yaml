@@ -28,5 +28,14 @@ alloy:
         targets    = prometheus.exporter.unix.node.targets
         forward_to = []
       }
+controller:
+  # Allow scheduling on control plane / master nodes
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
   mounts:
     varlog: true
