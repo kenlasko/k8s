@@ -1,7 +1,5 @@
 config:
   device_exclude: sd[b-z]$
-extraArgs:
-  tolerance: permissive
 serviceMonitor:
   enabled: true
   # This replaces the pod IP/port with the node name associated with the disk
