@@ -22,18 +22,11 @@ alloy:
         forward_to = [loki.write.default.receiver]
       }
 
-      prometheus.exporter.unix "node" {
-      }
+      prometheus.exporter.unix "node" {}
 
       prometheus.scrape "node" {
         targets    = prometheus.exporter.unix.node.targets
-        forward_to = [prometheus.remote_write.noop.receiver]
-      }
-
-      prometheus.remote_write "noop" {
-        endpoint {
-          url = "http://127.0.0.1"
-        }
+        forward_to = []
       }
   mounts:
     varlog: true
