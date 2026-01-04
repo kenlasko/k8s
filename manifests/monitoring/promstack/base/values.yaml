@@ -1,6 +1,7 @@
 nameOverride: promstack
 crds:
   enabled: true
+  forceConflicts: true
   upgradeJob:
     enabled: true
 defaultRules:
