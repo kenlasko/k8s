@@ -11,6 +11,7 @@ alloy:
       memory: 100Mi
   configMap: 
     create: true
+    # Adapted from https://karakoo.de/blog/kubernetes-logging-with-grafana-alloy-and-loki-a-complete-observability-guide
     content: |
       logging {
         level = "info"
