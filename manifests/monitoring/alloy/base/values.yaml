@@ -8,9 +8,6 @@ alloy:
         level = "info"
       }
 
-      ################################
-      # LOGS → LOKI (Promtail replacement)
-      ################################
       loki.write "default" {
         endpoint {
           url = "http://loki:3100/loki/api/v1/push"
@@ -21,9 +18,6 @@ alloy:
         forward_to = [loki.write.default.receiver]
       }
 
-      ################################
-      # NODE METRICS (node-exporter replacement)
-      ################################
       prometheus.exporter.unix "node" {
         # Uses node-exporter equivalent defaults
       }
@@ -33,9 +27,6 @@ alloy:
         forward_to = [prometheus.remote_write.noop.receiver]
       }
 
-      ################################
-      # SCRAPE ENDPOINT (Prometheus pulls)
-      ################################
       prometheus.remote_write "noop" {
         endpoint {
           url = "http://127.0.0.1"
