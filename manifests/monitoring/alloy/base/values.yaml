@@ -3,6 +3,12 @@ fullnameOverride: alloy
 alloy:
   mounts:
     varlog: true
+  resources:
+    requests:
+      cpu: 350m
+      memory: 75Mi
+    limits:
+      memory: 100Mi
   configMap: 
     create: true
     content: |
