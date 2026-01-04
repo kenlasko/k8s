@@ -293,7 +293,7 @@ kube-state-metrics:
           targetLabel: kubernetes_node
 
 nodeExporter:
-  enabled: true
+  enabled: false
   serviceMonitor:
     relabelings:
       - action: replace
@@ -314,7 +314,7 @@ prometheus-node-exporter:
     portName: http-metrics
   prometheus:
     monitor:
-      enabled: true
+      enabled: false
       relabelings:
         - action: replace
           regex: (.*)
@@ -363,6 +363,16 @@ prometheus:
     retention: 30d
     enableAdminAPI: true
     walCompression: false
+    additionalScrapeConfigs:
+    - job_name: alloy
+      kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+        action: keep
+        regex: alloy
+      - source_labels: [__meta_kubernetes_pod_node_name]
+        target_label: node
     resources:
       requests:
         cpu: 70m
