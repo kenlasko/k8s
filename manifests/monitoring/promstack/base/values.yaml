@@ -3,7 +3,7 @@ crds:
   enabled: true
   upgradeJob:
     enabled: true
-    forceConflicts: true
+    forceConflicts: true  # Avoids issues with stuck CRD upgrades when ArgoCD claims ownership
 defaultRules:
   create: true
   rules:
