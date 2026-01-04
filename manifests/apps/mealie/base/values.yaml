@@ -40,6 +40,8 @@ resources:
     memory: 500Mi
 service:
   port: 9000
+extraHTTPRouteHostnames:
+- recipes.ucdialplans.com
 persistentVolume:
   type: nfs
   size: 450Mi
