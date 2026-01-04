@@ -1,6 +1,8 @@
 fullnameOverride: alloy
 
 alloy:
+  mounts:
+    varlog: true
   configMap: 
     create: true
     content: |
@@ -135,5 +137,3 @@ controller:
     - key: "node-role.kubernetes.io/master"
       operator: "Exists"
       effect: "NoSchedule"
-  mounts:
-    varlog: true
