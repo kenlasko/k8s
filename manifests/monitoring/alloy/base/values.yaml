@@ -35,7 +35,7 @@ alloy:
           source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
           separator = "/"
           action = "replace"
-          replacement = "/var/log/pods/*$1/*.log" # Tailor this pattern to accurately reflect K8s log path structure
+          replacement = "/var/log/pods/*$1/*.log" // Tailor this pattern to accurately reflect K8s log path structure
           target_label = "__path__"
         }
         rule {
