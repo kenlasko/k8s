@@ -19,7 +19,6 @@ alloy:
       }
 
       prometheus.exporter.unix "node" {
-        # Uses node-exporter equivalent defaults
       }
 
       prometheus.scrape "node" {
