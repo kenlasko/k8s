@@ -110,7 +110,7 @@ alloy:
           values = ["tmp_container_runtime"]
         }
 
-        forward_to = [loki.write.loki.receiver]
+        forward_to = [loki.write.default.receiver]
       }
 
 
