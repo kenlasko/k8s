@@ -11,5 +11,5 @@ data:
   DMH_REMOTE_VAULT__URL: "http://127.0.0.1:8080"
   DMH_ACTION__PROCESS_UNIT: "hour"
   DMH_EXECUTE__PLUGIN__MAIL__SERVER: "mail.smtp2go.com"
-  DMH_EXECUTE__PLUGIN__MAIL__FROM: "dms@ucdialplans.com"
+  DMH_EXECUTE__PLUGIN__MAIL__FROM: "dmh@ucdialplans.com"
   DMH_EXECUTE__PLUGIN__MAIL__TLS_POLICY: "tls_mandatory"
