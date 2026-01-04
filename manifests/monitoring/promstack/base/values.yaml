@@ -355,16 +355,16 @@ prometheus:
     retention: 30d
     enableAdminAPI: true
     walCompression: false
-    additionalScrapeConfigs:
-    - job_name: alloy
-      kubernetes_sd_configs:
-      - role: pod
-      relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
-        action: keep
-        regex: alloy
-      - source_labels: [__meta_kubernetes_pod_node_name]
-        target_label: node
+    # additionalScrapeConfigs:
+    # - job_name: alloy
+    #   kubernetes_sd_configs:
+    #   - role: pod
+    #   relabel_configs:
+    #   - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+    #     action: keep
+    #     regex: alloy
+    #   - source_labels: [__meta_kubernetes_pod_node_name]
+    #     target_label: node
     resources:
       requests:
         cpu: 70m
