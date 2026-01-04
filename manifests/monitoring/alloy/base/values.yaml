@@ -8,18 +8,116 @@ alloy:
         level = "info"
       }
 
+      discovery.kubernetes "pods" {
+        role = "pod"
+      }
+
+      discovery.relabel "pod_logs" {
+        targets = discovery.kubernetes.pods.targets
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          target_label = "namespace"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          target_label = "pod"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          target_label = "container"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_name"]
+          separator = "/"
+          target_label = "job"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
+          separator = "/"
+          action = "replace"
+          replacement = "/var/log/pods/*$1/*.log" # Tailor this pattern to accurately reflect K8s log path structure
+          target_label = "__path__"
+        }
+        rule {
+          action = "replace"
+          source_labels = ["__meta_kubernetes_pod_container_id"]
+          regex = "^(\\w+):\\/\\/.+$"
+          replacement = "$1"
+          target_label = "tmp_container_runtime"
+        }
+      }
+
+      local.file_match "pod_logs" {
+        path_targets = discovery.relabel.pod_logs.output
+      }
+
+      loki.source.file "pod_logs" {
+        targets = local.file_match.pod_logs.targets
+        forward_to = [loki.process.pod_logs.receiver]
+      }
+
+      loki.process "pod_logs" {
+        // Stage 1: Tailored processing for frontend container logs (NGINX-style)
+        stage.match {
+          selector = "{container=~\"(survey|jobs|contact)-frontend\"}" // Applies exclusively to these specified containers
+          stage.regex {
+            expression = "(?P<kong_gateway>192\\.168\\.\\d+\\.\\d+)" // Example IP; adjust regex as per your network configuration
+          }
+          stage.regex {
+            expression = "(?P<method>GET|PUT|DELETE|POST)"
+          }
+          stage.regex {
+            expression = "(?P<status_code_with_http_version>HTTP.{6}\\d{3})"
+          }
+          stage.regex {
+            expression = "(?P<status_code>\\d{3})"
+            source = "status_code_with_http_version" // Extracts from a previously captured group
+          }
+          stage.labels {
+            values = {
+              kong_gateway = "", // Elevates the extracted 'kong_gateway' to a distinct label
+              method = "", // Elevates the extracted 'method' to a distinct label
+              status_code = "", // Elevates the extracted 'status_code' to a distinct label
+            }
+          }
+        }
+
+        // Stage 2: Parsing for Containerd log formats
+        stage.match {
+          selector = "{tmp_container_runtime=\"containerd\"}"
+          stage.cri {} // The CRI stage is designed to parse logs originating from containerd or CRI-O runtimes
+          stage.labels {
+            values = {
+              flags = "", // Incorporates 'flags' derived from CRI parsing as a label
+              stream = "", // Incorporates 'stream' (stdout/stderr) from CRI parsing as a label
+            }
+          }
+        }
+
+        // Stage 3: Parsing for Docker log formats
+        stage.match {
+          selector = "{tmp_container_runtime=\"docker\"}"
+          stage.docker {} // The Docker stage is adept at parsing logs formatted in Docker's JSON structure
+          stage.labels {
+            values = {
+              stream = "", // Incorporates 'stream' (stdout/stderr) from Docker parsing as a label
+            }
+          }
+        }
+
+        // Stage 4: Disposal of temporary labels
+        stage.label_drop {
+          values = ["tmp_container_runtime"]
+        }
+
+        forward_to = [loki.write.loki.receiver]
+      }
+
+
       loki.write "default" {
         endpoint {
           url = "http://loki:3100/loki/api/v1/push"
         }
-      }
-
-      loki.source.kubernetes "pods" {
-        targets = [{
-          role = "pod",
-        }]
-
-        forward_to = [loki.write.default.receiver]
       }
 
       prometheus.exporter.unix "node" {}
