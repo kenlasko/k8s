@@ -295,31 +295,31 @@ kube-state-metrics:
 nodeExporter:
   enabled: false
 
-prometheus-node-exporter:
-  fullnameOverride: node-exporter
-  podLabels:
-    jobLabel: node-exporter
-  extraArgs:
-    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
-    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
-  service:
-    portName: http-metrics
-  prometheus:
-    monitor:
-      enabled: false
-      relabelings:
-        - action: replace
-          regex: (.*)
-          replacement: $1
-          sourceLabels:
-            - __meta_kubernetes_pod_node_name
-          targetLabel: kubernetes_node
-  resources:
-    requests:
-      memory: 512Mi
-      cpu: 250m
-    limits:
-      memory: 2048Mi
+# prometheus-node-exporter:
+#   fullnameOverride: node-exporter
+#   podLabels:
+#     jobLabel: node-exporter
+#   extraArgs:
+#     - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+#     - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+#   service:
+#     portName: http-metrics
+#   prometheus:
+#     monitor:
+#       enabled: false
+#       relabelings:
+#         - action: replace
+#           regex: (.*)
+#           replacement: $1
+#           sourceLabels:
+#             - __meta_kubernetes_pod_node_name
+#           targetLabel: kubernetes_node
+#   resources:
+#     requests:
+#       memory: 512Mi
+#       cpu: 250m
+#     limits:
+#       memory: 2048Mi
 
 prometheusOperator:
   enabled: true
@@ -355,16 +355,6 @@ prometheus:
     retention: 30d
     enableAdminAPI: true
     walCompression: false
-    # additionalScrapeConfigs:
-    # - job_name: alloy
-    #   kubernetes_sd_configs:
-    #   - role: pod
-    #   relabel_configs:
-    #   - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
-    #     action: keep
-    #     regex: alloy
-    #   - source_labels: [__meta_kubernetes_pod_node_name]
-    #     target_label: node
     resources:
       requests:
         cpu: 70m
