@@ -15,9 +15,9 @@ alloy:
       }
 
       loki.source.kubernetes "pods" {
-        targets {
+        targets = [{
           role = "pod"
-        }
+        }]
 
         forward_to = [loki.write.default.receiver]
       }
