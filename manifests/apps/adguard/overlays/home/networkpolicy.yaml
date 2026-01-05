@@ -20,10 +20,19 @@ spec:
       toPorts:
         - ports:
             - port: "53"
-        - ports:
             - port: "853"
-        - ports:
             - port: "3000"
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: pangolin-tunnel
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+      toPorts:
+        - ports:
+            - port: "53"
+            - port: "443"
+            - port: "853"
     - fromEndpoints:
         - matchLabels:
             app.kubernetes.io/name: external-dns
