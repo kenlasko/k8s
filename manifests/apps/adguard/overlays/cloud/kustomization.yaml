@@ -15,6 +15,5 @@ resources:
 - ../../base
 - backup.yaml
 - external-secrets.yaml
-- namespace.yaml
 - service.yaml
 - volume.yaml
