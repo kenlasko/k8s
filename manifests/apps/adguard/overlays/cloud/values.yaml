@@ -1,4 +1,4 @@
-hostNetwork: true
+# hostNetwork: true
 affinity: false
 extraVolumes:
 - name: adguard-conf
