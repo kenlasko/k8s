@@ -4,6 +4,7 @@ metadata:
   name: env-vars
   namespace: paperless
 data:
+  PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
   PAPERLESS_CONSUMER_DISABLE: "true"
   PAPERLESS_DBENGINE: postgresql
   PAPERLESS_DBHOST: home-rw.cnpg.svc.cluster.local
