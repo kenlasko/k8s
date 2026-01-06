@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: mealie
+data:
+  ALLOW_SIGNUP: "false"
+  BASE_URL: "https://mealie.ucdialplans.com"
+  PUID: "1000"
+  PGID: "0"           
+  TZ: "America/Toronto"
+  DB_ENGINE: "postgres"
+  POSTGRES_SERVER: "home-rw.cnpg.svc.cluster.local"
+  POSTGRES_DB: "mealie"
+  OIDC_AUTH_ENABLED: "true"
+  OIDC_SIGNUP_ENABLED: "true"
+  OIDC_CONFIGURATION_URL: https://auth.ucdialplans.com/.well-known/openid-configuration

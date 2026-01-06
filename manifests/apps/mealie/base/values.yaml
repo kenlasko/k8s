@@ -12,26 +12,13 @@ securityContext:
     type: RuntimeDefault
   capabilities:
     drop: ["ALL"]
-env:
-- name: ALLOW_SIGNUP
-  value: "false"
-- name: BASE_URL
-  value: "https://mealie.ucdialplans.com"
-- name: PUID
-  value: "1000"
-- name: PGID
-  value: "0"           
-- name: TZ
-  value: "America/Toronto"
-- name: DB_ENGINE
-  value: "postgres"
-- name: POSTGRES_SERVER
-  value: "home-rw.cnpg.svc.cluster.local"
-- name: POSTGRES_DB
-  value: "mealie"
 envFrom:
+- configMapRef:
+    name: env-vars
 - secretRef:
     name: mealie-secrets
+- secretRef:
+    name: env-secrets
 resources:
   requests:
     cpu: 100m

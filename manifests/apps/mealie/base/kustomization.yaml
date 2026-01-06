@@ -9,5 +9,6 @@ helmCharts:
   valuesFile: values.yaml
 resources:
 - database.yaml
+- env-vars.yaml
 - external-secrets.yaml
 - namespace.yaml

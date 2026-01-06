@@ -4,7 +4,7 @@ metadata:
   name: env-vars
   namespace: pocket-id
 data:
-  APP_URL: "https://pocket-id.ucdialplans.com"
+  APP_URL: "https://auth.ucdialplans.com"
   TRUST_PROXY: "true"
   PUID: "1000"
   PGID: "0"
