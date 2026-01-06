@@ -1,6 +1,7 @@
 fullnameOverride: alloy
 
 alloy:
+  enableReporting: false
   mounts:
     varlog: true
   resources:
