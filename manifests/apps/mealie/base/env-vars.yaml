@@ -4,7 +4,7 @@ metadata:
   name: env-vars
   namespace: mealie
 data:
-  ALLOW_SIGNUP: "false"
+  ALLOW_SIGNUP: "true"
   BASE_URL: "https://mealie.ucdialplans.com"
   PUID: "1000"
   PGID: "0"           
