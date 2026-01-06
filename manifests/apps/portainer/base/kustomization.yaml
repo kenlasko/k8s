@@ -12,7 +12,7 @@ resources:
   - external-secrets.yaml
   - httproute.yaml
   - namespace.yaml
-  - networkpolicy.yaml
+  # - networkpolicy.yaml
   # - restore.yaml
   # - sealed-secrets.yaml
   - volume.yaml
