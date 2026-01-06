@@ -146,14 +146,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-pgadmin
-    - name: pocketid
+    - name: pocket-id
       ensure: present
       login: true
       superuser: false
       inherit: false
       connectionLimit: -1
       passwordSecret:
-        name: useraccount-pocketid
+        name: useraccount-pocket-id
     - name: prowlarr
       ensure: present
       login: true
