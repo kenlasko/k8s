@@ -1,0 +1,35 @@
+image:
+  repository: pocket-id/pocket-id
+  tag: v2.1.0
+  registry: ghcr.io
+priorityClassName: high-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+- secretRef:
+    name: db-connection-string
+# resources:
+#   requests:
+#     cpu: 1m
+#     memory: 4Mi
+#   limits:
+#     # cpu: 200m
+#     memory: 20Mi
+service:
+  port: 1411
+extraHTTPRouteHostnames:
+- auth.ucdialplans.com
+persistentVolume:
+  type: nfs
+  mountPath: /data
