@@ -4,6 +4,19 @@
 # but the override forces it to the application's namespace.
 # To avoid this problem, I am placing the Database resources in this overlay, where I can control the namespace directly.
 
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: grafana
+  namespace: cnpg
+spec:
+  name: grafana
+  owner: grafana
+  cluster:
+    name: home
+
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
