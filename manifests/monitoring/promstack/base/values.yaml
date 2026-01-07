@@ -85,6 +85,8 @@ grafana:
   defaultDashboardsTimezone: America/Toronto
   envFromConfigMaps:
   - name: grafana-env
+  envFromSecrets:
+  - name: grafana-env-secrets
   resources:
     requests:
       cpu: 10m
@@ -145,9 +147,9 @@ grafana:
   serviceMonitor:
     enabled: false
   admin:
-    existingSecret: grafana-admin
-    userKey: username
-    passwordKey: password
+    existingSecret: grafana-env-secrets
+    userKey: GF_AUTH_BASIC_USERNAME
+    passwordKey: GF_AUTH_BASIC_PASSWORD
   additionalDataSources:
   - name: Prometheus
     type: prometheus

@@ -90,6 +90,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-firefly
+    - name: grafana
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-grafana
     - name: homeassist
       ensure: present
       login: true
