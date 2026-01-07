@@ -9,3 +9,6 @@ data:
   GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
   GF_SERVER_ROOT_URL: "https://grafana.ucdialplans.com/"
   GF_AUTH_GENERIC_OAUTH_ENABLED: "false"
+  GF_AUTH_BASIC_ENABLED: "true"
+  GF_AUTH_DISABLE_LOGIN_FORM: "false"
+  GF_AUTH_GENERIC_OAUTH_NAME: "Pocket ID"
