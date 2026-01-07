@@ -8,7 +8,7 @@ spec:
       tailscaleContainer:
         resources:
           requests:
-            cpu: 2m
+            cpu: 30m
             memory: 30Mi
           limits:
             # cpu: 100m
