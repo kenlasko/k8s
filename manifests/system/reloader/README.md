@@ -1,0 +1,2 @@
+# Summary
+[Reloader](https://github.com/stakater/Reloader) is a Kubernetes controller to watch changes in ConfigMap and Secrets and do rolling upgrades on Pods with their associated Deployment, StatefulSet, DaemonSet and DeploymentConfig. This is needed because changes in Secrets and ConfigMaps don't normally force a pod restart so it will see the updates to those objects. Reloader takes care of that.

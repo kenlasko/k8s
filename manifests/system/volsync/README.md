@@ -6,3 +6,11 @@
 I could be utilizing [Volume Populator](https://volsync.readthedocs.io/en/stable/usage/volume-populator/index.html) to automatically restore when starting up for the first time, but I have elected not to use this, as in most practical scenarios, the actual live volumes are still on the NAS and don't require restoration.
 
 Each application has a disabled restore manifest that can be enabled for any restore job that's required. It is called `restore.yaml`. By default, it will restore the most recent backup, but the options `restoreAsOf` or `previous` can be used to restore older backups. To enable it, simply add it to the `resources:` field of the appropriate `kustomization.yaml`.
+
+# Tips & Tricks
+## Backup fails due to volume locking
+Sometimes, a VolSync backup will continually fail to complete due to volume lock issues in Restic. This appears to happen more frequently to [NextCloud](/manifests/apps/nextcloud). To resolve, EXEC into the volsync pod before it restarts (you have several minutes to do this) and run this command:
+```
+restick unlock
+```
+That should be sufficient to allow the backup to complete.

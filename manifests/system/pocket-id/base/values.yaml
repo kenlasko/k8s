@@ -19,13 +19,13 @@ envFrom:
     name: env-secrets
 - secretRef:
     name: db-connection-string
-# resources:
-#   requests:
-#     cpu: 1m
-#     memory: 4Mi
-#   limits:
-#     # cpu: 200m
-#     memory: 20Mi
+resources:
+  requests:
+    cpu: 1m
+    memory: 18Mi
+  limits:
+    # cpu: 200m
+    memory: 30Mi
 service:
   port: 1411
 extraHTTPRouteHostnames:
