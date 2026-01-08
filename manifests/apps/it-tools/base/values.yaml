@@ -14,9 +14,9 @@ securityContext:
 resources:
   requests:
     cpu: 1m
-    memory: 18Mi
+    memory: 10Mi
   limits:
     # cpu: 200m
-    memory: 300Mi
+    memory: 50Mi
 service:
   port: 8080
