@@ -1,12 +1,12 @@
 operatorConfig:
   hostname: "tailscale-operator-home"
   image:
-    repository: "ghcr.io/tailscale/k8s-operator"
+    repository: "tailscale/k8s-operator"
     tag: "unstable-v1.93.86"
     pullPolicy: IfNotPresent
 proxyConfig:
   defaultProxyClass: "default"
   image:
-    repository: "ghcr.io/tailscale/tailscale"
+    repository: "tailscale/tailscale"
     tag: "unstable-v1.93.86"
     pullPolicy: IfNotPresent
