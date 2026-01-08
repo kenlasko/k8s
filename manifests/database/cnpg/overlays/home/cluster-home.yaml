@@ -66,14 +66,14 @@ spec:
 
   managed:
     roles:
-    - name: authentik
+    - name: budgetboard
       ensure: present
       login: true
       superuser: false
       inherit: false
       connectionLimit: -1
       passwordSecret:
-        name: useraccount-authentik
+        name: useraccount-budgetboard
     - name: dispatcharr
       ensure: present
       login: true
