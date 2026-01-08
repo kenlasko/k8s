@@ -1,0 +1,22 @@
+image:
+  repository: corentinth/it-tools
+  tag: 2024.10.22-7ca5933
+  registry: ghcr.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  seccompProfile:
+    type: RuntimeDefault
+  # capabilities:
+  #   drop: ["ALL"]
+resources:
+  requests:
+    cpu: 1m
+    memory: 18Mi
+  limits:
+    # cpu: 200m
+    memory: 300Mi
+service:
+  port: 80
