@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-env
+  namespace: monitoring
+data:
+  GF_ANALYTICS_REPORTING_ENABLED: "false"
+  GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+  GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+  # GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+  # GF_AUTH_GENERIC_OAUTH_NAME: "Pocket ID"
+  # GF_AUTH_GENERIC_OAUTH_SCOPES: "openid email profile"
+  # GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://auth.ucdialplans.com/authorize"
+  # GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://auth.ucdialplans.com/api/oidc/token"
+  # GF_AUTH_GENERIC_OAUTH_API_URL: "https://auth.ucdialplans.com/api/oidc/userinfo"
+  # GF_AUTH_SIGNOUT_REDIRECT_URL: "https://auth.ucdialplans.com/api/oidc/end-session"
+  # GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+  # GF_AUTH_DISABLE_LOGIN_FORM: "true"

@@ -1,0 +1,25 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: dead-man-hand
+  namespace: dmh
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: s3-backup-cloudflare-dead-man-hand
+    destinationPVC: nfs-dead-man-hand
+    copyMethod: Direct
+    enableFileDeletion: true
+    cleanupTempPVC: true
+    cleanupCachePVC: true
+    storageClassName: nfs-csi
+    cacheStorageClassName: nfs-csi-dynamic-backup
+    # restoreAsOf: "2025-03-05T06:50:00Z"
+    # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
+    moverSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault

@@ -21,4 +21,5 @@ helmCharts:
   valuesFile: values-smartctl.yaml
 resources:
 - ../../base
+- env-grafana.yaml
 - httproute.yaml
