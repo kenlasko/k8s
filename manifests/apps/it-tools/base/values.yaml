@@ -1,6 +1,6 @@
 image:
-  repository: corentinth/it-tools
-  tag: 2024.10.22-7ca5933
+  repository: sharevb/it-tools
+  tag: v2025.12.7
   registry: ghcr.io
 priorityClassName: low-priority
 securityContext:
@@ -19,4 +19,4 @@ resources:
     # cpu: 200m
     memory: 300Mi
 service:
-  port: 80
+  port: 8080

@@ -1,5 +1,9 @@
 installCRDs: true    # Don't override newer CRDs
 operatorConfig:
+  image:
+    repository: "tailscale/k8s-operator"
+    tag: "unstable-v1.93.86"
+    pullPolicy: IfNotPresent
   resources:
     requests:
       cpu: 1m
@@ -7,3 +11,9 @@ operatorConfig:
     limits:
       # cpu: 80m
       memory: 60Mi
+proxyConfig:
+  defaultProxyClass: "default"
+  image:
+    repository: "tailscale/tailscale"
+    tag: "unstable-v1.93.86"
+    pullPolicy: IfNotPresent
