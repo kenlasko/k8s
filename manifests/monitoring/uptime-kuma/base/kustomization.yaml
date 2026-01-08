@@ -4,4 +4,3 @@ resources:
 - external-secrets.yaml
 - namespace.yaml
 # - networkpolicy.yaml
-# - sealed-secrets.yaml

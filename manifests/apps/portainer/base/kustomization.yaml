@@ -14,5 +14,4 @@ resources:
   - namespace.yaml
   # - networkpolicy.yaml
   # - restore.yaml
-  # - sealed-secrets.yaml
   - volume.yaml
