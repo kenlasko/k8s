@@ -2,11 +2,11 @@ operatorConfig:
   hostname: "tailscale-operator-home"
   image:
     repository: "tailscale/tailscale-operator"
-    tag: "unstable-v1.93.86"
+    # tag: "unstable-v1.93.86"
     pullPolicy: IfNotPresent
 proxyConfig:
   defaultProxyClass: "default"
   image:
     repository: "tailscale/tailscale"
-    tag: "unstable-v1.93.86"
+    # tag: "unstable-v1.93.86"
     pullPolicy: IfNotPresent
