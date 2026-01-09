@@ -7,7 +7,11 @@ helmCharts:
 - name: baseline
   releaseName: calibre
   namespace: media
-  valuesFile: values.yaml
+  valuesFile: values-calibre.yaml
+# - name: calibre-downloader-aa
+#   releaseName: calibre-downloader-aa
+#   namespace: media
+#   valuesFile: values-downloader.yaml
 resources:
 - deploy-cloudflare-bypass.yaml
 - deploy-downloader-aa.yaml

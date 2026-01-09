@@ -1,0 +1,48 @@
+image:
+  repository: crocodilestick/calibre-web-automated
+  tag: V3.1.4
+  registry: ghcr.io
+securityContext:
+  allowPrivilegeEscalation: true
+  readOnlyRootFilesystem: false
+  seccompProfile:
+    type: RuntimeDefault
+  # capabilities:
+  #   drop: ["ALL"]
+  #   add:
+  #   - "CHOWN"
+  #   - "SETGID"
+  #   - "SETUID"
+  #   - "DAC_OVERRIDE"
+  #   - "DAC_READ_SEARCH"
+resources:
+  requests:
+    cpu: 1m
+    memory: 230Mi
+  limits:
+    # cpu: 1000m
+    memory: 600Mi
+service:
+  port: 8083
+httpRouteNameOverride: books.ucdialplans.com
+httpRouteFilters:
+- type: RequestHeaderModifier
+  requestHeaderModifier:
+    add:
+    - name: "X-SCHEME"
+      value: "https"
+persistentVolume:
+  type: longhorn
+  size: 5.5Gi
+extraVolumes:
+- name: books
+  persistentVolumeClaim:
+    claimName: nfs-books
+- name: books-to-import
+  persistentVolumeClaim:
+    claimName: nfs-books-to-import
+extraVolumeMounts:
+- name: books
+  mountPath: /calibre-library
+- name: books-to-import
+  mountPath: /cwa-book-ingest
