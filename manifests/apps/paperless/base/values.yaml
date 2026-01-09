@@ -29,7 +29,7 @@ resources:
     memory: 450Mi
   limits:
     # cpu: 200m
-    memory: 1.2Gi
+    memory: 1.5Gi
 service:
   port: 8000
 envFrom:
