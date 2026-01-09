@@ -66,14 +66,6 @@ spec:
 
   managed:
     roles:
-    - name: budgetboard
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-budgetboard
     - name: dispatcharr
       ensure: present
       login: true
@@ -194,14 +186,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-sonarr
-    - name: tandoor
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-tandoor
     - name: ucdialplans
       ensure: present
       login: true
