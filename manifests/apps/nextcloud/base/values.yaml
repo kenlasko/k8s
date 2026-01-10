@@ -47,8 +47,6 @@ nextcloud:
       secretKeyRef:
         name: nextcloud-secrets
         key: redis-password
-  - name: SERVERNAME
-    value: nextcloud.ucdialplans.com
   mail:
     enabled: true
     fromAddress: nextcloud
