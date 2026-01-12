@@ -170,7 +170,7 @@ spec:
         image: "{{ .Values.oidc.image.repository }}:{{ .Values.oidc.image.tag }}"
         args:
           - --provider=oidc
-          - --scope=openid profile groups
+          - --scope=openid email profile groups
           - --oidc-issuer-url=https://auth.ucdialplans.com
           - --redirect-url=https://{{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
           - --http-address=0.0.0.0:4433
@@ -178,6 +178,7 @@ spec:
           - --cookie-secure=true
           - --cookie-domain={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
           - --email-domain=*
+          - --insecure_oidc_allow_unverified_email=true
           # Upstream points to the main app container's internal port
           - --upstream=http://{{ $name }}-service:{{ .Values.service.port }} 
         ports:
