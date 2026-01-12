@@ -25,11 +25,14 @@ spec:
       priorityClassName: medium-priority
       containers:
       - name: calibre-downloader-aa
-        image: ghcr.io/calibrain/calibre-web-automated-book-downloader:v0.4.0
+        image: ghcr.io/calibrain/shelfmark:v1.0.0
         imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 0
           seccompProfile:
             type: RuntimeDefault
           # capabilities:
@@ -40,13 +43,15 @@ spec:
           #   - "SETUID"
           #   - "DAC_OVERRIDE"
           #   - "DAC_READ_SEARCH"
+          #   - "NET_ADMIN"
+          #   - "NET_RAW"
         env:
         - name: CLOUDFLARE_PROXY_URL
           value: http://cloudflare-bypass-service:8000
         - name: PUID
           value: "1000"
         - name: PGID
-          value: "100"
+          value: "0"
         - name: TZ
           value: "America/Toronto"
         resources:
