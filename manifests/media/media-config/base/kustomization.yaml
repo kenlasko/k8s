@@ -6,5 +6,5 @@ resources:
 - cronjob-app-backup.yaml
 - media-serviceaccount.yaml
 - namespace.yaml
-- networkpolicy.yaml
+# - networkpolicy.yaml
 - volume.yaml

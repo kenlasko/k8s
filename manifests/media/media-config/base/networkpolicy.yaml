@@ -1,24 +1,24 @@
-# apiVersion: cilium.io/v2
-# kind: CiliumNetworkPolicy
-# metadata:
-#   name: base-media
-#   namespace: media
-# spec:
-#   endpointSelector: {}
-#   ingress:
-#     - fromEntities:
-#         - ingress
-#     - fromEndpoints:
-#         - {}
-#     - fromEndpoints:
-#         - matchLabels:
-#             app: cloudflare-tunnel
-#           matchExpressions:
-#             - key: io.kubernetes.pod.namespace
-#               operator: Exists
-#     - fromEndpoints:
-#         - matchLabels:
-#             app: homeassist
-#           matchExpressions:
-#             - key: io.kubernetes.pod.namespace
-#               operator: Exists
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: base-media
+  namespace: media
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - ingress
+    - fromEndpoints:
+        - {}
+    - fromEndpoints:
+        - matchLabels:
+            app: cloudflare-tunnel
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
+    - fromEndpoints:
+        - matchLabels:
+            app: homeassist
+          matchExpressions:
+            - key: io.kubernetes.pod.namespace
+              operator: Exists
