@@ -20,6 +20,9 @@ spec:
           matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: Exists
+      toPorts:
+        - ports:
+            - port: "1411"
   egress:
     - toCIDRSet:
         - cidr: 0.0.0.0/0
