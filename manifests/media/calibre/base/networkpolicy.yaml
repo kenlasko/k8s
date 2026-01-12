@@ -7,7 +7,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: calibre
-      app: calibre-downloader-aa
+      app: shelfmark
       # app: cloudflare-bypass
   ingress:
     - fromEntities:
