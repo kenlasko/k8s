@@ -172,13 +172,14 @@ spec:
           - --provider=oidc
           - --scope=openid,email,profile,groups
           - --oidc-issuer-url=https://auth.ucdialplans.com
+          - --redirect-url=https://{{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
           - --http-address=0.0.0.0:4433
           - --reverse-proxy=true
           - --cookie-secure=true
+          - --cookie-domain={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
           - --email-domain=*
           # Upstream points to the main app container's internal port
           - --upstream=http://{{ $name }}-service:{{ .Values.service.port }} 
-          - --redirect-url={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
         ports:
         - containerPort: 4433
           name: oauth-http
