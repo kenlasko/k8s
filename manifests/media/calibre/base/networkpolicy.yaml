@@ -7,7 +7,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: calibre
-      app.kubernetes.io/name: shelfmark
+      app: shelfmark
   ingress:
     - fromEntities:
         - ingress
