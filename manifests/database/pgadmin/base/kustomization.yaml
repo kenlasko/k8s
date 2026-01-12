@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
 - name: pgadmin4
   repo: https://helm.runix.net/
-  version: 1.50.0
+  version: 1.56.1
   releaseName: pgadmin
   namespace: cnpg
   valuesFile: values.yaml
