@@ -177,7 +177,7 @@ spec:
           - --cookie-secure=true
           - --email-domain=*
           # Upstream points to the main app container's internal port
-          - --upstream=http://127.0.0.1:{{ .Values.service.port }} 
+          - --upstream=http://{{ $name }}-service:{{ .Values.service.port }} 
           - --redirect-url={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
         ports:
         - containerPort: 4433
