@@ -176,7 +176,7 @@ spec:
           - --http-address=0.0.0.0:4433
           - --reverse-proxy=true
           - --cookie-secure=true
-          - --cookie-domain={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
+          - --cookie-domain=.ucdialplans.com
           - --email-domain=*
           - --insecure-oidc-allow-unverified-email=true
           # Upstream points to the main app container's internal port
