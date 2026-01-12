@@ -8,7 +8,7 @@ helmCharts:
   releaseName: calibre
   namespace: media
   valuesFile: values-calibre.yaml
-- name: shelfmark
+- name: baseline
   releaseName: shelfmark
   namespace: media
   valuesFile: values-shelfmark.yaml
