@@ -12,6 +12,6 @@ resources:
   - external-secrets.yaml
   - httproute.yaml
   - namespace.yaml
-  - networkpolicy.yaml
+  # - networkpolicy.yaml
   # - restore.yaml
   - volume.yaml

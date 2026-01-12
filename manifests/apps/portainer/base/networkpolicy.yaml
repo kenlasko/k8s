@@ -14,25 +14,25 @@ spec:
       toPorts:
         - ports:
             - port: "9000"
-    - fromEndpoints:
-        - matchLabels:
-            app: pocket-id
-          matchExpressions:
-            - key: io.kubernetes.pod.namespace
-              operator: Exists
+  egress:
+    - toEntities:
+        - ingress
+        - remote-node
+        - world
       toPorts:
         - ports:
-            - port: "1411"
-  egress:
+            - port: "443"
+              protocol: TCP
     - toCIDRSet:
         - cidr: 0.0.0.0/0
       toPorts:
         - ports:
             - port: "80"
-        - ports:
+              protocol: TCP
             - port: "443"
-        - ports:
+              protocol: TCP
             - port: "9001"
+              protocol: TCP
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
@@ -44,6 +44,3 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEndpoints:
-        - matchLabels:
-            app: pocket-id
