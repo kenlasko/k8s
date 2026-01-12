@@ -173,6 +173,7 @@ spec:
           - --scope=openid,email,profile,groups
           - --oidc-issuer-url=https://auth.ucdialplans.com
           - --http-address=0.0.0.0:4433
+          - --email-domain=*
           # Upstream points to the main app container's internal port
           - --upstream=http://127.0.0.1:{{ .Values.service.port }} 
           - --redirect-url={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
