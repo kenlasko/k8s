@@ -31,8 +31,8 @@ spec:
           allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
           runAsNonRoot: false
-          runAsUser: 1000
-          runAsGroup: 0
+          # runAsUser: 1000
+          # runAsGroup: 0
           seccompProfile:
             type: RuntimeDefault
           # capabilities:
