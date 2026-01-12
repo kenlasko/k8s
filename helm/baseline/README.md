@@ -6,6 +6,7 @@ It allows me to deploy new applications in my cluster that meet pretty much any 
 - Adding a [Tailscale](/manifests/network/tailscale) external name service for connecting to a matching Tailscale connection on the Cloud K8S cluster
 - Creating [VolSync](/manifests/system/volsync) backups on remote S3 buckets
 - Create consistently-named PV/PVCs for either [Longhorn](/manifests/system/longhorn), NFS or local volumes
+- Creating an [OAuth2Proxy](https://oauth2-proxy.github.io/oauth2-proxy/) sidecar container to provide [Pocket-ID](/manifests/system/pocket-id) managed OIDC authentication for applications without OIDC support
 
 Pretty much any application that doesn't have a managed external Helm chart uses this custom Helm chart. It includes:
 - [Adguard Home](/manifests/apps/adguard)

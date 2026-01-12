@@ -74,8 +74,8 @@ httpRouteFilters: []
 oidc:
   enabled: false
   image:
-    repository: "quay.io/oauth2-proxy/oauth2-proxy"
-    tag: "v7.13.0"
+    repository: quay.io/oauth2-proxy/oauth2-proxy
+    tag: v7.13.0
   secretName: env-secrets
 
 # Optional command and args for the container
