@@ -45,6 +45,3 @@ spec:
     - toEndpoints:
         - matchLabels:
             app: pocket-id
-      toPorts:
-        - ports:
-            - port: "443"
