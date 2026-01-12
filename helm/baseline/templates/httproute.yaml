@@ -20,10 +20,18 @@ spec:
   {{- end }}
   rules:
   - backendRefs:
+    {{- if .Values.oidc.enabled | default false }}
+    # If OAuth2 Proxy is enabled, route to the 'oauth-service' (sidecar port)
+    - name: {{ $name }}-oauth-service 
+      namespace: {{ .Release.Namespace }}
+      kind: Service
+      port: 4433
+    {{- else }}
     - name: {{ $name }}-service
       namespace: {{ .Release.Namespace }}
       kind: Service
       port: {{ .Values.service.port }}
+    {{- end }}
     {{- if .Values.httpRouteFilters }}
     filters:
     {{- toYaml .Values.httpRouteFilters | nindent 4 }}

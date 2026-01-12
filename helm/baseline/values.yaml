@@ -70,6 +70,14 @@ disableHTTPRoute: false
 httpRouteNameOverride: ""
 httpRouteFilters: []
 
+# OAuth2 Proxy settings
+oidc:
+  enabled: false
+  image:
+    repository: "quay.io/oauth2-proxy/oauth2-proxy"
+    tag: "v7.13.0"
+  secretName: env-secrets
+
 # Optional command and args for the container
 command: []
 args: []

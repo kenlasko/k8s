@@ -15,3 +15,5 @@ persistentVolume:
   size: 20Mi
   mountPath: /data
 httpRouteNameOverride: redis.ucdialplans.com
+oidc:
+  enabled: true

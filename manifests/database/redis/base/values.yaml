@@ -15,7 +15,7 @@ env:
   valueFrom:
     secretKeyRef:
       name: redis-password
-      key: password
+      key: REDIS_PASSWORD
 args: ["--requirepass", "$(REDIS_PASSWORD)"]
 resources:
   requests:

@@ -164,6 +164,28 @@ spec:
           {{- end }}
         {{- end }}
       {{- end }}
+      # --- OAUTH2-PROXY SIDECAR CONDITIONAL INJECTION ---
+      {{- if .Values.oidc.enabled | default false }}
+      - name: oauth2-proxy
+        image: "{{ .Values.oidc.image.repository }}:{{ .Values.oidc.image.tag }}"
+        args:
+          - --provider=oidc
+          - --scope=openid,email,profile,groups
+          - --oidc-issuer-url=https://auth.ucdialplans.com
+          - --http-address=0.0.0.0:4433
+          # Upstream points to the main app container's internal port
+          - --upstream=http://127.0.0.1:{{ .Values.service.port }} 
+          - --redirect-url={{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
+        ports:
+        - containerPort: 4433
+          name: oauth-http
+          protocol: TCP
+        envFrom:
+        # Pull secrets from the specified secret name
+        - secretRef:
+            name: {{ .Values.oidc.secretName | default "env-secrets" }}
+      {{- end }}
+      # --- END OAUTH2-PROXY SIDECAR ---
       dnsConfig:
         options:
           - name: ndots
