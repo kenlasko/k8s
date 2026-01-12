@@ -47,3 +47,6 @@ extraVolumes:
 extraVolumeMounts:
 - name: books-to-import
   mountPath: /cwa-book-ingest
+backup:
+  location: cloudflare
+  schedule: "40 07 * * *"
