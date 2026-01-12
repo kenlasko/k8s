@@ -173,6 +173,8 @@ spec:
           - --scope=openid,email,profile,groups
           - --oidc-issuer-url=https://auth.ucdialplans.com
           - --http-address=0.0.0.0:4433
+          - --reverse-proxy=true
+          - --cookie-secure=true
           - --email-domain=*
           # Upstream points to the main app container's internal port
           - --upstream=http://127.0.0.1:{{ .Values.service.port }} 
