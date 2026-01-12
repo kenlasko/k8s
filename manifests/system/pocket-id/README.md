@@ -28,9 +28,9 @@ oidc:
 ```
 
 The secret must include the following values:
-- OAUTH2_PROXY_CLIENT_ID (from OIDC provider ie Pocket-ID)
-- OAUTH2_PROXY_CLIENT_SECRET (from OIDC provider)
-- OAUTH2_PROXY_COOKIE_SECRET (generated from below)
+- `OAUTH2_PROXY_CLIENT_ID` (from OIDC provider ie Pocket-ID)
+- `OAUTH2_PROXY_CLIENT_SECRET` (from OIDC provider)
+- `OAUTH2_PROXY_COOKIE_SECRET` (generated from below)
 
 The `OAUTH2_PROXY_COOKIE_SECRET` can be generated via the following:
 ```

@@ -29,9 +29,7 @@ spec:
       toPorts:
         - ports:
             - port: "80"
-        - ports:
             - port: "443"
-        - ports:
             - port: "9001"
     - toEndpoints:
         - matchLabels:
@@ -44,3 +42,9 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEndpoints:
+        - matchLabels:
+            app: pocket-id
+      toPorts:
+        - ports:
+            - port: "443"
