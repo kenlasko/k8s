@@ -36,3 +36,5 @@ The `OAUTH2_PROXY_COOKIE_SECRET` can be generated via the following:
 ```
 dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64 | tr -d -- '\n' | tr -- '+/' '-_' ; echo
 ```
+
+When creating the OIDC client in Pocket-ID, set the `Callback URL` to `https://clienturl.ucdialplans.com/oauth2/callback`

@@ -34,3 +34,6 @@ readinessProbe:
 persistentVolume:
   type: nfs
   size: 2Gi
+oidc:
+  enabled: true
+  secretName: env-secrets-esphome
