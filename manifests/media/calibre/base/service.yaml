@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: calibre-downloader-aa-service
-  name: calibre-downloader-aa-service
+    app: shelfmark-service
+  name: shelfmark-service
   namespace: media
 spec:
   type: ClusterIP
@@ -14,23 +14,23 @@ spec:
     targetPort: http-dl-aa
     name: web-downloader-aa
   selector:
-    app: calibre-downloader-aa
+    app: shelfmark
 
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: cloudflare-bypass-service
-  name: cloudflare-bypass-service
-  namespace: media
-spec:
-  type: ClusterIP
-  ports:
-  - port: 8000
-    protocol: TCP
-    targetPort: http-cloudflare
-    name: web-cloudflare-bypass
-  selector:
-    app: cloudflare-bypass
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   labels:
+#     app: cloudflare-bypass-service
+#   name: cloudflare-bypass-service
+#   namespace: media
+# spec:
+#   type: ClusterIP
+#   ports:
+#   - port: 8000
+#     protocol: TCP
+#     targetPort: http-cloudflare
+#     name: web-cloudflare-bypass
+#   selector:
+#     app: cloudflare-bypass

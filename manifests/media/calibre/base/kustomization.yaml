@@ -13,8 +13,8 @@ helmCharts:
 #   namespace: media
 #   valuesFile: values-downloader.yaml
 resources:
-- deploy-cloudflare-bypass.yaml
-- deploy-downloader-aa.yaml
+# - deploy-cloudflare-bypass.yaml
+- deploy-shelfmark.yaml
 - httproute.yaml
 - networkpolicy.yaml
 - service.yaml

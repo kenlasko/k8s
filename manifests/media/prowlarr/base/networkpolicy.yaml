@@ -18,6 +18,8 @@ spec:
         - matchLabels:
             app.kubernetes.io/name: radarr
         - matchLabels:
+            app.kubernetes.io/name: shelfmark
+        - matchLabels:
             app.kubernetes.io/name: sonarr
       toPorts:
         - ports:

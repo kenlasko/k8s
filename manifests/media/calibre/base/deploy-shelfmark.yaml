@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: calibre-downloader-aa
+  name: shelfmark
 spec:
-  serviceName: calibre-downloader-aa
+  serviceName: shelfmark
   replicas: 1
   revisionHistoryLimit: 2
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: calibre-downloader-aa
+      app: shelfmark
   template:
     metadata:
       labels:
-        app: calibre-downloader-aa
-        name: calibre-downloader-aa
+        app: shelfmark
+        name: shelfmark
         appGroup: media-arr
     spec:
       dnsPolicy: ClusterFirstWithHostNet
@@ -24,7 +24,7 @@ spec:
       automountServiceAccountToken: false
       priorityClassName: medium-priority
       containers:
-      - name: calibre-downloader-aa
+      - name: shelfmark
         image: ghcr.io/calibrain/shelfmark:v1.0.0
         imagePullPolicy: IfNotPresent
         securityContext:
@@ -46,8 +46,8 @@ spec:
           #   - "NET_ADMIN"
           #   - "NET_RAW"
         env:
-        - name: CLOUDFLARE_PROXY_URL
-          value: http://cloudflare-bypass-service:8000
+        # - name: CLOUDFLARE_PROXY_URL
+        #   value: http://cloudflare-bypass-service:8000
         - name: PUID
           value: "1000"
         - name: PGID
