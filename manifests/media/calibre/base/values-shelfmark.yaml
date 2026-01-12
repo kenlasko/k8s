@@ -35,6 +35,9 @@ resources:
 service:
   port: 8084
 httpRouteNameOverride: book-dl.ucdialplans.com
+persistentVolume:
+  type: nfs
+  size: 120Mi
 extraVolumes:
 - name: books-to-import
   persistentVolumeClaim:

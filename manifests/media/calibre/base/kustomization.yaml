@@ -13,9 +13,5 @@ helmCharts:
   namespace: media
   valuesFile: values-shelfmark.yaml
 resources:
-# - deploy-cloudflare-bypass.yaml
-# - deploy-shelfmark.yaml
-# - httproute.yaml
 - networkpolicy.yaml
-# - service.yaml
 - volume.yaml

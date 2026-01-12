@@ -7,8 +7,7 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: calibre
-      app: shelfmark
-      # app: cloudflare-bypass
+      app.kubernetes.io/name: shelfmark
   ingress:
     - fromEntities:
         - ingress
