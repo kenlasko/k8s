@@ -27,3 +27,6 @@ persistentVolume:
   type: longhorn
   size: 8Gi
   mountPath: /opt/data
+oidc:
+  enabled: true
+  secretName: env-secrets-maintainerr
