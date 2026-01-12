@@ -16,7 +16,7 @@ spec:
             - port: "9000"
     - fromEndpoints:
         - matchLabels:
-            app: cloudflare-tunnel
+            app: pocket-id
           matchExpressions:
             - key: io.kubernetes.pod.namespace
               operator: Exists
