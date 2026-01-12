@@ -8,14 +8,14 @@ helmCharts:
   releaseName: calibre
   namespace: media
   valuesFile: values-calibre.yaml
-# - name: calibre-downloader-aa
-#   releaseName: calibre-downloader-aa
-#   namespace: media
-#   valuesFile: values-downloader.yaml
+- name: shelfmark
+  releaseName: shelfmark
+  namespace: media
+  valuesFile: values-shelfmark.yaml
 resources:
 # - deploy-cloudflare-bypass.yaml
-- deploy-shelfmark.yaml
-- httproute.yaml
+# - deploy-shelfmark.yaml
+# - httproute.yaml
 - networkpolicy.yaml
-- service.yaml
+# - service.yaml
 - volume.yaml

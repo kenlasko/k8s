@@ -1,0 +1,44 @@
+image:
+  repository: calibrain/shelfmark
+  tag: v1.0.0
+  registry: ghcr.io
+securityContext:
+  allowPrivilegeEscalation: true
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  seccompProfile:
+    type: RuntimeDefault
+    # capabilities:
+    #   drop: ["ALL"]
+    #   add:
+    #   - "CHOWN"
+    #   - "SETGID"
+    #   - "SETUID"
+    #   - "DAC_OVERRIDE"
+    #   - "DAC_READ_SEARCH"
+    #   - "NET_ADMIN"
+    #   - "NET_RAW"
+env:
+- name: PUID
+  value: "1000"
+- name: PGID
+  value: "0"
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 1m
+    memory: 60Mi
+  limits:
+    # cpu: 1000m
+    memory: 750Mi
+service:
+  port: 8084
+httpRouteNameOverride: book-dl.ucdialplans.com
+extraVolumes:
+- name: books-to-import
+  persistentVolumeClaim:
+    claimName: nfs-books-to-import
+extraVolumeMounts:
+- name: books-to-import
+  mountPath: /cwa-book-ingest
