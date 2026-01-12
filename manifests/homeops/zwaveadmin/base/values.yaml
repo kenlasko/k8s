@@ -45,3 +45,6 @@ affinity:
           operator: In
           values:
           - nuc4
+oidc:
+  enabled: true
+  secretName: env-secrets-zwaveadmin
