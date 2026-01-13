@@ -4,9 +4,6 @@ image:
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
-envFrom:
-  secretRef:
-    secretName: env-secrets-radarr
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
