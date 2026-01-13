@@ -10,4 +10,4 @@ helmCharts:
 resources:
 - database.yaml
 - external-secrets.yaml
-- networkpolicy.yaml
+# - networkpolicy.yaml
