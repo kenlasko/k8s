@@ -4,6 +4,9 @@ image:
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
+envFrom:
+  secretRef:
+    secretName: env-secrets-sonarr
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
@@ -48,3 +51,6 @@ extraVolumeMounts:
 backup:
   location: cloudflare
   schedule: "05 07 * * *"
+oidc:
+  enabled: true
+  secretName: env-secrets-sonarr
