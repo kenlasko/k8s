@@ -40,9 +40,9 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    - toEntities:
-        - cluster
-    - toEntities:
+    - toEntities: 
+        - cluster    # For OAuth2Proxy redirects
+    - toEntities: 
         - world
       toPorts:
         - ports:

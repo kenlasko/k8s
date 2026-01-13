@@ -39,6 +39,8 @@ spec:
         - ports:
             - port: "53"
               protocol: UDP
+    - toEntities: 
+        - cluster     # For OAuth2Proxy redirects
     - toEntities:
         - world
       toPorts:
