@@ -13,5 +13,6 @@ helmCharts:
   namespace: media
   valuesFile: values-shelfmark.yaml
 resources:
+- external-secrets.yaml
 - networkpolicy.yaml
 - volume.yaml

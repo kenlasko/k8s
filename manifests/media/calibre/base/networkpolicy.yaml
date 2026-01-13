@@ -14,6 +14,7 @@ spec:
         - remote-node
       toPorts:
         - ports:
+            - port: "4433"
             - port: "8083"
             - port: "8084"
   egress:
@@ -28,6 +29,8 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEntities:
+        - cluster
     - toEntities:
         - world
       toPorts:

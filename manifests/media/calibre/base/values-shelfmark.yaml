@@ -50,3 +50,6 @@ extraVolumeMounts:
 backup:
   location: cloudflare
   schedule: "40 07 * * *"
+oidc:
+  enabled: true
+  secretName: env-secrets-shelfmark
