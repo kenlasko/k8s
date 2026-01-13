@@ -27,6 +27,7 @@ The following apps are configured for OIDC using OAuth2Proxy sidecars via my [cu
 - [Radarr](/manifests/media/radarr)
 - [Redis Insight](/manifests/database/redis)
 - [SABnzbd](/manifests/media/sabnzbd)
+- [Shelfmark](/manifests/media/calibre)
 - [Sonarr](/manifests/media/sonarr)
 - [Transmission](/manifests/media/transmission)
 - [ZWaveAdmin](/manifests/homeops/zwaveadmin)

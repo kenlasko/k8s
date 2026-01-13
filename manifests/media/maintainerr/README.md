@@ -1,0 +1,2 @@
+# Summary
+[Maintainerr](https://github.com/Maintainerr/Maintainerr) is a tool for managing the long-term availability of movies and TV shows. It automatically deletes movies and episodes that match any given criteria. It is a very useful tool for keeping media storage from filling up with things that aren't needed.
