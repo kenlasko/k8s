@@ -41,10 +41,12 @@ spec:
             dns:
               - matchPattern: "*"
     - toEntities:
+        - cluster
+    - toEntities:
         - world
-      # toPorts:
-      #   - ports:
-      #       - port: "443"
+      toPorts:
+        - ports:
+            - port: "443"
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: plex
