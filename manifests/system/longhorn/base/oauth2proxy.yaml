@@ -1,0 +1,116 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: env-secrets
+  namespace: longhorn
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: akeyless
+    kind: ClusterSecretStore
+  target:
+    name: env-secrets
+  dataFrom:
+  - extract:
+      key: /longhorn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: longhorn-ui
+    app.kubernetes.io/name: longhorn
+  name: longhorn-frontend-oauth
+  namespace: longhorn
+spec:
+  ports:
+  - name: https-web
+    port: 4433
+    protocol: TCP
+    targetPort: oauth-http
+  selector:
+    app: oauth2-proxy
+  type: ClusterIP
+
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+  labels:
+    app.kubernetes.io/name: longhorn
+    app.kubernetes.io/version: 1.10.1
+  name: oauth2-proxy
+  namespace: longhorn
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: oauth2-proxy
+  serviceName: longhorn-frontend-oauth
+  template:
+    metadata:
+      labels:
+        app: oauth2-proxy
+        app.kubernetes.io/name: longhorn
+        app.kubernetes.io/version: 1.10.1
+    spec:
+      affinity: null
+      automountServiceAccountToken: false
+      containers:
+      - args:
+        - --provider=oidc
+        - --scope=openid profile groups
+        - --oidc-issuer-url=https://auth.ucdialplans.com
+        - --redirect-url=https://longhorn.ucdialplans.com/oauth2/callback
+        - --http-address=0.0.0.0:4433
+        - --reverse-proxy=true
+        - --cookie-secure=true
+        - --cookie-domain=.ucdialplans.com
+        - --email-domain=*
+        - --upstream=http://longhorn-frontend:80
+        envFrom:
+        - secretRef:
+            name: env-secrets
+        image: quay.io/oauth2-proxy/oauth2-proxy:v7.13.0
+        name: oauth2-proxy
+        ports:
+        - containerPort: 4433
+          name: oauth-http
+          protocol: TCP
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      priorityClassName: low-priority
+      restartPolicy: Always
+  updateStrategy:
+    type: RollingUpdate
+
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: longhorn-ui
+  namespace: longhorn
+spec:
+  hostnames:
+  - longhorn.ucdialplans.com
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  rules:
+  - backendRefs:
+    - kind: Service
+      name: longhorn-frontend-oauth
+      namespace: longhorn
+      port: 4433

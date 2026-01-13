@@ -20,21 +20,28 @@ The authentication flow looks like this:
 User Browser --> Cilium Gateway API --> HTTPRoute --> Service --> OAuth2Proxy --> Application
 ```
 
+The following apps are configured for OIDC using OAuth2Proxy sidecars via my [custom Helm chart](/helm/baseline):
+- [ESPHome](/manifests/homeops/esphome)
+- [Maintainerr](/manifests/media/maintainerr)
+- [Prowlarr](/manifests/media/prowlarr)
+- [Radarr](/manifests/media/radarr)
+- [Redis Insight](/manifests/database/redis)
+- [SABnzbd](/manifests/media/sabnzbd)
+- [Sonarr](/manifests/media/sonarr)
+- [Transmission](/manifests/media/transmission)
+- [ZWaveAdmin](/manifests/homeops/zwaveadmin)
+
+## Configuration
 My [custom Helm chart](/helm/baseline) includes all the necessary services, HTTPRoutes and deployment changes to add OAuth2Proxy support to any application:
 ```
 oidc:
   enabled: true
-  secretName: env-secrets
+  secretName: env-secrets # Default. Change if required
 ```
 
 The secret must include the following values:
 - `OAUTH2_PROXY_CLIENT_ID` (from OIDC provider ie Pocket-ID)
 - `OAUTH2_PROXY_CLIENT_SECRET` (from OIDC provider)
-- `OAUTH2_PROXY_COOKIE_SECRET` (generated from below)
-
-The `OAUTH2_PROXY_COOKIE_SECRET` can be generated via the following:
-```
-dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64 | tr -d -- '\n' | tr -- '+/' '-_' ; echo
-```
+- `OAUTH2_PROXY_COOKIE_SECRET` (use the same one for each for seamless logins)
 
 When creating the OIDC client in Pocket-ID, set the `Callback URL` to `https://clienturl.ucdialplans.com/oauth2/callback`

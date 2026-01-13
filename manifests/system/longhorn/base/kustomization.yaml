@@ -12,3 +12,4 @@ resources:
 # - httproute.yaml
 - longhorn-vol-management.yaml
 - namespace.yaml
+- oauth2proxy.yaml
