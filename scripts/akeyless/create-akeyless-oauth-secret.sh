@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Creates or updates an Akeyless oauth secret using CLI-provided values only.
+# Must set COOKIE_SECRET variable prior to running
 
 set -euo pipefail
 
@@ -14,7 +15,7 @@ fi
 SECRET_NAME="$1"
 CLIENT_ID="$2"
 CLIENT_SECRET="$3"
-COOKIE_SECRET="g7E4dqSVGkDzSWp9fePfS9JYkSETenbVwz-yLFylHh0="
+
 
 echo "Building Akeyless secret payload..."
 
