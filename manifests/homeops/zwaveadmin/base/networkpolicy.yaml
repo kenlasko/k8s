@@ -23,11 +23,8 @@ spec:
             - port: "3000"
   egress:
     - toEntities:
+        - cluster
         - world
-      toPorts:
-        - ports:
-            - port: "443"
-            - port: "5353"
     - toEndpoints:
         - matchLabels:
             io.kubernetes.pod.namespace: kube-system
