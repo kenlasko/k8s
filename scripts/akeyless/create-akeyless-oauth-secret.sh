@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Creates or updates an Akeyless oauth secret using CLI-provided values only.
-# Must set COOKIE_SECRET variable prior to running
+# Must set COOKIE_SECRET variable prior to running via export
 
 set -euo pipefail
 
@@ -12,10 +12,21 @@ if [[ $# -lt 3 ]]; then
   exit 1
 fi
 
+# Check if COOKIE_SECRET is set
+if [[ -z "${COOKIE_SECRET:-}" ]]; then
+  echo "❌ Error: COOKIE_SECRET environment variable is not set."
+  echo ""
+  echo "Please set COOKIE_SECRET before running this script:"
+  echo "  export COOKIE_SECRET='your-secret-value'"
+  echo ""
+  echo "You can generate a secure cookie secret with:"
+  echo "  export COOKIE_SECRET=\$(openssl rand -base64 32)"
+  exit 1
+fi
+
 SECRET_NAME="$1"
 CLIENT_ID="$2"
 CLIENT_SECRET="$3"
-
 
 echo "Building Akeyless secret payload..."
 

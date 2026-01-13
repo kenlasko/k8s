@@ -13,6 +13,7 @@ spec:
         - remote-node
       toPorts:
         - ports:
+            - port: "4433"  # OAuth2Proxy
             - port: "9091"
     - fromEntities:
         - world
@@ -43,3 +44,4 @@ spec:
               protocol: UDP
     - toEntities:
         - world
+        - cluster

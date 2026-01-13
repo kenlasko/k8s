@@ -13,13 +13,7 @@ spec:
         - remote-node
       toPorts:
         - ports:
-            - port: "6246"
-    - fromEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: cloudflare-tunnel
-            io.kubernetes.pod.namespace: cloudflare
-      toPorts:
-        - ports:
+            - port: "4433"
             - port: "6246"
   egress:
     - toEndpoints:
@@ -33,6 +27,8 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    - toEntities: 
+        - cluster    # For OAuth2Proxy redirects
     - toEntities:
         - world
       toPorts:

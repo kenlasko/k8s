@@ -46,3 +46,6 @@ extraVolumeMounts:
 backup:
   location: cloudflare
   schedule: "55 06 * * *"
+oidc:
+  enabled: true
+  secretName: env-secrets-prowlarr

@@ -13,6 +13,7 @@ spec:
         - remote-node
       toPorts:
         - ports:
+            - port: "4433"  # OAuth2Proxy
             - port: "7878"
     - fromEndpoints:
         - matchLabels:

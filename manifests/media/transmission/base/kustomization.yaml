@@ -8,5 +8,6 @@ helmCharts:
   namespace: media
   valuesFile: values.yaml
 resources:
+- external-secrets.yaml
 # - networkpolicy.yaml
 - service.yaml
