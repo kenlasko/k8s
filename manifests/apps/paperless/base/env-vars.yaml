@@ -10,6 +10,9 @@ data:
   PAPERLESS_DBHOST: home-rw.cnpg.svc.cluster.local
   PAPERLESS_DBPORT: "5432"
   PAPERLESS_URL: "https://paperless.ucdialplans.com"
+  PAPERLESS_EMAIL_HOST: "mail.smtp2go.com"
+  PAPERLESS_EMAIL_PORT: "587"
+  PAPERLESS_EMAIL_USE_TLS: "true"
   USERMAP_UID: "1000"
   USERMAP_GID: "1000"
   TZ: "America/Toronto"
