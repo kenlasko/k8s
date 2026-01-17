@@ -15,4 +15,4 @@ data:
   OIDC_AUTH_ENABLED: "true"
   OIDC_SIGNUP_ENABLED: "true"
   OIDC_CONFIGURATION_URL: https://auth.ucdialplans.com/.well-known/openid-configuration
-  ALLOW_PASSWORD_LOGIN: "true"
+  ALLOW_PASSWORD_LOGIN: "false"
