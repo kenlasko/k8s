@@ -20,7 +20,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: ucdialplans-statupdate
-            image: ghcr.io/cloudnative-pg/postgresql:17.7-minimal-trixie
+            image: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
