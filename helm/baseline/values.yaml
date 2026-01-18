@@ -75,7 +75,7 @@ oidc:
   enabled: false
   image:
     repository: quay.io/oauth2-proxy/oauth2-proxy
-    tag: v7.14.1
+    tag: v7.14.2
   secretName: env-secrets
 
 # Optional command and args for the container
