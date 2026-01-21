@@ -37,6 +37,6 @@ extraVolumes:
 - name: tmpfs
   emptyDir:
     medium: Memory
-oidc:
-  enabled: true
-  secretName: env-secrets-sabnzbd
+# oidc:
+#   enabled: true
+#   secretName: env-secrets-sabnzbd
