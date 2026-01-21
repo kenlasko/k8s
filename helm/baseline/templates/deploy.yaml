@@ -180,7 +180,8 @@ spec:
           - --email-domain=*
           - --insecure-oidc-allow-unverified-email=true
           # Upstream points to the main app container's internal port
-          - --upstream=http://{{ $name }}-service:{{ .Values.service.port }} 
+          - --upstream=http://{{ $name }}-service:{{ .Values.service.port }}
+          - --request-logging=false
         ports:
         - containerPort: 4433
           name: oauth-http
