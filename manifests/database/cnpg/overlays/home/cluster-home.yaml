@@ -74,6 +74,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-dispatcharr
+    - name: dockhand
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-dockhand
     - name: firefly
       ensure: present
       login: true

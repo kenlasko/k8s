@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars-nttdemo
+  namespace: nectar-mcp
+data:
+  DEBUG_MODE: "true"
