@@ -1,0 +1,9 @@
+# This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
+autoSync: true
+info:
+- name: "Website:"
+  value: "https://dockhand.pro"
+- name: "Documentation:"
+  value: "https://dockhand.pro/manual/"
+- name: "Repository:"
+  value: "https://github.com/Finsys/dockhand"

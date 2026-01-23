@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: dockhand
+  namespace: cnpg
+spec:
+  name: dockhand
+  owner: dockhand
+  cluster:
+    name: home

@@ -1,0 +1,36 @@
+image:
+  repository: fnsys/dockhand
+  tag: v1.0.11
+  registry: docker.io
+priorityClassName: low-priority
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: TZ
+  value: "America/Toronto"
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+# resources:
+#   requests:
+#     cpu: 1m
+#     memory: 4Mi
+#   limits:
+#     # cpu: 200m
+#     memory: 20Mi
+service:
+  type: ClusterIP
+  port: 3000
+livenessProbe: false
+persistentVolume:
+  type: nfs
+  mountPath: /app/data
