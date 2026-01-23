@@ -50,5 +50,5 @@ extraVolumes:
   persistentVolumeClaim: 
     claimName: nfs-media-downloads
 oidc:
-  enabled: true
+  enabled: false
   secretName: env-secrets-transmission

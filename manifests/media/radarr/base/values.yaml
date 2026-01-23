@@ -49,5 +49,5 @@ backup:
   location: cloudflare
   schedule: "00 07 * * *"
 oidc:
-  enabled: true
+  enabled: false
   secretName: env-secrets-radarr
