@@ -4,4 +4,4 @@ metadata:
   name: env-vars
   namespace: dockhand
 data:
-  DISABLE_LOCAL_LOGIN: "false"
+  DISABLE_LOCAL_LOGIN: "true"
