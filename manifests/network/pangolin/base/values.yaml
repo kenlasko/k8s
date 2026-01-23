@@ -1,7 +1,7 @@
 appKind: Deployment
 image:
   repository: fosrl/newt
-  tag: 1.8.1
+  tag: 1.9.0
   registry: docker.io
 replicas: 1
 priorityClassName: high-priority
