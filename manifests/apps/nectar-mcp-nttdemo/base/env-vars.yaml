@@ -4,4 +4,6 @@ metadata:
   name: env-vars-nttdemo
   namespace: nectar-mcp
 data:
+  NECTAR_DXP_URL: "https://ntt.eu.nectar.services"
+  NECTAR_DOMAIN_NAME: "provisioned.com"
   DEBUG_MODE: "true"
