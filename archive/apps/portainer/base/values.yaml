@@ -1,5 +1,5 @@
 image:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 enterpriseEdition: 
   enabled: false
 persistence:
