@@ -65,7 +65,7 @@ spec:
       containers:
       - args:
         - --provider=oidc
-        - --scope=openid profile groups
+        - --scope=openid email profile groups
         - --oidc-issuer-url=https://auth.ucdialplans.com
         - --redirect-url=https://longhorn.ucdialplans.com/oauth2/callback
         - --http-address=0.0.0.0:4433
@@ -73,7 +73,9 @@ spec:
         - --cookie-secure=true
         - --cookie-domain=.ucdialplans.com
         - --email-domain=*
+        - --insecure-oidc-allow-unverified-email=true
         - --upstream=http://longhorn-frontend:80
+        - --request-logging=false
         envFrom:
         - secretRef:
             name: env-secrets
