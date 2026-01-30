@@ -104,6 +104,7 @@
         "kustomize"
       ],
       "matchPackageNames": [
+        "cloudnative-pg/plugin-barman-cloud",
         "cilium",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
