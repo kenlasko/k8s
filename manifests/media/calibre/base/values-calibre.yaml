@@ -1,6 +1,6 @@
 image:
   repository: crocodilestick/calibre-web-automated
-  tag: v4.0.0
+  tag: v4.0.1
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: true
