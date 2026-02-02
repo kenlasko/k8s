@@ -1,6 +1,6 @@
 image:
   repository: mealie-recipes/mealie
-  tag: v3.9.2
+  tag: v3.10.0
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
