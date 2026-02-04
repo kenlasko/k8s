@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
 - name: cilium
   repo: https://helm.cilium.io/
-  version: 1.18.6
+  version: CiliumBGPPeeringPolicy 
   releaseName: cilium
   namespace: cilium
   valuesFile: values.yaml
