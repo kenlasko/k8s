@@ -9,11 +9,14 @@ spec:
   - name: tls
     namespace: cilium
     sectionName: https
+    group: gateway.networking.k8s.io
+    kind: Gateway
   hostnames:
   - argocd.ucdialplans.com
   rules:
   - backendRefs:
     - name: argocd-server
       namespace: argocd
+      group: ""
       kind: Service
       port: 80  
