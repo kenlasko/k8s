@@ -2,13 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 # Don't want to apply namespace from base, but if I don't, then several resources don't get the namespace because they are missing in the template
 # Opened a ticket for this: https://github.com/nextcloud/helm/issues/791
-# namespace: nextcloud
+namespace: nextcloud
 helmCharts:
 - name: nextcloud
   repo: https://nextcloud.github.io/helm/
   version: 8.9.0
   releaseName: nextcloud
-  namespace: nextcloud # This should be sufficient to set the namespace for all resources, but only if the namespace is explicitly defined in all templates
+  # namespace: nextcloud # This should be sufficient to set the namespace for all resources, but only if the namespace is explicitly defined in all templates
   valuesFile: values.yaml
 resources:
 - backup.yaml
