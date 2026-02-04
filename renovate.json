@@ -104,7 +104,7 @@
         "kustomize"
       ],
       "matchPackageNames": [
-        "argocd",
+        "argo-cd",
         "cloudnative-pg/plugin-barman-cloud",
         "cilium",
         "**/gateway-api.git",
