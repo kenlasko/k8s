@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 # Don't want to apply namespace from base, but if I don't, then several resources don't get the namespace because they are missing in the template
 # Opened a ticket for this: https://github.com/nextcloud/helm/issues/791
-# namespace: nextcloud
+namespace: nextcloud
 helmCharts:
 - name: nextcloud
   repo: https://nextcloud.github.io/helm/
