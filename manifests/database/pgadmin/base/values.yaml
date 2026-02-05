@@ -1,6 +1,6 @@
 image:
   repository: dpage/pgadmin4
-  tag: 9.11.0
+  tag: 9.12.0
   registry: docker.io
 existingSecret: postgresql-passwords
 secretKeys:
