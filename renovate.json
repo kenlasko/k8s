@@ -105,6 +105,7 @@
       ],
       "matchPackageNames": [
         "argo-cd",
+        "cloudnative-pg",
         "cloudnative-pg/plugin-barman-cloud",
         "cilium",
         "**/gateway-api.git",
