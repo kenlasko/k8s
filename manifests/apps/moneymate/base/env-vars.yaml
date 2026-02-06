@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars-backend
+  namespace: moneymate
+data:
+  NODE_ENV: "production"
+  DATABASE_HOST: "home-rw.cnpg.svc.cluster.local"
+  DATABASE_NAME: moneymate
+  PUBLIC_APP_URL: https://moneymate.ucdialplans.com
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars-frontend
+  namespace: moneymate
+data:
+  NODE_ENV: "production"
+  INTERNAL_API_URL: http://moneymate-backend-service:3001
+  PUBLIC_APP_URL: https://moneymate.ucdialplans.com

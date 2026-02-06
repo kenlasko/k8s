@@ -1,0 +1,32 @@
+nameOverride: moneymate-backend
+image:
+  repository: moneymate/backend
+  tag: latest
+  registry: registry.ucdialplans.com
+  pullPolicy: Always
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: env-vars-backend
+- secretRef:
+    name: env-secrets
+resources:
+  requests:
+    cpu: 100m
+    memory: 300Mi
+  limits:
+    memory: 500Mi
+service:
+  port: 3001
+livenessProbe: false
+disableHTTPRoute: true
+

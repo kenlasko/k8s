@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: moneymate
+  namespace: cnpg
+spec:
+  name: moneymate
+  owner: moneymate
+  cluster:
+    name: home
