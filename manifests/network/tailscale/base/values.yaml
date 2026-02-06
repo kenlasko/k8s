@@ -2,7 +2,7 @@ installCRDs: true    # Don't override newer CRDs
 operatorConfig:
   image:
     repository: "tailscale/k8s-operator"
-    tag: "unstable-v1.93.86"
+    # tag: "unstable-v1.93.86"
     pullPolicy: IfNotPresent
   resources:
     requests:
