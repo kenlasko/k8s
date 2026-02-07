@@ -19,3 +19,4 @@ data:
   NODE_ENV: "production"
   INTERNAL_API_URL: http://moneymate-backend-service:3001
   PUBLIC_APP_URL: https://moneymate.ucdialplans.com
+  OIDC_ISSUER_URL: https://auth.ucdialplans.com
