@@ -10,8 +10,8 @@ data:
   PUBLIC_APP_URL: https://moneymate.ucdialplans.com
   OIDC_ISSUER_URL: https://auth.ucdialplans.com
   OIDC_CALLBACK_URL: https://moneymate.ucdialplans.com/api/v1/auth/oidc/callback
-  LOCAL_AUTH_ENABLED: true
-  REGISTRATION_ENABLED: false
+  LOCAL_AUTH_ENABLED: "true"
+  REGISTRATION_ENABLED: "false"
 
 ---
 apiVersion: v1
