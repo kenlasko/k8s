@@ -8,7 +8,6 @@ data:
   DATABASE_HOST: "home-rw.cnpg.svc.cluster.local"
   DATABASE_NAME: moneymate
   PUBLIC_APP_URL: https://moneymate.ucdialplans.com
-  PUBLIC_APP_URL: https://moneymate.ucdialplans.com
   OIDC_ISSUER_URL: https://auth.ucdialplans.com
   LOCAL_AUTH_ENABLED: "true"
   
@@ -21,3 +20,4 @@ metadata:
 data:
   NODE_ENV: "production"
   INTERNAL_API_URL: http://moneymate-backend-service:3001
+  PUBLIC_APP_URL: https://moneymate.ucdialplans.com
