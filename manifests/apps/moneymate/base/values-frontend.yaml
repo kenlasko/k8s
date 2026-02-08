@@ -22,7 +22,7 @@ resources:
     cpu: 10m
     memory: 37Mi
   limits:
-    memory: 50Mi
+    memory: 100Mi
 service:
   port: 3000
 livenessProbe: false
