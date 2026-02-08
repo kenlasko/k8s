@@ -21,10 +21,10 @@ envFrom:
     name: env-secrets
 resources:
   requests:
-    cpu: 100m
-    memory: 300Mi
+    cpu: 10m
+    memory: 60Mi
   limits:
-    memory: 500Mi
+    memory: 100Mi
 service:
   port: 3001
 livenessProbe: false
