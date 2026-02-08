@@ -19,10 +19,10 @@ envFrom:
     name: env-vars-frontend
 resources:
   requests:
-    cpu: 100m
-    memory: 300Mi
+    cpu: 10m
+    memory: 37Mi
   limits:
-    memory: 500Mi
+    memory: 50Mi
 service:
   port: 3000
 livenessProbe: false
