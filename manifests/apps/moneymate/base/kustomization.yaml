@@ -4,12 +4,12 @@ helmGlobals:
   chartHome: ../../../../helm
 helmCharts:
 - name: baseline
-  releaseName: moneymate
-  namespace: moneymate
+  releaseName: monize
+  namespace: monize
   valuesFile: values-backend.yaml
 - name: baseline
-  releaseName: moneymate
-  namespace: moneymate
+  releaseName: monize
+  namespace: monize
   valuesFile: values-frontend.yaml
 resources:
 - database.yaml

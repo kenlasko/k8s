@@ -2,10 +2,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: moneymate
+  name: monize
   namespace: cnpg
 spec:
-  name: moneymate
-  owner: moneymate
+  name: monize
+  owner: monize
   cluster:
     name: home

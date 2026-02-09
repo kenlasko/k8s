@@ -2,8 +2,8 @@
 autoSync: true
 info:
 - name: "Website:"
-  value: "https://moneymate.io/"
+  value: "https://monize.io/"
 - name: "Documentation:"
-  value: "https://docs.moneymate.io/"
+  value: "https://docs.monize.io/"
 - name: "Repository:"
-  value: "https://github.com/moneymate-recipes/moneymate/"
+  value: "https://github.com/monize-recipes/monize/"

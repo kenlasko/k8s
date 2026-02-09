@@ -1,6 +1,6 @@
-nameOverride: moneymate-frontend
+nameOverride: monize-frontend
 image:
-  repository: moneymate/frontend
+  repository: monize/frontend
   tag: latest
   registry: registry.ucdialplans.com
   pullPolicy: Always

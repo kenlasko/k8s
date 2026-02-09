@@ -130,14 +130,14 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-mealie
-    - name: moneymate
+    - name: monize
       ensure: present
       login: true
       superuser: false
       inherit: false
       connectionLimit: -1
       passwordSecret:
-        name: useraccount-moneymate
+        name: useraccount-monize
     - name: nextcloud
       ensure: present
       login: true
