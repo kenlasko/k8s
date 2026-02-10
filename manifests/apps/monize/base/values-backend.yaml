@@ -6,7 +6,7 @@ image:
   pullPolicy: Always
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
   runAsGroup: 0
