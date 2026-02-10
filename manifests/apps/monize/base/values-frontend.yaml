@@ -36,6 +36,6 @@ readinessProbe:
   httpGet:
     path: /api/v1/health/ready
     port: http
-  initialDelaySeconds: 10
-  periodSeconds: 60
-  timeoutSeconds: 5  
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
