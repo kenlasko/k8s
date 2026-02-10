@@ -1,9 +1,5 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
 autoSync: true
 info:
-- name: "Website:"
-  value: "https://monize.io/"
-- name: "Documentation:"
-  value: "https://docs.monize.io/"
 - name: "Repository:"
-  value: "https://github.com/monize-recipes/monize/"
+  value: "https://github.com/kenlasko/monize/"
