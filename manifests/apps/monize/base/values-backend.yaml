@@ -29,4 +29,3 @@ service:
   port: 3001
 livenessProbe: false
 disableHTTPRoute: true
-
