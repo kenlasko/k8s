@@ -3,7 +3,7 @@ image:
   # tag: latest
   # registry: docker.io
   repository: home-operations/plex
-  tag: 1.43.0.10467
+  tag: 1.43.0.10492
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
