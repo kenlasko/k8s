@@ -1,6 +1,6 @@
 image:
   repository: vaultwarden/server
-  tag: 1.35.2
+  tag: 1.35.3
   registry: docker.io
 priorityClassName: medium-priority
 extraLabels:
