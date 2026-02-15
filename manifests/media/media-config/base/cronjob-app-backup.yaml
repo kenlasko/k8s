@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: backup-media
-            image: docker.io/alpine/k8s:1.35.0
+            image: docker.io/alpine/k8s:1.35.1
             imagePullPolicy: IfNotPresent
             securityContext:
               allowPrivilegeEscalation: false
