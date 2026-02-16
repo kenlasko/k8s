@@ -20,3 +20,26 @@ spec:
           operator: In
           values:
           - onode1
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: monize-data
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: "/var/monize"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - onode1

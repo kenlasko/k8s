@@ -10,10 +10,8 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
   instances: 1
   storage:
-  #   storageClass: local-storage
+    storageClass: local-storage
     size: 1Gi
-    pvcTemplate:
-      storageClassName: ""
   enableSuperuserAccess: true
   superuserSecret:
     name: postgresql-superuser
