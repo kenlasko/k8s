@@ -24,5 +24,5 @@ metadata:
   name: cloud-cnpg-monize-link
   namespace: cnpg
 spec:
-  # externalName: cloud-postgresql-link
+  externalName: cloud-cnpg-monize-link
   type: ExternalName
