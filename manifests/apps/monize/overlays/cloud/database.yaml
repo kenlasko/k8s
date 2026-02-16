@@ -8,4 +8,4 @@ spec:
   name: monize
   owner: monize
   cluster:
-    name: cloud
+    name: monize
