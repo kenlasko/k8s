@@ -1,0 +1,27 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: monize
+  namespace: cnpg
+spec:
+  # Use ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie for basic usage
+  # Use ghcr.io/tensorchord/cloudnative-vectorchord:18.1 for vchord (Immich)
+  # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc1.0.0-1 for vchord (Immich) and GIS (Dawarich)
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
+  instances: 1
+  # storage:
+  #   storageClass: local-storage
+  #   size: 1Gi
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgresql-superuser
+  managed:
+    roles:
+    - name: monize
+      ensure: present
+      login: true
+      superuser: false
+      inherit: false
+      connectionLimit: -1
+      passwordSecret:
+        name: useraccount-monize

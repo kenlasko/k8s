@@ -14,6 +14,7 @@ helmCharts:
 resources:
 - ../../base
 - cluster-cloud.yaml
+- cluster-monize.yaml
 - external-secrets.yaml
 - service.yaml
 - volume.yaml
