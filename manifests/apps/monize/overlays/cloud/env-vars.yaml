@@ -16,6 +16,7 @@ data:
   SMTP_PORT: "587"
   SMTP_SECURE: "false"  # Not required for STARTTLS
   EMAIL_FROM: "monize@ucdialplans.com"
+  DEMO_MODE: "true"
 
 ---
 apiVersion: v1
