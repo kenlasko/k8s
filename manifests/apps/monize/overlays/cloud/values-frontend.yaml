@@ -1,6 +1,6 @@
 nameOverride: monize-frontend
 image:
-  repository: kenlasko/monize/frontend
+  repository: kenlasko/monize-frontend
   tag: latest
   registry: ghcr.io
   pullPolicy: Always
