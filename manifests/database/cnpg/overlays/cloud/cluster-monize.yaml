@@ -9,9 +9,9 @@ spec:
   # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc1.0.0-1 for vchord (Immich) and GIS (Dawarich)
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
   instances: 1
-  # storage:
+  storage:
   #   storageClass: local-storage
-  #   size: 1Gi
+    size: 1Gi
   enableSuperuserAccess: true
   superuserSecret:
     name: postgresql-superuser
