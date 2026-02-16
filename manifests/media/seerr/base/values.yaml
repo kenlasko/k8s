@@ -1,6 +1,6 @@
 image:
-  repository: fallenbagel/jellyseerr #seerr-team/seerr
-  tag: 2.7.3
+  repository: seerr-team/seerr
+  tag: 3.0.1
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
