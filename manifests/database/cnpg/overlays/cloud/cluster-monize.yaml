@@ -12,6 +12,8 @@ spec:
   storage:
   #   storageClass: local-storage
     size: 1Gi
+    pvcTemplate:
+      storageClassName: ""
   enableSuperuserAccess: true
   superuserSecret:
     name: postgresql-superuser
