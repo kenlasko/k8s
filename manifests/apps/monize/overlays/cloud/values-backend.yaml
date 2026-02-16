@@ -1,0 +1,44 @@
+nameOverride: monize-backend
+image:
+  repository: kenlasko/monize/backend
+  tag: latest
+  registry: ghcr.io
+  pullPolicy: Always
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: env-vars-backend
+- secretRef:
+    name: env-secrets
+resources:
+  requests:
+    cpu: 10m
+    memory: 60Mi
+  limits:
+    memory: 150Mi
+service:
+  port: 3001
+livenessProbe:
+  httpGet:
+    path: /api/v1/health/live
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /api/v1/health/ready
+    port: http
+  initialDelaySeconds: 3
+  periodSeconds: 5
+  timeoutSeconds: 3
+disableHTTPRoute: true

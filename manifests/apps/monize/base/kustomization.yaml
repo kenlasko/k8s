@@ -1,18 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-helmGlobals:
-  chartHome: ../../../../helm
-helmCharts:
-- name: baseline
-  releaseName: monize
-  namespace: monize
-  valuesFile: values-backend.yaml
-- name: baseline
-  releaseName: monize
-  namespace: monize
-  valuesFile: values-frontend.yaml
 resources:
-- database.yaml
-- env-vars.yaml
-- external-secrets.yaml
 - namespace.yaml

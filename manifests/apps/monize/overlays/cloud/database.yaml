@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: monize
+  namespace: cnpg
+spec:
+  name: monize
+  owner: monize
+  cluster:
+    name: cloud

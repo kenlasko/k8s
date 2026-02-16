@@ -1,0 +1,42 @@
+nameOverride: monize-frontend
+image:
+  repository: kenlasko/monize/frontend
+  tag: latest
+  registry: ghcr.io
+  pullPolicy: Always
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: env-vars-frontend
+resources:
+  requests:
+    cpu: 10m
+    memory: 37Mi
+  limits:
+    memory: 100Mi
+service:
+  port: 3000
+disableHTTPRoute: true
+livenessProbe:
+  httpGet:
+    path: /api/v1/health/live
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 60
+  timeoutSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /api/v1/health/ready
+    port: http
+  initialDelaySeconds: 2
+  periodSeconds: 5
+  timeoutSeconds: 3
