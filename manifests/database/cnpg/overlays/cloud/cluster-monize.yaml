@@ -25,3 +25,15 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-monize
+    services:
+      additional:
+      - selectorType: rw
+        updateStrategy: patch
+        serviceTemplate:
+          metadata:
+            name: "cnpg-monize-service"
+            annotations:
+              tailscale.com/expose: "true"
+              tailscale.com/hostname: "cloud-cnpg-monize"
+          spec:
+            type: ClusterIP

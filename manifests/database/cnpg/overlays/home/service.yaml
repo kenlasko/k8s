@@ -11,3 +11,18 @@ metadata:
 spec:
   # externalName: cloud-postgresql-link
   type: ExternalName
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: cloud-cnpg-monize.tailb7050.ts.net
+    tailscale.com/hostname: cloud-cnpg-monize-link
+    tailscale.com/proxy-class: "default"
+  name: cloud-cnpg-monize-link
+  namespace: cnpg
+spec:
+  # externalName: cloud-postgresql-link
+  type: ExternalName
