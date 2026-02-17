@@ -8,14 +8,8 @@ data:
   DATABASE_HOST: "monize-rw.cnpg.svc.cluster.local"
   DATABASE_NAME: monize
   PUBLIC_APP_URL: https://monize-demo.ucdialplans.com
-  OIDC_ISSUER_URL: https://auth.ucdialplans.com
-  OIDC_CALLBACK_URL: https://monize.ucdialplans.com/api/v1/auth/oidc/callback
   LOCAL_AUTH_ENABLED: "true"
-  REGISTRATION_ENABLED: "true"
-  SMTP_HOST: "mail.smtp2go.com"
-  SMTP_PORT: "587"
-  SMTP_SECURE: "false"  # Not required for STARTTLS
-  EMAIL_FROM: "monize@ucdialplans.com"
+  REGISTRATION_ENABLED: "false"
   DEMO_MODE: "true"
 
 ---
