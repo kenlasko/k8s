@@ -17,7 +17,7 @@ data:
   SMTP_SECURE: "false"  # Not required for STARTTLS
   EMAIL_FROM: "monize@ucdialplans.com"
   AI_DEFAULT_PROVIDER: ollama
-  AI_DEFAULT_MODEL: llama3
+  AI_DEFAULT_MODEL: "llama3.2"
   AI_DEFAULT_BASE_URL: http://ollama.ollama.svc.cluster.local:11434
 
 
