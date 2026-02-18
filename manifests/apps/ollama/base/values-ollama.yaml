@@ -12,7 +12,7 @@ extraEnv:
   - name: OLLAMA_NUM_THREAD
     value: "4"
   - name: OLLAMA_KEEP_ALIVE
-    value: "5m"
+    value: "10m"
   - name: OLLAMA_DEBUG
     value: "1"
 securityContext:
