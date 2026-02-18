@@ -13,7 +13,8 @@ ollama:
       value: "4"
     - name: OLLAMA_KEEP_ALIVE
       value: "5m"
-
+    - name: OLLAMA_DEBUG
+      value: "1"
 securityContext:
   capabilities:
     drop:
