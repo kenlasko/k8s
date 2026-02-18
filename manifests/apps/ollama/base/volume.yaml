@@ -33,3 +33,39 @@ spec:
   resources:
     requests:
       storage: 22Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-openwebui
+  annotations:
+    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+spec:
+  storageClassName: nfs-csi
+  capacity:
+    storage: 675Mi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: 192.168.1.3/appdata/vol/open-webui
+    volumeAttributes:
+      server: 192.168.1.3
+      share: /appdata/vol/open-webui
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-openwebui
+  namespace: ollama
+spec:
+  storageClassName: nfs-csi
+  volumeName: nfs-openwebui
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 675Mi

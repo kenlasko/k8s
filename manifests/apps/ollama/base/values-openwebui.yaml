@@ -1,0 +1,34 @@
+namespaceOverride: ollama
+
+ollama:
+  enabled: false  # we're using an existing external ollama
+
+pipelines:
+  enabled: false
+
+websocket:
+  enabled: false
+
+ollamaUrls:
+- http://ollama:11434
+
+persistence:
+  enabled: true
+  existingClaim: nfs-openwebui
+
+route:
+  enabled: true
+  hostnames:
+  - open-webui.ucdialplans.com
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+
+resources:
+  requests:
+    memory: 500Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 500m
