@@ -1,0 +1,54 @@
+ollama:
+  models:
+    pull:
+      - llama3.2
+  extraEnv:
+    - name: OLLAMA_NUM_PARALLEL
+      value: "2"
+    - name: OLLAMA_MAX_LOADED_MODELS
+      value: "1"
+    - name: OLLAMA_FLASH_ATTENTION
+      value: "1"
+    - name: OLLAMA_NUM_THREAD
+      value: "4"
+    - name: OLLAMA_KEEP_ALIVE
+      value: "5m"
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+
+persistentVolume:
+  enabled: true
+  existingClaim: nfs-ollama
+  size: 22Gi
+
+resources:
+  requests:
+    memory: "6Gi"
+    cpu: "2"
+  limits:
+    memory: "13Gi"
+    cpu: "3.5"
+
+updateStrategy:
+  type: Recreate
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 1
+      preference:
+        matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - nuc5
+          - nuc6
+
+tests:
+  enabled: false
