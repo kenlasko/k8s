@@ -2,19 +2,19 @@ ollama:
   models:
     pull:
       - llama3.2
-  extraEnv:
-    - name: OLLAMA_NUM_PARALLEL
-      value: "2"
-    - name: OLLAMA_MAX_LOADED_MODELS
-      value: "1"
-    - name: OLLAMA_FLASH_ATTENTION
-      value: "1"
-    - name: OLLAMA_NUM_THREAD
-      value: "4"
-    - name: OLLAMA_KEEP_ALIVE
-      value: "5m"
-    - name: OLLAMA_DEBUG
-      value: "1"
+extraEnv:
+  - name: OLLAMA_NUM_PARALLEL
+    value: "2"
+  - name: OLLAMA_MAX_LOADED_MODELS
+    value: "1"
+  - name: OLLAMA_FLASH_ATTENTION
+    value: "1"
+  - name: OLLAMA_NUM_THREAD
+    value: "4"
+  - name: OLLAMA_KEEP_ALIVE
+    value: "5m"
+  - name: OLLAMA_DEBUG
+    value: "1"
 securityContext:
   capabilities:
     drop:
