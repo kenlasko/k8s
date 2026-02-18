@@ -4,7 +4,7 @@ ollama:
       - llama3.2
 extraEnv:
   - name: OLLAMA_NUM_PARALLEL
-    value: "2"
+    value: "1"
   - name: OLLAMA_MAX_LOADED_MODELS
     value: "1"
   - name: OLLAMA_FLASH_ATTENTION
@@ -15,6 +15,8 @@ extraEnv:
     value: "10m"
   - name: OLLAMA_DEBUG
     value: "1"
+  - name: OLLAMA_NUM_CTX
+    value: "8192"
 securityContext:
   capabilities:
     drop:
