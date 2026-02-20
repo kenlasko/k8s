@@ -4,10 +4,10 @@ metadata:
   name: home
   namespace: cnpg
 spec:
-  # Use ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie for basic usage
+  # Use ghcr.io/cloudnative-pg/postgresql:18.2-minimal-trixie for basic usage
   # Use ghcr.io/tensorchord/cloudnative-vectorchord:18.1 for vchord (Immich)
   # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc1.0.0-1 for vchord (Immich) and GIS (Dawarich)
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.1-minimal-trixie
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.2-minimal-trixie
   instances: 3
   storage:
     storageClass: local-storage
