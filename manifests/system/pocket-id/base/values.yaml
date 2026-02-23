@@ -1,6 +1,6 @@
 image:
   repository: pocket-id/pocket-id
-  tag: v2.2.0
+  tag: v2.3.0
   registry: ghcr.io
 priorityClassName: high-priority
 securityContext:
