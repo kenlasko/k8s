@@ -9,7 +9,7 @@ helmCharts:
   valuesFile: values-ollama.yaml
 - name: open-webui
   repo: https://helm.openwebui.com/
-  version: 12.3.0
+  version: 12.5.0
   releaseName: open-webui
   valuesFile: values-openwebui.yaml
 resources:
