@@ -21,8 +21,8 @@ envFrom:
     name: env-secrets
 resources:
   requests:
-    cpu: 10m
-    memory: 60Mi
+    cpu: 3m
+    memory: 95Mi
   limits:
     memory: 150Mi
 service:
