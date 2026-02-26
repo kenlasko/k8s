@@ -9,7 +9,7 @@ env:
   value: "default"
 envFrom:
 - secretRef:
-    name: redis-password-insight
+    name: redis-password
 persistentVolume:
   type: nfs
   size: 20Mi
