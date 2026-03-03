@@ -37,6 +37,11 @@ spec:
           selfHeal: true
   templatePatch: |
     spec:
+      {{- if .namespace }}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: {{ .namespace }}
+      {{- end }}
       {{- if .ignoreDifferences }}
       ignoreDifferences:
       {{- .ignoreDifferences | toYaml | nindent 4 }}

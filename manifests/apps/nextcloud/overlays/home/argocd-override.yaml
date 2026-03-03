@@ -1,5 +1,6 @@
 # This file overrides some ArgoCD ApplicationSet parameters. It does not have to be populated, but it must exist.
 autoSync: true
+namespace: nextcloud   # required because NextCloud helm chart doesn't specify namespace, and Kustomize can't apply namespace to all manifests since 5.8.0
 info:
 - name: "Website:"
   value: "https://nextcloud.com"
