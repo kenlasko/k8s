@@ -5,3 +5,5 @@ metadata:
   namespace: nectar-mcp
 data:
   DEBUG_MODE: "true"
+  NECTAR_MCP_SERVER_HOSTS: "nectar-mcp.ucdialplans.com"
+  NECTAR_ALLOWED_DOMAINS: "demo.us.nectar.services,ntt.eu.nectar.services"
