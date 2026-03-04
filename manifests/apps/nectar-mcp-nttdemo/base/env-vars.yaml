@@ -7,3 +7,5 @@ data:
   NECTAR_DXP_URL: "https://ntt.eu.nectar.services"
   NECTAR_DOMAIN_NAME: "provisioned.com"
   DEBUG_MODE: "true"
+  NECTAR_MCP_SERVER_HOSTS: "nectar-mcp-nttdemo.ucdialplans.com"
+  NECTAR_ALLOWED_DOMAINS: "ntt.eu.nectar.services"
