@@ -1,7 +1,7 @@
 image:
-  repository: nectar-mcp
+  repository: nectar-corp/nectar-mcp
   tag: latest
-  registry: registry.ucdialplans.com
+  registry: quay.io
   pullPolicy: Always
 priorityClassName: low-priority
 securityContext:
