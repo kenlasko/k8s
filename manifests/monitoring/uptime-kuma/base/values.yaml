@@ -24,7 +24,7 @@ resources:
   limits:
     # cpu: 600m
     memory: 500Mi  
-# livenessProbe:
+livenessProbe: false
 #   exec:
 #     command:
 #     - extra/healthcheck
