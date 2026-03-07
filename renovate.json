@@ -111,7 +111,7 @@
         "kubernetes-sigs/gateway-api",
         "longhorn",
         "tailscale-operator",
-        "uptime-kuma"
+        "docker.io/louislam/uptime-kuma"
       ],
       "automerge": false
     },
