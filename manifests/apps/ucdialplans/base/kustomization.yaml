@@ -4,8 +4,8 @@ resources:
 - configmap-nginx.yaml
 - configmap-statupdate.yaml
 - configmap-webconfig.yaml
-- cronjob-emailupdate.yaml
-- cronjob-statupdate.yaml
+# - cronjob-emailupdate.yaml
+# - cronjob-statupdate.yaml
 - deploy.yaml
 - external-secrets.yaml
 - namespace.yaml
