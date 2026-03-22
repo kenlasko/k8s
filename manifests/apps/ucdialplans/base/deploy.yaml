@@ -51,47 +51,47 @@ spec:
         envFrom:
         - secretRef:
             name: credentials
-        volumeMounts:
-        - name: ucdialplans-nginx
-          mountPath: /etc/nginx/sites-enabled/default
-          subPath: default
-        - name: ucdialplans-webconfig
-          mountPath: /var/www/web.config
-          subPath: web.config
-        - name: codesign-cert
-          mountPath: /app/codesign
-          readOnly: true
+        # volumeMounts:
+        # - name: ucdialplans-nginx
+        #   mountPath: /etc/nginx/sites-enabled/default
+        #   subPath: default
+        # - name: ucdialplans-webconfig
+        #   mountPath: /var/www/web.config
+        #   subPath: web.config
+        # - name: codesign-cert
+        #   mountPath: /app/codesign
+        #   readOnly: true
         ports:
-        - containerPort: 8080
+        - containerPort: 80  #8080
           name: http
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /healthcheck
-            port: http
-          initialDelaySeconds: 60
-          periodSeconds: 30
-          timeoutSeconds: 10
-          failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthcheck
+        #     port: http
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 30
+        #   timeoutSeconds: 10
+        #   failureThreshold: 3
       imagePullSecrets:
       - name: dockerhub-creds
       dnsConfig:
         options:
         - name: ndots
           value: "1"
-      volumes:
-      - configMap:
-          items:
-          - key: default
-            path: default
-          name: ucdialplans-nginx
-        name: ucdialplans-nginx
-      - configMap:
-          items:
-          - key: web.config
-            path: web.config
-          name: ucdialplans-webconfig
-        name: ucdialplans-webconfig
-      - name: codesign-cert
-        secret:
-          secretName: codesign-cert
+      # volumes:
+      # - configMap:
+      #     items:
+      #     - key: default
+      #       path: default
+      #     name: ucdialplans-nginx
+      #   name: ucdialplans-nginx
+      # - configMap:
+      #     items:
+      #     - key: web.config
+      #       path: web.config
+      #     name: ucdialplans-webconfig
+      #   name: ucdialplans-webconfig
+      # - name: codesign-cert
+      #   secret:
+      #     secretName: codesign-cert
