@@ -26,16 +26,16 @@ spec:
       - name: ucdialplans
         image: registry.ucdialplans.com/ucdialplans-farewell:latest  #docker.io/kenlasko/ucdialplans:14.6.9
         imagePullPolicy: IfNotPresent
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          # runAsNonRoot: true
-          # runAsUser: 1000
-          # runAsGroup: 100
-          seccompProfile:
-            type: RuntimeDefault
-          capabilities:
-            drop: ["ALL"]
+        # securityContext:
+        #   allowPrivilegeEscalation: false
+        #   readOnlyRootFilesystem: false
+        #   runAsNonRoot: true
+        #   runAsUser: 1000
+        #   runAsGroup: 100
+        #   seccompProfile:
+        #     type: RuntimeDefault
+        #   capabilities:
+        #     drop: ["ALL"]
         resources:
           requests:
             cpu: 5m
