@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: update-akeyless
-            image: docker.io/kenlasko/akeyless-kubectl-cli:1.0
+            image: docker.io/kenlasko/akeyless-kubectl-cli:1.0.2
             command: ["/entrypoint.sh"]
             args: ["/scripts/update-cloud-certs.sh"]
             envFrom:
