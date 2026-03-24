@@ -43,6 +43,9 @@ spec:
       seccompProfile:
         type: RuntimeDefault
     {{- end }}
+    {{- if .Values.backup.unlock }}
+    unlock: {{ .Values.backup.unlock }}
+    {{- end }}
     moverAffinity:
       {{- if .Values.affinity }}
        {{- toYaml .Values.affinity | nindent 6 }}

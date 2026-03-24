@@ -17,6 +17,7 @@ extraVolumeMounts:
 backup:
   location: cloudflare 
   schedule: "05 6 * * *"
+  unlock: "yes"
 service:
   port: 3000
   annotations:
