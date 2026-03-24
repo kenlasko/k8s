@@ -94,6 +94,9 @@ Renovate is set to automatically and silently upgrade every software package EXC
 
 When upgrades for the above packages are found, Renovate will create a pull request that has to be manually approved (or denied). Once approved, ArgoCD manages the actual upgrade as with any other software.
 
+## Backups
+Since the repo is built using GitOps principles and config is stored in Github, backups aren't required for the bulk of the deployments. This does not cover persistent volumes. For persistent volumes running on NFS, I use [VolSync](/manifests/system/volsync) to backup PVCs to S3 storage. [Longhorn](/manifests/system/longhorn) PVCs uses its own internal backup mechanism to backup to the NAS, which is then in turn backed up to alternate storage.
+
 # Cluster Installation Procedures
 [This document](/docs/CLUSTER-INSTALL.md) outlines the steps to install the cluster using [SideroLabs Omni](https://github.com/kenlasko/omni/), a [bootstrap script](/scripts/bootstrap-cluster.sh) and [ArgoCD](/argocd).
 
