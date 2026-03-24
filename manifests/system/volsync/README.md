@@ -9,7 +9,27 @@ Each application has a disabled restore manifest that can be enabled for any res
 
 # Tips & Tricks
 ## Backup fails due to volume locking
-Sometimes, a VolSync backup will continually fail to complete due to volume lock issues in Restic. This appears to happen more frequently to [NextCloud](/manifests/apps/nextcloud). To resolve, EXEC into the volsync pod before it restarts (you have several minutes to do this) and run this command:
+Sometimes, a VolSync backup will continually fail to complete due to volume lock issues in Restic. This appears to happen more frequently to [NextCloud](/manifests/apps/nextcloud). 
+
+To resolve this, update the Volsync `ReplicationSource` manifest for the app in question (usually defined as part of my custom Helm chart) to include a random value for `unlock`:
+```yaml
+backup:
+  location: cloudflare 
+  schedule: "05 6 * * *"
+  unlock: "some-random-value"
+```
+
+If you are manually defining the Volsync `ReplicationSource`:
+```yaml
+spec:
+  restic:
+    unlock: "some-random-value"
+```
+
+Once a replication completes, `status.restic.lastUnlocked` will be set to the same string value from `spec.restic.unlock`. Unlock will not be performed again on subsequent replications unless `spec.restic.unlock` is set to a different value. (From [VolSync docs](https://volsync.readthedocs.io/en/stable/usage/restic/index.html))
+
+
+To resolve manually, EXEC into the volsync pod before it restarts (you have several minutes to do this) and run this command:
 ```
 restick unlock
 ```
