@@ -1,6 +1,6 @@
 image:
   repository: home-operations/tautulli
-  tag: 2.16.1
+  tag: 2.17.0
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
