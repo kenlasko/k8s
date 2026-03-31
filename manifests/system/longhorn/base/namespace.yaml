@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: longhorn
+  annotations:
+    helm.sh/resource-policy: keep
   labels:
+    kubernetes.io/metadata.name: longhorn
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/enforce-version: latest
