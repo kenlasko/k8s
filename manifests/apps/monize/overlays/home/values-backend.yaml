@@ -41,5 +41,11 @@ readinessProbe:
   initialDelaySeconds: 3
   periodSeconds: 5
   timeoutSeconds: 3
-
 disableHTTPRoute: true
+persistentVolume:
+  type: nfs
+  size: 700Mi
+  mountPath: /backup
+backup:
+  location: cloudflare
+  schedule: "20 07 * * *"
