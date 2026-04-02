@@ -43,6 +43,7 @@ readinessProbe:
   timeoutSeconds: 3
 disableHTTPRoute: true
 persistentVolume:
+  name: monize
   type: nfs
   size: 700Mi
   mountPath: /backup
