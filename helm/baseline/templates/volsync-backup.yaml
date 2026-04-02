@@ -1,5 +1,6 @@
 {{- if .Values.backup | default false}}
 {{- $name := .Values.nameOverride | default .Release.Name }}
+{{- $volname := coalesce .Values.persistentVolume.name .Values.nameOverride .Release.Name }}
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
@@ -8,7 +9,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   # The PVC to be backed up
-  sourcePVC: {{ if .Values.backup.claimName }}{{ .Values.backup.claimName }}{{ else }}nfs-{{ coalesce .Values.nameOverride .Release.Name }}{{ end }}
+  sourcePVC: {{ if .Values.backup.claimName }}{{ .Values.backup.claimName }}{{ else }}nfs-{{ $volname  }}{{ end }}
   trigger:
     schedule: {{ .Values.backup.schedule | default "0 5 * * *" | quote }}
   restic:

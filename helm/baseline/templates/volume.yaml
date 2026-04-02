@@ -55,10 +55,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: nfs.csi.k8s.io
-    volumeHandle: 192.168.1.3/appdata/vol/{{ $name }}
+    volumeHandle: 192.168.1.3/appdata/vol/{{ $volname }}
     volumeAttributes:
       server: 192.168.1.3
-      share: /appdata/vol/{{ $name }}
+      share: /appdata/vol/{{ $volname }}
 
 ---
 apiVersion: v1
