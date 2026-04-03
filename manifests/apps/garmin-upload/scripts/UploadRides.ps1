@@ -14,10 +14,10 @@ $Password = (Get-ChildItem env:GarminPassword).Value
 $ProgramSettings = [PSCustomObject]@{
     GCProgramSettings = [PSCustomObject]@{
         BaseURLs  = [PSCustomObject]@{
-            SSOSignInURL       = "https://sso.garmin.com/portal/sso/en-US/sign-in?clientId=GarminConnect&service=https%3A%2F%2Fconnect.garmin.com%2Fapp"
-            SSOLoginAPI        = "https://sso.garmin.com/portal/api/login"
+            SSOSignInURL       = "https://sso.garmin.com/mobile/sso/en/sign-in?clientId=GCM_ANDROID_DARK&service=https%3A%2F%2Fmobile.integration.garmin.com%2Fgcm%2Fandroid"
+            SSOLoginAPI        = "https://sso.garmin.com/mobile/api/login"
             DIAuthTokenURL     = "https://diauth.garmin.com/di-oauth2-service/oauth/token"
-            ServiceURL         = "https://connect.garmin.com/app"
+            ServiceURL         = "https://mobile.integration.garmin.com/gcm/android"
             ActivitySearchURL  = "https://connectapi.garmin.com/activitylist-service/activities/search/activities?"
             GPXActivityBaseURL = "https://connectapi.garmin.com/download-service/export/gpx/activity/"
             TCXActivityBaseURL = "https://connectapi.garmin.com/download-service/export/tcx/activity/"
@@ -53,23 +53,33 @@ Write-Host "- Destination = $Destination"
 Write-Host "- Username = $Username"
 Write-Host "- Overwrite = $Overwrite"
 
-# Authenticate via Garmin SSO Portal
+# Authenticate via Garmin Mobile SSO
 Try {
     Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
 
-    # Step 1: Establish SSO session
+    # Step 1: Establish SSO session by loading the sign-in page
     "SSO sign-in page: {0}" -f $SSOSignInURL | Write-Verbose
-    $null = Invoke-WebRequest -Uri $SSOSignInURL -SessionVariable GarminConnectSession -UserAgent $UserAgent
+    $SSOPage = Invoke-WebRequest -Uri $SSOSignInURL -SessionVariable GarminConnectSession -UserAgent $UserAgent
 
-    # Step 2: POST credentials as JSON to the portal login API
-    $LoginBody = @{
+    # Extract CSRF token from meta tag or cookies if present
+    $CSRFToken = ""
+    $CSRFMeta = $SSOPage.Content | Select-String -Pattern 'name="_csrf"\s+content="([^"]+)"' -AllMatches
+    if ($CSRFMeta.Matches.Count -gt 0) {
+        $CSRFToken = $CSRFMeta.Matches[0].Groups[1].Value
+        "Found CSRF token from meta tag" | Write-Verbose
+    }
+
+    # Step 2: POST credentials as JSON to the mobile login API
+    $LoginPayload = [ordered]@{
         username     = $Username
         password     = $Password
         rememberMe   = $true
         captchaToken = ""
-    } | ConvertTo-Json
+    }
+    if ($CSRFToken) { $LoginPayload["_csrf"] = $CSRFToken }
+    $LoginBody = $LoginPayload | ConvertTo-Json -Compress
 
-    $LoginResult = Invoke-RestMethod -Uri $SSOLoginAPI -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Body $LoginBody -ContentType "application/json" -Headers @{
+    $LoginHeaders = @{
         "Accept"          = "application/json"
         "Origin"          = "https://sso.garmin.com"
         "Referer"         = $SSOSignInURL
@@ -79,14 +89,19 @@ Try {
         "Sec-Fetch-Site"  = "same-origin"
     }
 
+    $LoginResult = Invoke-RestMethod -Uri $SSOLoginAPI -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Body $LoginBody -ContentType "application/json; charset=utf-8" -Headers $LoginHeaders
+
     $ServiceTicket = $LoginResult.serviceTicketId
     if (-not $ServiceTicket) {
         Write-Error "ERROR - No service ticket received. Wrong credentials or MFA required?"
+        Write-Error "Response: $($LoginResult | ConvertTo-Json -Compress)"
         break
     }
     Write-Host "INFO - SSO login successful, obtained service ticket"
 }
 Catch {
+    $ErrorBody = $_.ErrorDetails.Message
+    Write-Error "SSO login error details: $ErrorBody"
     Throw "Error with SSO login to Garmin Connect: $_"
 }
 
