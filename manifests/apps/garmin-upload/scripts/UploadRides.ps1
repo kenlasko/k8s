@@ -61,23 +61,23 @@ Try {
     "SSO sign-in page: {0}" -f $SSOSignInURL | Write-Verbose
     $SSOPage = Invoke-WebRequest -Uri $SSOSignInURL -SessionVariable GarminConnectSession -UserAgent $UserAgent
 
-    # Extract CSRF token from meta tag or cookies if present
-    $CSRFToken = ""
-    $CSRFMeta = $SSOPage.Content | Select-String -Pattern 'name="_csrf"\s+content="([^"]+)"' -AllMatches
-    if ($CSRFMeta.Matches.Count -gt 0) {
-        $CSRFToken = $CSRFMeta.Matches[0].Groups[1].Value
-        "Found CSRF token from meta tag" | Write-Verbose
-    }
+    # Debug: show what we got back
+    Write-Host "DEBUG - Sign-in page status: $($SSOPage.StatusCode)"
+    Write-Host "DEBUG - Sign-in page content length: $($SSOPage.Content.Length)"
+    Write-Host "DEBUG - Sign-in page title: $(($SSOPage.Content | Select-String -Pattern '<title>([^<]+)</title>').Matches[0].Groups[1].Value)"
+    $SessionCookies = $GarminConnectSession.Cookies.GetCookies($SSOSignInURL)
+    Write-Host "DEBUG - Cookies set: $($SessionCookies | ForEach-Object { $_.Name } | Join-String -Separator ', ')"
 
     # Step 2: POST credentials as JSON to the mobile login API
-    $LoginPayload = [ordered]@{
+    $LoginBody = @{
         username     = $Username
         password     = $Password
         rememberMe   = $true
         captchaToken = ""
-    }
-    if ($CSRFToken) { $LoginPayload["_csrf"] = $CSRFToken }
-    $LoginBody = $LoginPayload | ConvertTo-Json -Compress
+    } | ConvertTo-Json -Compress
+
+    Write-Host "DEBUG - Login body: $LoginBody"
+    Write-Host "DEBUG - Login URL: $SSOLoginAPI"
 
     $LoginHeaders = @{
         "Accept"          = "application/json"
