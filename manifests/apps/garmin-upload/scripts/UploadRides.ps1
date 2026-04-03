@@ -236,6 +236,7 @@ $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
 $FilePath = "$DataPath/$DownloadedFile"
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
+exit
 
 ###########################################################################################################################################
 ###################                                            Di2Stats Upload                                          ###################
