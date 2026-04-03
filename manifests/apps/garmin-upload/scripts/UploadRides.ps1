@@ -88,7 +88,9 @@ Try {
     $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $SSOHeaders -UserAgent $UserAgent
 }
 Catch {
-    Throw "Error with initial login to Garmin Connect."
+    Write-Host "ERROR - SSO login failed: $($_.Exception.Message)"
+    Write-Host "ERROR - Details: $($_.ErrorDetails.Message)"
+    Throw "Error with initial login to Garmin Connect: $_"
 }
 
 # Get SSO cookie (service ticket)
