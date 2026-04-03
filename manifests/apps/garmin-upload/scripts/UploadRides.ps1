@@ -90,7 +90,8 @@ Try {
 
     # Check response headers for CSRF
     $SSOPage.Headers.Keys | Where-Object { $_ -match 'csrf|token' } | ForEach-Object {
-        Write-Host "DEBUG - Response header $_: $($SSOPage.Headers[$_])"
+        $hdrName = $_
+        Write-Host "DEBUG - Response header ${hdrName}: $($SSOPage.Headers[$hdrName])"
     }
 
     # Show cookies
