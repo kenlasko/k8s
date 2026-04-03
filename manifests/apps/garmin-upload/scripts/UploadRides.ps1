@@ -14,16 +14,22 @@ $Password = (Get-ChildItem env:GarminPassword).Value
 $ProgramSettings = [PSCustomObject]@{
     GCProgramSettings = [PSCustomObject]@{
         BaseURLs  = [PSCustomObject]@{
-            BaseLoginURL       = "https://sso.garmin.com/sso/login?service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F&webhost=olaxpw-conctmodern004&source=https%3A%2F%2Fconnect.garmin.com%2Fnl-NL%2Fsignin&redirectAfterAccountLoginUrl=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F&redirectAfterAccountCreationUrl=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F&gauthHost=https%3A%2F%2Fsso.garmin.com%2Fsso&locale=nl_NL&id=gauth-widget&cssUrl=https%3A%2F%2Fstatic.garmincdn.com%2Fcom.garmin.connect%2Fui%2Fcss%2Fgauth-custom-v1.2-min.css&clientId=GarminConnect&rememberMeShown=true&rememberMeChecked=false&createAccountShown=true&openCreateAccount=false&usernameShown=false&displayNameShown=false&consumeServiceTicket=false&initialFocus=true&embedWidget=false&generateExtraServiceTicket=false&globalOptInShown=false&globalOptInChecked=false"
-            OAuthUrl           = "https://connect.garmin.com/modern/di-oauth/exchange"
-            PostLoginURL       = "https://connect.garmin.com/modern/"
-            ActivitySearchURL  = "https://connect.garmin.com/activitylist-service/activities/search/activities?"
-            GPXActivityBaseURL = "https://connect.garmin.com/download-service/export/gpx/activity/"
-            TCXActivityBaseURL = "https://connect.garmin.com/download-service/export/tcx/activity/"
-            FITActivityBaseURL = "https://connect.garmin.com/download-service/files/activity/"
-            KMLActivityBaseURL = "https://connect.garmin.com/download-service/export/kml/activity/"
+            SSOSignInURL       = "https://sso.garmin.com/portal/sso/en-US/sign-in?clientId=GarminConnect&service=https%3A%2F%2Fconnect.garmin.com%2Fapp"
+            SSOLoginAPI        = "https://sso.garmin.com/portal/api/login"
+            DIAuthTokenURL     = "https://diauth.garmin.com/di-oauth2-service/oauth/token"
+            ServiceURL         = "https://connect.garmin.com/app"
+            ActivitySearchURL  = "https://connectapi.garmin.com/activitylist-service/activities/search/activities?"
+            GPXActivityBaseURL = "https://connectapi.garmin.com/download-service/export/gpx/activity/"
+            TCXActivityBaseURL = "https://connectapi.garmin.com/download-service/export/tcx/activity/"
+            FITActivityBaseURL = "https://connectapi.garmin.com/download-service/files/activity/"
+            KMLActivityBaseURL = "https://connectapi.garmin.com/download-service/export/kml/activity/"
         }
-        UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0"
+        UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0"
+        DIClientIDs = @(
+            "GARMIN_CONNECT_MOBILE_ANDROID_DI_2025Q2",
+            "GARMIN_CONNECT_MOBILE_ANDROID_DI_2024Q4",
+            "GARMIN_CONNECT_MOBILE_ANDROID_DI"
+        )
     }
 }
 "ProgramSettings: {0}" -f $ProgramSettings | ConvertTo-Json | Write-Verbose
@@ -47,103 +53,81 @@ Write-Host "- Destination = $Destination"
 Write-Host "- Username = $Username"
 Write-Host "- Overwrite = $Overwrite"
 
-# Authenticate
+# Authenticate via Garmin SSO Portal
 Try {
     Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
-    "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
-    $BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
 
-    $LoginForm = @{
-        username                    = $Username
-        password                    = $Password
-        embed                       = 'false'
-        'login-remember-checkbox'   = 'on'
-        '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
+    # Step 1: Establish SSO session
+    "SSO sign-in page: {0}" -f $SSOSignInURL | Write-Verbose
+    $null = Invoke-WebRequest -Uri $SSOSignInURL -SessionVariable GarminConnectSession -UserAgent $UserAgent
+
+    # Step 2: POST credentials as JSON to the portal login API
+    $LoginBody = @{
+        username     = $Username
+        password     = $Password
+        rememberMe   = $true
+        captchaToken = ""
+    } | ConvertTo-Json
+
+    $LoginResult = Invoke-RestMethod -Uri $SSOLoginAPI -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Body $LoginBody -ContentType "application/json" -Headers @{
+        "Accept"          = "application/json"
+        "Origin"          = "https://sso.garmin.com"
+        "Referer"         = $SSOSignInURL
+        "DNT"             = "1"
+        "Sec-Fetch-Dest"  = "empty"
+        "Sec-Fetch-Mode"  = "cors"
+        "Sec-Fetch-Site"  = "same-origin"
     }
 
-    $Di2Headers = @{
-        "origin"                    = "https://sso.garmin.com";
-        "authority"                 = "connect.garmin.com"
-        "scheme"                    = "https"
-        "path"                      = "/signin/"
-        "pragma"                    = "no-cache"
-        "cache-control"             = "no-cache"
-        "dnt"                       = "1"
-        "upgrade-insecure-requests" = "1"
-        "user-agent"                = $UserAgent
-        "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-        "sec-fetch-site"            = "cross-site"
-        "sec-fetch-mode"            = "navigate"
-        "sec-fetch-user"            = "?1"
-        "sec-fetch-dest"            = "document"
-        "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
+    $ServiceTicket = $LoginResult.serviceTicketId
+    if (-not $ServiceTicket) {
+        Write-Error "ERROR - No service ticket received. Wrong credentials or MFA required?"
+        break
     }
-    $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
-    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $Di2Headers -UserAgent $UserAgent
+    Write-Host "INFO - SSO login successful, obtained service ticket"
 }
 Catch {
-    Throw "Error with initial login to Garmin Connect."
+    Throw "Error with SSO login to Garmin Connect: $_"
 }
 
-# Get Cookies
-"Read cookies" | Write-Verbose
-$Cookies = $GarminConnectSession.Cookies.GetCookies($BaseLoginURL)
+# Step 3: Exchange service ticket for OAuth2 bearer token via DI Auth
+"Exchanging service ticket for OAuth2 token" | Write-Verbose
+$DIClientIDs = $ProgramSettings.GCProgramSettings.DIClientIDs
+$OAuthResult = $null
 
-# Get SSO cookie
-$SSOCookie = $Cookies | Where-Object name -EQ "CASTGC" | Select-Object value -ExpandProperty value
-if ($SSOCookie.Length -lt 1) {
-    Write-Error "ERROR - No valid SSO cookie found, wrong credentials?"
-    break
+foreach ($ClientID in $DIClientIDs) {
+    Try {
+        $AuthBasic = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("${ClientID}:"))
+        $TokenBody = "client_id=$ClientID&service_ticket=$ServiceTicket&grant_type=https%3A%2F%2Fconnectapi.garmin.com%2Fdi-oauth2-service%2Foauth%2Fgrant%2Fservice_ticket&service_url=$([uri]::EscapeDataString($ServiceURL))"
+
+        $OAuthResult = Invoke-RestMethod -Uri $DIAuthTokenURL -Method POST -Body $TokenBody -ContentType "application/x-www-form-urlencoded" -Headers @{
+            "Authorization" = "Basic $AuthBasic"
+        }
+
+        if ($OAuthResult.access_token) {
+            Write-Host "INFO - Obtained bearer token using client ID: $ClientID"
+            break
+        }
+    }
+    Catch {
+        Write-Verbose "Client ID $ClientID failed, trying next..."
+        $OAuthResult = $null
+    }
 }
 
-Try {
-    # Authenticate by using cookie
-    "Post login authentication" | Write-Verbose
-    $PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession  -UserAgent $UserAgent
-}
-Catch {
-    Throw "Error with cookie login to Garmin Connect."
-}
-
-# Get the bearer token
-"Get bearer token" | Write-Verbose
-$OAuthResult = Invoke-RestMethod -UseBasicParsing -Uri $OAuthUrl -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Headers @{
-    "Accept"          = "application/json, text/plain, */*"
-    "Accept-Language" = "en-US,en;q=0.5"
-    "Accept-Encoding" = "gzip, deflate"
-    "Referer"         = "https://connect.garmin.com/modern/"
-    "NK"              = "NT"
-    "Origin"          = "https://connect.garmin.com"
-    "DNT"             = "1"
-    "Sec-GPC"         = "1"
-    "Sec-Fetch-Dest"  = "empty"
-    "Sec-Fetch-Mode"  = "cors"
-    "Sec-Fetch-Site"  = "same-origin"
-    "TE"              = "trailers"
+if (-not $OAuthResult -or -not $OAuthResult.access_token) {
+    Throw "Error obtaining OAuth2 token from Garmin DI Auth service."
 }
 
 $GarminHeaders = @{
-    "authority"          = "connect.garmin.com"
-    "method"             = "GET"
-    "path"               = $Path
-    "scheme"             = "https"
-    "accept"             = "application/json, text/javascript, */*; q=0.01"
-    "accept-encoding"    = "gzip, deflate"
-    "accept-language"    = "en,en-US;q=0.9,nl;q=0.8"
-    "authorization"      = "Bearer {0}" -f $OAuthResult.access_token
-    "baggage"            = "sentry-environment=prod,sentry-release=connect%404.77.317,sentry-public_key=f0377f25d5534ad589ab3a9634f25e71,sentry-trace_id=2ad3f9199d7245f48903717ee8de989e,sentry-sample_rate=1,sentry-sampled=true"
-    "di-backend"         = "connectapi.garmin.com"
-    "dnt"                = "1"
-    "nk"                 = "NT"
-    "referer"            = "https://connect.garmin.com/modern/activities"
-    "sec-ch-ua"          = "`"Microsoft Edge`";v=`"123`", `"Not:A-Brand`";v=`"8`", `"Chromium`";v=`"123`""
-    "sec-ch-ua-mobile"   = "?0"
-    "sec-ch-ua-platform" = "`"Windows`""
-    "sec-fetch-dest"     = "empty"
-    "sec-fetch-mode"     = "cors"
-    "sec-fetch-site"     = "same-origin"
-    "x-lang"             = "en-US"
-    "x-requested-with"   = "XMLHttpRequest"
+    "Authorization"  = "Bearer {0}" -f $OAuthResult.access_token
+    "Accept"         = "application/json"
+    "Accept-Encoding"= "gzip, deflate"
+    "Accept-Language" = "en-US,en;q=0.9"
+    "DI-Backend"     = "connectapi.garmin.com"
+    "DNT"            = "1"
+    "NK"             = "NT"
+    "User-Agent"     = $UserAgent
 }
 
 # Set the correct activity download URL for the selected type.
@@ -161,12 +145,9 @@ $PageSize = 100
 $FirstRecord = 0
 $Pages = 0
 do {
-    $Uri = [System.Uri]::new($ActivitySearchURL)
-    $Path = "{0}limit={1}&start={2}" -f $Uri.PathAndQuery, $PageSize, $FirstRecord
-    $GarminHeaders.Path = $Path
-    $Url = "https://connect.garmin.com", $Path -join ""
+    $Url = "{0}limit={1}&start={2}" -f $ActivitySearchURL, $PageSize, $FirstRecord
     "Activity list url: {0}" -f $Url | Write-Verbose
-    $SearchResults = Invoke-RestMethod -Uri $Url -Method get -WebSession $GarminConnectSession -ErrorAction SilentlyContinue -Headers $GarminHeaders
+    $SearchResults = Invoke-RestMethod -Uri $Url -Method GET -Headers $GarminHeaders -ErrorAction SilentlyContinue
     $ActivityList += $SearchResults
     $FirstRecord = $FirstRecord + $PageSize
     $Pages++
@@ -207,18 +188,15 @@ $ActivityFileType = $ActivityFileType.tolower()
 $ActivityExportedCount = 0
 foreach ($Activity in $Activities) {
     # Download files
-    $Uri = [System.Uri]::new($ActivityBaseURL)
-    $Path = "{0}{1}/" -f $Uri.PathAndQuery, $($Activity.activityID)
-    $GarminHeaders.path = $Path
     $URL = $ActivityBaseURL, $($Activity.activityID) -Join ""
     "Download Url: {0}" -f $URL | Write-Verbose
     $OutputFileFullPath = Join-Path -Path $TempDir -ChildPath "$($Activity.activityID).zip"
 
     if (Test-Path $OutputFileFullPath) {
-        # Allways overwrite temp files
+        # Always overwrite temp files
         $null = Remove-Item $OutputFileFullPath -Force
     }
-    Invoke-RestMethod -Uri $URL -WebSession $GarminConnectSession -Headers $GarminHeaders -OutFile $OutputFileFullPath
+    Invoke-RestMethod -Uri $URL -Headers $GarminHeaders -OutFile $OutputFileFullPath
 
     # Unzip the activity files
     Expand-Archive -Path $OutputFileFullPath -DestinationPath $DataPath -Force
@@ -528,36 +506,20 @@ $DescriptionUpdate = @{
 
 $JSONUpdate = $DescriptionUpdate | ConvertTo-Json
 
-$UpdateURL = "https://connect.garmin.com/modern/proxy/activity-service/activity/$ActivityID"
+$UpdateURL = "https://connectapi.garmin.com/activity-service/activity/$ActivityID"
 
 $UpdateHeaders = @{
-	"authority"="connect.garmin.com"
-    "Authorization" = $OAuthResult.access_token
-	"path"="/modern/proxy/activity-service/activity/$ActivityID"
-	"scheme"="https"
-	"accept"="application/json, text/javascript, */*; q=0.01"
-	"accept-encoding"="gzip, deflate, br, zstd"
-	"accept-language"="en-US,en;q=0.5"
-	"content-type"="application/json"
-    "DI-Backend" = "connectapi.garmin.com"
-    "DNT" = "1"
-	"NK"="NT"
-	"origin"="https://connect.garmin.com"
-	"referer"="https://connect.garmin.com/modern/activity/$ActivityID"
-	"sec-ch-ua-mobile"="?0"
-    "Sec-Fetch-Dest" = "empty"
-    "Sec-Fetch-Mode" = "cors"
-    "Sec-Fetch-Site" = "same-origin"
-    "Priority" = "u=0"
-    "Sec-GPC" = "1"
-	"user-agent"="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edge/88.0.705.81"
-	"x-app-ver"="5.11.2.1"
-	"x-http-method-override"="PUT"
-	"x-lang"="en-US"
-	"x-requested-with"="XMLHttpRequest"
-}		
+    "Authorization"  = "Bearer {0}" -f $OAuthResult.access_token
+    "Accept"         = "application/json"
+    "Content-Type"   = "application/json"
+    "DI-Backend"     = "connectapi.garmin.com"
+    "DNT"            = "1"
+    "NK"             = "NT"
+    "User-Agent"     = $UserAgent
+    "X-HTTP-Method-Override" = "PUT"
+}
 
-Invoke-RestMethod -Uri $UpdateURL -Method POST -WebSession $GarminConnectSession -Body $JSONUpdate -Headers $UpdateHeaders -UseBasicParsing
+Invoke-RestMethod -Uri $UpdateURL -Method POST -Body $JSONUpdate -Headers $UpdateHeaders
 Write-Host "INFO - Garmin activity updated"
 
 # Delete all FIT files 
