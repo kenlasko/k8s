@@ -61,12 +61,41 @@ Try {
     "SSO sign-in page: {0}" -f $SSOSignInURL | Write-Verbose
     $SSOPage = Invoke-WebRequest -Uri $SSOSignInURL -SessionVariable GarminConnectSession -UserAgent $UserAgent
 
-    # Debug: show what we got back
+    # Debug: inspect the page for CSRF tokens and hidden fields
     Write-Host "DEBUG - Sign-in page status: $($SSOPage.StatusCode)"
-    Write-Host "DEBUG - Sign-in page content length: $($SSOPage.Content.Length)"
-    Write-Host "DEBUG - Sign-in page title: $(($SSOPage.Content | Select-String -Pattern '<title>([^<]+)</title>').Matches[0].Groups[1].Value)"
+
+    # Search for CSRF tokens in various formats
+    $CSRFPatterns = @(
+        '_csrf',
+        'csrf',
+        'csrfToken',
+        'X-CSRF',
+        'token'
+    )
+    foreach ($pat in $CSRFPatterns) {
+        $matches = $SSOPage.Content | Select-String -Pattern "(?i)$pat[^a-z].*?[=:]\s*[`"']([^`"']{8,})[`"']" -AllMatches
+        if ($matches.Matches.Count -gt 0) {
+            foreach ($m in $matches.Matches) {
+                Write-Host "DEBUG - Found pattern '$pat': $($m.Value.Substring(0, [Math]::Min(120, $m.Value.Length)))"
+            }
+        }
+    }
+
+    # Check for hidden input fields
+    $HiddenInputs = $SSOPage.InputFields | Where-Object { $_.type -eq 'hidden' }
+    if ($HiddenInputs) {
+        Write-Host "DEBUG - Hidden inputs found:"
+        $HiddenInputs | ForEach-Object { Write-Host "DEBUG -   name=$($_.name) value=$($_.value)" }
+    }
+
+    # Check response headers for CSRF
+    $SSOPage.Headers.Keys | Where-Object { $_ -match 'csrf|token' } | ForEach-Object {
+        Write-Host "DEBUG - Response header $_: $($SSOPage.Headers[$_])"
+    }
+
+    # Show cookies
     $SessionCookies = $GarminConnectSession.Cookies.GetCookies($SSOSignInURL)
-    Write-Host "DEBUG - Cookies set: $($SessionCookies | ForEach-Object { $_.Name } | Join-String -Separator ', ')"
+    Write-Host "DEBUG - Cookies: $($SessionCookies | ForEach-Object { "$($_.Name)=$($_.Value.Substring(0, [Math]::Min(20, $_.Value.Length)))..." } | Join-String -Separator ', ')"
 
     # Step 2: POST credentials as JSON to the mobile login API
     $LoginBody = @{
@@ -75,9 +104,6 @@ Try {
         rememberMe   = $true
         captchaToken = ""
     } | ConvertTo-Json -Compress
-
-    Write-Host "DEBUG - Login body: $LoginBody"
-    Write-Host "DEBUG - Login URL: $SSOLoginAPI"
 
     $LoginHeaders = @{
         "Accept"          = "application/json"
@@ -89,7 +115,7 @@ Try {
         "Sec-Fetch-Site"  = "same-origin"
     }
 
-    $LoginResult = Invoke-RestMethod -Uri $SSOLoginAPI -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Body $LoginBody -ContentType "application/json; charset=utf-8" -Headers $LoginHeaders
+    $LoginResult = Invoke-RestMethod -Uri $SSOLoginAPI -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Body $LoginBody -ContentType "application/json" -Headers $LoginHeaders
 
     $ServiceTicket = $LoginResult.serviceTicketId
     if (-not $ServiceTicket) {
