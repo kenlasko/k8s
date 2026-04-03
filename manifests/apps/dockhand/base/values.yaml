@@ -1,6 +1,6 @@
 image:
   repository: fnsys/dockhand
-  tag: v1.0.23
+  tag: v1.0.24
   registry: docker.io
 priorityClassName: low-priority
 securityContext:
