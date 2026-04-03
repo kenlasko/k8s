@@ -14,10 +14,10 @@ $Password = (Get-ChildItem env:GarminPassword).Value
 $ProgramSettings = [PSCustomObject]@{
     GCProgramSettings = [PSCustomObject]@{
         BaseURLs  = [PSCustomObject]@{
-            SSOSignInURL       = "https://sso.garmin.com/mobile/sso/en/sign-in?clientId=GCM_ANDROID_DARK&service=https%3A%2F%2Fmobile.integration.garmin.com%2Fgcm%2Fandroid"
-            SSOLoginAPI        = "https://sso.garmin.com/mobile/api/login"
+            BaseLoginURL       = "https://sso.garmin.com/sso/login?service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F&webhost=olaxpw-conctmodern004&source=https%3A%2F%2Fconnect.garmin.com%2Fnl-NL%2Fsignin&redirectAfterAccountLoginUrl=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F&redirectAfterAccountCreationUrl=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F&gauthHost=https%3A%2F%2Fsso.garmin.com%2Fsso&locale=nl_NL&id=gauth-widget&cssUrl=https%3A%2F%2Fstatic.garmincdn.com%2Fcom.garmin.connect%2Fui%2Fcss%2Fgauth-custom-v1.2-min.css&clientId=GarminConnect&rememberMeShown=true&rememberMeChecked=false&createAccountShown=true&openCreateAccount=false&usernameShown=false&displayNameShown=false&consumeServiceTicket=false&initialFocus=true&embedWidget=false&generateExtraServiceTicket=false&globalOptInShown=false&globalOptInChecked=false"
+            PostLoginURL       = "https://connect.garmin.com/modern/"
             DIAuthTokenURL     = "https://diauth.garmin.com/di-oauth2-service/oauth/token"
-            ServiceURL         = "https://mobile.integration.garmin.com/gcm/android"
+            ServiceURL         = "https://connect.garmin.com/modern/"
             ActivitySearchURL  = "https://connectapi.garmin.com/activitylist-service/activities/search/activities?"
             GPXActivityBaseURL = "https://connectapi.garmin.com/download-service/export/gpx/activity/"
             TCXActivityBaseURL = "https://connectapi.garmin.com/download-service/export/tcx/activity/"
@@ -53,94 +53,71 @@ Write-Host "- Destination = $Destination"
 Write-Host "- Username = $Username"
 Write-Host "- Overwrite = $Overwrite"
 
-# Authenticate via Garmin Mobile SSO
+# Authenticate using original SSO form-based login
 Try {
     Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
+    "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
+    $BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
 
-    # Step 1: Establish SSO session by loading the sign-in page
-    "SSO sign-in page: {0}" -f $SSOSignInURL | Write-Verbose
-    $SSOPage = Invoke-WebRequest -Uri $SSOSignInURL -SessionVariable GarminConnectSession -UserAgent $UserAgent
-
-    # Debug: inspect the page for CSRF tokens and hidden fields
-    Write-Host "DEBUG - Sign-in page status: $($SSOPage.StatusCode)"
-
-    # Search for CSRF tokens in various formats
-    $CSRFPatterns = @(
-        '_csrf',
-        'csrf',
-        'csrfToken',
-        'X-CSRF',
-        'token'
-    )
-    foreach ($pat in $CSRFPatterns) {
-        $matches = $SSOPage.Content | Select-String -Pattern "(?i)$pat[^a-z].*?[=:]\s*[`"']([^`"']{8,})[`"']" -AllMatches
-        if ($matches.Matches.Count -gt 0) {
-            foreach ($m in $matches.Matches) {
-                Write-Host "DEBUG - Found pattern '$pat': $($m.Value.Substring(0, [Math]::Min(120, $m.Value.Length)))"
-            }
-        }
+    $LoginForm = @{
+        username                    = $Username
+        password                    = $Password
+        embed                       = 'false'
+        'login-remember-checkbox'   = 'on'
+        '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
     }
 
-    # Check for hidden input fields
-    $HiddenInputs = $SSOPage.InputFields | Where-Object { $_.type -eq 'hidden' }
-    if ($HiddenInputs) {
-        Write-Host "DEBUG - Hidden inputs found:"
-        $HiddenInputs | ForEach-Object { Write-Host "DEBUG -   name=$($_.name) value=$($_.value)" }
+    $SSOHeaders = @{
+        "origin"                    = "https://sso.garmin.com"
+        "authority"                 = "connect.garmin.com"
+        "scheme"                    = "https"
+        "path"                      = "/signin/"
+        "pragma"                    = "no-cache"
+        "cache-control"             = "no-cache"
+        "dnt"                       = "1"
+        "upgrade-insecure-requests" = "1"
+        "user-agent"                = $UserAgent
+        "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        "sec-fetch-site"            = "cross-site"
+        "sec-fetch-mode"            = "navigate"
+        "sec-fetch-user"            = "?1"
+        "sec-fetch-dest"            = "document"
+        "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
     }
-
-    # Check response headers for CSRF
-    $SSOPage.Headers.Keys | Where-Object { $_ -match 'csrf|token' } | ForEach-Object {
-        $hdrName = $_
-        Write-Host "DEBUG - Response header ${hdrName}: $($SSOPage.Headers[$hdrName])"
-    }
-
-    # Show cookies
-    $SessionCookies = $GarminConnectSession.Cookies.GetCookies($SSOSignInURL)
-    Write-Host "DEBUG - Cookies: $($SessionCookies | ForEach-Object { "$($_.Name)=$($_.Value.Substring(0, [Math]::Min(20, $_.Value.Length)))..." } | Join-String -Separator ', ')"
-
-    # Step 2: POST credentials as JSON to the mobile login API
-    $LoginBody = @{
-        username     = $Username
-        password     = $Password
-        rememberMe   = $true
-        captchaToken = ""
-    } | ConvertTo-Json -Compress
-
-    $LoginHeaders = @{
-        "Accept"          = "application/json"
-        "Origin"          = "https://sso.garmin.com"
-        "Referer"         = $SSOSignInURL
-        "DNT"             = "1"
-        "Sec-Fetch-Dest"  = "empty"
-        "Sec-Fetch-Mode"  = "cors"
-        "Sec-Fetch-Site"  = "same-origin"
-    }
-
-    $LoginResult = Invoke-RestMethod -Uri $SSOLoginAPI -Method POST -WebSession $GarminConnectSession -UserAgent $UserAgent -Body $LoginBody -ContentType "application/json" -Headers $LoginHeaders
-
-    $ServiceTicket = $LoginResult.serviceTicketId
-    if (-not $ServiceTicket) {
-        Write-Error "ERROR - No service ticket received. Wrong credentials or MFA required?"
-        Write-Error "Response: $($LoginResult | ConvertTo-Json -Compress)"
-        break
-    }
-    Write-Host "INFO - SSO login successful, obtained service ticket"
+    $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
+    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $SSOHeaders -UserAgent $UserAgent
 }
 Catch {
-    $ErrorBody = $_.ErrorDetails.Message
-    Write-Error "SSO login error details: $ErrorBody"
-    Throw "Error with SSO login to Garmin Connect: $_"
+    Throw "Error with initial login to Garmin Connect."
 }
 
-# Step 3: Exchange service ticket for OAuth2 bearer token via DI Auth
-"Exchanging service ticket for OAuth2 token" | Write-Verbose
+# Get SSO cookie (service ticket)
+"Read cookies" | Write-Verbose
+$Cookies = $GarminConnectSession.Cookies.GetCookies($BaseLoginURL)
+$SSOCookie = $Cookies | Where-Object name -EQ "CASTGC" | Select-Object value -ExpandProperty value
+if ($SSOCookie.Length -lt 1) {
+    Write-Error "ERROR - No valid SSO cookie found, wrong credentials?"
+    break
+}
+
+Try {
+    # Post-login redirect to establish connect session
+    "Post login authentication" | Write-Verbose
+    $PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession -UserAgent $UserAgent
+}
+Catch {
+    Throw "Error with cookie login to Garmin Connect."
+}
+
+# Exchange SSO ticket for OAuth2 bearer token via DI Auth
+Write-Host "INFO - Exchanging SSO ticket for OAuth2 bearer token"
 $DIClientIDs = $ProgramSettings.GCProgramSettings.DIClientIDs
 $OAuthResult = $null
 
 foreach ($ClientID in $DIClientIDs) {
     Try {
         $AuthBasic = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("${ClientID}:"))
-        $TokenBody = "client_id=$ClientID&service_ticket=$ServiceTicket&grant_type=https%3A%2F%2Fconnectapi.garmin.com%2Fdi-oauth2-service%2Foauth%2Fgrant%2Fservice_ticket&service_url=$([uri]::EscapeDataString($ServiceURL))"
+        $TokenBody = "client_id=$ClientID&service_ticket=$SSOCookie&grant_type=https%3A%2F%2Fconnectapi.garmin.com%2Fdi-oauth2-service%2Foauth%2Fgrant%2Fservice_ticket&service_url=$([uri]::EscapeDataString($ServiceURL))"
 
         $OAuthResult = Invoke-RestMethod -Uri $DIAuthTokenURL -Method POST -Body $TokenBody -ContentType "application/x-www-form-urlencoded" -Headers @{
             "Authorization" = "Basic $AuthBasic"
@@ -152,7 +129,7 @@ foreach ($ClientID in $DIClientIDs) {
         }
     }
     Catch {
-        Write-Verbose "Client ID $ClientID failed, trying next..."
+        Write-Verbose "Client ID $ClientID failed: $_"
         $OAuthResult = $null
     }
 }
