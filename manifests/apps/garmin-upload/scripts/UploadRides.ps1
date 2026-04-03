@@ -110,6 +110,8 @@ Catch {
 }
 
 # Exchange SSO ticket for OAuth2 bearer token via DI Auth
+Write-Host "DEBUG - SSO cookie length: $($SSOCookie.Length), starts with: $($SSOCookie.Substring(0, [Math]::Min(20, $SSOCookie.Length)))..."
+Write-Host "DEBUG - DIAuthTokenURL: $DIAuthTokenURL"
 Write-Host "INFO - Exchanging SSO ticket for OAuth2 bearer token"
 $DIClientIDs = $ProgramSettings.GCProgramSettings.DIClientIDs
 $OAuthResult = $null
@@ -129,7 +131,9 @@ foreach ($ClientID in $DIClientIDs) {
         }
     }
     Catch {
-        Write-Verbose "Client ID $ClientID failed: $_"
+        $ErrBody = $_.ErrorDetails.Message
+        Write-Host "DEBUG - Client ID $ClientID failed: $($_.Exception.Message)"
+        Write-Host "DEBUG - Response: $ErrBody"
         $OAuthResult = $null
     }
 }
