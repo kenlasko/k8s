@@ -53,42 +53,78 @@ Write-Host "- Destination = $Destination"
 Write-Host "- Username = $Username"
 Write-Host "- Overwrite = $Overwrite"
 
-# Authenticate using original SSO form-based login
-Try {
-    Write-Host "INFO - Connecting to Garmin Connect for user $Username" -ForegroundColor Gray
-    "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
-    $BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
+# Authenticate using original SSO form-based login (with retry on rate limit)
+$MaxRetries = 3
+$LoginSuccess = $false
 
-    $LoginForm = @{
-        username                    = $Username
-        password                    = $Password
-        embed                       = 'false'
-        'login-remember-checkbox'   = 'on'
-        '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
-    }
+for ($Attempt = 1; $Attempt -le $MaxRetries; $Attempt++) {
+    Try {
+        Write-Host "INFO - Connecting to Garmin Connect for user $Username (attempt $Attempt/$MaxRetries)" -ForegroundColor Gray
+        "BaseLoginUrl: {0}" -f $BaseLoginURL | Write-Verbose
+        $BaseLogin = Invoke-WebRequest -Uri $BaseLoginURL -SessionVariable GarminConnectSession
 
-    $SSOHeaders = @{
-        "origin"                    = "https://sso.garmin.com"
-        "authority"                 = "connect.garmin.com"
-        "scheme"                    = "https"
-        "path"                      = "/signin/"
-        "pragma"                    = "no-cache"
-        "cache-control"             = "no-cache"
-        "dnt"                       = "1"
-        "upgrade-insecure-requests" = "1"
-        "user-agent"                = $UserAgent
-        "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
-        "sec-fetch-site"            = "cross-site"
-        "sec-fetch-mode"            = "navigate"
-        "sec-fetch-user"            = "?1"
-        "sec-fetch-dest"            = "document"
-        "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
+        $LoginForm = @{
+            username                    = $Username
+            password                    = $Password
+            embed                       = 'false'
+            'login-remember-checkbox'   = 'on'
+            '_csrf'                     = $BaseLogin.InputFields | Where-Object {$_.name -eq '_csrf'} | Select-Object value -ExpandProperty value
+        }
+
+        $SSOHeaders = @{
+            "origin"                    = "https://sso.garmin.com"
+            "authority"                 = "connect.garmin.com"
+            "scheme"                    = "https"
+            "path"                      = "/signin/"
+            "pragma"                    = "no-cache"
+            "cache-control"             = "no-cache"
+            "dnt"                       = "1"
+            "upgrade-insecure-requests" = "1"
+            "user-agent"                = $UserAgent
+            "accept"                    = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+            "sec-fetch-site"            = "cross-site"
+            "sec-fetch-mode"            = "navigate"
+            "sec-fetch-user"            = "?1"
+            "sec-fetch-dest"            = "document"
+            "accept-language"           = "en,en-US;q=0.9,nl;q=0.8"
+        }
+        $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
+        $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $SSOHeaders -UserAgent $UserAgent
+        $LoginSuccess = $true
+        break
     }
-    $Service = "service=https%3A%2F%2Fconnect.garmin.com%2Fmodern%2F"
-    $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $SSOHeaders -UserAgent $UserAgent
+    Catch {
+        $Response = $_.Exception.Response
+        if ($Response.StatusCode -eq 429 -and $Attempt -lt $MaxRetries) {
+            # Parse Retry-After header (seconds or HTTP date)
+            $RetryAfter = $Response.Headers.RetryAfter
+            if (-not $RetryAfter) { $RetryAfter = $Response.Headers["Retry-After"] }
+            $WaitSeconds = 60  # default fallback
+            if ($RetryAfter) {
+                $RetryStr = if ($RetryAfter -is [array]) { $RetryAfter[0] } else { "$RetryAfter" }
+                if ($RetryStr -match '^\d+$') {
+                    $WaitSeconds = [int]$RetryStr
+                } else {
+                    Try {
+                        $RetryDate = [DateTime]::Parse($RetryStr)
+                        $WaitSeconds = [Math]::Max(1, [int]($RetryDate - (Get-Date)).TotalSeconds)
+                    } Catch {
+                        Write-Host "WARN - Could not parse Retry-After '$RetryStr', using default ${WaitSeconds}s"
+                    }
+                }
+            } else {
+                Write-Host "WARN - No Retry-After header found, using default ${WaitSeconds}s"
+            }
+            Write-Host "INFO - Rate limited (429). Waiting $WaitSeconds seconds before retry..."
+            Start-Sleep -Seconds $WaitSeconds
+        } else {
+            Throw "Error with initial login to Garmin Connect: $($_.Exception.Message)"
+        }
+    }
 }
-Catch {
-    Throw "Error with initial login to Garmin Connect: $($_.Exception.Message)"
+
+if (-not $LoginSuccess) {
+    Throw "Failed to log in to Garmin Connect after $MaxRetries attempts."
 }
 
 # Get SSO cookie (service ticket)
