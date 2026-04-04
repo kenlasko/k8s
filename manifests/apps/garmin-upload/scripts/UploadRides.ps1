@@ -88,9 +88,7 @@ Try {
     $BaseLogin = Invoke-RestMethod -Uri ($BaseLoginURL + "?" + $Service) -WebSession $GarminConnectSession -Method POST -Body $LoginForm -Headers $SSOHeaders -UserAgent $UserAgent
 }
 Catch {
-    Write-Host "ERROR - SSO login failed: $($_.Exception.Message)"
-    Write-Host "ERROR - Details: $($_.ErrorDetails.Message)"
-    Throw "Error with initial login to Garmin Connect: $_"
+    Throw "Error with initial login to Garmin Connect: $($_.Exception.Message)"
 }
 
 # Get SSO cookie (service ticket)
@@ -102,18 +100,40 @@ if ($SSOCookie.Length -lt 1) {
     break
 }
 
+# Get a service ticket (ST-...) by requesting one from SSO using the TGT
 Try {
-    # Post-login redirect to establish connect session
-    "Post login authentication" | Write-Verbose
-    $PostLogin = Invoke-RestMethod -Uri ($PostLoginURL + "?ticket=" + $SSOCookie) -WebSession $GarminConnectSession -UserAgent $UserAgent
+    "Requesting service ticket" | Write-Verbose
+    $STUrl = "https://sso.garmin.com/sso/login?service=$([uri]::EscapeDataString($ServiceURL))"
+    $STResponse = Invoke-WebRequest -Uri $STUrl -WebSession $GarminConnectSession -UserAgent $UserAgent -MaximumRedirection 0 -ErrorAction SilentlyContinue -SkipHttpErrorCheck
+
+    # The service ticket can be in the Location redirect header or in the response body
+    $ServiceTicket = $null
+    $LocationHeader = $STResponse.Headers["Location"]
+    if ($LocationHeader) {
+        $LocationStr = if ($LocationHeader -is [array]) { $LocationHeader[0] } else { $LocationHeader }
+        if ($LocationStr -match 'ticket=(ST-[^&]+)') {
+            $ServiceTicket = $Matches[1]
+        }
+    }
+
+    # Also check the response body for the ticket
+    if (-not $ServiceTicket -and $STResponse.Content -match 'ticket=(ST-[^&"'']+)') {
+        $ServiceTicket = $Matches[1]
+    }
+
+    if (-not $ServiceTicket) {
+        Write-Host "DEBUG - ST response status: $($STResponse.StatusCode)"
+        Write-Host "DEBUG - ST Location header: $LocationStr"
+        Write-Host "DEBUG - ST body snippet: $($STResponse.Content.Substring(0, [Math]::Min(500, $STResponse.Content.Length)))"
+        Throw "Could not extract service ticket from SSO response"
+    }
+
+    Write-Host "INFO - Service ticket obtained"
 }
 Catch {
-    Throw "Error with cookie login to Garmin Connect."
+    Throw "Error obtaining service ticket: $_"
 }
 
-# Exchange SSO ticket for OAuth2 bearer token via DI Auth
-Write-Host "DEBUG - SSO cookie length: $($SSOCookie.Length), starts with: $($SSOCookie.Substring(0, [Math]::Min(20, $SSOCookie.Length)))..."
-Write-Host "DEBUG - DIAuthTokenURL: $DIAuthTokenURL"
 Write-Host "INFO - Exchanging SSO ticket for OAuth2 bearer token"
 $DIClientIDs = $ProgramSettings.GCProgramSettings.DIClientIDs
 $OAuthResult = $null
@@ -121,7 +141,7 @@ $OAuthResult = $null
 foreach ($ClientID in $DIClientIDs) {
     Try {
         $AuthBasic = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("${ClientID}:"))
-        $TokenBody = "client_id=$ClientID&service_ticket=$SSOCookie&grant_type=https%3A%2F%2Fconnectapi.garmin.com%2Fdi-oauth2-service%2Foauth%2Fgrant%2Fservice_ticket&service_url=$([uri]::EscapeDataString($ServiceURL))"
+        $TokenBody = "client_id=$ClientID&service_ticket=$ServiceTicket&grant_type=https%3A%2F%2Fconnectapi.garmin.com%2Fdi-oauth2-service%2Foauth%2Fgrant%2Fservice_ticket&service_url=$([uri]::EscapeDataString($ServiceURL))"
 
         $OAuthResult = Invoke-RestMethod -Uri $DIAuthTokenURL -Method POST -Body $TokenBody -ContentType "application/x-www-form-urlencoded" -Headers @{
             "Authorization" = "Basic $AuthBasic"
@@ -133,9 +153,7 @@ foreach ($ClientID in $DIClientIDs) {
         }
     }
     Catch {
-        $ErrBody = $_.ErrorDetails.Message
-        Write-Host "DEBUG - Client ID $ClientID failed: $($_.Exception.Message)"
-        Write-Host "DEBUG - Response: $ErrBody"
+        Write-Verbose "Client ID $ClientID failed: $($_.Exception.Message)"
         $OAuthResult = $null
     }
 }
@@ -221,7 +239,13 @@ foreach ($Activity in $Activities) {
         # Always overwrite temp files
         $null = Remove-Item $OutputFileFullPath -Force
     }
-    Invoke-RestMethod -Uri $URL -Headers $GarminHeaders -OutFile $OutputFileFullPath
+    $DownloadHeaders = @{
+        "Authorization"   = $GarminHeaders["Authorization"]
+        "User-Agent"      = $UserAgent
+        "DI-Backend"      = "connectapi.garmin.com"
+        "NK"              = "NT"
+    }
+    Invoke-RestMethod -Uri $URL -Headers $DownloadHeaders -OutFile $OutputFileFullPath
 
     # Unzip the activity files
     Expand-Archive -Path $OutputFileFullPath -DestinationPath $DataPath -Force
@@ -239,7 +263,6 @@ $DownloadedFile = "$($ActivityID)_ACTIVITY.fit"
 $FilePath = "$DataPath/$DownloadedFile"
 Write-Host "INFO - FILENAME: $DownloadedFile"
 
-exit
 
 ###########################################################################################################################################
 ###################                                            Di2Stats Upload                                          ###################
