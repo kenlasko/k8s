@@ -508,7 +508,7 @@ Write-Host 'INFO - Uploading FIT file to MyBikeTraffic.com...'
 $MBTUpload = Invoke-WebRequest -Uri https://www.mybiketraffic.com/rides/upload -Form $MBTUploadForm -Method POST -WebSession $MBTSession
 Write-Host 'INFO - Upload successful'
 #Parse out the URL
-$RegEx = '"id":(\d{5})'
+$RegEx = '"id":(\d{6})'
 $Match = Select-String -InputObject $MBTUpload.Content -Pattern $RegEx	
 $MBTRideID = $Match.Matches.Groups[1].Value
 $MBTURL = "https://www.mybiketraffic.com/rides/view/$MBTRideID"
