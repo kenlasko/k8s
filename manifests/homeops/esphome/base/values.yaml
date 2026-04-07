@@ -1,6 +1,6 @@
 image:
   repository: esphome/esphome
-  tag: 2026.3.2
+  tag: 2026.3.3
   registry: ghcr.io
 priorityClassName: medium-priority
 securityContext:
