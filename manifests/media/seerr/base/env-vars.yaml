@@ -8,4 +8,5 @@ data:
   DB_HOST: "home-rw.cnpg.svc.cluster.local"
   DB_PORT: "5432"
   DB_NAME: "seerr"
+  DB_LOG_QUERIES: "true"
   TZ: "America/Toronto"
