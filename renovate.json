@@ -107,6 +107,7 @@
         "cloudnative-pg",
         "cloudnative-pg/plugin-barman-cloud",
         "cilium",
+        "external-secrets",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
         "longhorn",
