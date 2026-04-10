@@ -1,6 +1,6 @@
 image:
   repository: 11notes/prowlarr
-  tag: 2.3.0
+  tag: 2.3.5
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
