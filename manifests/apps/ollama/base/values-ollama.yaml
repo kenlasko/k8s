@@ -32,7 +32,7 @@ persistentVolume:
 
 resources:
   requests:
-    memory: 4Gi
+    memory: 6Gi
     cpu: 2
   limits:
     memory: 13Gi
@@ -43,15 +43,24 @@ updateStrategy:
 
 affinity:
   nodeAffinity:
+    # preferredDuringSchedulingIgnoredDuringExecution:
+    # - weight: 1
+    #   preference:
+    #     matchExpressions:
+    #     - key: kubernetes.io/hostname
+    #       operator: In
+    #       values:
+    #       - nuc5
+    #       - nuc6
     requiredDuringSchedulingIgnoredDuringExecution:
-    - weight: 1
-      preference:
-        matchExpressions:
+      nodeSelectorTerms:
+      - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
           values:
           - nuc5
           - nuc6
+
 
 tests:
   enabled: false
