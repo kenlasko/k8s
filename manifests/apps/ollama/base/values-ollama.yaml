@@ -32,11 +32,11 @@ persistentVolume:
 
 resources:
   requests:
-    memory: "6Gi"
-    cpu: "2"
+    memory: 4Gi
+    cpu: 2
   limits:
-    memory: "13Gi"
-    cpu: "3.5"
+    memory: 13Gi
+    cpu: 3.5
 
 updateStrategy:
   type: Recreate
