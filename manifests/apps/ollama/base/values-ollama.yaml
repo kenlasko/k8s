@@ -31,9 +31,9 @@ persistentVolume:
   size: 22Gi
 
 resources:
-  requests:
-    memory: 6Gi
-    cpu: 2
+  # requests:
+  #   memory: 6Gi
+  #   cpu: 2
   limits:
     memory: 13Gi
     cpu: 3.5
