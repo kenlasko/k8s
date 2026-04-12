@@ -24,7 +24,7 @@ securityContext:
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
-
+priorityClassName: "high-priority"
 persistentVolume:
   enabled: true
   existingClaim: nfs-ollama
