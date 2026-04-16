@@ -51,6 +51,9 @@ spec:
 
   postgresql:
     parameters:
+      pgaudit.log: "none"
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
       wal_keep_size: "3GB"
       max_connections: "200"
       superuser_reserved_connections: "12"
@@ -66,6 +69,9 @@ spec:
 
   managed:
     roles:
+    - name: auditor
+      ensure: present
+      login: false
     - name: dispatcharr
       ensure: present
       login: true
