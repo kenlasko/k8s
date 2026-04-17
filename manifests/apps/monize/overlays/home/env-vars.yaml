@@ -16,9 +16,12 @@ data:
   SMTP_PORT: "587"
   SMTP_SECURE: "false"  # Not required for STARTTLS
   EMAIL_FROM: "monize@ucdialplans.com"
-  AI_DEFAULT_PROVIDER: ollama
-  AI_DEFAULT_MODEL: "llama3.2"
-  AI_DEFAULT_BASE_URL: http://ollama.ollama.svc.cluster.local:11434
+  AI_DEFAULT_PROVIDER: openai-compatible
+  AI_DEFAULT_MODEL: "@cf/qwen/qwen3-30b-a3b-fp8"
+  AI_DEFAULT_BASE_URL: https://api.cloudflare.com/client/v4/accounts/fa831d805d821b7c4627b464a9845a9d/ai/v1
+  # AI_DEFAULT_PROVIDER: ollama
+  # AI_DEFAULT_MODEL: "llama3.2"
+  # AI_DEFAULT_BASE_URL: http://ollama.ollama.svc.cluster.local:11434
   # AI_DEFAULT_BASE_URL: http://192.168.1.2:11434
 
 ---
