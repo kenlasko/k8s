@@ -73,6 +73,8 @@ spec:
     - name: auditor
       ensure: present
       login: false
+      inherit: false
+      connectionLimit: -1
     - name: dispatcharr
       ensure: present
       login: true
