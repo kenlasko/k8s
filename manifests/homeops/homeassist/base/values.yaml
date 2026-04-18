@@ -34,7 +34,7 @@ resources:
     smarter-devices/ttyUSB1: 1
   limits:
     # cpu: 1400m
-    memory: 1400Mi
+    memory: 1500Mi
     smarter-devices/ttyUSB1: 1
 service:
   port: 8123
