@@ -8,7 +8,7 @@ spec:
   # Use ghcr.io/cloudnative-pg/postgresql:18.2-standard-trixie for pgaudit and other contrib extensions (minimal image omits these)
   # Use ghcr.io/tensorchord/cloudnative-vectorchord:18.1 for vchord (Immich)
   # Use kenlasko/cloudnativepg-gis-vchord:18.1-vc1.0.0-1 for vchord (Immich) and GIS (Dawarich)
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.2-standard-trixie
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.2-minimal-trixie
   instances: 3
   storage:
     storageClass: local-storage
@@ -52,9 +52,10 @@ spec:
 
   postgresql:
     parameters:
-      pgaudit.log: "none"
-      pgaudit.log_catalog: "off"
-      pgaudit.log_parameter: "on"
+      # # PGAudit settings (only work if using the standard image which includes pgaudit)
+      # pgaudit.log: "none"
+      # pgaudit.log_catalog: "off"
+      # pgaudit.log_parameter: "on"
       wal_keep_size: "3GB"
       max_connections: "200"
       superuser_reserved_connections: "12"
