@@ -1,6 +1,6 @@
 image:
   repository: redis/redisinsight
-  tag: 3.2.0
+  tag: 3.4.1
   registry: docker.io
 securityContext:
   allowPrivilegeEscalation: false
