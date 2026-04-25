@@ -30,11 +30,11 @@ envFrom:
 resources:
   requests:
     cpu: 100m
-    memory: 1Gi
+    memory: 1.2Gi
     smarter-devices/ttyUSB1: 1
   limits:
     # cpu: 1400m
-    memory: 3Gi
+    memory: 1.5Gi
     smarter-devices/ttyUSB1: 1
 service:
   port: 8123
