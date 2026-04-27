@@ -1,3 +1,4 @@
+hostUsers: false
 #securityContext:
 #  allowPrivilegeEscalation: false
 #  readOnlyRootFilesystem: true

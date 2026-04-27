@@ -5,6 +5,7 @@ image:
   registry: docker.io
 replicas: 1
 priorityClassName: high-priority
+hostUsers: false
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false

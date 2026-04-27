@@ -2,6 +2,7 @@ image:
   repository: redis
   tag: 8.6.2
   registry: docker.io
+hostUsers: false
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false

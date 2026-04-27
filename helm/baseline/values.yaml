@@ -9,6 +9,11 @@ hostNetwork: false
 # Requires Kubernetes 1.30+ (GA in 1.33) and a runtime that supports user namespaces
 # (containerd 2.0+ / CRI-O 1.25+). Incompatible with hostNetwork=true and most hostPath
 # mounts that need specific host ownership. Leave unset to inherit the cluster default.
+#
+# IMPORTANT: NFS does not support idmap mounts. Any pod that mounts an NFS-backed PVC
+# (media.enabled=true, persistentVolume.type=nfs, or NFS shares via extraVolumes) will
+# fail to start with `MOUNT_ATTR_IDMAP ... invalid argument` if hostUsers is false.
+# Only enable for pods whose volumes are Longhorn, local-path, ConfigMap/Secret, or emptyDir.
 # hostUsers: false
 restartPolicy: Always
 autoMountServiceAccountToken: false

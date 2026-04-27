@@ -13,6 +13,7 @@ spec:
       labels:
         app: letsencrypt-cert-watcher
     spec:
+      hostUsers: false
       containers:
       - name: letsencrypt-cert-watcher
         image: alpine:latest
