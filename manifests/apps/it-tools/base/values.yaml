@@ -3,6 +3,7 @@ image:
   tag: 2026.1.4
   registry: ghcr.io
 priorityClassName: low-priority
+hostUsers: false
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
