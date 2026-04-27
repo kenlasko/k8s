@@ -5,6 +5,11 @@ replicas: 1
 revisionHistoryLimit: 2
 dnsPolicy: ClusterFirstWithHostNet
 hostNetwork: false
+# User namespace isolation. Set to `false` to map container UID 0 to a non-root host UID.
+# Requires Kubernetes 1.30+ (GA in 1.33) and a runtime that supports user namespaces
+# (containerd 2.0+ / CRI-O 1.25+). Incompatible with hostNetwork=true and most hostPath
+# mounts that need specific host ownership. Leave unset to inherit the cluster default.
+# hostUsers: false
 restartPolicy: Always
 autoMountServiceAccountToken: false
 serviceAccountName: ""

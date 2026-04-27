@@ -48,6 +48,9 @@ spec:
     spec:
       dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirstWithHostNet" }}
       hostNetwork: {{ .Values.hostNetwork | default false}}
+      {{- if kindIs "bool" .Values.hostUsers }}
+      hostUsers: {{ .Values.hostUsers }}
+      {{- end }}
       {{- if .Values.hostAliases }}
       hostAliases:
         {{- toYaml .Values.hostAliases | nindent 8 }}
