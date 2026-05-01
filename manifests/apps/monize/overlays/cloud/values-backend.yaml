@@ -4,6 +4,7 @@ image:
   tag: latest
   registry: ghcr.io
   pullPolicy: Always
+hostUsers: false
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
