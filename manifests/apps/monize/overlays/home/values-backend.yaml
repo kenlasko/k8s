@@ -4,7 +4,6 @@ image:
   tag: latest
   registry: registry.ucdialplans.com
   pullPolicy: Always
-hostUsers: false
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
