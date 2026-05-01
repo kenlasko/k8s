@@ -1,7 +1,7 @@
 nameOverride: ddns-updater
 image:
   repository: qdm12/ddns-updater
-  tag: 2.9.0
+  tag: v2.10.0
   registry: ghcr.io
 priorityClassName: low-priority
 securityContext:
