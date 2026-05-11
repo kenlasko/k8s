@@ -40,7 +40,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      lbipam.cilium.io/ips: 192.168.10.3
+      lbipam.cilium.io/ips: 192.168.10.4
   listeners:
   - name: http
     protocol: HTTP
