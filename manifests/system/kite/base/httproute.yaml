@@ -6,11 +6,11 @@ metadata:
   namespace: kube-system
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-laskonet
     namespace: cilium
     sectionName: https
   hostnames:
-  - "kite.ucdialplans.com"
+  - "kite.laskonet.com"
   rules:
   - backendRefs:
     - name: kite
