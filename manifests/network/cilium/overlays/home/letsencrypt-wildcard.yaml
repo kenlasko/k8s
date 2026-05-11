@@ -10,3 +10,17 @@ spec:
     kind: ClusterIssuer
     name: letsencrypt-prod
   secretName: letsencrypt-wildcard-cert
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: letsencrypt-wildcard-cert-laskonet
+  namespace: cilium
+spec:
+  dnsNames:
+  - "*.laskonet.com"
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: letsencrypt-wildcard-cert-laskonet
