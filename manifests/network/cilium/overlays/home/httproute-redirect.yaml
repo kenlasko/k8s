@@ -29,7 +29,7 @@ metadata:
     external-dns.alpha.kubernetes.io/exclude: "true"
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-legacy
     sectionName: http
   hostnames:
   - "*.ucdialplans.com"
