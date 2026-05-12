@@ -59,7 +59,7 @@ metadata:
   namespace: adguard
 spec:
   parentRefs:
-  - name: tls-laskonet
+  - name: tls
     namespace: cilium
     sectionName: https
   hostnames:
