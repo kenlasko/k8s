@@ -77,6 +77,8 @@ tailscale: {}
 
 # HTTPRoute settings
 disableHTTPRoute: false
+parentGateway:
+  name: tls
 httpRouteNameOverride: ""
 httpRouteFilters: []
 
