@@ -174,12 +174,12 @@ spec:
         args:
           - --provider=oidc
           - --scope=openid email profile groups
-          - --oidc-issuer-url=https://auth.ucdialplans.com
-          - --redirect-url=https://{{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}/oauth2/callback
+          - --oidc-issuer-url=https://auth.laskonet.com
+          - --redirect-url=https://{{ .Values.httpRouteNameOverride | default (printf "%s.laskonet.com" .Release.Name) }}/oauth2/callback
           - --http-address=0.0.0.0:4433
           - --reverse-proxy=true
           - --cookie-secure=true
-          - --cookie-domain=.ucdialplans.com
+          - --cookie-domain=.laskonet.com
           - --email-domain=*
           - --insecure-oidc-allow-unverified-email=true
           # Upstream points to the main app container's internal port

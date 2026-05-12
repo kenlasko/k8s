@@ -4,14 +4,14 @@ metadata:
   name: env-vars
   namespace: vaultwarden
 data:
-  DOMAIN: "https://vaultwarden.ucdialplans.com"
+  DOMAIN: "https://vaultwarden.laskonet.com"
   EXPERIMENTAL_CLIENT_FEATURE_FLAGS: "ssh-key-vault-item,ssh-agent"
   PUSH_ENABLED: "true"
   ROCKET_PORT: "8087"
   RUST_BACKTRACE: "1"
   SIGNUPS_ALLOWED: "false"
   SMTP_HOST: "mail.smtp2go.com"
-  SMTP_FROM: "bitwarden@ucdialplans.com"
+  SMTP_FROM: "bitwarden@laskonet.com"
   SMTP_PORT: "465"
   SMTP_SECURITY: "force_tls"
   SMTP_AUTH_MECHANISM: "'Login'"
@@ -21,4 +21,4 @@ data:
   SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION: "false"
   SSO_PKCE: "true" # Only set this to true if you enabled PKCE (recommended) in Pocket ID otherwise set it to false
   SSO_SCOPES: "email profile groups offline_access"
-  SSO_AUTHORITY: https://auth.ucdialplans.com
+  SSO_AUTHORITY: https://auth.laskonet.com

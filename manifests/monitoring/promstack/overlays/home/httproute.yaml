@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   hostnames:
-  - alertmanager.ucdialplans.com
+  - alertmanager.laskonet.com
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
@@ -34,7 +34,7 @@ metadata:
   namespace: monitoring
 spec:
   hostnames:
-  - grafana.ucdialplans.com
+  - grafana.laskonet.com
   parentRefs:
   - name: tls
     group: gateway.networking.k8s.io	
@@ -62,7 +62,7 @@ metadata:
   namespace: monitoring
 spec:
   hostnames:
-  - prometheus.ucdialplans.com
+  - prometheus.laskonet.com
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway

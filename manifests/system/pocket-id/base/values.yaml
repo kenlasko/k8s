@@ -29,7 +29,7 @@ resources:
 service:
   port: 1411
 extraHTTPRouteHostnames:
-- auth.ucdialplans.com
+- auth.laskonet.com
 persistentVolume:
   type: nfs
   mountPath: /data

@@ -27,8 +27,8 @@ resources:
 service:
   port: 5055
 extraHTTPRouteHostnames:
-- media.ucdialplans.com
-- overseerr.ucdialplans.com
+- media.laskonet.com
+- overseerr.laskonet.com
 persistentVolume:
   type: nfs
   size: 650Mi

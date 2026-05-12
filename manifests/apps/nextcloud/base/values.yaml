@@ -17,10 +17,10 @@ resources:
     memory: 4Gi
 
 nextcloud:
-  host: nextcloud.ucdialplans.com
+  host: nextcloud.laskonet.com
   trustedDomains:
-  - ucdialplans.com
-  - nextcloud.ucdialplans.com
+  - laskonet.com
+  - nextcloud.laskonet.com
   # podSecurityContext:
   #   runAsUser: 33
   #   runAsGroup: 33
@@ -39,7 +39,7 @@ nextcloud:
   - name: OVERWRITEPROTOCOL
     value: https
   - name: OVERWRITECLIURL
-    value: https://nextcloud.ucdialplans.com
+    value: https://nextcloud.laskonet.com
   - name: REDIS_HOST
     value: redis-service.redis.svc.cluster.local
   - name: REDIS_HOST_PASSWORD
@@ -50,7 +50,7 @@ nextcloud:
   mail:
     enabled: true
     fromAddress: nextcloud
-    domain: ucdialplans.com
+    domain: laskonet.com
     smtp:
       host: mail.smtp2go.com
       secure: starttls
@@ -61,7 +61,7 @@ collabora:
   enabled: true
   collabora:
     aliasgroups:
-    - host: "https://nextcloud.ucdialplans.com"
+    - host: "https://nextcloud.laskonet.com"
     existingSecret:
       enabled: true
       secretName: nextcloud-secrets

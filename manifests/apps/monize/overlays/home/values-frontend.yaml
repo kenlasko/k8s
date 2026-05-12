@@ -2,7 +2,7 @@ nameOverride: monize-frontend
 image:
   repository: monize/frontend
   tag: latest
-  registry: registry.ucdialplans.com
+  registry: registry.laskonet.com
   pullPolicy: Always
 hostUsers: false
 securityContext:

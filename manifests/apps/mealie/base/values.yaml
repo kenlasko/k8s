@@ -28,7 +28,7 @@ resources:
 service:
   port: 9000
 extraHTTPRouteHostnames:
-- recipes.ucdialplans.com
+- recipes.laskonet.com
 persistentVolume:
   type: nfs
   size: 450Mi

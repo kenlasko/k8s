@@ -66,12 +66,12 @@ spec:
       - args:
         - --provider=oidc
         - --scope=openid email profile groups
-        - --oidc-issuer-url=https://auth.ucdialplans.com
-        - --redirect-url=https://longhorn.ucdialplans.com/oauth2/callback
+        - --oidc-issuer-url=https://auth.laskonet.com
+        - --redirect-url=https://longhorn.laskonet.com/oauth2/callback
         - --http-address=0.0.0.0:4433
         - --reverse-proxy=true
         - --cookie-secure=true
-        - --cookie-domain=.ucdialplans.com
+        - --cookie-domain=.laskonet.com
         - --email-domain=*
         - --insecure-oidc-allow-unverified-email=true
         - --upstream=http://longhorn-frontend:80
@@ -105,7 +105,7 @@ metadata:
   namespace: longhorn
 spec:
   hostnames:
-  - longhorn.ucdialplans.com
+  - longhorn.laskonet.com
   parentRefs:
   - name: tls
     namespace: cilium

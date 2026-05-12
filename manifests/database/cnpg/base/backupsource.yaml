@@ -75,7 +75,7 @@ metadata:
 spec:
   retentionPolicy: "2d"
   configuration:
-    endpointURL: "http://nas01.ucdialplans.com:8010"
+    endpointURL: "http://nas01.laskonet.com:8010"
     destinationPath: "s3://postgresql"
     wal:
       compression: zstd

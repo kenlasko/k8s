@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "longhorn.ucdialplans.com"
+  - "longhorn.laskonet.com"
   rules:
   - backendRefs:
     - name: longhorn-frontend

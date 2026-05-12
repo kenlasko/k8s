@@ -6,7 +6,7 @@ metadata:
   namespace: testweb
 spec:
   hostnames:
-  - testweb.ucdialplans.com
+  - testweb.laskonet.com
   parentRefs:
   - name: tls
     namespace: cilium

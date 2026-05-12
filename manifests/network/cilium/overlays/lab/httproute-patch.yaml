@@ -4,4 +4,4 @@ metadata:
   name: hubble
 spec:
   hostnames:
-  - "lab-hubble.ucdialplans.com"
+  - "lab-hubble.laskonet.com"

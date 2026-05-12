@@ -3,7 +3,7 @@ alertmanager:
     global:
       slack_api_url_file: /etc/alertmanager/secrets/alertmanager-secrets/slack_webhook
       smtp_smarthost: 'smtp.sendgrid.net:587'
-      smtp_from: 'AlertManager Cloud<alertmanager-cloud@ucdialplans.com>'
+      smtp_from: 'AlertManager Cloud<alertmanager-cloud@laskonet.com>'
       smtp_auth_username: 'apikey'
       smtp_auth_password_file: /etc/alertmanager/secrets/alertmanager-secrets/smtp_auth_password
       resolve_timeout: 5m
@@ -31,7 +31,7 @@ alertmanager:
       - channel: cloud-alerts
         send_resolved: true
   alertmanagerSpec:
-    externalUrl: 'https://cloud_alertmanager-omni.omni.ucdialplans.com'
+    externalUrl: 'https://cloud_alertmanager-omni.omni.laskonet.com'
     storage:
       volumeClaimTemplate:
         spec:

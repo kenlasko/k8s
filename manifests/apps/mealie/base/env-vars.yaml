@@ -5,7 +5,7 @@ metadata:
   namespace: mealie
 data:
   ALLOW_SIGNUP: "true"
-  BASE_URL: "https://mealie.ucdialplans.com"
+  BASE_URL: "https://mealie.laskonet.com"
   PUID: "1000"
   PGID: "0"           
   TZ: "America/Toronto"
@@ -14,5 +14,5 @@ data:
   POSTGRES_DB: "mealie"
   OIDC_AUTH_ENABLED: "true"
   OIDC_SIGNUP_ENABLED: "true"
-  OIDC_CONFIGURATION_URL: https://auth.ucdialplans.com/.well-known/openid-configuration
+  OIDC_CONFIGURATION_URL: https://auth.laskonet.com/.well-known/openid-configuration
   ALLOW_PASSWORD_LOGIN: "false"

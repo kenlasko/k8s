@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: dead-man-hand
-  namespace: dmh
+  name: pocket-id
+  namespace: pocket-id
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-cloudflare-dead-man-hand
-    destinationPVC: nfs-dead-man-hand
+    repository: s3-backup-cloudflare-pocket-id
+    destinationPVC: nfs-pocket-id
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true

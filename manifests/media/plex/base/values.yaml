@@ -17,7 +17,7 @@ securityContext:
     drop: ["ALL"]
 env:
 - name: HOSTNAME
-  value: plex.ucdialplans.com
+  value: plex.laskonet.com
 - name: ADVERTISE_IP
   value: "http://192.168.10.11:32400/"
 - name: PLEX_UID

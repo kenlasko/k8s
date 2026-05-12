@@ -5,8 +5,8 @@ metadata:
   namespace: adguard
 spec:
   dnsNames:
-  - "*.dns.ucdialplans.com"
-  - "dns.ucdialplans.com"
+  - "*.dns.laskonet.com"
+  - "dns.laskonet.com"
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod

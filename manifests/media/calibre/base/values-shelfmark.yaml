@@ -36,7 +36,7 @@ resources:
     memory: 750Mi
 service:
   port: 8084
-httpRouteNameOverride: book-dl.ucdialplans.com
+httpRouteNameOverride: book-dl.laskonet.com
 persistentVolume:
   type: nfs
   size: 120Mi

@@ -12,14 +12,14 @@ spec:
   - name: http
     protocol: HTTP
     port: 80
-    hostname: "*.ucdialplans.com"
+    hostname: "*.laskonet.com"
     allowedRoutes: 
       namespaces:
         from: All
   - name: https
     protocol: HTTPS
     port: 443
-    hostname: "*.ucdialplans.com"
+    hostname: "*.laskonet.com"
     tls:
       mode: Terminate
       certificateRefs:

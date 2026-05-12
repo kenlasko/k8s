@@ -40,7 +40,7 @@ env:
       name: adguard-creds
       key: password
 - name: REPLICA1_URL
-  value: "https://adguard-rpi1.ucdialplans.com"
+  value: "https://adguard-rpi1.laskonet.com"
 - name: REPLICA1_USERNAME
   valueFrom:
     secretKeyRef:
@@ -52,7 +52,7 @@ env:
       name: adguard-creds
       key: password
 - name: REPLICA2_URL
-  value: "https://adguard-rpi2.ucdialplans.com"
+  value: "https://adguard-rpi2.laskonet.com"
 - name: REPLICA2_USERNAME
   valueFrom:
     secretKeyRef:

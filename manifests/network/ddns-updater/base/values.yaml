@@ -30,7 +30,7 @@ resources:
     memory: 30Mi
 service:
   port: 8000
-httpRouteNameOverride: ddns-updater.ucdialplans.com
+httpRouteNameOverride: ddns-updater.laskonet.com
 persistentVolume:
   type: nfs
   name: ddns-updater-data

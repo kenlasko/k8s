@@ -12,7 +12,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - {{ .Values.httpRouteNameOverride | default (printf "%s.ucdialplans.com" .Release.Name) }}
+  - {{ .Values.httpRouteNameOverride | default (printf "%s.laskonet.com" .Release.Name) }}
   {{- if .Values.extraHTTPRouteHostnames }}
   {{- range .Values.extraHTTPRouteHostnames }}
   - {{ . }}

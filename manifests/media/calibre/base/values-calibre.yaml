@@ -24,7 +24,7 @@ resources:
     memory: 600Mi
 service:
   port: 8083
-httpRouteNameOverride: books.ucdialplans.com
+httpRouteNameOverride: books.laskonet.com
 httpRouteFilters:
 - type: RequestHeaderModifier
   requestHeaderModifier:

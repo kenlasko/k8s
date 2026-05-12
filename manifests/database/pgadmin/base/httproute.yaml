@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "pgadmin.ucdialplans.com"
+  - "pgadmin.laskonet.com"
   rules:
   - backendRefs:
     - name: pgadmin-pgadmin4
