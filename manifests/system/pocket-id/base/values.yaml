@@ -30,7 +30,7 @@ service:
   port: 1411
 parentGateway:
   name: tls-legacy
-httpRouteNameOverride: aut.ucdialplans.com
+httpRouteNameOverride: auth.ucdialplans.com
 persistentVolume:
   type: nfs
   mountPath: /data
