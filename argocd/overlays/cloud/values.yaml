@@ -1,5 +1,5 @@
 global:
-  domain: cloud-argocd.ucdialplans.com
+  domain: cloud-argocd.laskonet.com
 
 server:
   service:
@@ -10,7 +10,7 @@ server:
       omni-kube-service-exposer.sidero.dev/prefix: cloud_argocd
 notifications:
   enabled: true
-  argocdUrl: "https://cloud-argocd.ucdialplans.com"
+  argocdUrl: "https://cloud-argocd.laskonet.com"
   subscriptions:
     # subscription for issues
     - recipients:

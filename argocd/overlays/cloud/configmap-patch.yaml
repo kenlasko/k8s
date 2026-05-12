@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
-  url: https://cloud-argocd.ucdialplans.com
+  url: https://cloud-argocd.laskonet.com
