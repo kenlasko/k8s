@@ -6,13 +6,13 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-laskonet
     namespace: cilium
     sectionName: https
     group: gateway.networking.k8s.io
     kind: Gateway
   hostnames:
-  - argocd.ucdialplans.com
+  - argocd.laskonet.com
   rules:
   - backendRefs:
     - name: argocd-server

@@ -1,5 +1,5 @@
 global:
-  domain: argocd.ucdialplans.com
+  domain: argocd.laskonet.com
 redis:
   enabled: false
 externalRedis:
@@ -7,7 +7,7 @@ externalRedis:
   existingSecret: redis-credentials
 
 notifications:
-  argocdUrl: "https://argocd.ucdialplans.com"
+  argocdUrl: "https://argocd.laskonet.com"
   subscriptions:
     # subscription for issues
     - recipients:

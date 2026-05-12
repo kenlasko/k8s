@@ -1,5 +1,5 @@
 global:
-  domain: lab-argocd.ucdialplans.com
+  domain: lab-argocd.laskonet.com
 notifications:
   enabled: false
 redis:

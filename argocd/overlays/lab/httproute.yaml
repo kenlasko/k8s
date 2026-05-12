@@ -6,11 +6,11 @@ metadata:
   namespace: argocd
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-laskonet
     namespace: cilium
     sectionName: https
   hostnames:
-  - lab-argocd.ucdialplans.com
+  - lab-argocd.laskonet.com
   rules:
   - backendRefs:
     - name: argocd-server
