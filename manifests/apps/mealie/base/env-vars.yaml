@@ -14,5 +14,5 @@ data:
   POSTGRES_DB: "mealie"
   OIDC_AUTH_ENABLED: "true"
   OIDC_SIGNUP_ENABLED: "true"
-  OIDC_CONFIGURATION_URL: https://auth.laskonet.com/.well-known/openid-configuration
+  OIDC_CONFIGURATION_URL: https://auth.ucdialplans.com/.well-known/openid-configuration
   ALLOW_PASSWORD_LOGIN: "false"
