@@ -46,4 +46,11 @@ persistentVolume:
 backup:
   location: cloudflare
   schedule: "55 06 * * *"
-  
+extraVolumes:
+- name: ddns-updater-config
+  secret:
+    secretName: ddns-updater-config
+extraVolumeMounts:
+- name: ddns-updater-config
+  mountPath: /updater/config
+  readOnly: true
