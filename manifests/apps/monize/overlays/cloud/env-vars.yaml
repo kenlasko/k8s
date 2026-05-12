@@ -7,7 +7,7 @@ data:
   NODE_ENV: "production"
   DATABASE_HOST: "monize-rw.cnpg.svc.cluster.local"
   DATABASE_NAME: monize
-  PUBLIC_APP_URL: https://monize-demo.laskonet.com
+  PUBLIC_APP_URL: https://monize-demo.ucdialplans.com
   LOCAL_AUTH_ENABLED: "true"
   REGISTRATION_ENABLED: "false"
   DEMO_MODE: "true"
@@ -21,4 +21,4 @@ metadata:
 data:
   NODE_ENV: "production"
   INTERNAL_API_URL: http://monize-backend-service:3001
-  PUBLIC_APP_URL: https://monize-demo.laskonet.com
+  PUBLIC_APP_URL: https://monize-demo.ucdialplans.com
