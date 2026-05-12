@@ -8,7 +8,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
-  - name: tls
+  - name: {{ .Values.parentGateway.name | default "tls" }}
     namespace: cilium
     sectionName: https
   hostnames:
