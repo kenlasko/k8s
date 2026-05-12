@@ -30,6 +30,8 @@ service:
   port: 1411
 parentGateway:
   name: tls-legacy
+httpRouteNameOverride:
+  - pocket-id.ucdialplans.com
 extraHTTPRouteHostnames:
 - auth.ucdialplans.com
 persistentVolume:
