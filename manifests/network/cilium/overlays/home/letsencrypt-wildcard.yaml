@@ -19,7 +19,7 @@ metadata:
   namespace: cilium
 spec:
   dnsNames:
-  - "*.laskonet.com"
+  - "*.ucdialplans.com"
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod
