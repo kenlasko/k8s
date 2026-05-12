@@ -2,4 +2,4 @@ affinity: false
 hostAliases:
 - ip: "10.0.0.103"
   hostnames:
-  - "pangolin.laskonet.com"
+  - "pangolin.ucdialplans.com"
