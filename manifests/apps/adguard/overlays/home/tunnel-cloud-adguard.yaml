@@ -59,11 +59,11 @@ metadata:
   namespace: adguard
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-laskonet
     namespace: cilium
     sectionName: https
   hostnames:
-  - "cloud-adguard.ucdialplans.com"
+  - "cloud-adguard.laskonet.com"
   rules:
   - backendRefs:
     - name: cloud-adguard-tunnel

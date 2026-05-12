@@ -58,11 +58,11 @@ metadata:
   namespace: tailscale
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-laskonet
     namespace: cilium
     sectionName: https
   hostnames:
-  - "cloud-uptime-kuma.ucdialplans.com"
+  - "cloud-uptime-kuma.laskonet.com"
   rules:
   - backendRefs:
     - name: cloud-uptime-kuma-tunnel

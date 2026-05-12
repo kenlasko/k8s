@@ -62,7 +62,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "cloud-argocd.ucdialplans.com"
+  - "cloud-argocd.laskonet.com"
   rules:
   - backendRefs:
     - name: cloud-argocd-tunnel
