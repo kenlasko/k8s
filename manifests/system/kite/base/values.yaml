@@ -7,6 +7,6 @@ secret:
   existingSecret: kite-secrets
 extraEnvs:
 - name: "HOST"
-  value: "https://kite.ucdialplans.com"
+  value: "https://kite.laskonet.com"
 - name: "NODE_TERMINAL_IMAGE"
   value: "nicolaka/netshoot"
