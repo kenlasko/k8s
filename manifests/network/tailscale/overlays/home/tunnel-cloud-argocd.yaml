@@ -58,7 +58,7 @@ metadata:
   namespace: tailscale
 spec:
   parentRefs:
-  - name: tls
+  - name: tls-laskonet
     namespace: cilium
     sectionName: https
   hostnames:
