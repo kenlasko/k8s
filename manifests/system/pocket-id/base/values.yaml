@@ -31,6 +31,7 @@ service:
 parentGateway:
   name: tls-legacy
 httpRouteNameOverride: auth.ucdialplans.com
+
 persistentVolume:
   type: nfs
   mountPath: /data
