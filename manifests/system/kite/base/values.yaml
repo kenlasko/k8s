@@ -20,7 +20,7 @@ config:
     default: true
     prometheusURL: "${PROMETHEUS_URL}"
   - name: Cloud
-    config: "${KUBECONFIG_CLOUD}"
+    config: "${KITE_KUBECONFIG_CLOUD}"
     prometheusURL: "${PROMETHEUS_URL}"
 oauth:
 - name: pocket-id
