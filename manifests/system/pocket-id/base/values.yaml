@@ -29,7 +29,7 @@ resources:
 service:
   port: 1411
 parentGateway:
-  name: tls-legacy
+  name: tls
 httpRouteNameOverride: auth.laskonet.com
 persistentVolume:
   type: nfs
