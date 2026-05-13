@@ -11,5 +11,4 @@ resources:
 - env-vars.yaml
 - database.yaml
 - external-secrets.yaml
-- httproute.yaml
 - namespace.yaml
