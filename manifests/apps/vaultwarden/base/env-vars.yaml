@@ -21,4 +21,4 @@ data:
   SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION: "false"
   SSO_PKCE: "true" # Only set this to true if you enabled PKCE (recommended) in Pocket ID otherwise set it to false
   SSO_SCOPES: "email profile groups offline_access"
-  SSO_AUTHORITY: https://auth.ucdialplans.com
+  SSO_AUTHORITY: https://auth.laskonet.com
