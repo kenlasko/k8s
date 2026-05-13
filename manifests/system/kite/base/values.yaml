@@ -22,13 +22,13 @@ config:
   - name: Cloud
     config: "${KITE_KUBECONFIG_CLOUD}"
     prometheusURL: "${PROMETHEUS_URL}"
-oauth:
-- name: pocket-id
-  clientId: "${KITE_OAUTH_CLIENT_ID}"
-  clientSecret: "${KITE_OAUTH_CLIENT_SECRET}"
-  issuer: "https://auth.ucdialplans.com/.well-known/openid-configuration"
-  scopes: "openid,profile,email,groups"
-  authUrl: "https://auth.ucdialplans.com/authorize"
-  tokenUrl: "https://auth.ucdialplans.com/api/oidc/token"
-  userInfoUrl: "https://auth.ucdialplans.com/api/oidc/userinfo"
-  enabled: true   
+  oauth:
+  - name: pocket-id
+    clientId: "${KITE_OAUTH_CLIENT_ID}"
+    clientSecret: "${KITE_OAUTH_CLIENT_SECRET}"
+    issuer: "https://auth.ucdialplans.com/.well-known/openid-configuration"
+    scopes: "openid,profile,email,groups"
+    authUrl: "https://auth.ucdialplans.com/authorize"
+    tokenUrl: "https://auth.ucdialplans.com/api/oidc/token"
+    userInfoUrl: "https://auth.ucdialplans.com/api/oidc/userinfo"
+    enabled: true   
