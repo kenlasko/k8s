@@ -15,13 +15,13 @@ extraEnvs:
 config:
   enabled: true
   clusters:
-    - name: Home
-      inCluster: true
-      default: true
-      prometheusURL: "${PROMETHEUS_URL}"
-    - name: Cloud
-      config: "${KITE_KUBECONFIG_CLOUD}"
-      prometheusURL: "${PROMETHEUS_URL}"
+  - name: Home
+    inCluster: true
+    default: true
+    prometheusURL: "${PROMETHEUS_URL}"
+  # - name: Cloud
+  #   config: "${KITE_KUBECONFIG_CLOUD}"
+  #   prometheusURL: "${PROMETHEUS_URL}"
   oauth:
   - name: pocket-id
     clientId: "${KITE_OAUTH_CLIENT_ID}"
