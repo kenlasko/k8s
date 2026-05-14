@@ -5,7 +5,7 @@ If that happens, I'm presumed to be dead or incapacitated. Grim, I know.
 
 I've configured Home Assistant via `Browser-Mod` to trigger an automation every time I visit Home Assistant to send an "I'm Alive" message to DMH. As long as I keep visiting Home Assistant at least once every 2 weeks, nothing should trigger.
 
-If I don't visit Home Assistant for a week, DMH will start sending me daily emails until I either open Home Assistant (triggering the automation) or directly visiting https://dmh.ucdialplans.com/api/alive. If I don't respond for a total of 2 weeks, the email to my wife will be sent.
+If I don't visit Home Assistant for a week, DMH will start sending me daily emails until I either open Home Assistant (triggering the automation) or directly visiting https://dmh.laskonet.com/api/alive. If I don't respond for a total of 2 weeks, the email to my wife will be sent.
 
 ## Script Update
 I have the message text securely stored in my NixOS secrets that can be used to create a new action (can't modify the existing one) should my financial info need updating.
@@ -27,7 +27,7 @@ The action is already active in the pod. This script is only necessary if change
 ## Testing action
 Run this from inside DMH pod:
 ```
-dmh-cli action test --kind mail --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dead-man-hand.ucdialplans.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
+dmh-cli action test --kind mail --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dead-man-hand.laskonet.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
 ```
 
 ## Prompt after inactivity
@@ -35,5 +35,5 @@ Configures an alert to be sent after x number of hours/days to remind me to chec
 
 Run this from inside DMH pod:
 ```
-dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 48 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dmh.ucdialplans.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
+dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 48 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dmh.laskonet.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
 ```
