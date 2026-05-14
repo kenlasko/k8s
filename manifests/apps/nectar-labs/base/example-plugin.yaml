@@ -20,7 +20,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: app
-          image: quay.io/nectar-corp/nectar-labs-example-plugin:latest
+          image: registry.laskonet.com/nectar-labs-example-plugin:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
