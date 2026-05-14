@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nectar-labs-shell
+  namespace: nectar-labs
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: nectar-labs-shell
+  namespace: nectar-labs
+rules:
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: nectar-labs-shell
+  namespace: nectar-labs
+subjects:
+  - kind: ServiceAccount
+    name: nectar-labs-shell
+    namespace: nectar-labs
+roleRef:
+  kind: Role
+  name: nectar-labs-shell
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nectar-labs-shell
+  namespace: nectar-labs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nectar-labs-shell
+  template:
+    metadata:
+      labels:
+        app: nectar-labs-shell
+    spec:
+      serviceAccountName: nectar-labs-shell
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: app
+          image: quay.io/nectar-corp/nectar-labs-shell:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: LISTEN_ADDR
+              value: ":8080"
+            - name: WATCH_NAMESPACE
+              value: "nectar-labs"
+            - name: REDIS_ADDR
+              value: "redis.nectar-labs.svc.cluster.local:6379"
+            - name: AUTH_LOGIN_URL
+              value: "/auth/login"
+            - name: AUTH_LOGOUT_PATH
+              value: "/auth/logout"
+            - name: SESSION_TTL
+              value: "30m"
+            - name: REQUEST_TIMEOUT
+              value: "30s"
+            - name: COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nectar-labs
+                  key: COOKIE_SECRET
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nectar-labs-shell
+  namespace: nectar-labs
+spec:
+  selector:
+    app: nectar-labs-shell
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

@@ -1,0 +1,47 @@
+---
+# Gateway API equivalent of the OpenShift Routes in route.yaml: a single
+# external hostname fronts both the auth and shell containers, with path
+# prefix /auth going to auth (prefix stripped) and / going to shell.
+# Both share the cookie domain so the signed session cookie works.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nectar-labs
+  namespace: nectar-labs
+spec:
+  parentRefs:
+    - name: tls
+      namespace: cilium
+      sectionName: https
+  hostnames:
+    - "nectar-labs.laskonet.com"
+  rules:
+    # /auth/* -> nectar-labs-auth, with the /auth prefix stripped so the
+    # auth container keeps its routes mounted at /login, /logout,
+    # /tenant, /static.
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /auth
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: nectar-labs-auth
+          namespace: nectar-labs
+          kind: Service
+          port: 8080
+    # Everything else goes to the shell. Gateway API spec evaluates the
+    # longest path prefix first, so /auth always wins over /.
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nectar-labs-shell
+          namespace: nectar-labs
+          kind: Service
+          port: 8080
