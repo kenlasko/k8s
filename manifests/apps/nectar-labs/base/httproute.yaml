@@ -16,19 +16,13 @@ spec:
   hostnames:
     - "nectar-labs.laskonet.com"
   rules:
-    # /auth/* -> nectar-labs-auth, with the /auth prefix stripped so the
-    # auth container keeps its routes mounted at /login, /logout,
-    # /tenant, /static.
+    # /auth/* -> nectar-labs-auth. The auth container is BASE_PATH-aware
+    # (BASE_PATH=/auth) and mounts its handlers at /auth/login etc., so
+    # no URL rewrite is needed.
     - matches:
         - path:
             type: PathPrefix
             value: /auth
-      filters:
-        - type: URLRewrite
-          urlRewrite:
-            path:
-              type: ReplacePrefixMatch
-              replacePrefixMatch: /
       backendRefs:
         - name: nectar-labs-auth
           namespace: nectar-labs

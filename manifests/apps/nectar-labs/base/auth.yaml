@@ -37,7 +37,9 @@ spec:
             - name: REDIS_ADDR
               value: "redis.nectar-labs.svc.cluster.local:6379"
             - name: SHELL_URL
-              value: "/shell/"
+              value: "/"
+            - name: BASE_PATH
+              value: "/auth"
             - name: COOKIE_SECRET
               valueFrom:
                 secretKeyRef:
