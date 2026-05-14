@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: syslog-downloader
+  namespace: syslog-downloader
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "syslog-downloader.laskonet.com"
+  rules:
+  - backendRefs:
+    - name: syslog-downloader
+      namespace: syslog-downloader
+      kind: Service
+      port: http
