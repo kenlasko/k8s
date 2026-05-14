@@ -28,6 +28,7 @@ spec:
         app: syslog-downloader
     spec:
       automountServiceAccountToken: false
+      hostUsers: false
       securityContext:
         runAsNonRoot: true
         seccompProfile:
@@ -62,17 +63,17 @@ spec:
             readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: http
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 10
-          # readinessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: http
-          #   periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"
