@@ -7,5 +7,5 @@ resources:
   - redis.yaml
   - auth.yaml
   - shell.yaml
-  # - example-plugin.yaml
+  - example-plugin.yaml
   - httproute.yaml
