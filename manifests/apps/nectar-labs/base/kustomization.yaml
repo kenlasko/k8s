@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: nectar-labs
 resources:
   - namespace.yaml
-  - secret.yaml
+  - external-secret.yaml
   - redis.yaml
   - auth.yaml
   - shell.yaml
