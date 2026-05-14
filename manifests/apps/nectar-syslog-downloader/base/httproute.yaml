@@ -16,4 +16,4 @@ spec:
     - name: syslog-downloader
       namespace: syslog-downloader
       kind: Service
-      port: http
+      port: 8080
