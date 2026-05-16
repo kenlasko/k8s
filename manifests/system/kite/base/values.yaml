@@ -26,9 +26,9 @@ config:
   - name: pocket-id
     clientId: "${KITE_OAUTH_CLIENT_ID}"
     clientSecret: "${KITE_OAUTH_CLIENT_SECRET}"
-    issuer: "https://auth.ucdialplans.com/.well-known/openid-configuration"
+    issuer: "https://auth.laskonet.com/.well-known/openid-configuration"
     scopes: "openid,profile,email,groups"
-    authUrl: "https://auth.ucdialplans.com/authorize"
-    tokenUrl: "https://auth.ucdialplans.com/api/oidc/token"
-    userInfoUrl: "https://auth.ucdialplans.com/api/oidc/userinfo"
+    authUrl: "https://auth.laskonet.com/authorize"
+    tokenUrl: "https://auth.laskonet.com/api/oidc/token"
+    userInfoUrl: "https://auth.laskonet.com/api/oidc/userinfo"
     enabled: true   
