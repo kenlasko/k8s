@@ -25,7 +25,7 @@ authentik:
     host: mail.smtp2go.com
     port: 587
     use_tls: true
-    from: authentik@ucdialplans.com
+    from: authentik@laskonet.com
   postgresql:
     host: pooler-home-rw.cnpg.svc.cluster.local
     port: 5432

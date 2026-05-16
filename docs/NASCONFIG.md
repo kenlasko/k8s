@@ -223,7 +223,7 @@ run_backup "/mnt/backup/omni/"         "/media/other/backup/omni"        "Omni"
 # This sends an email with the backup report attached via SMTP2Go
 API_KEY="api-<REDACTED>"
 EMAIL_TO="ken.lasko@gmail.com"
-FROM_EMAIL="klasko@ucdialplans.com"
+FROM_EMAIL="klasko@laskonet.com"
 FROM_NAME="NAS-Backup"
 SUBJECT="NAS Backup report"
 
@@ -240,7 +240,7 @@ bodyHTML="${bodyHTML}<p>Attached is the rsync backup log.</p>"
 encodedFile=$(base64 -w 0 rsync.log)
 
 maildata='{
-  "sender": "klasko@ucdialplans.com",
+  "sender": "klasko@laskonet.com",
   "to": [
     "ken.lasko@gmail.com"
   ],
