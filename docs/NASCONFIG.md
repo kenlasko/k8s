@@ -261,5 +261,5 @@ curl --request POST \
   --header "Content-Type: application/json" \
   --data "${maildata}"
 
-curl -X PUT -H "Content-Type: application/json" -d '{ "key": "value" }' https://ha.ucdialplans.com/api/webhook/media-backup-<REDACTED>
+curl -X PUT -H "Content-Type: application/json" -d '{ "key": "value" }' https://ha.laskonet.com/api/webhook/media-backup-<REDACTED>
 ```
