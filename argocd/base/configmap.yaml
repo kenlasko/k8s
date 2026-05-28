@@ -51,8 +51,8 @@ data:
     - "/spec/preserveUnknownFields"
   
   # This is needed because External-Secrets v2.3.0 introduced a new field called nullBytePolicy, and without this, ArgoCD will flag the ExternalSecret as out-of-sync every time it tries to apply it.
-  resource.customizations.ignoreDifferences.external-secrets.io_ExternalSecret: |
-    jqPathExpressions:
-    - '.spec.data[]?.remoteRef.nullBytePolicy'
-    - '.spec.dataFrom[]?.extract.nullBytePolicy'
-    - '.spec.dataFrom[]?.find.nullBytePolicy'
+  # resource.customizations.ignoreDifferences.external-secrets.io_ExternalSecret: |
+  #   jqPathExpressions:
+  #   - '.spec.data[]?.remoteRef.nullBytePolicy'
+  #   - '.spec.dataFrom[]?.extract.nullBytePolicy'
+  #   - '.spec.dataFrom[]?.find.nullBytePolicy'
