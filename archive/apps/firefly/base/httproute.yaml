@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "firefly.ucdialplans.com"
+  - "firefly.laskonet.com"
   rules:
   - backendRefs:
     - name: firefly
@@ -30,7 +30,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "firefly-importer.ucdialplans.com"
+  - "firefly-importer.laskonet.com"
   rules:
   - backendRefs:
     - name: firefly-importer

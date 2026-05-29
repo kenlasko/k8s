@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "immich.ucdialplans.com"
+  - "immich.laskonet.com"
   rules:
   - backendRefs:
     - name: immich-server

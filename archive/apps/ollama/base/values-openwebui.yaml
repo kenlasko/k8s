@@ -19,7 +19,7 @@ persistence:
 route:
   enabled: true
   hostnames:
-  - open-webui.ucdialplans.com
+  - open-webui.laskonet.com
   parentRefs:
   - name: tls
     namespace: cilium

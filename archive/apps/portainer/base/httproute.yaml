@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "portainer.ucdialplans.com"
+  - "portainer.laskonet.com"
   rules:
   - backendRefs:
     - name: portainer

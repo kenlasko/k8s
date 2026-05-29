@@ -12,7 +12,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "sealedsecrets.ucdialplans.com"
+  - "sealedsecrets.laskonet.com"
   rules:
   - backendRefs:
     - name: sealed-secrets-web

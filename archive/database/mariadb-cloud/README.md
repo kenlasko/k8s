@@ -9,12 +9,12 @@ kubectl create job -n mariadb --from=cronjob/mariadb-backup-sync mariadb-backup-
 ```
 
 ## MariaDB Cloud Setup
-1. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
+1. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.laskonet.com/network/default/settings/security/port-forwarding
 2. Run `mariadb-restore` job from `mariadb` namespace on Cloud cluster. Do via either ArgoCD or:
 ```
 kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-restore-sync
 ```
-3. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
+3. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.laskonet.com/network/default/settings/security/port-forwarding
 
 
 ## Replication Errors?

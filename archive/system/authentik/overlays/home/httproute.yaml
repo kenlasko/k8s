@@ -10,7 +10,7 @@ spec:
     namespace: cilium
     sectionName: https
   hostnames:
-  - "authentik.ucdialplans.com"
+  - "authentik.laskonet.com"
   rules:
   - backendRefs:
     - name: authentik-server

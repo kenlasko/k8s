@@ -33,4 +33,4 @@ service:
   type: ClusterIP
   port: 8000
 livenessProbe: false
-httpRouteNameOverride: nectar-mcp-nttdemo.ucdialplans.com
+httpRouteNameOverride: nectar-mcp-nttdemo.laskonet.com

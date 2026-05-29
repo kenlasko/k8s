@@ -37,7 +37,7 @@ This cluster is hosted on a single node in [Oracle Cloud](https://cloud.oracle.c
 * VaultWarden
 * UCDialplans website
 
-The PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.ucdialplans.com. However, it is very lightly used, since my phone is usually connected to my home network via Wireguard.
+The PostgreSQL servers are live replicas of the home-based servers. Most of the services are in warm-standby mode. AdGuard Home is the only actively used service for when I am away from home as it responds to requests from *.dns.laskonet.com. However, it is very lightly used, since my phone is usually connected to my home network via Wireguard.
 
 The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be built by [following these procedures](/docs/ORACLE-TALOS-PREP.md).
 

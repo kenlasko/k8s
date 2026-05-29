@@ -22,7 +22,7 @@ resources:
 service:
   port: 5055
 extraHTTPRouteHostnames:
-- media.ucdialplans.com
+- media.laskonet.com
 persistentVolume:
   type: longhorn
   size: 250Mi

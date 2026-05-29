@@ -21,7 +21,7 @@ resources:
   limits:
     # cpu: 500m
     memory: 200Mi
-httpRouteNameOverride: mariadb.ucdialplans.com
+httpRouteNameOverride: mariadb.laskonet.com
 extraVolumes:
 - configMap:
     items:

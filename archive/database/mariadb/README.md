@@ -35,12 +35,12 @@ kubectl create job -n mariadb-standalone --from=cronjob/mariadb-restore mariadb-
 ```
 
 ## MariaDB Cloud Setup
-1. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
+1. Enable ```Oracle to NAS``` port forwarding rule on https://unifi.laskonet.com/network/default/settings/security/port-forwarding
 2. Run `mariadb-restore` job from `mariadb` namespace on Cloud cluster. Do via either ArgoCD or:
 ```
 kubectl create job -n mariadb --from=cronjob/mariadb-restore mariadb-restore-sync
 ```
-3. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.ucdialplans.com/network/default/settings/security/port-forwarding
+3. Disable ```Oracle to NAS``` port forwarding rule on https://unifi.laskonet.com/network/default/settings/security/port-forwarding
 
 
 ## From NAS01 DR Host
@@ -65,7 +65,7 @@ drop database ucdialplans;
 drop database vaultwarden;
 drop database phpmyadmin;
 ```
-3. Get to pod shell on NAS01 container via [Portainer](https://portainer.ucdialplans.com) and run:
+3. Get to pod shell on NAS01 container via [Portainer](https://portainer.laskonet.com) and run:
 ```
 mariadb -u root -p$MARIADB_ROOT_PASSWORD < /bitnami/mariadb/data/mariadb-backup.sql
 ```
@@ -77,7 +77,7 @@ mariadb -u root -p$MARIADB_ROOT_PASSWORD
 ```
 set global gtid_slave_pos = "0-1-19420";
 change master to
-    master_host='mariadb-access.ucdialplans.com',
+    master_host='mariadb-access.laskonet.com',
     master_user='replicator',
     master_password='***REDACTED***',
     master_port=3306,

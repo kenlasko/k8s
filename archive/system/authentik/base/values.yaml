@@ -51,4 +51,4 @@ server:
         namespace: cilium
         sectionName: https
       hostnames: 
-      - authentik.ucdialplans.com
+      - authentik.laskonet.com

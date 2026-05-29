@@ -65,7 +65,7 @@ clusters:
     server: https://192.168.1.11:6443
   name: home
 - cluster:
-    server: https://omni.ucdialplans.com:8100/
+    server: https://omni.laskonet.com:8100/
   name: omni-home
 contexts:
 - context:
@@ -90,7 +90,7 @@ users:
       args:
       - oidc-login
       - get-token
-      - --oidc-issuer-url=https://omni.ucdialplans.com/oidc
+      - --oidc-issuer-url=https://omni.laskonet.com/oidc
       - --oidc-client-id=native
       - --browser-command=wslview
       - --oidc-extra-scope=cluster:home

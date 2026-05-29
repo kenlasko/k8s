@@ -16,7 +16,7 @@ env:
 - name: PLAYWRIGHT_DRIVER_URL
   value: "ws://playwright-chrome:3000/?stealth=1&--disable-web-security=true"
 - name: BASE_URL
-  value: "https://changedetector.ucdialplans.com"
+  value: "https://changedetector.laskonet.com"
 - name: TZ
   value: "America/Toronto"
 resources:

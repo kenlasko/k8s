@@ -45,4 +45,4 @@ The secret must include the following values:
 - `OAUTH2_PROXY_CLIENT_SECRET` (from OIDC provider)
 - `OAUTH2_PROXY_COOKIE_SECRET` (use the same one for each for seamless logins)
 
-When creating the OIDC client in Pocket-ID, set the `Callback URL` to `https://clienturl.ucdialplans.com/oauth2/callback`
+When creating the OIDC client in Pocket-ID, set the `Callback URL` to `https://clienturl.laskonet.com/oauth2/callback`

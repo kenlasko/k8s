@@ -20,7 +20,7 @@ This feature allows for controlling access to applications using Cloudflare's se
 2. Click on `Add an application`
 3. Click on `Select` underneath `Self-hosted`
 4. Enter a name for the application, such as `Sonarr` or `Radarr`
-5. Enter an appropriate subdomain/domain/path, such as `sonarr.ucdialplans.com`
+5. Enter an appropriate subdomain/domain/path, such as `sonarr.laskonet.com`
 6. For Application Appearance, you can enable the app to show in the [App Launcher](https://kenlasko.cloudflareaccess.com/) and modify the icon and tags if desired
 7. Select the appropriate identity provider
 8. Click `Next`

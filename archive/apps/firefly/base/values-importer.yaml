@@ -1,6 +1,6 @@
 fireflyiii:
   url: "http://firefly:80"
-  vanityUrl: "https://firefly.ucdialplans.com"
+  vanityUrl: "https://firefly.laskonet.com"
 config:
   existingSecret: firefly-secrets
   env:

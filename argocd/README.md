@@ -33,4 +33,4 @@ Restart ArgoCD pods in this order:
 3. argocd-server
 
 ## ArgoCD seems very slow to sync
-Probably due to Unifi blocking SSH traffic due to `ET SCAN Potential SSH Scan OUTBOUND`. Resolve by adding the node IP to the Signature Suppression for this rule: https://unifi.ucdialplans.com/network/default/settings/security/cybersecure
+Probably due to Unifi blocking SSH traffic due to `ET SCAN Potential SSH Scan OUTBOUND`. Resolve by adding the node IP to the Signature Suppression for this rule: https://unifi.laskonet.com/network/default/settings/security/cybersecure
