@@ -19,6 +19,8 @@ resources:
 - database.yaml
 - external-secrets.yaml
 - podmonitor.yaml
+- podmonitor-standby.yaml
+- prometheusrule.yaml
 # - pooler.yaml
 - service.yaml
 - serviceaccount.yaml

@@ -13,10 +13,25 @@ alertmanager:
       repeat_interval: 4h
       receiver: "null"
       routes:
+      # Critical: notify both channels fast, repeat hourly until resolved.
+      - receiver: "slack-webhook"
+        matchers:
+        - severity = "critical"
+        group_wait: 30s
+        repeat_interval: 1h
+        continue: true
+      - receiver: "ken-gmail"
+        matchers:
+        - severity = "critical"
+        group_wait: 30s
+        repeat_interval: 1h
+        continue: true
+      # Warning: notify both channels. continue:true so the first match
+      # does not stop routing before the email route is reached.
       - receiver: "slack-webhook"
         matchers:
         - severity = "warning"
-        continue: false
+        continue: true
       - receiver: "ken-gmail"
         matchers:
         - severity = "warning"

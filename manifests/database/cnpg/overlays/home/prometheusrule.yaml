@@ -1,0 +1,70 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cnpg-replication
+  namespace: cnpg
+  labels:
+    cnpg.io/cluster: home
+spec:
+  groups:
+  - name: cnpg-replication
+    rules:
+    # PRIMARY SIGNAL for the Backblaze runaway-cost incident.
+    # A replica whose WAL receiver is down has fallen off streaming and is
+    # pulling WAL from the B2 archive via restore_command — often in a tight
+    # loop when it has diverged onto a stale timeline. Fires hours before a
+    # Backblaze spend alert would.
+    - alert: CNPGReplicaWalReceiverDown
+      expr: |
+        cnpg_pg_replication_is_wal_receiver_up == 0
+          and on(pod) cnpg_pg_replication_in_recovery == 1
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: "CNPG replica {{ $labels.pod }} not streaming (archive restore loop)"
+        description: >
+          {{ $labels.pod }} WAL receiver is down for >10m. Replica is replaying
+          WAL from the Backblaze archive instead of streaming — likely a timeline
+          divergence after a failover. This drives runaway B2 egress. Re-clone the
+          replica (delete its pod+PVC) and check primary vs replica timeline_id.
+
+    # Replica keeps streaming but lag grows unbounded — early warning that it may
+    # soon fall back to archive.
+    - alert: CNPGReplicationLagHigh
+      expr: cnpg_pg_replication_lag > 300
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "CNPG replication lag high on {{ $labels.pod }}"
+        description: "Replication lag > 300s for 15m on {{ $labels.pod }}."
+
+    # WAL archiving stalled — backups/PITR at risk (separate failure mode).
+    - alert: CNPGArchiverStalled
+      expr: cnpg_pg_stat_archiver_seconds_since_last_archival > 600
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "CNPG WAL archiving stalled on {{ $labels.pod }}"
+        description: "No WAL archived to object store for >10m on {{ $labels.pod }}."
+
+    - alert: CNPGArchiverFailing
+      expr: increase(cnpg_pg_stat_archiver_failed_count[15m]) > 0
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "CNPG WAL archive failures on {{ $labels.pod }}"
+        description: "archive_command failing on {{ $labels.pod }} over last 15m."
+
+    # Instance exporter unreachable / instance down.
+    - alert: CNPGInstanceDown
+      expr: cnpg_collector_up == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "CNPG instance {{ $labels.pod }} down"
+        description: "cnpg_collector_up == 0 for >5m on {{ $labels.pod }}."
