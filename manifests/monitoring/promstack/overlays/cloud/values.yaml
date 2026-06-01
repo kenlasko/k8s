@@ -4,7 +4,7 @@ alertmanager:
       slack_api_url_file: /etc/alertmanager/secrets/alertmanager-secrets/slack_webhook
       smtp_smarthost: 'smtp.sendgrid.net:587'
       smtp_from: 'AlertManager Cloud<alertmanager-cloud@laskonet.com>'
-      smtp_auth_username: 'apikey'
+      smtp_auth_username: 'SMTPSender@ucdialplans.com'
       smtp_auth_password_file: /etc/alertmanager/secrets/alertmanager-secrets/smtp_auth_password
       resolve_timeout: 5m
     route:
