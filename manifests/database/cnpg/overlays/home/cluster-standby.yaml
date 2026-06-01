@@ -69,3 +69,5 @@ spec:
     shared_preload_libraries: []
     parameters:
       max_connections: "200"
+      wal_sender_timeout: "60s"
+      wal_receiver_timeout: "60s"

@@ -57,6 +57,8 @@ spec:
       # pgaudit.log_catalog: "off"
       # pgaudit.log_parameter: "on"
       wal_keep_size: "3GB"
+      wal_sender_timeout: "60s"
+      wal_receiver_timeout: "60s"
       max_connections: "200"
       superuser_reserved_connections: "12"
     shared_preload_libraries: []
