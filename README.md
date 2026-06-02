@@ -45,7 +45,7 @@ The Oracle Cloud Talos OS image is not available on Oracle Cloud but can be buil
 This is my Kubernetes lab environment, which I have historically used to test out new features before deploying to my 'production' Kubernetes cluster. It runs on 1 to 3 Talos VMs as needed on my Windows 11 machine under Hyper-V. It is not typically in use.
 
 ## Remote Access
-Most services are only accessed by myself and are only available via my local network or my Unifi-hosted Wireguard VPN. Services that are publically available such as [UCDialplans.com](https://www.ucdialplans.com) or [Seerr](/manifests/media/seerr) (for my family) are published via my dedicated [cloud-based Pangolin instance](https://github.com/kenlasko/pangolin).
+Most services are only accessed by myself and are only available via my local network or my Unifi-hosted Wireguard VPN. Services that are publically available such as [Monize-Demo](https://monize-demo.laskonet.com) or [Seerr](/manifests/media/seerr) (for my family) are published via my dedicated [cloud-based Pangolin instance](https://github.com/kenlasko/pangolin).
 
 ## Inter-Cluster Communication
 I use the [Tailscale Operator](/manifests/network/tailscale) to securely share data between my home and cloud cluster. I decided to use limited service-level links instead of a cluster-wide link to limit exposure. This does complicate things somewhat, but is generally manageable. 
