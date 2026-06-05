@@ -10,6 +10,9 @@ bpf:
   hostRouting: true
   # hostLegacyRouting: true
   masquerade: true
+bandwidthManager:
+  enabled: true   # eBPF bandwidth manager
+  bbr: true       # Use BBR for pod traffic
 ipam:
   mode: kubernetes
   operator:
