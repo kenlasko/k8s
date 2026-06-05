@@ -9,6 +9,9 @@ bpf:
   # See https://github.com/kenlasko/omni/blob/main/patches/machine-hostdns.yaml for the other side of this.
   hostLegacyRouting: false 
   masquerade: true
+bandwidthManager:
+  enabled: true   # eBPF bandwidth manager
+  bbr: true       # Use BBR for pod traffic
 bgpControlPlane:
   enabled: true
   secretsNamespace:
