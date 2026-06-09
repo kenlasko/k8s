@@ -1,0 +1,34 @@
+nameOverride: lumina
+image:
+  repository: luminahq/lumina-finance
+  tag: latest
+  registry: docker.io
+  pullPolicy: Always
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+envFrom:
+- configMapRef:
+    name: env-vars
+- secretRef:
+    name: env-secrets
+resources:
+  requests:
+    cpu: 3m
+    memory: 95Mi
+  limits:
+    #memory: 150Mi
+service:
+  port: 8080
+persistentVolume:
+  name: lumina
+  type: nfs
+  size: 700Mi
+  mountPath: /data

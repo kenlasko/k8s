@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: lumina
+  namespace: cnpg
+spec:
+  name: lumina
+  owner: lumina
+  cluster:
+    name: home

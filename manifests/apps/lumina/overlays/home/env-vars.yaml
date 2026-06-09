@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: lumina
+data:
+  DB_HOST: "home-rw.cnpg.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: lumina
+  APP_URL: https://lumina.laskonet.com
