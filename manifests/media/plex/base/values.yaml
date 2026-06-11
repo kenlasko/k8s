@@ -58,7 +58,7 @@ startupProbe:
 
 persistentVolume:
   type: longhorn
-  size: 40Gi
+  size: 50Gi
 media:
   enabled: true
 affinity:
