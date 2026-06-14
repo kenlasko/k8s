@@ -1,8 +1,49 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: cloudflare-operator
 resources:
 - https://github.com/adyanth/cloudflare-operator.git/config/default?ref=v0.13.1
 - external-secrets.yaml
-- namespace.yaml
 # - networkpolicy.yaml
+# The upstream config/default ships its own "cloudflare-operator-system" namespace,
+# which the overlay's `namespace:` transformer renames to "cloudflare-operator".
+# Rather than ship a second Namespace object (which collides), add the
+# pod-security labels to the upstream namespace via a patch.
+patches:
+- target:
+    kind: Namespace
+    name: cloudflare-operator-system
+  patch: |-
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1enforce
+      value: baseline
+    - op: add
+      path: /metadata/labels/pod-security.kubernetes.io~1enforce-version
+      value: latest
+# The upstream config/default hardcodes the "cloudflare-operator-system" namespace
+# in cert-manager fields that the `namespace:` transformer cannot rewrite (literal
+# strings, not namespace references). Retarget them to "cloudflare" so the
+# webhook serving cert and CA injection match the relocated webhook Service.
+- target:
+    kind: Certificate
+  patch: |-
+    - op: replace
+      path: /spec/dnsNames
+      value:
+        - cloudflare-operator-webhook-service.cloudflare.svc
+        - cloudflare-operator-webhook-service.cloudflare.svc.cluster.local
+- target:
+    annotationSelector: cert-manager.io/inject-ca-from
+  patch: |-
+    - op: replace
+      path: /metadata/annotations/cert-manager.io~1inject-ca-from
+      value: cloudflare-operator/cloudflare-operator-serving-cert
+# The operator's --cluster-resource-namespace defaults to "cloudflare-operator-system"
+# and controls leader-election AND where ClusterTunnels create their cloudflared
+# Deployment/credentials. Point it at the namespace we actually deploy into.
+- target:
+    kind: Deployment
+    name: cloudflare-operator-controller-manager
+  patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/args/-
+      value: --cluster-resource-namespace=cloudflare
