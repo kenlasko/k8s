@@ -12,6 +12,7 @@ helmCharts:
   namespace: monize
   valuesFile: values-frontend.yaml
 resources:
+- cloudflare-tunnel.yaml
 - database.yaml
 - env-vars.yaml
 - external-secrets.yaml
