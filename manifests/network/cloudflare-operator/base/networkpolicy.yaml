@@ -1,0 +1,36 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cloudflare-operator
+  namespace: cloudflare-operator
+spec:
+  endpointSelector: {}
+  ingress:
+    - {}
+  egress:
+    - toEntities:
+        - cluster
+        - kube-apiserver
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "*.cloudflare.com"
+        - matchPattern: "*.argotunnel.com"
+        - matchPattern: "*.cloudflareaccess.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+            - port: "7844"
+              protocol: TCP
+            - port: "7844"
+              protocol: UDP

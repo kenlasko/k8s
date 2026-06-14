@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: ClusterTunnel
+metadata:
+  name: k8s-home
+spec:
+  newTunnel:
+    name: k8s-home
+  size: 2
+  cloudflare:
+    domain: REPLACE_ME.example.com
+    accountName: REPLACE_ME
+    email: ken.lasko@gmail.com
+    secret: cloudflare-operator-secrets

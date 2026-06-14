@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cloudflare-operator
+helmCharts:
+- name: cloudflare-operator
+  repo: https://adyanth.github.io/cloudflare-operator/
+  version: 0.13.4
+  releaseName: cloudflare-operator
+  namespace: cloudflare-operator
+  valuesFile: ../../base/values.yaml
+  additionalValuesFiles:
+  - values.yaml
+  valuesMerge: merge
+  includeCRDs: true
+resources:
+- ../../base
+- clustertunnel.yaml
