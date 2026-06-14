@@ -2,7 +2,14 @@ apiVersion: networking.cfargotunnel.com/v1alpha1
 kind: ClusterTunnel
 metadata:
   name: k8s-cloud
+  annotations:
+    # Apply the ClusterTunnel only after the operator (wave 0) is Healthy, so its
+    # conversion webhook is up and cert-manager has injected the CA bundle.
+    argocd.argoproj.io/sync-wave: "1"
 spec:
+  # This cluster's network drops outbound UDP 7844, so QUIC can't reach the
+  # Cloudflare edge. Force http2 (TCP 7844) instead of the default auto/quic.
+  protocol: http2
   newTunnel:
     name: k8s-cloud
   cloudflare:

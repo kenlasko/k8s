@@ -5,7 +5,7 @@ resources:
 - external-secrets.yaml
 # - networkpolicy.yaml
 # The upstream config/default ships its own "cloudflare-operator-system" namespace,
-# which the overlay's `namespace:` transformer renames to "cloudflare-operator".
+# which the overlay's `namespace:` transformer renames to the target namespace.
 # Rather than ship a second Namespace object (which collides), add the
 # pod-security labels to the upstream namespace via a patch.
 patches:
