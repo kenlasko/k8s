@@ -1,0 +1,10 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: monize-demo
+  namespace: monize
+subjects:
+- name: monize-frontend-service
+tunnelRef:
+  kind: ClusterTunnel
+  name: k8s-cloud
