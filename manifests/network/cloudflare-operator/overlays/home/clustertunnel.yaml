@@ -5,9 +5,8 @@ metadata:
 spec:
   newTunnel:
     name: k8s-home
-  size: 2
   cloudflare:
-    domain: REPLACE_ME.example.com
-    accountName: REPLACE_ME
+    domain: laskonet.com
     email: ken.lasko@gmail.com
-    secret: cloudflare-operator-secrets
+    secret: cloudflare-operator-secret
+    accountId: fa831d805d821b7c4627b464a9845a9d
