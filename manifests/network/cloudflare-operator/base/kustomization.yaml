@@ -36,7 +36,7 @@ patches:
   patch: |-
     - op: replace
       path: /metadata/annotations/cert-manager.io~1inject-ca-from
-      value: cloudflare-operator/cloudflare-operator-serving-cert
+      value: cloudflare/cloudflare-operator-serving-cert
 # The operator's --cluster-resource-namespace defaults to "cloudflare-operator-system"
 # and controls leader-election AND where ClusterTunnels create their cloudflared
 # Deployment/credentials. Point it at the namespace we actually deploy into.
