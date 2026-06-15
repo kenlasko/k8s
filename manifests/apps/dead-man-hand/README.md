@@ -27,7 +27,7 @@ The action is already active in the pod. This script is only necessary if change
 ## Testing action
 Run this from inside DMH pod:
 ```
-dmh-cli action test --kind mail --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dead-man-hand.laskonet.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
+dmh-cli action test --kind mail --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dmh.laskonet.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]}"
 ```
 
 ## Prompt after inactivity
@@ -35,5 +35,5 @@ Configures an alert to be sent after x number of hours/days to remind me to chec
 
 Run this from inside DMH pod:
 ```
-dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 48 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dmh.laskonet.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]"}
+dmh-cli action add --comment "Prompt for inactivity" --kind mail --process-after 48 --min-interval 20 --data "{\"message\": \"Are you still alive?\n\nEither login to Home Assistant or visit:\nhttps://dmh.laskonet.com/api/alive\", \"subject\": \"DMH Inactivity Alert\", \"destination\":[\"tferguson@contoso.com\"]}"
 ```

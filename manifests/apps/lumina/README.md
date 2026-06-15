@@ -1,2 +1,4 @@
 # Summary
-[Monize](https://github.com/kenlasko/lumina) is my vibe-coded, self-hosted personal finance software to manage my finances. Check out that repo for more information about it.
+[Lumina](https://github.com/Lumina-Finance/lumina-finance) is a self-hosted personal finance application, running at https://lumina.laskonet.com. I run it alongside my own [Monize](/manifests/apps/monize) app.
+
+It requires [PostgreSQL](/manifests/database/cnpg) to run.

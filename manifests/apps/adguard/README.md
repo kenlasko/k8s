@@ -6,7 +6,7 @@ The [AdGuard Home instance](/manifests/apps/adguard) on Kubernetes is the primar
 
 For home, the primary instance along with 2 Docker-based instances on standalone Raspberry Pis provide highly-available DNS services. DNS is serviced from the primary via DNS port 53 and HTTPS port 853 on `192.168.1.16`. The RPis are serving DNS port 53 on `192.168.1.17` and `192.168.1.18`. 
 
-For outside the home, an instance running on my [Oracle Cloud Omni cluster](https://github.com/kenlasko/k3s-cloud/adguard) provides DNS services over TLS (DoH). Only approved hosts are able to use it. Currently, only my Pixel phone is on the list.
+For outside the home, an instance running on my Oracle Cloud Omni cluster (see the [cloud overlay](/manifests/apps/adguard/overlays/cloud)) provides DNS services over TLS (DoH). Only approved hosts are able to use it. Currently, only my Pixel phone is on the list.
 
 Stateful files are stored and accessed on the NAS via NFS through `/appdata/vol/adguard`. It is regularly backed up to Cloudflare S3 storage via [Volsync](/manifests/system/volsync).
 
