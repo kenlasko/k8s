@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: seerr
+  namespace: media
+subjects:
+- kind: Service
+  name: seerr-service
+  spec:
+    fqdn: seerr.laskonet.com
+tunnelRef:
+  kind: ClusterTunnel
+  name: k8s-home

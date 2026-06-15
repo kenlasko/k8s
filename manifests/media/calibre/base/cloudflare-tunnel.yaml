@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: calibre
+  namespace: media
+subjects:
+- kind: Service
+  name: calibre-service
+  spec:
+    fqdn: books.laskonet.com
+tunnelRef:
+  kind: ClusterTunnel
+  name: k8s-home

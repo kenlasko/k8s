@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: homeassist
+  namespace: homeops
+subjects:
+- kind: Service
+  name: homeassist-service
+  spec:
+    fqdn: ha-ext.laskonet.com
+tunnelRef:
+  kind: ClusterTunnel
+  name: k8s-home

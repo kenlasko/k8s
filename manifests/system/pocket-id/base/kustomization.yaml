@@ -8,6 +8,7 @@ helmCharts:
   namespace: pocket-id
   valuesFile: values.yaml
 resources:
+- cloudflare-tunnel.yaml
 - env-vars.yaml
 - database.yaml
 - external-secrets.yaml

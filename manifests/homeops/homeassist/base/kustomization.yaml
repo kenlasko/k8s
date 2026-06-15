@@ -8,6 +8,7 @@ helmCharts:
   namespace: homeops
   valuesFile: values.yaml
 resources:
+- cloudflare-tunnel.yaml
 - database.yaml
 - external-secrets.yaml
 - namespace.yaml
