@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: monize
+  namespace: monize
+subjects:
+- kind: Service
+  name: monize-frontend-service
+  spec:
+    fqdn: monize.laskonet.com
+tunnelRef:
+  kind: ClusterTunnel
+  name: k8s-home
