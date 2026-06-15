@@ -4,7 +4,10 @@ metadata:
   name: monize-demo
   namespace: monize
 subjects:
-- name: monize-frontend-service
+- kind: Service # Default
+  name: monize-frontend-service
+  spec:
+    fqdn: monize-demo1.laskonet.com
 tunnelRef:
   kind: ClusterTunnel
   name: k8s-cloud
