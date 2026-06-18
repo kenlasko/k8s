@@ -1,8 +1,10 @@
 nameOverride: monize-backend
 image:
-  repository: monize/backend
+  # registry: registry.laskonet.com
+  # repository: monize/backend
+  registry: ghcr.io
+  repository: wmp/monize-backend
   tag: latest
-  registry: registry.laskonet.com
   pullPolicy: Always
 securityContext:
   allowPrivilegeEscalation: false

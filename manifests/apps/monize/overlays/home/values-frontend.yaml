@@ -1,8 +1,10 @@
 nameOverride: monize-frontend
 image:
-  repository: monize/frontend
+  # registry: registry.laskonet.com
+  # repository: monize/frontend
+  registry: ghcr.io
+  repository: wmp/monize-frontend
   tag: latest
-  registry: registry.laskonet.com
   pullPolicy: Always
 hostUsers: false
 securityContext:
