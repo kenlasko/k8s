@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 helmCharts:
 - name: kite
-  repo: https://zxh326.github.io/kite
-  version: 0.12.3
+  repo: https://kite-org.github.io/kite
+  version: 0.13.0
   releaseName: kite
   namespace: kube-system
   valuesFile: ../../base/values.yaml
