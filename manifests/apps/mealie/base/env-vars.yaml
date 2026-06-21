@@ -5,7 +5,7 @@ metadata:
   namespace: mealie
 data:
   ALLOW_SIGNUP: "true"
-  BASE_URL: "https://mealie.laskonet.com"
+  BASE_URL: "https://recipes.laskonet.com"
   PUID: "1000"
   PGID: "0"           
   TZ: "America/Toronto"
