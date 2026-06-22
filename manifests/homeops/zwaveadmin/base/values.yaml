@@ -38,7 +38,6 @@ persistentVolume:
 backup:
   location: cloudflare 
   schedule: "10 */2 * * *"
-  unlock: "some-random-value"
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
