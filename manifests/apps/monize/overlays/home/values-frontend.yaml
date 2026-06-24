@@ -5,7 +5,7 @@ image:
   # tag: latest
   registry: ghcr.io
   repository: wmp/monize-frontend
-  tag: fix-scheduled-transfer-category-eee0540
+  tag: fix-ai-confirm-card-deep-link-transaction-cfa7b11
   pullPolicy: Always
 hostUsers: false
 securityContext:
