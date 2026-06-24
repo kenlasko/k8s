@@ -5,7 +5,7 @@ image:
   # tag: latest
   registry: ghcr.io
   repository: wmp/monize-frontend
-  tag: fix-scheduled-transfer-category-554aba0
+  tag: fix-scheduled-transfer-category-eee0540
   pullPolicy: Always
 hostUsers: false
 securityContext:
