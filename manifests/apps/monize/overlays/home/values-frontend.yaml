@@ -1,11 +1,11 @@
 nameOverride: monize-frontend
 image:
-  # registry: registry.laskonet.com
-  # repository: monize/frontend
-  # tag: latest
-  registry: ghcr.io
-  repository: wmp/monize-frontend
-  tag: fix-ai-confirm-card-deep-link-transaction-bd62eee
+  registry: registry.laskonet.com
+  repository: monize/frontend
+  tag: latest
+  # registry: ghcr.io
+  # repository: wmp/monize-frontend
+  # tag: fix-ai-confirm-card-deep-link-transaction-bd62eee
   pullPolicy: Always
 hostUsers: false
 securityContext:
