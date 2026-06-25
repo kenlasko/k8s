@@ -1,6 +1,6 @@
 image:
   repository: 11notes/sabnzbd
-  tag: 5.0.3
+  tag: 5.0.4
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
