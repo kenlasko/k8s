@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
   - name: cloud-uptime-kuma-tunnel
-    image: alpine/socat:1.8.1.1
+    image: alpine/socat:1.8.1.3
     imagePullPolicy: IfNotPresent
     args: ["tcp-listen:3001,fork,reuseaddr", "tcp-connect:cloud-uptime-kuma-link:3001"]
     ports:
