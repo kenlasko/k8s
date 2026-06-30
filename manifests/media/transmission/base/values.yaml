@@ -1,6 +1,6 @@
 image:
   repository: home-operations/transmission
-  tag: 4.1.2
+  tag: 4.1.3
   registry: ghcr.io
 securityContext:
   allowPrivilegeEscalation: false
