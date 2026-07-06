@@ -9,3 +9,20 @@ spec:
   owner: lumina
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: lumina
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: lumina
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: delete
+  passwordSecret:
+    name: useraccount-lumina
