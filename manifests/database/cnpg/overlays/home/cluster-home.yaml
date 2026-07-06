@@ -126,14 +126,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-kite
-    - name: lumina
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-lumina
     - name: mealie
       ensure: present
       login: true
