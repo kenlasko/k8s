@@ -9,3 +9,20 @@ spec:
   owner: pocket-id
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: pocket-id
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: pocket-id
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-pocket-id

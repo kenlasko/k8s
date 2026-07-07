@@ -9,3 +9,20 @@ spec:
   owner: pgadmin
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: pgadmin
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: pgadmin
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-pgadmin

@@ -21,3 +21,20 @@ spec:
   owner: radarr
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: radarr
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: radarr
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-radarr

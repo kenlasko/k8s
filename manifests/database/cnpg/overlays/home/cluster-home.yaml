@@ -86,30 +86,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-grafana
-    - name: homeassist
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-homeassist
-    - name: immich
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-immich
-    - name: kite
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-kite
     - name: nextcloud
       ensure: present
       login: true
@@ -118,62 +94,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-nextcloud
-    - name: pgadmin
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-pgadmin
-    - name: pocket-id
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-pocket-id
-    - name: prowlarr
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-prowlarr
-    - name: radarr
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-radarr
-    - name: seerr
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-seerr
-    - name: sonarr
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-sonarr
-    - name: vaultwarden
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-vaultwarden
 
     services:
       additional:

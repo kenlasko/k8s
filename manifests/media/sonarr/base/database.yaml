@@ -21,3 +21,20 @@ spec:
   owner: sonarr
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: sonarr
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: sonarr
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-sonarr

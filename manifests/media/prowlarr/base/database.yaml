@@ -21,3 +21,20 @@ spec:
   owner: prowlarr
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: prowlarr
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: prowlarr
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-prowlarr
