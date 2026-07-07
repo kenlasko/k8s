@@ -78,22 +78,6 @@ spec:
       login: false
       inherit: false
       connectionLimit: -1
-    - name: dispatcharr
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-dispatcharr
-    - name: dockhand
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-dockhand
     - name: grafana
       ensure: present
       login: true
@@ -126,22 +110,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-kite
-    - name: mealie
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-mealie
-    - name: monize
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-monize
     - name: nextcloud
       ensure: present
       login: true
@@ -150,14 +118,6 @@ spec:
       connectionLimit: -1
       passwordSecret:
         name: useraccount-nextcloud
-    - name: paperless
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-paperless
     - name: pgadmin
       ensure: present
       login: true
