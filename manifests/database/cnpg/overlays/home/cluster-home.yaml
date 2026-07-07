@@ -78,22 +78,7 @@ spec:
       login: false
       inherit: false
       connectionLimit: -1
-    - name: grafana
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-grafana
-    - name: nextcloud
-      ensure: present
-      login: true
-      superuser: false
-      inherit: false
-      connectionLimit: -1
-      passwordSecret:
-        name: useraccount-nextcloud
+
 
     services:
       additional:

@@ -19,6 +19,24 @@ spec:
 
 ---
 apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: grafana
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: grafana
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-grafana
+
+
+---
+apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: nextcloud
@@ -28,3 +46,20 @@ spec:
   owner: nextcloud
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: nextcloud
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: nextcloud
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-nextcloud
