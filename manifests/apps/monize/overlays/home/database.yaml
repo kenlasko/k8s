@@ -9,3 +9,20 @@ spec:
   owner: monize
   cluster:
     name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: monize
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: monize
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-monize
