@@ -7,7 +7,7 @@ metadata:
     # conversion webhook is up and cert-manager has injected the CA bundle.
     argocd.argoproj.io/sync-wave: "1"
 spec:
-  image: cloudflare/cloudflared:2026.7.0
+  image: cloudflare/cloudflared:2026.7.1
   # This cluster's network drops outbound UDP 7844, so QUIC can't reach the
   # Cloudflare edge. Force http2 (TCP 7844) instead of the default auto/quic.
   protocol: http2
