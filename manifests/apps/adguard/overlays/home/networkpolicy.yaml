@@ -87,7 +87,7 @@ spec:
             - port: "3000"
     - toEndpoints:
         - matchLabels:
-            io.kubernetes.pod.namespace: pocket-id
+            app: pocket-id
       toPorts:
         - ports:
             - port: "1411"
