@@ -22,5 +22,5 @@ helmCharts:
 resources:
 - ../../base
 - namespace.yaml
-- networkpolicy.yaml
+# - networkpolicy.yaml
 - service.yaml
