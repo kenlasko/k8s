@@ -3,10 +3,11 @@ image:
   repository: kenlasko/adguard-logcentral
   tag: latest
   registry: ghcr.io
+  pullPolicy: Always
 priorityClassName: medium-priority
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 65532
   seccompProfile:
