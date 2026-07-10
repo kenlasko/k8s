@@ -25,7 +25,7 @@ envFrom:
     name: adguard-logcentral-secrets
 env:
 - name: OIDC_ISSUER_URL
-  value: https://auth.laskonet.com
+  value: http://pocket-id-service.pocket-id.svc.cluster.local:1411
 - name: OIDC_REDIRECT_URL
   value: https://adguard-logcentral.laskonet.com/auth/callback
 - name: ADGUARD_1_URL
