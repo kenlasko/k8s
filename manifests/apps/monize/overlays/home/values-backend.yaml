@@ -1,4 +1,5 @@
 nameOverride: monize-backend
+replicas: 0
 image:
   registry: registry.laskonet.com
   repository: monize/backend
