@@ -15,6 +15,10 @@ helmCharts:
   releaseName: adguard-sync
   namespace: adguard
   valuesFile: values-adguard-sync.yaml
+- name: baseline
+  releaseName: adguard-logcentral
+  namespace: adguard
+  valuesFile: values-adguard-logcentral.yaml
 resources:
 - ../../base
 - namespace.yaml
