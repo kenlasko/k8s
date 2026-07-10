@@ -1,6 +1,6 @@
 nameOverride: adguard-logcentral
 image:
-  repository: kenlasko/adguard-logcentral:latest
+  repository: kenlasko/adguard-logcentral
   tag: latest
   registry: ghcr.io
 priorityClassName: medium-priority
