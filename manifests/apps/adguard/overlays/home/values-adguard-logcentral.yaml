@@ -54,25 +54,13 @@ env:
       name: adguard-creds
       key: password
 - name: ADGUARD_3_URL
-  value: "https://adguard-rpi2.laskonet.com"
+  value: "http://cloud-adguard-link.tailscale.svc.cluster.local:3000"
 - name: ADGUARD_3_USERNAME
   valueFrom:
     secretKeyRef:
       name: adguard-creds
       key: username
 - name: ADGUARD_3_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: adguard-creds
-      key: password
-- name: ADGUARD_4_URL
-  value: "http://cloud-adguard-link.tailscale.svc.cluster.local:3000"
-- name: ADGUARD_4_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: adguard-creds
-      key: username
-- name: ADGUARD_4_PASSWORD
   valueFrom:
     secretKeyRef:
       name: adguard-creds
