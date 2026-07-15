@@ -42,7 +42,7 @@ alertmanager:
               storage: 5Gi
   service:
     annotations:
-      omni-kube-service-exposer.sidero.dev/prefix: cloud_alertmanager
+      omni-kube-service-exposer.sidero.dev/prefix: cloud-alertmanager
 
 grafana:
   persistence:
@@ -52,7 +52,7 @@ grafana:
     accessModes: ["ReadWriteOnce"]
   service:
     annotations:
-      omni-kube-service-exposer.sidero.dev/prefix: cloud_grafana
+      omni-kube-service-exposer.sidero.dev/prefix: cloud-grafana
 
 prometheus:
   prometheusSpec:
@@ -66,4 +66,4 @@ prometheus:
               storage: 20Gi
   service:
     annotations:
-      omni-kube-service-exposer.sidero.dev/prefix: cloud_prometheus
+      omni-kube-service-exposer.sidero.dev/prefix: cloud-prometheus
