@@ -1,0 +1,38 @@
+fullnameOverride: external-dns-unifi
+provider:
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/home-operations/external-dns-unifi-webhook
+      tag: 0.10.9
+    env:
+    - name: UNIFI_HOST
+      value: https://unifi.laskonet.com
+    - name: UNIFI_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: unifi-dns-secret
+          key: UNIFI_API_KEY
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: http-webhook
+      initialDelaySeconds: 10
+      timeoutSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /readyz
+        port: http-webhook
+      initialDelaySeconds: 10
+      timeoutSeconds: 5
+triggerLoopOnEvent: true
+policy: sync
+sources:
+- gateway-httproute
+- service
+txtOwnerId: main
+txtPrefix: k8s.main.%{record_type}-
+domainFilters:
+- laskonet.com
+serviceMonitor:
+  enabled: true
