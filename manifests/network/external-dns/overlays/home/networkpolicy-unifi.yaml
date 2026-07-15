@@ -1,0 +1,29 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: external-dns-unifi
+  namespace: external-dns
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: external-dns-unifi
+  egress:
+    # DNS so the FQDN policy below can learn unifi.laskonet.com's IP
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # UniFi controller (unifi.laskonet.com -> 192.168.1.1) on HTTPS
+    - toFQDNs:
+        - matchName: unifi.laskonet.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

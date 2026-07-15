@@ -20,6 +20,7 @@ helmCharts:
 resources:
 - ../../base
 - external-secrets.yaml
+- networkpolicy-unifi.yaml
 patches:
 - path: env-patch.yaml
   target:
