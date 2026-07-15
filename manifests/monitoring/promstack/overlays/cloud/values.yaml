@@ -31,7 +31,7 @@ alertmanager:
       - channel: cloud-alerts
         send_resolved: true
   alertmanagerSpec:
-    externalUrl: 'https://cloud_alertmanager-omni.omni.laskonet.com'
+    externalUrl: 'https://cloud-alertmanager-omni.omni.laskonet.com'
     storage:
       volumeClaimTemplate:
         spec:
