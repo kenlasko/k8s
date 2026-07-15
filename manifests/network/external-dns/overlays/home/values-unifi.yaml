@@ -5,6 +5,16 @@ provider:
     image:
       repository: ghcr.io/home-operations/external-dns-unifi-webhook
       tag: 0.10.9
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      privileged: false
+      readOnlyRootFilesystem: true
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
     env:
     - name: UNIFI_HOST
       value: https://unifi.laskonet.com
