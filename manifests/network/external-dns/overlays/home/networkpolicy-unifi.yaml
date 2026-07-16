@@ -7,6 +7,19 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: external-dns-unifi
+  ingress:
+    # Prometheus scrape of external-dns metrics (7979) and unifi webhook (8080).
+    # Without this, selecting the pod defaults ingress to deny -> scrapes time out
+    # -> TargetDown fires.
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: monitoring
+      toPorts:
+        - ports:
+            - port: "7979"
+              protocol: TCP
+            - port: "8080"
+              protocol: TCP
   egress:
     # DNS so the FQDN policy below can learn unifi.laskonet.com's IP
     - toEndpoints:
