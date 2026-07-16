@@ -9,6 +9,8 @@ metadata:
 spec:
   parentRefs:
   - name: tls
+    group: gateway.networking.k8s.io	
+    kind: Gateway
     sectionName: http
   hostnames:
   - "*.laskonet.com"
@@ -18,3 +20,7 @@ spec:
       requestRedirect:
         scheme: https
         statusCode: 301
+    matches:	
+    - path:	
+        type: PathPrefix	
+        value: /
