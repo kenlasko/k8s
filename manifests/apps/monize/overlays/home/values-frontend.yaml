@@ -1,11 +1,11 @@
 nameOverride: monize-frontend
 image:
-  registry: registry.laskonet.com
-  repository: monize/frontend
-  tag: latest
-  # registry: ghcr.io
-  # repository: wmp/monize-frontend
-  # tag: feat-overpayment-simulator-goal-seek
+  # registry: registry.laskonet.com
+  # repository: monize/frontend
+  # tag: latest
+  registry: ghcr.io
+  repository: wmp/monize-frontend
+  tag: feat-overpayment-simulator-goal-seek
   pullPolicy: Always
 hostUsers: false
 securityContext:
