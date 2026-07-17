@@ -1,12 +1,12 @@
 nameOverride: monize-backend
 replicas: 1
 image:
-  registry: registry.laskonet.com
-  repository: monize/backend
-  tag: latest
-  # registry: ghcr.io
-  # repository: wmp/monize-backend
-  # tag: feat-overpayment-simulator-goal-seek
+  # registry: registry.laskonet.com
+  # repository: monize/backend
+  # tag: latest
+  registry: ghcr.io
+  repository: wmp/monize-backend
+  tag: feat-overpayment-simulator-goal-seek
   pullPolicy: Always
 securityContext:
   allowPrivilegeEscalation: false
