@@ -26,4 +26,4 @@ subjects:
     fqdn: demo.monize.net
 tunnelRef:
   kind: ClusterTunnel
-  name: k8s-cloud
+  name: monize-net

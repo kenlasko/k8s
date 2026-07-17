@@ -18,3 +18,25 @@ spec:
     email: ken.lasko@gmail.com
     secret: cloudflare-operator-secret
     accountId: fa831d805d821b7c4627b464a9845a9d
+
+---
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: ClusterTunnel
+metadata:
+  name: monize-net
+  annotations:
+    # Apply the ClusterTunnel only after the operator (wave 0) is Healthy, so its
+    # conversion webhook is up and cert-manager has injected the CA bundle.
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  image: cloudflare/cloudflared:2026.7.2
+  # This cluster's network drops outbound UDP 7844, so QUIC can't reach the
+  # Cloudflare edge. Force http2 (TCP 7844) instead of the default auto/quic.
+  protocol: http2
+  newTunnel:
+    name: monize-net
+  cloudflare:
+    domain: monize.net
+    email: ken.lasko@gmail.com
+    secret: cloudflare-operator-secret
+    accountId: fa831d805d821b7c4627b464a9845a9d
