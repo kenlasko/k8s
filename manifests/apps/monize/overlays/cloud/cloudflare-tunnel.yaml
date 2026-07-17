@@ -1,3 +1,4 @@
+---
 apiVersion: networking.cfargotunnel.com/v1alpha1
 kind: TunnelBinding
 metadata:
@@ -8,6 +9,21 @@ subjects:
   name: monize-frontend-service
   spec:
     fqdn: monize-demo.laskonet.com
+tunnelRef:
+  kind: ClusterTunnel
+  name: k8s-cloud
+
+---
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: monizenet-demo
+  namespace: monize
+subjects:
+- kind: Service
+  name: monize-frontend-service
+  spec:
+    fqdn: demo.monize.net
 tunnelRef:
   kind: ClusterTunnel
   name: k8s-cloud
