@@ -31,7 +31,7 @@ images:
 # renovate: ignore=ghcr.io/foo/bar
 ```
 
-Then commit. The [pre-commit](/docs/COMMIT-PRECHECK.md) hook runs [scripts/update-renovate-ignores.py](/scripts/update-renovate-ignores.py), which regenerates a managed rule at the end of `packageRules` in [renovate.json](/renovate.json):
+Then commit and push to `main`. The [renovate-ignore-sync GitHub Action](/.github/workflows/renovate-ignore-sync.yaml) runs [scripts/update-renovate-ignores.py](/scripts/update-renovate-ignores.py) on every push to `main` that touches manifests, and auto-commits the result. The script regenerates a managed rule at the end of `packageRules` in [renovate.json](/renovate.json):
 
 ```json
 {
@@ -44,13 +44,13 @@ Then commit. The [pre-commit](/docs/COMMIT-PRECHECK.md) hook runs [scripts/updat
 }
 ```
 
-If the hook modified `renovate.json`, pre-commit stops the commit; re-stage the file (`git add renovate.json`) and commit again. The script can also be run manually at any time:
+Once that sync commit lands on `main`, Renovate stops proposing any updates for those images.
+
+The same sync also runs locally as a [pre-commit](/docs/COMMIT-PRECHECK.md) hook (requires `pre-commit install` in the clone), which keeps `renovate.json` in the same commit as the annotation and closes the small window where Renovate could re-upgrade the image before the Action's sync commit lands. If the hook modifies `renovate.json`, pre-commit stops the commit; re-stage the file (`git add renovate.json`) and commit again. The script can also be run manually at any time:
 
 ```sh
 python3 scripts/update-renovate-ignores.py
 ```
-
-Once the change is on the default branch, Renovate stops proposing any updates for those images.
 
 ## Re-enabling updates
 

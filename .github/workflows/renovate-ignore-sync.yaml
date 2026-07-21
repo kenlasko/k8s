@@ -1,0 +1,45 @@
+name: Sync Renovate ignore annotations
+
+# Keeps the managed rule in renovate.json in sync with '# renovate: ignore'
+# annotations in manifests, so the sync works no matter where a commit comes
+# from (VSCode, GitHub web UI, etc.). The pre-commit hook does the same thing
+# locally, but this is the safety net.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'manifests/**'
+      - 'argocd/**'
+      - 'argocd-appsets/**'
+      - 'helm/**'
+      - 'scripts/update-renovate-ignores.py'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync annotations into renovate.json
+        run: python3 scripts/update-renovate-ignores.py
+
+      - name: Commit and push if renovate.json changed
+        run: |
+          if git diff --quiet renovate.json; then
+            echo "renovate.json already in sync"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add renovate.json
+          git commit -m "Sync Renovate ignore annotations into renovate.json"
+          # Retry in case something else (e.g. Renovate) pushed to main meanwhile
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          git push
