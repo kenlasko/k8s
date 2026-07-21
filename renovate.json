@@ -160,6 +160,14 @@
         "baseline"
       ],
       "enabled": false
+    },
+    {
+      "description": "Managed by scripts/update-renovate-ignores.py - do not edit. Add or remove '# renovate: ignore' annotations in manifests instead.",
+      "matchPackageNames": [
+        "11notes/sonarr",
+        "ghcr.io/11notes/sonarr"
+      ],
+      "enabled": false
     }
   ]
 }
