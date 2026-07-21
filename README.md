@@ -94,6 +94,8 @@ Renovate is set to automatically and silently upgrade every software package EXC
 
 When upgrades for the above packages are found, Renovate will create a pull request that has to be manually approved (or denied). Once approved, ArgoCD manages the actual upgrade as with any other software.
 
+If an automatic update breaks an app, the image can be pinned to a known-good version and excluded from further upgrades by adding a `# renovate: ignore` comment to the version line in the manifest. A pre-commit hook syncs these annotations into [renovate.json](/renovate.json). See [this document](/docs/RENOVATE-IGNORE.md) for details.
+
 ## Backups
 Since the repo is built using GitOps principles and config is stored in Github, backups aren't required for the bulk of the deployments. This does not cover persistent volumes. For persistent volumes running on NFS, I use [VolSync](/manifests/system/volsync) to backup PVCs to S3 storage. [Longhorn](/manifests/system/longhorn) PVCs uses its own internal backup mechanism to backup to the NAS, which is then in turn backed up to alternate storage.
 

@@ -3,3 +3,11 @@ repos:
     rev: v1.52.2
     hooks:
       - id: ggshield
+  - repo: local
+    hooks:
+      - id: renovate-ignore-sync
+        name: Sync '# renovate: ignore' annotations into renovate.json
+        entry: python3 scripts/update-renovate-ignores.py
+        language: system
+        files: \.(ya?ml|json)$
+        pass_filenames: false

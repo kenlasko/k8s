@@ -49,22 +49,26 @@
       "username": "kenlasko",
       "password": "{{ secrets.DOCKER_CREDS }}"
     }
-  ],  
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["cluster"],
+      "fileMatch": [
+        "cluster"
+      ],
       "matchStrings": [
-        "imageName:\\s*kenlasko\/cloudnativepg-gis-vchord:(?<currentValue>\\S+)"
+        "imageName:\\s*kenlasko/cloudnativepg-gis-vchord:(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "docker",
       "packageNameTemplate": "kenlasko/cloudnativepg-gis-vchord"
     },
     {
       "customType": "regex",
-      "fileMatch": ["kustomization.yaml"],
+      "fileMatch": [
+        "kustomization.yaml"
+      ],
       "matchStrings": [
-        "cloudnative-pg\/plugin-barman-cloud\/releases\/download\/v(?<currentValue>.*?)\/manifest.yaml"
+        "cloudnative-pg/plugin-barman-cloud/releases/download/v(?<currentValue>.*?)/manifest.yaml"
       ],
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "cloudnative-pg/plugin-barman-cloud"
@@ -89,7 +93,7 @@
         "regex"
       ],
       "matchUpdateTypes": [
-        "minor", 
+        "minor",
         "patch",
         "digest"
       ],
@@ -149,8 +153,12 @@
       "ignoreTests": true
     },
     {
-      "matchManagers": ["kustomize"],
-      "matchPackageNames": ["baseline"],
+      "matchManagers": [
+        "kustomize"
+      ],
+      "matchPackageNames": [
+        "baseline"
+      ],
       "enabled": false
     }
   ]
