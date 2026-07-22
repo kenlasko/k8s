@@ -26,3 +26,20 @@ spec:
   databaseRoleReclaimPolicy: retain
   passwordSecret:
     name: useraccount-monize
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: monize-app
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: monize-app
+  login: true
+  superuser: false
+  createdb: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-monize-app
