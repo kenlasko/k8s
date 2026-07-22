@@ -6,7 +6,7 @@ repos:
   - repo: local
     hooks:
       - id: renovate-ignore-sync
-        name: Sync '# renovate: ignore' annotations into renovate.json
+        name: "Sync '# renovate: ignore' annotations into renovate.json"
         entry: python scripts/update-renovate-ignores.py
         language: python
         files: \.(ya?ml|json)$
