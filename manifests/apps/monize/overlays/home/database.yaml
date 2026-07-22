@@ -36,7 +36,7 @@ metadata:
 spec:
   cluster:
     name: home
-  name: monize-app
+  name: monize_app
   login: true
   superuser: false
   createdb: false
