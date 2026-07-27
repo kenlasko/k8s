@@ -50,7 +50,7 @@ persistentVolume:
   name: monize
   type: nfs
   size: 700Mi
-  mountPath: /backup
+  mountPath: /data
 backup:
   location: cloudflare
   schedule: "20 07 * * *"
