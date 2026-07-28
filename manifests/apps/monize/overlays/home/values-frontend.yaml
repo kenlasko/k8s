@@ -1,11 +1,11 @@
 nameOverride: monize-frontend
 image:
-  registry: registry.laskonet.com
-  repository: monize/frontend
-  tag: latest
-  # registry: ghcr.io
-  # repository: wmp/monize-frontend
-  # tag: feat-import-tour
+  # registry: registry.laskonet.com
+  # repository: monize/frontend
+  # tag: latest
+  registry: ghcr.io
+  repository: wmp/monize-frontend
+  tag: feat-security-detail-page-implementation-44fe383
   pullPolicy: Always
 hostUsers: false
 securityContext:
