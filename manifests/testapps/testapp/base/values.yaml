@@ -1,6 +1,6 @@
 image:
   repository: traefik/whoami
-  tag: v1.11
+  tag: v1.12
   registry: docker.io
 service:
   type: LoadBalancer
