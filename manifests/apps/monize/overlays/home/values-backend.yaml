@@ -26,7 +26,7 @@ envFrom:
 resources:
   requests:
     cpu: 3m
-    memory: 95Mi
+    memory: 140Mi
   limits:
     #memory: 150Mi
 service:
