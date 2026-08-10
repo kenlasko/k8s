@@ -111,12 +111,10 @@
         "cloudnative-pg",
         "cloudnative-pg/plugin-barman-cloud",
         "cilium",
-        "external-secrets",
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
         "longhorn",
-        "tailscale-operator",
-        "docker.io/louislam/uptime-kuma"
+        "tailscale-operator"
       ],
       "automerge": false
     },
