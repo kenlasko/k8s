@@ -36,6 +36,33 @@ NAS_UCA_PATH="/etc/stunnel/uca.pem"
 NAS_STUNNEL_PATH="/etc/stunnel/stunnel.pem"
 SSH_KEY="/scripts/nas-sshkey"
 
+# BatchMode=yes is the important one: without it, a key that ssh cannot use
+# silently falls back to an interactive password prompt, which blocks forever
+# on a non-TTY stdin inside a pod. With it, ssh fails immediately and says why.
+# Connect/alive timeouts bound a hung or unreachable NAS.
+SSH_OPTS="-o BatchMode=yes
+-o StrictHostKeyChecking=no
+-o UserKnownHostsFile=/dev/null
+-o GlobalKnownHostsFile=/dev/null
+-o ConnectTimeout=10
+-o ServerAliveInterval=15
+-o ServerAliveCountMax=4"
+
+# Hard ceiling on any single ssh/scp invocation, in case one wedges past the
+# keepalives. busybox provides timeout on Alpine.
+SSH_TIMEOUT="${SSH_TIMEOUT:-120}"
+
+# Wraps ssh/scp with the shared options and a hard timeout.
+run_ssh() {
+    # shellcheck disable=SC2086 # SSH_OPTS is intentionally word-split
+    timeout "$SSH_TIMEOUT" ssh -i "$SSH_KEY" $SSH_OPTS "$@"
+}
+
+run_scp() {
+    # shellcheck disable=SC2086 # SSH_OPTS is intentionally word-split
+    timeout "$SSH_TIMEOUT" scp -O -i "$SSH_KEY" $SSH_OPTS "$@"
+}
+
 # --- Helpers ---
 fail() {
     echo "[ERROR] $1" >&2
@@ -51,7 +78,7 @@ restart_nas_services() {
     echo "[INFO] Restarting NAS services..."
 
     for service in Qthttpd thttpd stunnel; do
-        if ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "${NAS_USER}@${NAS_HOST}" "sudo /etc/init.d/${service}.sh restart"; then
+        if run_ssh "${NAS_USER}@${NAS_HOST}" "sudo /etc/init.d/${service}.sh restart"; then
             echo "[INFO] $service restarted successfully"
         else
             echo "[WARN] Failed to restart $service"
@@ -68,18 +95,21 @@ scp_if_different() {
 
     echo "[INFO] Checking if $REMOTE_FILE on NAS differs..."
 
-    if scp -O -i "$SSH_KEY" -o StrictHostKeyChecking=no -q "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" "$TMP_REMOTE" 2>/dev/null; then
+    # Errors are deliberately not silenced here: a missing remote file and an
+    # auth/connectivity failure both land in this branch, and only the message
+    # tells them apart.
+    if run_scp -q "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" "$TMP_REMOTE"; then
         if cmp -s "$LOCAL_FILE" "$TMP_REMOTE"; then
             echo "[INFO] No change for $(basename "$REMOTE_FILE"), skipping upload."
             rm -f "$TMP_REMOTE"
             return
         fi
     else
-        echo "[WARN] Remote file missing, will upload new one."
+        echo "[WARN] Could not fetch remote $REMOTE_FILE (missing, or connection failed above); will attempt upload."
     fi
 
     echo "[INFO] Uploading $(basename "$LOCAL_FILE") → $REMOTE_FILE"
-    scp -O -i "$SSH_KEY" -o StrictHostKeyChecking=no -q "$LOCAL_FILE" "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" \
+    run_scp -q "$LOCAL_FILE" "${NAS_USER}@${NAS_HOST}:${REMOTE_FILE}" \
         || fail "Failed SCP upload for $REMOTE_FILE"
 
     rm -f "$TMP_REMOTE"
