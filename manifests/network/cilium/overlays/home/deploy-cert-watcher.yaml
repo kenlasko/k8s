@@ -21,12 +21,7 @@ spec:
         args:
           - |
             apk add --no-cache inotify-tools openssl openssh
-            echo "Watching for secret updates..."
-            while true; do
-              inotifywait -e modify,create,delete /certs/tls.crt
-              echo "Secret changed, running script..."
-              /scripts/update-nas-cert.sh
-            done
+            exec /scripts/update-nas-cert.sh
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
