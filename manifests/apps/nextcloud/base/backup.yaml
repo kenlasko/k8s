@@ -17,6 +17,7 @@ spec:
       weekly: 0
       monthly: 0
       yearly: 0
+    unlock: "1"
     copyMethod: Direct
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic-backup
@@ -46,6 +47,7 @@ spec:
       weekly: 4
       monthly: 2
       yearly: 0
+    unlock: "1"
     copyMethod: Direct
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic-backup
