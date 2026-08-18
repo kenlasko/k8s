@@ -49,7 +49,6 @@ spec:
     copyMethod: Direct
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic-backup
-    unlock: "yes"
     # moverSecurityContext:
     #   runAsNonRoot: true
     #   runAsUser: 1000
