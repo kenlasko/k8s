@@ -23,7 +23,7 @@ service:
   port: 8080
 persistentVolume:
   type: longhorn
-  size: 300Mi
+  size: 500Mi
   mountPath: /sabnzbd/etc
 extraVolumeMounts:
 - name: media-downloads
