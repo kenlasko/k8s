@@ -4,7 +4,7 @@ sources:
 - gateway-httproute
 extraArgs:
 - --webhook-provider-url=http://localhost:8888
-- --annotation-filter=external-dns.alpha.kubernetes.io/exclude notin (true)
+- --annotation-filter=external-dns.kubernetes.io/exclude notin (true)
 provider:
   name: webhook
   webhook:
