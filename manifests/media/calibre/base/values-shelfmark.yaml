@@ -1,6 +1,6 @@
 image:
   repository: calibrain/shelfmark
-  tag: v1.3.14
+  tag: v1.3.15
   registry: ghcr.io
 extraLabels:
   appGroup: media-arr
