@@ -1,11 +1,11 @@
 nameOverride: monize-frontend
 image:
-  registry: registry.laskonet.com
-  repository: monize/frontend
-  tag: latest
-  # registry: ghcr.io
-  # repository: wmp/monize-frontend
-  # tag: feat-security-detail-page-implementation
+  # registry: registry.laskonet.com
+  # repository: monize/frontend
+  # tag: latest
+  registry: ghcr.io
+  repository: wmp/monize-frontend
+  tag: claude-mobile-table-row-wrapping-gk5ulu-60d9c8b
   pullPolicy: Always
 hostUsers: false
 securityContext:
