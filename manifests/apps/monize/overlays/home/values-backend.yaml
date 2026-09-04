@@ -1,12 +1,12 @@
 nameOverride: monize-backend
 replicas: 1
 image:
-  # registry: registry.laskonet.com
-  # repository: monize/backend
-  # tag: latest
-  registry: ghcr.io
-  repository: wmp/monize-backend
-  tag: claude-mobile-table-row-wrapping-gk5ulu-60d9c8b
+  registry: registry.laskonet.com
+  repository: monize/backend
+  tag: latest
+  # registry: ghcr.io
+  # repository: wmp/monize-backend
+  # tag: feat-security-detail-page-implementation
   pullPolicy: Always
 securityContext:
   allowPrivilegeEscalation: false
