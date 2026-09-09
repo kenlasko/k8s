@@ -90,10 +90,10 @@ grafana:
   resources:
     requests:
       cpu: 10m
-      memory: 120Mi
+      memory: 300Mi
     limits:
       # cpu: 200m
-      memory: 200Mi
+      memory: 512Mi
   service:
     annotations:
       omni-kube-service-exposer.sidero.dev/prefix: grafana
