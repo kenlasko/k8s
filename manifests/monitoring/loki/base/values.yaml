@@ -25,11 +25,6 @@ loki:
   analytics:
     reporting_enabled: false
     usage_stats_url: ""
-  memcached:
-    chunk_cache:
-      enabled: false
-    results_cache:
-      enabled: false
 
 singleBinary:
   replicas: 1
@@ -40,6 +35,19 @@ singleBinary:
     limits:
       # cpu: 120m
       memory: 600Mi
+
+# Chunk cache is pointless for SingleBinary + filesystem storage: chunks are
+# already on local disk. The chart default (allocatedMemory 8192) reserves
+# floor(1.2 * 8192) = 9830Mi and 500m CPU for a pod whose 7d peak working set
+# was 26Mi. Disable it here; `loki.memcached.chunk_cache` is not a chart key
+# and never had any effect.
+chunksCache:
+  enabled: false
+
+# Same story for the results cache: chart default reserves
+# floor(1.2 * 1024) = 1229Mi for a pod whose 7d peak working set was 3Mi.
+resultsCache:
+  enabled: false
 
 # Zero out replica counts of other deployment modes
 lokiCanary:
