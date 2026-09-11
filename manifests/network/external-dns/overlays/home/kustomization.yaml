@@ -4,7 +4,7 @@ namespace: external-dns
 helmCharts:
 - name: external-dns
   repo: https://kubernetes-sigs.github.io/external-dns/
-  version: 1.21.1
+  version: 1.22.0
   releaseName: external-dns
   namespace: external-dns
   valuesFile: ../../base/values.yaml
@@ -13,7 +13,7 @@ helmCharts:
   valuesMerge: merge
 - name: external-dns
   repo: https://kubernetes-sigs.github.io/external-dns/
-  version: 1.21.1
+  version: 1.22.0
   releaseName: external-dns-unifi
   namespace: external-dns
   valuesFile: values-unifi.yaml
