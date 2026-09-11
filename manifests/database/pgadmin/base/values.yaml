@@ -1,7 +1,7 @@
-image:
-  repository: dpage/pgadmin4
-  tag: 9.15.0
-  registry: docker.io
+# image:
+#   repository: dpage/pgadmin4
+#   tag: 9.15.0
+#   registry: docker.io
 existingSecret: postgresql-passwords
 secretKeys:
   pgadminPasswordKey: postgresql-admin-pw
