@@ -1,4 +1,5 @@
 nameOverride: monize-frontend
+replicas: 1
 image:
   registry: registry.laskonet.com
   repository: monize/frontend
