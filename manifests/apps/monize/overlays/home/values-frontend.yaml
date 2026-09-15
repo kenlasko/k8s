@@ -1,12 +1,12 @@
 nameOverride: monize-frontend
 replicas: 1
 image:
-  registry: registry.laskonet.com
-  repository: monize/frontend
-  tag: latest
-  # registry: ghcr.io
-  # repository: wmp/monize-frontend
-  # tag: claude-github-discussion-link-pnhfis
+  # registry: registry.laskonet.com
+  # repository: monize/frontend
+  # tag: latest
+  registry: ghcr.io
+  repository: wmp/monize-frontend
+  tag: claude-github-discussion-link-pnhfis
   pullPolicy: Always
 hostUsers: false
 securityContext:
