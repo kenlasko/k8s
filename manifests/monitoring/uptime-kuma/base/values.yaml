@@ -1,6 +1,6 @@
 image:
   repository: louislam/uptime-kuma
-  tag: 2.5.4
+  tag: 2.5.5
   registry: docker.io
 priorityClassName: low-priority
 # securityContext:
