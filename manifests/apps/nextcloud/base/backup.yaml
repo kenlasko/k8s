@@ -18,7 +18,7 @@ spec:
       monthly: 0
       yearly: 0
     # unlock: "yes"
-    copyMethod: Direct
+    copyMethod: Snapshot
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic-backup
     # moverSecurityContext:
@@ -48,7 +48,7 @@ spec:
       monthly: 2
       yearly: 0
     # unlock: "yes"
-    copyMethod: Direct
+    copyMethod: Snapshot
     volumeSnapshotClassName: nfs
     storageClassName: nfs-csi-dynamic-backup
     # moverSecurityContext:
