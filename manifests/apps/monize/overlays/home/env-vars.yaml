@@ -20,6 +20,17 @@ data:
   EMAIL_FROM: "monize@laskonet.com"
   ATTACHMENT_STORAGE_PROVIDER: "local"
   ATTACHMENT_CONTAINER_DIR: "/data/attachments"
+  # Automatic backups live in Cloudflare R2 rather than on the PVC.
+  # Forward-only switch: artifacts already under BACKUP_CONTAINER_DIR stay on
+  # the volume and are invisible to the R2 store's listing. Keep the nfs-monize
+  # PVC until R2 holds a full retention window.
+  BACKUP_STORAGE_PROVIDER: "s3"
+  BACKUP_STORE_S3_BUCKET: "monize-backups"
+  BACKUP_STORE_S3_ENDPOINT: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com"
+  BACKUP_STORE_S3_REGION: "auto"
+  BACKUP_STORE_S3_FORCE_PATH_STYLE: "true"
+  # Read only by the "local" store; retained so the pre-switch artifacts on the
+  # PVC stay documented.
   BACKUP_CONTAINER_DIR: "/data/backups"
   # AI_DEFAULT_PROVIDER: ollama
   # AI_DEFAULT_MODEL: "llama3.2"
