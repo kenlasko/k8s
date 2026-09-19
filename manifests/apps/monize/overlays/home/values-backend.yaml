@@ -1,5 +1,5 @@
 nameOverride: monize-backend
-kind: Deployment
+appKind: Deployment
 replicas: 1
 image:
   registry: registry.laskonet.com
