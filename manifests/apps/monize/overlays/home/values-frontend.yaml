@@ -1,6 +1,6 @@
 nameOverride: monize-frontend
 appKind: Deployment
-replicas: 2
+replicas: 1
 image:
   registry: registry.laskonet.com
   repository: monize/frontend
