@@ -18,7 +18,16 @@ data:
   SMTP_PORT: "587"
   SMTP_SECURE: "false"  # Not required for STARTTLS
   EMAIL_FROM: "monize@laskonet.com"
-  ATTACHMENT_STORAGE_PROVIDER: "local"
+  ATTACHMENT_STORAGE_PROVIDER: "s3"
+  ATTACHMENT_S3_BUCKET: "monize-attachments"
+  ATTACHMENT_S3_ENDPOINT: "https://fa831d805d821b7c4627b464a9845a9d.r2.cloudflarestorage.com"
+  ATTACHMENT_S3_REGION: "auto"
+  ATTACHMENT_S3_FORCE_PATH_STYLE: "true"
+  # Existing attachments relocate themselves: on boot and hourly at :50 the
+  # bytes are copied into R2 and each local copy is deleted once its replacement
+  # has been read back and verified. The local provider must stay configured
+  # (and the nfs-monize PVC stay mounted) until the backlog reaches zero, since
+  # the source is read through its own provider.
   ATTACHMENT_CONTAINER_DIR: "/data/attachments"
   # Automatic backups live in Cloudflare R2 rather than on the PVC.
   # Forward-only switch: artifacts already under BACKUP_CONTAINER_DIR stay on
