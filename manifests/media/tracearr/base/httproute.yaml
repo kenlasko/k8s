@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: tracearr
+  namespace: media
+spec:
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  hostnames:
+  - "tracearr.laskonet.com"
+  rules:
+  - backendRefs:
+    - name: tracearr
+      namespace: media
+      kind: Service
+      port: 3000

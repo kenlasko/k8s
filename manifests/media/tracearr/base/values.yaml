@@ -1,0 +1,92 @@
+tracearr:
+  service:
+    type: ClusterIP
+    port: 3000
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 1Gi
+
+  env:
+    NODE_ENV: production
+    HOST: "0.0.0.0"
+    PORT: "3000"  # containerPort, the Service targetPort and the probes all follow this
+    LOG_LEVEL: info
+    CORS_ORIGIN: "*"
+    TZ: America/Toronto
+    # DATABASE_POOL_MAX: "50"
+    # POLLER_ENABLED: "true"
+    # POLLER_INTERVAL: "15000"
+    # GZIP_ENABLED: "true"
+    # MOBILE_BETA_MODE: "false"
+
+  extraEnv: []
+
+  backups:
+    enabled: false
+    size: 10Gi
+    storageClass: "nfs-csi"
+
+  imageCache:
+    enabled: true
+    size: 5Gi
+    storageClass: "nfs-csi"
+
+  # Dockerfile user: 1001:1001 (tracearr:nodejs)
+  podSecurityContext:
+    fsGroup: 1001
+
+  securityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false  # needs /app/data/image-cache + /data/backup
+    capabilities:
+      drop: [ALL]
+    seccompProfile:
+      type: RuntimeDefault
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podAnnotations: {}
+  podLabels: {}
+  topologySpreadConstraints: []
+
+secrets:
+  autoGenerate: false
+  # Use an existing Secret (needs JWT_SECRET, COOKIE_SECRET, DB_PASSWORD keys)
+  existingSecret: env-secrets-tracearr
+
+timescale:
+  enabled: false
+
+# Used when timescale.enabled=false
+externalDatabase:
+  host: home-rw.cnpg.svc.cluster.local
+  port: 5432
+  user: tracearr
+  database: tracearr
+
+redis:
+  enabled: false
+
+externalRedis:
+  url: ""
+
+ingress:
+  enabled: false
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+  automountServiceAccountToken: false
+
+networkPolicy:
+  enabled: false

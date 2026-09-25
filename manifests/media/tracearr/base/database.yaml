@@ -1,0 +1,32 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: tracearr
+  namespace: cnpg
+spec:
+  name: tracearr
+  owner: tracearr
+  cluster:
+    name: home
+  extensions:
+  - name: timescaledb
+    ensure: present
+
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: tracearr
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: tracearr
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-tracearr
