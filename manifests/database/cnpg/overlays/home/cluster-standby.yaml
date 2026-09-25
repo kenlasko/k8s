@@ -66,8 +66,18 @@ spec:
         serverName: home
 
   postgresql:
-    shared_preload_libraries: []
+    shared_preload_libraries:
+    - timescaledb
+    extensions:
+    - name: timescaledb-oss
+      image:
+        # renovate: suite=trixie-pgdg depName=postgresql-18-timescaledb
+        reference: ghcr.io/cloudnative-pg/timescaledb-oss:2.30.1-18-trixie
     parameters:
+      # TimescaleDB. max_locks_per_transaction must match across home, standby and cloud,
+      # since a hot standby refuses to start if its value is lower than the primary's.
+      timescaledb.telemetry_level: "off"
+      max_locks_per_transaction: "128"
       max_connections: "200"
       wal_sender_timeout: "60s"
       wal_receiver_timeout: "60s"

@@ -61,7 +61,17 @@ spec:
       wal_receiver_timeout: "60s"
       max_connections: "200"
       superuser_reserved_connections: "12"
-    shared_preload_libraries: []
+      # TimescaleDB. max_locks_per_transaction must match across home, standby and cloud,
+      # since a hot standby refuses to start if its value is lower than the primary's.
+      timescaledb.telemetry_level: "off"
+      max_locks_per_transaction: "128"
+    shared_preload_libraries:
+    - timescaledb
+    extensions:
+    - name: timescaledb-oss
+      image:
+        # renovate: suite=trixie-pgdg depName=postgresql-18-timescaledb
+        reference: ghcr.io/cloudnative-pg/timescaledb-oss:2.30.1-18-trixie
 
   # This enables backups to S3 storage
   plugins:
