@@ -70,6 +70,6 @@ persistentVolume:
   type: nfs
   size: 5.5Gi
   mountPath: /app/data/image-cache
-backup:
-  location: cloudflare
-  schedule: "10 08 * * *"
+# backup:
+#   location: cloudflare
+#   schedule: "10 08 * * *"
