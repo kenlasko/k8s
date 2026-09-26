@@ -116,7 +116,8 @@
       "matchManagers": [
         "helm-values",
         "kubernetes",
-        "kustomize"
+        "kustomize",
+        "custom.regex"
       ],
       "matchPackageNames": [
         "cloudnative-pg",
@@ -125,7 +126,8 @@
         "**/gateway-api.git",
         "kubernetes-sigs/gateway-api",
         "longhorn",
-        "tailscale-operator"
+        "tailscale-operator",
+        "ghcr.io/adampetrovic/timescaledb-cnpg"
       ],
       "automerge": false
     },
