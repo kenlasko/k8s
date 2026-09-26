@@ -76,13 +76,13 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^cluster-*\\.yaml$/"
+        "/(^|/)cluster-[^/]+\\.yaml$/"
       ],
       "matchStrings": [
-        "ghcr.io/adampetrovic/timescaledb-cnpg:(?<currentValue>.*?)"
+        "ghcr\\.io/adampetrovic/timescaledb-cnpg:(?<currentValue>\\S+)"
       ],
-      "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "adampetrovic/timescaledb-cnpg"
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "ghcr.io/adampetrovic/timescaledb-cnpg"
     }
   ],
   "packageRules": [
