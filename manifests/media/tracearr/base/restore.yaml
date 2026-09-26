@@ -2,14 +2,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: prowlarr
+  name: tracearr
   namespace: media
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: s3-backup-cloudflare-prowlarr
-    destinationPVC: nfs-prowlarr
+    repository: s3-backup-cloudflare-tracearr
+    destinationPVC: nfs-tracearr
     copyMethod: Direct
     enableFileDeletion: true
     cleanupTempPVC: true
@@ -20,7 +20,7 @@ spec:
     # previous: 3   # Number of backup items to skip backwards. Can be used instead of restoreAsOf.
     moverSecurityContext:
       runAsNonRoot: true
-      runAsUser: 1000
-      runAsGroup: 100
+      runAsUser: 1001
+      runAsGroup: 1001
       seccompProfile:
         type: RuntimeDefault

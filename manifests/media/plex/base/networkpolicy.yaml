@@ -28,6 +28,8 @@ spec:
             app.kubernetes.io/name: sonarr
         - matchLabels:
             app.kubernetes.io/name: tautulli
+        - matchLabels:
+            app.kubernetes.io/name: tracearr
       toPorts:
         - ports:
             - port: "32400"

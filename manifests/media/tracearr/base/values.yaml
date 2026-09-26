@@ -1,92 +1,71 @@
-tracearr:
-  service:
-    type: ClusterIP
-    port: 3000
-
-  resources:
-    requests:
-      cpu: 250m
-      memory: 512Mi
-    limits:
-      cpu: "2"
-      memory: 1Gi
-
-  env:
-    NODE_ENV: production
-    HOST: "0.0.0.0"
-    PORT: "3000"  # containerPort, the Service targetPort and the probes all follow this
-    LOG_LEVEL: info
-    CORS_ORIGIN: "*"
-    TZ: America/Toronto
-    # DATABASE_POOL_MAX: "50"
-    # POLLER_ENABLED: "true"
-    # POLLER_INTERVAL: "15000"
-    # GZIP_ENABLED: "true"
-    # MOBILE_BETA_MODE: "false"
-
-  extraEnv: []
-
-  backups:
-    enabled: false
-    size: 10Gi
-    storageClass: "nfs-csi"
-
-  imageCache:
-    enabled: true
-    size: 5Gi
-    storageClass: "nfs-csi"
-
-  # Dockerfile user: 1001:1001 (tracearr:nodejs)
-  podSecurityContext:
-    fsGroup: 1001
-
-  securityContext:
-    runAsUser: 1001
-    runAsGroup: 1001
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: false  # needs /app/data/image-cache + /data/backup
-    capabilities:
-      drop: [ALL]
-    seccompProfile:
-      type: RuntimeDefault
-
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
-  podAnnotations: {}
-  podLabels: {}
-  topologySpreadConstraints: []
-
-secrets:
-  autoGenerate: false
-  # Use an existing Secret (needs JWT_SECRET, COOKIE_SECRET, DB_PASSWORD keys)
-  existingSecret: env-secrets-tracearr
-
-timescale:
-  enabled: false
-
-# Used when timescale.enabled=false
-externalDatabase:
-  host: home-rw.cnpg.svc.cluster.local
-  port: 5432
-  user: tracearr
-  database: tracearr
-
-redis:
-  enabled: false
-
-externalRedis:
-  url: ""
-
-ingress:
-  enabled: false
-
-serviceAccount:
-  create: true
-  name: ""
-  annotations: {}
-  automountServiceAccountToken: false
-
-networkPolicy:
-  enabled: false
+image:
+  repository: connorgallopo/tracearr
+  tag: 2.5.0
+  registry: ghcr.io
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false  # needs /app/data/image-cache
+  runAsNonRoot: true
+  runAsUser: 1001   # Dockerfile user: 1001:1001 (tracearr:nodejs)
+  runAsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+env:
+- name: NODE_ENV
+  value: production
+- name: HOST
+  value: "0.0.0.0"
+- name: PORT
+  value: "3000"
+- name: LOG_LEVEL
+  value: info
+- name: CORS_ORIGIN
+  value: "*"
+- name: TZ
+  value: America/Toronto
+- name: IMAGE_CACHE_DIR
+  value: /app/data/image-cache
+envFrom:
+- secretRef:
+    name: env-secrets-tracearr  # JWT_SECRET, COOKIE_SECRET, DB_PASSWORD, DATABASE_URL, REDIS_URL
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    # cpu: 2000m
+    memory: 1Gi
+service:
+  port: 3000
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 30
+  timeoutSeconds: 10
+  failureThreshold: 3
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+startupProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 30
+persistentVolume:
+  type: nfs
+  size: 5.5Gi
+  mountPath: /app/data/image-cache
+backup:
+  location: cloudflare
+  schedule: "20 07 * * *"
