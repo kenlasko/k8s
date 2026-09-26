@@ -72,6 +72,17 @@
       ],
       "datasourceTemplate": "github-releases",
       "packageNameTemplate": "cloudnative-pg/plugin-barman-cloud"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^cluster-*\\.yaml$/"
+      ],
+      "matchStrings": [
+        "ghcr.io/adampetrovic/timescaledb-cnpg:(?<currentValue>.*?)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "adampetrovic/timescaledb-cnpg"
     }
   ],
   "packageRules": [
