@@ -21,6 +21,8 @@ spec:
             app.kubernetes.io/name: prefetcharr
         - matchLabels:
             app.kubernetes.io/name: seerr
+        - matchLabels:
+            app.kubernetes.io/name: tracearr
       toPorts:
         - ports:
             - port: "8181"
