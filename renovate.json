@@ -15,18 +15,18 @@
     "pre-commit"
   ],
   "helm-values": {
-    "fileMatch": [
-      "^manifests/.*values.*\\.yaml$"
+    "managerFilePatterns": [
+      "/^manifests/.*values.*\\.yaml$/"
     ],
     "ignorePaths": [
       "archive/**"
     ]
   },
   "kubernetes": {
-    "fileMatch": [
-      "deploy",
-      "cronjob",
-      "tunnel"
+    "managerFilePatterns": [
+      "/deploy/",
+      "/cronjob/",
+      "/tunnel/"
     ],
     "ignorePaths": [
       "**/*patch*.yaml",
@@ -34,9 +34,9 @@
     ]
   },
   "kustomize": {
-    "fileMatch": [
-      "kustomization",
-      "patch"
+    "managerFilePatterns": [
+      "/kustomization/",
+      "/patch/"
     ],
     "ignorePaths": [
       "archive/**"
@@ -53,8 +53,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "cluster"
+      "managerFilePatterns": [
+        "/cluster/"
       ],
       "matchStrings": [
         "imageName:\\s*kenlasko/cloudnativepg-gis-vchord:(?<currentValue>\\S+)"
@@ -64,8 +64,8 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [
-        "kustomization.yaml"
+      "managerFilePatterns": [
+        "/kustomization\\.yaml/"
       ],
       "matchStrings": [
         "cloudnative-pg/plugin-barman-cloud/releases/download/v(?<currentValue>.*?)/manifest.yaml"
