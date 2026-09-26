@@ -14,19 +14,23 @@ securityContext:
     drop: ["ALL"]
 env:
 - name: NODE_ENV
-  value: production
+  value: "production"
 - name: HOST
   value: "0.0.0.0"
 - name: PORT
   value: "3000"
 - name: LOG_LEVEL
-  value: info
+  value: "info"
 - name: CORS_ORIGIN
   value: "*"
 - name: TZ
-  value: America/Toronto
+  value: "America/Toronto"
 - name: IMAGE_CACHE_DIR
-  value: /app/data/image-cache
+  value: "/app/data/image-cache"
+- name: OIDC_ISSUER_NAME
+  value: "Pocket ID"
+- name: OIDC_ISSUER_URL
+  value: "https://auth.laskonet.com"
 envFrom:
 - secretRef:
     name: env-secrets-tracearr  # JWT_SECRET, COOKIE_SECRET, DB_PASSWORD, DATABASE_URL, REDIS_URL
