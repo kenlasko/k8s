@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: claude-workers
+data:
+  # Space-separated list of repos to watch for issues
+  REPOS: "kenlasko/k8s"
+  # Issues with this label get picked up. Workers swap it for claude-wip, then claude-done / claude-failed.
+  TRIGGER_LABEL: "claude"
+  # Only issues assigned to this GitHub user (and carrying TRIGGER_LABEL) are picked up
+  ASSIGNEE: "kenlasko"
+  # Must match the StatefulSet replica count. Issues are sharded by (issue number % WORKER_COUNT).
+  WORKER_COUNT: "3"
+  POLL_INTERVAL: "120"
+  # Seconds between edits of the progress comment while Claude is working
+  PROGRESS_INTERVAL: "60"
+  # Give up on an unanswered question after this many days
+  QUESTION_TIMEOUT_DAYS: "7"
+  MAX_TURNS: "100"
+  TASK_TIMEOUT: "2h"
+  GIT_AUTHOR_NAME: "Claude Worker"
+  GIT_AUTHOR_EMAIL: "claude-worker@users.noreply.github.com"
+  GIT_COMMITTER_NAME: "Claude Worker"
+  GIT_COMMITTER_EMAIL: "claude-worker@users.noreply.github.com"
+  DISABLE_AUTOUPDATER: "1"
+  TZ: "America/Toronto"

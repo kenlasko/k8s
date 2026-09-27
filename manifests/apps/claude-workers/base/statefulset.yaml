@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: claude-worker
+  namespace: claude-workers
+spec:
+  serviceName: claude-worker
+  replicas: 3 # Keep in sync with WORKER_COUNT in env-vars.yaml
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: claude-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: claude-worker
+    spec:
+      serviceAccountName: claude-worker
+      priorityClassName: low-priority
+      # Give an in-flight task a chance to finish before the pod is killed
+      terminationGracePeriodSeconds: 600
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: claude-worker
+      containers:
+      - name: claude-worker
+        image: registry.laskonet.com/claude-worker:latest
+        imagePullPolicy: Always
+        command: ["/bin/bash", "/opt/worker/worker.sh"]
+        env:
+        - name: HOME
+          value: /workspace/home
+        envFrom:
+        - configMapRef:
+            name: env-vars
+        - secretRef:
+            name: claude-secrets
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+        resources:
+          requests:
+            cpu: 250m
+            memory: 1Gi
+          limits:
+            memory: 4Gi
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+        - name: tmp
+          mountPath: /tmp
+        - name: worker-script
+          mountPath: /opt/worker
+      volumes:
+      - name: tmp
+        emptyDir:
+          sizeLimit: 2Gi
+      - name: worker-script
+        configMap:
+          name: worker-script
+          defaultMode: 0555
+  volumeClaimTemplates:
+  - metadata:
+      name: workspace
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: longhorn
+      resources:
+        requests:
+          storage: 20Gi
