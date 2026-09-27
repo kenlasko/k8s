@@ -5,7 +5,7 @@ metadata:
   namespace: claude-workers
 data:
   # Space-separated list of repos to watch for issues
-  REPOS: "kenlasko/k8s"
+  REPOS: "kenlasko/monize"
   # Issues with this label get picked up. Workers swap it for claude-wip, then claude-done / claude-failed.
   TRIGGER_LABEL: "claude"
   # Only issues assigned to this GitHub user (and carrying TRIGGER_LABEL) are picked up
