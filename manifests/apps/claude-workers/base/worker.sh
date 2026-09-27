@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Claude worker loop.
-# Polls GitHub for open issues labelled $TRIGGER_LABEL, runs Claude Code headlessly against each one,
+# Polls GitHub for open issues labelled $TRIGGER_LABEL and assigned to $ASSIGNEE, runs Claude Code headlessly against each one,
 # then pushes the resulting branch and opens a PR that closes the issue.
 #
 # Each StatefulSet replica only takes issues where (issue number % WORKER_COUNT) == its pod ordinal,
@@ -12,6 +12,7 @@ ORDINAL="${HOSTNAME##*-}"
 REPO_ROOT=/workspace/repos
 LOG_ROOT=/workspace/logs
 TRIGGER_LABEL="${TRIGGER_LABEL:-claude}"
+ASSIGNEE="${ASSIGNEE:-}"
 WORKER_COUNT="${WORKER_COUNT:-1}"
 POLL_INTERVAL="${POLL_INTERVAL:-120}"
 MAX_TURNS="${MAX_TURNS:-100}"
@@ -22,7 +23,7 @@ log() { echo "$(date -Is) [${WORKER}] $*"; }
 stopping=0
 trap 'stopping=1; log "SIGTERM received, will exit after the current task"' TERM
 
-for v in CLAUDE_CODE_OAUTH_TOKEN GH_TOKEN REPOS; do
+for v in CLAUDE_CODE_OAUTH_TOKEN GH_TOKEN REPOS ASSIGNEE; do
   if [[ -z "${!v:-}" ]]; then log "ERROR: ${v} is not set"; exit 1; fi
 done
 
@@ -111,11 +112,11 @@ ${issue}"
   cd /workspace || true
 }
 
-log "Worker ${ORDINAL}/${WORKER_COUNT} started, watching: ${REPOS}"
+log "Worker ${ORDINAL}/${WORKER_COUNT} started, watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
 while (( ! stopping )); do
   found=0
   for repo in ${REPOS}; do
-    num=$(gh issue list --repo "${repo}" --label "${TRIGGER_LABEL}" --state open --limit 100 --json number \
+    num=$(gh issue list --repo "${repo}" --label "${TRIGGER_LABEL}" --assignee "${ASSIGNEE}" --state open --limit 100 --json number \
       --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null | tail -n1)
     if [[ -n "${num}" ]]; then
       run_task "${repo}" "${num}"

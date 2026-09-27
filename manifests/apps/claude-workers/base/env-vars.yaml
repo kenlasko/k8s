@@ -8,6 +8,8 @@ data:
   REPOS: "kenlasko/k8s"
   # Issues with this label get picked up. Workers swap it for claude-wip, then claude-done / claude-failed.
   TRIGGER_LABEL: "claude"
+  # Only issues assigned to this GitHub user (and carrying TRIGGER_LABEL) are picked up
+  ASSIGNEE: "kenlasko"
   # Must match the StatefulSet replica count. Issues are sharded by (issue number % WORKER_COUNT).
   WORKER_COUNT: "3"
   POLL_INTERVAL: "120"
