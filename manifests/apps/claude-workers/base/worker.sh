@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+# Claude worker loop.
+# Polls GitHub for open issues labelled $TRIGGER_LABEL, runs Claude Code headlessly against each one,
+# then pushes the resulting branch and opens a PR that closes the issue.
+#
+# Each StatefulSet replica only takes issues where (issue number % WORKER_COUNT) == its pod ordinal,
+# so multiple workers never race for the same issue.
+set -uo pipefail
+
+WORKER="${HOSTNAME}"
+ORDINAL="${HOSTNAME##*-}"
+REPO_ROOT=/workspace/repos
+LOG_ROOT=/workspace/logs
+TRIGGER_LABEL="${TRIGGER_LABEL:-claude}"
+WORKER_COUNT="${WORKER_COUNT:-1}"
+POLL_INTERVAL="${POLL_INTERVAL:-120}"
+MAX_TURNS="${MAX_TURNS:-100}"
+TASK_TIMEOUT="${TASK_TIMEOUT:-2h}"
+
+log() { echo "$(date -Is) [${WORKER}] $*"; }
+
+stopping=0
+trap 'stopping=1; log "SIGTERM received, will exit after the current task"' TERM
+
+for v in CLAUDE_CODE_OAUTH_TOKEN GH_TOKEN REPOS; do
+  if [[ -z "${!v:-}" ]]; then log "ERROR: ${v} is not set"; exit 1; fi
+done
+
+mkdir -p "${HOME}" "${REPO_ROOT}" "${LOG_ROOT}"
+git config --global credential.https://github.com.helper '!gh auth git-credential'
+git config --global init.defaultBranch main
+
+for repo in ${REPOS}; do
+  gh label create "${TRIGGER_LABEL}" --repo "${repo}" --color 7057ff --description "Queue this issue for a Claude worker" >/dev/null 2>&1
+  gh label create claude-wip    --repo "${repo}" --color fbca04 --description "A Claude worker is on it" >/dev/null 2>&1
+  gh label create claude-done   --repo "${repo}" --color 0e8a16 --description "Claude worker opened a PR" >/dev/null 2>&1
+  gh label create claude-failed --repo "${repo}" --color d93f0b --description "Claude worker could not complete this" >/dev/null 2>&1
+done
+
+finish() { # repo num label message
+  gh issue edit "$2" --repo "$1" --remove-label claude-wip --add-label "$3" >/dev/null
+  gh issue comment "$2" --repo "$1" --body "$4" >/dev/null
+}
+
+run_task() {
+  local repo=$1 num=$2
+  local dir="${REPO_ROOT}/${repo}"
+  local branch="claude/issue-${num}"
+  local logfile="${LOG_ROOT}/${repo//\//_}-${num}-$(date +%Y%m%d-%H%M%S).json"
+
+  log "Claiming ${repo}#${num}"
+  gh issue edit "${num}" --repo "${repo}" --remove-label "${TRIGGER_LABEL}" --add-label claude-wip >/dev/null || return 1
+  gh issue comment "${num}" --repo "${repo}" --body "🤖 Picked up by \`${WORKER}\`." >/dev/null
+
+  if [[ ! -d "${dir}/.git" ]]; then
+    if ! gh repo clone "${repo}" "${dir}"; then
+      finish "${repo}" "${num}" claude-failed "🤖 \`${WORKER}\` could not clone \`${repo}\`."
+      return 1
+    fi
+  fi
+  cd "${dir}" || return 1
+
+  local base
+  base=$(gh repo view "${repo}" --json defaultBranchRef --jq .defaultBranchRef.name)
+  # Start from a clean copy of the default branch. Ignored files (node_modules, .venv etc.) are kept as a cache.
+  git fetch --prune origin && git reset --hard -q && git clean -fdq && git checkout -q -B "${branch}" "origin/${base}"
+
+  local title issue
+  title=$(gh issue view "${num}" --repo "${repo}" --json title --jq .title)
+  issue=$(gh issue view "${num}" --repo "${repo}" --json title,body,comments \
+    --jq '"# " + .title + "\n\n" + (.body // "") + "\n\n" + ([.comments[] | "---\nComment from " + .author.login + ":\n" + .body] | join("\n\n"))')
+
+  local prompt="You are working autonomously, with no human available to answer questions, in a clone of ${repo} on branch ${branch}.
+Resolve the GitHub issue below. Make the changes, run whatever lint/tests the repo provides, and commit your work with clear commit messages.
+Do NOT push, open PRs, or switch branches; that is handled for you after you finish.
+You have read-only kubectl access to the cluster if you need to inspect live state.
+If the issue is unclear or cannot be done, make no commits and explain why.
+Finish with a concise summary of what you changed, suitable for a pull request description.
+
+Issue #${num}:
+${issue}"
+
+  log "Running Claude on ${repo}#${num} (log: ${logfile})"
+  printf '%s' "${prompt}" | timeout "${TASK_TIMEOUT}" claude -p \
+    --output-format json \
+    --max-turns "${MAX_TURNS}" \
+    --dangerously-skip-permissions \
+    > "${logfile}" 2> "${logfile%.json}.err"
+  local rc=$?
+
+  local summary cost
+  summary=$(jq -r '.result // empty' "${logfile}" 2>/dev/null)
+  cost=$(jq -r '"turns: \(.num_turns // "?"), duration: \((.duration_ms // 0) / 1000 | floor)s"' "${logfile}" 2>/dev/null)
+  [[ -z "${summary}" ]] && summary="(no summary returned, exit code ${rc})"
+  log "Claude finished ${repo}#${num} with exit code ${rc} (${cost})"
+
+  local commits
+  commits=$(git rev-list --count "origin/${base}..HEAD" 2>/dev/null || echo 0)
+  if (( commits > 0 )); then
+    git push -q --force -u origin "${branch}"
+    local pr
+    pr=$(gh pr view "${branch}" --repo "${repo}" --json url --jq .url 2>/dev/null)
+    if [[ -z "${pr}" ]]; then
+      pr=$(gh pr create --repo "${repo}" --base "${base}" --head "${branch}" --title "${title}" \
+        --body "$(printf 'Closes #%s\n\n%s\n\n---\n_Generated by `%s` using Claude Code (%s)_' "${num}" "${summary}" "${WORKER}" "${cost}")")
+    fi
+    finish "${repo}" "${num}" claude-done "🤖 \`${WORKER}\` opened ${pr}"
+  else
+    finish "${repo}" "${num}" claude-failed "$(printf '🤖 `%s` made no commits (exit code %s).\n\n%s' "${WORKER}" "${rc}" "${summary}")"
+  fi
+  cd /workspace || true
+}
+
+log "Worker ${ORDINAL}/${WORKER_COUNT} started, watching: ${REPOS}"
+while (( ! stopping )); do
+  found=0
+  for repo in ${REPOS}; do
+    num=$(gh issue list --repo "${repo}" --label "${TRIGGER_LABEL}" --state open --limit 100 --json number \
+      --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null | tail -n1)
+    if [[ -n "${num}" ]]; then
+      run_task "${repo}" "${num}"
+      found=1
+      break
+    fi
+  done
+  (( stopping )) && break
+  # Background sleep + wait so SIGTERM interrupts idle polling immediately
+  (( found )) || { sleep "${POLL_INTERVAL}" & wait $!; }
+done
+log "Worker stopped"

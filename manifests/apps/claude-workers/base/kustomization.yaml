@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- env-vars.yaml
+- external-secrets.yaml
+- namespace.yaml
+- rbac.yaml
+- statefulset.yaml
+configMapGenerator:
+- name: worker-script
+  namespace: claude-workers
+  files:
+  - worker.sh
