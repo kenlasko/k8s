@@ -1,15 +1,29 @@
 # Summary
 A fixed pool of [Claude Code](https://code.claude.com/docs/en/headless) workers that pick up GitHub issues and turn them into pull requests, several at a time.
 
-Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn workspace. The workspace holds the repo clones, dependency caches, `~/.claude` and the task logs. Workers run [worker.sh](base/worker.sh) in a loop:
+Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn workspace. The workspace holds a clone of each repo, a git worktree per in-flight issue, `~/.claude` (including saved sessions) and the task logs. Workers run [worker.sh](base/worker.sh) in a loop:
 
 1. Poll the repos in `REPOS` for open issues labelled `claude` **and** assigned to `ASSIGNEE`
 2. Claim one by swapping the label for `claude-wip`
-3. Check out a fresh `claude/issue-<n>` branch from the default branch
-4. Run `claude -p` headlessly with the issue (title, body and comments) as the prompt
-5. If Claude committed anything, push the branch, open a PR that `Closes #<n>`, and label the issue `claude-done`. If not, post Claude's explanation and label it `claude-failed`
+3. Create a worktree on a fresh `claude/issue-<n>` branch from the default branch
+4. Run `claude -p` headlessly with the issue (title, body and comments) as the prompt, editing a single **progress comment** on the issue every minute with Claude's latest narration and its recent tool calls
+5. When Claude finishes, based on the `STATUS:` line its final message must end with:
+   * **DONE** with commits: push the branch, open a PR that `Closes #<n>`, and label the issue `claude-done`
+   * **QUESTION**: post the question on the issue, label it `claude-question`, save the session ID and move on to other work
+   * anything else, or no commits: post Claude's explanation and label it `claude-failed`
 
-Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes issues in its own shard and two workers never grab the same one. The catch is that a worker busy with a long task holds up the rest of its shard, even if the other workers are idle.
+Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes issues in its own shard and two workers never grab the same one. This also guarantees a resumed issue lands on the pod that holds its saved session. The catch is that a worker busy with a long task holds up the rest of its shard, even if the other workers are idle.
+
+## Questions
+Claude is told to ask whenever there's a meaningful choice rather than guess. Its built-in question tool is disabled, since nobody could answer it in headless mode. Instead it commits any work in progress, ends its run with `STATUS: QUESTION`, and the worker posts the question on the issue.
+
+On each poll, the worker checks its waiting issues first. Once **you** (`ASSIGNEE`) comment, it resumes the *same* Claude session with `claude -p --resume <session-id>` in the same worktree and passes your reply in. Claude keeps its full context and partial work, and can ask again if it needs to. Comments from anyone else, and the worker's own 🤖 comments, are ignored.
+
+* No reply within `QUESTION_TIMEOUT_DAYS` (7): the issue is labelled `claude-failed` and the worktree is removed
+* Closing the issue or removing the `claude-question` label cancels the task
+* Re-adding the `claude` label starts the issue over from scratch
+
+If a pod restarts mid-task, the issue is re-queued on startup. An issue that was mid-resume goes back to waiting on its question.
 
 ## Setup
 1. **Build the image** from [image/Dockerfile](image/Dockerfile) and push it to the local registry:
@@ -29,7 +43,9 @@ Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes i
 ## Usage
 Open an issue in one of the watched repos, describe the task, assign it to yourself, and add the `claude` label. Labelled issues that aren't assigned to `ASSIGNEE` are ignored. To retry a `claude-failed` issue, add a comment with clarification and put the `claude` label back.
 
-Watch progress with:
+Follow along in the GitHub app or web. The progress comment updates every minute while Claude works, and questions arrive as issue comments, so GitHub notifications on your phone tell you when a worker needs you. To see everything waiting on you, filter issues by `label:claude-question`.
+
+The full streamed transcript of every run is kept as `/workspace/logs/*.jsonl`. Follow a worker from the terminal with:
 ```
 kubectl -n claude-workers logs -f claude-worker-0
 kubectl -n claude-workers exec -it claude-worker-0 -- ls /workspace/logs
@@ -45,6 +61,8 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `WORKER_COUNT` | Must match the StatefulSet `replicas` |
 | `MAX_TURNS` / `TASK_TIMEOUT` | Limits for a single task |
 | `POLL_INTERVAL` | Seconds between GitHub polls when idle |
+| `PROGRESS_INTERVAL` | Seconds between progress comment updates |
+| `QUESTION_TIMEOUT_DAYS` | Days to wait for an answer before giving up |
 
 To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
 

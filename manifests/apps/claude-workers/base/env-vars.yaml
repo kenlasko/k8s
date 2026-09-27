@@ -13,6 +13,10 @@ data:
   # Must match the StatefulSet replica count. Issues are sharded by (issue number % WORKER_COUNT).
   WORKER_COUNT: "3"
   POLL_INTERVAL: "120"
+  # Seconds between edits of the progress comment while Claude is working
+  PROGRESS_INTERVAL: "60"
+  # Give up on an unanswered question after this many days
+  QUESTION_TIMEOUT_DAYS: "7"
   MAX_TURNS: "100"
   TASK_TIMEOUT: "2h"
   GIT_AUTHOR_NAME: "Claude Worker"
