@@ -3,7 +3,7 @@ image:
   # tag: 2.5.1
   # registry: ghcr.io
   repository: tracearr/tracearr
-  tag: 2.5.1
+  tag: latest
   registry: registry.laskonet.com
 securityContext:
   allowPrivilegeEscalation: false
