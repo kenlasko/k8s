@@ -24,6 +24,7 @@ LOG_ROOT=/workspace/logs
 WORKER_LOG="${LOG_ROOT}/worker.log"  # copy of everything logged to stdout, read by claude-log / claude-status
 STATUS_FILE=/workspace/status.json # what this worker is doing right now, read by claude-status
 EVENTS_JQ="$(dirname "$(readlink -f "$0")")/events.jq"
+REDACT_PL="$(dirname "$(readlink -f "$0")")/redact.pl" # scrubs secrets from everything posted or logged
 LOG_FORMAT="${LOG_FORMAT:-json}"   # json (one object per line, for Loki) or text
 LOG_RETENTION_DAYS="${LOG_RETENTION_DAYS:-14}"
 TRIGGER_LABEL="${TRIGGER_LABEL:-claude}"
@@ -53,6 +54,8 @@ RULES="How to work:
   Instead, verify only what you changed: run the test files that cover the code you touched (and any tests you added or updated), e.g. by passing file paths or a name pattern to the test runner, and run lint and type-checking scoped to the changed files or package where the tooling allows.
 - Never end your turn to wait for something, and never run commands in the background: your run ends the moment you stop, and anything still running is lost. Run commands in the foreground and wait for them to finish.
 - You have read-only kubectl access to the cluster if you need to inspect live state.
+- You have no GitHub credentials. Do not use gh, git push or git fetch: everything you need from GitHub (the issue, review comments, CI logs) is given to you, and the worker fetches and pushes for you.
+- Never put secrets (tokens, passwords, keys, credentials from the environment or the cluster) in code, commits or your messages. Commits are scanned for secrets before they are pushed.
 - Ask questions freely: whenever there is a meaningful choice (design, scope, naming, behaviour, or anything ambiguous), stop and ask instead of guessing. Commit any work in progress first. Your run ends when you ask; the question is posted on GitHub and you will be resumed in this same session with the answer.
 - Your final message is posted on GitHub, so always write one, even if you are unsure whether the work is complete.
 - End your final message with exactly one of these lines:
@@ -69,15 +72,19 @@ now_iso() { date -u +%Y-%m-%dT%H:%M:%SZ; }
 CUR_REF=""
 mkdir -p "${LOG_ROOT}"
 
+# Replaces secrets (the worker's own tokens and common credential formats) with [REDACTED]
+redact() { perl "${REDACT_PL}"; }
+
 log_event() { # level event message
-  local line
+  local line msg
+  msg=$(redact <<<"$3")
   if [[ "${LOG_FORMAT}" == "json" ]]; then
     line=$(jq -nc --arg ts "$(now_iso)" --arg level "$1" --arg worker "${WORKER}" --arg ref "${CUR_REF}" \
-      --arg event "$2" --arg msg "$3" \
+      --arg event "$2" --arg msg "${msg}" \
       '{ts: $ts, level: $level, worker: $worker, ref: $ref, repo: ($ref | split("#")[0]), issue: ($ref | split("#")[1] // ""),
         source: "worker", event: $event, msg: $msg}')
   else
-    line="$(now_iso) ${WORKER} ${CUR_REF:--} $([[ "$1" == "warn" ]] && echo "⚠️ " || echo "ℹ️ ")$3"
+    line="$(now_iso) ${WORKER} ${CUR_REF:--} $([[ "$1" == "warn" ]] && echo "⚠️ " || echo "ℹ️ ")${msg}"
   fi
   printf '%s\n' "${line}"
   printf '%s\n' "${line}" >> "${WORKER_LOG}"
@@ -124,7 +131,13 @@ for v in CLAUDE_CODE_OAUTH_TOKEN GH_TOKEN REPOS ASSIGNEE; do
   if [[ -z "${!v:-}" ]]; then warn "${v} is not set"; exit 1; fi
 done
 
+if [[ ! -f "${REDACT_PL}" ]] || ! perl -c "${REDACT_PL}" >/dev/null 2>&1; then
+  echo "$(now_iso) ${WORKER} ${REDACT_PL} is missing or broken; refusing to run without secret scrubbing" >&2
+  exit 1
+fi
 mkdir -p "${HOME}" "${REPO_ROOT}" "${TREE_ROOT}" "${STATE_ROOT}"
+# The worker's own GitHub login; its label changes (e.g. re-queues) don't count as a person queueing an issue
+WORKER_LOGIN=$(gh api user --jq .login 2>/dev/null)
 if [[ ! -f "${EVENTS_JQ}" ]]; then
   warn "${EVENTS_JQ} not found; Claude's activity will not be streamed to the log"
   EVENTS_JQ=""
@@ -153,11 +166,21 @@ done
 # --- GitHub helpers ---------------------------------------------------------
 
 post_comment() { # repo issue-or-pr-num body -> prints comment id
-  gh api "repos/$1/issues/$2/comments" -f body="$3" --jq .id
+  gh api "repos/$1/issues/$2/comments" -f body="$(redact <<<"$3")" --jq .id
 }
 
 edit_comment() { # repo comment-id body
-  [[ -n "$2" ]] && gh api -X PATCH "repos/$1/issues/comments/$2" -f body="$3" >/dev/null
+  [[ -n "$2" ]] && gh api -X PATCH "repos/$1/issues/comments/$2" -f body="$(redact <<<"$3")" >/dev/null
+}
+
+# Login of whoever last added TRIGGER_LABEL to the issue. The worker's own re-queues are skipped,
+# unless the worker's account is also the issue author (a personal token).
+trigger_user() { # repo num author
+  local labelers
+  labelers=$(gh api --paginate "repos/$1/issues/$2/events" \
+    --jq ".[] | select(.event == \"labeled\" and .label.name == \"${TRIGGER_LABEL}\") | .actor.login" 2>/dev/null)
+  [[ -n "${WORKER_LOGIN}" && "$3" != "${WORKER_LOGIN}" ]] && labelers=$(grep -vxF "${WORKER_LOGIN}" <<<"${labelers}")
+  tail -n1 <<<"${labelers}"
 }
 
 relabel() { # repo num from-label to-label
@@ -319,11 +342,12 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
   # tee -p keeps the transcript going even if the formatter dies.
   (
     cd "${dir}" || exit 1
-    printf '%s' "${prompt}" | timeout "${TASK_TIMEOUT}" claude "${args[@]}" 2> "${RESULT_LOG%.jsonl}.err" \
+    # Claude gets no GitHub credentials; the worker does all fetching, pushing and commenting
+    printf '%s' "${prompt}" | timeout "${TASK_TIMEOUT}" env -u GH_TOKEN -u GITHUB_TOKEN claude "${args[@]}" 2> "${RESULT_LOG%.jsonl}.err" \
       | tee -p "${RESULT_LOG}" \
       | if [[ -n "${EVENTS_JQ}" ]]; then
           jq -Rrc --unbuffered --arg format "${LOG_FORMAT}" --arg worker "${WORKER}" --arg ref "${CUR_REF}" \
-            --arg root "${dir}" -f "${EVENTS_JQ}" | tee -a "${WORKER_LOG}"
+            --arg root "${dir}" -f "${EVENTS_JQ}" | perl "${REDACT_PL}" --stream | tee -a "${WORKER_LOG}"
         else
           cat > /dev/null
         fi
@@ -369,7 +393,7 @@ parse_result() { # worktree
   if [[ -z "${SUMMARY//[[:space:]]/}" && -n "${SID}" ]]; then
     warn "Run ended without a final message (${subtype}, exit code ${RC}); asking the session for a summary"
     SUMMARY=$( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not make any more changes. Reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
-      | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
+      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
           2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null )
   fi
   if [[ -z "${SUMMARY//[[:space:]]/}" ]]; then
@@ -447,7 +471,7 @@ build_pr_body() { # worktree issue-num
     rewrite=$( cd "${dir}" && printf '%s' "Your summary will be used as the pull request description, but it does not follow the repository's pull request template. Do not make any more changes to the code. Reply with ONLY the pull request description, filling in the template as described below, and nothing else (no STATUS line).
 
 $(pr_instructions "${dir}" "${num}")" \
-      | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
+      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
           2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null | grep -vE '^STATUS: ' )
     if [[ -n "${rewrite//[[:space:]]/}" ]]; then
       PR_BODY="${rewrite}"
@@ -459,7 +483,38 @@ $(pr_instructions "${dir}" "${num}")" \
   if ! grep -qiE "(close[sd]?|fix(e[sd])?|resolve[sd]?):? +#${num}([^0-9]|$)" <<<"${PR_BODY}"; then
     PR_BODY="Closes #${num}"$'\n\n'"${PR_BODY}"
   fi
-  PR_BODY=$(printf '%s\n\n---\n_Generated by `%s` using Claude Code (%s)_' "${PR_BODY}" "${WORKER}" "${STATS}")
+  PR_BODY=$(printf '%s\n\n---\n_Generated by `%s` using Claude Code (%s)_' "${PR_BODY}" "${WORKER}" "${STATS}" | redact)
+}
+
+# --- Secret scanning before pushes ----------------------------------------------------
+
+# Scans the commits in <from>..HEAD (diffs and messages) for secrets. If any are found, resumes Claude once to
+# remove them from the unpushed history, then scans again. Returns 0 when clean. SECRET_FINDINGS lists
+# "file: kind" (never the values). SUMMARY/STATUS from the author's run are kept.
+secret_gate() { # repo issue-or-pr-num worktree from-ref
+  local repo=$1 num=$2 dir=$3 from=$4 keep_summary="${SUMMARY}" keep_status="${STATUS}"
+  SECRET_FINDINGS=$(git -C "${dir}" log -p --no-color --format='commit %h%n%B' "${from}..HEAD" | perl "${REDACT_PL}" --detect) && return 0
+  log_event warn secret_found "Possible secrets in unpushed commits: $(tr '\n' ';' <<<"${SECRET_FINDINGS}")"
+  [[ -z "${SID}" ]] && return 1
+
+  CUR_PHASE="removing secrets"
+  run_claude "${repo}" "${num}" "${dir}" "Before pushing, a secret scan of your new commits (${from:0:7}..HEAD) found what look like secrets:
+${SECRET_FINDINGS}
+
+Remove them from the code AND from the commit history. None of these commits have been pushed, so rewrite them
+(for example \`git reset --soft ${from}\` and commit again) so that no commit after ${from:0:7} contains a secret.
+Read secrets from environment variables or configuration instead, or use obvious placeholders.
+If a match is a false positive, such as a fake value in a test, change it so it no longer looks like a real credential.
+Do not push. End with a STATUS line." "${SID}" "${PROGRESS_ID}"
+  (( STOP_REQUESTED )) && return 1
+  parse_result "${dir}"
+  SUMMARY="${keep_summary}"; STATUS="${keep_status}"
+  SECRET_FINDINGS=$(git -C "${dir}" log -p --no-color --format='commit %h%n%B' "${from}..HEAD" | perl "${REDACT_PL}" --detect) && {
+    event secret_removed "Secrets removed from the unpushed commits"
+    return 0
+  }
+  log_event warn secret_blocked "Push blocked: possible secrets remain: $(tr '\n' ';' <<<"${SECRET_FINDINGS}")"
+  return 1
 }
 
 # Markdown list of commits and a diffstat for the range <from>..HEAD
@@ -586,14 +641,14 @@ handle_question() { # repo num branch base
   key=$(key_for "${repo}" "${num}")
   edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Paused: waiting for your answer')"
   relabel "${repo}" "${num}" claude-wip claude-question
-  event question "Posted a question; waiting for ${ASSIGNEE}: $(head -c 300 <<<"${SUMMARY}" | tr '\n' ' ')"
+  event question "Posted a question; waiting for ${TRUSTED_USER}: $(head -c 300 <<<"${SUMMARY}" | tr '\n' ' ')"
   post_comment "${repo}" "${num}" "$(printf '%s **Question from `%s`**\n\n%s\n\n---\n_Reply in a comment and I will resume where I left off. Only replies from @%s count. No reply within %s days and I will give up._' \
-    "${BOT}" "${WORKER}" "${SUMMARY}" "${ASSIGNEE}" "${QUESTION_TIMEOUT_DAYS}")" >/dev/null
+    "${BOT}" "${WORKER}" "${SUMMARY}" "${TRUSTED_USER}" "${QUESTION_TIMEOUT_DAYS}")" >/dev/null
   # asked_at is recorded after posting, so only comments made after the question count as answers
   jq -n --arg repo "${repo}" --arg num "${num}" --arg branch "${branch}" --arg base "${base}" \
     --arg sid "${SID}" --arg asked "$(now_iso)" --arg rdone "${REVIEW_DONE}" --arg rtext "${REVIEW_TEXT}" \
-    --arg rresp "${REVIEW_RESPONSE}" --arg rverdict "${REVIEW_VERDICT}" --arg rfrom "${REVIEW_FIX_FROM}" \
-    '{phase: "question", repo: $repo, num: ($num | tonumber), branch: $branch, base: $base, session_id: $sid, asked_at: $asked,
+    --arg rresp "${REVIEW_RESPONSE}" --arg rverdict "${REVIEW_VERDICT}" --arg rfrom "${REVIEW_FIX_FROM}" --arg trusted "${TRUSTED_USER}" \
+    '{phase: "question", repo: $repo, num: ($num | tonumber), branch: $branch, base: $base, session_id: $sid, asked_at: $asked, trusted: $trusted,
       review: {done: ($rdone == "true"), text: $rtext, response: $rresp, verdict: $rverdict, fix_from: $rfrom}}' \
     > "${STATE_ROOT}/${key}.json"
 }
@@ -628,6 +683,16 @@ handle_result() { # repo num branch base
   # A run resumed after a question asked while addressing the review also carries the response section
   [[ "${REVIEW_DONE}" == "true" ]] && split_review_response
 
+  if (( commits > 0 )) && ! secret_gate "${repo}" "${num}" "${dir}" "origin/${base}"; then
+    if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return; fi
+    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Stopped: push blocked by the secret scan")"
+    relabel "${repo}" "${num}" claude-wip claude-failed
+    post_comment "${repo}" "${num}" "$(printf '%s `%s` did **not push** this work: its commits contain what look like secrets, and they could not be removed automatically.\n\n```\n%s\n```\n\nThe work has been discarded. Re-add the `%s` label to start over.' \
+      "${BOT}" "${WORKER}" "${SECRET_FINDINGS}" "${TRIGGER_LABEL}")" >/dev/null
+    cleanup "${repo}" "${num}" "${branch}"
+    return
+  fi
+
   if (( commits > 0 )); then
     edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
     git -C "${dir}" push -q --force -u origin "${branch}"
@@ -651,8 +716,8 @@ handle_result() { # repo num branch base
     find "${dir}" -name node_modules -type d -prune -exec rm -rf {} + 2>/dev/null
     # Keep the worktree and session so the PR can be watched and fixed
     jq -n --arg repo "${repo}" --arg num "${num}" --arg branch "${branch}" --arg base "${base}" \
-      --arg sid "${SID}" --arg pr "${pr##*/}" --arg now "$(now_iso)" \
-      '{phase: "pr", repo: $repo, num: ($num | tonumber), branch: $branch, base: $base, session_id: $sid,
+      --arg sid "${SID}" --arg pr "${pr##*/}" --arg now "$(now_iso)" --arg trusted "${TRUSTED_USER}" \
+      '{phase: "pr", repo: $repo, num: ($num | tonumber), branch: $branch, base: $base, session_id: $sid, trusted: $trusted,
         pr: ($pr | tonumber), handled_at: $now, fix_rounds: 0, ci_sha: "", conflict_sha: "", paused: false}' \
       > "${STATE_ROOT}/${key}.json"
     return
@@ -678,7 +743,19 @@ start_task() { # repo num
   REVIEW_DONE=false; REVIEW_TEXT=""; REVIEW_RESPONSE=""; REVIEW_VERDICT=""; REVIEW_FIX_FROM=""
   resolve_model "${repo}" "${num}"
 
-  event claim "Claiming ${repo}#${num}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
+  # Only the issue's author may queue it, and only their comments are trusted from here on
+  local author labeler
+  author=$(gh issue view "${num}" --repo "${repo}" --json author --jq .author.login 2>/dev/null)
+  labeler=$(trigger_user "${repo}" "${num}" "${author}")
+  if [[ -z "${author}" || "${labeler}" != "${author}" ]]; then
+    log_event warn not_trusted "Not starting: '${TRIGGER_LABEL}' was added by @${labeler:-unknown}, not the issue author @${author:-unknown}"
+    gh issue edit "${num}" --repo "${repo}" --remove-label "${TRIGGER_LABEL}" >/dev/null
+    post_comment "${repo}" "${num}" "${BOT} Not starting: only the issue's author (@${author}) can queue it for a Claude worker by adding the \`${TRIGGER_LABEL}\` label. It was added by @${labeler:-someone else}." >/dev/null
+    return 1
+  fi
+  TRUSTED_USER="${author}"
+
+  event claim "Claiming ${repo}#${num} for @${TRUSTED_USER}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
   relabel "${repo}" "${num}" "${TRIGGER_LABEL}" claude-wip || return 1
 
   if [[ ! -d "${clone}/.git" ]] && ! gh repo clone "${repo}" "${clone}" -- -q; then
@@ -700,8 +777,9 @@ start_task() { # repo num
   fi
 
   local issue
+  # Only the author's own comments go into the prompt; anyone else's are left out (prompt injection)
   issue=$(gh issue view "${num}" --repo "${repo}" --json title,body,comments \
-    --jq '"# " + .title + "\n\n" + (.body // "") + "\n\n" + ([.comments[] | "---\nComment from " + .author.login + ":\n" + .body] | join("\n\n"))')
+    --jq '"# " + .title + "\n\n" + (.body // "") + "\n\n" + ([.comments[] | select(.author.login == "'"${TRUSTED_USER}"'" and (.body | startswith("'"${BOT}"'") | not)) | "---\nComment from " + .author.login + ":\n" + .body] | join("\n\n"))')
 
   run_claude "${repo}" "${num}" "${dir}" "You are working in a git worktree of ${repo} on branch ${branch}. Resolve GitHub issue #${num}, shown below.
 
@@ -722,6 +800,7 @@ resume_task() { # state-file
   REVIEW_DONE=$(jq -r '.review.done // false' "${sf}"); REVIEW_TEXT=$(jq -r '.review.text // ""' "${sf}")
   REVIEW_RESPONSE=$(jq -r '.review.response // ""' "${sf}"); REVIEW_VERDICT=$(jq -r '.review.verdict // ""' "${sf}")
   REVIEW_FIX_FROM=$(jq -r '.review.fix_from // ""' "${sf}")
+  TRUSTED_USER=$(jq -r '.trusted // env.ASSIGNEE' "${sf}")
   CUR_REF="${repo}#${num}"
 
   info=$(gh issue view "${num}" --repo "${repo}" --json state,labels,comments 2>/dev/null) || return 1
@@ -732,7 +811,7 @@ resume_task() { # state-file
   fi
 
   local replies
-  replies=$(jq -r --arg who "${ASSIGNEE}" --arg asked "${asked}" --arg bot "${BOT}" \
+  replies=$(jq -r --arg who "${TRUSTED_USER}" --arg asked "${asked}" --arg bot "${BOT}" \
     '[.comments[] | select(.author.login == $who and .createdAt > $asked and (.body | startswith($bot) | not)) | .body] | join("\n\n---\n\n")' <<<"${info}")
 
   if [[ -z "${replies}" ]]; then
@@ -746,10 +825,10 @@ resume_task() { # state-file
   fi
 
   resolve_model "${repo}" "${num}"
-  event answer "Answer received from ${ASSIGNEE}; resuming session ${sid}"
+  event answer "Answer received from ${TRUSTED_USER}; resuming session ${sid}"
   CUR_PHASE="answer"
   relabel "${repo}" "${num}" claude-question claude-wip
-  run_claude "${repo}" "${num}" "${TREE_ROOT}/$(key_for "${repo}" "${num}")" "@${ASSIGNEE} replied on the issue:
+  run_claude "${repo}" "${num}" "${TREE_ROOT}/$(key_for "${repo}" "${num}")" "@${TRUSTED_USER} replied on the issue:
 
 ${replies}
 
@@ -764,7 +843,7 @@ $(pr_instructions "${TREE_ROOT}/$(key_for "${repo}" "${num}")" "${num}")" "${sid
 
 # --- PR watching ---------------------------------------------------------------
 
-# Reviews, inline review comments and PR comments from ASSIGNEE newer than <since>, as markdown
+# Reviews, inline review comments and PR comments from TRUSTED_USER (the issue author) newer than <since>, as markdown
 pr_feedback() { # repo pr since
   {
     gh api --paginate "repos/$1/pulls/$2/reviews" \
@@ -773,7 +852,7 @@ pr_feedback() { # repo pr since
       --jq '.[] | {kind: "inline", who: .user.login, at: .created_at, body: .body, path: .path, line: (.line // .original_line)}'
     gh api --paginate "repos/$1/issues/$2/comments" \
       --jq '.[] | {kind: "comment", who: .user.login, at: .created_at, body: .body}'
-  } 2>/dev/null | jq -rs --arg who "${ASSIGNEE}" --arg since "$3" --arg bot "${BOT}" '
+  } 2>/dev/null | jq -rs --arg who "${TRUSTED_USER}" --arg since "$3" --arg bot "${BOT}" '
     [.[] | select(.who == $who and .at != null and .at > $since and (.body | startswith($bot) | not))
          | select(.kind != "review" or (.state != "APPROVED" and (.body != "" or .state == "CHANGES_REQUESTED")))]
     | sort_by(.at)
@@ -803,6 +882,7 @@ check_pr() { # state-file
   sid=$(jq -r .session_id "${sf}"); pr=$(jq -r .pr "${sf}"); handled=$(jq -r .handled_at "${sf}")
   rounds=$(jq -r .fix_rounds "${sf}"); ci_sha=$(jq -r .ci_sha "${sf}"); conflict_sha=$(jq -r .conflict_sha "${sf}")
   paused=$(jq -r .paused "${sf}")
+  TRUSTED_USER=$(jq -r '.trusted // env.ASSIGNEE' "${sf}")
   CUR_REF="${repo}#${num}"
   local dir
   dir="${TREE_ROOT}/$(key_for "${repo}" "${num}")"
@@ -834,7 +914,7 @@ check_pr() { # state-file
 
   local new_ci="${ci_sha}" new_conflict="${conflict_sha}"
   if [[ -n "${feedback}" ]]; then
-    sections+="## Review feedback from @${ASSIGNEE}
+    sections+="## Review feedback from @${TRUSTED_USER}
 ${feedback}
 
 "
@@ -848,7 +928,7 @@ $(ci_failure_details "${repo}" "${failures}")
   fi
   if [[ "${mergeable}" == "CONFLICTING" && "${head}" != "${conflict_sha}" ]]; then
     sections+="## Merge conflict
-The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merge origin/${base}\`, resolve the conflicts and commit the merge. Do not rebase.
+The PR no longer merges cleanly into ${base}. The latest origin/${base} has already been fetched: run \`git merge origin/${base}\`, resolve the conflicts and commit the merge. Do not rebase.
 
 "
     new_conflict="${head}"
@@ -856,10 +936,10 @@ The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merg
   [[ -z "${sections}" ]] && return 1
 
   if [[ -n "${feedback}" ]]; then
-    rounds=0 # a reply from ASSIGNEE resets the automatic fix budget
+    rounds=0 # a reply from the issue author resets the automatic fix budget
   elif (( rounds >= MAX_FIX_ROUNDS )); then
     if [[ "${paused}" != "true" ]]; then
-      log_event warn paused "PR #${pr}: ${MAX_FIX_ROUNDS} automatic fix rounds used; waiting for ${ASSIGNEE}"
+      log_event warn paused "PR #${pr}: ${MAX_FIX_ROUNDS} automatic fix rounds used; waiting for ${TRUSTED_USER}"
       post_comment "${repo}" "${pr}" "${BOT} \`${WORKER}\` has made ${MAX_FIX_ROUNDS} automatic fix attempts and the PR still needs attention, so it is pausing. Reply here (a comment or a review) to tell me how to proceed and I will pick it back up." >/dev/null
       update_state "${sf}" '.paused = true'
     fi
@@ -898,7 +978,13 @@ ${RULES}" "${sid}"
     QUESTION) heading="Question from \`${WORKER}\` (fix round ${rounds}). Reply here to answer." ;;
     *)        heading="Fix round ${rounds} by \`${WORKER}\`" ;;
   esac
-  if [[ "${after}" != "${before}" ]]; then
+  if [[ "${after}" != "${before}" ]] && ! secret_gate "${repo}" "${pr}" "${dir}" "${before}"; then
+    if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return 0; fi
+    git -C "${dir}" reset -q --hard "${before}"
+    body=$(printf '%s **%s**: **not pushed**, because the new commits contain what look like secrets that could not be removed automatically. They have been discarded.\n\n```\n%s\n```\n\n---\n_%s_' \
+      "${BOT}" "${heading}" "${SECRET_FINDINGS}" "${STATS}")
+  elif [[ "${after}" != "${before}" ]]; then
+    after=$(git -C "${dir}" rev-parse HEAD) # the secret gate may have rewritten the commits
     if git -C "${dir}" push -q origin "HEAD:${branch}"; then
       event pushed "Pushed ${after:0:7} to ${branch}"
       body=$(printf '%s **%s**\n\n%s\n\n%s\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "$(change_list "${dir}" "${before}")" "${STATS}")
