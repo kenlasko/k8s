@@ -33,5 +33,9 @@ data:
   GIT_AUTHOR_EMAIL: "claude-worker@users.noreply.github.com"
   GIT_COMMITTER_NAME: "Claude Worker"
   GIT_COMMITTER_EMAIL: "claude-worker@users.noreply.github.com"
+  # json: one JSON object per log line, for filtering in Loki/Grafana. text: plain lines
+  LOG_FORMAT: "json"
+  # Days to keep per-run Claude transcripts in /workspace/logs
+  LOG_RETENTION_DAYS: "14"
   DISABLE_AUTOUPDATER: "1"
   TZ: "America/Toronto"

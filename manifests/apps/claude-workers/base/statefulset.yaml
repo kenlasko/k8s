@@ -43,6 +43,9 @@ spec:
         env:
         - name: HOME
           value: /workspace/home
+        # Puts the claude-log / claude-status helpers from the worker-script ConfigMap on the PATH for kubectl exec
+        - name: PATH
+          value: /opt/worker:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         envFrom:
         - configMapRef:
             name: env-vars

@@ -21,6 +21,11 @@ REPO_ROOT=/workspace/repos         # one clone per repo, used as the base for wo
 TREE_ROOT=/workspace/worktrees     # one git worktree per in-flight issue
 STATE_ROOT=/workspace/state        # one JSON file per issue waiting on a question or a PR
 LOG_ROOT=/workspace/logs
+WORKER_LOG="${LOG_ROOT}/worker.log"  # copy of everything logged to stdout, read by claude-log / claude-status
+STATUS_FILE=/workspace/status.json # what this worker is doing right now, read by claude-status
+EVENTS_JQ="$(dirname "$(readlink -f "$0")")/events.jq"
+LOG_FORMAT="${LOG_FORMAT:-json}"   # json (one object per line, for Loki) or text
+LOG_RETENTION_DAYS="${LOG_RETENTION_DAYS:-14}"
 TRIGGER_LABEL="${TRIGGER_LABEL:-claude}"
 ASSIGNEE="${ASSIGNEE:-}"
 WORKER_COUNT="${WORKER_COUNT:-1}"
@@ -48,17 +53,58 @@ RULES="How to work:
   STATUS: QUESTION         (the rest of your message is your question(s): numbered, with options and your recommendation where useful)
   STATUS: CANNOT_COMPLETE  (explain why)"
 
-log() { echo "$(date -Is) [${WORKER}] $*"; }
 now_iso() { date -u +%Y-%m-%dT%H:%M:%SZ; }
+
+# --- Logging -------------------------------------------------------------------
+# Every line goes to stdout (kubectl logs, Loki) and to WORKER_LOG. With LOG_FORMAT=json each line is an object:
+#   {ts, level, worker, ref, repo, issue, source: worker|claude, event, tool?, msg}
+# CUR_REF is the issue currently being handled (owner/repo#number), empty when idle.
+CUR_REF=""
+mkdir -p "${LOG_ROOT}"
+
+log_event() { # level event message
+  local line
+  if [[ "${LOG_FORMAT}" == "json" ]]; then
+    line=$(jq -nc --arg ts "$(now_iso)" --arg level "$1" --arg worker "${WORKER}" --arg ref "${CUR_REF}" \
+      --arg event "$2" --arg msg "$3" \
+      '{ts: $ts, level: $level, worker: $worker, ref: $ref, repo: ($ref | split("#")[0]), issue: ($ref | split("#")[1] // ""),
+        source: "worker", event: $event, msg: $msg}')
+  else
+    line="$(now_iso) ${WORKER} ${CUR_REF:--} $([[ "$1" == "warn" ]] && echo "⚠️ " || echo "ℹ️ ")$3"
+  fi
+  printf '%s\n' "${line}"
+  printf '%s\n' "${line}" >> "${WORKER_LOG}"
+}
+log()  { log_event info worker "$*"; }
+warn() { log_event warn worker "$*"; }
+event() { local e=$1; shift; log_event info "${e}" "$*"; } # event name for filtering, e.g. pr_opened
+
+set_status() { # state [phase]
+  jq -n --arg worker "${WORKER}" --arg state "$1" --arg ref "${CUR_REF}" --arg phase "${2:-}" \
+    --arg since "$(now_iso)" --arg log "${RESULT_LOG:-}" \
+    '{worker: $worker, state: $state, ref: $ref, phase: $phase, since: $since, log: $log}' > "${STATUS_FILE}.tmp" \
+    && mv -f "${STATUS_FILE}.tmp" "${STATUS_FILE}"
+}
+
+rotate_logs() {
+  if (( $(stat -c %s "${WORKER_LOG}" 2>/dev/null || echo 0) > 20 * 1024 * 1024 )); then
+    mv -f "${WORKER_LOG}" "${WORKER_LOG}.1"
+  fi
+  find "${LOG_ROOT}" -maxdepth 1 \( -name '*.jsonl' -o -name '*.err' \) -mtime +"${LOG_RETENTION_DAYS}" -delete 2>/dev/null
+}
 
 stopping=0
 trap 'stopping=1; log "SIGTERM received, will exit after the current task"' TERM
 
 for v in CLAUDE_CODE_OAUTH_TOKEN GH_TOKEN REPOS ASSIGNEE; do
-  if [[ -z "${!v:-}" ]]; then log "ERROR: ${v} is not set"; exit 1; fi
+  if [[ -z "${!v:-}" ]]; then warn "${v} is not set"; exit 1; fi
 done
 
-mkdir -p "${HOME}" "${REPO_ROOT}" "${TREE_ROOT}" "${STATE_ROOT}" "${LOG_ROOT}"
+mkdir -p "${HOME}" "${REPO_ROOT}" "${TREE_ROOT}" "${STATE_ROOT}"
+if [[ ! -f "${EVENTS_JQ}" ]]; then
+  warn "${EVENTS_JQ} not found; Claude's activity will not be streamed to the log"
+  EVENTS_JQ=""
+fi
 git config --global credential.https://github.com.helper '!gh auth git-credential'
 git config --global init.defaultBranch main
 
@@ -133,10 +179,23 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
   else
     PROGRESS_ID=$(post_comment "${repo}" "${num}" "${BOT} **Starting** on \`${WORKER}\`…")
   fi
-  log "Running Claude on ${repo}#${num}${resume:+ (resuming ${resume})} (log: ${RESULT_LOG})"
+  event claude_start "Running Claude on ${repo}#${num}${CUR_PHASE:+ (${CUR_PHASE})}${resume:+, resuming session ${resume}}; transcript: ${RESULT_LOG}"
+  set_status working "${CUR_PHASE:-}"
 
-  ( cd "${dir}" && printf '%s' "${prompt}" | timeout "${TASK_TIMEOUT}" claude "${args[@]}" ) \
-    > "${RESULT_LOG}" 2> "${RESULT_LOG%.jsonl}.err" &
+  # Raw stream-json goes to RESULT_LOG; events.jq turns it into readable log lines as it arrives.
+  # tee -p keeps the transcript going even if the formatter dies.
+  (
+    cd "${dir}" || exit 1
+    printf '%s' "${prompt}" | timeout "${TASK_TIMEOUT}" claude "${args[@]}" 2> "${RESULT_LOG%.jsonl}.err" \
+      | tee -p "${RESULT_LOG}" \
+      | if [[ -n "${EVENTS_JQ}" ]]; then
+          jq -Rrc --unbuffered --arg format "${LOG_FORMAT}" --arg worker "${WORKER}" --arg ref "${CUR_REF}" \
+            --arg root "${dir}" -f "${EVENTS_JQ}" | tee -a "${WORKER_LOG}"
+        else
+          cat > /dev/null
+        fi
+    exit "${PIPESTATUS[1]}"
+  ) &
   local pid=$!
   while kill -0 "${pid}" 2>/dev/null; do
     sleep "${PROGRESS_INTERVAL}" & wait $!
@@ -144,6 +203,11 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
   done
   wait "${pid}"
   RC=$?
+  if [[ -s "${RESULT_LOG%.jsonl}.err" ]]; then
+    warn "Claude stderr: $(tail -n 5 "${RESULT_LOG%.jsonl}.err" | tr '\n' ' ' | cut -c1-500)"
+  fi
+  (( RC == 124 )) && warn "Claude run hit TASK_TIMEOUT (${TASK_TIMEOUT})"
+  event claude_end "Claude exited with code ${RC}"
 }
 
 # Extracts the outcome of the last run_claude. Sets SID, SUMMARY, STATUS and STATS.
@@ -157,7 +221,7 @@ parse_result() { # worktree
   STATS=$(jq -r '"\(.num_turns // "?") turns, \((.duration_ms // 0) / 60000 | floor) min" + (if (.subtype // "success") != "success" then ", \(.subtype // "no result")" else "" end)' <<<"${res}")
 
   if [[ -z "${SUMMARY//[[:space:]]/}" && -n "${SID}" ]]; then
-    log "Run ended without a final message (${subtype}, exit code ${RC}); asking the session for a summary"
+    warn "Run ended without a final message (${subtype}, exit code ${RC}); asking the session for a summary"
     SUMMARY=$( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not make any more changes. Reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
       | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion \
           2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null )
@@ -177,7 +241,8 @@ finish_run() { # repo issue-or-pr-num worktree
   parse_result "$3"
   while [[ -z "${STATUS}" && -n "${SID}" ]] && (( attempt < MAX_CONTINUES )); do
     attempt=$((attempt + 1))
-    log "$1#$2: run ended without a STATUS line; resuming it (${attempt}/${MAX_CONTINUES})"
+    warn "Run ended without a STATUS line; resuming it (${attempt}/${MAX_CONTINUES})"
+    CUR_PHASE="continue ${attempt}/${MAX_CONTINUES}"
     run_claude "$1" "$2" "$3" "Your last message did not end with a STATUS line, so your run was treated as unfinished and you have been resumed.
 Anything you started in the background during the previous run is no longer running and its output is lost.
 If you were waiting on something (tests, coverage, a build), run it again now in the foreground and wait for it to finish.
@@ -203,11 +268,12 @@ handle_result() { # repo num branch base
 
   finish_run "${repo}" "${num}" "${dir}"
   commits=$(git -C "${dir}" rev-list --count "origin/${base}..HEAD" 2>/dev/null || echo 0)
-  log "Claude finished ${repo}#${num}: status=${STATUS:-none} rc=${RC} commits=${commits} (${STATS})"
+  event claude_result "Claude finished: status=${STATUS:-none} rc=${RC} commits=${commits} (${STATS})"
 
   if [[ "${STATUS}" == "QUESTION" && -n "${SID}" ]]; then
     edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Paused: waiting for your answer')"
     relabel "${repo}" "${num}" claude-wip claude-question
+    event question "Posted a question; waiting for ${ASSIGNEE}: $(head -c 300 <<<"${SUMMARY}" | tr '\n' ' ')"
     post_comment "${repo}" "${num}" "$(printf '%s **Question from `%s`**\n\n%s\n\n---\n_Reply in a comment and I will resume where I left off. Only replies from @%s count. No reply within %s days and I will give up._' \
       "${BOT}" "${WORKER}" "${SUMMARY}" "${ASSIGNEE}" "${QUESTION_TIMEOUT_DAYS}")" >/dev/null
     # asked_at is recorded after posting, so only comments made after the question count as answers
@@ -229,6 +295,7 @@ handle_result() { # repo num branch base
         --body "$(printf 'Closes #%s\n\n%s\n\n---\n_Generated by `%s` using Claude Code (%s)_' "${num}" "${SUMMARY}" "${WORKER}" "${STATS}")")
     fi
     relabel "${repo}" "${num}" claude-wip claude-pr
+    event pr_opened "Opened ${pr}; watching it"
     post_comment "${repo}" "${num}" "$(printf '%s **Work complete**: %s\n\n### Summary\n%s\n\n%s\n\n---\n_`%s` · %s · I will keep watching the PR for failing checks, merge conflicts and your review comments._' \
       "${BOT}" "${pr}" "${SUMMARY}" "$(change_list "${dir}" "origin/${base}")" "${WORKER}" "${STATS}")" >/dev/null
     # Keep the worktree and session so the PR can be watched and fixed
@@ -242,6 +309,7 @@ handle_result() { # repo num branch base
 
   edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Stopped (${STATS})")"
   relabel "${repo}" "${num}" claude-wip claude-failed
+  log_event warn failed "No commits (status: ${STATUS:-none}, exit code ${RC}); labelled claude-failed"
   post_comment "${repo}" "${num}" "$(printf '%s `%s` made no commits (status: %s, exit code %s).\n\n%s' \
     "${BOT}" "${WORKER}" "${STATUS:-none}" "${RC}" "${SUMMARY}")" >/dev/null
   cleanup "${repo}" "${num}" "${branch}"
@@ -254,12 +322,15 @@ start_task() { # repo num
   local clone="${REPO_ROOT}/${repo}" branch="claude/issue-${num}" key base dir
   key=$(key_for "${repo}" "${num}")
   dir="${TREE_ROOT}/${key}"
+  CUR_REF="${repo}#${num}"
+  CUR_PHASE="new issue"
 
-  log "Claiming ${repo}#${num}"
+  event claim "Claiming ${repo}#${num}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
   relabel "${repo}" "${num}" "${TRIGGER_LABEL}" claude-wip || return 1
 
   if [[ ! -d "${clone}/.git" ]] && ! gh repo clone "${repo}" "${clone}" -- -q; then
     relabel "${repo}" "${num}" claude-wip claude-failed
+    warn "Could not clone ${repo}"
     post_comment "${repo}" "${num}" "${BOT} \`${WORKER}\` could not clone \`${repo}\`." >/dev/null
     return 1
   fi
@@ -270,6 +341,7 @@ start_task() { # repo num
   git -C "${clone}" fetch -q --prune origin
   if ! git -C "${clone}" worktree add -q -f -B "${branch}" "${dir}" "origin/${base}"; then
     relabel "${repo}" "${num}" claude-wip claude-failed
+    warn "Could not create a worktree for ${branch}"
     post_comment "${repo}" "${num}" "${BOT} \`${WORKER}\` could not create a worktree for \`${branch}\`." >/dev/null
     return 1
   fi
@@ -292,10 +364,11 @@ resume_task() { # state-file
   local sf=$1 repo num branch base sid asked info
   repo=$(jq -r .repo "${sf}"); num=$(jq -r .num "${sf}"); branch=$(jq -r .branch "${sf}")
   base=$(jq -r .base "${sf}"); sid=$(jq -r .session_id "${sf}"); asked=$(jq -r .asked_at "${sf}")
+  CUR_REF="${repo}#${num}"
 
   info=$(gh issue view "${num}" --repo "${repo}" --json state,labels,comments 2>/dev/null) || return 1
   if [[ $(jq -r .state <<<"${info}") != "OPEN" ]] || ! jq -e '.labels | any(.name == "claude-question")' <<<"${info}" >/dev/null; then
-    log "${repo}#${num} was closed or un-labelled while waiting; dropping it"
+    event dropped "Closed or un-labelled while waiting on a question; dropping it"
     cleanup "${repo}" "${num}" "${branch}"
     return 1
   fi
@@ -306,7 +379,7 @@ resume_task() { # state-file
 
   if [[ -z "${replies}" ]]; then
     if (( $(date +%s) - $(date -d "${asked}" +%s) > QUESTION_TIMEOUT_DAYS * 86400 )); then
-      log "${repo}#${num}: no answer in ${QUESTION_TIMEOUT_DAYS} days, giving up"
+      log_event warn failed "No answer in ${QUESTION_TIMEOUT_DAYS} days; giving up"
       relabel "${repo}" "${num}" claude-question claude-failed
       post_comment "${repo}" "${num}" "${BOT} No answer within ${QUESTION_TIMEOUT_DAYS} days, so \`${WORKER}\` has dropped this. Re-add the \`${TRIGGER_LABEL}\` label to start over." >/dev/null
       cleanup "${repo}" "${num}" "${branch}"
@@ -314,7 +387,8 @@ resume_task() { # state-file
     return 1
   fi
 
-  log "${repo}#${num}: answer received, resuming session ${sid}"
+  event answer "Answer received from ${ASSIGNEE}; resuming session ${sid}"
+  CUR_PHASE="answer"
   relabel "${repo}" "${num}" claude-question claude-wip
   run_claude "${repo}" "${num}" "${TREE_ROOT}/$(key_for "${repo}" "${num}")" "@${ASSIGNEE} replied on the issue:
 
@@ -368,6 +442,7 @@ check_pr() { # state-file
   sid=$(jq -r .session_id "${sf}"); pr=$(jq -r .pr "${sf}"); handled=$(jq -r .handled_at "${sf}")
   rounds=$(jq -r .fix_rounds "${sf}"); ci_sha=$(jq -r .ci_sha "${sf}"); conflict_sha=$(jq -r .conflict_sha "${sf}")
   paused=$(jq -r .paused "${sf}")
+  CUR_REF="${repo}#${num}"
   local dir
   dir="${TREE_ROOT}/$(key_for "${repo}" "${num}")"
 
@@ -375,12 +450,12 @@ check_pr() { # state-file
   info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,headRefOid,statusCheckRollup 2>/dev/null) || return 1
   case $(jq -r .state <<<"${info}") in
     MERGED)
-      log "${repo}#${pr} merged; done with issue #${num}"
+      event merged "PR #${pr} merged; done"
       relabel "${repo}" "${num}" claude-pr claude-done
       cleanup "${repo}" "${num}" "${branch}"
       return 1 ;;
     CLOSED)
-      log "${repo}#${pr} closed without merging; dropping issue #${num}"
+      event closed "PR #${pr} closed without merging; dropping it"
       gh issue edit "${num}" --repo "${repo}" --remove-label claude-pr >/dev/null
       cleanup "${repo}" "${num}" "${branch}"
       return 1 ;;
@@ -423,7 +498,7 @@ The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merg
     rounds=0 # a reply from ASSIGNEE resets the automatic fix budget
   elif (( rounds >= MAX_FIX_ROUNDS )); then
     if [[ "${paused}" != "true" ]]; then
-      log "${repo}#${pr}: ${MAX_FIX_ROUNDS} automatic fix rounds used; waiting for ${ASSIGNEE}"
+      log_event warn paused "PR #${pr}: ${MAX_FIX_ROUNDS} automatic fix rounds used; waiting for ${ASSIGNEE}"
       post_comment "${repo}" "${pr}" "${BOT} \`${WORKER}\` has made ${MAX_FIX_ROUNDS} automatic fix attempts and the PR still needs attention, so it is pausing. Reply here (a comment or a review) to tell me how to proceed and I will pick it back up." >/dev/null
       update_state "${sf}" '.paused = true'
     fi
@@ -439,7 +514,8 @@ The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merg
   local before after
   before=$(git -C "${dir}" rev-parse HEAD)
 
-  log "${repo}#${pr}: fix round ${rounds}"
+  event fix_round "PR #${pr}: fix round ${rounds} for:$([[ -n "${feedback}" ]] && echo " review feedback")$([[ "${new_ci}" != "${ci_sha}" ]] && echo " failing checks")$([[ "${new_conflict}" != "${conflict_sha}" ]] && echo " merge conflict")"
+  CUR_PHASE="PR #${pr} fix round ${rounds}"
   run_claude "${repo}" "${pr}" "${dir}" "Your pull request #${pr} for issue #${num} (branch ${branch}) needs attention:
 
 ${sections}
@@ -459,8 +535,10 @@ ${RULES}" "${sid}"
   esac
   if [[ "${after}" != "${before}" ]]; then
     if git -C "${dir}" push -q origin "HEAD:${branch}"; then
+      event pushed "Pushed ${after:0:7} to ${branch}"
       body=$(printf '%s **%s**\n\n%s\n\n%s\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "$(change_list "${dir}" "${before}")" "${STATS}")
     else
+      warn "Pushing ${after:0:7} to ${branch} failed"
       body=$(printf '%s **%s**\n\n%s\n\n**Pushing the fix failed.** The branch may have been changed elsewhere.\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "${STATS}")
     fi
   else
@@ -468,7 +546,7 @@ ${RULES}" "${sid}"
   fi
   edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Finished fix round ${rounds} (${STATS})")"
   post_comment "${repo}" "${pr}" "${body}" >/dev/null
-  log "${repo}#${pr}: fix round ${rounds} finished: status=${STATUS:-none} rc=${RC} (${STATS})"
+  event fix_result "PR #${pr}: fix round ${rounds} finished: status=${STATUS:-none} rc=${RC}, $([[ "${after}" != "${before}" ]] && echo "pushed ${after:0:7}" || echo "no new commits") (${STATS})"
 
   update_state "${sf}" --arg since "${since}" --arg ci "${new_ci}" --arg conflict "${new_conflict}" \
     --arg sid "${SID:-${sid}}" --argjson rounds "${rounds}" \
@@ -478,26 +556,34 @@ ${RULES}" "${sid}"
 
 # --- Main loop ---------------------------------------------------------------
 
-log "Worker ${ORDINAL}/${WORKER_COUNT} started, watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
+rotate_logs
+set_status starting
+event worker_start "Worker ${ORDINAL}/${WORKER_COUNT} started (claude $(claude --version 2>/dev/null | head -n1)), watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
 
 # Recover from a restart mid-task: anything still claude-wip in this shard is no longer running.
 for repo in ${REPOS}; do
   for num in $(gh issue list --repo "${repo}" --label claude-wip --assignee "${ASSIGNEE}" --state open --limit 100 --json number \
       --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null); do
     sf="${STATE_ROOT}/$(key_for "${repo}" "${num}").json"
+    CUR_REF="${repo}#${num}"
     if [[ -f "${sf}" && $(jq -r '.phase // "question"' "${sf}") == "question" ]]; then
-      log "${repo}#${num} was interrupted while resuming; back to waiting on its question"
+      warn "Interrupted while resuming; back to waiting on its question"
       relabel "${repo}" "${num}" claude-wip claude-question
     else
-      log "${repo}#${num} was interrupted; re-queueing"
+      warn "Interrupted mid-task; re-queueing"
       relabel "${repo}" "${num}" claude-wip "${TRIGGER_LABEL}"
       post_comment "${repo}" "${num}" "${BOT} \`${WORKER}\` restarted mid-task, so this has been re-queued." >/dev/null
     fi
   done
 done
 
+CUR_REF=""
+was_idle=0
 while (( ! stopping )); do
   did_work=0
+  CUR_REF=""
+  CUR_PHASE=""
+  rotate_logs
   # Watched PRs and answered questions first, so in-flight work is finished before new issues are started
   for sf in "${STATE_ROOT}"/*.json; do
     [[ -e "${sf}" ]] || continue
@@ -518,7 +604,21 @@ while (( ! stopping )); do
     done
   fi
   (( stopping )) && break
+  CUR_REF=""
+  if (( did_work )); then
+    was_idle=0
+  else
+    if (( ! was_idle )); then
+      # Log once when going idle rather than on every poll
+      waiting=$(grep -l '"phase": "question"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
+      watching=$(grep -l '"phase": "pr"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
+      event idle "Idle: ${watching} PR(s) watched, ${waiting} question(s) waiting; polling every ${POLL_INTERVAL}s"
+      was_idle=1
+    fi
+    set_status idle
+  fi
   # Background sleep + wait so SIGTERM interrupts idle polling immediately
   (( did_work )) || { sleep "${POLL_INTERVAL}" & wait $!; }
 done
-log "Worker stopped"
+set_status stopped
+event worker_stop "Worker stopped"

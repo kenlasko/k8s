@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Shows what this Claude worker is doing: current task, questions waiting on you, watched PRs and recent activity.
+#   claude-status [N]   N = number of recent activity lines to show (default 15)
+set -uo pipefail
+W=/workspace
+
+if [[ -f "${W}/status.json" ]]; then
+  jq -r '"Worker:   \(.worker)",
+         "State:    \(.state)\(if .ref != "" then " on " + .ref else "" end)\(if .phase != "" then " (" + .phase + ")" else "" end)",
+         "Since:    \(.since)",
+         (if .state == "working" and .log != "" then "Run log:  \(.log)   (follow with: claude-log -r -f)" else empty end)' "${W}/status.json"
+else
+  echo "No status yet"
+fi
+
+echo
+echo "Questions waiting on you:"
+found=0
+for f in "${W}"/state/*.json; do
+  [[ -e "${f}" ]] || continue
+  jq -e '(.phase // "question") == "question"' "${f}" >/dev/null || continue
+  jq -r '"  \(.repo)#\(.num)   asked \(.asked_at)"' "${f}"; found=1
+done
+(( found )) || echo "  none"
+
+echo
+echo "Watched PRs:"
+found=0
+for f in "${W}"/state/*.json; do
+  [[ -e "${f}" ]] || continue
+  jq -e '.phase == "pr"' "${f}" >/dev/null || continue
+  jq -r '"  \(.repo)#\(.num)   PR #\(.pr)   fix rounds: \(.fix_rounds)\(if .paused then "   PAUSED, waiting on you" else "" end)"' "${f}"; found=1
+done
+(( found )) || echo "  none"
+
+echo
+echo "Recent activity:"
+"$(dirname "$(readlink -f "$0")")/claude-log" -n "${1:-15}" 2>/dev/null | sed 's/^/  /' || echo "  none"
