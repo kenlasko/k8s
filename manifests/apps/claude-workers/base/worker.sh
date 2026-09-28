@@ -173,14 +173,15 @@ edit_comment() { # repo comment-id body
   [[ -n "$2" ]] && gh api -X PATCH "repos/$1/issues/comments/$2" -f body="$(redact <<<"$3")" >/dev/null
 }
 
-# Login of whoever last added TRIGGER_LABEL to the issue. The worker's own re-queues are skipped,
-# unless the worker's account is also the issue author (a personal token).
-trigger_user() { # repo num author
-  local labelers
+# Login of whoever last added TRIGGER_LABEL to the issue. Labels added by the worker's own account (its
+# re-queues after a restart) are skipped, unless nobody else ever added it (a personal token whose owner
+# labels their own issues).
+trigger_user() { # repo num
+  local labelers others
   labelers=$(gh api --paginate "repos/$1/issues/$2/events" \
     --jq ".[] | select(.event == \"labeled\" and .label.name == \"${TRIGGER_LABEL}\") | .actor.login" 2>/dev/null)
-  [[ -n "${WORKER_LOGIN}" && "$3" != "${WORKER_LOGIN}" ]] && labelers=$(grep -vxF "${WORKER_LOGIN}" <<<"${labelers}")
-  tail -n1 <<<"${labelers}"
+  others=$(grep -vxF "${WORKER_LOGIN:-}" <<<"${labelers}")
+  if [[ -n "${WORKER_LOGIN}" && -n "${others}" ]]; then tail -n1 <<<"${others}"; else tail -n1 <<<"${labelers}"; fi
 }
 
 relabel() { # repo num from-label to-label
@@ -743,17 +744,12 @@ start_task() { # repo num
   REVIEW_DONE=false; REVIEW_TEXT=""; REVIEW_RESPONSE=""; REVIEW_VERDICT=""; REVIEW_FIX_FROM=""
   resolve_model "${repo}" "${num}"
 
-  # Only the issue's author may queue it, and only their comments are trusted from here on
-  local author labeler
-  author=$(gh issue view "${num}" --repo "${repo}" --json author --jq .author.login 2>/dev/null)
-  labeler=$(trigger_user "${repo}" "${num}" "${author}")
-  if [[ -z "${author}" || "${labeler}" != "${author}" ]]; then
-    log_event warn not_trusted "Not starting: '${TRIGGER_LABEL}' was added by @${labeler:-unknown}, not the issue author @${author:-unknown}"
-    gh issue edit "${num}" --repo "${repo}" --remove-label "${TRIGGER_LABEL}" >/dev/null
-    post_comment "${repo}" "${num}" "${BOT} Not starting: only the issue's author (@${author}) can queue it for a Claude worker by adding the \`${TRIGGER_LABEL}\` label. It was added by @${labeler:-someone else}." >/dev/null
-    return 1
+  # Whoever added the trigger label is the only person whose comments are acted on from here on
+  TRUSTED_USER=$(trigger_user "${repo}" "${num}")
+  if [[ -z "${TRUSTED_USER}" ]]; then
+    TRUSTED_USER="${ASSIGNEE}"
+    warn "Could not tell who added '${TRIGGER_LABEL}'; trusting only @${ASSIGNEE}'s comments"
   fi
-  TRUSTED_USER="${author}"
 
   event claim "Claiming ${repo}#${num} for @${TRUSTED_USER}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
   relabel "${repo}" "${num}" "${TRIGGER_LABEL}" claude-wip || return 1
@@ -777,7 +773,7 @@ start_task() { # repo num
   fi
 
   local issue
-  # Only the author's own comments go into the prompt; anyone else's are left out (prompt injection)
+  # Only the trusted user's comments go into the prompt; anyone else's are left out (prompt injection)
   issue=$(gh issue view "${num}" --repo "${repo}" --json title,body,comments \
     --jq '"# " + .title + "\n\n" + (.body // "") + "\n\n" + ([.comments[] | select(.author.login == "'"${TRUSTED_USER}"'" and (.body | startswith("'"${BOT}"'") | not)) | "---\nComment from " + .author.login + ":\n" + .body] | join("\n\n"))')
 
@@ -843,7 +839,7 @@ $(pr_instructions "${TREE_ROOT}/$(key_for "${repo}" "${num}")" "${num}")" "${sid
 
 # --- PR watching ---------------------------------------------------------------
 
-# Reviews, inline review comments and PR comments from TRUSTED_USER (the issue author) newer than <since>, as markdown
+# Reviews, inline review comments and PR comments from TRUSTED_USER (who added the trigger label) newer than <since>, as markdown
 pr_feedback() { # repo pr since
   {
     gh api --paginate "repos/$1/pulls/$2/reviews" \
@@ -936,7 +932,7 @@ The PR no longer merges cleanly into ${base}. The latest origin/${base} has alre
   [[ -z "${sections}" ]] && return 1
 
   if [[ -n "${feedback}" ]]; then
-    rounds=0 # a reply from the issue author resets the automatic fix budget
+    rounds=0 # a reply from the trusted user resets the automatic fix budget
   elif (( rounds >= MAX_FIX_ROUNDS )); then
     if [[ "${paused}" != "true" ]]; then
       log_event warn paused "PR #${pr}: ${MAX_FIX_ROUNDS} automatic fix rounds used; waiting for ${TRUSTED_USER}"
