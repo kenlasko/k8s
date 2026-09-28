@@ -6,7 +6,7 @@ metadata:
 data:
   # Space-separated list of repos to watch for issues
   REPOS: "kenlasko/monize"
-  # Issues with this label get picked up. Workers swap it for claude-wip, then claude-done / claude-failed.
+  # Issues with this label get picked up. Workers swap it for claude-wip, then claude-question / claude-pr / claude-done / claude-failed.
   TRIGGER_LABEL: "claude"
   # Only issues assigned to this GitHub user (and carrying TRIGGER_LABEL) are picked up
   ASSIGNEE: "kenlasko"
@@ -17,7 +17,10 @@ data:
   PROGRESS_INTERVAL: "60"
   # Give up on an unanswered question after this many days
   QUESTION_TIMEOUT_DAYS: "7"
-  MAX_TURNS: "100"
+  # Automatic fix rounds on a PR (CI failures, merge conflicts) before waiting for ASSIGNEE to reply
+  MAX_FIX_ROUNDS: "3"
+  # Max agent turns (one think-then-act step, e.g. a command or file edit) per Claude run
+  MAX_TURNS: "250"
   TASK_TIMEOUT: "2h"
   GIT_AUTHOR_NAME: "Claude Worker"
   GIT_AUTHOR_EMAIL: "claude-worker@users.noreply.github.com"
