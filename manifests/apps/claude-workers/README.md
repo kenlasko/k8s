@@ -42,7 +42,7 @@ While the issue is labelled `claude-pr`, the worker checks the PR on every poll.
 
 Anything it finds is handed to the same Claude session in the same worktree. The worker pushes the fix (never force-pushing) and posts a **fix round** comment on the PR with what changed. Commits pushed to the branch by someone else are pulled in first. CI failures and conflicts are each handled once per commit, so an unfixable failure doesn't loop.
 
-After `MAX_FIX_ROUNDS` (3) automatic rounds, the worker posts a comment on the PR and pauses. Any reply or review from you resets the count and it carries on. If Claude has a question during a fix round, it asks on the PR, and your reply there is treated as review feedback.
+After `MAX_FIX_ROUNDS` (5) automatic rounds, the worker posts a comment on the PR and pauses. Any reply or review from you resets the count and it carries on. If Claude has a question during a fix round, it asks on the PR, and your reply there is treated as review feedback.
 
 
 ## Setup
@@ -133,7 +133,7 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `POLL_INTERVAL` | Seconds between GitHub polls when idle |
 | `PROGRESS_INTERVAL` | Seconds between progress comment updates |
 | `QUESTION_TIMEOUT_DAYS` | Days to wait for an answer before giving up |
-| `MAX_FIX_ROUNDS` | Automatic PR fix rounds before waiting for you |
+| `MAX_FIX_ROUNDS` | Automatic PR fix rounds before waiting for you (5) |
 | `MAX_CONTINUES` | Resumes of a run that stopped without a `STATUS:` line |
 | `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
 | `DEFAULT_MODEL` / `DEFAULT_EFFORT` | Model and effort when an issue doesn't choose (empty = Claude Code's default) |

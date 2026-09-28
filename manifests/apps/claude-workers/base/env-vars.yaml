@@ -18,7 +18,7 @@ data:
   # Give up on an unanswered question after this many days
   QUESTION_TIMEOUT_DAYS: "7"
   # Automatic fix rounds on a PR (CI failures, merge conflicts) before waiting for ASSIGNEE to reply
-  MAX_FIX_ROUNDS: "3"
+  MAX_FIX_ROUNDS: "5"
   # Max agent turns (one think-then-act step, e.g. a command or file edit) per Claude run
   MAX_TURNS: "250"
   TASK_TIMEOUT: "3h"
