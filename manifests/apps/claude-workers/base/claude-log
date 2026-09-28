@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# View what this Claude worker is doing.
+#
+#   claude-log [-n N]            last N lines of the worker's activity log (default 40)
+#   claude-log -f [-n N]         ...and keep following it (live)
+#   claude-log -r [ISSUE|FILE]   replay a Claude run transcript: the latest run, the latest run for issue/PR
+#                                number ISSUE, or a specific .jsonl file (add -f to follow a run in progress)
+#   claude-log -l                list recent runs
+set -uo pipefail
+
+LOGS=/workspace/logs
+HERE=$(dirname "$(readlink -f "$0")")
+lines=40 follow=0 mode=activity target=""
+
+usage() { sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-0}"; }
+
+while getopts ":fn:rlh" opt; do
+  case "${opt}" in
+    f) follow=1 ;;
+    n) lines=${OPTARG} ;;
+    r) mode=replay ;;
+    l) mode=list ;;
+    h) usage ;;
+    *) usage 1 ;;
+  esac
+done
+shift $((OPTIND - 1))
+target=${1:-}
+
+# Pretty-prints worker.log lines, whether they were written as JSON or text
+render() {
+  jq -Rr --unbuffered 'fromjson? // . |
+    if type == "object" then
+      "\(.ts[11:19] // "") \(if (.ref // "") == "" then "-" else .ref end) "
+      + ({session: "▶", message: "💬", tool: "🔧", tool_error: "❌", result: "🏁"}[.event]
+         // (if .level == "warn" then "⚠️ " else "ℹ️ " end))
+      + " \(if .tool then .tool + " " else "" end)\(.msg)"
+    else . end'
+}
+
+case "${mode}" in
+  list)
+    ls -t "${LOGS}"/*.jsonl 2>/dev/null | head -n "${lines}" | while read -r f; do
+      printf '%s  %6s  %s\n' "$(date -r "${f}" +'%Y-%m-%d %H:%M')" "$(du -h "${f}" | cut -f1)" "$(basename "${f}")"
+    done ;;
+  replay)
+    if [[ -z "${target}" ]]; then
+      file=$(ls -t "${LOGS}"/*.jsonl 2>/dev/null | head -n1)
+    elif [[ -f "${target}" ]]; then
+      file=${target}
+    else
+      file=$(ls -t "${LOGS}"/*-"${target}"-2*.jsonl 2>/dev/null | head -n1)
+    fi
+    [[ -z "${file}" ]] && { echo "No run transcript found${target:+ for ${target}}" >&2; exit 1; }
+    base=$(basename "${file}" .jsonl)
+    root="/workspace/worktrees/${base%-*-*}"
+    echo "== ${file}"
+    if (( follow )); then tail -n +1 -F "${file}"; else cat "${file}"; fi \
+      | jq -Rr --unbuffered --arg format pretty --arg worker "" --arg ref "" --arg root "${root}" -f "${HERE}/events.jq" ;;
+  activity)
+    [[ -f "${LOGS}/worker.log" ]] || { echo "No activity log yet (${LOGS}/worker.log)" >&2; exit 1; }
+    if (( follow )); then tail -n "${lines}" -F "${LOGS}/worker.log"; else tail -n "${lines}" "${LOGS}/worker.log"; fi | render ;;
+esac

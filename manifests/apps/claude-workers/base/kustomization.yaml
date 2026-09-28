@@ -11,3 +11,6 @@ configMapGenerator:
   namespace: claude-workers
   files:
   - worker.sh
+  - events.jq
+  - claude-log
+  - claude-status

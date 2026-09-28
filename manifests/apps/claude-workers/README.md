@@ -13,6 +13,8 @@ Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn works
    * anything else, or no commits: post Claude's explanation and label it `claude-failed`
 6. Watch the PR until it is merged (issue labelled `claude-done`) or closed. See [PR watching](#pr-watching)
 
+PR descriptions follow the repo's **pull request template**, if it has one, found in the same places GitHub looks (`.github/`, `docs/` or the root, or the first file in `.github/PULL_REQUEST_TEMPLATE/`). The template is included in Claude's instructions, and Claude writes the description by filling it in. If its description is missing any of the template's headings, the worker asks it to rewrite the description before opening the PR. `Closes #<n>` is added if Claude left it out. When a re-queued issue reuses its open PR, the description is replaced too.
+
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
 If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 15 minutes by default and 60 at most, so long test and build runs can finish in the foreground.
@@ -41,6 +43,7 @@ Anything it finds is handed to the same Claude session in the same worktree. The
 After `MAX_FIX_ROUNDS` (3) automatic rounds, the worker posts a comment on the PR and pauses. Any reply or review from you resets the count and it carries on. If Claude has a question during a fix round, it asks on the PR, and your reply there is treated as review feedback.
 
 
+## Setup
 1. **Build the image** from [image/Dockerfile](image/Dockerfile) and push it to the local registry:
    ```
    cd manifests/apps/claude-workers/image
@@ -60,11 +63,33 @@ Open an issue in one of the watched repos, describe the task, assign it to yours
 
 Follow along in the GitHub app or web. The progress comment updates every minute while Claude works, and questions arrive as issue comments, so GitHub notifications on your phone tell you when a worker needs you. To see everything waiting on you, filter issues by `label:claude-question`.
 
-The full streamed transcript of every run is kept as `/workspace/logs/*.jsonl`. Follow a worker from the terminal with:
+See [Logging](#logging) for following a worker from the terminal or Grafana.
+
+## Logging
+Everything a worker does is logged to its pod's stdout, including Claude's activity streamed live as it happens: its messages (💬), each tool call with its command or file (🔧), failed tool calls (❌), and the result of each run (🏁). The worker's own steps are logged too, such as claiming an issue, questions, PRs opened, fix rounds, pushes, merges and warnings. Successful tool output isn't logged.
+
 ```
 kubectl -n claude-workers logs -f claude-worker-0
-kubectl -n claude-workers exec -it claude-worker-0 -- ls /workspace/logs
 ```
+
+With `LOG_FORMAT=json` (the default), each line is a JSON object with `ts`, `level`, `worker`, `ref` (`owner/repo#issue`), `repo`, `issue`, `source` (`worker` or `claude`), `event`, `tool` and `msg`. Alloy ships the lines to Loki, so in Grafana you can filter with, for example:
+```
+{namespace="claude-workers"} | json | issue="42"
+{namespace="claude-workers"} | json | level="warn"
+{namespace="claude-workers"} | json | event=~"pr_opened|fix_round|merged|failed|question"
+```
+Set `LOG_FORMAT=text` for plain lines instead.
+
+Each pod also has two helper commands:
+```
+kubectl -n claude-workers exec claude-worker-0 -- claude-status          # current task, questions waiting on you, watched PRs, recent activity
+kubectl -n claude-workers exec -it claude-worker-0 -- claude-log -f      # follow the activity log live, pretty-printed
+kubectl -n claude-workers exec claude-worker-0 -- claude-log -r 42       # replay Claude's latest run on issue/PR 42 (-f to follow one in progress)
+kubectl -n claude-workers exec claude-worker-0 -- claude-log -l          # list recent runs
+```
+For all workers at once: `for i in 0 1 2; do kubectl -n claude-workers exec claude-worker-$i -- claude-status; echo; done`
+
+The raw stream-json transcript of every run is kept in `/workspace/logs/*.jsonl` for `LOG_RETENTION_DAYS` (14), and the activity log in `/workspace/logs/worker.log`, rotated at 20MB. The helpers live in the `worker-script` ConfigMap next to `worker.sh`, so changes to them roll out without rebuilding the image.
 
 ## Configuration
 Settings live in [env-vars.yaml](base/env-vars.yaml):
@@ -81,6 +106,8 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `MAX_FIX_ROUNDS` | Automatic PR fix rounds before waiting for you |
 | `MAX_CONTINUES` | Resumes of a run that stopped without a `STATUS:` line |
 | `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
+| `LOG_FORMAT` | `json` (default, for Loki) or `text` |
+| `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |
 
 To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
 
