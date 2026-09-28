@@ -1,7 +1,10 @@
 image:
-  repository: connorgallopo/tracearr
+  # repository: connorgallopo/tracearr
+  # tag: 2.5.1
+  # registry: ghcr.io
+  repository: tracearr
   tag: 2.5.1
-  registry: ghcr.io
+  registry: registry.laskonet.com
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false  # needs /app/data/image-cache
