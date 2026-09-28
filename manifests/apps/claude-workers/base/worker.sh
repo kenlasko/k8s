@@ -839,8 +839,9 @@ $(pr_instructions "${TREE_ROOT}/$(key_for "${repo}" "${num}")" "${num}")" "${sid
 
 # --- PR watching ---------------------------------------------------------------
 
-# Reviews, inline review comments and PR comments from TRUSTED_USER (who added the trigger label) newer than <since>, as markdown
-pr_feedback() { # repo pr since
+# Reviews, inline review comments and PR comments, plus comments on the original issue, from TRUSTED_USER
+# (who added the trigger label) newer than <since>, as markdown
+pr_feedback() { # repo pr since issue-num
   {
     gh api --paginate "repos/$1/pulls/$2/reviews" \
       --jq '.[] | {kind: "review", who: .user.login, at: .submitted_at, state: .state, body: (.body // "")}'
@@ -848,12 +849,15 @@ pr_feedback() { # repo pr since
       --jq '.[] | {kind: "inline", who: .user.login, at: .created_at, body: .body, path: .path, line: (.line // .original_line)}'
     gh api --paginate "repos/$1/issues/$2/comments" \
       --jq '.[] | {kind: "comment", who: .user.login, at: .created_at, body: .body}'
-  } 2>/dev/null | jq -rs --arg who "${TRUSTED_USER}" --arg since "$3" --arg bot "${BOT}" '
+    gh api --paginate "repos/$1/issues/$4/comments" \
+      --jq '.[] | {kind: "issue", who: .user.login, at: .created_at, body: .body}'
+  } 2>>"${LOG_ROOT}/gh-errors.log" | jq -rs --arg who "${TRUSTED_USER}" --arg since "$3" --arg bot "${BOT}" '
     [.[] | select(.who == $who and .at != null and .at > $since and (.body | startswith($bot) | not))
          | select(.kind != "review" or (.state != "APPROVED" and (.body != "" or .state == "CHANGES_REQUESTED")))]
     | sort_by(.at)
     | map(if .kind == "inline" then "Inline review comment on `\(.path)` line \(.line):\n\(.body)"
           elif .kind == "review" then "Review (\(.state)):\n\(if .body == "" then "(no text; see the inline comments)" else .body end)"
+          elif .kind == "issue" then "Comment on the issue:\n\(.body)"
           else "PR comment:\n\(.body)" end)
     | join("\n\n---\n\n")'
 }
@@ -884,7 +888,18 @@ check_pr() { # state-file
   dir="${TREE_ROOT}/$(key_for "${repo}" "${num}")"
 
   local info
-  info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,headRefOid,statusCheckRollup 2>/dev/null) || return 1
+  local err
+  if ! info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,headRefOid,statusCheckRollup 2>&1); then
+    # Reading check results needs extra token permissions; still handle feedback and conflicts without them
+    err=$(head -c 300 <<<"${info}" | tr '\n' ' ')
+    if ! info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,headRefOid 2>&1); then
+      log_event warn pr_check_failed "PR #${pr}: could not read the PR: $(head -c 300 <<<"${info}" | tr '\n' ' ')"
+      return 1
+    fi
+    [[ "${PR_CHECKS_WARNED:-}" == *" ${repo}#${pr} "* ]] || \
+      log_event warn pr_checks_unreadable "PR #${pr}: can't read CI check results (${err}); failing checks won't be picked up. Give the GitHub token Actions and Commit statuses read access."
+    PR_CHECKS_WARNED="${PR_CHECKS_WARNED:- } ${repo}#${pr} "
+  fi
   case $(jq -r .state <<<"${info}") in
     MERGED)
       event merged "PR #${pr} merged; done"
@@ -906,7 +921,7 @@ check_pr() { # state-file
   failures=$(jq -r '.statusCheckRollup[]?
     | select(((.conclusion // "") | test("^(FAILURE|TIMED_OUT|ACTION_REQUIRED|STARTUP_FAILURE)$")) or ((.state // "") | test("^(FAILURE|ERROR)$")))
     | [(.name // .context), (.detailsUrl // .targetUrl // "")] | @tsv' <<<"${info}")
-  feedback=$(pr_feedback "${repo}" "${pr}" "${handled}")
+  feedback=$(pr_feedback "${repo}" "${pr}" "${handled}" "${num}")
 
   local new_ci="${ci_sha}" new_conflict="${conflict_sha}"
   if [[ -n "${feedback}" ]]; then
