@@ -184,6 +184,14 @@ trigger_user() { # repo num
   if [[ -n "${WORKER_LOGIN}" && -n "${others}" ]]; then tail -n1 <<<"${others}"; else tail -n1 <<<"${labelers}"; fi
 }
 
+# Edits the run's progress comment, and its mirror on the other thread (issue or PR) if there is one
+PROGRESS_MIRROR=""
+edit_progress() { # repo body
+  edit_comment "$1" "${PROGRESS_ID:-}" "$2"
+  [[ -n "${PROGRESS_MIRROR}" ]] && edit_comment "$1" "${PROGRESS_MIRROR}" "$2"
+  return 0
+}
+
 relabel() { # repo num from-label to-label
   gh issue edit "$2" --repo "$1" --remove-label "$3" --add-label "$4" >/dev/null
 }
@@ -292,7 +300,7 @@ stop_issue() { # repo num
   [[ -d "${dir}" ]] && unpushed=$(git -C "${dir}" rev-list --count HEAD --not --remotes=origin 2>/dev/null || echo 0)
 
   if (( STOP_REQUESTED )) && [[ -n "${PROGRESS_ID:-}" ]]; then
-    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Stopped on request')"
+    edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" 'Stopped on request')"
   fi
   cleanup "${repo}" "${num}" "claude/issue-${num}"
   gh issue edit "${num}" --repo "${repo}" --add-label claude-stopped \
@@ -320,8 +328,8 @@ stop_sweep() {
 
 # Runs Claude in the background while keeping a progress comment on issue/PR <num> up to date.
 # Sets RESULT_LOG, PROGRESS_ID and RC.
-run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse]
-  local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-}
+run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse] [also-post-progress-on-num]
+  local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-} mirror=${7:-}
   RESULT_LOG="${LOG_ROOT}/$(key_for "${repo}" "${num}")-$(date +%Y%m%d-%H%M%S).jsonl"
   model_args
   local extra=()
@@ -331,10 +339,13 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
   [[ -n "${resume}" ]] && args+=(--resume "${resume}")
 
   if [[ -n "${reuse}" ]]; then
-    PROGRESS_ID="${reuse}"
-    edit_comment "${repo}" "${PROGRESS_ID}" "${BOT} **Continuing** on \`${WORKER}\`…"
+    PROGRESS_ID="${reuse}" # keeps any mirror from the run being continued
+    edit_progress "${repo}" "${BOT} **Continuing** on \`${WORKER}\`…"
   else
-    PROGRESS_ID=$(post_comment "${repo}" "${num}" "${BOT} **Starting** on \`${WORKER}\`…")
+    local start="${BOT} **Starting**${CUR_PHASE:+ (${CUR_PHASE})} on \`${WORKER}\`…"
+    PROGRESS_ID=$(post_comment "${repo}" "${num}" "${start}")
+    PROGRESS_MIRROR=""
+    [[ -n "${mirror}" && "${mirror}" != "${num}" ]] && PROGRESS_MIRROR=$(post_comment "${repo}" "${mirror}" "${start}")
   fi
   event claude_start "Running Claude on ${repo}#${num}${CUR_PHASE:+ (${CUR_PHASE})}${resume:+, resuming session ${resume}}; model: ${RUN_MODEL:-default}, effort: ${RUN_EFFORT:-default}; transcript: ${RESULT_LOG}"
   set_status working "${CUR_PHASE:-}"
@@ -369,7 +380,7 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
       [[ -n "${tpid}" ]] && kill -KILL -- "-${tpid}" 2>/dev/null
       break
     fi
-    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Working${CUR_PHASE:+ (${CUR_PHASE})}")"
+    edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Working${CUR_PHASE:+ (${CUR_PHASE})}")"
   done
   wait "${pid}"
   RC=$?
@@ -569,7 +580,7 @@ ${issue}"
   REVIEW_TEXT=$(jq -Rrn '[inputs | fromjson? | select(.type == "result")] | last | .result // ""' "${RESULT_LOG}")
   REVIEW_VERDICT=$(grep -oE '^REVIEW: (CHANGES_NEEDED|APPROVED)' <<<"${REVIEW_TEXT}" | tail -n1 | cut -d' ' -f2)
   REVIEW_TEXT=$(grep -vE '^REVIEW: ' <<<"${REVIEW_TEXT}")
-  edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Code review finished (${REVIEW_VERDICT:-no verdict})")"
+  edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Code review finished (${REVIEW_VERDICT:-no verdict})")"
 
   # The reviewer is read-only; undo anything it changed anyway
   if [[ $(git -C "${dir}" rev-parse HEAD) != "${before}" || -n $(git -C "${dir}" status --porcelain) ]]; then
@@ -640,7 +651,7 @@ review_comment() { # worktree
 handle_question() { # repo num branch base
   local repo=$1 num=$2 branch=$3 base=$4 key
   key=$(key_for "${repo}" "${num}")
-  edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Paused: waiting for your answer')"
+  edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" 'Paused: waiting for your answer')"
   relabel "${repo}" "${num}" claude-wip claude-question
   event question "Posted a question; waiting for ${TRUSTED_USER}: $(head -c 300 <<<"${SUMMARY}" | tr '\n' ' ')"
   post_comment "${repo}" "${num}" "$(printf '%s **Question from `%s`**\n\n%s\n\n---\n_Reply in a comment and I will resume where I left off. Only replies from @%s count. No reply within %s days and I will give up._' \
@@ -686,7 +697,7 @@ handle_result() { # repo num branch base
 
   if (( commits > 0 )) && ! secret_gate "${repo}" "${num}" "${dir}" "origin/${base}"; then
     if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return; fi
-    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Stopped: push blocked by the secret scan")"
+    edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Stopped: push blocked by the secret scan")"
     relabel "${repo}" "${num}" claude-wip claude-failed
     post_comment "${repo}" "${num}" "$(printf '%s `%s` did **not push** this work: its commits contain what look like secrets, and they could not be removed automatically.\n\n```\n%s\n```\n\nThe work has been discarded. Re-add the `%s` label to start over.' \
       "${BOT}" "${WORKER}" "${SECRET_FINDINGS}" "${TRIGGER_LABEL}")" >/dev/null
@@ -695,7 +706,7 @@ handle_result() { # repo num branch base
   fi
 
   if (( commits > 0 )); then
-    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
+    edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
     git -C "${dir}" push -q --force -u origin "${branch}"
     local title pr
     title=$(gh issue view "${num}" --repo "${repo}" --json title --jq .title)
@@ -724,7 +735,7 @@ handle_result() { # repo num branch base
     return
   fi
 
-  edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Stopped (${STATS})")"
+  edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Stopped (${STATS})")"
   relabel "${repo}" "${num}" claude-wip claude-failed
   log_event warn failed "No commits (status: ${STATUS:-none}, exit code ${RC}); labelled claude-failed"
   post_comment "${repo}" "${num}" "$(printf '%s `%s` made no commits (status: %s, exit code %s).\n\n%s' \
@@ -968,8 +979,20 @@ The PR no longer merges cleanly into ${base}. The latest origin/${base} has alre
   before=$(git -C "${dir}" rev-parse HEAD)
 
   event fix_round "PR #${pr}: fix round ${rounds} for:$([[ -n "${feedback}" ]] && echo " review feedback")$([[ "${new_ci}" != "${ci_sha}" ]] && echo " failing checks")$([[ "${new_conflict}" != "${conflict_sha}" ]] && echo " merge conflict")"
-  CUR_PHASE="PR #${pr} fix round ${rounds}"
-  run_claude "${repo}" "${pr}" "${dir}" "Your pull request #${pr} for issue #${num} (branch ${branch}) needs attention:
+  # Progress and results go where the request came from: the issue for comments made there, the PR for
+  # PR comments/reviews, failing checks and conflicts (both if both)
+  local targets=()
+  grep -q '^Comment on the issue:' <<<"${feedback}" && targets+=("${num}")
+  if grep -qE '^(PR comment:|Inline review comment|Review \()' <<<"${feedback}" \
+     || [[ "${new_ci}" != "${ci_sha}" || "${new_conflict}" != "${conflict_sha}" ]] || (( ${#targets[@]} == 0 )); then
+    targets+=("${pr}")
+  fi
+  if [[ -n "${feedback}" ]]; then
+    CUR_PHASE="PR #${pr} round ${rounds}: your new instructions"
+  else
+    CUR_PHASE="PR #${pr} fix round ${rounds}"
+  fi
+  run_claude "${repo}" "${targets[0]}" "${dir}" "Your pull request #${pr} for issue #${num} (branch ${branch}) needs attention:
 
 ${sections}
 Fix these in this worktree and commit the fixes. Do not push; that is handled for you.
@@ -979,15 +1002,15 @@ For review feedback: make the requested changes. If a comment is a question, ans
 Your final message is posted on the PR, so summarize what you changed in this round.
 Use STATUS: QUESTION only if you need an answer from the reviewer before you can continue.
 
-${RULES}" "${sid}"
-  finish_run "${repo}" "${pr}" "${dir}"
+${RULES}" "${sid}" "" "${targets[1]:-}"
+  finish_run "${repo}" "${targets[0]}" "${dir}"
   if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return 0; fi
   after=$(git -C "${dir}" rev-parse HEAD)
 
   local heading body
   case "${STATUS}" in
     QUESTION) heading="Question from \`${WORKER}\` (fix round ${rounds}). Reply here to answer." ;;
-    *)        heading="Fix round ${rounds} by \`${WORKER}\`" ;;
+    *)        heading="$([[ -n "${feedback}" ]] && echo "Done with your new instructions (round ${rounds})" || echo "Fix round ${rounds}") by \`${WORKER}\`" ;;
   esac
   if [[ "${after}" != "${before}" ]] && ! secret_gate "${repo}" "${pr}" "${dir}" "${before}"; then
     if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return 0; fi
@@ -1006,8 +1029,9 @@ ${RULES}" "${sid}"
   else
     body=$(printf '%s **%s**: no new commits.\n\n%s\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "${STATS}")
   fi
-  edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Finished fix round ${rounds} (${STATS})")"
-  post_comment "${repo}" "${pr}" "${body}" >/dev/null
+  edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Finished fix round ${rounds} (${STATS})")"
+  local t
+  for t in "${targets[@]}"; do post_comment "${repo}" "${t}" "${body}" >/dev/null; done
   event fix_result "PR #${pr}: fix round ${rounds} finished: status=${STATUS:-none} rc=${RC}, $([[ "${after}" != "${before}" ]] && echo "pushed ${after:0:7}" || echo "no new commits") (${STATS})"
 
   update_state "${sf}" --arg since "${since}" --arg ci "${new_ci}" --arg conflict "${new_conflict}" \

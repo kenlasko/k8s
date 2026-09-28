@@ -40,7 +40,7 @@ While the issue is labelled `claude-pr`, the worker checks the PR on every poll.
 * **Merge conflicts** with the base branch. Claude merges the base in; it never rebases.
 * **Feedback from whoever added the `claude` label**: reviews that request changes or have text, inline review comments, and comments on the PR **or on the original issue**. Approvals, other people's comments and the worker's own 🤖 comments are ignored.
 
-Anything it finds is handed to the same Claude session in the same worktree. The worker pushes the fix (never force-pushing) and posts a **fix round** comment on the PR with what changed. Commits pushed to the branch by someone else are pulled in first. CI failures and conflicts are each handled once per commit, so an unfixable failure doesn't loop.
+Anything it finds is handed to the same Claude session in the same worktree. Like the first run, each round gets a **progress comment** that updates every minute, posted **where the request came from**: on the issue for instructions left there, and on the PR for PR comments, reviews, failing checks and conflicts (on both if both). The worker pushes the fix (never force-pushing), then posts a result comment in the same place(s) with what changed. Commits pushed to the branch by someone else are pulled in first. CI failures and conflicts are each handled once per commit, so an unfixable failure doesn't loop.
 
 After `MAX_FIX_ROUNDS` (5) automatic rounds, the worker posts a comment on the PR and pauses. Any reply or review from you resets the count and it carries on. If Claude has a question during a fix round, it asks on the PR, and your reply there is treated as review feedback.
 
