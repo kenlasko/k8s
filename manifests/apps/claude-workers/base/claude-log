@@ -56,7 +56,8 @@ case "${mode}" in
     root="/workspace/worktrees/${base%-*-*}"
     echo "== ${file}"
     if (( follow )); then tail -n +1 -F "${file}"; else cat "${file}"; fi \
-      | jq -Rr --unbuffered --arg format pretty --arg worker "" --arg ref "" --arg root "${root}" -f "${HERE}/events.jq" ;;
+      | jq -Rr --unbuffered --arg format pretty --arg worker "" --arg ref "" --arg root "${root}" -f "${HERE}/events.jq" \
+      | perl "${HERE}/redact.pl" --stream ;;
   activity)
     [[ -f "${LOGS}/worker.log" ]] || { echo "No activity log yet (${LOGS}/worker.log)" >&2; exit 1; }
     if (( follow )); then tail -n "${lines}" -F "${LOGS}/worker.log"; else tail -n "${lines}" "${LOGS}/worker.log"; fi | render ;;
