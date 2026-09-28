@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Stops a Claude worker task and discards its work, by adding the claude-stop label to the issue.
+# The worker handling it stops within a minute (PROGRESS_INTERVAL), even mid-run.
+#
+#   claude-stop <issue-number>           (when REPOS has a single repo)
+#   claude-stop <owner/repo#number>
+set -uo pipefail
+
+arg=${1:-}
+[[ -z "${arg}" || "${arg}" == "-h" ]] && { sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'; exit 1; }
+
+if [[ "${arg}" == *"#"* ]]; then
+  repo=${arg%#*} num=${arg##*#}
+else
+  read -r -a repos <<<"${REPOS:-}"
+  if (( ${#repos[@]} != 1 )); then
+    echo "REPOS has ${#repos[@]} repos (${REPOS:-none}); use owner/repo#number" >&2
+    exit 1
+  fi
+  repo=${repos[0]} num=${arg}
+fi
+[[ "${num}" =~ ^[0-9]+$ ]] || { echo "Not an issue number: ${num}" >&2; exit 1; }
+
+gh issue edit "${num}" --repo "${repo}" --add-label claude-stop >/dev/null || exit 1
+echo "Added claude-stop to ${repo}#${num}. claude-worker-$(( num % ${WORKER_COUNT:-1} )) will stop it within about a minute."
