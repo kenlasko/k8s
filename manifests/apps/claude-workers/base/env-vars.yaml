@@ -41,6 +41,9 @@ data:
   # Empty = Claude Code's default for the subscription. Model: opus, sonnet, haiku, fable or a full model ID.
   DEFAULT_MODEL: ""
   DEFAULT_EFFORT: ""
+  # Code review by a fresh Claude session before the PR is opened, when an issue has neither a
+  # claude-review label nor a "Review: yes/no" line
+  DEFAULT_REVIEW: "false"
   # npm: prefer the shared cache in $HOME/.npm over the network, and skip audit/fund lookups
   npm_config_cache: "/workspace/home/.npm"
   npm_config_prefer_offline: "true"

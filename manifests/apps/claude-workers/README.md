@@ -63,6 +63,16 @@ After `MAX_FIX_ROUNDS` (3) automatic rounds, the worker posts a comment on the P
 ## Usage
 Open an issue in one of the watched repos, describe the task, assign it to yourself, and add the `claude` label. Labelled issues that aren't assigned to `ASSIGNEE` are ignored. To retry a `claude-failed` issue, add a comment with clarification and put the `claude` label back.
 
+### Code review before the PR
+Add the **`claude-review`** label, or a `Review: yes` line in the issue body, to have the work reviewed before the PR is opened. `Review: no` turns it off, and `DEFAULT_REVIEW` sets what happens when an issue says nothing (off by default). The label wins over the body line.
+
+Once Claude finishes and has commits, the worker:
+1. Starts a **fresh Claude session** that didn't write the code. It reviews the branch's diff against the issue for correctness, edge cases, security, missing tests and unintended changes. Its edit tools are disabled, it's told not to modify anything, and the worker undoes any changes it makes anyway. It may run the tests that cover the change, but not the full suite.
+2. If the verdict is `CHANGES_NEEDED`, resumes the **original session** with the findings. Claude fixes the ones it agrees with, commits, and explains any it declines. It can ask you a question at this point, like any other run.
+3. Opens the PR with the updated description, then posts a **Code review** comment on the PR. The comment has the findings, how each was addressed, and the commits made for the review.
+
+There's one review per issue; fix rounds from PR watching aren't re-reviewed. The review uses the same model and effort as the rest of the issue.
+
 ### Stopping a task
 Add the **`claude-stop`** label to the issue, from the GitHub app, the web, or `kubectl -n claude-workers exec claude-worker-0 -- claude-stop <issue>` (use `owner/repo#number` when watching several repos). Within about a minute (`PROGRESS_INTERVAL`), the worker handling the issue:
 * stops Claude immediately if it's running, along with anything it started, such as a test run
@@ -127,6 +137,7 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `MAX_CONTINUES` | Resumes of a run that stopped without a `STATUS:` line |
 | `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
 | `DEFAULT_MODEL` / `DEFAULT_EFFORT` | Model and effort when an issue doesn't choose (empty = Claude Code's default) |
+| `DEFAULT_REVIEW` | Code review before the PR when an issue doesn't say (`false`) |
 | `LOG_FORMAT` | `json` (default, for Loki) or `text` |
 | `TMP_CLEAN_MINUTES` | Files in `/tmp` older than this are removed between tasks |
 | `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |

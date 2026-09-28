@@ -38,6 +38,7 @@ MAX_CONTINUES="${MAX_CONTINUES:-2}"
 TASK_TIMEOUT="${TASK_TIMEOUT:-3h}"
 DEFAULT_MODEL="${DEFAULT_MODEL:-}"   # empty = Claude Code's default for the subscription
 DEFAULT_EFFORT="${DEFAULT_EFFORT:-}" # empty = Claude Code's default
+DEFAULT_REVIEW="${DEFAULT_REVIEW:-false}" # code review before the PR when an issue doesn't say
 TMP_CLEAN_MINUTES="${TMP_CLEAN_MINUTES:-60}"
 MODEL_LABELS="opus sonnet haiku fable"
 EFFORT_LEVELS="low medium high xhigh max"
@@ -138,6 +139,7 @@ for repo in ${REPOS}; do
   gh label create claude-pr       --repo "${repo}" --color 5319e7 --description "Claude opened a PR and is watching it" >/dev/null 2>&1
   gh label create claude-done     --repo "${repo}" --color 0e8a16 --description "Claude's PR was merged" >/dev/null 2>&1
   gh label create claude-failed   --repo "${repo}" --color d93f0b --description "Claude worker could not complete this" >/dev/null 2>&1
+  gh label create claude-review   --repo "${repo}" --color 0052cc --description "Have a fresh Claude session review the work before the PR is opened" >/dev/null 2>&1
   gh label create claude-stop     --repo "${repo}" --color b60205 --description "Stop the Claude worker on this issue and discard its work" >/dev/null 2>&1
   gh label create claude-stopped  --repo "${repo}" --color cccccc --description "Stopped on request; work discarded" >/dev/null 2>&1
   for m in ${MODEL_LABELS}; do
@@ -224,6 +226,19 @@ resolve_model() { # repo issue-num
   fi
   RUN_MODEL="${model}"
   RUN_EFFORT="${effort}"
+
+  # Code review: claude-review label, or a "Review: yes/no" line in the body, else DEFAULT_REVIEW
+  local review
+  review=$(grep -ioP '^\s*[*_]*review[*_]*\s*:[*_]*\s*\K[A-Za-z]+' <<<"${body}" | head -n1 | tr '[:upper:]' '[:lower:]')
+  if [[ " ${labels} " == *" claude-review "* ]]; then
+    RUN_REVIEW=true
+  elif [[ "${review}" =~ ^(yes|y|true|on)$ ]]; then
+    RUN_REVIEW=true
+  elif [[ "${review}" =~ ^(no|n|false|off)$ ]]; then
+    RUN_REVIEW=false
+  else
+    RUN_REVIEW="${DEFAULT_REVIEW}"
+  fi
 }
 
 # Extra claude CLI flags for the selected model/effort
@@ -285,8 +300,10 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
   local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-}
   RESULT_LOG="${LOG_ROOT}/$(key_for "${repo}" "${num}")-$(date +%Y%m%d-%H%M%S).jsonl"
   model_args
+  local extra=()
+  read -r -a extra <<<"${EXTRA_DISALLOWED:-}" # more tools to block, e.g. edits for the read-only reviewer
   local args=(-p --output-format stream-json --verbose --max-turns "${MAX_TURNS}"
-    --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}")
+    --dangerously-skip-permissions --disallowedTools AskUserQuestion "${extra[@]}" "${MODEL_ARGS[@]}")
   [[ -n "${resume}" ]] && args+=(--resume "${resume}")
 
   if [[ -n "${reuse}" ]]; then
@@ -327,7 +344,7 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
       [[ -n "${tpid}" ]] && kill -KILL -- "-${tpid}" 2>/dev/null
       break
     fi
-    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" Working)"
+    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Working${CUR_PHASE:+ (${CUR_PHASE})}")"
   done
   wait "${pid}"
   RC=$?
@@ -453,6 +470,134 @@ change_list() { # worktree from-ref
   printf '### Commits\n%s\n\n### Files changed\n```\n%s\n```' "${commits:-_none_}" "${files}"
 }
 
+# --- Code review -----------------------------------------------------------------------
+
+# Set per issue: whether the review already ran, and its text / the author's response for posting on the PR.
+REVIEW_DONE=false
+REVIEW_TEXT=""
+REVIEW_RESPONSE=""
+REVIEW_VERDICT=""
+REVIEW_FIX_FROM=""
+
+# Has a fresh Claude session review the branch before the PR is opened, then resumes the author's session
+# (SID) to address the findings. Leaves SUMMARY/STATUS/SID from the author's final run.
+run_review() { # repo num worktree base
+  local repo=$1 num=$2 dir=$3 base=$4 author_sid="${SID}" author_summary="${SUMMARY}" author_status="${STATUS}"
+  local issue before
+  issue=$(gh issue view "${num}" --repo "${repo}" --json title,body --jq '"# " + .title + "\n\n" + (.body // "")')
+  before=$(git -C "${dir}" rev-parse HEAD)
+
+  event review_start "Starting code review in a fresh session"
+  CUR_PHASE="code review"
+  EXTRA_DISALLOWED="Edit Write MultiEdit NotebookEdit"
+  run_claude "${repo}" "${num}" "${dir}" "You are a senior engineer reviewing a change before its pull request is opened.
+You did not write this change. The worktree is ${repo} on branch claude/issue-${num}; the change is everything on this branch that is not on origin/${base}:
+see \`git log origin/${base}..HEAD\` and \`git diff origin/${base}...HEAD\`, and read the surrounding code as needed.
+
+Review for: whether the change actually does what the issue asks; correctness bugs and unhandled edge cases; security problems;
+missing or inadequate tests for the new behaviour; and anything clearly out of scope or accidentally changed. Mention style only when it matters.
+Do NOT modify any files, commit, or push; this is a read-only review. You may run the specific tests that cover the change,
+but do NOT run the full test suite, coverage or full builds (CI runs those).
+
+Write your review as a numbered list of findings. For each: a severity (blocker, major, minor or nit), the file and line,
+what is wrong and why, and a suggested fix. If there is nothing worth changing, say so briefly.
+End your final message with exactly one of these lines:
+REVIEW: CHANGES_NEEDED
+REVIEW: APPROVED
+
+The issue:
+${issue}"
+  EXTRA_DISALLOWED=""
+  (( STOP_REQUESTED )) && return
+
+  REVIEW_TEXT=$(jq -Rrn '[inputs | fromjson? | select(.type == "result")] | last | .result // ""' "${RESULT_LOG}")
+  REVIEW_VERDICT=$(grep -oE '^REVIEW: (CHANGES_NEEDED|APPROVED)' <<<"${REVIEW_TEXT}" | tail -n1 | cut -d' ' -f2)
+  REVIEW_TEXT=$(grep -vE '^REVIEW: ' <<<"${REVIEW_TEXT}")
+  edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Code review finished (${REVIEW_VERDICT:-no verdict})")"
+
+  # The reviewer is read-only; undo anything it changed anyway
+  if [[ $(git -C "${dir}" rev-parse HEAD) != "${before}" || -n $(git -C "${dir}" status --porcelain) ]]; then
+    warn "Reviewer changed the worktree; discarding its changes"
+    git -C "${dir}" reset -q --hard "${before}" && git -C "${dir}" clean -fdq
+  fi
+  REVIEW_DONE=true
+
+  if [[ -z "${REVIEW_TEXT//[[:space:]]/}" ]]; then
+    warn "Code review returned nothing; continuing without it"
+    REVIEW_TEXT="_The review session returned no findings text._"
+    SID="${author_sid}"; SUMMARY="${author_summary}"; STATUS="${author_status}"
+    return
+  fi
+  event review_result "Code review verdict: ${REVIEW_VERDICT:-none}"
+  if [[ "${REVIEW_VERDICT}" == "APPROVED" ]]; then
+    SID="${author_sid}"; SUMMARY="${author_summary}"; STATUS="${author_status}"
+    return
+  fi
+
+  # Hand the findings back to the author's session
+  REVIEW_FIX_FROM="${before}"
+  CUR_PHASE="addressing review"
+  run_claude "${repo}" "${num}" "${dir}" "A reviewer (a separate Claude session) reviewed your change before the pull request is opened:
+
+${REVIEW_TEXT}
+
+Address the findings: fix the ones you agree with and commit the fixes. It's fine to decline a finding you disagree with; explain why.
+Verify fixes with the specific tests that cover them only; do not run the full suite.
+Your final message must have two parts, then the STATUS line:
+1. Under a heading '### How the review was addressed', one line per finding number: fixed (and how) or not fixed (and why).
+2. Your pull request description, written as instructed earlier, updated for any changes you made.
+
+${RULES}
+
+$(pr_instructions "${dir}" "${num}")" "${author_sid}"
+  finish_run "${repo}" "${num}" "${dir}"
+  (( STOP_REQUESTED )) && return
+
+  split_review_response
+  [[ -z "${SUMMARY//[[:space:]]/}" ]] && SUMMARY="${author_summary}"
+  event review_addressed "Review findings addressed; $(git -C "${dir}" rev-list --count "${before}..HEAD") new commit(s)"
+}
+
+# Moves the "How the review was addressed" section out of SUMMARY (the PR description) into REVIEW_RESPONSE
+split_review_response() {
+  local response
+  response=$(awk '/^#+ *How the review was addressed/{f=1; next} f && /^#+ /{exit} f' <<<"${SUMMARY}")
+  if [[ -n "${response//[[:space:]]/}" ]]; then
+    REVIEW_RESPONSE="${response}"
+    SUMMARY=$(awk '/^#+ *How the review was addressed/{f=1; next} f && /^#+ /{f=0} !f' <<<"${SUMMARY}")
+  fi
+}
+
+# Comment posted on the PR with the review and how it was addressed
+review_comment() { # worktree
+  local fixes=""
+  if [[ -n "${REVIEW_FIX_FROM}" ]] && (( $(git -C "$1" rev-list --count "${REVIEW_FIX_FROM}..HEAD" 2>/dev/null || echo 0) > 0 )); then
+    fixes=$(printf '\n\n### Commits from the review\n%s' "$(git -C "$1" log --reverse --format='- `%h` %s' "${REVIEW_FIX_FROM}..HEAD")")
+  fi
+  printf '%s **Code review** (a separate Claude session reviewed the change before this PR was opened) · verdict: **%s**\n\n%s%s%s' \
+    "${BOT}" "${REVIEW_VERDICT:-none}" "${REVIEW_TEXT}" \
+    "$( [[ -n "${REVIEW_RESPONSE//[[:space:]]/}" ]] && printf '\n\n### How the review was addressed\n%s' "${REVIEW_RESPONSE}")" \
+    "${fixes}"
+}
+
+# Posts Claude's question on the issue and saves what's needed to resume (including review progress)
+handle_question() { # repo num branch base
+  local repo=$1 num=$2 branch=$3 base=$4 key
+  key=$(key_for "${repo}" "${num}")
+  edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Paused: waiting for your answer')"
+  relabel "${repo}" "${num}" claude-wip claude-question
+  event question "Posted a question; waiting for ${ASSIGNEE}: $(head -c 300 <<<"${SUMMARY}" | tr '\n' ' ')"
+  post_comment "${repo}" "${num}" "$(printf '%s **Question from `%s`**\n\n%s\n\n---\n_Reply in a comment and I will resume where I left off. Only replies from @%s count. No reply within %s days and I will give up._' \
+    "${BOT}" "${WORKER}" "${SUMMARY}" "${ASSIGNEE}" "${QUESTION_TIMEOUT_DAYS}")" >/dev/null
+  # asked_at is recorded after posting, so only comments made after the question count as answers
+  jq -n --arg repo "${repo}" --arg num "${num}" --arg branch "${branch}" --arg base "${base}" \
+    --arg sid "${SID}" --arg asked "$(now_iso)" --arg rdone "${REVIEW_DONE}" --arg rtext "${REVIEW_TEXT}" \
+    --arg rresp "${REVIEW_RESPONSE}" --arg rverdict "${REVIEW_VERDICT}" --arg rfrom "${REVIEW_FIX_FROM}" \
+    '{phase: "question", repo: $repo, num: ($num | tonumber), branch: $branch, base: $base, session_id: $sid, asked_at: $asked,
+      review: {done: ($rdone == "true"), text: $rtext, response: $rresp, verdict: $rverdict, fix_from: $rfrom}}' \
+    > "${STATE_ROOT}/${key}.json"
+}
+
 # Decides what to do once an issue run ends: open a PR, post a question, or give up.
 handle_result() { # repo num branch base
   local repo=$1 num=$2 branch=$3 base=$4
@@ -466,18 +611,22 @@ handle_result() { # repo num branch base
   event claude_result "Claude finished: status=${STATUS:-none} rc=${RC} commits=${commits} (${STATS})"
 
   if [[ "${STATUS}" == "QUESTION" && -n "${SID}" ]]; then
-    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Paused: waiting for your answer')"
-    relabel "${repo}" "${num}" claude-wip claude-question
-    event question "Posted a question; waiting for ${ASSIGNEE}: $(head -c 300 <<<"${SUMMARY}" | tr '\n' ' ')"
-    post_comment "${repo}" "${num}" "$(printf '%s **Question from `%s`**\n\n%s\n\n---\n_Reply in a comment and I will resume where I left off. Only replies from @%s count. No reply within %s days and I will give up._' \
-      "${BOT}" "${WORKER}" "${SUMMARY}" "${ASSIGNEE}" "${QUESTION_TIMEOUT_DAYS}")" >/dev/null
-    # asked_at is recorded after posting, so only comments made after the question count as answers
-    jq -n --arg repo "${repo}" --arg num "${num}" --arg branch "${branch}" --arg base "${base}" \
-      --arg sid "${SID}" --arg asked "$(now_iso)" \
-      '{phase: "question", repo: $repo, num: ($num | tonumber), branch: $branch, base: $base, session_id: $sid, asked_at: $asked}' \
-      > "${STATE_ROOT}/${key}.json"
+    handle_question "${repo}" "${num}" "${branch}" "${base}"
     return
   fi
+
+  if (( commits > 0 )) && [[ "${RUN_REVIEW:-false}" == "true" && "${REVIEW_DONE}" != "true" ]]; then
+    run_review "${repo}" "${num}" "${dir}" "${base}"
+    if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return; fi
+    if [[ "${STATUS}" == "QUESTION" && -n "${SID}" ]]; then
+      handle_question "${repo}" "${num}" "${branch}" "${base}"
+      return
+    fi
+    commits=$(git -C "${dir}" rev-list --count "origin/${base}..HEAD" 2>/dev/null || echo 0)
+  fi
+
+  # A run resumed after a question asked while addressing the review also carries the response section
+  [[ "${REVIEW_DONE}" == "true" ]] && split_review_response
 
   if (( commits > 0 )); then
     edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
@@ -494,6 +643,7 @@ handle_result() { # repo num branch base
     fi
     relabel "${repo}" "${num}" claude-wip claude-pr
     event pr_opened "Opened ${pr}; watching it"
+    [[ "${REVIEW_DONE}" == "true" ]] && post_comment "${repo}" "${pr##*/}" "$(review_comment "${dir}")" >/dev/null
     post_comment "${repo}" "${num}" "$(printf '%s **Work complete**: %s\n\n### Summary\n%s\n\n%s\n\n---\n_`%s` · %s · I will keep watching the PR for failing checks, merge conflicts and your review comments._' \
       "${BOT}" "${pr}" "${SUMMARY}" "$(change_list "${dir}" "origin/${base}")" "${WORKER}" "${STATS}")" >/dev/null
     # Keep the worktree and session so the PR can be watched and fixed, but free the space taken by
@@ -525,6 +675,7 @@ start_task() { # repo num
   dir="${TREE_ROOT}/${key}"
   CUR_REF="${repo}#${num}"
   CUR_PHASE="new issue"
+  REVIEW_DONE=false; REVIEW_TEXT=""; REVIEW_RESPONSE=""; REVIEW_VERDICT=""; REVIEW_FIX_FROM=""
   resolve_model "${repo}" "${num}"
 
   event claim "Claiming ${repo}#${num}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
@@ -568,6 +719,9 @@ resume_task() { # state-file
   local sf=$1 repo num branch base sid asked info
   repo=$(jq -r .repo "${sf}"); num=$(jq -r .num "${sf}"); branch=$(jq -r .branch "${sf}")
   base=$(jq -r .base "${sf}"); sid=$(jq -r .session_id "${sf}"); asked=$(jq -r .asked_at "${sf}")
+  REVIEW_DONE=$(jq -r '.review.done // false' "${sf}"); REVIEW_TEXT=$(jq -r '.review.text // ""' "${sf}")
+  REVIEW_RESPONSE=$(jq -r '.review.response // ""' "${sf}"); REVIEW_VERDICT=$(jq -r '.review.verdict // ""' "${sf}")
+  REVIEW_FIX_FROM=$(jq -r '.review.fix_from // ""' "${sf}")
   CUR_REF="${repo}#${num}"
 
   info=$(gh issue view "${num}" --repo "${repo}" --json state,labels,comments 2>/dev/null) || return 1
