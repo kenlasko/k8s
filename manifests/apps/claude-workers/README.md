@@ -63,6 +63,15 @@ After `MAX_FIX_ROUNDS` (3) automatic rounds, the worker posts a comment on the P
 ## Usage
 Open an issue in one of the watched repos, describe the task, assign it to yourself, and add the `claude` label. Labelled issues that aren't assigned to `ASSIGNEE` are ignored. To retry a `claude-failed` issue, add a comment with clarification and put the `claude` label back.
 
+### Stopping a task
+Add the **`claude-stop`** label to the issue, from the GitHub app, the web, or `kubectl -n claude-workers exec claude-worker-0 -- claude-stop <issue>` (use `owner/repo#number` when watching several repos). Within about a minute (`PROGRESS_INTERVAL`), the worker handling the issue:
+* stops Claude immediately if it's running, along with anything it started, such as a test run
+* discards the work: the issue's worktree and any commits that weren't pushed
+* drops any pending question or PR watching
+* swaps the labels for `claude-stopped` and posts a comment
+
+If the issue already has an open PR, the PR is **left open** but is no longer watched; close it if you don't want it. To start over, remove `claude-stopped` and add `claude`.
+
 ### Choosing the model and effort
 By default each run uses Claude Code's default model for your subscription (set `DEFAULT_MODEL` / `DEFAULT_EFFORT` to change that). An issue can pick its own in either of two ways; if both are present, the label wins:
 * **Labels**: `model:opus`, `model:sonnet`, `model:haiku` or `model:fable` (the latest model in that family), and `effort:low`, `effort:medium`, `effort:high`, `effort:xhigh` or `effort:max`. The worker creates these labels.
@@ -89,7 +98,7 @@ With `LOG_FORMAT=json` (the default), each line is a JSON object with `ts`, `lev
 ```
 Set `LOG_FORMAT=text` for plain lines instead.
 
-Each pod also has two helper commands:
+Each pod also has helper commands (`claude-stop` is described under [Stopping a task](#stopping-a-task)):
 ```
 kubectl -n claude-workers exec claude-worker-0 -- claude-status          # current task, questions waiting on you, watched PRs, recent activity
 kubectl -n claude-workers exec -it claude-worker-0 -- claude-log -f      # follow the activity log live, pretty-printed

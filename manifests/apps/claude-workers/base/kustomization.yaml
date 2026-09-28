@@ -14,3 +14,4 @@ configMapGenerator:
   - events.jq
   - claude-log
   - claude-status
+  - claude-stop

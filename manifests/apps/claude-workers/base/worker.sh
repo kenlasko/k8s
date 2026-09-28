@@ -138,6 +138,8 @@ for repo in ${REPOS}; do
   gh label create claude-pr       --repo "${repo}" --color 5319e7 --description "Claude opened a PR and is watching it" >/dev/null 2>&1
   gh label create claude-done     --repo "${repo}" --color 0e8a16 --description "Claude's PR was merged" >/dev/null 2>&1
   gh label create claude-failed   --repo "${repo}" --color d93f0b --description "Claude worker could not complete this" >/dev/null 2>&1
+  gh label create claude-stop     --repo "${repo}" --color b60205 --description "Stop the Claude worker on this issue and discard its work" >/dev/null 2>&1
+  gh label create claude-stopped  --repo "${repo}" --color cccccc --description "Stopped on request; work discarded" >/dev/null 2>&1
   for m in ${MODEL_LABELS}; do
     gh label create "model:${m}" --repo "${repo}" --color c5def5 --description "Claude worker: use the latest ${m} model" >/dev/null 2>&1
   done
@@ -232,6 +234,51 @@ model_args() {
   return 0
 }
 
+# --- Stopping ------------------------------------------------------------------------
+
+STOP_REQUESTED=0
+
+stop_requested() { # repo issue-num
+  [[ $(gh issue view "$2" --repo "$1" --json labels --jq 'any(.labels[]; .name == "claude-stop")' 2>/dev/null) == "true" ]]
+}
+
+# Stops work on an issue after the claude-stop label was added: discards its worktree and local commits,
+# drops any pending question or PR watch, and labels the issue claude-stopped. An open PR is left as is.
+stop_issue() { # repo num
+  local repo=$1 num=$2 key sf dir pr="" unpushed=0 note=""
+  key=$(key_for "${repo}" "${num}")
+  sf="${STATE_ROOT}/${key}.json"
+  dir="${TREE_ROOT}/${key}"
+  [[ -f "${sf}" ]] && pr=$(jq -r '.pr // empty' "${sf}")
+  [[ -d "${dir}" ]] && unpushed=$(git -C "${dir}" rev-list --count HEAD --not --remotes=origin 2>/dev/null || echo 0)
+
+  if (( STOP_REQUESTED )) && [[ -n "${PROGRESS_ID:-}" ]]; then
+    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" 'Stopped on request')"
+  fi
+  cleanup "${repo}" "${num}" "claude/issue-${num}"
+  gh issue edit "${num}" --repo "${repo}" --add-label claude-stopped \
+    --remove-label "claude-stop,claude-wip,claude-question,claude-pr,${TRIGGER_LABEL}" >/dev/null 2>&1
+
+  (( unpushed > 0 )) && note+=" Discarded ${unpushed} local commit(s) that were not pushed."
+  [[ -n "${pr}" ]] && note+=" PR #${pr} is left open but is no longer watched; close it if you don't want it."
+  post_comment "${repo}" "${num}" "${BOT} Stopped on request by \`${WORKER}\`.${note} To start over, remove \`claude-stopped\` and add \`${TRIGGER_LABEL}\`." >/dev/null
+  log_event warn stopped "Stopped on request; work discarded${pr:+, PR #${pr} left open and unwatched}"
+}
+
+# Handles claude-stop on issues that aren't running right now (queued, waiting on a question, or a watched PR).
+# Running tasks are stopped from run_claude's progress loop instead.
+stop_sweep() {
+  local repo num
+  for repo in ${REPOS}; do
+    for num in $(gh issue list --repo "${repo}" --label claude-stop --assignee "${ASSIGNEE}" --state open --limit 100 --json number \
+        --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null); do
+      CUR_REF="${repo}#${num}"
+      stop_issue "${repo}" "${num}"
+    done
+  done
+  CUR_REF=""
+}
+
 # Runs Claude in the background while keeping a progress comment on issue/PR <num> up to date.
 # Sets RESULT_LOG, PROGRESS_ID and RC.
 run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse]
@@ -265,10 +312,22 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
         fi
     exit "${PIPESTATUS[1]}"
   ) &
-  local pid=$!
+  local pid=$! tpid
   while kill -0 "${pid}" 2>/dev/null; do
     sleep "${PROGRESS_INTERVAL}" & wait $!
-    kill -0 "${pid}" 2>/dev/null && edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" Working)"
+    kill -0 "${pid}" 2>/dev/null || break
+    if stop_requested "${CUR_REF%#*}" "${CUR_REF##*#}"; then
+      log_event warn stop_requested "claude-stop label found; stopping the Claude run"
+      STOP_REQUESTED=1
+      # timeout runs claude in its own process group and forwards signals to it, so claude and anything it
+      # started (test runners, builds) all get the TERM; KILL the group if it hasn't gone after 15s.
+      tpid=$(pgrep -P "${pid}" -x timeout | head -n1)
+      [[ -n "${tpid}" ]] && kill -TERM "${tpid}" 2>/dev/null
+      for _ in $(seq 15); do kill -0 "${pid}" 2>/dev/null || break; sleep 1; done
+      [[ -n "${tpid}" ]] && kill -KILL -- "-${tpid}" 2>/dev/null
+      break
+    fi
+    edit_comment "${repo}" "${PROGRESS_ID}" "$(progress_body "${RESULT_LOG}" Working)"
   done
   wait "${pid}"
   RC=$?
@@ -308,8 +367,9 @@ parse_result() { # worktree
 # background command), resume the session and tell it to finish, up to MAX_CONTINUES times.
 finish_run() { # repo issue-or-pr-num worktree
   local attempt=0
+  (( STOP_REQUESTED )) && return
   parse_result "$3"
-  while [[ -z "${STATUS}" && -n "${SID}" ]] && (( attempt < MAX_CONTINUES )); do
+  while [[ -z "${STATUS}" && -n "${SID}" ]] && (( attempt < MAX_CONTINUES )) && (( ! STOP_REQUESTED )); do
     attempt=$((attempt + 1))
     warn "Run ended without a STATUS line; resuming it (${attempt}/${MAX_CONTINUES})"
     CUR_PHASE="continue ${attempt}/${MAX_CONTINUES}"
@@ -401,6 +461,7 @@ handle_result() { # repo num branch base
   dir="${TREE_ROOT}/${key}"
 
   finish_run "${repo}" "${num}" "${dir}"
+  if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return; fi
   commits=$(git -C "${dir}" rev-list --count "origin/${base}..HEAD" 2>/dev/null || echo 0)
   event claude_result "Claude finished: status=${STATUS:-none} rc=${RC} commits=${commits} (${STATS})"
 
@@ -675,6 +736,7 @@ Use STATUS: QUESTION only if you need an answer from the reviewer before you can
 
 ${RULES}" "${sid}"
   finish_run "${repo}" "${pr}" "${dir}"
+  if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return 0; fi
   after=$(git -C "${dir}" rev-parse HEAD)
 
   local heading body
@@ -733,8 +795,10 @@ while (( ! stopping )); do
   did_work=0
   CUR_REF=""
   CUR_PHASE=""
+  STOP_REQUESTED=0
   rotate_logs
   clean_tmp
+  stop_sweep
   # Watched PRs and answered questions first, so in-flight work is finished before new issues are started
   for sf in "${STATE_ROOT}"/*.json; do
     [[ -e "${sf}" ]] || continue
