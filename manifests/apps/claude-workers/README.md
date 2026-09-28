@@ -17,6 +17,8 @@ PR descriptions follow the repo's **pull request template**, if it has one, foun
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
+**Testing is split between the worker and CI.** Claude is told not to run the full test suite, coverage or full builds on the worker, which is slow. It runs only the tests that cover the code it changed (plus any tests it added), with lint and type-checking scoped to the changed files where the tooling allows. The complete suite runs in GitHub CI on the PR. If it fails, [PR watching](#pr-watching) hands the failure logs back to Claude, which fixes the problem, re-runs only the failing tests locally and pushes. Each CI failure uses one of the `MAX_FIX_ROUNDS`.
+
 If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 60 minutes by default and 90 at most, so long test and build runs can finish in the foreground.
 
 Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes issues in its own shard and two workers never grab the same one. This also guarantees a resumed issue lands on the pod that holds its saved session. The catch is that a worker busy with a long task holds up the rest of its shard, even if the other workers are idle.

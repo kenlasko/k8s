@@ -48,8 +48,9 @@ BOT="🤖"
 RULES="How to work:
 - You are running unattended. Nobody can answer you mid-run, and interactive prompts are disabled.
 - Commit your work on the current branch with clear commit messages. Do NOT push, open PRs, or switch branches; that is handled for you.
-- Run whatever lint/tests the repo provides before finishing.
-- Never end your turn to wait for something, and never run commands in the background: your run ends the moment you stop, and anything still running is lost. Run long commands (tests, coverage, builds) in the foreground with a long timeout and wait for them to finish.
+- Testing: do NOT run the full test suite, coverage (e.g. test:cov), or full builds/e2e suites. This machine is slow, and GitHub CI runs the complete suite on the pull request; if it fails, you will be resumed with the failure logs to fix it.
+  Instead, verify only what you changed: run the test files that cover the code you touched (and any tests you added or updated), e.g. by passing file paths or a name pattern to the test runner, and run lint and type-checking scoped to the changed files or package where the tooling allows.
+- Never end your turn to wait for something, and never run commands in the background: your run ends the moment you stop, and anything still running is lost. Run commands in the foreground and wait for them to finish.
 - You have read-only kubectl access to the cluster if you need to inspect live state.
 - Ask questions freely: whenever there is a meaningful choice (design, scope, naming, behaviour, or anything ambiguous), stop and ask instead of guessing. Commit any work in progress first. Your run ends when you ask; the question is posted on GitHub and you will be resumed in this same session with the answer.
 - Your final message is posted on GitHub, so always write one, even if you are unsure whether the work is complete.
@@ -667,6 +668,7 @@ The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merg
 ${sections}
 Fix these in this worktree and commit the fixes. Do not push; that is handled for you.
 Installed dependencies (node_modules) were removed from this worktree to save space; reinstall them (e.g. npm ci) if you need to run anything.
+For failing checks: fix the cause shown in the logs, and re-run only the failing tests or checks locally to confirm; do not run the full suite, since CI will run it again after the fix is pushed.
 For review feedback: make the requested changes. If a comment is a question, answer it in your final message.
 Your final message is posted on the PR, so summarize what you changed in this round.
 Use STATUS: QUESTION only if you need an answer from the reviewer before you can continue.
