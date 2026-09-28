@@ -29,6 +29,7 @@ PROGRESS_INTERVAL="${PROGRESS_INTERVAL:-60}"
 QUESTION_TIMEOUT_DAYS="${QUESTION_TIMEOUT_DAYS:-7}"
 MAX_FIX_ROUNDS="${MAX_FIX_ROUNDS:-3}"
 MAX_TURNS="${MAX_TURNS:-250}"
+MAX_CONTINUES="${MAX_CONTINUES:-2}"
 TASK_TIMEOUT="${TASK_TIMEOUT:-2h}"
 # Every comment the worker posts starts with this marker, so they are never mistaken for replies
 # (the GitHub token may belong to the same account as ASSIGNEE).
@@ -38,6 +39,7 @@ RULES="How to work:
 - You are running unattended. Nobody can answer you mid-run, and interactive prompts are disabled.
 - Commit your work on the current branch with clear commit messages. Do NOT push, open PRs, or switch branches; that is handled for you.
 - Run whatever lint/tests the repo provides before finishing.
+- Never end your turn to wait for something, and never run commands in the background: your run ends the moment you stop, and anything still running is lost. Run long commands (tests, coverage, builds) in the foreground with a long timeout and wait for them to finish.
 - You have read-only kubectl access to the cluster if you need to inspect live state.
 - Ask questions freely: whenever there is a meaningful choice (design, scope, naming, behaviour, or anything ambiguous), stop and ask instead of guessing. Commit any work in progress first. Your run ends when you ask; the question is posted on GitHub and you will be resumed in this same session with the answer.
 - Your final message is posted on GitHub, so always write one, even if you are unsure whether the work is complete.
@@ -118,14 +120,19 @@ progress_body() { # stream-json log, status text
 
 # Runs Claude in the background while keeping a progress comment on issue/PR <num> up to date.
 # Sets RESULT_LOG, PROGRESS_ID and RC.
-run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume]
-  local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-}
+run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse]
+  local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-}
   RESULT_LOG="${LOG_ROOT}/$(key_for "${repo}" "${num}")-$(date +%Y%m%d-%H%M%S).jsonl"
   local args=(-p --output-format stream-json --verbose --max-turns "${MAX_TURNS}"
     --dangerously-skip-permissions --disallowedTools AskUserQuestion)
   [[ -n "${resume}" ]] && args+=(--resume "${resume}")
 
-  PROGRESS_ID=$(post_comment "${repo}" "${num}" "${BOT} **Starting** on \`${WORKER}\`…")
+  if [[ -n "${reuse}" ]]; then
+    PROGRESS_ID="${reuse}"
+    edit_comment "${repo}" "${PROGRESS_ID}" "${BOT} **Continuing** on \`${WORKER}\`…"
+  else
+    PROGRESS_ID=$(post_comment "${repo}" "${num}" "${BOT} **Starting** on \`${WORKER}\`…")
+  fi
   log "Running Claude on ${repo}#${num}${resume:+ (resuming ${resume})} (log: ${RESULT_LOG})"
 
   ( cd "${dir}" && printf '%s' "${prompt}" | timeout "${TASK_TIMEOUT}" claude "${args[@]}" ) \
@@ -163,6 +170,22 @@ parse_result() { # worktree
   [[ -z "${SUMMARY//[[:space:]]/}" ]] && SUMMARY="_Claude returned no summary (${subtype}, exit code ${RC})._"
 }
 
+# parse_result, plus: if Claude stopped without a STATUS line (e.g. it ended its turn to "check back" on a
+# background command), resume the session and tell it to finish, up to MAX_CONTINUES times.
+finish_run() { # repo issue-or-pr-num worktree
+  local attempt=0
+  parse_result "$3"
+  while [[ -z "${STATUS}" && -n "${SID}" ]] && (( attempt < MAX_CONTINUES )); do
+    attempt=$((attempt + 1))
+    log "$1#$2: run ended without a STATUS line; resuming it (${attempt}/${MAX_CONTINUES})"
+    run_claude "$1" "$2" "$3" "Your last message did not end with a STATUS line, so your run was treated as unfinished and you have been resumed.
+Anything you started in the background during the previous run is no longer running and its output is lost.
+If you were waiting on something (tests, coverage, a build), run it again now in the foreground and wait for it to finish.
+Then commit your work and end your final message with a STATUS line as instructed earlier." "${SID}" "${PROGRESS_ID}"
+    parse_result "$3"
+  done
+}
+
 # Markdown list of commits and a diffstat for the range <from>..HEAD
 change_list() { # worktree from-ref
   local commits files
@@ -178,7 +201,7 @@ handle_result() { # repo num branch base
   key=$(key_for "${repo}" "${num}")
   dir="${TREE_ROOT}/${key}"
 
-  parse_result "${dir}"
+  finish_run "${repo}" "${num}" "${dir}"
   commits=$(git -C "${dir}" rev-list --count "origin/${base}..HEAD" 2>/dev/null || echo 0)
   log "Claude finished ${repo}#${num}: status=${STATUS:-none} rc=${RC} commits=${commits} (${STATS})"
 
@@ -426,7 +449,7 @@ Your final message is posted on the PR, so summarize what you changed in this ro
 Use STATUS: QUESTION only if you need an answer from the reviewer before you can continue.
 
 ${RULES}" "${sid}"
-  parse_result "${dir}"
+  finish_run "${repo}" "${pr}" "${dir}"
   after=$(git -C "${dir}" rev-parse HEAD)
 
   local heading body

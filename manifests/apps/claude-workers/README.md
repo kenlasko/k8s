@@ -15,6 +15,8 @@ Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn works
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
+If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 15 minutes by default and 60 at most, so long test and build runs can finish in the foreground.
+
 Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes issues in its own shard and two workers never grab the same one. This also guarantees a resumed issue lands on the pod that holds its saved session. The catch is that a worker busy with a long task holds up the rest of its shard, even if the other workers are idle.
 
 ## Questions
@@ -77,6 +79,8 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `PROGRESS_INTERVAL` | Seconds between progress comment updates |
 | `QUESTION_TIMEOUT_DAYS` | Days to wait for an answer before giving up |
 | `MAX_FIX_ROUNDS` | Automatic PR fix rounds before waiting for you |
+| `MAX_CONTINUES` | Resumes of a run that stopped without a `STATUS:` line |
+| `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
 
 To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
 
