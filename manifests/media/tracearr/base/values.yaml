@@ -2,7 +2,7 @@ image:
   # repository: connorgallopo/tracearr
   # tag: 2.5.1
   # registry: ghcr.io
-  repository: tracearr
+  repository: tracearr/tracearr
   tag: 2.5.1
   registry: registry.laskonet.com
 securityContext:
