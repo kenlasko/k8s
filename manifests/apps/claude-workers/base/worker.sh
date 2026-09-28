@@ -35,7 +35,12 @@ QUESTION_TIMEOUT_DAYS="${QUESTION_TIMEOUT_DAYS:-7}"
 MAX_FIX_ROUNDS="${MAX_FIX_ROUNDS:-3}"
 MAX_TURNS="${MAX_TURNS:-250}"
 MAX_CONTINUES="${MAX_CONTINUES:-2}"
-TASK_TIMEOUT="${TASK_TIMEOUT:-2h}"
+TASK_TIMEOUT="${TASK_TIMEOUT:-3h}"
+DEFAULT_MODEL="${DEFAULT_MODEL:-}"   # empty = Claude Code's default for the subscription
+DEFAULT_EFFORT="${DEFAULT_EFFORT:-}" # empty = Claude Code's default
+TMP_CLEAN_MINUTES="${TMP_CLEAN_MINUTES:-60}"
+MODEL_LABELS="opus sonnet haiku fable"
+EFFORT_LEVELS="low medium high xhigh max"
 # Every comment the worker posts starts with this marker, so they are never mistaken for replies
 # (the GitHub token may belong to the same account as ASSIGNEE).
 BOT="🤖"
@@ -86,6 +91,23 @@ set_status() { # state [phase]
     && mv -f "${STATUS_FILE}.tmp" "${STATUS_FILE}"
 }
 
+# Logs disk usage of the workspace and /tmp, warning above 85%
+check_disk() {
+  local target size used avail pcent
+  while read -r target size used avail pcent; do
+    if (( ${pcent%\%} >= 85 )); then
+      warn "Disk nearly full: ${target} ${used} of ${size} used (${pcent}), ${avail} free"
+    else
+      log "Disk: ${target} ${used} of ${size} used (${pcent}), ${avail} free"
+    fi
+  done < <(df -h --output=target,size,used,avail,pcent /workspace /tmp 2>/dev/null | tail -n +2)
+}
+
+# Removes stale temp files left behind by earlier runs (only one task runs per pod at a time)
+clean_tmp() {
+  find /tmp -mindepth 1 -maxdepth 1 -mmin +"${TMP_CLEAN_MINUTES}" -exec rm -rf {} + 2>/dev/null
+}
+
 rotate_logs() {
   if (( $(stat -c %s "${WORKER_LOG}" 2>/dev/null || echo 0) > 20 * 1024 * 1024 )); then
     mv -f "${WORKER_LOG}" "${WORKER_LOG}.1"
@@ -115,6 +137,12 @@ for repo in ${REPOS}; do
   gh label create claude-pr       --repo "${repo}" --color 5319e7 --description "Claude opened a PR and is watching it" >/dev/null 2>&1
   gh label create claude-done     --repo "${repo}" --color 0e8a16 --description "Claude's PR was merged" >/dev/null 2>&1
   gh label create claude-failed   --repo "${repo}" --color d93f0b --description "Claude worker could not complete this" >/dev/null 2>&1
+  for m in ${MODEL_LABELS}; do
+    gh label create "model:${m}" --repo "${repo}" --color c5def5 --description "Claude worker: use the latest ${m} model" >/dev/null 2>&1
+  done
+  for e in ${EFFORT_LEVELS}; do
+    gh label create "effort:${e}" --repo "${repo}" --color d4c5f9 --description "Claude worker: ${e} effort" >/dev/null 2>&1
+  done
 done
 
 # --- GitHub helpers ---------------------------------------------------------
@@ -160,8 +188,47 @@ progress_body() { # stream-json log, status text
   actions=$(jq -Rrn '[inputs | fromjson? | select(.type=="assistant") | .message.content[]? | select(.type=="tool_use")
       | "- **\(.name)** " + ((.input.description // .input.command // .input.file_path // .input.pattern // .input.url // .input.prompt // "")
       | tostring | gsub("[`\n]"; " ") | .[0:120])] | .[-8:] | .[]' "${logfile}" 2>/dev/null)
-  printf '%s **%s** on `%s` · %s tool calls · updated %s\n\n%s\n\n**Recent actions**\n%s' \
-    "${BOT}" "${status}" "${WORKER}" "${calls:-0}" "$(date -u +'%Y-%m-%d %H:%M UTC')" "${narration}" "${actions:-_none yet_}"
+  local model
+  model=$(jq -Rrn '[inputs | fromjson? | select(.type == "system" and .subtype == "init") | .model] | last // ""' "${logfile}" 2>/dev/null)
+  printf '%s **%s** on `%s`%s · %s tool calls · updated %s\n\n%s\n\n**Recent actions**\n%s' \
+    "${BOT}" "${status}" "${WORKER}" "${model:+ · ${model}${RUN_EFFORT:+ (${RUN_EFFORT} effort)}}" "${calls:-0}" "$(date -u +'%Y-%m-%d %H:%M UTC')" "${narration}" "${actions:-_none yet_}"
+}
+
+# --- Model and effort ------------------------------------------------------------
+
+# Picks the model and effort for a run from the issue: a model:<name> / effort:<level> label, or a
+# "Model: <name>" / "Effort: <level>" line in the issue body (the label wins). Re-read before every run,
+# so changing the label mid-way (e.g. before a fix round) takes effect. Sets RUN_MODEL and RUN_EFFORT.
+resolve_model() { # repo issue-num
+  local info labels body model effort
+  info=$(gh issue view "$2" --repo "$1" --json labels,body 2>/dev/null) || info='{}'
+  labels=$(jq -r '[.labels[]?.name] | join(" ")' <<<"${info}")
+  body=$(jq -r '.body // ""' <<<"${info}")
+  model=$(grep -oE '(^| )model:[^ ]+' <<<"${labels}" | head -n1 | sed 's/.*model://')
+  effort=$(grep -oE '(^| )effort:[^ ]+' <<<"${labels}" | head -n1 | sed 's/.*effort://')
+  [[ -z "${model}" ]] && model=$(grep -ioP '^\s*[*_]*model[*_]*\s*:[*_]*\s*\K[A-Za-z0-9.\[\]-]+' <<<"${body}" | head -n1)
+  [[ -z "${effort}" ]] && effort=$(grep -ioP '^\s*[*_]*effort[*_]*\s*:[*_]*\s*\K[A-Za-z]+' <<<"${body}" | head -n1)
+  model=$(tr '[:upper:]' '[:lower:]' <<<"${model:-${DEFAULT_MODEL}}")
+  effort=$(tr '[:upper:]' '[:lower:]' <<<"${effort:-${DEFAULT_EFFORT}}")
+
+  if [[ -n "${model}" && ! "${model}" =~ ^(opus|sonnet|haiku|fable|opusplan|claude-[a-z0-9.-]+)(\[1m\])?$ ]]; then
+    warn "Ignoring unknown model '${model}'; using the default"
+    model=""
+  fi
+  if [[ -n "${effort}" && ! " ${EFFORT_LEVELS} " =~ \ ${effort}\  ]]; then
+    warn "Ignoring unknown effort '${effort}' (valid: ${EFFORT_LEVELS}); using the default"
+    effort=""
+  fi
+  RUN_MODEL="${model}"
+  RUN_EFFORT="${effort}"
+}
+
+# Extra claude CLI flags for the selected model/effort
+model_args() {
+  MODEL_ARGS=()
+  [[ -n "${RUN_MODEL:-}" ]] && MODEL_ARGS+=(--model "${RUN_MODEL}")
+  [[ -n "${RUN_EFFORT:-}" ]] && MODEL_ARGS+=(--effort "${RUN_EFFORT}")
+  return 0
 }
 
 # Runs Claude in the background while keeping a progress comment on issue/PR <num> up to date.
@@ -169,8 +236,9 @@ progress_body() { # stream-json log, status text
 run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse]
   local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-}
   RESULT_LOG="${LOG_ROOT}/$(key_for "${repo}" "${num}")-$(date +%Y%m%d-%H%M%S).jsonl"
+  model_args
   local args=(-p --output-format stream-json --verbose --max-turns "${MAX_TURNS}"
-    --dangerously-skip-permissions --disallowedTools AskUserQuestion)
+    --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}")
   [[ -n "${resume}" ]] && args+=(--resume "${resume}")
 
   if [[ -n "${reuse}" ]]; then
@@ -179,7 +247,7 @@ run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [pr
   else
     PROGRESS_ID=$(post_comment "${repo}" "${num}" "${BOT} **Starting** on \`${WORKER}\`…")
   fi
-  event claude_start "Running Claude on ${repo}#${num}${CUR_PHASE:+ (${CUR_PHASE})}${resume:+, resuming session ${resume}}; transcript: ${RESULT_LOG}"
+  event claude_start "Running Claude on ${repo}#${num}${CUR_PHASE:+ (${CUR_PHASE})}${resume:+, resuming session ${resume}}; model: ${RUN_MODEL:-default}, effort: ${RUN_EFFORT:-default}; transcript: ${RESULT_LOG}"
   set_status working "${CUR_PHASE:-}"
 
   # Raw stream-json goes to RESULT_LOG; events.jq turns it into readable log lines as it arrives.
@@ -218,12 +286,13 @@ parse_result() { # worktree
   SID=$(jq -Rrn '[inputs | fromjson? | .session_id? // empty] | last // ""' "${RESULT_LOG}")
   subtype=$(jq -r '.subtype // "no result"' <<<"${res}")
   SUMMARY=$(jq -r '.result // ""' <<<"${res}")
-  STATS=$(jq -r '"\(.num_turns // "?") turns, \((.duration_ms // 0) / 60000 | floor) min" + (if (.subtype // "success") != "success" then ", \(.subtype // "no result")" else "" end)' <<<"${res}")
+  RAN_MODEL=$(jq -Rrn '[inputs | fromjson? | select(.type == "system" and .subtype == "init") | .model] | last // ""' "${RESULT_LOG}")
+  STATS=$(jq -r --arg model "${RAN_MODEL}" '(if $model != "" then "\($model), " else "" end) + "\(.num_turns // "?") turns, \((.duration_ms // 0) / 60000 | floor) min" + (if (.subtype // "success") != "success" then ", \(.subtype // "no result")" else "" end)' <<<"${res}")
 
   if [[ -z "${SUMMARY//[[:space:]]/}" && -n "${SID}" ]]; then
     warn "Run ended without a final message (${subtype}, exit code ${RC}); asking the session for a summary"
     SUMMARY=$( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not make any more changes. Reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
-      | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion \
+      | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
           2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null )
   fi
   if [[ -z "${SUMMARY//[[:space:]]/}" ]]; then
@@ -300,7 +369,7 @@ build_pr_body() { # worktree issue-num
     rewrite=$( cd "${dir}" && printf '%s' "Your summary will be used as the pull request description, but it does not follow the repository's pull request template. Do not make any more changes to the code. Reply with ONLY the pull request description, filling in the template as described below, and nothing else (no STATUS line).
 
 $(pr_instructions "${dir}" "${num}")" \
-      | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion \
+      | timeout 10m claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
           2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null | grep -vE '^STATUS: ' )
     if [[ -n "${rewrite//[[:space:]]/}" ]]; then
       PR_BODY="${rewrite}"
@@ -365,6 +434,9 @@ handle_result() { # repo num branch base
     event pr_opened "Opened ${pr}; watching it"
     post_comment "${repo}" "${num}" "$(printf '%s **Work complete**: %s\n\n### Summary\n%s\n\n%s\n\n---\n_`%s` · %s · I will keep watching the PR for failing checks, merge conflicts and your review comments._' \
       "${BOT}" "${pr}" "${SUMMARY}" "$(change_list "${dir}" "origin/${base}")" "${WORKER}" "${STATS}")" >/dev/null
+    # Keep the worktree and session so the PR can be watched and fixed, but free the space taken by
+    # installed dependencies; a fix round reinstalls them (quickly, from the shared npm cache) if needed.
+    find "${dir}" -name node_modules -type d -prune -exec rm -rf {} + 2>/dev/null
     # Keep the worktree and session so the PR can be watched and fixed
     jq -n --arg repo "${repo}" --arg num "${num}" --arg branch "${branch}" --arg base "${base}" \
       --arg sid "${SID}" --arg pr "${pr##*/}" --arg now "$(now_iso)" \
@@ -391,6 +463,7 @@ start_task() { # repo num
   dir="${TREE_ROOT}/${key}"
   CUR_REF="${repo}#${num}"
   CUR_PHASE="new issue"
+  resolve_model "${repo}" "${num}"
 
   event claim "Claiming ${repo}#${num}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
   relabel "${repo}" "${num}" "${TRIGGER_LABEL}" claude-wip || return 1
@@ -456,6 +529,7 @@ resume_task() { # state-file
     return 1
   fi
 
+  resolve_model "${repo}" "${num}"
   event answer "Answer received from ${ASSIGNEE}; resuming session ${sid}"
   CUR_PHASE="answer"
   relabel "${repo}" "${num}" claude-question claude-wip
@@ -578,6 +652,7 @@ The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merg
   rounds=$((rounds + 1))
 
   # Pick up any commits pushed to the PR branch by someone else, so they are never overwritten
+  resolve_model "${repo}" "${num}"
   git -C "${dir}" fetch -q origin
   if git -C "${dir}" merge-base --is-ancestor HEAD "origin/${branch}" 2>/dev/null; then
     git -C "${dir}" merge -q --ff-only "origin/${branch}"
@@ -591,6 +666,7 @@ The PR no longer merges cleanly into ${base}. Run \`git fetch origin && git merg
 
 ${sections}
 Fix these in this worktree and commit the fixes. Do not push; that is handled for you.
+Installed dependencies (node_modules) were removed from this worktree to save space; reinstall them (e.g. npm ci) if you need to run anything.
 For review feedback: make the requested changes. If a comment is a question, answer it in your final message.
 Your final message is posted on the PR, so summarize what you changed in this round.
 Use STATUS: QUESTION only if you need an answer from the reviewer before you can continue.
@@ -628,6 +704,7 @@ ${RULES}" "${sid}"
 # --- Main loop ---------------------------------------------------------------
 
 rotate_logs
+clean_tmp
 set_status starting
 event worker_start "Worker ${ORDINAL}/${WORKER_COUNT} started (claude $(claude --version 2>/dev/null | head -n1)), watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
 
@@ -655,6 +732,7 @@ while (( ! stopping )); do
   CUR_REF=""
   CUR_PHASE=""
   rotate_logs
+  clean_tmp
   # Watched PRs and answered questions first, so in-flight work is finished before new issues are started
   for sf in "${STATE_ROOT}"/*.json; do
     [[ -e "${sf}" ]] || continue
@@ -684,6 +762,7 @@ while (( ! stopping )); do
       waiting=$(grep -l '"phase": "question"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
       watching=$(grep -l '"phase": "pr"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
       event idle "Idle: ${watching} PR(s) watched, ${waiting} question(s) waiting; polling every ${POLL_INTERVAL}s"
+      check_disk
       was_idle=1
     fi
     set_status idle

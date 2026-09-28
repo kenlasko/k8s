@@ -21,14 +21,14 @@ data:
   MAX_FIX_ROUNDS: "3"
   # Max agent turns (one think-then-act step, e.g. a command or file edit) per Claude run
   MAX_TURNS: "250"
-  TASK_TIMEOUT: "2h"
+  TASK_TIMEOUT: "3h"
   # Times to resume a run that stopped without a STATUS line before treating it as finished
   MAX_CONTINUES: "2"
   # Claude Code: no background commands (a headless run ends when Claude stops, losing them),
-  # and long enough command timeouts for full test/coverage/build runs in the foreground
+  # and long enough command timeouts (60 min default, 90 max) for full test/coverage/build runs in the foreground
   CLAUDE_CODE_DISABLE_BACKGROUND_TASKS: "1"
-  BASH_DEFAULT_TIMEOUT_MS: "900000"
-  BASH_MAX_TIMEOUT_MS: "3600000"
+  BASH_DEFAULT_TIMEOUT_MS: "3600000"
+  BASH_MAX_TIMEOUT_MS: "5400000"
   GIT_AUTHOR_NAME: "Claude Worker"
   GIT_AUTHOR_EMAIL: "claude-worker@users.noreply.github.com"
   GIT_COMMITTER_NAME: "Claude Worker"
@@ -37,5 +37,17 @@ data:
   LOG_FORMAT: "json"
   # Days to keep per-run Claude transcripts in /workspace/logs
   LOG_RETENTION_DAYS: "14"
+  # Model and effort when an issue doesn't pick one with a model:/effort: label or a "Model:"/"Effort:" line.
+  # Empty = Claude Code's default for the subscription. Model: opus, sonnet, haiku, fable or a full model ID.
+  DEFAULT_MODEL: ""
+  DEFAULT_EFFORT: ""
+  # npm: prefer the shared cache in $HOME/.npm over the network, and skip audit/fund lookups
+  npm_config_cache: "/workspace/home/.npm"
+  npm_config_prefer_offline: "true"
+  npm_config_audit: "false"
+  npm_config_fund: "false"
+  npm_config_update_notifier: "false"
+  # Files in /tmp older than this are removed between tasks
+  TMP_CLEAN_MINUTES: "60"
   DISABLE_AUTOUPDATER: "1"
   TZ: "America/Toronto"

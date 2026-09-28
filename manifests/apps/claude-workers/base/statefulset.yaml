@@ -70,9 +70,10 @@ spec:
         - name: worker-script
           mountPath: /opt/worker
       volumes:
+      # Node-local scratch space for npm, test runners and coverage. Exceeding sizeLimit evicts the pod.
       - name: tmp
         emptyDir:
-          sizeLimit: 2Gi
+          sizeLimit: 10Gi
       - name: worker-script
         configMap:
           name: worker-script
