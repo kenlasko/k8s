@@ -38,7 +38,7 @@ If a pod restarts mid-task, the issue is re-queued on startup. An issue that was
 While the issue is labelled `claude-pr`, the worker checks the PR on every poll. It looks for:
 * **Failing checks**, once every check on the latest commit has finished. For GitHub Actions jobs, the tail of the failed log is included.
 * **Merge conflicts** with the base branch. Claude merges the base in; it never rebases.
-* **Review feedback from whoever added the `claude` label**: reviews that request changes or have text, inline review comments, and PR comments. Approvals, other people's comments and the worker's own 🤖 comments are ignored.
+* **Feedback from whoever added the `claude` label**: reviews that request changes or have text, inline review comments, and comments on the PR **or on the original issue**. Approvals, other people's comments and the worker's own 🤖 comments are ignored.
 
 Anything it finds is handed to the same Claude session in the same worktree. The worker pushes the fix (never force-pushing) and posts a **fix round** comment on the PR with what changed. Commits pushed to the branch by someone else are pulled in first. CI failures and conflicts are each handled once per commit, so an unfixable failure doesn't loop.
 
