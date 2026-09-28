@@ -17,7 +17,7 @@ PR descriptions follow the repo's **pull request template**, if it has one, foun
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
-If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 15 minutes by default and 60 at most, so long test and build runs can finish in the foreground.
+If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 60 minutes by default and 90 at most, so long test and build runs can finish in the foreground.
 
 Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes issues in its own shard and two workers never grab the same one. This also guarantees a resumed issue lands on the pod that holds its saved session. The catch is that a worker busy with a long task holds up the rest of its shard, even if the other workers are idle.
 
@@ -61,6 +61,13 @@ After `MAX_FIX_ROUNDS` (3) automatic rounds, the worker posts a comment on the P
 ## Usage
 Open an issue in one of the watched repos, describe the task, assign it to yourself, and add the `claude` label. Labelled issues that aren't assigned to `ASSIGNEE` are ignored. To retry a `claude-failed` issue, add a comment with clarification and put the `claude` label back.
 
+### Choosing the model and effort
+By default each run uses Claude Code's default model for your subscription (set `DEFAULT_MODEL` / `DEFAULT_EFFORT` to change that). An issue can pick its own in either of two ways; if both are present, the label wins:
+* **Labels**: `model:opus`, `model:sonnet`, `model:haiku` or `model:fable` (the latest model in that family), and `effort:low`, `effort:medium`, `effort:high`, `effort:xhigh` or `effort:max`. The worker creates these labels.
+* **A line in the issue body**: `Model: sonnet` or `Effort: high` at the start of a line. A full model ID also works here, e.g. `Model: claude-opus-5-5`.
+
+The choice is re-read before every run, including resumed questions and PR fix rounds, so changing the label part-way through takes effect on the next run. The model actually used appears in the progress comment, the PR footer and the logs. Unknown values are ignored with a warning in the log.
+
 Follow along in the GitHub app or web. The progress comment updates every minute while Claude works, and questions arrive as issue comments, so GitHub notifications on your phone tell you when a worker needs you. To see everything waiting on you, filter issues by `label:claude-question`.
 
 See [Logging](#logging) for following a worker from the terminal or Grafana.
@@ -89,6 +96,8 @@ kubectl -n claude-workers exec claude-worker-0 -- claude-log -l          # list 
 ```
 For all workers at once: `for i in 0 1 2; do kubectl -n claude-workers exec claude-worker-$i -- claude-status; echo; done`
 
+When the worker goes idle it logs the disk usage of `/workspace` and `/tmp`, and warns above 85%.
+
 The raw stream-json transcript of every run is kept in `/workspace/logs/*.jsonl` for `LOG_RETENTION_DAYS` (14), and the activity log in `/workspace/logs/worker.log`, rotated at 20MB. The helpers live in the `worker-script` ConfigMap next to `worker.sh`, so changes to them roll out without rebuilding the image.
 
 ## Configuration
@@ -99,15 +108,26 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `TRIGGER_LABEL` | Label that queues an issue (default `claude`) |
 | `ASSIGNEE` | GitHub user an issue must be assigned to (default `kenlasko`) |
 | `WORKER_COUNT` | Must match the StatefulSet `replicas` |
-| `MAX_TURNS` / `TASK_TIMEOUT` | Limits for a single Claude run (default 250 turns, 2h) |
+| `MAX_TURNS` / `TASK_TIMEOUT` | Limits for a single Claude run (default 250 turns, 3h) |
 | `POLL_INTERVAL` | Seconds between GitHub polls when idle |
 | `PROGRESS_INTERVAL` | Seconds between progress comment updates |
 | `QUESTION_TIMEOUT_DAYS` | Days to wait for an answer before giving up |
 | `MAX_FIX_ROUNDS` | Automatic PR fix rounds before waiting for you |
 | `MAX_CONTINUES` | Resumes of a run that stopped without a `STATUS:` line |
 | `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
+| `DEFAULT_MODEL` / `DEFAULT_EFFORT` | Model and effort when an issue doesn't choose (empty = Claude Code's default) |
 | `LOG_FORMAT` | `json` (default, for Loki) or `text` |
+| `TMP_CLEAN_MINUTES` | Files in `/tmp` older than this are removed between tasks |
 | `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |
+
+### Storage and npm
+* **npm** uses one shared cache per pod (`/workspace/home/.npm`), prefers it over the network and skips audit/fund lookups, so installs in a fresh worktree come mostly from local disk.
+* **`/tmp`** is a 10Gi node-local `emptyDir` used by npm, test runners and coverage. Going over the limit evicts the pod. Leftovers older than `TMP_CLEAN_MINUTES` are removed between tasks.
+* **`node_modules`** is deleted from an issue's worktree once its PR is opened, so worktrees kept for PR watching don't fill the workspace. Claude reinstalls dependencies from the cache when a fix round needs them.
+* **The 20Gi workspace volume** can't be resized through the StatefulSet (Kubernetes doesn't allow changing `volumeClaimTemplates`). Expand each PVC directly instead; Longhorn supports online expansion:
+  ```
+  for i in 0 1 2; do kubectl -n claude-workers patch pvc workspace-claude-worker-$i -p '{"spec":{"resources":{"requests":{"storage":"40Gi"}}}}'; done
+  ```
 
 To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
 
