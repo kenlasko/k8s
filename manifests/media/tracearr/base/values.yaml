@@ -1,5 +1,5 @@
 image:
-  repository: connorgallopo/tracearr
+  repository: kenlasko/tracearr
   tag: 2.5.1
   registry: ghcr.io
   # repository: tracearr/tracearr
