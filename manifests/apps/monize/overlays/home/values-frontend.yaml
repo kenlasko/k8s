@@ -2,12 +2,12 @@ nameOverride: monize-frontend
 appKind: Deployment
 replicas: 2
 image:
-  # registry: registry.laskonet.com
-  # repository: monize/frontend
-  # tag: latest
-  registry: ghcr.io
-  repository: wmp/monize-frontend
-  tag: claude-vibrant-wright-iecavq-eed1ff5
+  registry: registry.laskonet.com
+  repository: monize/frontend
+  tag: latest
+  # registry: ghcr.io
+  # repository: wmp/monize-frontend
+  # tag: claude-vibrant-wright-iecavq-eed1ff5
   pullPolicy: Always
 hostUsers: false
 securityContext:

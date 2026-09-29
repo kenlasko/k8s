@@ -2,12 +2,12 @@ nameOverride: monize-backend
 appKind: Deployment
 replicas: 2
 image:
-  # registry: registry.laskonet.com
-  # repository: monize/backend
-  # tag: latest
-  registry: ghcr.io
-  repository: wmp/monize-backend
-  tag: claude-vibrant-wright-iecavq-eed1ff5
+  registry: registry.laskonet.com
+  repository: monize/backend
+  tag: latest
+  # registry: ghcr.io
+  # repository: wmp/monize-backend
+  # tag: claude-vibrant-wright-iecavq-eed1ff5
   pullPolicy: Always
 securityContext:
   allowPrivilegeEscalation: false
