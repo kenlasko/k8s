@@ -39,11 +39,11 @@ envFrom:
     name: env-secrets-tracearr  # JWT_SECRET, COOKIE_SECRET, DB_PASSWORD, DATABASE_URL, REDIS_URL
 resources:
   requests:
-    cpu: 250m
-    memory: 512Mi
+    cpu: 2m
+    memory: 250Mi
   limits:
     # cpu: 2000m
-    memory: 1Gi
+    memory: 300Mi
 service:
   port: 3000
 livenessProbe:
