@@ -59,7 +59,10 @@ spec:
     parameters:
       timescaledb.license: "timescale"
       timescaledb.telemetry_level: "off"
-  
+      # Hot standby refuses to start if these are lower than on the primary (home)
+      max_connections: "200"
+      max_locks_per_transaction: "128"
+
   managed:
     services:
       additional:
