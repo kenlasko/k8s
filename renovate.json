@@ -79,7 +79,7 @@
         "/(^|/)cluster-[^/]+\\.yaml$/"
       ],
       "matchStrings": [
-        "ghcr\\.io/kenlasko/timescaledb-cnpg:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
+        "ghcr\\.io/kenlasko/timescaledb-cnpg:(?<currentValue>[^@\\s]+)"
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "ghcr.io/kenlasko/timescaledb-cnpg"
