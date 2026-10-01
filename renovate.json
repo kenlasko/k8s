@@ -79,7 +79,7 @@
         "/(^|/)cluster-[^/]+\\.yaml$/"
       ],
       "matchStrings": [
-        "ghcr\\.io/adampetrovic/timescaledb-cnpg:(?<currentValue>\\S+)"
+        "ghcr\\.io/kenlasko/timescaledb-cnpg:(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "ghcr.io/kenlasko/timescaledb-cnpg"
@@ -140,14 +140,14 @@
         "kubernetes-sigs/gateway-api",
         "longhorn",
         "tailscale-operator",
-        "ghcr.io/adampetrovic/timescaledb-cnpg"
+        "ghcr.io/kenlasko/timescaledb-cnpg"
       ],
       "automerge": false
     },
     {
       "description": "Bump the TimescaleDB image and the in-database extension version in one PR",
       "matchPackageNames": [
-        "ghcr.io/adampetrovic/timescaledb-cnpg"
+        "ghcr.io/kenlasko/timescaledb-cnpg"
       ],
       "groupName": "timescaledb"
     },
