@@ -12,6 +12,7 @@ spec:
   extensions:
   - name: timescaledb
     ensure: present
+    version: "2.30.0"
 
 
 ---

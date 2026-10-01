@@ -82,7 +82,20 @@
         "ghcr\\.io/adampetrovic/timescaledb-cnpg:(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "docker",
-      "depNameTemplate": "ghcr.io/adampetrovic/timescaledb-cnpg"
+      "depNameTemplate": "ghcr.io/kenlasko/timescaledb-cnpg"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)database\\.yaml$/"
+      ],
+      "matchStrings": [
+        "name:\\s*timescaledb[ \\t]*\\n(?:[ \\t]+\\w+:.*\\n)*?[ \\t]+version:\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "timescaledb-extension",
+      "packageNameTemplate": "ghcr.io/kenlasko/timescaledb-cnpg",
+      "extractVersionTemplate": "^(?<version>\\d+\\.\\d+\\.\\d+)-18-trixie$"
     }
   ],
   "packageRules": [
@@ -130,6 +143,13 @@
         "ghcr.io/adampetrovic/timescaledb-cnpg"
       ],
       "automerge": false
+    },
+    {
+      "description": "Bump the TimescaleDB image and the in-database extension version in one PR",
+      "matchPackageNames": [
+        "ghcr.io/adampetrovic/timescaledb-cnpg"
+      ],
+      "groupName": "timescaledb"
     },
     {
       "matchManagers": [
