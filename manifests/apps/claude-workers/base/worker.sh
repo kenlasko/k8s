@@ -11,6 +11,9 @@
 # Failing checks, merge conflicts and review feedback from $ASSIGNEE are handed back to the same Claude session,
 # and the fix is pushed. After $MAX_FIX_ROUNDS automatic rounds it waits for $ASSIGNEE to reply before continuing.
 #
+# An issue with sub-issues isn't run itself: it stays claude-wip while its sub-issues are queued one at a time,
+# each once the previous one is closed (its PR merged). See "Sub-issue sequences" below.
+#
 # Each StatefulSet replica only takes issues where (issue number % WORKER_COUNT) == its pod ordinal,
 # so multiple workers never race for the same issue, and a resumed issue always lands on the pod holding its session.
 set -uo pipefail
@@ -196,6 +199,22 @@ relabel() { # repo num from-label to-label
   gh issue edit "$2" --repo "$1" --remove-label "$3" --add-label "$4" >/dev/null
 }
 
+# An issue's parent and its sub-issues (in GitHub's sub-issue order), as
+# {parent: {repo, number, title, body} | null, subs: [{repo, number, title, state, labels}]}
+issue_tree() { # repo num
+  gh api graphql -H 'GraphQL-Features: sub_issues' -f owner="${1%%/*}" -f name="${1#*/}" -F num="$2" -f query='
+    query($owner: String!, $name: String!, $num: Int!) {
+      repository(owner: $owner, name: $name) {
+        issue(number: $num) {
+          parent { number title body repository { nameWithOwner } }
+          subIssues(first: 100) { nodes { number title state repository { nameWithOwner } labels(first: 50) { nodes { name } } } }
+        }
+      }
+    }' --jq '.data.repository.issue | {
+      parent: (.parent | if . then {repo: .repository.nameWithOwner, number, title, body} else null end),
+      subs: [.subIssues.nodes[] | {repo: .repository.nameWithOwner, number, title, state, labels: [.labels.nodes[].name]}]}'
+}
+
 # --- Worktree / state helpers -----------------------------------------------
 
 key_for() { echo "${1//\//_}-$2"; } # repo num -> filesystem-safe key
@@ -292,12 +311,19 @@ stop_requested() { # repo issue-num
 # Stops work on an issue after the claude-stop label was added: discards its worktree and local commits,
 # drops any pending question or PR watch, and labels the issue claude-stopped. An open PR is left as is.
 stop_issue() { # repo num
-  local repo=$1 num=$2 key sf dir pr="" unpushed=0 note=""
+  local repo=$1 num=$2 key sf dir pr="" sub="" unpushed=0 note=""
   key=$(key_for "${repo}" "${num}")
   sf="${STATE_ROOT}/${key}.json"
   dir="${TREE_ROOT}/${key}"
   [[ -f "${sf}" ]] && pr=$(jq -r '.pr // empty' "${sf}")
+  [[ -f "${sf}" ]] && sub=$(jq -r 'select(.phase == "parent") | .current // empty' "${sf}")
   [[ -d "${dir}" ]] && unpushed=$(git -C "${dir}" rev-list --count HEAD --not --remotes=origin 2>/dev/null || echo 0)
+
+  # Stopping a sub-issue sequence also stops the sub-issue in progress (handled by the worker that owns it)
+  if [[ -n "${sub}" ]] && gh issue view "${sub}" --repo "${repo}" --json state,labels \
+      --jq '.state == "OPEN" and any(.labels[]; .name | IN("'"${TRIGGER_LABEL}"'", "claude-wip", "claude-question", "claude-pr"))' 2>/dev/null | grep -qx true; then
+    gh issue edit "${sub}" --repo "${repo}" --add-label claude-stop >/dev/null 2>&1 && note+=" Asked the worker on sub-issue #${sub} to stop as well."
+  fi
 
   if (( STOP_REQUESTED )) && [[ -n "${PROGRESS_ID:-}" ]]; then
     edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" 'Stopped on request')"
@@ -772,6 +798,10 @@ start_task() { # repo num
 
   # Whoever added the trigger label is the only person whose comments are acted on from here on
   TRUSTED_USER=$(trigger_user "${repo}" "${num}")
+  # A sub-issue queued by its parent's sequence was labelled by the worker's own account: trust whoever queued the parent
+  if [[ -n "${WORKER_LOGIN}" && "${TRUSTED_USER}" == "${WORKER_LOGIN}" ]]; then
+    TRUSTED_USER=$(parent_trust "${repo}" "${num}") || TRUSTED_USER="${WORKER_LOGIN}"
+  fi
   if [[ -z "${TRUSTED_USER}" ]]; then
     TRUSTED_USER="${ASSIGNEE}"
     warn "Could not tell who added '${TRIGGER_LABEL}'; trusting only @${ASSIGNEE}'s comments"
@@ -779,6 +809,15 @@ start_task() { # repo num
 
   event claim "Claiming ${repo}#${num} for @${TRUSTED_USER}: $(gh issue view "${num}" --repo "${repo}" --json title --jq .title 2>/dev/null)"
   relabel "${repo}" "${num}" "${TRIGGER_LABEL}" claude-wip || return 1
+
+  # An issue with sub-issues in this repo isn't run itself: its sub-issues are queued one at a time instead
+  local tree
+  tree=$(issue_tree "${repo}" "${num}" 2>>"${LOG_ROOT}/gh-errors.log") || tree='{"parent": null, "subs": []}'
+  if jq -e --arg repo "${repo}" 'any(.subs[]; .repo == $repo)' <<<"${tree}" >/dev/null; then
+    cleanup "${repo}" "${num}" "${branch}"
+    start_sequence "${repo}" "${num}" "${tree}"
+    return 0
+  fi
 
   if [[ ! -d "${clone}/.git" ]] && ! gh repo clone "${repo}" "${clone}" -- -q; then
     relabel "${repo}" "${num}" claude-wip claude-failed
@@ -810,7 +849,7 @@ ${RULES}
 $(pr_instructions "${dir}" "${num}")
 
 Issue #${num}:
-${issue}"
+${issue}$(sub_issue_context "${repo}" "${num}" "${tree}" "${base}")"
   handle_result "${repo}" "${num}" "${branch}" "${base}"
 }
 
@@ -1055,6 +1094,150 @@ ${RULES}" "${sid}" "" "${targets[1]:-}"
   return 0
 }
 
+# --- Sub-issue sequences ---------------------------------------------------------
+# An issue with sub-issues (in the same repo) isn't run itself. It stays claude-wip while the worker queues its
+# sub-issues one at a time, in GitHub's sub-issue order: it adds TRIGGER_LABEL to the first open one (and assigns
+# it to ASSIGNEE), waits for it to be closed (normally by its PR being merged), then queues the next. Each
+# sub-issue is an ordinary task for whichever worker owns its shard, and branches from a default branch that
+# already has the earlier sub-issues' work. A sub-issue with sub-issues of its own becomes a sequence too.
+
+SUB_ACTIVE='["'"${TRIGGER_LABEL}"'", "claude-wip", "claude-question", "claude-pr", "claude-stop"]'
+
+# Trigger user of the nearest ancestor queued by someone other than the worker's own account
+parent_trust() { # repo num
+  local repo=$1 num=$2 parent t _
+  for _ in 1 2 3 4 5; do
+    parent=$(issue_tree "${repo}" "${num}" 2>/dev/null | jq -r '.parent // empty | "\(.repo) \(.number)"') || return 1
+    [[ -z "${parent}" ]] && return 1
+    read -r repo num <<<"${parent}"
+    t=$(trigger_user "${repo}" "${num}")
+    if [[ -n "${t}" && "${t}" != "${WORKER_LOGIN}" ]]; then echo "${t}"; return 0; fi
+  done
+  return 1
+}
+
+# Checklist of a parent's sub-issues in this repo, ticking the finished ones
+sub_list() { # tree-json repo [current-num]
+  jq -r --arg repo "$2" --arg cur "${3:-}" '.subs[] | select(.repo == $repo)
+    | "- [\(if .state == "CLOSED" or (.labels | index("claude-done")) then "x" else " " end)] #\(.number)\(if (.number | tostring) == $cur then " ← in progress" else "" end)"' <<<"$1"
+}
+
+# Prompt text for a sub-issue: its parent and siblings, so Claude knows the bigger picture and stays in scope
+sub_issue_context() { # repo num tree-json base
+  local repo=$1 num=$2 prepo pnum parent siblings
+  prepo=$(jq -r '.parent.repo // empty' <<<"$3"); pnum=$(jq -r '.parent.number // empty' <<<"$3")
+  [[ -z "${pnum}" ]] && return 0
+  parent=$(jq -r '"# " + .parent.title + "\n\n" + (.parent.body // "")' <<<"$3")
+  siblings=$(issue_tree "${prepo}" "${pnum}" 2>/dev/null | jq -r --arg repo "${repo}" --argjson num "${num}" '.subs[]
+    | "- \(if .repo != $repo then .repo else "" end)#\(.number) \(.title): \(if .repo == $repo and .number == $num then "THIS ISSUE" elif .state == "CLOSED" or (.labels | index("claude-done")) then "done" else "open" end)"')
+  printf '\n\nContext: issue #%s is a sub-issue of %s#%s. The parent issue, for background only:\n%s\n\nIts sub-issues, in order. Done ones are finished, and their merged work is already on %s:\n%s\n\nWork only on issue #%s. The other sub-issues are handled separately, so do not do their work.' \
+    "${num}" "${prepo}" "${pnum}" "${parent}" "$4" "${siblings}" "${num}"
+}
+
+start_sequence() { # repo num tree-json
+  local repo=$1 num=$2 tree=$3 sf others
+  sf="${STATE_ROOT}/$(key_for "${repo}" "${num}").json"
+  jq -n --arg repo "${repo}" --arg num "${num}" --arg trusted "${TRUSTED_USER}" --arg now "$(now_iso)" \
+    '{phase: "parent", repo: $repo, num: ($num | tonumber), trusted: $trusted, started_at: $now, current: null, notified: null}' > "${sf}"
+  others=$(jq -r --arg repo "${repo}" '[.subs[] | select(.repo != $repo) | "\(.repo)#\(.number)"] | join(", ")' <<<"${tree}")
+  event sequence_start "Has $(jq --arg repo "${repo}" '[.subs[] | select(.repo == $repo)] | length' <<<"${tree}") sub-issue(s); queueing them one at a time"
+  post_comment "${repo}" "${num}" "$(printf '%s **Working through the sub-issues in order** (`%s`). Each one is queued once the previous one is closed (normally when its PR is merged), so it starts from the earlier ones'"'"' work. The order is re-read each time, so you can reorder or add sub-issues as it goes.\n\n%s%s\n\n---\n_If a sub-issue fails, fix it (re-add `%s` to it) or close it to skip it, and the sequence carries on. Add `claude-stop` here to stop the sequence and the sub-issue in progress._' \
+    "${BOT}" "${WORKER}" "$(sub_list "${tree}" "${repo}")" \
+    "${others:+$'\n\n'Sub-issues in other repos are not queued: ${others}}" "${TRIGGER_LABEL}")" >/dev/null
+  advance_sequence "${sf}" "${tree}"
+}
+
+# Queues the next unfinished sub-issue, or finishes the sequence if there are none left
+advance_sequence() { # state-file tree-json
+  local sf=$1 tree=$2 repo num next
+  repo=$(jq -r .repo "${sf}"); num=$(jq -r .num "${sf}")
+  next=$(jq -r --arg repo "${repo}" 'first(.subs[] | select(.repo == $repo and .state == "OPEN" and (.labels | index("claude-done") | not))) | .number' <<<"${tree}")
+  if [[ -z "${next}" ]]; then
+    finish_sequence "${sf}" "${tree}"
+    return
+  fi
+  queue_sub "${repo}" "${num}" "${next}" "${tree}"
+  update_state "${sf}" --argjson cur "${next}" '.current = $cur | .notified = null'
+}
+
+# Labels a sub-issue for a worker, carrying over the parent's model, effort and review choices
+queue_sub() { # repo parent-num sub-num tree-json
+  local repo=$1 num=$2 sub=$3 tree=$4 labels plabels pos total add=("${TRIGGER_LABEL}") remove=() args=() l
+  labels=$(jq -c --arg repo "${repo}" --argjson n "${sub}" 'first(.subs[] | select(.repo == $repo and .number == $n)) | .labels' <<<"${tree}")
+  if jq -e --argjson active "${SUB_ACTIVE}" 'any(.[]; . as $l | $active | index($l))' <<<"${labels}" >/dev/null; then
+    event sub_tracked "Sub-issue #${sub} is already queued or in progress; tracking it"
+    return
+  fi
+  plabels=$(gh issue view "${num}" --repo "${repo}" --json labels --jq '[.labels[].name]' 2>/dev/null) || plabels='[]'
+  for l in $(jq -r '.[] | select(startswith("model:") or startswith("effort:") or . == "claude-review")' <<<"${plabels}"); do
+    jq -e --arg p "${l%%:*}:" --arg l "${l}" 'any(.[]; . == $l or ($l != "claude-review" and startswith($p)))' <<<"${labels}" >/dev/null || add+=("${l}")
+  done
+  for l in claude-failed claude-stopped; do
+    jq -e --arg l "${l}" 'index($l)' <<<"${labels}" >/dev/null && remove+=("${l}")
+  done
+  pos=$(jq --arg repo "${repo}" --argjson n "${sub}" '[.subs[] | select(.repo == $repo)] | map(.number) | index($n) + 1' <<<"${tree}")
+  total=$(jq --arg repo "${repo}" '[.subs[] | select(.repo == $repo)] | length' <<<"${tree}")
+  args=(--add-label "$(IFS=,; echo "${add[*]}")" --add-assignee "${ASSIGNEE}")
+  (( ${#remove[@]} )) && args+=(--remove-label "$(IFS=,; echo "${remove[*]}")")
+  if ! gh issue edit "${sub}" --repo "${repo}" "${args[@]}" >/dev/null; then
+    warn "Could not queue sub-issue #${sub}; will retry"
+    return
+  fi
+  event sub_queued "Queued sub-issue #${sub} (${pos} of ${total})"
+  post_comment "${repo}" "${sub}" "${BOT} Queued by \`${WORKER}\` as sub-issue ${pos} of ${total} of #${num}." >/dev/null
+}
+
+finish_sequence() { # state-file tree-json
+  local sf=$1 tree=$2 repo num
+  repo=$(jq -r .repo "${sf}"); num=$(jq -r .num "${sf}")
+  event sequence_done "All sub-issues are closed; closing the parent"
+  post_comment "${repo}" "${num}" "$(printf '%s **All sub-issues are done** (`%s`).\n\n%s' "${BOT}" "${WORKER}" "$(sub_list "${tree}" "${repo}")")" >/dev/null
+  relabel "${repo}" "${num}" claude-wip claude-done
+  gh issue close "${num}" --repo "${repo}" --reason completed >/dev/null
+  rm -f "${sf}"
+}
+
+# Checks a sequence's sub-issue in progress, queueing the next one once it is closed. Never runs Claude, so always returns 1.
+check_parent() { # state-file
+  local sf=$1 repo num cur notified info tree sub labels
+  repo=$(jq -r .repo "${sf}"); num=$(jq -r .num "${sf}"); cur=$(jq -r '.current // empty' "${sf}")
+  notified=$(jq -r '.notified // empty' "${sf}")
+  TRUSTED_USER=$(jq -r '.trusted // env.ASSIGNEE' "${sf}")
+  CUR_REF="${repo}#${num}"
+
+  info=$(gh issue view "${num}" --repo "${repo}" --json state,labels 2>/dev/null) || return 1
+  if [[ $(jq -r .state <<<"${info}") != "OPEN" ]] || ! jq -e '.labels | any(.name == "claude-wip")' <<<"${info}" >/dev/null; then
+    event dropped "Parent closed or claude-wip removed; no more sub-issues will be queued${cur:+ (#${cur} carries on by itself)}"
+    rm -f "${sf}"
+    return 1
+  fi
+  tree=$(issue_tree "${repo}" "${num}" 2>>"${LOG_ROOT}/gh-errors.log") || return 1
+
+  if [[ -z "${cur}" ]]; then
+    advance_sequence "${sf}" "${tree}"
+    return 1
+  fi
+  sub=$(jq -c --arg repo "${repo}" --argjson n "${cur}" 'first(.subs[] | select(.repo == $repo and .number == $n)) // empty' <<<"${tree}")
+  if [[ -z "${sub}" ]] || jq -e '.state == "CLOSED" or (.labels | index("claude-done"))' <<<"${sub}" >/dev/null; then
+    event sub_done "Sub-issue #${cur} $([[ -z "${sub}" ]] && echo "was removed from the parent" || echo "is done")"
+    advance_sequence "${sf}" "${tree}"
+    return 1
+  fi
+
+  labels=$(jq -c .labels <<<"${sub}")
+  if jq -e --argjson active "${SUB_ACTIVE}" 'any(.[]; . as $l | $active | index($l))' <<<"${labels}" >/dev/null; then
+    [[ -n "${notified}" ]] && update_state "${sf}" '.notified = null'
+    return 1
+  fi
+  # Failed, stopped, or its PR was closed without merging: say so once and wait
+  if [[ "${notified}" != "${cur}" ]]; then
+    log_event warn sub_stuck "Sub-issue #${cur} needs attention ($(jq -r 'map(select(startswith("claude"))) | join(", ") | if . == "" then "no claude label" else . end' <<<"${labels}")); waiting"
+    post_comment "${repo}" "${num}" "${BOT} Sub-issue #${cur} needs attention, so the sequence is waiting. Re-add \`${TRIGGER_LABEL}\` to it to retry, or close it to skip it, and I will carry on with the next one." >/dev/null
+    update_state "${sf}" --argjson cur "${cur}" '.notified = $cur'
+  fi
+  return 1
+}
+
 # --- Main loop ---------------------------------------------------------------
 
 rotate_logs
@@ -1068,6 +1251,8 @@ for repo in ${REPOS}; do
       --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null); do
     sf="${STATE_ROOT}/$(key_for "${repo}" "${num}").json"
     CUR_REF="${repo}#${num}"
+    # A sub-issue sequence's parent stays claude-wip while it waits; it was never running
+    [[ -f "${sf}" && $(jq -r '.phase // "question"' "${sf}") == "parent" ]] && continue
     if [[ -f "${sf}" && $(jq -r '.phase // "question"' "${sf}") == "question" ]]; then
       warn "Interrupted while resuming; back to waiting on its question"
       relabel "${repo}" "${num}" claude-wip claude-question
@@ -1094,6 +1279,7 @@ while (( ! stopping )); do
     [[ -e "${sf}" ]] || continue
     case $(jq -r '.phase // "question"' "${sf}") in
       pr) check_pr "${sf}" && { did_work=1; break; } ;;
+      parent) check_parent "${sf}" ;;
       *)  resume_task "${sf}" && { did_work=1; break; } ;;
     esac
   done
@@ -1117,7 +1303,8 @@ while (( ! stopping )); do
       # Log once when going idle rather than on every poll
       waiting=$(grep -l '"phase": "question"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
       watching=$(grep -l '"phase": "pr"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
-      event idle "Idle: ${watching} PR(s) watched, ${waiting} question(s) waiting; polling every ${POLL_INTERVAL}s"
+      sequences=$(grep -l '"phase": "parent"' "${STATE_ROOT}"/*.json 2>/dev/null | wc -l)
+      event idle "Idle: ${watching} PR(s) watched, ${waiting} question(s) waiting, ${sequences} sub-issue sequence(s); polling every ${POLL_INTERVAL}s"
       check_disk
       was_idle=1
     fi

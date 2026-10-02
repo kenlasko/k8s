@@ -13,6 +13,8 @@ Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn works
    * anything else, or no commits: post Claude's explanation and label it `claude-failed`
 6. Watch the PR until it is merged (issue labelled `claude-done`) or closed. See [PR watching](#pr-watching)
 
+An issue with sub-issues is handled differently: its sub-issues are queued one at a time, in order. See [Sub-issues](#sub-issues).
+
 PR descriptions follow the repo's **pull request template**, if it has one, found in the same places GitHub looks (`.github/`, `docs/` or the root, or the first file in `.github/PULL_REQUEST_TEMPLATE/`). The template is included in Claude's instructions, and Claude writes the description by filling it in. If its description is missing any of the template's headings, the worker asks it to rewrite the description before opening the PR. `Closes #<n>` is added if Claude left it out. When a re-queued issue reuses its open PR, the description is replaced too.
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
@@ -43,6 +45,23 @@ While the issue is labelled `claude-pr`, the worker checks the PR on every poll.
 Anything it finds is handed to the same Claude session in the same worktree. Like the first run, each round gets a **progress comment** that updates every minute, posted **where the request came from**: on the issue for instructions left there, and on the PR for PR comments, reviews, failing checks and conflicts (on both if both). The worker pushes the fix (never force-pushing), then posts a result comment in the same place(s) with what changed. Commits pushed to the branch by someone else are pulled in first. CI failures and conflicts are each handled once per commit, so an unfixable failure doesn't loop.
 
 After `MAX_FIX_ROUNDS` (5) automatic rounds, the worker posts a comment on the PR and pauses. Any reply or review from you resets the count and it carries on. If Claude has a question during a fix round, it asks on the PR, and your reply there is treated as review feedback.
+
+## Sub-issues
+Label a parent issue `claude` and the worker works through its sub-issues **one at a time, in order**. The parent itself is never run. Instead:
+1. The parent stays `claude-wip`, and the worker posts a checklist of its sub-issues on it.
+2. The worker queues the first open sub-issue: it adds the `claude` label and assigns it to `ASSIGNEE`. From there the sub-issue is an ordinary task, handled by whichever worker owns its shard, with its own questions, review, PR and PR watching.
+3. Once that sub-issue is closed (normally when its PR is merged), the next one is queued. Its branch starts from the default branch, so it already has the earlier sub-issues' work.
+4. When no open sub-issues are left, the parent is labelled `claude-done` and closed.
+
+Details:
+* **Order** is GitHub's sub-issue order, re-read every time the next one is picked, so you can reorder or add sub-issues while the sequence runs. Sub-issues that are already closed or labelled `claude-done` are skipped.
+* **Claude's prompt** for a sub-issue includes the parent issue and the list of its sub-issues with their status, and tells Claude to do only that sub-issue's work.
+* **Labels carry over**: the parent's `model:`, `effort:` and `claude-review` labels are copied to each sub-issue when it is queued, unless the sub-issue sets its own model or effort.
+* **A failed or stopped sub-issue** (or one whose PR was closed without merging) holds up the sequence. The worker says so once on the parent. Re-add `claude` to the sub-issue to retry it, or close it to skip it, and the sequence carries on.
+* **Trust**: sub-issues are labelled by the worker's own account, so the person who added `claude` to the parent is the trusted user for each sub-issue.
+* **Stopping**: `claude-stop` on the parent ends the sequence and also stops the sub-issue in progress. Removing `claude-wip` from the parent (or closing it) just ends the sequence; the sub-issue in progress carries on.
+* A sub-issue with sub-issues of its own becomes a sequence too. Sub-issues in other repos are listed but not queued. An issue whose sub-issues are all in other repos is run as an ordinary issue.
+* Progress is checked on every poll by the worker that owns the parent's shard, so a long-running task on that worker delays the next sub-issue until it finishes.
 
 
 ## Setup
@@ -110,7 +129,7 @@ Set `LOG_FORMAT=text` for plain lines instead.
 
 Each pod also has helper commands (`claude-stop` is described under [Stopping a task](#stopping-a-task)):
 ```
-kubectl -n claude-workers exec claude-worker-0 -- claude-status          # current task, questions waiting on you, watched PRs, recent activity
+kubectl -n claude-workers exec claude-worker-0 -- claude-status          # current task, questions waiting on you, watched PRs, sub-issue sequences, recent activity
 kubectl -n claude-workers exec -it claude-worker-0 -- claude-log -f      # follow the activity log live, pretty-printed
 kubectl -n claude-workers exec claude-worker-0 -- claude-log -r 42       # replay Claude's latest run on issue/PR 42 (-f to follow one in progress)
 kubectl -n claude-workers exec claude-worker-0 -- claude-log -l          # list recent runs

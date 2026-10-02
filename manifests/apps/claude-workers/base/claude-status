@@ -34,5 +34,15 @@ done
 (( found )) || echo "  none"
 
 echo
+echo "Sub-issue sequences:"
+found=0
+for f in "${W}"/state/*.json; do
+  [[ -e "${f}" ]] || continue
+  jq -e '.phase == "parent"' "${f}" >/dev/null || continue
+  jq -r '"  \(.repo)#\(.num)   current: \(if .current then "#\(.current)" else "none" end)\(if .notified then "   STUCK, needs attention" else "" end)"' "${f}"; found=1
+done
+(( found )) || echo "  none"
+
+echo
 echo "Recent activity:"
 "$(dirname "$(readlink -f "$0")")/claude-log" -n "${1:-15}" 2>/dev/null | sed 's/^/  /' || echo "  none"
