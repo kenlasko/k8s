@@ -43,7 +43,9 @@ spec:
   externalClusters:
   - name: home-postgresql
     connectionParameters:
-      host: home-r
+      # Stream from the primary, not home-r: a replica can fork off the primary's
+      # timeline after a failover and would leave the standby stuck with it.
+      host: home-rw
       user: streaming_replica
       sslmode: verify-full
       dbname: postgres
