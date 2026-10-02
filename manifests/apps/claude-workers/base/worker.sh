@@ -328,8 +328,23 @@ stop_sweep() {
 
 # Runs Claude in the background while keeping a progress comment on issue/PR <num> up to date.
 # Sets RESULT_LOG, PROGRESS_ID and RC.
+# Headless runs can't accept the workspace trust dialog, and Claude checks trust against the main clone
+# (not the worktree), so without this the repo's .claude/settings.json is ignored with a warning on stderr.
+# Done before every run since Claude rewrites ~/.claude.json itself; only one Claude runs per pod, so no race.
+trust_repo() { # repo
+  local cfg="${HOME}/.claude.json" tmp
+  tmp=$(mktemp "${cfg}.XXXXXX") || return
+  if jq --arg p "${REPO_ROOT}/$1" '.projects[$p].hasTrustDialogAccepted = true' \
+      "$( [[ -s "${cfg}" ]] && echo "${cfg}" || echo /dev/stdin )" <<<'{}' > "${tmp}"; then
+    mv -f "${tmp}" "${cfg}"
+  else
+    rm -f "${tmp}"; warn "Could not mark ${REPO_ROOT}/$1 as trusted in ${cfg}"
+  fi
+}
+
 run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse] [also-post-progress-on-num]
   local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-} mirror=${7:-}
+  trust_repo "${repo}"
   RESULT_LOG="${LOG_ROOT}/$(key_for "${repo}" "${num}")-$(date +%Y%m%d-%H%M%S).jsonl"
   model_args
   local extra=()
