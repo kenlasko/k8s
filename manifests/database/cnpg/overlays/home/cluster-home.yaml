@@ -15,12 +15,16 @@ spec:
     size: 15Gi
   primaryUpdateStrategy: unsupervised
   switchoverDelay: 30
+  # Give a crashed primary (e.g. OOMKilled) time to restart in place before failing over.
+  # Without this, the old primary can finish crash recovery and archive WAL past the
+  # failover point, which forks replicas off the new primary's timeline.
+  failoverDelay: 30
   resources:
     requests:
       cpu: 10m
       memory: 250Mi
     limits:
-      memory: 2Gi
+      memory: 4Gi
   enableSuperuserAccess: true
   superuserSecret:
     name: postgresql-superuser
