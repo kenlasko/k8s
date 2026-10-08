@@ -11,7 +11,7 @@ Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn works
    * **DONE** with commits: push the branch, open a PR that `Closes #<n>`, post a **work complete** comment on the issue (summary, commits, files changed) and label it `claude-pr`
    * **QUESTION**: post the question on the issue, label it `claude-question`, save the session ID and move on to other work
    * anything else, or no commits: post Claude's explanation and label it `claude-failed`
-6. Watch the PR until it is merged (issue labelled `claude-done`) or closed. See [PR watching](#pr-watching)
+6. Watch the PR until it is merged (issue labelled `claude-done`) or closed. See [PR watching](#pr-watching). With [auto-merge](#auto-merge) on, the worker merges it itself once every check has passed
 
 An issue with sub-issues is handled differently: its sub-issues are queued one at a time, in order. See [Sub-issues](#sub-issues).
 
@@ -38,13 +38,26 @@ If a pod restarts mid-task, the issue is re-queued on startup. An issue that was
 
 ## PR watching
 While the issue is labelled `claude-pr`, the worker checks the PR on every poll. It looks for:
-* **Failing checks**, once every check on the latest commit has finished. For GitHub Actions jobs, the tail of the failed log is included.
+* **Failing checks** on the latest commit, **as soon as a check fails**. It doesn't wait for the rest of CI: Claude starts on the fix straight away, and the pushed fix starts a fresh CI run. Checks still running on the old commit are ignored. For GitHub Actions jobs, the tail of the failed log is included.
 * **Merge conflicts** with the base branch. Claude merges the base in; it never rebases.
 * **Feedback from whoever added the `claude` label**: reviews that request changes or have text, inline review comments, and comments on the PR **or on the original issue**. Approvals, other people's comments and the worker's own 🤖 comments are ignored.
 
-Anything it finds is handed to the same Claude session in the same worktree. Like the first run, each round gets a **progress comment** that updates every minute, posted **where the request came from**: on the issue for instructions left there, and on the PR for PR comments, reviews, failing checks and conflicts (on both if both). The worker pushes the fix (never force-pushing), then posts a result comment in the same place(s) with what changed. Commits pushed to the branch by someone else are pulled in first. CI failures and conflicts are each handled once per commit, so an unfixable failure doesn't loop.
+Anything it finds is handed to the same Claude session in the same worktree. Like the first run, each round gets a **progress comment** that updates every minute, posted **where the request came from**: on the issue for instructions left there, and on the PR for PR comments, reviews, failing checks and conflicts (on both if both). The worker pushes the fix (never force-pushing), then posts a result comment in the same place(s) with what changed. Commits pushed to the branch by someone else are pulled in first. Each failing check and each conflict is handled once per commit, so an unfixable failure doesn't loop. A check that fails later on the same commit, for example while Claude was working on a different failure without committing anything, gets its own round.
 
 After `MAX_FIX_ROUNDS` (5) automatic rounds, the worker posts a comment on the PR and pauses. Any reply or review from you resets the count and it carries on. If Claude has a question during a fix round, it asks on the PR, and your reply there is treated as review feedback.
+
+## Auto-merge
+Add the **`claude-automerge`** label, or an `Auto-merge: yes` line in the issue body, to have the worker merge the PR once it's all green. `Auto-merge: no` turns it off, and `DEFAULT_AUTO_MERGE` sets what happens when an issue says nothing (off by default). The label wins over the body line. It's checked on every poll, so you can add or remove the label while the PR is open.
+
+The worker merges when all of these are true on the PR's latest commit:
+* at least one check ran, and every check has finished with success, neutral or skipped. A PR with no CI is never auto-merged.
+* no unhandled feedback, failing checks or merge conflicts are waiting for a fix round
+* the PR isn't a draft, and no review requests changes
+* GitHub reports it as mergeable (`CLEAN`), so branch protection rules such as required approvals are respected
+
+It merges with `AUTO_MERGE_METHOD` (`merge`, `squash` or `rebase`; by default the first of those the repo allows), pinned to the commit it checked, so a commit pushed in the meantime is never merged unchecked. It then comments on the PR and labels the issue `claude-done`. If GitHub blocks the merge (for example, a required approval is missing) or the merge fails, the worker says so once per commit on the PR and keeps checking on every poll, so it merges as soon as the block clears.
+
+On a parent issue, `claude-automerge` is copied to each sub-issue, so a whole [sequence](#sub-issues) can run without you merging each PR.
 
 ## Sub-issues
 Label a parent issue `claude` and the worker works through its sub-issues **one at a time, in order**. The parent itself is never run. Instead:
@@ -56,7 +69,7 @@ Label a parent issue `claude` and the worker works through its sub-issues **one 
 Details:
 * **Order** is GitHub's sub-issue order, re-read every time the next one is picked, so you can reorder or add sub-issues while the sequence runs. Sub-issues that are already closed or labelled `claude-done` are skipped.
 * **Claude's prompt** for a sub-issue includes the parent issue and the list of its sub-issues with their status, and tells Claude to do only that sub-issue's work.
-* **Labels carry over**: the parent's `model:`, `effort:` and `claude-review` labels are copied to each sub-issue when it is queued, unless the sub-issue sets its own model or effort.
+* **Labels carry over**: the parent's `model:`, `effort:`, `claude-review` and `claude-automerge` labels are copied to each sub-issue when it is queued, unless the sub-issue sets its own model or effort.
 * **A failed or stopped sub-issue** (or one whose PR was closed without merging) holds up the sequence. The worker says so once on the parent. Re-add `claude` to the sub-issue to retry it, or close it to skip it, and the sequence carries on.
 * **Trust**: sub-issues are labelled by the worker's own account, so the person who added `claude` to the parent is the trusted user for each sub-issue.
 * **Stopping**: `claude-stop` on the parent ends the sequence and also stops the sub-issue in progress. Removing `claude-wip` from the parent (or closing it) just ends the sequence; the sub-issue in progress carries on.
@@ -158,6 +171,8 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
 | `DEFAULT_MODEL` / `DEFAULT_EFFORT` | Model and effort when an issue doesn't choose (empty = Claude Code's default) |
 | `DEFAULT_REVIEW` | Code review before the PR when an issue doesn't say (`false`) |
+| `DEFAULT_AUTO_MERGE` | Merge the PR once it's all green when an issue doesn't say (`false`) |
+| `AUTO_MERGE_METHOD` | `merge`, `squash` or `rebase` for auto-merge (empty = the first the repo allows) |
 | `LOG_FORMAT` | `json` (default, for Loki) or `text` |
 | `TMP_CLEAN_MINUTES` | Files in `/tmp` older than this are removed between tasks |
 | `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |

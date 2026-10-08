@@ -10,6 +10,8 @@
 # Once a PR is open the issue is labelled claude-pr and the worker watches the PR until it is merged or closed.
 # Failing checks, merge conflicts and review feedback from $ASSIGNEE are handed back to the same Claude session,
 # and the fix is pushed. After $MAX_FIX_ROUNDS automatic rounds it waits for $ASSIGNEE to reply before continuing.
+# Each failing check is acted on as soon as it fails, without waiting for the rest of CI to finish.
+# With auto-merge on (claude-automerge label), the worker merges the PR once every check has passed.
 #
 # An issue with sub-issues isn't run itself: it stays claude-wip while its sub-issues are queued one at a time,
 # each once the previous one is closed (its PR merged). See "Sub-issue sequences" below.
@@ -43,6 +45,8 @@ TASK_TIMEOUT="${TASK_TIMEOUT:-3h}"
 DEFAULT_MODEL="${DEFAULT_MODEL:-}"   # empty = Claude Code's default for the subscription
 DEFAULT_EFFORT="${DEFAULT_EFFORT:-}" # empty = Claude Code's default
 DEFAULT_REVIEW="${DEFAULT_REVIEW:-false}" # code review before the PR when an issue doesn't say
+DEFAULT_AUTO_MERGE="${DEFAULT_AUTO_MERGE:-false}" # merge the PR once it's all green, when an issue doesn't say
+AUTO_MERGE_METHOD="${AUTO_MERGE_METHOD:-}" # merge, squash or rebase; empty = the first the repo allows, in that order
 TMP_CLEAN_MINUTES="${TMP_CLEAN_MINUTES:-60}"
 MODEL_LABELS="opus sonnet haiku fable"
 EFFORT_LEVELS="low medium high xhigh max"
@@ -157,6 +161,7 @@ for repo in ${REPOS}; do
   gh label create claude-done     --repo "${repo}" --color 0e8a16 --description "Claude's PR was merged" >/dev/null 2>&1
   gh label create claude-failed   --repo "${repo}" --color d93f0b --description "Claude worker could not complete this" >/dev/null 2>&1
   gh label create claude-review   --repo "${repo}" --color 0052cc --description "Have a fresh Claude session review the work before the PR is opened" >/dev/null 2>&1
+  gh label create claude-automerge --repo "${repo}" --color 0e8a16 --description "Merge Claude's PR automatically once every check has passed" >/dev/null 2>&1
   gh label create claude-stop     --repo "${repo}" --color b60205 --description "Stop the Claude worker on this issue and discard its work" >/dev/null 2>&1
   gh label create claude-stopped  --repo "${repo}" --color cccccc --description "Stopped on request; work discarded" >/dev/null 2>&1
   for m in ${MODEL_LABELS}; do
@@ -291,6 +296,26 @@ resolve_model() { # repo issue-num
   else
     RUN_REVIEW="${DEFAULT_REVIEW}"
   fi
+}
+
+# Whether to merge the issue's PR once it's all green: claude-automerge label, or an "Auto-merge: yes/no" line
+# in the body, else DEFAULT_AUTO_MERGE. Re-read on every check, so it can be turned on or off while the PR is open.
+automerge_enabled() { # repo issue-num
+  local info am
+  info=$(gh issue view "$2" --repo "$1" --json labels,body 2>/dev/null) || return 1
+  jq -e 'any(.labels[]?; .name == "claude-automerge")' <<<"${info}" >/dev/null && return 0
+  am=$(jq -r '.body // ""' <<<"${info}" | grep -ioP '^\s*[*_]*auto-?merge[*_]*\s*:[*_]*\s*\K[A-Za-z]+' | head -n1 | tr '[:upper:]' '[:lower:]')
+  if [[ "${am}" =~ ^(yes|y|true|on)$ ]]; then return 0
+  elif [[ "${am}" =~ ^(no|n|false|off)$ ]]; then return 1
+  fi
+  [[ "${DEFAULT_AUTO_MERGE}" == "true" ]]
+}
+
+# AUTO_MERGE_METHOD, or the first of merge/squash/rebase the repo allows
+merge_method() { # repo
+  if [[ -n "${AUTO_MERGE_METHOD}" ]]; then echo "${AUTO_MERGE_METHOD}"; return; fi
+  gh api "repos/$1" --jq 'if .allow_merge_commit != false then "merge" elif .allow_squash_merge != false then "squash" else "rebase" end' 2>/dev/null \
+    || echo merge
 }
 
 # Extra claude CLI flags for the selected model/effort
@@ -763,8 +788,10 @@ handle_result() { # repo num branch base
     relabel "${repo}" "${num}" claude-wip claude-pr
     event pr_opened "Opened ${pr}; watching it"
     [[ "${REVIEW_DONE}" == "true" ]] && post_comment "${repo}" "${pr##*/}" "$(review_comment "${dir}")" >/dev/null
-    post_comment "${repo}" "${num}" "$(printf '%s **Work complete**: %s\n\n### Summary\n%s\n\n%s\n\n---\n_`%s` · %s · I will keep watching the PR for failing checks, merge conflicts and your review comments._' \
-      "${BOT}" "${pr}" "${SUMMARY}" "$(change_list "${dir}" "origin/${base}")" "${WORKER}" "${STATS}")" >/dev/null
+    local merge_note=""
+    automerge_enabled "${repo}" "${num}" && merge_note=" Auto-merge is on, so I will merge it once every check has passed."
+    post_comment "${repo}" "${num}" "$(printf '%s **Work complete**: %s\n\n### Summary\n%s\n\n%s\n\n---\n_`%s` · %s · I will keep watching the PR for failing checks, merge conflicts and your review comments.%s_' \
+      "${BOT}" "${pr}" "${SUMMARY}" "$(change_list "${dir}" "origin/${base}")" "${WORKER}" "${STATS}" "${merge_note}")" >/dev/null
     # Keep the worktree and session so the PR can be watched and fixed, but free the space taken by
     # installed dependencies; a fix round reinstalls them (quickly, from the shared npm cache) if needed.
     find "${dir}" -name node_modules -type d -prune -exec rm -rf {} + 2>/dev/null
@@ -941,6 +968,44 @@ ci_failure_details() { # repo tsv-of-name-and-url
   done <<<"$2"
 }
 
+# Merges a watched PR if auto-merge is on and it is all green: every check finished and passed (at least one check),
+# no changes requested, and GitHub says it can be merged. Retried on every poll (e.g. until a required approval
+# arrives), but a blocked or failed merge is only reported once per commit.
+try_automerge() { # state-file pr-info-json
+  local sf=$1 info=$2 repo num pr branch head state out method noted
+  repo=$(jq -r .repo "${sf}"); num=$(jq -r .num "${sf}"); pr=$(jq -r .pr "${sf}"); branch=$(jq -r .branch "${sf}")
+  head=$(jq -r .headRefOid <<<"${info}")
+  jq -e '(.statusCheckRollup | type) == "array" and (.statusCheckRollup | length) > 0
+    and all(.statusCheckRollup[]; ((.status // "COMPLETED") == "COMPLETED")
+      and ((.conclusion // .state // "") | test("^(SUCCESS|NEUTRAL|SKIPPED)$")))
+    and .mergeable == "MERGEABLE" and .isDraft != true and .reviewDecision != "CHANGES_REQUESTED"' <<<"${info}" >/dev/null || return 1
+  automerge_enabled "${repo}" "${num}" || return 1
+
+  state=$(jq -r .mergeStateStatus <<<"${info}")
+  noted=$(jq -r '.automerge_noted // ""' "${sf}")
+  if [[ "${state}" != "CLEAN" && "${state}" != "HAS_HOOKS" ]]; then
+    # e.g. BLOCKED by a required approval, or BEHIND a base branch that must be merged in first
+    [[ "${noted}" == "${head}" ]] && return 1
+    log_event warn automerge_blocked "PR #${pr}: all checks passed but GitHub reports it as ${state}; not merging yet"
+    post_comment "${repo}" "${pr}" "${BOT} Auto-merge is on and every check passed on ${head:0:7}, but GitHub reports the PR as \`${state}\` (for example, a required approval is missing), so \`${WORKER}\` has not merged it yet. It will merge it as soon as that clears." >/dev/null
+    update_state "${sf}" --arg h "${head}" '.automerge_noted = $h'
+    return 1
+  fi
+  method=$(merge_method "${repo}")
+  if out=$(gh pr merge "${pr}" --repo "${repo}" "--${method}" --match-head-commit "${head}" 2>&1); then
+    event merged "PR #${pr} auto-merged (${method}) at ${head:0:7}; done"
+    post_comment "${repo}" "${pr}" "${BOT} Every check passed on ${head:0:7}, so \`${WORKER}\` merged this PR (auto-merge, ${method})." >/dev/null
+    relabel "${repo}" "${num}" claude-pr claude-done
+    cleanup "${repo}" "${num}" "${branch}"
+    return 0
+  fi
+  [[ "${noted}" == "${head}" ]] && return 1
+  log_event warn automerge_failed "PR #${pr}: auto-merge failed: $(head -c 300 <<<"${out}" | tr '\n' ' ')"
+  post_comment "${repo}" "${pr}" "$(printf '%s Auto-merge is on and every check passed on %s, but merging failed:\n\n```\n%s\n```\n\nI will keep trying; merge it manually if this persists.' "${BOT}" "${head:0:7}" "$(head -c 1000 <<<"${out}")")" >/dev/null
+  update_state "${sf}" --arg h "${head}" '.automerge_noted = $h'
+  return 1
+}
+
 # Checks a watched PR. Returns 0 only if Claude was run.
 check_pr() { # state-file
   local sf=$1 repo num branch base sid pr handled rounds ci_sha conflict_sha paused
@@ -955,7 +1020,7 @@ check_pr() { # state-file
 
   local info
   local err
-  if ! info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,headRefOid,statusCheckRollup 2>&1); then
+  if ! info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,mergeStateStatus,isDraft,reviewDecision,headRefOid,statusCheckRollup 2>&1); then
     # Reading check results needs extra token permissions; still handle feedback and conflicts without them
     err=$(head -c 300 <<<"${info}" | tr '\n' ' ')
     if ! info=$(gh pr view "${pr}" --repo "${repo}" --json state,mergeable,headRefOid 2>&1); then
@@ -984,24 +1049,34 @@ check_pr() { # state-file
   mergeable=$(jq -r .mergeable <<<"${info}")
   since=$(now_iso) # captured before reading feedback, so nothing posted from here on is missed next time
   pending=$(jq '[.statusCheckRollup[]? | select((.status // "COMPLETED") != "COMPLETED" or ((.state // "") | test("^(PENDING|EXPECTED)$")))] | length' <<<"${info}")
-  failures=$(jq -r '.statusCheckRollup[]?
+  # Failing checks on the head commit that haven't been handed to Claude yet (ci_checks lists those that have,
+  # for the commit in ci_sha), so each failure is acted on as soon as it happens, not once all of CI has finished
+  local ci_checks
+  ci_checks=$(jq -c '.ci_checks // []' "${sf}")
+  [[ "${head}" != "${ci_sha}" ]] && ci_checks='[]'
+  failures=$(jq -c --argjson done "${ci_checks}" '[.statusCheckRollup[]?
     | select(((.conclusion // "") | test("^(FAILURE|TIMED_OUT|ACTION_REQUIRED|STARTUP_FAILURE)$")) or ((.state // "") | test("^(FAILURE|ERROR)$")))
-    | [(.name // .context), (.detailsUrl // .targetUrl // "")] | @tsv' <<<"${info}")
+    | {name: (.name // .context), url: (.detailsUrl // .targetUrl // "")}
+    | select(.name as $n | $done | index($n) | not)]' <<<"${info}")
   feedback=$(pr_feedback "${repo}" "${pr}" "${handled}" "${num}")
 
-  local new_ci="${ci_sha}" new_conflict="${conflict_sha}"
+  local new_ci="${ci_sha}" new_ci_checks="${ci_checks}" new_conflict="${conflict_sha}" ci_round=false
   if [[ -n "${feedback}" ]]; then
     sections+="## Review feedback from @${TRUSTED_USER}
 ${feedback}
 
 "
   fi
-  # Only act on CI once every check has finished, and only once per commit
-  if (( pending == 0 )) && [[ -n "${failures}" && "${head}" != "${ci_sha}" ]]; then
+  if [[ "${failures}" != "[]" ]]; then
     sections+="## Failing checks on ${head:0:7}
-$(ci_failure_details "${repo}" "${failures}")
+$(ci_failure_details "${repo}" "$(jq -r '.[] | [.name, .url] | @tsv' <<<"${failures}")")
+"
+    (( pending > 0 )) && sections+="${pending} other check(s) were still running when this was picked up. Don't wait for them: they will run again on the commit you push.
+
 "
     new_ci="${head}"
+    new_ci_checks=$(jq -c --argjson f "${failures}" '. + [$f[].name] | unique' <<<"${ci_checks}")
+    ci_round=true
   fi
   if [[ "${mergeable}" == "CONFLICTING" && "${head}" != "${conflict_sha}" ]]; then
     sections+="## Merge conflict
@@ -1010,7 +1085,10 @@ The PR no longer merges cleanly into ${base}. The latest origin/${base} has alre
 "
     new_conflict="${head}"
   fi
-  [[ -z "${sections}" ]] && return 1
+  if [[ -z "${sections}" ]]; then
+    (( pending == 0 )) && try_automerge "${sf}" "${info}"
+    return 1
+  fi
 
   if [[ -n "${feedback}" ]]; then
     rounds=0 # a reply from the trusted user resets the automatic fix budget
@@ -1033,13 +1111,13 @@ The PR no longer merges cleanly into ${base}. The latest origin/${base} has alre
   local before after
   before=$(git -C "${dir}" rev-parse HEAD)
 
-  event fix_round "PR #${pr}: fix round ${rounds} for:$([[ -n "${feedback}" ]] && echo " review feedback")$([[ "${new_ci}" != "${ci_sha}" ]] && echo " failing checks")$([[ "${new_conflict}" != "${conflict_sha}" ]] && echo " merge conflict")"
+  event fix_round "PR #${pr}: fix round ${rounds} for:$([[ -n "${feedback}" ]] && echo " review feedback")$([[ "${ci_round}" == "true" ]] && echo " failing checks")$([[ "${new_conflict}" != "${conflict_sha}" ]] && echo " merge conflict")"
   # Progress and results go where the request came from: the issue for comments made there, the PR for
   # PR comments/reviews, failing checks and conflicts (both if both)
   local targets=()
   grep -q '^Comment on the issue:' <<<"${feedback}" && targets+=("${num}")
   if grep -qE '^(PR comment:|Inline review comment|Review \()' <<<"${feedback}" \
-     || [[ "${new_ci}" != "${ci_sha}" || "${new_conflict}" != "${conflict_sha}" ]] || (( ${#targets[@]} == 0 )); then
+     || [[ "${ci_round}" == "true" || "${new_conflict}" != "${conflict_sha}" ]] || (( ${#targets[@]} == 0 )); then
     targets+=("${pr}")
   fi
   if [[ -n "${feedback}" ]]; then
@@ -1089,9 +1167,9 @@ ${RULES}" "${sid}" "" "${targets[1]:-}"
   for t in "${targets[@]}"; do post_comment "${repo}" "${t}" "${body}" >/dev/null; done
   event fix_result "PR #${pr}: fix round ${rounds} finished: status=${STATUS:-none} rc=${RC}, $([[ "${after}" != "${before}" ]] && echo "pushed ${after:0:7}" || echo "no new commits") (${STATS})"
 
-  update_state "${sf}" --arg since "${since}" --arg ci "${new_ci}" --arg conflict "${new_conflict}" \
+  update_state "${sf}" --arg since "${since}" --arg ci "${new_ci}" --argjson cichecks "${new_ci_checks}" --arg conflict "${new_conflict}" \
     --arg sid "${SID:-${sid}}" --argjson rounds "${rounds}" \
-    '.handled_at = $since | .ci_sha = $ci | .conflict_sha = $conflict | .session_id = $sid | .fix_rounds = $rounds | .paused = false'
+    '.handled_at = $since | .ci_sha = $ci | .ci_checks = $cichecks | .conflict_sha = $conflict | .session_id = $sid | .fix_rounds = $rounds | .paused = false'
   return 0
 }
 
@@ -1161,7 +1239,7 @@ advance_sequence() { # state-file tree-json
   update_state "${sf}" --argjson cur "${next}" '.current = $cur | .notified = null'
 }
 
-# Labels a sub-issue for a worker, carrying over the parent's model, effort and review choices
+# Labels a sub-issue for a worker, carrying over the parent's model, effort, review and auto-merge choices
 queue_sub() { # repo parent-num sub-num tree-json
   local repo=$1 num=$2 sub=$3 tree=$4 labels plabels pos total add=("${TRIGGER_LABEL}") remove=() args=() l
   labels=$(jq -c --arg repo "${repo}" --argjson n "${sub}" 'first(.subs[] | select(.repo == $repo and .number == $n)) | .labels' <<<"${tree}")
@@ -1170,8 +1248,8 @@ queue_sub() { # repo parent-num sub-num tree-json
     return
   fi
   plabels=$(gh issue view "${num}" --repo "${repo}" --json labels --jq '[.labels[].name]' 2>/dev/null) || plabels='[]'
-  for l in $(jq -r '.[] | select(startswith("model:") or startswith("effort:") or . == "claude-review")' <<<"${plabels}"); do
-    jq -e --arg p "${l%%:*}:" --arg l "${l}" 'any(.[]; . == $l or ($l != "claude-review" and startswith($p)))' <<<"${labels}" >/dev/null || add+=("${l}")
+  for l in $(jq -r '.[] | select(startswith("model:") or startswith("effort:") or . == "claude-review" or . == "claude-automerge")' <<<"${plabels}"); do
+    jq -e --arg p "${l%%:*}:" --arg l "${l}" 'any(.[]; . == $l or (($l | contains(":")) and startswith($p)))' <<<"${labels}" >/dev/null || add+=("${l}")
   done
   for l in claude-failed claude-stopped; do
     jq -e --arg l "${l}" 'index($l)' <<<"${labels}" >/dev/null && remove+=("${l}")
