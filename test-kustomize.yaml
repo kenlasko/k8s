@@ -1,0 +1,410 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: bazarr
+  name: bazarr-service
+  namespace: media
+spec:
+  ports:
+  - appProtocol: http
+    name: web
+    port: 6767
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: bazarr
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/provisioned-by: nfs.csi.k8s.io
+  name: nfs-bazarr
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 2.1Gi
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeAttributes:
+      server: 192.168.1.3
+      share: /appdata/vol/bazarr
+    volumeHandle: 192.168.1.3/appdata/vol/bazarr
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-csi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-bazarr
+  namespace: media
+spec:
+  accessModes:
+  - ReadWriteOnce
+  dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: s3-backup-cloudflare-bazarr
+  resources:
+    requests:
+      storage: 2.1Gi
+  storageClassName: nfs-csi
+  volumeName: nfs-bazarr
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+  labels:
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/version: release-v1.6.2
+    appGroup: media-arr
+  name: bazarr
+  namespace: media
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: bazarr
+  serviceName: bazarr
+  template:
+    metadata:
+      labels:
+        app: bazarr
+        app.kubernetes.io/name: bazarr
+        app.kubernetes.io/version: release-v1.6.2
+        appGroup: media-arr
+    spec:
+      affinity: null
+      automountServiceAccountToken: false
+      containers:
+      - env:
+        - name: POSTGRES_HOST
+          value: ""
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DATABASE
+          value: bazarr
+        - name: TZ
+          value: America/Toronto
+        envFrom:
+        - secretRef:
+            name: env-secrets-bazarr
+        image: ghcr.io/hotio/bazarr:release-v1.6.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: bazarr
+        ports:
+        - containerPort: 6767
+          name: http
+          protocol: TCP
+        resizePolicy:
+        - resourceName: cpu
+          restartPolicy: NotRequired
+        - resourceName: memory
+          restartPolicy: NotRequired
+        resources:
+          limits:
+            memory: 750Mi
+          requests:
+            cpu: 2m
+            memory: 200Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 100
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+        - mountPath: /config
+          name: bazarr-config
+        - mountPath: /media
+          name: media
+        - mountPath: /config
+          name: adguard-config
+          subPath: conf
+        - mountPath: /data
+          name: adguard-data
+          subPath: data
+        - mountPath: /tmp
+          name: tmpfs
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      priorityClassName: low-priority
+      restartPolicy: Always
+      volumes:
+      - name: bazarr-config
+        persistentVolumeClaim:
+          claimName: nfs-bazarr
+      - name: media
+        persistentVolumeClaim:
+          claimName: nfs-media
+      - emptyDir:
+          medium: Memory
+        name: tmpfs
+  updateStrategy:
+    type: RollingUpdate
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: bazarr
+  namespace: media
+spec:
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        io.kubernetes.pod.namespace: kube-system
+        k8s-app: kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: UDP
+      rules:
+        dns:
+        - matchPattern: '*'
+  - toEntities:
+    - cluster
+  - toEntities:
+    - world
+    toPorts:
+    - ports:
+      - port: "443"
+  - toEndpoints:
+    - matchLabels:
+        app.kubernetes.io/name: plex
+    toPorts:
+    - ports:
+      - port: "32400"
+  - toEndpoints:
+    - matchLabels:
+        app.kubernetes.io/name: prowlarr
+    toPorts:
+    - ports:
+      - port: "9696"
+  - toEndpoints:
+    - matchLabels:
+        app.kubernetes.io/name: sabnzbd
+    toPorts:
+    - ports:
+      - port: "8080"
+  - toEndpoints:
+    - matchLabels:
+        app.kubernetes.io/name: transmission
+    toPorts:
+    - ports:
+      - port: "9091"
+  - toEndpoints:
+    - matchLabels:
+        cnpg.io/cluster: home
+        io.kubernetes.pod.namespace: cnpg
+    toPorts:
+    - ports:
+      - port: "5432"
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: bazarr
+  ingress:
+  - fromEntities:
+    - ingress
+    - remote-node
+    toPorts:
+    - ports:
+      - port: "4433"
+      - port: "7878"
+  - fromEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: cilium
+    - matchLabels:
+        app.kubernetes.io/name: maintainerr
+    - matchLabels:
+        app.kubernetes.io/name: overseerr
+    - matchLabels:
+        app.kubernetes.io/name: prowlarr
+    - matchLabels:
+        app.kubernetes.io/name: seerr
+    toPorts:
+    - ports:
+      - port: "7878"
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  labels:
+    cnpg.io/reload: "true"
+  name: useraccount-bazarr
+  namespace: cnpg
+spec:
+  dataFrom:
+  - extract:
+      conversionStrategy: Default
+      decodingStrategy: None
+      key: /database/bazarr
+      metadataPolicy: None
+  refreshInterval: 24h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: akeyless
+  target:
+    name: useraccount-bazarr
+    template:
+      type: kubernetes.io/basic-auth
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: env-secrets-bazarr
+  namespace: media
+spec:
+  data:
+  - remoteRef:
+      key: /database/bazarr
+      property: username
+    secretKey: POSTGRES_USERNAME
+  - remoteRef:
+      key: /database/bazarr
+      property: password
+    secretKey: POSTGRES_PASSWORD
+  dataFrom:
+  - extract:
+      key: /bazarr
+  refreshInterval: 24h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: akeyless
+  target:
+    name: env-secrets-bazarr
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: s3-backup-cloudflare-bazarr
+  namespace: media
+spec:
+  data:
+  - remoteRef:
+      key: /s3/cloudflare
+      property: AWS_ACCESS_KEY_ID
+    secretKey: awsAccessKeyID
+  - remoteRef:
+      key: /s3/cloudflare
+      property: AWS_SECRET_ACCESS_KEY
+    secretKey: awsSecretAccessKey
+  - remoteRef:
+      key: /s3/cloudflare
+      property: RESTIC_REPOSITORY
+    secretKey: resticRepository
+  - remoteRef:
+      key: /s3/cloudflare
+      property: RESTIC_PASSWORD
+    secretKey: resticPassword
+  refreshInterval: 24h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: akeyless
+  target:
+    template:
+      data:
+        AWS_ACCESS_KEY_ID: '{{ .awsAccessKeyID }}'
+        AWS_SECRET_ACCESS_KEY: '{{ .awsSecretAccessKey }}'
+        RESTIC_PASSWORD: '{{ .resticPassword }}'
+        RESTIC_REPOSITORY: '{{ .resticRepository }}/bazarr'
+      engineVersion: v2
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bazarr
+  namespace: media
+spec:
+  hostnames:
+  - bazarr.laskonet.com
+  parentRefs:
+  - name: tls
+    namespace: cilium
+    sectionName: https
+  rules:
+  - backendRefs:
+    - kind: Service
+      name: bazarr-service
+      namespace: media
+      port: 6767
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: bazarr
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: bazarr
+  owner: bazarr
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: bazarr
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  login: true
+  name: bazarr
+  passwordSecret:
+    name: useraccount-bazarr
+  superuser: false
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: bazarr
+  namespace: media
+spec:
+  restic:
+    cacheCapacity: 5Gi
+    copyMethod: Clone
+    moverAffinity: null
+    moverSecurityContext:
+      runAsGroup: 100
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    pruneIntervalDays: 3
+    repository: s3-backup-cloudflare-bazarr
+    retain:
+      daily: 7
+      hourly: 0
+      monthly: 0
+      weekly: 2
+      yearly: 0
+    storageClassName: nfs-csi-dynamic-backup
+    volumeSnapshotClassName: nfs
+  sourcePVC: nfs-bazarr
+  trigger:
+    schedule: 05 08 * * *

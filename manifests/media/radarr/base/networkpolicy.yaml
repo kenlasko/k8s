@@ -19,6 +19,8 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: cilium
         - matchLabels:
+            app.kubernetes.io/name: bazarr
+        - matchLabels:
             app.kubernetes.io/name: maintainerr
         - matchLabels:
             app.kubernetes.io/name: overseerr

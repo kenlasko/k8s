@@ -1,0 +1,63 @@
+image:
+  repository: home-operations/bazarr
+  tag: 1.6.2
+  registry: ghcr.io
+extraLabels:
+  appGroup: media-arr
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 100
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+resources:
+  requests:
+    cpu: 2m
+    memory: 200Mi
+  limits:
+    # cpu: 1000m
+    memory: 750Mi
+service:
+  port: 6767
+env:
+- name: POSTGRES_ENABLED
+  value: "true"
+- name: POSTGRES_HOST
+  value: "home-rw.cnpg.svc.cluster.local"
+- name: POSTGRES_PORT
+  value: "5432"
+- name: POSTGRES_DATABASE
+  value: bazarr
+- name: TZ
+  value: "America/Toronto"
+envFrom:
+- secretRef:
+    name: env-secrets-bazarr
+livenessProbe:
+  httpGet:
+    path: /ping
+    port: http
+  initialDelaySeconds: 20
+  timeoutSeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 10
+media:
+  enabled: true
+persistentVolume:
+  type: nfs
+  size: 550Mi
+extraVolumes:
+- name: tmpfs
+  emptyDir:
+    medium: Memory
+extraVolumeMounts:
+- name: tmpfs
+  mountPath: /tmp
+backup:
+  location: cloudflare
+  schedule: "05 08 * * *"
