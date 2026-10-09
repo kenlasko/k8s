@@ -11,6 +11,7 @@
 # Failing checks, merge conflicts and review feedback from $ASSIGNEE are handed back to the same Claude session,
 # and the fix is pushed. After $MAX_FIX_ROUNDS automatic rounds it waits for $ASSIGNEE to reply before continuing.
 # Each failing check is acted on as soon as it fails, without waiting for the rest of CI to finish.
+# A check that fails while a fix round is already running is handed to that session before its commits are pushed.
 # With auto-merge on (claude-automerge label), the worker merges the PR once every check has passed.
 #
 # An issue with sub-issues isn't run itself: it stays claude-wip while its sub-issues are queued one at a time,
@@ -623,7 +624,8 @@ run_review() { # repo num worktree base
 
   event review_start "Starting code review in a fresh session"
   CUR_PHASE="code review"
-  EXTRA_DISALLOWED="Edit Write MultiEdit NotebookEdit"
+  # ReportFindings is blocked so the findings end up in the final message, which is what gets posted
+  EXTRA_DISALLOWED="Edit Write MultiEdit NotebookEdit ReportFindings"
   run_claude "${repo}" "${num}" "${dir}" "You are a senior engineer reviewing a change before its pull request is opened.
 You did not write this change. The worktree is ${repo} on branch claude/issue-${num}; the change is everything on this branch that is not on origin/${base}:
 see \`git log origin/${base}..HEAD\` and \`git diff origin/${base}...HEAD\`, and read the surrounding code as needed.
@@ -635,6 +637,7 @@ but do NOT run the full test suite, coverage or full builds (CI runs those).
 
 Write your review as a numbered list of findings. For each: a severity (blocker, major, minor or nit), the file and line,
 what is wrong and why, and a suggested fix. If there is nothing worth changing, say so briefly.
+Put the full list of findings in your final message as plain text; do not use any findings-reporting tool.
 End your final message with exactly one of these lines:
 REVIEW: CHANGES_NEEDED
 REVIEW: APPROVED
@@ -647,6 +650,12 @@ ${issue}"
   REVIEW_TEXT=$(jq -Rrn '[inputs | fromjson? | select(.type == "result")] | last | .result // ""' "${RESULT_LOG}")
   REVIEW_VERDICT=$(grep -oE '^REVIEW: (CHANGES_NEEDED|APPROVED)' <<<"${REVIEW_TEXT}" | tail -n1 | cut -d' ' -f2)
   REVIEW_TEXT=$(grep -vE '^REVIEW: ' <<<"${REVIEW_TEXT}")
+  # Fallback: if the reviewer reported its findings through a tool call instead of its final message,
+  # rebuild the text from the last such call in the transcript
+  if [[ -z "${REVIEW_TEXT//[[:space:]]/}" ]]; then
+    REVIEW_TEXT=$(findings_from_tool_calls "${RESULT_LOG}")
+    [[ -n "${REVIEW_TEXT}" ]] && warn "Reviewer reported its findings through a tool call; using those"
+  fi
   edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Code review finished (${REVIEW_VERDICT:-no verdict})")"
 
   # The reviewer is read-only; undo anything it changed anyway
@@ -690,6 +699,22 @@ $(pr_instructions "${dir}" "${num}")" "${author_sid}"
   split_review_response
   [[ -z "${SUMMARY//[[:space:]]/}" ]] && SUMMARY="${author_summary}"
   event review_addressed "Review findings addressed; $(git -C "${dir}" rev-list --count "${before}..HEAD") new commit(s)"
+}
+
+# Markdown list built from the input of the last ReportFindings tool call in a transcript (empty if none)
+findings_from_tool_calls() { # transcript.jsonl
+  jq -Rrn '
+    [inputs | fromjson? | select(.type == "assistant") | .message.content[]?
+      | select(.type == "tool_use" and .name == "ReportFindings") | .input] | last // empty
+    | (.findings // []) | to_entries[]
+    | .value as $f
+    | "\(.key + 1). **\($f.severity // "finding")**"
+      + (if $f.category then " (\($f.category))" else "" end)
+      + (if $f.file then " `\($f.file)\(if $f.line then ":\($f.line)" else "" end)`" else "" end)
+      + ": \($f.summary // $f.short_summary // "")"
+      + (if $f.failure_scenario then "\n   - Scenario: \($f.failure_scenario)" else "" end)
+      + (if $f.suggested_fix // $f.fix then "\n   - Suggested fix: \($f.suggested_fix // $f.fix)" else "" end)
+  ' "$1" 2>/dev/null
 }
 
 # Moves the "How the review was addressed" section out of SUMMARY (the PR description) into REVIEW_RESPONSE
@@ -1006,6 +1031,14 @@ try_automerge() { # state-file pr-info-json
   return 1
 }
 
+# JSON array of {name, url} for the failing checks in a PR's statusCheckRollup, minus the names in <done-json>
+failing_checks() { # pr-info-json done-json
+  jq -c --argjson done "$2" '[.statusCheckRollup[]?
+    | select(((.conclusion // "") | test("^(FAILURE|TIMED_OUT|ACTION_REQUIRED|STARTUP_FAILURE)$")) or ((.state // "") | test("^(FAILURE|ERROR)$")))
+    | {name: (.name // .context), url: (.detailsUrl // .targetUrl // "")}
+    | select(.name as $n | $done | index($n) | not)]' <<<"$1"
+}
+
 # Checks a watched PR. Returns 0 only if Claude was run.
 check_pr() { # state-file
   local sf=$1 repo num branch base sid pr handled rounds ci_sha conflict_sha paused
@@ -1054,10 +1087,7 @@ check_pr() { # state-file
   local ci_checks
   ci_checks=$(jq -c '.ci_checks // []' "${sf}")
   [[ "${head}" != "${ci_sha}" ]] && ci_checks='[]'
-  failures=$(jq -c --argjson done "${ci_checks}" '[.statusCheckRollup[]?
-    | select(((.conclusion // "") | test("^(FAILURE|TIMED_OUT|ACTION_REQUIRED|STARTUP_FAILURE)$")) or ((.state // "") | test("^(FAILURE|ERROR)$")))
-    | {name: (.name // .context), url: (.detailsUrl // .targetUrl // "")}
-    | select(.name as $n | $done | index($n) | not)]' <<<"${info}")
+  failures=$(failing_checks "${info}" "${ci_checks}")
   feedback=$(pr_feedback "${repo}" "${pr}" "${handled}" "${num}")
 
   local new_ci="${ci_sha}" new_ci_checks="${ci_checks}" new_conflict="${conflict_sha}" ci_round=false
@@ -1138,6 +1168,35 @@ Use STATUS: QUESTION only if you need an answer from the reviewer before you can
 ${RULES}" "${sid}" "" "${targets[1]:-}"
   finish_run "${repo}" "${targets[0]}" "${dir}"
   if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return 0; fi
+
+  # Checks that failed on the PR head while Claude was working. Pushing would start CI over on a new commit and
+  # lose these failures, so hand them to the same session first.
+  local late_info late='[]' first_summary
+  if [[ "${STATUS}" != "QUESTION" && -n "${SID}" ]] \
+     && late_info=$(gh pr view "${pr}" --repo "${repo}" --json headRefOid,statusCheckRollup 2>/dev/null) \
+     && [[ $(jq -r .headRefOid <<<"${late_info}") == "${head}" ]]; then
+    late=$(failing_checks "${late_info}" "${new_ci_checks}")
+  fi
+  if [[ "${late}" != "[]" ]]; then
+    event late_failures "PR #${pr}: check(s) failed during fix round ${rounds}: $(jq -r '[.[].name] | join(", ")' <<<"${late}"); handing them over before pushing"
+    first_summary="${SUMMARY}"
+    CUR_PHASE="PR #${pr} fix round ${rounds}: checks that failed meanwhile"
+    run_claude "${repo}" "${targets[0]}" "${dir}" "While you were working, these checks failed on the PR's current head ${head:0:7} (the commit before your new work):
+
+$(ci_failure_details "${repo}" "$(jq -r '.[] | [.name, .url] | @tsv' <<<"${late}")")
+Nothing has been pushed yet. If your changes this round don't already fix these failures, fix them now and commit.
+Re-run only the failing tests or checks locally to confirm; do not run the full suite.
+Your final message is posted on the PR together with your previous one, so summarize only what you changed for these failures.
+
+${RULES}" "${SID}" "${PROGRESS_ID}"
+    finish_run "${repo}" "${targets[0]}" "${dir}"
+    if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return 0; fi
+    SUMMARY=$(printf '%s\n\n### Checks that failed during this round\n%s' "${first_summary}" "${SUMMARY}")
+    new_ci="${head}"
+    new_ci_checks=$(jq -c --argjson f "${late}" '. + [$f[].name] | unique' <<<"${new_ci_checks}")
+    ci_round=true
+    [[ " ${targets[*]} " == *" ${pr} "* ]] || targets+=("${pr}")
+  fi
   after=$(git -C "${dir}" rev-parse HEAD)
 
   local heading body
