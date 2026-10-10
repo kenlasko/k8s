@@ -980,14 +980,24 @@ pr_feedback() { # repo pr since issue-num
     | join("\n\n---\n\n")'
 }
 
-# Name, URL and (for GitHub Actions jobs) the tail of the failed log for each failing check
+# Name, URL and (for GitHub Actions jobs) the last 150 lines of the job log up to its last error, for each failing check.
+# Uses the job logs API rather than `gh run view --log-failed`, which returns nothing until the whole workflow run
+# has finished, and failures are picked up as soon as their job fails, while the rest of the run is still going.
 ci_failure_details() { # repo tsv-of-name-and-url
-  local name url
+  local name url excerpt
   while IFS=$'\t' read -r name url; do
     [[ -z "${name}" ]] && continue
     printf '### %s\n%s\n' "${name}" "${url}"
     if [[ "${url}" =~ /actions/runs/[0-9]+/job/([0-9]+) ]]; then
-      printf '```\n%s\n```\n' "$(gh run view --repo "$1" --job "${BASH_REMATCH[1]}" --log-failed 2>/dev/null | tail -n 150 | cut -c1-400)"
+      excerpt=$(gh api --allow-escape-sequences "repos/$1/actions/jobs/${BASH_REMATCH[1]}/logs" 2>/dev/null \
+        | sed -E 's/^[0-9T:.-]+Z //; s/\x1b\[[0-9;]*m//g' \
+        | awk '{a[NR] = $0} /##\[error\]/ {last = NR} END {e = last ? last : NR; for (i = (e > 150 ? e - 149 : 1); i <= e; i++) print a[i]}' \
+        | cut -c1-400)
+      if [[ -n "${excerpt}" ]]; then
+        printf '```\n%s\n```\n' "${excerpt}"
+      else
+        printf '(The job log could not be fetched, so no excerpt is included.)\n'
+      fi
     fi
     printf '\n'
   done <<<"$2"
