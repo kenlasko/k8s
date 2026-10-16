@@ -20,15 +20,17 @@ resources:
   requests:
     cpu: 1m
     memory: 3Mi
-    # smarter-devices/hidraw0: 1
-    smarter-devices/bus_usb_001_002: 1
-    smarter-devices/bus_usb_001_004: 1
   limits:
     # cpu: 1m
     memory: 5Mi
-    # smarter-devices/hidraw0: 1
-    smarter-devices/bus_usb_001_002: 1
-    smarter-devices/bus_usb_001_004: 1
+extraVolumes:
+- name: usb-bus
+  hostPath:
+    path: /dev/bus/usb
+    type: Directory
+extraVolumeMounts:
+- name: usb-bus
+  mountPath: /dev/bus/usb
 service:
   port: 3493
 livenessProbe: 
