@@ -58,4 +58,6 @@ data:
   # Files in /tmp older than this are removed between tasks
   TMP_CLEAN_MINUTES: "60"
   DISABLE_AUTOUPDATER: "1"
+  # Trail-code: don't git fetch teammates' branches from the hooks (Claude has no GitHub credentials)
+  TRAIL_NO_FETCH: "1"
   TZ: "America/Toronto"

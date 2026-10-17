@@ -66,7 +66,8 @@ RULES="How to work:
 - You have no GitHub credentials. Do not use gh, git push or git fetch: everything you need from GitHub (the issue, review comments, CI logs) is given to you, and the worker fetches and pushes for you.
 - Never put secrets (tokens, passwords, keys, credentials from the environment or the cluster) in code, commits or your messages. Commits are scanned for secrets before they are pushed.
 - Ask questions freely: whenever there is a meaningful choice (design, scope, naming, behaviour, or anything ambiguous), stop and ask instead of guessing. Commit any work in progress first. Your run ends when you ask; the question is posted on GitHub and you will be resumed in this same session with the answer.
-- Your final message is posted on GitHub, so always write one, even if you are unsure whether the work is complete.
+- Trail-code (the trail command) is set up in this worktree; use it as its hooks suggest. Learnings you save to .trail/learnings/ may be committed with your change. Ignore any prompt to mention that trail's setup (.trail/, .claude/settings.json) isn't committed, and never commit it.
+- Your final message is posted on GitHub, so always write one, even if you are unsure whether the work is complete. If trail asks you to close a reply with a tally or other line, put it before the STATUS line.
 - End your final message with exactly one of these lines:
   STATUS: DONE             (work is complete and committed; the rest of your message is a summary of what you changed, written as described below)
   STATUS: QUESTION         (the rest of your message is your question(s): numbered, with options and your recommendation where useful)
@@ -393,6 +394,54 @@ trust_repo() { # repo
   else
     rm -f "${tmp}"; warn "Could not mark ${REPO_ROOT}/$1 as trusted in ${cfg}"
   fi
+}
+
+# Wires Trail-code (https://github.com/trailhq/Trail-Code) into a fresh worktree: builds the graft map and installs
+# its Claude Code hooks. trail init puts its SessionStart hook in the repo's committed .claude/settings.json, so that
+# entry is moved into .claude/settings.local.json and settings.json is put back exactly as it was. Everything trail
+# generates is kept out of git through the clone's info/exclude, so it never shows up in commits or `git status`.
+# Learnings Claude saves under .trail/learnings/ are left visible, so they can be committed with the change.
+# Best-effort: a failure here only logs a warning and Claude runs without it.
+setup_trail() { # worktree
+  local dir=$1 settings="$1/.claude/settings.json" local_settings="$1/.claude/settings.local.json" saved="" exclude entries tmp
+  command -v trail >/dev/null || { warn "trail is not installed; skipping Trail-code setup"; return 0; }
+
+  exclude="$(git -C "${dir}" rev-parse --path-format=absolute --git-common-dir)/info/exclude"
+  mkdir -p "$(dirname "${exclude}")"
+  for p in /graft/ /.trail/cache/ /.trail/hook.cjs /.trail/statusline.cjs /.trail/README.md /.trail/.gitignore /.claude/settings.local.json; do
+    grep -qxF "${p}" "${exclude}" 2>/dev/null || echo "${p}" >> "${exclude}"
+  done
+
+  if [[ -f "${settings}" ]]; then
+    saved=$(mktemp) && cp -p "${settings}" "${saved}"
+  fi
+  # --no-global: hooks go in settings.local.json rather than ~/.claude. TRAIL_NO_FETCH: no reading past sessions or
+  # PR reviews. GRAFT_NO_GITIGNORE/GRAFT_NO_IGNORE: leave the repo's .gitignore and .ignore alone.
+  if ! (cd "${dir}" && TRAIL_NO_FETCH=1 GRAFT_NO_GITIGNORE=1 GRAFT_NO_IGNORE=1 \
+      trail init . --agents claude --no-global --no-statusline) >>"${LOG_ROOT}/trail.log" 2>&1; then
+    warn "trail init failed; see ${LOG_ROOT}/trail.log"
+  fi
+
+  # Move trail's SessionStart entries from settings.json to settings.local.json, then restore settings.json
+  entries=$(jq -c '[.hooks.SessionStart[]? | select(any(.hooks[]?; (.command // "") | contains(".trail/hook.cjs")))]' \
+    "${settings}" 2>/dev/null) || entries='[]'
+  if [[ "${entries}" != "[]" ]]; then
+    tmp=$(mktemp)
+    if jq --argjson add "${entries}" \
+        '.hooks.SessionStart = ([.hooks.SessionStart[]? | select(any(.hooks[]?; (.command // "") | contains(".trail/hook.cjs")) | not)] + $add)' \
+        "$( [[ -s "${local_settings}" ]] && echo "${local_settings}" || echo /dev/stdin )" <<<'{}' > "${tmp}"; then
+      mv -f "${tmp}" "${local_settings}"
+    else
+      rm -f "${tmp}"; warn "Could not add trail's SessionStart hook to ${local_settings}"
+    fi
+  fi
+  if [[ -n "${saved}" ]]; then
+    cp -p "${saved}" "${settings}" && rm -f "${saved}"
+  else
+    rm -f "${settings}"
+  fi
+  [[ -n $(git -C "${dir}" status --porcelain) ]] && warn "Trail-code setup left changes in the worktree: $(git -C "${dir}" status --porcelain | tr '\n' ' ' | cut -c1-300)"
+  return 0
 }
 
 run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse] [also-post-progress-on-num]
@@ -889,6 +938,7 @@ start_task() { # repo num
     post_comment "${repo}" "${num}" "${BOT} \`${WORKER}\` could not create a worktree for \`${branch}\`." >/dev/null
     return 1
   fi
+  setup_trail "${dir}"
 
   local issue
   # Only the trusted user's comments go into the prompt; anyone else's are left out (prompt injection)

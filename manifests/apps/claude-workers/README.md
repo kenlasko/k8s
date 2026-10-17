@@ -76,6 +76,14 @@ Details:
 * A sub-issue with sub-issues of its own becomes a sequence too. Sub-issues in other repos are listed but not queued. An issue whose sub-issues are all in other repos is run as an ordinary issue.
 * Progress is checked on every poll by the worker that owns the parent's shard, so a long-running task on that worker delays the next sub-issue until it finishes.
 
+## Trail-code
+The image includes [Trail-code](https://github.com/trailhq/Trail-Code) (`trail`), which gives Claude a map of the code and the learnings saved in the repo's `.trail/learnings/`. Each new worktree is set up by `setup_trail` in [worker.sh](base/worker.sh):
+* `trail init --agents claude --no-global --no-statusline` builds the map and installs trail's Claude Code hooks.
+* All of trail's hooks end up in the worktree's `.claude/settings.local.json`. `trail init` always adds its SessionStart hook to `.claude/settings.json`, so the worker moves that entry to `settings.local.json` and puts `settings.json` back exactly as it was. The repo's `.gitignore` and `.ignore` aren't touched either.
+* Everything trail generates (`.trail/cache/`, `.trail/hook.cjs` and so on, plus `settings.local.json`) is listed in the clone's `.git/info/exclude`, so it never shows up in commits or `git status`. Learnings Claude saves in `.trail/learnings/` aren't excluded, so they can be committed with the change and reviewed in the PR.
+* Reading past sessions and PR reviews at init, and fetching teammates' branches from the hooks, are off (`TRAIL_NO_FETCH`).
+
+Setup is best-effort: if it fails, the worker logs a warning (details in `/workspace/logs/trail.log`) and Claude runs without trail. Bump `TRAIL_CODE_VERSION` in the [Dockerfile](image/Dockerfile) to upgrade.
 
 ## Setup
 1. **Build the image** from [image/Dockerfile](image/Dockerfile) and push it to the local registry:

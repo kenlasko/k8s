@@ -1,9 +1,10 @@
-# Claude worker image: Claude Code + gh + Node/Python toolchains + Kubernetes tooling.
+# Claude worker image: Claude Code + Trail-code + gh + Node/Python toolchains + Kubernetes tooling.
 # Build and push to the local registry:
 #   docker buildx build --platform linux/amd64 -t registry.laskonet.com/claude-worker:latest --push .
 FROM node:24-bookworm-slim
 
 ARG CLAUDE_CODE_VERSION=2.1.283
+ARG TRAIL_CODE_VERSION=0.23.0
 ARG KUBECTL_VERSION=v1.37.1
 ARG HELM_VERSION=v4.3.0
 ARG KUSTOMIZE_VERSION=v5.8.1
@@ -29,7 +30,7 @@ RUN curl -fsSLo /usr/local/bin/kubectl "https://dl.k8s.io/release/${KUBECTL_VERS
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 RUN corepack enable pnpm \
- && npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" \
+ && npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" "@trailhq/trail-code@${TRAIL_CODE_VERSION}" \
  && npm cache clean --force
 
 # The node image already has uid/gid 1000 ("node"). HOME is overridden to the workspace PVC at runtime.
