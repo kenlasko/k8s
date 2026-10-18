@@ -4,7 +4,7 @@ provider:
   webhook:
     image:
       repository: ghcr.io/home-operations/external-dns-unifi-webhook
-      tag: 0.10.12
+      tag: 0.10.13
     securityContext:
       allowPrivilegeEscalation: false
       capabilities:
