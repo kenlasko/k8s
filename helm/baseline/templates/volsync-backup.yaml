@@ -41,6 +41,10 @@ spec:
       runAsNonRoot: {{ .Values.securityContext.runAsNonRoot | default false }}
       runAsUser: {{ if hasKey .Values.securityContext "runAsUser" }}{{ .Values.securityContext.runAsUser }}{{ else }}1000{{ end }}
       runAsGroup: {{ if hasKey .Values.securityContext "runAsGroup" }}{{ .Values.securityContext.runAsGroup }}{{ else }}100{{ end }}
+      # Restic 0.19+ fails hard if the cache PVC isn't writable. Have kubelet
+      # chgrp the NFS volumes (CSIDriver fsGroupPolicy: File) to the mover's group.
+      fsGroup: {{ if hasKey .Values.securityContext "runAsGroup" }}{{ .Values.securityContext.runAsGroup }}{{ else }}100{{ end }}
+      fsGroupChangePolicy: OnRootMismatch
       seccompProfile:
         type: RuntimeDefault
     {{- end }}
