@@ -9,6 +9,8 @@ spec:
     cacheStorageClassName: local-path
     copyMethod: Direct
     moverSecurityContext:
+      fsGroup: 100
+      fsGroupChangePolicy: OnRootMismatch
       runAsGroup: 100
       runAsNonRoot: true
       runAsUser: 1000
