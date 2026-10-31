@@ -1,6 +1,6 @@
 image:
   repository: kenlasko/tracearr
-  tag: 3.1.2
+  tag: 3.1.3
   registry: ghcr.io
   # repository: tracearr/tracearr
   # tag: latest
