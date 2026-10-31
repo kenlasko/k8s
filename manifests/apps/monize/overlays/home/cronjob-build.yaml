@@ -44,8 +44,8 @@ spec:
               BRANCH="${BRANCH:-main}"
               echo "Cloning $REPO_URL ($BRANCH)..."
               git clone --depth 1 --single-branch --branch "$BRANCH" "$REPO_URL" /workspace/src
-              git -C /workspace/src rev-parse HEAD > /workspace/GIT_SHA
-              date -u +%Y-%m-%dT%H:%M:%SZ > /workspace/BUILD_DATE
+              git -C /workspace/src rev-parse HEAD > /build-info/GIT_SHA
+              date -u +%Y-%m-%dT%H:%M:%SZ > /build-info/BUILD_DATE
               echo "Building $BRANCH at $(git -C /workspace/src log -1 --format='%h %s')"
             env:
             - name: REPO_URL
@@ -71,6 +71,8 @@ spec:
             volumeMounts:
             - name: workspace
               mountPath: /workspace
+            - name: build-info
+              mountPath: /build-info
 
           - name: build-backend
             image: ghcr.io/osscontainertools/kaniko:v1.28.6-debug
@@ -84,8 +86,8 @@ spec:
                 --destination=registry.laskonet.com/monize/backend:latest \
                 --cache=true \
                 --cache-repo=registry.laskonet.com/monize/backend-cache \
-                --build-arg=GIT_SHA="$(cat /workspace/GIT_SHA)" \
-                --build-arg=BUILD_DATE="$(cat /workspace/BUILD_DATE)" \
+                --build-arg=GIT_SHA="$(cat /build-info/GIT_SHA)" \
+                --build-arg=BUILD_DATE="$(cat /build-info/BUILD_DATE)" \
                 --snapshot-mode=redo \
                 --push-retry=3
             securityContext:
@@ -104,6 +106,9 @@ spec:
             volumeMounts:
             - name: workspace
               mountPath: /workspace
+            - name: build-info
+              mountPath: /build-info
+              readOnly: true
 
           - name: build-frontend
             image: ghcr.io/osscontainertools/kaniko:v1.28.6-debug
@@ -117,8 +122,8 @@ spec:
                 --destination=registry.laskonet.com/monize/frontend:latest \
                 --cache=true \
                 --cache-repo=registry.laskonet.com/monize/frontend-cache \
-                --build-arg=GIT_SHA="$(cat /workspace/GIT_SHA)" \
-                --build-arg=BUILD_DATE="$(cat /workspace/BUILD_DATE)" \
+                --build-arg=GIT_SHA="$(cat /build-info/GIT_SHA)" \
+                --build-arg=BUILD_DATE="$(cat /build-info/BUILD_DATE)" \
                 --snapshot-mode=redo \
                 --push-retry=3
             securityContext:
@@ -137,6 +142,9 @@ spec:
             volumeMounts:
             - name: workspace
               mountPath: /workspace
+            - name: build-info
+              mountPath: /build-info
+              readOnly: true
 
           containers:
           - name: deploy
@@ -148,10 +156,13 @@ spec:
               kubectl rollout restart -n monize deployment/monize-backend deployment/monize-frontend
               kubectl rollout status -n monize deployment/monize-backend --timeout=5m
               kubectl rollout status -n monize deployment/monize-frontend --timeout=5m
-              echo "Deployed $(cut -c1-7 /workspace/GIT_SHA)."
+              echo "Deployed $(cut -c1-7 /build-info/GIT_SHA)."
+            # The build steps can write to /workspace, so "deploy" holds the token but reads nothing
+            # they could have written: its HOME (where kubectl looks for a kubeconfig) is private,
+            # and build-info is written only by "clone".
             env:
             - name: HOME
-              value: /workspace
+              value: /home/deploy
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -167,14 +178,22 @@ spec:
                 cpu: 10m
                 memory: 64Mi
             volumeMounts:
-            - name: workspace
-              mountPath: /workspace
+            - name: deploy-home
+              mountPath: /home/deploy
+            - name: build-info
+              mountPath: /build-info
+              readOnly: true
             - name: service-account
               mountPath: /var/run/secrets/kubernetes.io/serviceaccount
               readOnly: true
 
           volumes:
           - name: workspace
+            emptyDir: {}
+          # GIT_SHA and BUILD_DATE; written by "clone", read-only everywhere else
+          - name: build-info
+            emptyDir: {}
+          - name: deploy-home
             emptyDir: {}
           # The same token, CA and namespace the automatic mount would provide, for "deploy" only
           - name: service-account
