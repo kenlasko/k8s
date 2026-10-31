@@ -122,7 +122,7 @@ spec:
 
           containers:
           - name: restart
-            image: docker.io/alpine/kubectl:1.37.0
+            image: docker.io/alpine/kubectl:1.37.2
             command: ["/bin/sh", "-c"]
             args:
             - |
