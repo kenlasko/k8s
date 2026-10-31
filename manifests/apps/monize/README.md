@@ -25,4 +25,4 @@ A failed job is not retried. Its pod and logs are kept for a day.
 
 Kaniko must run as root, so the home overlay relaxes the namespace's Pod Security enforcement from `restricted` to `baseline` ([patch-namespace.yaml](overlays/home/patch-namespace.yaml)). The Monize pods still set their own restricted security contexts, and `audit: restricted` keeps any pod that doesn't visible in the audit log. The job's service account ([rbac-build.yaml](overlays/home/rbac-build.yaml)) can only patch the two Monize deployments.
 
-The layer cache only grows: Kaniko stops using a cached layer after two weeks, but the registry keeps it. Deletes aren't enabled on the registry, so clearing it means removing `docker/registry/v2/repositories/monize/backend-cache` and `frontend-cache` from its storage (the next build repopulates them), then running `registry garbage-collect` to free the blobs.
+The layer cache is pruned weekly by the registry's `registry-prune-cache` CronJob. See the [registry README](../../system/registry/README.md#kaniko-cache-pruning).

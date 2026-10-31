@@ -8,5 +8,7 @@ helmCharts:
   namespace: registry
   valuesFile: values.yaml
 resources:
+- cronjob-prune-cache.yaml
 - namespace.yaml
 - networkpolicy.yaml
+- rbac-prune-cache.yaml
