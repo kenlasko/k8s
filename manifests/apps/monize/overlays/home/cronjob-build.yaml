@@ -36,7 +36,7 @@ spec:
           # so nothing is pushed if the clone fails and nothing is restarted unless both builds pushed.
           initContainers:
           - name: clone
-            image: docker.io/alpine/git:v2.52.0
+            image: docker.io/alpine/git:v2.54.0
             command: ["/bin/sh", "-c"]
             args:
             - |
