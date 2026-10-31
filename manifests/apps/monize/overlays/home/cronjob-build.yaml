@@ -75,7 +75,7 @@ spec:
               mountPath: /build-info
 
           - name: build-backend
-            image: ghcr.io/osscontainertools/kaniko:v1.28.6-debug
+            image: ghcr.io/osscontainertools/kaniko:v1.29.0-debug
             command: ["/busybox/sh", "-c"]
             args:
             - |
@@ -111,7 +111,7 @@ spec:
               readOnly: true
 
           - name: build-frontend
-            image: ghcr.io/osscontainertools/kaniko:v1.28.6-debug
+            image: ghcr.io/osscontainertools/kaniko:v1.29.0-debug
             command: ["/busybox/sh", "-c"]
             args:
             - |
