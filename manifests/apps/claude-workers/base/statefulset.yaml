@@ -68,8 +68,10 @@ spec:
         volumeMounts:
         - name: docker-sock
           mountPath: /docker
+        # Mounted one level above Docker's data root: the emptyDir itself is owned by root on the node, which is unmapped
+        # inside rootlesskit's user namespace, so dockerd can't chmod it. The entrypoint creates docker/ in it as uid 1000.
         - name: docker-data
-          mountPath: /home/rootless/.local/share/docker
+          mountPath: /home/rootless/.local/share
         - name: workspace
           mountPath: /workspace
         - name: tmp
