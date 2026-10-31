@@ -18,9 +18,11 @@ scripts/monize-build.sh my-feature-branch
 
 The job runs as one pod. Its init containers run in order, and each must succeed before the next starts:
 1. `clone`: shallow-clones the branch
-2. `build-backend`, `build-frontend`: build the `production` target with [Kaniko](https://github.com/osscontainertools/kaniko) and push it. No layer cache, so each run is a full build.
+2. `build-backend`, `build-frontend`: build the `production` target with [Kaniko](https://github.com/osscontainertools/kaniko) and push it. `RUN` layers are cached in `registry.laskonet.com/monize/{backend,frontend}-cache`, so `npm ci` only re-runs when a `package*.json` changes. The build steps re-run on every source change.
 3. `deploy`: `kubectl rollout restart` on both deployments, then waits for both rollouts
 
 A failed job is not retried. Its pod and logs are kept for a day.
 
 Kaniko must run as root, so the home overlay relaxes the namespace's Pod Security enforcement from `restricted` to `baseline` ([patch-namespace.yaml](overlays/home/patch-namespace.yaml)). The Monize pods still set their own restricted security contexts, and `audit: restricted` keeps any pod that doesn't visible in the audit log. The job's service account ([rbac-build.yaml](overlays/home/rbac-build.yaml)) can only patch the two Monize deployments.
+
+The layer cache only grows: Kaniko stops using a cached layer after two weeks, but the registry keeps it. Deletes aren't enabled on the registry, so clearing it means removing `docker/registry/v2/repositories/monize/backend-cache` and `frontend-cache` from its storage (the next build repopulates them), then running `registry garbage-collect` to free the blobs.

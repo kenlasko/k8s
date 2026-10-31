@@ -1,5 +1,8 @@
 # Builds the Monize backend and frontend images from a branch of github.com/kenlasko/monize,
 # pushes them to registry.laskonet.com as :latest, then restarts the Monize deployments.
+# RUN layers are cached in registry.laskonet.com/monize/{backend,frontend}-cache, so an
+# unchanged package-lock.json skips "npm ci". Cached layers expire after Kaniko's default
+# two weeks, but the registry keeps them until garbage-collected.
 # Manual trigger only: it is suspended, so the schedule never fires.
 #   main:      kubectl create job -n monize --from=cronjob/monize-build monize-build-$(date +%s)
 #   a branch:  scripts/monize-build.sh <branch>   (in this repo)
@@ -76,6 +79,8 @@ spec:
                 --dockerfile=/workspace/src/backend/Dockerfile \
                 --target=production \
                 --destination=registry.laskonet.com/monize/backend:latest \
+                --cache=true \
+                --cache-repo=registry.laskonet.com/monize/backend-cache \
                 --build-arg=GIT_SHA="$(cat /workspace/GIT_SHA)" \
                 --build-arg=BUILD_DATE="$(cat /workspace/BUILD_DATE)" \
                 --snapshot-mode=redo \
@@ -107,6 +112,8 @@ spec:
                 --dockerfile=/workspace/src/frontend/Dockerfile \
                 --target=production \
                 --destination=registry.laskonet.com/monize/frontend:latest \
+                --cache=true \
+                --cache-repo=registry.laskonet.com/monize/frontend-cache \
                 --build-arg=GIT_SHA="$(cat /workspace/GIT_SHA)" \
                 --build-arg=BUILD_DATE="$(cat /workspace/BUILD_DATE)" \
                 --snapshot-mode=redo \
