@@ -19,6 +19,8 @@ PR descriptions follow the repo's **pull request template**, if it has one, foun
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
+**Linked discussions are included.** If the issue body or comments from the trusted user link to a GitHub Discussion (a `/discussions/<n>` URL, or a `#<n>` that turns out to be a discussion rather than an issue), the worker fetches it, with its comments and replies, and adds it to Claude's prompt, up to `MAX_DISCUSSIONS` (5). The code review session gets them too. See [Security](#security) for how they're treated.
+
 **Claude can run Docker containers** for checking that a change works in the running app and for taking screenshots. Each pod has a [rootless Docker](#docker) sidecar.
 
 **Testing is split between the worker and CI.** Claude is told not to run the full test suite, coverage or full builds on the worker, which is slow. It runs only the tests that cover the code it changed (plus any tests it added), with lint and type-checking scoped to the changed files where the tooling allows. The complete suite runs in GitHub CI on the PR. If it fails, [PR watching](#pr-watching) hands the failure logs back to Claude, which fixes the problem, re-runs only the failing tests locally and pushes. Each CI failure uses one of the `MAX_FIX_ROUNDS`.
@@ -98,7 +100,7 @@ Setup is best-effort: if it fails, the worker logs a warning (details in `/works
    ```
    claude setup-token
    ```
-3. **Create a fine-grained GitHub PAT** limited to the repos in `REPOS`, with **Contents**, **Issues** and **Pull requests** set to read/write, and **Actions** and **Commit statuses** set to read. Protect your default branches so that the token can't push to them directly.
+3. **Create a fine-grained GitHub PAT** limited to the repos in `REPOS`, with **Contents**, **Issues** and **Pull requests** set to read/write, and **Actions**, **Commit statuses** and **Discussions** set to read. Discussions on public repos can be read without that last one. Protect your default branches so that the token can't push to them directly.
 4. **Store both in Akeyless** as a secret at `/claude-workers` with the properties `oauthToken` and `githubToken`.
 5. Merge. The `apps` ApplicationSet picks up the app automatically.
 
@@ -185,6 +187,7 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `AUTO_MERGE_METHOD` | `merge`, `squash` or `rebase` for auto-merge (empty = the first the repo allows) |
 | `LOG_FORMAT` | `json` (default, for Loki) or `text` |
 | `TMP_CLEAN_MINUTES` | Files in `/tmp` older than this are removed between tasks |
+| `MAX_DISCUSSIONS` | Most linked GitHub Discussions fetched into the prompt (5) |
 | `DOCKER_IMAGE_PRUNE_GB` | Unused Docker images are removed between tasks once they use more than this (20) |
 | `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |
 
@@ -216,6 +219,7 @@ To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WO
   * non-root, read-only root filesystem, and a `restricted`-level `securityContext` on the worker container. The namespace enforces only `privileged` Pod Security, because of the dind sidecar (see below).
   * a **read-only** ClusterRole that excludes Secrets ([rbac.yaml](base/rbac.yaml)). ConfigMaps and pod specs are readable, so don't keep secrets in them. Cluster changes still go through a PR and ArgoCD.
   * a fine-grained GitHub token and branch protection on the default branches
+* **Linked discussions are untrusted.** Anyone can write a discussion or comment on one, so fetching them reopens the door that the trusted-user rule closes for issue comments. The prompt labels them as reference material, not instructions, and tells Claude to act only on the issue and the trusted user's comments. That reduces prompt injection rather than preventing it. Only discussions that the issue body or the trusted user's comments link to are fetched, and comments by the trusted user are marked as theirs.
 * **The Docker sidecar is privileged, but rootless.** rootlesskit needs `privileged: true` to set up its user and mount namespaces. The daemon runs as uid 1000, and so does every container it starts, even one run with `docker run --privileged`: its "root" is uid 1000 on the node. A container escape lands as an unprivileged user, not as root on the node. This narrows the risk rather than removing it: it's still a privileged pod, with the node's devices visible (though not writable by uid 1000). The nodes allow user namespaces (`user.max_user_namespaces`), which rootless Docker needs. Since Claude can reach the daemon, it can run any image from any registry, with the pod's network access.
 * **Only the person who added the `claude` label is trusted.** Any issue with the label (and assigned to `ASSIGNEE`) is picked up. The person who added the label, found from the issue's event history, is the only one whose comments are used: in the initial prompt, as answers to questions, and as PR review feedback. The issue body is always included, since it's the task itself. Label changes made by the worker's own account (re-queues after a restart) don't count, unless nobody else ever added the label, as when you use a personal token and label your own issues. Comments from anyone else never reach Claude, which closes off prompt injection through comments on public repos.
 * **Everything the worker posts or logs is scrubbed** by [redact.pl](base/redact.pl): issue and PR comments, progress comments, questions, the review comment, PR descriptions, the pod log and `worker.log`. Exact values of the worker's own secrets (`REDACT_VARS`, default `GH_TOKEN CLAUDE_CODE_OAUTH_TOKEN`) become `[REDACTED]`, as do common credential formats: GitHub, Anthropic, AWS, Slack and Google keys, private keys, and passwords in URLs. The worker won't start if the scrubber is missing.

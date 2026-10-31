@@ -60,6 +60,8 @@ data:
   # Unused Docker images are kept as a pull cache between tasks until they use more than this (the docker-data
   # emptyDir is 30Gi)
   DOCKER_IMAGE_PRUNE_GB: "20"
+  # Most GitHub Discussions linked from an issue that are fetched into Claude's prompt
+  MAX_DISCUSSIONS: "5"
   DISABLE_AUTOUPDATER: "1"
   # Trail-code: don't git fetch teammates' branches from the hooks (Claude has no GitHub credentials)
   TRAIL_NO_FETCH: "1"
