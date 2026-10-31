@@ -1,0 +1,13 @@
+# The monize-build job's Kaniko containers must run as root, which "restricted" forbids.
+# "baseline" still blocks privileged pods, host namespaces and unconfined seccomp. The app
+# pods keep their own restricted securityContexts, and "audit: restricted" logs any pod
+# that isn't, so a regression there stays visible.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monize
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/audit-version: latest

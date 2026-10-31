@@ -1,0 +1,165 @@
+# Builds the Monize backend and frontend images from a branch of github.com/kenlasko/monize,
+# pushes them to registry.laskonet.com as :latest, then restarts the Monize deployments.
+# Manual trigger only: it is suspended, so the schedule never fires.
+#   main:      kubectl create job -n monize --from=cronjob/monize-build monize-build-$(date +%s)
+#   a branch:  scripts/monize-build.sh <branch>   (in this repo)
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: monize-build
+  namespace: monize
+spec:
+  schedule: "0 0 1 1 *"
+  suspend: true
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0                 # a failed build is not retried
+      activeDeadlineSeconds: 3600
+      ttlSecondsAfterFinished: 86400  # keep the pod and its logs for a day
+      template:
+        metadata:
+          labels:
+            app: monize-build
+        spec:
+          serviceAccountName: monize-build
+          restartPolicy: Never
+          # Init containers run in order and each must succeed before the next starts,
+          # so nothing is pushed if the clone fails and nothing is restarted unless both builds pushed.
+          initContainers:
+          - name: clone
+            image: docker.io/alpine/git:v2.52.0
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              BRANCH="${BRANCH:-main}"
+              echo "Cloning $REPO_URL ($BRANCH)..."
+              git clone --depth 1 --single-branch --branch "$BRANCH" "$REPO_URL" /workspace/src
+              git -C /workspace/src rev-parse HEAD > /workspace/GIT_SHA
+              date -u +%Y-%m-%dT%H:%M:%SZ > /workspace/BUILD_DATE
+              echo "Building $BRANCH at $(git -C /workspace/src log -1 --format='%h %s')"
+            env:
+            - name: REPO_URL
+              value: https://github.com/kenlasko/monize.git
+            - name: BRANCH
+              value: main
+            - name: HOME
+              value: /workspace
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+
+          - name: build-backend
+            image: ghcr.io/osscontainertools/kaniko:v1.28.6-debug
+            command: ["/busybox/sh", "-c"]
+            args:
+            - |
+              exec /kaniko/executor \
+                --context=dir:///workspace/src \
+                --dockerfile=/workspace/src/backend/Dockerfile \
+                --target=production \
+                --destination=registry.laskonet.com/monize/backend:latest \
+                --build-arg=GIT_SHA="$(cat /workspace/GIT_SHA)" \
+                --build-arg=BUILD_DATE="$(cat /workspace/BUILD_DATE)" \
+                --snapshot-mode=redo \
+                --push-retry=3
+            securityContext:
+              # Kaniko unpacks each stage's base image over its own root filesystem, so it
+              # needs root and a writable root. Not privileged, and no extra capabilities.
+              runAsUser: 0
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
+            resources:
+              requests:
+                cpu: 500m
+                memory: 2Gi
+              limits:
+                memory: 6Gi   # the backend's tsc build alone is allowed 4Gi of heap
+            volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+
+          - name: build-frontend
+            image: ghcr.io/osscontainertools/kaniko:v1.28.6-debug
+            command: ["/busybox/sh", "-c"]
+            args:
+            - |
+              exec /kaniko/executor \
+                --context=dir:///workspace/src/frontend \
+                --dockerfile=/workspace/src/frontend/Dockerfile \
+                --target=production \
+                --destination=registry.laskonet.com/monize/frontend:latest \
+                --build-arg=GIT_SHA="$(cat /workspace/GIT_SHA)" \
+                --build-arg=BUILD_DATE="$(cat /workspace/BUILD_DATE)" \
+                --snapshot-mode=redo \
+                --push-retry=3
+            securityContext:
+              # Kaniko unpacks each stage's base image over its own root filesystem, so it
+              # needs root and a writable root. Not privileged, and no extra capabilities.
+              runAsUser: 0
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
+            resources:
+              requests:
+                cpu: 500m
+                memory: 2Gi
+              limits:
+                memory: 6Gi   # the backend's tsc build alone is allowed 4Gi of heap
+            volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+
+          containers:
+          - name: deploy
+            image: docker.io/alpine/kubectl:1.37.0
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              kubectl rollout restart -n monize deployment/monize-backend deployment/monize-frontend
+              kubectl rollout status -n monize deployment/monize-backend --timeout=5m
+              kubectl rollout status -n monize deployment/monize-frontend --timeout=5m
+              echo "Deployed $(cut -c1-7 /workspace/GIT_SHA)."
+            env:
+            - name: HOME
+              value: /workspace
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+
+          volumes:
+          - name: workspace
+            emptyDir: {}

@@ -1,0 +1,38 @@
+# Lets the monize-build job restart the Monize deployments, and nothing else.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: monize-build
+  namespace: monize
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: monize-build
+  namespace: monize
+rules:
+# "rollout status" lists and watches the deployment it waits on
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+# "rollout restart" patches the pod template's restartedAt annotation
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  resourceNames: ["monize-backend", "monize-frontend"]
+  verbs: ["patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: monize-build
+  namespace: monize
+subjects:
+- kind: ServiceAccount
+  name: monize-build
+  namespace: monize
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: monize-build
