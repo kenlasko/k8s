@@ -1,4 +1,4 @@
-# Claude worker image: Claude Code + Trail-code + gh + Node/Python toolchains + Kubernetes tooling.
+# Claude worker image: Claude Code + Trail-code + gh + Node/Python toolchains + Kubernetes tooling + Docker CLI.
 # Build and push to the local registry:
 #   docker buildx build --platform linux/amd64 -t registry.laskonet.com/claude-worker:latest --push .
 FROM node:24-bookworm-slim
@@ -28,6 +28,10 @@ RUN curl -fsSLo /usr/local/bin/kubectl "https://dl.k8s.io/release/${KUBECTL_VERS
  && chmod +x /usr/local/bin/kubectl /usr/local/bin/yq /usr/local/bin/talosctl
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+
+# Docker CLI with the compose and buildx plugins (static binaries). The daemon is the dind sidecar in the pod.
+COPY --from=docker.io/library/docker:29.9.1-cli /usr/local/bin/docker /usr/local/bin/
+COPY --from=docker.io/library/docker:29.9.1-cli /usr/local/libexec/docker/cli-plugins/ /usr/local/libexec/docker/cli-plugins/
 
 RUN corepack enable pnpm \
  && npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" "@trailhq/trail-code@${TRAIL_CODE_VERSION}" \

@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: claude-worker
+      annotations:
+        # kubectl exec/logs target the worker, not the dind sidecar
+        kubectl.kubernetes.io/default-container: claude-worker
     spec:
       serviceAccountName: claude-worker
       priorityClassName: low-priority
@@ -35,6 +38,42 @@ spec:
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: claude-worker
+      initContainers:
+      # Rootless Docker daemon for Claude's containers (e2e stacks, screenshots). A native sidecar, so it starts
+      # before the worker and stops after it. It shares the pod's network, so published ports are on localhost for
+      # the worker, and mounts /workspace and /tmp at the same paths, so bind mounts from a worktree resolve.
+      - name: dind
+        image: docker.io/library/docker:29.9.1-dind-rootless
+        restartPolicy: Always
+        # Starting with "dockerd" skips the entrypoint's default args, which add an unauthenticated tcp://0.0.0.0:2375
+        # listener when TLS is off. The socket is kept out of /run, which rootlesskit replaces with a private copy.
+        args: ["dockerd", "--host=unix:///docker/docker.sock"]
+        startupProbe:
+          exec:
+            command: ["docker", "--host=unix:///docker/docker.sock", "version"]
+          periodSeconds: 2
+          failureThreshold: 60
+        # rootlesskit needs privileged for its user and mount namespaces, but the daemon and every container it
+        # runs are uid 1000 on the node, so a container escape doesn't land as root
+        securityContext:
+          privileged: true
+          runAsUser: 1000
+          runAsGroup: 1000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 6Gi
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /docker
+        - name: docker-data
+          mountPath: /home/rootless/.local/share/docker
+        - name: workspace
+          mountPath: /workspace
+        - name: tmp
+          mountPath: /tmp
       containers:
       - name: claude-worker
         image: registry.laskonet.com/claude-worker:latest
@@ -46,6 +85,8 @@ spec:
         # Puts the claude-log / claude-status helpers from the worker-script ConfigMap on the PATH for kubectl exec
         - name: PATH
           value: /opt/worker:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        - name: DOCKER_HOST
+          value: unix:///docker/docker.sock
         envFrom:
         - configMapRef:
             name: env-vars
@@ -69,11 +110,22 @@ spec:
           mountPath: /tmp
         - name: worker-script
           mountPath: /opt/worker
+        - name: docker-sock
+          mountPath: /docker
       volumes:
       # Node-local scratch space for npm, test runners and coverage. Exceeding sizeLimit evicts the pod.
       - name: tmp
         emptyDir:
           sizeLimit: 10Gi
+      - name: docker-sock
+        emptyDir:
+          medium: Memory
+          sizeLimit: 1Mi
+      # Docker images, containers and volumes. Node-local, so images are re-pulled after the pod moves or restarts.
+      # An emptyDir rather than a volumeClaimTemplate, which can't be added to an existing StatefulSet.
+      - name: docker-data
+        emptyDir:
+          sizeLimit: 30Gi
       - name: worker-script
         configMap:
           name: worker-script

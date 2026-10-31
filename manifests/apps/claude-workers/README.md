@@ -19,6 +19,8 @@ PR descriptions follow the repo's **pull request template**, if it has one, foun
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
+**Claude can run Docker containers** for checking that a change works in the running app and for taking screenshots. Each pod has a [rootless Docker](#docker) sidecar.
+
 **Testing is split between the worker and CI.** Claude is told not to run the full test suite, coverage or full builds on the worker, which is slow. It runs only the tests that cover the code it changed (plus any tests it added), with lint and type-checking scoped to the changed files where the tooling allows. The complete suite runs in GitHub CI on the PR. If it fails, [PR watching](#pr-watching) hands the failure logs back to Claude, which fixes the problem, re-runs only the failing tests locally and pushes. Each CI failure uses one of the `MAX_FIX_ROUNDS`.
 
 If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 60 minutes by default and 90 at most, so long test and build runs can finish in the foreground.
@@ -183,6 +185,7 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `AUTO_MERGE_METHOD` | `merge`, `squash` or `rebase` for auto-merge (empty = the first the repo allows) |
 | `LOG_FORMAT` | `json` (default, for Loki) or `text` |
 | `TMP_CLEAN_MINUTES` | Files in `/tmp` older than this are removed between tasks |
+| `DOCKER_IMAGE_PRUNE_GB` | Unused Docker images are removed between tasks once they use more than this (20) |
 | `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |
 
 ### Storage and npm
@@ -194,13 +197,26 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
   for i in 0 1 2; do kubectl -n claude-workers patch pvc workspace-claude-worker-$i -p '{"spec":{"resources":{"requests":{"storage":"40Gi"}}}}'; done
   ```
 
+### Docker
+Each pod runs a rootless Docker daemon ([`docker:dind-rootless`](https://hub.docker.com/_/docker)) as a native sidecar named `dind`. The worker image has the Docker CLI with the compose and buildx plugins, and talks to the daemon through a socket on a shared `emptyDir` (`DOCKER_HOST=unix:///docker/docker.sock`).
+* **Networking**: the sidecar shares the pod's network, so a port that a container publishes (`-p 3010:3000`) is on `localhost` for Claude, for example for Playwright.
+* **Bind mounts**: the sidecar mounts `/workspace` and `/tmp` at the same paths as the worker, so `docker compose` files that mount paths from the worktree work unchanged.
+* **Storage**: images, containers and volumes live in a 30Gi node-local `emptyDir` (`docker-data`). They're lost when the pod restarts or moves, so images are re-pulled. Going over the limit evicts the pod.
+* **Cleanup**: Claude is told to use `docker compose -p issue-<n>` and tear down what it started. Between tasks the worker removes any containers still left, prunes unused networks, volumes and dangling images, and removes all unused images once they pass `DOCKER_IMAGE_PRUNE_GB`. Docker's disk usage is logged with the other disk usage when the worker goes idle.
+* **Memory**: the sidecar, and so every container Claude starts, has its own 6Gi limit, apart from the worker's 10Gi.
+* **Pulls** come straight from Docker Hub and other registries, so heavy use can run into Docker Hub's anonymous rate limits.
+* The daemon is started as `dockerd --host=unix:///docker/docker.sock`. Starting with `dockerd` skips the image's default arguments, which would also open an **unauthenticated** `tcp://0.0.0.0:2375` listener on the pod IP when TLS is off. The socket is kept out of `/run`, which rootlesskit swaps for a private copy.
+
+`kubectl exec` and `kubectl logs` default to the worker container. To see the daemon's logs: `kubectl -n claude-workers logs claude-worker-0 -c dind`.
+
 To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
 
 ## Security
 * Claude runs with `--dangerously-skip-permissions`, since there is no one around to approve tool calls. The guardrails are the container itself:
-  * non-root, read-only root filesystem, `restricted` Pod Security
+  * non-root, read-only root filesystem, and a `restricted`-level `securityContext` on the worker container. The namespace enforces only `privileged` Pod Security, because of the dind sidecar (see below).
   * a **read-only** ClusterRole that excludes Secrets ([rbac.yaml](base/rbac.yaml)). ConfigMaps and pod specs are readable, so don't keep secrets in them. Cluster changes still go through a PR and ArgoCD.
   * a fine-grained GitHub token and branch protection on the default branches
+* **The Docker sidecar is privileged, but rootless.** rootlesskit needs `privileged: true` to set up its user and mount namespaces. The daemon runs as uid 1000, and so does every container it starts, even one run with `docker run --privileged`: its "root" is uid 1000 on the node. A container escape lands as an unprivileged user, not as root on the node. This narrows the risk rather than removing it: it's still a privileged pod, with the node's devices visible (though not writable by uid 1000). The nodes allow user namespaces (`user.max_user_namespaces`), which rootless Docker needs. Since Claude can reach the daemon, it can run any image from any registry, with the pod's network access.
 * **Only the person who added the `claude` label is trusted.** Any issue with the label (and assigned to `ASSIGNEE`) is picked up. The person who added the label, found from the issue's event history, is the only one whose comments are used: in the initial prompt, as answers to questions, and as PR review feedback. The issue body is always included, since it's the task itself. Label changes made by the worker's own account (re-queues after a restart) don't count, unless nobody else ever added the label, as when you use a personal token and label your own issues. Comments from anyone else never reach Claude, which closes off prompt injection through comments on public repos.
 * **Everything the worker posts or logs is scrubbed** by [redact.pl](base/redact.pl): issue and PR comments, progress comments, questions, the review comment, PR descriptions, the pod log and `worker.log`. Exact values of the worker's own secrets (`REDACT_VARS`, default `GH_TOKEN CLAUDE_CODE_OAUTH_TOKEN`) become `[REDACTED]`, as do common credential formats: GitHub, Anthropic, AWS, Slack and Google keys, private keys, and passwords in URLs. The worker won't start if the scrubber is missing.
 * **Commits are scanned before every push**, both the first push and every fix round. If an added line or a commit message looks like a secret, Claude is resumed once to remove it from the unpushed history. If it's still there, nothing is pushed: a first push fails the issue and discards the work, and a fix round's commits are discarded. The comment names only the file and the kind of secret, never the value.

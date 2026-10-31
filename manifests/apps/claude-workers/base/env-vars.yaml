@@ -57,6 +57,9 @@ data:
   npm_config_update_notifier: "false"
   # Files in /tmp older than this are removed between tasks
   TMP_CLEAN_MINUTES: "60"
+  # Unused Docker images are kept as a pull cache between tasks until they use more than this (the docker-data
+  # emptyDir is 30Gi)
+  DOCKER_IMAGE_PRUNE_GB: "20"
   DISABLE_AUTOUPDATER: "1"
   # Trail-code: don't git fetch teammates' branches from the hooks (Claude has no GitHub credentials)
   TRAIL_NO_FETCH: "1"

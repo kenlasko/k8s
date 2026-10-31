@@ -49,6 +49,7 @@ DEFAULT_REVIEW="${DEFAULT_REVIEW:-false}" # code review before the PR when an is
 DEFAULT_AUTO_MERGE="${DEFAULT_AUTO_MERGE:-false}" # merge the PR once it's all green, when an issue doesn't say
 AUTO_MERGE_METHOD="${AUTO_MERGE_METHOD:-}" # merge, squash or rebase; empty = the first the repo allows, in that order
 TMP_CLEAN_MINUTES="${TMP_CLEAN_MINUTES:-60}"
+DOCKER_IMAGE_PRUNE_GB="${DOCKER_IMAGE_PRUNE_GB:-20}"
 MODEL_LABELS="opus sonnet haiku fable"
 EFFORT_LEVELS="low medium high xhigh max"
 # Every comment the worker posts starts with this marker, so they are never mistaken for replies
@@ -62,6 +63,7 @@ RULES="How to work:
   Instead, verify only what you changed: run the test files that cover the code you touched (and any tests you added or updated), e.g. by passing file paths or a name pattern to the test runner, and run lint and type-checking scoped to the changed files or package where the tooling allows.
 - Memory: this machine has a 10Gi memory limit shared by you and everything you run, and going over it kills the whole run. Run only one test, build or type-check command at a time, never several in parallel tool calls. Never raise Node's heap above --max-old-space-size=4096 (each test worker inherits it). If a test runner runs out of heap, run fewer workers instead (Jest: --maxWorkers=1 or --runInBand; Vitest: --maxWorkers=1).
 - Never end your turn to wait for something, and never run commands in the background: your run ends the moment you stop, and anything still running is lost. Run commands in the foreground and wait for them to finish.
+- Docker: you can run containers (docker, docker compose, docker buildx) to check that your change works in the running app or to take screenshots, e.g. with Playwright. The daemon is rootless and shares this machine's network, so published ports are on localhost, and bind mounts from your worktree work. Containers have their own 6Gi memory limit. \`docker compose up -d\` and \`docker run -d\` are fine, since they return straight away; wait for readiness with a foreground loop. Use a project name per issue (\`docker compose -p issue-<number>\`), and stop everything you started (\`docker compose -p issue-<number> down -v\`) before you finish. Leftover containers are removed after your run. Commit screenshots that belong in the repo (e.g. docs images) so they appear in the pull request. This isn't an exception to the testing rule: don't run full e2e suites.
 - You have read-only kubectl access to the cluster if you need to inspect live state.
 - You have no GitHub credentials. Do not use gh, git push or git fetch: everything you need from GitHub (the issue, review comments, CI logs) is given to you, and the worker fetches and pushes for you.
 - Never put secrets (tokens, passwords, keys, credentials from the environment or the cluster) in code, commits or your messages. Commits are scanned for secrets before they are pushed.
@@ -120,11 +122,33 @@ check_disk() {
       log "Disk: ${target} ${used} of ${size} used (${pcent}), ${avail} free"
     fi
   done < <(df -h --output=target,size,used,avail,pcent /workspace /tmp 2>/dev/null | tail -n +2)
+  local docker_df
+  docker_df=$(timeout 30 docker system df --format '{{.Type}} {{.Size}}' 2>/dev/null | paste -sd, - | sed 's/,/, /g')
+  [[ -n "${docker_df}" ]] && log "Docker: ${docker_df}"
 }
 
 # Removes stale temp files left behind by earlier runs (only one task runs per pod at a time)
 clean_tmp() {
   find /tmp -mindepth 1 -maxdepth 1 -mmin +"${TMP_CLEAN_MINUTES}" -exec rm -rf {} + 2>/dev/null
+}
+
+# Removes containers left behind by earlier runs, then unused networks and volumes and dangling images. Tagged images
+# are kept as a pull cache until they pass DOCKER_IMAGE_PRUNE_GB, well under the 30Gi docker-data emptyDir.
+clean_docker() {
+  local ids bytes
+  ids=$(timeout 30 docker ps -aq 2>/dev/null) || return 0
+  if [[ -n "${ids}" ]]; then
+    log "Removing $(wc -l <<<"${ids}") leftover Docker container(s)"
+    # shellcheck disable=SC2086
+    timeout 120 docker rm -f ${ids} >/dev/null 2>&1
+  fi
+  timeout 300 docker system prune -f --volumes >/dev/null 2>&1
+  bytes=$(timeout 30 docker system df --format '{{.Type}} {{.Size}}' 2>/dev/null \
+    | awk '$1 == "Images" { print $2 }' | sed 's/B$//' | numfmt --from=si 2>/dev/null)
+  if (( ${bytes:-0} > DOCKER_IMAGE_PRUNE_GB * 1000000000 )); then
+    log "Docker images use $(numfmt --to=si "${bytes}")B, over ${DOCKER_IMAGE_PRUNE_GB}GB; removing all unused images"
+    timeout 300 docker image prune -af >/dev/null 2>&1
+  fi
 }
 
 rotate_logs() {
@@ -1440,6 +1464,7 @@ check_parent() { # state-file
 
 rotate_logs
 clean_tmp
+clean_docker
 set_status starting
 event worker_start "Worker ${ORDINAL}/${WORKER_COUNT} started (claude $(claude --version 2>/dev/null | head -n1)), watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
 
@@ -1471,6 +1496,7 @@ while (( ! stopping )); do
   STOP_REQUESTED=0
   rotate_logs
   clean_tmp
+  clean_docker
   stop_sweep
   # Watched PRs and answered questions first, so in-flight work is finished before new issues are started
   for sf in "${STATE_ROOT}"/*.json; do
