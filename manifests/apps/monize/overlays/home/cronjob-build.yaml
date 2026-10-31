@@ -28,6 +28,9 @@ spec:
             app: monize-build
         spec:
           serviceAccountName: monize-build
+          # The build containers run the branch's Dockerfile and npm install scripts, so they must
+          # not see the token that can patch the Monize deployments. Only "deploy" mounts it.
+          automountServiceAccountToken: false
           restartPolicy: Never
           # Init containers run in order and each must succeed before the next starts,
           # so nothing is pushed if the clone fails and nothing is restarted unless both builds pushed.
@@ -166,7 +169,27 @@ spec:
             volumeMounts:
             - name: workspace
               mountPath: /workspace
+            - name: service-account
+              mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              readOnly: true
 
           volumes:
           - name: workspace
             emptyDir: {}
+          # The same token, CA and namespace the automatic mount would provide, for "deploy" only
+          - name: service-account
+            projected:
+              sources:
+              - serviceAccountToken:
+                  path: token
+                  expirationSeconds: 3600
+              - configMap:
+                  name: kube-root-ca.crt
+                  items:
+                  - key: ca.crt
+                    path: ca.crt
+              - downwardAPI:
+                  items:
+                  - path: namespace
+                    fieldRef:
+                      fieldPath: metadata.namespace
