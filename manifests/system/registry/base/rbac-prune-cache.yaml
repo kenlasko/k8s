@@ -1,0 +1,38 @@
+# Lets the registry-prune-cache job restart the registry, and nothing else.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: registry-prune-cache
+  namespace: registry
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: registry-prune-cache
+  namespace: registry
+rules:
+# "rollout status" lists and watches the statefulset it waits on
+- apiGroups: ["apps"]
+  resources: ["statefulsets"]
+  verbs: ["get", "list", "watch"]
+# "rollout restart" patches the pod template's restartedAt annotation
+- apiGroups: ["apps"]
+  resources: ["statefulsets"]
+  resourceNames: ["registry"]
+  verbs: ["patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: registry-prune-cache
+  namespace: registry
+subjects:
+- kind: ServiceAccount
+  name: registry-prune-cache
+  namespace: registry
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: registry-prune-cache

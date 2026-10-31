@@ -1,0 +1,160 @@
+# Weekly prune of the Kaniko layer caches that the monize-build job pushes
+# (manifests/apps/monize/overlays/home/cronjob-build.yaml).
+# 1. prune: deletes every manifest in the cache repos older than MAX_AGE_DAYS. Kaniko stops
+#    using a cache layer 14 days after pushing it, so these are layers it would rebuild anyway.
+#    Manifests are listed from storage rather than by tag, because a cache key that Kaniko
+#    re-pushes leaves its previous manifest behind untagged.
+# 2. garbage-collect: removes the blobs nothing references any more. It runs against the live
+#    registry, so a push that is in flight while it runs can lose blobs; hence the quiet hour.
+# 3. restart: the registry caches blob metadata in memory, so it is restarted to forget the
+#    deleted blobs. Otherwise a later push of one of them is skipped and leaves a broken image.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: registry-prune-cache
+  namespace: registry
+spec:
+  schedule: "0 4 * * 0"  # Sundays at 4am
+  timeZone: America/Toronto
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 3600
+      template:
+        metadata:
+          labels:
+            app: registry-prune-cache
+        spec:
+          serviceAccountName: registry-prune-cache
+          restartPolicy: Never
+          initContainers:
+          - name: prune
+            image: ghcr.io/regclient/regctl:v0.11.6-alpine
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              cutoff=$(( $(date +%s) - MAX_AGE_DAYS * 86400 ))
+              regctl registry set "$REGISTRY" --tls disabled
+              deleted=0; kept=0; failed=0
+              for repo in $REPOS; do
+                revisions="/var/lib/registry/docker/registry/v2/repositories/$repo/_manifests/revisions/sha256"
+                if [ ! -d "$revisions" ]; then
+                  echo "$repo: no manifests"
+                  continue
+                fi
+                for dir in "$revisions"/*; do
+                  # A deleted manifest keeps its directory but loses its link file.
+                  [ -f "$dir/link" ] || continue
+                  ref="$REGISTRY/$repo@sha256:$(basename "$dir")"
+                  if ! created=$(regctl image inspect "$ref" --format '{{if .Created}}{{.Created.Unix}}{{end}}'); then
+                    echo "WARN: could not read $ref, keeping it"
+                    kept=$((kept + 1))
+                    continue
+                  fi
+                  if [ -z "$created" ] || [ "$created" -ge "$cutoff" ]; then
+                    kept=$((kept + 1))
+                    continue
+                  fi
+                  if regctl manifest delete "$ref"; then
+                    deleted=$((deleted + 1))
+                  else
+                    echo "ERROR: could not delete $ref"
+                    failed=$((failed + 1))
+                  fi
+                done
+              done
+              echo "Deleted $deleted manifests older than $MAX_AGE_DAYS days, kept $kept, failed $failed."
+              # A failed delete stops the job here, so it shows as failed instead of collecting a partial prune.
+              [ "$failed" -eq 0 ]
+            env:
+            - name: REGISTRY
+              value: registry-service:5000
+            - name: REPOS
+              value: monize/backend-cache monize/frontend-cache
+            - name: MAX_AGE_DAYS
+              value: "14"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+            volumeMounts:
+            - name: registry
+              mountPath: /var/lib/registry
+              readOnly: true
+            - name: regctl-config
+              mountPath: /home/appuser/.regctl
+
+          - name: garbage-collect
+            image: docker.io/library/registry:3.1.2
+            # The image's built-in config stores everything under /var/lib/registry, same as the registry itself.
+            args: ["garbage-collect", "/etc/distribution/config.yml"]
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: registry
+              mountPath: /var/lib/registry
+
+          containers:
+          - name: restart
+            image: docker.io/alpine/kubectl:1.37.0
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              kubectl rollout restart -n registry statefulset/registry
+              kubectl rollout status -n registry statefulset/registry --timeout=5m
+            env:
+            - name: HOME
+              value: /tmp
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+
+          volumes:
+          - name: registry
+            persistentVolumeClaim:
+              claimName: nfs-registry
+          - name: regctl-config
+            emptyDir: {}
+          - name: tmp
+            emptyDir: {}

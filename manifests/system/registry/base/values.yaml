@@ -18,6 +18,9 @@ env:
   value: "0.0.0.0:5000"
 - name: TZ
   value: "America/Toronto"
+# Already the image's default; set explicitly because the registry-prune-cache job depends on it
+- name: REGISTRY_STORAGE_DELETE_ENABLED
+  value: "true"
 resources:
   requests:
     cpu: 1m
