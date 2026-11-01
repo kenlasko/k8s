@@ -21,13 +21,13 @@ If a run ends without a final message (for example after hitting `MAX_TURNS`), t
 
 **Linked discussions are included.** If the issue body or comments from the trusted user link to a GitHub Discussion (a `/discussions/<n>` URL, or a `#<n>` that turns out to be a discussion rather than an issue), the worker fetches it, with its comments and replies, and adds it to Claude's prompt, up to `MAX_DISCUSSIONS` (5). The code review session gets them too. See [Security](#security) for how they're treated.
 
-**Security alerts are included.** The worker fetches the Dependabot and code scanning alerts an issue refers to and adds them to Claude's prompt (and the code review's), with the package, manifest, vulnerable and patched versions and advisory text, or the rule, location, message and rule help. It recognises:
+**Security alerts are included.** The worker fetches the Dependabot and code scanning alerts an issue refers to and adds them to Claude's prompt (and the code review's), with the package, manifest, vulnerable and patched versions and advisory text, or the rule, location, message and rule help. It looks in the issue body, comments from the trusted user and, for a sub-issue, the parent issue's body, and recognises:
 * alert URLs, such as `https://github.com/<owner>/<repo>/security/dependabot/12` or `.../security/code-scanning/34`
-* mentions such as `Dependabot alert #12`, `code scanning alert 34` or `CodeQL #34`
+* mentions with the word "alert": `Dependabot alert #12`, `code scanning alert 34`, `CodeQL alert 34`. A bare `dependabot 3` isn't enough, so that prose like "merge the dependabot 3 PRs" doesn't pull in alert #3.
 * GHSA and CVE IDs, looked up in GitHub's advisory database (skipped when a Dependabot alert already covers that advisory)
-* a line `Alerts: dependabot`, `Alerts: code-scanning` or `Alerts: all` in the issue (or a trusted comment), for every **open** alert of that kind. For example, "Fix the latest code scanning issues" plus `Alerts: code-scanning`.
+* `Alerts: dependabot`, `Alerts: code-scanning` or `Alerts: all` lines, also as a list item or in bold (`- **Alerts:** all`), for every **open** alert of that kind. For example, "Fix the latest code scanning issues" plus `Alerts: code-scanning`.
 
-At most `MAX_ALERTS` (20) are included, and Claude is told how many were left out. Claude can't dismiss alerts. If it thinks one should be dismissed rather than fixed, it says why in its final message. Secret scanning alerts are never fetched, since they contain the leaked secret.
+At most `MAX_ALERTS` (20) are included, and Claude is told how many were left out. The code review reuses the alerts and discussions fetched for the run it follows. Claude can't dismiss alerts. If it thinks one should be dismissed rather than fixed, it says why in its final message. Secret scanning alerts are never fetched, since they contain the leaked secret.
 
 **Claude can run Docker containers** for checking that a change works in the running app and for taking screenshots. Each pod has a [rootless Docker](#docker) sidecar.
 
