@@ -1,4 +1,7 @@
-# Lets the monize-build job restart the Monize deployments, and nothing else.
+# The monize-build coordinator: creates the two build Jobs from their CronJobs, waits for
+# them, then restarts the Monize deployments. Creating Jobs can run any pod in this namespace,
+# so only the coordinator's trusted images (git, kubectl) hold this token; the build Jobs
+# themselves run without one.
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,6 +15,22 @@ metadata:
   name: monize-build
   namespace: monize
 rules:
+# "create job --from" reads the build CronJobs it copies
+- apiGroups: ["batch"]
+  resources: ["cronjobs"]
+  resourceNames: ["monize-build-backend", "monize-build-frontend"]
+  verbs: ["get"]
+# create the build Jobs, poll them, and delete the other one when one fails
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["create", "get", "list", "watch", "delete"]
+# print a failed build's log
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/log"]
+  verbs: ["get"]
 # "rollout status" lists and watches the deployment it waits on
 - apiGroups: ["apps"]
   resources: ["deployments"]

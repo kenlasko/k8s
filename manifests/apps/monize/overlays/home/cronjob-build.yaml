@@ -1,11 +1,19 @@
 # Builds the Monize backend and frontend images from a branch of github.com/kenlasko/monize,
-# pushes them to registry.laskonet.com as :latest, then restarts the Monize deployments.
-# RUN layers are cached in registry.laskonet.com/monize/{backend,frontend}-cache, so an
-# unchanged package-lock.json skips "npm ci". Cached layers expire after Kaniko's default
-# two weeks, but the registry keeps them until garbage-collected.
-# Manual trigger only: it is suspended, so the schedule never fires.
+# in parallel and preferably on different nodes, pushes them to registry.laskonet.com as
+# :latest, then restarts the Monize deployments.
+#
+# monize-build is the one to trigger. It pins the branch to a commit, creates one Job from
+# each of monize-build-backend and monize-build-frontend for that commit, waits for both,
+# then restarts the deployments. All three are suspended, so their schedules never fire.
 #   main:      kubectl create job -n monize --from=cronjob/monize-build monize-build-$(date +%s)
 #   a branch:  scripts/monize-build.sh <branch>   (in this repo)
+# Triggering monize-build-backend or monize-build-frontend directly builds and pushes that
+# image from main without restarting anything.
+#
+# RUN layers are cached in registry.laskonet.com/monize/{backend,frontend}-cache, so an
+# unchanged package-lock.json skips "npm ci". The registry's registry-prune-cache CronJob
+# deletes cache layers older than 14 days.
+
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -27,13 +35,172 @@ spec:
           labels:
             app: monize-build
         spec:
+          # Only trusted images run in this pod; the build Jobs it creates get no token.
           serviceAccountName: monize-build
-          # The build containers run the branch's Dockerfile and npm install scripts, so they must
-          # not see the token that can patch the Monize deployments. Only "deploy" mounts it.
+          restartPolicy: Never
+          initContainers:
+          # Pins the branch to one commit, so both images are built from the same source
+          # even if the branch moves while they build.
+          - name: resolve
+            image: docker.io/alpine/git:v2.54.0
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              BRANCH="${BRANCH:-main}"
+              sha=$(git ls-remote --exit-code "$REPO_URL" "refs/heads/$BRANCH" | cut -f1)
+              case "$sha" in
+                *[!0-9a-f]*|"") echo "Could not resolve branch $BRANCH" >&2; exit 1 ;;
+              esac
+              [ ${#sha} -eq 40 ] || { echo "Unexpected commit id '$sha' for $BRANCH" >&2; exit 1; }
+              echo "$sha" > /build-info/GIT_SHA
+              echo "Building $BRANCH at $sha"
+            env:
+            - name: REPO_URL
+              value: https://github.com/kenlasko/monize.git
+            - name: BRANCH
+              value: main
+            - name: HOME
+              value: /build-info
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: build-info
+              mountPath: /build-info
+
+          containers:
+          - name: coordinate
+            image: docker.io/alpine/kubectl:1.37.2
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              sha=$(cat /build-info/GIT_SHA)
+              # Build Job names are this Job's name plus "-frontend", within the 63-character limit.
+              base=$(printf '%s' "$JOB_NAME" | cut -c1-54 | sed -e 's/-*$//')
+
+              for component in backend frontend; do
+                # "create job --from" can't set env, so the commit goes into the generated Job's
+                # GIT_REF. The test ops make the patch fail loudly if the template's layout changes.
+                kubectl create job -n monize "$base-$component" --from="cronjob/monize-build-$component" --dry-run=client -o json \
+                  | kubectl patch --local -f - --type=json -o json -p "[
+                      {\"op\": \"test\", \"path\": \"/spec/template/spec/initContainers/0/name\", \"value\": \"clone\"},
+                      {\"op\": \"test\", \"path\": \"/spec/template/spec/initContainers/0/env/1/name\", \"value\": \"GIT_REF\"},
+                      {\"op\": \"replace\", \"path\": \"/spec/template/spec/initContainers/0/env/1/value\", \"value\": \"$sha\"}
+                    ]" \
+                  | kubectl create -f -
+              done
+              echo "Build logs: kubectl logs -n monize -f job/$base-backend -c build   (or $base-frontend)"
+
+              # Wait for both. If one fails, stop the other so it doesn't push a :latest that
+              # nothing deploys (a deployment restarted later for any reason would pick it up).
+              while :; do
+                succeeded=0
+                for component in backend frontend; do
+                  status=$(kubectl get job -n monize "$base-$component" -o jsonpath='{.status.succeeded}/{.status.failed}')
+                  case "$status" in
+                    1/*) succeeded=$((succeeded + 1)) ;;
+                    */1)
+                      echo "The $component build failed. Last lines of its log:" >&2
+                      kubectl logs -n monize "job/$base-$component" --all-containers --tail=40 >&2 || true
+                      for other in backend frontend; do
+                        [ "$other" = "$component" ] || kubectl delete job -n monize "$base-$other" --ignore-not-found --wait=false
+                      done
+                      exit 1
+                      ;;
+                  esac
+                done
+                [ "$succeeded" -eq 2 ] && break
+                sleep 10
+              done
+              echo "Both images pushed."
+
+              kubectl rollout restart -n monize deployment/monize-backend deployment/monize-frontend
+              kubectl rollout status -n monize deployment/monize-backend --timeout=5m
+              kubectl rollout status -n monize deployment/monize-frontend --timeout=5m
+              echo "Deployed $(echo "$sha" | cut -c1-7)."
+            env:
+            - name: JOB_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['job-name']
+            # kubectl looks for a kubeconfig under HOME, so it gets a private one
+            - name: HOME
+              value: /home/coordinate
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: build-info
+              mountPath: /build-info
+              readOnly: true
+            - name: coordinate-home
+              mountPath: /home/coordinate
+
+          volumes:
+          - name: build-info
+            emptyDir: {}
+          - name: coordinate-home
+            emptyDir: {}
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: monize-build-backend
+  namespace: monize
+spec:
+  schedule: "0 0 1 1 *"
+  suspend: true
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 3600
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app: monize-build-image
+            component: backend
+        spec:
+          # The build runs the branch's Dockerfile and npm install scripts: no Kubernetes token.
           automountServiceAccountToken: false
           restartPolicy: Never
-          # Init containers run in order and each must succeed before the next starts,
-          # so nothing is pushed if the clone fails and nothing is restarted unless both builds pushed.
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchLabels:
+                      app: monize-build-image
           initContainers:
           - name: clone
             image: docker.io/alpine/git:v2.54.0
@@ -41,16 +208,17 @@ spec:
             args:
             - |
               set -eu
-              BRANCH="${BRANCH:-main}"
-              echo "Cloning $REPO_URL ($BRANCH)..."
-              git clone --depth 1 --single-branch --branch "$BRANCH" "$REPO_URL" /workspace/src
+              git init -q /workspace/src
+              git -C /workspace/src fetch -q --depth 1 "$REPO_URL" "$GIT_REF"
+              git -C /workspace/src checkout -q FETCH_HEAD
               git -C /workspace/src rev-parse HEAD > /build-info/GIT_SHA
               date -u +%Y-%m-%dT%H:%M:%SZ > /build-info/BUILD_DATE
-              echo "Building $BRANCH at $(git -C /workspace/src log -1 --format='%h %s')"
+              echo "Building $(git -C /workspace/src log -1 --format='%h %s')"
+            # monize-build replaces GIT_REF (env index 1) with a commit id; keep the order.
             env:
             - name: REPO_URL
               value: https://github.com/kenlasko/monize.git
-            - name: BRANCH
+            - name: GIT_REF
               value: main
             - name: HOME
               value: /workspace
@@ -73,8 +241,8 @@ spec:
               mountPath: /workspace
             - name: build-info
               mountPath: /build-info
-
-          - name: build-backend
+          containers:
+          - name: build
             image: ghcr.io/osscontainertools/kaniko:v1.29.0-debug
             command: ["/busybox/sh", "-c"]
             args:
@@ -109,8 +277,89 @@ spec:
             - name: build-info
               mountPath: /build-info
               readOnly: true
+          volumes:
+          - name: workspace
+            emptyDir: {}
+          - name: build-info
+            emptyDir: {}
 
-          - name: build-frontend
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: monize-build-frontend
+  namespace: monize
+spec:
+  schedule: "0 0 1 1 *"
+  suspend: true
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 3600
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app: monize-build-image
+            component: frontend
+        spec:
+          # The build runs the branch's Dockerfile and npm install scripts: no Kubernetes token.
+          automountServiceAccountToken: false
+          restartPolicy: Never
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchLabels:
+                      app: monize-build-image
+          initContainers:
+          - name: clone
+            image: docker.io/alpine/git:v2.54.0
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              set -eu
+              git init -q /workspace/src
+              git -C /workspace/src fetch -q --depth 1 "$REPO_URL" "$GIT_REF"
+              git -C /workspace/src checkout -q FETCH_HEAD
+              git -C /workspace/src rev-parse HEAD > /build-info/GIT_SHA
+              date -u +%Y-%m-%dT%H:%M:%SZ > /build-info/BUILD_DATE
+              echo "Building $(git -C /workspace/src log -1 --format='%h %s')"
+            # monize-build replaces GIT_REF (env index 1) with a commit id; keep the order.
+            env:
+            - name: REPO_URL
+              value: https://github.com/kenlasko/monize.git
+            - name: GIT_REF
+              value: main
+            - name: HOME
+              value: /workspace
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 100
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+            volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+            - name: build-info
+              mountPath: /build-info
+          containers:
+          - name: build
             image: ghcr.io/osscontainertools/kaniko:v1.29.0-debug
             command: ["/busybox/sh", "-c"]
             args:
@@ -138,77 +387,15 @@ spec:
                 cpu: 500m
                 memory: 2Gi
               limits:
-                memory: 6Gi   # the backend's tsc build alone is allowed 4Gi of heap
+                memory: 6Gi
             volumeMounts:
             - name: workspace
               mountPath: /workspace
             - name: build-info
               mountPath: /build-info
               readOnly: true
-
-          containers:
-          - name: deploy
-            image: docker.io/alpine/kubectl:1.37.2
-            command: ["/bin/sh", "-c"]
-            args:
-            - |
-              set -eu
-              kubectl rollout restart -n monize deployment/monize-backend deployment/monize-frontend
-              kubectl rollout status -n monize deployment/monize-backend --timeout=5m
-              kubectl rollout status -n monize deployment/monize-frontend --timeout=5m
-              echo "Deployed $(cut -c1-7 /build-info/GIT_SHA)."
-            # The build steps can write to /workspace, so "deploy" holds the token but reads nothing
-            # they could have written: its HOME (where kubectl looks for a kubeconfig) is private,
-            # and build-info is written only by "clone".
-            env:
-            - name: HOME
-              value: /home/deploy
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              runAsNonRoot: true
-              runAsUser: 1001
-              runAsGroup: 100
-              seccompProfile:
-                type: RuntimeDefault
-              capabilities:
-                drop: ["ALL"]
-            resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-            volumeMounts:
-            - name: deploy-home
-              mountPath: /home/deploy
-            - name: build-info
-              mountPath: /build-info
-              readOnly: true
-            - name: service-account
-              mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-              readOnly: true
-
           volumes:
           - name: workspace
             emptyDir: {}
-          # GIT_SHA and BUILD_DATE; written by "clone", read-only everywhere else
           - name: build-info
             emptyDir: {}
-          - name: deploy-home
-            emptyDir: {}
-          # The same token, CA and namespace the automatic mount would provide, for "deploy" only
-          - name: service-account
-            projected:
-              sources:
-              - serviceAccountToken:
-                  path: token
-                  expirationSeconds: 3600
-              - configMap:
-                  name: kube-root-ca.crt
-                  items:
-                  - key: ca.crt
-                    path: ca.crt
-              - downwardAPI:
-                  items:
-                  - path: namespace
-                    fieldRef:
-                      fieldPath: metadata.namespace
