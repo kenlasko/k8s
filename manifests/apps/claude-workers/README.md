@@ -21,6 +21,14 @@ If a run ends without a final message (for example after hitting `MAX_TURNS`), t
 
 **Linked discussions are included.** If the issue body or comments from the trusted user link to a GitHub Discussion (a `/discussions/<n>` URL, or a `#<n>` that turns out to be a discussion rather than an issue), the worker fetches it, with its comments and replies, and adds it to Claude's prompt, up to `MAX_DISCUSSIONS` (5). The code review session gets them too. See [Security](#security) for how they're treated.
 
+**Security alerts are included.** The worker fetches the Dependabot and code scanning alerts an issue refers to and adds them to Claude's prompt (and the code review's), with the package, manifest, vulnerable and patched versions and advisory text, or the rule, location, message and rule help. It recognises:
+* alert URLs, such as `https://github.com/<owner>/<repo>/security/dependabot/12` or `.../security/code-scanning/34`
+* mentions such as `Dependabot alert #12`, `code scanning alert 34` or `CodeQL #34`
+* GHSA and CVE IDs, looked up in GitHub's advisory database (skipped when a Dependabot alert already covers that advisory)
+* a line `Alerts: dependabot`, `Alerts: code-scanning` or `Alerts: all` in the issue (or a trusted comment), for every **open** alert of that kind. For example, "Fix the latest code scanning issues" plus `Alerts: code-scanning`.
+
+At most `MAX_ALERTS` (20) are included, and Claude is told how many were left out. Claude can't dismiss alerts. If it thinks one should be dismissed rather than fixed, it says why in its final message. Secret scanning alerts are never fetched, since they contain the leaked secret.
+
 **Claude can run Docker containers** for checking that a change works in the running app and for taking screenshots. Each pod has a [rootless Docker](#docker) sidecar.
 
 **Testing is split between the worker and CI.** Claude is told not to run the full test suite, coverage or full builds on the worker, which is slow. It runs only the tests that cover the code it changed (plus any tests it added), with lint and type-checking scoped to the changed files where the tooling allows. The complete suite runs in GitHub CI on the PR. If it fails, [PR watching](#pr-watching) hands the failure logs back to Claude, which fixes the problem, re-runs only the failing tests locally and pushes. Each CI failure uses one of the `MAX_FIX_ROUNDS`.
@@ -100,7 +108,7 @@ Setup is best-effort: if it fails, the worker logs a warning (details in `/works
    ```
    claude setup-token
    ```
-3. **Create a fine-grained GitHub PAT** limited to the repos in `REPOS`, with **Contents**, **Issues** and **Pull requests** set to read/write, and **Actions**, **Commit statuses** and **Discussions** set to read. Discussions on public repos can be read without that last one. Protect your default branches so that the token can't push to them directly.
+3. **Create a fine-grained GitHub PAT** limited to the repos in `REPOS`, with **Contents**, **Issues** and **Pull requests** set to read/write, and **Actions**, **Commit statuses**, **Discussions**, **Dependabot alerts** and **Code scanning alerts** set to read. Discussions on public repos can be read without the Discussions permission; the alert permissions are always needed. Leave **Secret scanning alerts** off. Protect your default branches so that the token can't push to them directly.
 4. **Store both in Akeyless** as a secret at `/claude-workers` with the properties `oauthToken` and `githubToken`.
 5. Merge. The `apps` ApplicationSet picks up the app automatically.
 
@@ -187,6 +195,7 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `AUTO_MERGE_METHOD` | `merge`, `squash` or `rebase` for auto-merge (empty = the first the repo allows) |
 | `LOG_FORMAT` | `json` (default, for Loki) or `text` |
 | `TMP_CLEAN_MINUTES` | Files in `/tmp` older than this are removed between tasks |
+| `MAX_ALERTS` | Most security alerts and advisories fetched into the prompt (20) |
 | `MAX_DISCUSSIONS` | Most linked GitHub Discussions fetched into the prompt (5) |
 | `DOCKER_IMAGE_PRUNE_GB` | Unused Docker images are removed between tasks once they use more than this (20) |
 | `LOG_RETENTION_DAYS` | Days to keep per-run transcripts |

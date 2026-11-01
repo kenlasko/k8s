@@ -62,6 +62,8 @@ data:
   DOCKER_IMAGE_PRUNE_GB: "20"
   # Most GitHub Discussions linked from an issue that are fetched into Claude's prompt
   MAX_DISCUSSIONS: "5"
+  # Most Dependabot/code scanning alerts and advisories fetched into Claude's prompt
+  MAX_ALERTS: "20"
   DISABLE_AUTOUPDATER: "1"
   # Trail-code: don't git fetch teammates' branches from the hooks (Claude has no GitHub credentials)
   TRAIL_NO_FETCH: "1"
