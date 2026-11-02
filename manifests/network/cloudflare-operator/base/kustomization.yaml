@@ -4,6 +4,13 @@ resources:
 - https://github.com/adyanth/cloudflare-operator.git/config/default?ref=v0.14.0
 - external-secrets.yaml
 # - networkpolicy.yaml
+# Upstream config/manager stopped pinning the image as of v0.14.0, leaving the
+# kubebuilder placeholder "controller:latest" (resolves to docker.io/library/controller).
+# Keep newTag in step with the ?ref= above.
+images:
+- name: controller
+  newName: adyanth/cloudflare-operator
+  newTag: 0.14.0
 # The upstream config/default ships its own "cloudflare-operator-system" namespace,
 # which the overlay's `namespace:` transformer renames to the target namespace.
 # Rather than ship a second Namespace object (which collides), add the
