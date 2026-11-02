@@ -10,7 +10,7 @@ resources:
 images:
 - name: controller
   newName: adyanth/cloudflare-operator
-  newTag: 0.14.0
+  newTag: 10.0.2
 # The upstream config/default ships its own "cloudflare-operator-system" namespace,
 # which the overlay's `namespace:` transformer renames to the target namespace.
 # Rather than ship a second Namespace object (which collides), add the
