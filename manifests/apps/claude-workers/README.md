@@ -110,7 +110,7 @@ Setup is best-effort: if it fails, the worker logs a warning (details in `/works
    ```
    claude setup-token
    ```
-3. **Create a fine-grained GitHub PAT** limited to the repos in `REPOS`, with **Contents**, **Issues** and **Pull requests** set to read/write, and **Actions**, **Commit statuses**, **Discussions**, **Dependabot alerts** and **Code scanning alerts** set to read. Discussions on public repos can be read without the Discussions permission; the alert permissions are always needed. Leave **Secret scanning alerts** off. Protect your default branches so that the token can't push to them directly.
+3. **Create a fine-grained GitHub PAT** limited to the repos in `REPOS`, with **Contents**, **Issues**, **Pull requests** and **Workflows** set to read/write (without Workflows, GitHub rejects any push that changes a file under `.github/workflows/`), and **Actions**, **Commit statuses**, **Discussions**, **Dependabot alerts** and **Code scanning alerts** set to read. Discussions on public repos can be read without the Discussions permission; the alert permissions are always needed. Leave **Secret scanning alerts** off. Protect your default branches so that the token can't push to them directly.
 4. **Store both in Akeyless** as a secret at `/claude-workers` with the properties `oauthToken` and `githubToken`.
 5. Merge. The `apps` ApplicationSet picks up the app automatically.
 

@@ -1002,6 +1002,15 @@ handle_question() { # repo num branch base
 }
 
 # Decides what to do once an issue run ends: open a PR, post a question, or give up.
+fail_publish() { # repo num dir what error-output
+  local repo=$1 num=$2 dir=$3
+  log_event warn publish_failed "$4: $(tr '\n' ' ' <<<"$5")"
+  edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Stopped: $4")"
+  relabel "${repo}" "${num}" claude-wip claude-failed
+  post_comment "${repo}" "${num}" "$(printf '%s `%s` finished the work but **did not open a PR**: %s.\n\n```\n%s\n```\n\n### Summary\n%s\n\nThe commits are kept in `%s` on `%s` until the issue is picked up again; re-adding the `%s` label starts over.' \
+    "${BOT}" "${WORKER}" "$4" "$5" "${SUMMARY}" "${dir}" "${WORKER}" "${TRIGGER_LABEL}")" >/dev/null
+}
+
 handle_result() { # repo num branch base
   local repo=$1 num=$2 branch=$3 base=$4
   local key dir commits
@@ -1042,18 +1051,28 @@ handle_result() { # repo num branch base
   fi
 
   if (( commits > 0 )); then
-    edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
-    git -C "${dir}" push -q --force -u origin "${branch}"
-    local title pr
+    local title pr out
+    # A rejected push (e.g. a token without the Workflows permission touching .github/workflows) must not
+    # be reported as a finished PR. The worktree is kept so the commits can still be recovered by hand.
+    if ! out=$(git -C "${dir}" push -q --force -u origin "${branch}" 2>&1); then
+      fail_publish "${repo}" "${num}" "${dir}" "Pushing \`${branch}\` failed" "${out}"
+      return
+    fi
     title=$(gh issue view "${num}" --repo "${repo}" --json title --jq .title)
     build_pr_body "${dir}" "${num}"
     pr=$(gh pr view "${branch}" --repo "${repo}" --json url,state --jq 'select(.state == "OPEN") | .url' 2>/dev/null)
     if [[ -z "${pr}" ]]; then
-      pr=$(gh pr create --repo "${repo}" --base "${base}" --head "${branch}" --title "${title}" --body "${PR_BODY}")
+      if ! out=$(gh pr create --repo "${repo}" --base "${base}" --head "${branch}" --title "${title}" --body "${PR_BODY}" 2>&1) \
+        || [[ "${out}" != https://* ]]; then
+        fail_publish "${repo}" "${num}" "${dir}" "Opening a PR for \`${branch}\` failed (the branch was pushed)" "${out}"
+        return
+      fi
+      pr=$(tail -n1 <<<"${out}")
     else
       # A re-queued issue reuses its open PR; refresh the description so it matches the new work
       gh pr edit "${pr}" --repo "${repo}" --body "${PR_BODY}" >/dev/null
     fi
+    edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
     relabel "${repo}" "${num}" claude-wip claude-pr
     event pr_opened "Opened ${pr}; watching it"
     [[ "${REVIEW_DONE}" == "true" ]] && post_comment "${repo}" "${pr##*/}" "$(review_comment "${dir}")" >/dev/null
@@ -1465,12 +1484,13 @@ ${RULES}" "${SID}" "${PROGRESS_ID}"
       "${BOT}" "${heading}" "${SECRET_FINDINGS}" "${STATS}")
   elif [[ "${after}" != "${before}" ]]; then
     after=$(git -C "${dir}" rev-parse HEAD) # the secret gate may have rewritten the commits
-    if git -C "${dir}" push -q origin "HEAD:${branch}"; then
+    local out
+    if out=$(git -C "${dir}" push -q origin "HEAD:${branch}" 2>&1); then
       event pushed "Pushed ${after:0:7} to ${branch}"
       body=$(printf '%s **%s**\n\n%s\n\n%s\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "$(change_list "${dir}" "${before}")" "${STATS}")
     else
-      warn "Pushing ${after:0:7} to ${branch} failed"
-      body=$(printf '%s **%s**\n\n%s\n\n**Pushing the fix failed.** The branch may have been changed elsewhere.\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "${STATS}")
+      warn "Pushing ${after:0:7} to ${branch} failed: $(tr '\n' ' ' <<<"${out}")"
+      body=$(printf '%s **%s**\n\n%s\n\n**Pushing the fix failed:**\n\n```\n%s\n```\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "${out}" "${STATS}")
     fi
   else
     body=$(printf '%s **%s**: no new commits.\n\n%s\n\n---\n_%s_' "${BOT}" "${heading}" "${SUMMARY}" "${STATS}")
