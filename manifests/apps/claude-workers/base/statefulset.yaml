@@ -48,11 +48,22 @@ spec:
         # Starting with "dockerd" skips the entrypoint's default args, which add an unauthenticated tcp://0.0.0.0:2375
         # listener when TLS is off. The socket is kept out of /run, which rootlesskit replaces with a private copy.
         args: ["dockerd", "--host=unix:///docker/docker.sock"]
+        env:
+        # Without --state-dir, rootlesskit puts its port API socket in /tmp/rootlesskit<random>. /tmp is shared with the
+        # worker, whose clean_tmp deletes it after TMP_CLEAN_MINUTES, and every "docker run -p" fails from then on.
+        - name: DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS
+          value: --state-dir=/home/rootless/.rootlesskit
         startupProbe:
           exec:
             command: ["docker", "--host=unix:///docker/docker.sock", "version"]
           periodSeconds: 2
           failureThreshold: 60
+        # Port publishing needs rootlesskit's API socket; restart the sidecar if it goes missing
+        livenessProbe:
+          exec:
+            command: ["test", "-S", "/home/rootless/.rootlesskit/api.sock"]
+          periodSeconds: 60
+          failureThreshold: 2
         # rootlesskit needs privileged for its user and mount namespaces, but the daemon and every container it
         # runs are uid 1000 on the node, so a container escape doesn't land as root
         securityContext:

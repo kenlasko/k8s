@@ -220,6 +220,7 @@ Each pod runs a rootless Docker daemon ([`docker:dind-rootless`](https://hub.doc
 * **Memory**: the sidecar, and so every container Claude starts, has its own 6Gi limit, apart from the worker's 10Gi.
 * **Pulls** come straight from Docker Hub and other registries, so heavy use can run into Docker Hub's anonymous rate limits.
 * The daemon is started as `dockerd --host=unix:///docker/docker.sock`. Starting with `dockerd` skips the image's default arguments, which would also open an **unauthenticated** `tcp://0.0.0.0:2375` listener on the pod IP when TLS is off. The socket is kept out of `/run`, which rootlesskit swaps for a private copy.
+* **Published ports** go through rootlesskit's port API socket. Its state dir is pinned to `/home/rootless/.rootlesskit` in the sidecar's own filesystem (`DOCKERD_ROOTLESS_ROOTLESSKIT_FLAGS=--state-dir=...`). By default it lands in `/tmp/rootlesskit<random>`, and since `/tmp` is shared with the worker, `clean_tmp` deleted it an hour after the sidecar started, after which every `docker run -p` failed with `dial unix /tmp/rootlesskit.../api.sock: connect: no such file or directory`. A liveness probe restarts the sidecar if the socket goes missing.
 
 `kubectl exec` and `kubectl logs` default to the worker container. To see the daemon's logs: `kubectl -n claude-workers logs claude-worker-0 -c dind`.
 
