@@ -631,6 +631,34 @@ setup_trail() { # worktree
   return 0
 }
 
+# Trail's Stop hook blocks the first stop of a session that did real digging and asks it to save a learning.
+# The code reviewer is read-only and must not write one, and its reply to that ask would follow the review, so
+# the review runs without the hook. Removes trail's Stop entries from the worktree's settings.local.json and
+# sets STOP_HOOK_BACKUP to a copy for restore_trail_stop_hook (empty if there was nothing to remove).
+STOP_HOOK_BACKUP=""
+drop_trail_stop_hook() { # worktree
+  local f="$1/.claude/settings.local.json" backup tmp
+  STOP_HOOK_BACKUP=""
+  jq -e 'any(.hooks.Stop[]?.hooks[]?; (.command // "") | contains(".trail/hook.cjs"))' "${f}" >/dev/null 2>&1 || return 0
+  backup=$(mktemp) && cp -p "${f}" "${backup}" || return 0
+  tmp=$(mktemp)
+  if jq '.hooks.Stop = [.hooks.Stop[]? | select(any(.hooks[]?; (.command // "") | contains(".trail/hook.cjs")) | not)]
+      | if .hooks.Stop == [] then del(.hooks.Stop) else . end' "${f}" > "${tmp}"; then
+    cat "${tmp}" > "${f}"
+    rm -f "${tmp}"
+    STOP_HOOK_BACKUP="${backup}"
+  else
+    rm -f "${tmp}" "${backup}"
+    warn "Could not remove trail's Stop hook for the code review; its reply may follow the review"
+  fi
+}
+
+restore_trail_stop_hook() { # worktree
+  [[ -n "${STOP_HOOK_BACKUP}" && -f "${STOP_HOOK_BACKUP}" ]] || return 0
+  cat "${STOP_HOOK_BACKUP}" > "$1/.claude/settings.local.json" && rm -f "${STOP_HOOK_BACKUP}"
+  STOP_HOOK_BACKUP=""
+}
+
 run_claude() { # repo issue-or-pr-num worktree prompt [session-id-to-resume] [progress-comment-id-to-reuse] [also-post-progress-on-num]
   local repo=$1 num=$2 dir=$3 prompt=$4 resume=${5:-} reuse=${6:-} mirror=${7:-} alerts_file
   trust_repo "${repo}"
@@ -699,22 +727,64 @@ The repo's open Dependabot and code scanning alerts, refreshed just now, are in 
   event claude_end "Claude exited with code ${RC}"
 }
 
+# Sets FINAL_MESSAGE to the final message of a stream-json transcript. The result event only carries the last
+# assistant message, which is wrong when a Stop hook blocked the stop: trail's hook asks a session that did real
+# digging to save a learning, and the reply to that ask (e.g. "I haven't saved a learning; the review above
+# stands") would replace the real final message. So when the main thread got "Stop hook feedback" after its last
+# real prompt, the message it was stopping on at the first such block is used instead, unless that message lacks
+# MARKER (an ERE matched per line, e.g. the STATUS line) and the later one has it, meaning the session wasn't done.
+# Messages from subagents are ignored. Tool-only and empty messages don't count as a final message.
+final_message() { # transcript.jsonl [marker-ERE]
+  local picked
+  picked=$(jq -Rcn --arg marker "${2:-}" '
+    def has_marker: $marker != "" and any(split("\n")[]; test($marker));
+    reduce (inputs | fromjson? | select(type == "object" and (.parent_tool_use_id // null) == null)) as $e
+      ({result: null, cur: "", curid: null, held: null};
+      if $e.type == "result" then .result = ($e.result // "")
+      elif $e.type == "assistant" then
+        if any($e.message.content[]?; .type == "tool_use") then .cur = "" | .curid = null
+        else ([$e.message.content[]? | select(.type == "text") | .text] | join("\n\n")) as $t
+          | if $t == "" then .
+            elif .curid != null and $e.message.id == .curid then .cur += "\n\n" + $t
+            else .cur = $t | .curid = ($e.message.id // null) end
+        end
+      elif $e.type == "user" then
+        ($e.message.content | if type == "string" then . else [.[]? | select(.type == "text") | .text] | join("\n") end) as $u
+        | if $u == "" then .
+          elif ($u | startswith("Stop hook feedback:")) then (if .held == null then .held = .cur else . end)
+          else .held = null end
+      else . end)
+    | (.result // "") as $r
+    | if .held == null or (.held | test("\\S") | not) or .held == $r then {text: $r, hooked: false}
+      elif (.held | has_marker | not) and ($r | has_marker) then {text: $r, hooked: false}
+      else {text: .held, hooked: true} end' "$1" 2>/dev/null) || picked='{}'
+  FINAL_MESSAGE=$(jq -r '.text // ""' <<<"${picked}")
+  if [[ $(jq -r '.hooked // false' <<<"${picked}") == "true" ]]; then
+    warn "A Stop hook made Claude reply after its final message; using the message from before the hook instead"
+  fi
+}
+
 # Extracts the outcome of the last run_claude. Sets SID, SUMMARY, STATUS and STATS.
 # If the run ended without a final message (e.g. it hit MAX_TURNS), the session is resumed briefly to ask for one.
 parse_result() { # worktree
-  local dir=$1 res subtype
+  local dir=$1 res subtype tmp
   res=$(jq -Rcn '[inputs | fromjson? | select(.type=="result")] | last // {}' "${RESULT_LOG}")
   SID=$(jq -Rrn '[inputs | fromjson? | .session_id? // empty] | last // ""' "${RESULT_LOG}")
   subtype=$(jq -r '.subtype // "no result"' <<<"${res}")
-  SUMMARY=$(jq -r '.result // ""' <<<"${res}")
+  final_message "${RESULT_LOG}" '^STATUS: (DONE|QUESTION|CANNOT_COMPLETE)'
+  SUMMARY="${FINAL_MESSAGE}"
   RAN_MODEL=$(jq -Rrn '[inputs | fromjson? | select(.type == "system" and .subtype == "init") | .model] | last // ""' "${RESULT_LOG}")
   STATS=$(jq -r --arg model "${RAN_MODEL}" '(if $model != "" then "\($model), " else "" end) + "\(.num_turns // "?") turns, \((.duration_ms // 0) / 60000 | floor) min" + (if (.subtype // "success") != "success" then ", \(.subtype // "no result")" else "" end)' <<<"${res}")
 
   if [[ -z "${SUMMARY//[[:space:]]/}" && -n "${SID}" ]]; then
     warn "Run ended without a final message (${subtype}, exit code ${RC}); asking the session for a summary"
-    SUMMARY=$( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not make any more changes. Reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
-      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
-          2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null )
+    tmp=$(mktemp)
+    ( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not make any more changes. Reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
+      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format stream-json --verbose --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
+          2>> "${RESULT_LOG%.jsonl}.err" > "${tmp}" )
+    final_message "${tmp}" '^STATUS: (DONE|QUESTION|CANNOT_COMPLETE)'
+    SUMMARY="${FINAL_MESSAGE}"
+    rm -f "${tmp}"
   fi
   if [[ -z "${SUMMARY//[[:space:]]/}" ]]; then
     SUMMARY=$(jq -Rrn '[inputs | fromjson? | select(.type=="assistant") | .message.content[]? | select(.type=="text") | .text] | last // ""' "${RESULT_LOG}")
@@ -783,16 +853,20 @@ follows_template() { # template-file body
 
 # Builds PR_BODY from SUMMARY, making sure it follows the repo's PR template and references the issue.
 build_pr_body() { # worktree issue-num
-  local dir=$1 num=$2 tpl rewrite
+  local dir=$1 num=$2 tpl rewrite tmp
   PR_BODY="${SUMMARY}"
   tpl=$(find_pr_template "${dir}")
   if [[ -n "${tpl}" ]] && ! follows_template "${tpl}" "${PR_BODY}" && [[ -n "${SID}" ]]; then
     warn "PR description does not follow ${tpl#"${dir}"/}; asking Claude to rewrite it"
-    rewrite=$( cd "${dir}" && printf '%s' "Your summary will be used as the pull request description, but it does not follow the repository's pull request template. Do not make any more changes to the code. Reply with ONLY the pull request description, filling in the template as described below, and nothing else (no STATUS line).
+    tmp=$(mktemp)
+    ( cd "${dir}" && printf '%s' "Your summary will be used as the pull request description, but it does not follow the repository's pull request template. Do not make any more changes to the code. Reply with ONLY the pull request description, filling in the template as described below, and nothing else (no STATUS line).
 
 $(pr_instructions "${dir}" "${num}")" \
-      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format json --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
-          2>> "${RESULT_LOG%.jsonl}.err" | jq -r '.result // ""' 2>/dev/null | grep -vE '^STATUS: ' )
+      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format stream-json --verbose --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
+          2>> "${RESULT_LOG%.jsonl}.err" > "${tmp}" )
+    final_message "${tmp}"
+    rm -f "${tmp}"
+    rewrite=$(grep -vE '^STATUS: ' <<<"${FINAL_MESSAGE}")
     if [[ -n "${rewrite//[[:space:]]/}" ]]; then
       PR_BODY="${rewrite}"
       follows_template "${tpl}" "${PR_BODY}" || warn "Rewritten PR description still misses some template headings; using it anyway"
@@ -870,6 +944,7 @@ run_review() { # repo num worktree base
   CUR_PHASE="code review"
   # ReportFindings is blocked so the findings end up in the final message, which is what gets posted
   EXTRA_DISALLOWED="Edit Write MultiEdit NotebookEdit ReportFindings"
+  drop_trail_stop_hook "${dir}"
   run_claude "${repo}" "${num}" "${dir}" "You are a senior engineer reviewing a change before its pull request is opened.
 You did not write this change. The worktree is ${repo} on branch claude/issue-${num}; the change is everything on this branch that is not on origin/${base}:
 see \`git log origin/${base}..HEAD\` and \`git diff origin/${base}...HEAD\`, and read the surrounding code as needed.
@@ -889,9 +964,11 @@ REVIEW: APPROVED
 The issue:
 ${issue}${LINKED_CONTEXT}"
   EXTRA_DISALLOWED=""
+  restore_trail_stop_hook "${dir}"
   (( STOP_REQUESTED )) && return
 
-  REVIEW_TEXT=$(jq -Rrn '[inputs | fromjson? | select(.type == "result")] | last | .result // ""' "${RESULT_LOG}")
+  final_message "${RESULT_LOG}" '^REVIEW: (CHANGES_NEEDED|APPROVED)'
+  REVIEW_TEXT="${FINAL_MESSAGE}"
   REVIEW_VERDICT=$(grep -oE '^REVIEW: (CHANGES_NEEDED|APPROVED)' <<<"${REVIEW_TEXT}" | tail -n1 | cut -d' ' -f2)
   REVIEW_TEXT=$(grep -vE '^REVIEW: ' <<<"${REVIEW_TEXT}")
   # Fallback: if the reviewer reported its findings through a tool call instead of its final message,

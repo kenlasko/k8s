@@ -19,6 +19,8 @@ PR descriptions follow the repo's **pull request template**, if it has one, foun
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
 
+The final message is the one Claude was stopping on, even if a Stop hook (such as trail's request to save a learning) made it reply again afterwards. Otherwise that reply would become the PR description or the review. The later reply is used only when the earlier message is missing the `STATUS:` (or `REVIEW:`) line and the later one has it, because then Claude hadn't finished yet.
+
 **Linked discussions are included.** If the issue body or comments from the trusted user link to a GitHub Discussion (a `/discussions/<n>` URL, or a `#<n>` that turns out to be a discussion rather than an issue), the worker fetches it, with its comments and replies, and adds it to Claude's prompt, up to `MAX_DISCUSSIONS` (5). The code review session gets them too. See [Security](#security) for how they're treated.
 
 **Security alerts are available to every run.** Before each run of Claude, including resumed questions, PR fix rounds and the review, the worker writes all of the repo's **open** Dependabot and code scanning alerts to `/workspace/alerts/<owner>_<repo>.md`, and the prompt tells Claude where the file is. So "fix the alerts found recently" works however the issue phrases it, and a reply on the issue reaches alerts too. The file is outside the worktree, so it never gets committed, and it's removed when there are no open alerts or they can't be read.
@@ -96,6 +98,7 @@ The image includes [Trail-code](https://github.com/trailhq/Trail-Code) (`trail`)
 * All of trail's hooks end up in the worktree's `.claude/settings.local.json`. `trail init` always adds its SessionStart hook to `.claude/settings.json`, so the worker moves that entry to `settings.local.json` and puts `settings.json` back exactly as it was. The repo's `.gitignore` and `.ignore` aren't touched either.
 * Everything trail generates (`.trail/cache/`, `.trail/hook.cjs` and so on, plus `settings.local.json`) is listed in the clone's `.git/info/exclude`, so it never shows up in commits or `git status`. Learnings Claude saves in `.trail/learnings/` aren't excluded, so they can be committed with the change and reviewed in the PR.
 * Reading past sessions and PR reviews at init, and fetching teammates' branches from the hooks, are off (`TRAIL_NO_FETCH`).
+* The code review runs without trail's Stop hook, which asks a session to save a learning before it finishes. The reviewer is read-only, and its reply to that request would come after the findings. The hook is put back once the review ends.
 
 Setup is best-effort: if it fails, the worker logs a warning (details in `/workspace/logs/trail.log`) and Claude runs without trail. Bump `TRAIL_CODE_VERSION` in the [Dockerfile](image/Dockerfile) to upgrade.
 
