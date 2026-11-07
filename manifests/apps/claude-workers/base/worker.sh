@@ -41,8 +41,9 @@ POLL_INTERVAL="${POLL_INTERVAL:-120}"
 PROGRESS_INTERVAL="${PROGRESS_INTERVAL:-60}"
 QUESTION_TIMEOUT_DAYS="${QUESTION_TIMEOUT_DAYS:-7}"
 MAX_FIX_ROUNDS="${MAX_FIX_ROUNDS:-5}"
-MAX_TURNS="${MAX_TURNS:-250}"
-MAX_CONTINUES="${MAX_CONTINUES:-2}"
+MAX_TURNS="${MAX_TURNS:-300}"
+MAX_CONTINUES="${MAX_CONTINUES:-5}"
+MAX_TURN_CONTINUES="${MAX_TURN_CONTINUES:-2}" # resumes of a run that used up MAX_TURNS, each with another MAX_TURNS
 TASK_TIMEOUT="${TASK_TIMEOUT:-3h}"
 DEFAULT_MODEL="${DEFAULT_MODEL:-}"   # empty = Claude Code's default for the subscription
 DEFAULT_EFFORT="${DEFAULT_EFFORT:-}" # empty = Claude Code's default
@@ -51,7 +52,7 @@ DEFAULT_AUTO_MERGE="${DEFAULT_AUTO_MERGE:-false}" # merge the PR once it's all g
 AUTO_MERGE_METHOD="${AUTO_MERGE_METHOD:-}" # merge, squash or rebase; empty = the first the repo allows, in that order
 TMP_CLEAN_MINUTES="${TMP_CLEAN_MINUTES:-60}"
 DOCKER_IMAGE_PRUNE_GB="${DOCKER_IMAGE_PRUNE_GB:-20}"
-MAX_DISCUSSIONS="${MAX_DISCUSSIONS:-5}"
+MAX_DISCUSSIONS="${MAX_DISCUSSIONS:-10}"
 MAX_ALERTS="${MAX_ALERTS:-20}"
 LINKED_FOR=""
 LINKED_CONTEXT=""
@@ -64,6 +65,7 @@ BOT="🤖"
 RULES="How to work:
 - You are running unattended. Nobody can answer you mid-run, and interactive prompts are disabled.
 - Commit your work on the current branch with clear commit messages. Do NOT push, open PRs, or switch branches; that is handled for you.
+- Commit as you go: each time a piece of the work is done and its tests pass, commit it, instead of making one commit at the end. A run can be cut off (turn limit, timeout, memory), and only committed work is kept for certain.
 - Testing: do NOT run the full test suite, coverage (e.g. test:cov), or full builds/e2e suites. This machine is slow, and GitHub CI runs the complete suite on the pull request; if it fails, you will be resumed with the failure logs to fix it.
   Instead, verify only what you changed: run the test files that cover the code you touched (and any tests you added or updated), e.g. by passing file paths or a name pattern to the test runner, and run lint and type-checking scoped to the changed files or package where the tooling allows.
 - Memory: this machine has a 10Gi memory limit shared by you and everything you run, and going over it kills the whole run. Run only one test, build or type-check command at a time, never several in parallel tool calls. Never raise Node's heap above --max-old-space-size=4096 (each test worker inherits it). If a test runner runs out of heap, run fewer workers instead (Jest: --maxWorkers=1 or --runInBand; Vitest: --maxWorkers=1).
@@ -779,8 +781,8 @@ parse_result() { # worktree
   if [[ -z "${SUMMARY//[[:space:]]/}" && -n "${SID}" ]]; then
     warn "Run ended without a final message (${subtype}, exit code ${RC}); asking the session for a summary"
     tmp=$(mktemp)
-    ( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not make any more changes. Reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
-      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format stream-json --verbose --max-turns 3 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
+    ( cd "${dir}" && printf '%s' "Your previous run stopped before you wrote a final message (reason: ${subtype}). Do not start any new work. If you have uncommitted changes, commit them now as work in progress, with a commit message that says what is unfinished; uncommitted changes may be lost. Then reply with a concise summary of what you changed and anything left unfinished, ending with a STATUS line as instructed earlier." \
+      | timeout 10m env -u GH_TOKEN -u GITHUB_TOKEN claude -p --resume "${SID}" --output-format stream-json --verbose --max-turns 10 --dangerously-skip-permissions --disallowedTools AskUserQuestion "${MODEL_ARGS[@]}" \
           2>> "${RESULT_LOG%.jsonl}.err" > "${tmp}" )
     final_message "${tmp}" '^STATUS: (DONE|QUESTION|CANNOT_COMPLETE)'
     SUMMARY="${FINAL_MESSAGE}"
@@ -794,10 +796,38 @@ parse_result() { # worktree
   [[ -z "${SUMMARY//[[:space:]]/}" ]] && SUMMARY="_Claude returned no summary (${subtype}, exit code ${RC})._"
 }
 
+# True if the last run_claude stopped because it used up MAX_TURNS
+hit_turn_limit() {
+  [[ $(jq -Rrn '[inputs | fromjson? | select(.type=="result")] | last | .subtype // ""' "${RESULT_LOG}") == "error_max_turns" ]]
+}
+
+# If the last run used up MAX_TURNS, resumes the session with another MAX_TURNS, up to MAX_TURN_CONTINUES times
+# per finish_run (counted in TURN_CONTINUES). A big issue would otherwise stop part-way and lose its work.
+TURN_CONTINUES=0
+continue_turn_limit() { # repo issue-or-pr-num worktree
+  local sid
+  while hit_turn_limit && (( TURN_CONTINUES < MAX_TURN_CONTINUES )) && (( ! STOP_REQUESTED )); do
+    sid=$(jq -Rrn '[inputs | fromjson? | .session_id? // empty] | last // ""' "${RESULT_LOG}")
+    [[ -z "${sid}" ]] && return
+    TURN_CONTINUES=$((TURN_CONTINUES + 1))
+    warn "Run used up its ${MAX_TURNS} turns; resuming it with another ${MAX_TURNS} (${TURN_CONTINUES}/${MAX_TURN_CONTINUES})"
+    CUR_PHASE="turn limit ${TURN_CONTINUES}/${MAX_TURN_CONTINUES}"
+    run_claude "$1" "$2" "$3" "You used up this run's ${MAX_TURNS} turns, so you have been resumed with another ${MAX_TURNS}.
+First commit any work that is done and passing its tests, so it is kept even if this run is cut off too.
+Then carry on where you left off. Anything you started in the background is no longer running.
+Be economical with turns: don't re-read files or re-run checks you have already done unless something changed.
+When you finish, end your final message with a STATUS line as instructed earlier." "${sid}" "${PROGRESS_ID}"
+  done
+}
+
 # parse_result, plus: if Claude stopped without a STATUS line (e.g. it ended its turn to "check back" on a
 # background command), resume the session and tell it to finish, up to MAX_CONTINUES times.
+# A run that used up MAX_TURNS is first resumed to carry on (continue_turn_limit).
 finish_run() { # repo issue-or-pr-num worktree
   local attempt=0
+  TURN_CONTINUES=0
+  (( STOP_REQUESTED )) && return
+  continue_turn_limit "$@"
   (( STOP_REQUESTED )) && return
   parse_result "$3"
   while [[ -z "${STATUS}" && -n "${SID}" ]] && (( attempt < MAX_CONTINUES )) && (( ! STOP_REQUESTED )); do
@@ -808,8 +838,12 @@ finish_run() { # repo issue-or-pr-num worktree
 Anything you started in the background during the previous run is no longer running and its output is lost.
 If you were waiting on something (tests, coverage, a build), run it again now in the foreground and wait for it to finish.
 Then commit your work and end your final message with a STATUS line as instructed earlier." "${SID}" "${PROGRESS_ID}"
+    continue_turn_limit "$@"
+    (( STOP_REQUESTED )) && return
     parse_result "$3"
   done
+  (( TURN_CONTINUES > 0 )) && STATS+=", resumed ${TURN_CONTINUES}x after the turn limit"
+  return 0
 }
 
 # --- PR template -----------------------------------------------------------------
@@ -1088,6 +1122,53 @@ fail_publish() { # repo num dir what error-output
     "${BOT}" "${WORKER}" "$4" "$5" "${SUMMARY}" "${dir}" "${WORKER}" "${TRIGGER_LABEL}")" >/dev/null
 }
 
+# Commits whatever Claude left uncommitted, so a run that stopped part-way doesn't lose it. Trail's setup files are
+# kept out through info/exclude. Hooks are skipped (--no-verify): unfinished work may not pass lint yet, and it only
+# goes to a draft PR. The secret scan still runs on it before anything is pushed.
+commit_leftovers() { # worktree
+  local dir=$1 files
+  files=$(git -C "${dir}" status --porcelain 2>/dev/null)
+  [[ -z "${files}" ]] && return 0
+  warn "Claude left uncommitted changes; committing them as work in progress: $(tr '\n' ' ' <<<"${files}" | cut -c1-300)"
+  git -C "${dir}" add -A \
+    && git -C "${dir}" commit -q --no-verify -m "WIP: uncommitted work left when the Claude run stopped" \
+         -m "Committed by the worker, not reviewed. It may include scratch files or work that doesn't pass lint or tests yet." \
+    || warn "Could not commit the leftover changes in ${dir}"
+}
+
+# Publishes the commits of a run that ended without STATUS: DONE (e.g. it hit the turn limit) as a draft PR, labels
+# the issue claude-failed and drops the worktree, since the work is safe on the branch. start_task carries on from
+# that branch when the issue is queued again while the draft PR is still open.
+publish_unfinished() { # repo num branch base worktree
+  local repo=$1 num=$2 branch=$3 base=$4 dir=$5 out pr title body
+  if ! out=$(git -C "${dir}" push -q --force -u origin "${branch}" 2>&1); then
+    fail_publish "${repo}" "${num}" "${dir}" "Pushing the unfinished work on \`${branch}\` failed" "${out}"
+    return
+  fi
+  body=$(printf 'Unfinished work for #%s. `%s` stopped before it was done (status: %s).\n\n%s\n\n---\n_Generated by `%s` using Claude Code (%s)_' \
+    "${num}" "${WORKER}" "${STATUS:-none}" "${SUMMARY}" "${WORKER}" "${STATS}" | redact)
+  pr=$(gh pr view "${branch}" --repo "${repo}" --json url,state --jq 'select(.state == "OPEN") | .url' 2>/dev/null)
+  if [[ -z "${pr}" ]]; then
+    title=$(gh issue view "${num}" --repo "${repo}" --json title --jq .title)
+    if ! out=$(gh pr create --draft --repo "${repo}" --base "${base}" --head "${branch}" --title "${title}" --body "${body}" 2>&1) \
+      || [[ "${out}" != https://* ]]; then
+      fail_publish "${repo}" "${num}" "${dir}" "Opening a draft PR for the unfinished work on \`${branch}\` failed (the branch was pushed)" "${out}"
+      return
+    fi
+    pr=$(tail -n1 <<<"${out}")
+  else
+    # An open PR from an earlier run must not be merged with half-done work on it
+    gh pr ready "${pr}" --repo "${repo}" --undo >/dev/null 2>&1
+    gh pr edit "${pr}" --repo "${repo}" --body "${body}" >/dev/null
+  fi
+  edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Stopped unfinished (${STATS})")"
+  relabel "${repo}" "${num}" claude-wip claude-failed
+  log_event warn failed "Unfinished (status: ${STATUS:-none}, exit code ${RC}); work so far in draft PR ${pr}; labelled claude-failed"
+  post_comment "${repo}" "${num}" "$(printf '%s `%s` **stopped before finishing** (status: %s, exit code %s). The work so far is in draft PR %s.\n\n### Summary\n%s\n\n%s\n\n---\n_Put the `%s` label back to carry on from that branch. To start over instead, close the draft PR first._' \
+    "${BOT}" "${WORKER}" "${STATUS:-none}" "${RC}" "${pr}" "${SUMMARY}" "$(change_list "${dir}" "origin/${base}")" "${TRIGGER_LABEL}")" >/dev/null
+  cleanup "${repo}" "${num}" "${branch}"
+}
+
 handle_result() { # repo num branch base
   local repo=$1 num=$2 branch=$3 base=$4
   local key dir commits
@@ -1104,7 +1185,14 @@ handle_result() { # repo num branch base
     return
   fi
 
-  if (( commits > 0 )) && [[ "${RUN_REVIEW:-false}" == "true" && "${REVIEW_DONE}" != "true" ]]; then
+  # Never throw away work Claude didn't get to commit
+  if [[ -n $(git -C "${dir}" status --porcelain 2>/dev/null) ]]; then
+    commit_leftovers "${dir}"
+    commits=$(git -C "${dir}" rev-list --count "origin/${base}..HEAD" 2>/dev/null || echo 0)
+  fi
+
+  # Unfinished work isn't reviewed; it goes to a draft PR below
+  if (( commits > 0 )) && [[ "${STATUS}" == "DONE" && "${RUN_REVIEW:-false}" == "true" && "${REVIEW_DONE}" != "true" ]]; then
     run_review "${repo}" "${num}" "${dir}" "${base}"
     if (( STOP_REQUESTED )); then stop_issue "${repo}" "${num}"; return; fi
     if [[ "${STATUS}" == "QUESTION" && -n "${SID}" ]]; then
@@ -1127,6 +1215,11 @@ handle_result() { # repo num branch base
     return
   fi
 
+  if (( commits > 0 )) && [[ "${STATUS}" != "DONE" ]]; then
+    publish_unfinished "${repo}" "${num}" "${branch}" "${base}" "${dir}"
+    return
+  fi
+
   if (( commits > 0 )); then
     local title pr out
     # A rejected push (e.g. a token without the Workflows permission touching .github/workflows) must not
@@ -1146,8 +1239,10 @@ handle_result() { # repo num branch base
       fi
       pr=$(tail -n1 <<<"${out}")
     else
-      # A re-queued issue reuses its open PR; refresh the description so it matches the new work
+      # A re-queued issue reuses its open PR; refresh the description so it matches the new work,
+      # and mark it ready if it was the draft PR of an earlier unfinished run
       gh pr edit "${pr}" --repo "${repo}" --body "${PR_BODY}" >/dev/null
+      gh pr ready "${pr}" --repo "${repo}" >/dev/null 2>&1
     fi
     edit_progress "${repo}" "$(progress_body "${RESULT_LOG}" "Finished (${STATS})")"
     relabel "${repo}" "${num}" claude-wip claude-pr
@@ -1223,7 +1318,20 @@ start_task() { # repo num
   # A re-queued issue starts over: drop any earlier worktree, pending question or PR watch
   cleanup "${repo}" "${num}" "${branch}"
   git -C "${clone}" fetch -q --prune origin
-  if ! git -C "${clone}" worktree add -q -f -B "${branch}" "${dir}" "origin/${base}"; then
+  # ...except that the unfinished work of an earlier run, kept in a still-open draft PR, is carried on
+  local from="origin/${base}" draft carry_on=""
+  draft=$(gh pr list --repo "${repo}" --head "${branch}" --state open --json number,isDraft \
+    --jq '[.[] | select(.isDraft) | .number] | first // empty' 2>/dev/null)
+  if [[ -n "${draft}" ]] && git -C "${clone}" rev-parse -q --verify "origin/${branch}" >/dev/null; then
+    from="origin/${branch}"
+    event carry_on "Carrying on from the unfinished work in draft PR #${draft}"
+    carry_on="
+
+This branch already has unfinished work from an earlier run on this issue (draft PR #${draft}): see \`git log origin/${base}..HEAD\`.
+Some of it may be a work-in-progress commit the worker made from changes that were left uncommitted, which can include
+scratch files or code that doesn't pass lint or tests yet. Check what is there, then carry on from it rather than starting over."
+  fi
+  if ! git -C "${clone}" worktree add -q -f -B "${branch}" "${dir}" "${from}"; then
     relabel "${repo}" "${num}" claude-wip claude-failed
     warn "Could not create a worktree for ${branch}"
     post_comment "${repo}" "${num}" "${BOT} \`${WORKER}\` could not create a worktree for \`${branch}\`." >/dev/null
@@ -1242,7 +1350,7 @@ ${RULES}
 $(pr_instructions "${dir}" "${num}")
 
 Issue #${num}:
-${issue}$(sub_issue_context "${repo}" "${num}" "${tree}" "${base}")${LINKED_CONTEXT}"
+${issue}$(sub_issue_context "${repo}" "${num}" "${tree}" "${base}")${LINKED_CONTEXT}${carry_on}"
   handle_result "${repo}" "${num}" "${branch}" "${base}"
 }
 

@@ -10,7 +10,8 @@ Each worker is a pod in a 3-replica StatefulSet with its own 20Gi Longhorn works
 5. When Claude finishes, based on the `STATUS:` line its final message must end with:
    * **DONE** with commits: push the branch, open a PR that `Closes #<n>`, post a **work complete** comment on the issue (summary, commits, files changed) and label it `claude-pr`
    * **QUESTION**: post the question on the issue, label it `claude-question`, save the session ID and move on to other work
-   * anything else, or no commits: post Claude's explanation and label it `claude-failed`
+   * anything else **with commits** (for example a run that stopped part-way): push the branch, open a **draft PR** with the work so far, post Claude's summary on the issue and label it `claude-failed`. See [Unfinished runs](#unfinished-runs)
+   * no commits: post Claude's explanation and label it `claude-failed`
 6. Watch the PR until it is merged (issue labelled `claude-done`) or closed. See [PR watching](#pr-watching). With [auto-merge](#auto-merge) on, the worker merges it itself once every check has passed
 
 An issue with sub-issues is handled differently: its sub-issues are queued one at a time, in order. See [Sub-issues](#sub-issues).
@@ -18,6 +19,15 @@ An issue with sub-issues is handled differently: its sub-issues are queued one a
 PR descriptions follow the repo's **pull request template**, if it has one, found in the same places GitHub looks (`.github/`, `docs/` or the root, or the first file in `.github/PULL_REQUEST_TEMPLATE/`). The template is included in Claude's instructions, and Claude writes the description by filling it in. If its description is missing any of the template's headings, the worker asks it to rewrite the description before opening the PR. `Closes #<n>` is added if Claude left it out. When a re-queued issue reuses its open PR, the description is replaced too.
 
 If a run ends without a final message (for example after hitting `MAX_TURNS`), the worker resumes the session briefly and asks Claude for a summary, so the PR and issue comments always get one.
+
+### Unfinished runs
+Big issues can outrun a single Claude run. Without the steps below, a run that hit the turn limit with nothing committed lost all its work: issue #2050 lost two runs of about 1.5 hours each this way. To prevent that:
+
+* **Commit as you go.** Claude's instructions tell it to commit each finished, tested piece of work, not to make one commit at the end.
+* **The turn limit is a pause, not the end.** A run that uses up `MAX_TURNS` is resumed in the same session with another `MAX_TURNS`, up to `MAX_TURN_CONTINUES` (2) times. Each resume can also run for up to `TASK_TIMEOUT`. The progress comment's stats say how many times the run was resumed.
+* **Nothing uncommitted is thrown away.** When a run stops for good, the summary request tells Claude to commit any leftovers as work in progress. Anything still uncommitted is then committed by the worker (`WIP: uncommitted work left when the Claude run stopped`, with hooks skipped, so it may include scratch files or code that fails lint). The secret scan still runs before the push.
+* **Unfinished work goes to a draft PR.** A run that ends without `STATUS: DONE` but with commits is pushed to a draft PR, and the issue is labelled `claude-failed`. It isn't reviewed, watched or auto-merged. An open PR from an earlier run is turned back into a draft.
+* **A retry carries on.** If you re-add `claude` while that draft PR is still open, the new run starts from its branch instead of the default branch, and is told to check what's there and carry on. To start over instead, close the draft PR first. Once the work is finished, the same PR gets the new description and is marked ready for review.
 
 The final message is the one Claude was stopping on, even if a Stop hook (such as trail's request to save a learning) made it reply again afterwards. Otherwise that reply would become the PR description or the review. The later reply is used only when the earlier message is missing the `STATUS:` (or `REVIEW:`) line and the later one has it, because then Claude hadn't finished yet.
 
@@ -118,7 +128,7 @@ Setup is best-effort: if it fails, the worker logs a warning (details in `/works
 5. Merge. The `apps` ApplicationSet picks up the app automatically.
 
 ## Usage
-Open an issue in one of the watched repos, describe the task, assign it to yourself, and add the `claude` label yourself. Labelled issues that aren't assigned to `ASSIGNEE` are ignored. Whoever adds the label is the only person whose comments the worker acts on for that issue. To retry a `claude-failed` issue, add a comment with clarification and put the `claude` label back.
+Open an issue in one of the watched repos, describe the task, assign it to yourself, and add the `claude` label yourself. Labelled issues that aren't assigned to `ASSIGNEE` are ignored. Whoever adds the label is the only person whose comments the worker acts on for that issue. To retry a `claude-failed` issue, add a comment with clarification and put the `claude` label back. If the failed run left a draft PR, the retry carries on from it; close the draft PR first to start over.
 
 ### Code review before the PR
 Add the **`claude-review`** label, or a `Review: yes` line in the issue body, to have the work reviewed before the PR is opened. `Review: no` turns it off, and `DEFAULT_REVIEW` sets what happens when an issue says nothing (off by default). The label wins over the body line.
@@ -193,6 +203,7 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `QUESTION_TIMEOUT_DAYS` | Days to wait for an answer before giving up |
 | `MAX_FIX_ROUNDS` | Automatic PR fix rounds before waiting for you (5) |
 | `MAX_CONTINUES` | Resumes of a run that stopped without a `STATUS:` line |
+| `MAX_TURN_CONTINUES` | Resumes of a run that used up `MAX_TURNS`, each with another `MAX_TURNS` (2) |
 | `BASH_DEFAULT_TIMEOUT_MS` / `BASH_MAX_TIMEOUT_MS` | Claude's default and maximum command timeouts |
 | `DEFAULT_MODEL` / `DEFAULT_EFFORT` | Model and effort when an issue doesn't choose (empty = Claude Code's default) |
 | `DEFAULT_REVIEW` | Code review before the PR when an issue doesn't say (`false`) |

@@ -20,10 +20,12 @@ data:
   # Automatic fix rounds on a PR (CI failures, merge conflicts) before waiting for ASSIGNEE to reply
   MAX_FIX_ROUNDS: "5"
   # Max agent turns (one think-then-act step, e.g. a command or file edit) per Claude run
-  MAX_TURNS: "250"
+  MAX_TURNS: "300"
   TASK_TIMEOUT: "3h"
   # Times to resume a run that stopped without a STATUS line before treating it as finished
   MAX_CONTINUES: "2"
+  # Times to resume a run that used up MAX_TURNS, each with another MAX_TURNS, before it is stopped as unfinished
+  MAX_TURN_CONTINUES: "2"
   # Claude Code: no background commands (a headless run ends when Claude stops, losing them),
   # and long enough command timeouts (60 min default, 90 max) for full test/coverage/build runs in the foreground
   CLAUDE_CODE_DISABLE_BACKGROUND_TASKS: "1"
