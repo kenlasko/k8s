@@ -243,7 +243,7 @@ spec:
               mountPath: /build-info
           containers:
           - name: build
-            image: ghcr.io/osscontainertools/kaniko:v1.29.0-debug
+            image: ghcr.io/osscontainertools/kaniko:v1.29.1-debug
             command: ["/busybox/sh", "-c"]
             args:
             - |
@@ -360,7 +360,7 @@ spec:
               mountPath: /build-info
           containers:
           - name: build
-            image: ghcr.io/osscontainertools/kaniko:v1.29.0-debug
+            image: ghcr.io/osscontainertools/kaniko:v1.29.1-debug
             command: ["/busybox/sh", "-c"]
             args:
             - |
