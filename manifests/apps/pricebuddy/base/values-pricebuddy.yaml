@@ -38,13 +38,6 @@ resources:
     memory: 1Gi
 service:
   port: 80
-# Startup runs migrations and rebuilds caches before Apache listens.
-startupProbe:
-  httpGet:
-    path: /
-    port: http
-  periodSeconds: 10
-  failureThreshold: 60
 persistentVolume:
   type: nfs
   size: 1Gi

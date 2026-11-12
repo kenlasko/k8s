@@ -30,12 +30,6 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 60
   timeoutSeconds: 5
-startupProbe:
-  httpGet:
-    path: /health
-    port: http
-  periodSeconds: 5
-  failureThreshold: 24
 # Chrome needs more shared memory than the 64Mi default
 extraVolumes:
 - name: dshm
