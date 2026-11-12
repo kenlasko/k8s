@@ -1,0 +1,28 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: pricebuddy
+  namespace: cnpg
+spec:
+  name: pricebuddy
+  owner: pricebuddy
+  cluster:
+    name: home
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: pricebuddy
+  namespace: cnpg
+spec:
+  cluster:
+    name: home
+  name: pricebuddy
+  login: true
+  superuser: false
+  createdb: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: useraccount-pricebuddy

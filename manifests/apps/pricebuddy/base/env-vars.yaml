@@ -1,0 +1,23 @@
+# Non-secret settings only. The container's start script runs `printenv`, so
+# anything set here shows up in the pod logs. Secrets live in the mounted
+# /app/.env file instead (see external-secrets.yaml).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-vars
+  namespace: pricebuddy
+data:
+  TZ: "America/Toronto"
+  APP_TIMEZONE: "America/Toronto"
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_URL: "https://pricebuddy.laskonet.com"
+  ASSET_URL: "https://pricebuddy.laskonet.com"
+  SESSION_SECURE_COOKIE: "true"
+  # DB_HOST and DB_PORT must be real env vars: start-app.sh waits on
+  # `nc -z $DB_HOST $DB_PORT` (defaults database:3306) before starting.
+  DB_CONNECTION: "pgsql"
+  DB_HOST: "home-rw.cnpg.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_DATABASE: "pricebuddy"
+  SCRAPER_BASE_URL: "http://pricebuddy-scraper-service:3000"

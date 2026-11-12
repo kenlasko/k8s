@@ -1,0 +1,23 @@
+# The scraper API has no auth that PriceBuddy can use (it never sends the
+# scraper's API_TOKEN), and it fetches any URL it is given. Only the
+# PriceBuddy app may reach it. Egress is left open: it scrapes the internet.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: pricebuddy-scraper
+  namespace: pricebuddy
+spec:
+  endpointSelector:
+    matchLabels:
+      app: pricebuddy-scraper
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app: pricebuddy
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # kubelet probes
+    - fromEntities:
+        - host

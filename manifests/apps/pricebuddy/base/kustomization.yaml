@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmGlobals:
+  chartHome: ../../../../helm
+helmCharts:
+- name: baseline
+  releaseName: pricebuddy
+  namespace: pricebuddy
+  valuesFile: values-pricebuddy.yaml
+- name: baseline
+  releaseName: pricebuddy-scraper
+  namespace: pricebuddy
+  valuesFile: values-scraper.yaml
+resources:
+- database.yaml
+- env-vars.yaml
+- external-secrets.yaml
+- namespace.yaml
+- networkpolicy.yaml

@@ -1,0 +1,62 @@
+image:
+  repository: jez500/pricebuddy
+  tag: v1.0.57
+  registry: docker.io
+# Image runs as root: supervisord starts Apache (binds :80, drops to www-data),
+# cron and the queue worker. start-app.sh also chmods /app/storage.
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  runAsUser: 0
+  runAsGroup: 0
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+    add:
+    - "AUDIT_WRITE"
+    - "CHOWN"
+    - "DAC_OVERRIDE"
+    - "FOWNER"
+    - "FSETID"
+    - "KILL"
+    - "NET_BIND_SERVICE"
+    - "SETGID"
+    - "SETUID"
+env:
+- name: TZ
+  value: "America/Toronto"
+envFrom:
+- configMapRef:
+    name: env-vars
+resources:
+  requests:
+    cpu: 50m
+    memory: 300Mi
+  limits:
+    memory: 1Gi
+service:
+  port: 80
+# Startup runs migrations and rebuilds caches before Apache listens.
+startupProbe:
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 10
+  failureThreshold: 60
+persistentVolume:
+  type: nfs
+  size: 1Gi
+  mountPath: /app/storage
+extraVolumes:
+- name: env-file
+  secret:
+    secretName: pricebuddy-env
+extraVolumeMounts:
+- name: env-file
+  mountPath: /app/.env
+  subPath: .env
+backup:
+  location: cloudflare
+  schedule: "25 07 * * *"

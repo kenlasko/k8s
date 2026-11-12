@@ -1,0 +1,47 @@
+appKind: Deployment
+image:
+  repository: jez500/seleniumbase-scrapper
+  tag: v1.0.1
+  registry: docker.io
+# Runs as root with headless Chrome; keep the runtime's default capabilities.
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: false
+  seccompProfile:
+    type: RuntimeDefault
+env:
+- name: TZ
+  value: "America/Toronto"
+resources:
+  requests:
+    cpu: 50m
+    memory: 300Mi
+  limits:
+    memory: 2Gi
+service:
+  port: 3000
+# Internal only. PriceBuddy reaches it at http://pricebuddy-scraper-service:3000
+disableHTTPRoute: true
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 60
+  timeoutSeconds: 5
+startupProbe:
+  httpGet:
+    path: /health
+    port: http
+  periodSeconds: 5
+  failureThreshold: 24
+# Chrome needs more shared memory than the 64Mi default
+extraVolumes:
+- name: dshm
+  emptyDir:
+    medium: Memory
+    sizeLimit: 1Gi
+extraVolumeMounts:
+- name: dshm
+  mountPath: /dev/shm
