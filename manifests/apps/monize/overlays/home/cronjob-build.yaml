@@ -42,7 +42,7 @@ spec:
           # Pins the branch to one commit, so both images are built from the same source
           # even if the branch moves while they build.
           - name: resolve
-            image: docker.io/alpine/git:v2.54.0
+            image: docker.io/alpine/git:v2.54.1
             command: ["/bin/sh", "-c"]
             args:
             - |
@@ -203,7 +203,7 @@ spec:
                       app: monize-build-image
           initContainers:
           - name: clone
-            image: docker.io/alpine/git:v2.54.0
+            image: docker.io/alpine/git:v2.54.1
             command: ["/bin/sh", "-c"]
             args:
             - |
@@ -320,7 +320,7 @@ spec:
                       app: monize-build-image
           initContainers:
           - name: clone
-            image: docker.io/alpine/git:v2.54.0
+            image: docker.io/alpine/git:v2.54.1
             command: ["/bin/sh", "-c"]
             args:
             - |
