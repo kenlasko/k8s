@@ -5,7 +5,7 @@ metadata:
   namespace: claude-workers
 spec:
   serviceName: claude-worker
-  replicas: 3 # Keep in sync with WORKER_COUNT in env-vars.yaml
+  replicas: 3 # Keep in sync with WORKER_COUNT in env-vars.yaml (only needed for issues from before issue leases)
   podManagementPolicy: Parallel
   selector:
     matchLabels:

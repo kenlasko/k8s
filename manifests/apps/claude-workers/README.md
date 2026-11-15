@@ -49,7 +49,13 @@ At most `MAX_ALERTS` (20) are included, and Claude is told how many were left ou
 
 If Claude stops without a `STATUS:` line, for example because it ended its turn to "check back" on something, the worker resumes the session and tells it to finish, up to `MAX_CONTINUES` (2) times. Background commands are disabled (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`), since a headless run ends as soon as Claude stops. Command timeouts are raised to 60 minutes by default and 90 at most, so long test and build runs can finish in the foreground.
 
-Issues are sharded by `issue number % WORKER_COUNT`, so each worker only takes issues in its own shard and two workers never grab the same one. This also guarantees a resumed issue lands on the pod that holds its saved session. The catch is that a worker busy with a long task holds up the rest of its shard, even if the other workers are idle.
+**Any idle worker takes the oldest queued issue.** It claims the issue by creating a Kubernetes [Lease](https://kubernetes.io/docs/concepts/architecture/leases/) named after it (`issue-<owner>-<repo>-<number>`) in the `claude-workers` namespace. Only one worker can create a given Lease, so two workers never take the same issue; the others skip it and try the next one. After claiming, the worker checks the issue is still queued, in case another worker finished it in between.
+
+The Lease names the pod holding the issue, and that pod keeps it while it has the issue's saved session: a question waiting on you, a watched PR or a sub-issue sequence. So answers, PR fixes and `claude-stop` all go to the pod that has the session. The pod releases the Lease between tasks, once it has nothing saved for the issue any more. Re-queueing the issue after that lets any worker take it. A Lease is never taken over by another pod; a restarted pod comes back under the same name and still holds its Leases.
+
+To see who holds what: `kubectl -n claude-workers get lease -L claude-workers/holder`. Deleting a Lease by hand frees the issue for any worker, but the pod that held it still has its saved session, so only do that for an issue that pod no longer has (for example after its PVC was wiped).
+
+Issues that were already in flight before the switch to Leases have none. At startup each pod adopts Leases for the sessions it has saved, and an unleased `claude-wip` issue goes to the pod the old `issue number % WORKER_COUNT` split gave it to. That fallback can be removed once no such issue is left.
 
 ## Questions
 Claude is told to ask whenever there's a meaningful choice rather than guess. Its built-in question tool is disabled, since nobody could answer it in headless mode. Instead it commits any work in progress, ends its run with `STATUS: QUESTION`, and the worker posts the question on the issue.
@@ -88,7 +94,7 @@ On a parent issue, `claude-automerge` is copied to each sub-issue, so a whole [s
 ## Sub-issues
 Label a parent issue `claude` and the worker works through its sub-issues **one at a time, in order**. The parent itself is never run. Instead:
 1. The parent stays `claude-wip`, and the worker posts a checklist of its sub-issues on it.
-2. The worker queues the first open sub-issue: it adds the `claude` label and assigns it to `ASSIGNEE`. From there the sub-issue is an ordinary task, handled by whichever worker owns its shard, with its own questions, review, PR and PR watching.
+2. The worker queues the first open sub-issue: it adds the `claude` label and assigns it to `ASSIGNEE`. From there the sub-issue is an ordinary task, picked up by the next free worker, with its own questions, review, PR and PR watching.
 3. Once that sub-issue is closed (normally when its PR is merged), the next one is queued. Its branch starts from the default branch, so it already has the earlier sub-issues' work.
 4. When no open sub-issues are left, the parent is labelled `claude-done` and closed.
 
@@ -100,7 +106,7 @@ Details:
 * **Trust**: sub-issues are labelled by the worker's own account, so the person who added `claude` to the parent is the trusted user for each sub-issue.
 * **Stopping**: `claude-stop` on the parent ends the sequence and also stops the sub-issue in progress. Removing `claude-wip` from the parent (or closing it) just ends the sequence; the sub-issue in progress carries on.
 * A sub-issue with sub-issues of its own becomes a sequence too. Sub-issues in other repos are listed but not queued. An issue whose sub-issues are all in other repos is run as an ordinary issue.
-* Progress is checked on every poll by the worker that owns the parent's shard, so a long-running task on that worker delays the next sub-issue until it finishes.
+* Progress is checked on every poll by the worker holding the parent, so a long-running task on that worker delays the next sub-issue until it finishes.
 
 ## Trail-code
 The image includes [Trail-code](https://github.com/trailhq/Trail-Code) (`trail`), which gives Claude a map of the code and the learnings saved in the repo's `.trail/learnings/`. Each new worktree is set up by `setup_trail` in [worker.sh](base/worker.sh):
@@ -196,7 +202,8 @@ Settings live in [env-vars.yaml](base/env-vars.yaml):
 | `TRIGGER_LABEL` | Label that queues an issue (default `claude`) |
 | `ASSIGNEE` | GitHub user an issue must be assigned to (default `kenlasko`) |
 | `REDACT_VARS` | Environment variables whose exact values are always scrubbed (default `GH_TOKEN CLAUDE_CODE_OAUTH_TOKEN`) |
-| `WORKER_COUNT` | Must match the StatefulSet `replicas` |
+| `WORKER_COUNT` | Must match the StatefulSet `replicas`. Only used for issues that were in flight before issue Leases |
+| `LEASE_NAMESPACE` | Namespace for the issue-claim Leases (default: the pod's own namespace) |
 | `MAX_TURNS` / `TASK_TIMEOUT` | Limits for a single Claude run (default 250 turns, 3h) |
 | `POLL_INTERVAL` | Seconds between GitHub polls when idle |
 | `PROGRESS_INTERVAL` | Seconds between progress comment updates |
@@ -238,12 +245,12 @@ Each pod runs a rootless Docker daemon ([`docker:dind-rootless`](https://hub.doc
 
 `kubectl exec` and `kubectl logs` default to the worker container. To see the daemon's logs: `kubectl -n claude-workers logs claude-worker-0 -c dind`.
 
-To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
+To scale, change `replicas` in [statefulset.yaml](base/statefulset.yaml) and `WORKER_COUNT` together. Before scaling down, let the pods being removed finish their questions and watched PRs: their Leases stay behind and nobody else picks those issues up. To free one, delete its Lease and re-queue the issue. All workers share one Claude subscription, so its usage limits are shared across the pool as well.
 
 ## Security
 * Claude runs with `--dangerously-skip-permissions`, since there is no one around to approve tool calls. The guardrails are the container itself:
   * non-root, read-only root filesystem, and a `restricted`-level `securityContext` on the worker container. The namespace enforces only `privileged` Pod Security, because of the dind sidecar (see below).
-  * a **read-only** ClusterRole that excludes Secrets ([rbac.yaml](base/rbac.yaml)). ConfigMaps and pod specs are readable, so don't keep secrets in them. Cluster changes still go through a PR and ArgoCD.
+  * a **read-only** ClusterRole that excludes Secrets ([rbac.yaml](base/rbac.yaml)). ConfigMaps and pod specs are readable, so don't keep secrets in them. Cluster changes still go through a PR and ArgoCD. The one write is a namespaced Role for the issue-claim Leases in `claude-workers`, which Claude's runs can also use, since they share the pod's token.
   * a fine-grained GitHub token and branch protection on the default branches
 * **Linked discussions are untrusted.** Anyone can write a discussion or comment on one, so fetching them reopens the door that the trusted-user rule closes for issue comments. The prompt labels them as reference material, not instructions, and tells Claude to act only on the issue and the trusted user's comments. That reduces prompt injection rather than preventing it. Only discussions that the issue body or the trusted user's comments link to are fetched, and comments by the trusted user are marked as theirs.
 * **The Docker sidecar is privileged, but rootless.** rootlesskit needs `privileged: true` to set up its user and mount namespaces. The daemon runs as uid 1000, and so does every container it starts, even one run with `docker run --privileged`: its "root" is uid 1000 on the node. A container escape lands as an unprivileged user, not as root on the node. This narrows the risk rather than removing it: it's still a privileged pod, with the node's devices visible (though not writable by uid 1000). The nodes allow user namespaces (`user.max_user_namespaces`), which rootless Docker needs. Since Claude can reach the daemon, it can run any image from any registry, with the pod's network access.

@@ -1,5 +1,6 @@
 # Read-only cluster access for the Claude workers. Secrets are deliberately excluded.
 # Any changes Claude wants to make to the cluster go through a PR and ArgoCD.
+# The only exception is the issue-claim Leases in the claude-workers namespace, at the bottom of this file.
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -61,6 +62,35 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: claude-worker-readonly
+subjects:
+- kind: ServiceAccount
+  name: claude-worker
+  namespace: claude-workers
+
+---
+# The one write the workers get: Leases in their own namespace, which they use to claim issues so two workers
+# never take the same one (see "Issue leases" in worker.sh). Claude's runs share the pod's token, so they could
+# also touch these Leases; at worst that blocks or double-starts an issue, and nothing else in the cluster is writable.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: claude-worker-issue-leases
+  namespace: claude-workers
+rules:
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: claude-worker-issue-leases
+  namespace: claude-workers
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: claude-worker-issue-leases
 subjects:
 - kind: ServiceAccount
   name: claude-worker

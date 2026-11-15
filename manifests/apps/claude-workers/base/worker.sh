@@ -17,8 +17,10 @@
 # An issue with sub-issues isn't run itself: it stays claude-wip while its sub-issues are queued one at a time,
 # each once the previous one is closed (its PR merged). See "Sub-issue sequences" below.
 #
-# Each StatefulSet replica only takes issues where (issue number % WORKER_COUNT) == its pod ordinal,
-# so multiple workers never race for the same issue, and a resumed issue always lands on the pod holding its session.
+# Any idle worker takes the oldest queued issue. It claims the issue by creating a Kubernetes Lease named after it,
+# which only one worker can do, so two workers never take the same issue. The Lease names the pod that holds it and is
+# kept while that pod has the issue's saved session (a question, a watched PR, a sub-issue sequence), so everything
+# that follows on from the issue stays on that pod. See "Issue leases" below.
 set -uo pipefail
 
 WORKER="${HOSTNAME}"
@@ -36,7 +38,9 @@ LOG_FORMAT="${LOG_FORMAT:-json}"   # json (one object per line, for Loki) or tex
 LOG_RETENTION_DAYS="${LOG_RETENTION_DAYS:-14}"
 TRIGGER_LABEL="${TRIGGER_LABEL:-claude}"
 ASSIGNEE="${ASSIGNEE:-}"
+# Only used to hand out issues that were in flight before issue leases existed (see adopt_unleased_wip)
 WORKER_COUNT="${WORKER_COUNT:-1}"
+LEASE_NAMESPACE="${LEASE_NAMESPACE:-$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace 2>/dev/null || echo claude-workers)}"
 POLL_INTERVAL="${POLL_INTERVAL:-120}"
 PROGRESS_INTERVAL="${PROGRESS_INTERVAL:-60}"
 QUESTION_TIMEOUT_DAYS="${QUESTION_TIMEOUT_DAYS:-7}"
@@ -416,6 +420,98 @@ set_linked_context() { # repo num issue-text parent-body
 
 key_for() { echo "${1//\//_}-$2"; } # repo num -> filesystem-safe key
 
+# --- Issue leases ------------------------------------------------------------
+# One coordination.k8s.io Lease per issue a worker holds, in LEASE_NAMESPACE. Creating a Lease that already exists
+# fails, which makes it the claim: whichever worker creates it owns the issue, and the others skip it. The holder keeps
+# it while it has local state for the issue (STATE_ROOT) and releases it once that is gone (release_idle_leases), at
+# which point the issue is free for any worker the next time it is queued. Leases are never taken over: a StatefulSet
+# pod comes back under the same name, so after a restart it still holds its leases. If kubectl fails, no claim is made.
+
+lease_name() { # repo num -> lease name (DNS-1123)
+  local r="${1,,}"
+  r="${r//[^a-z0-9-]/-}"
+  echo "issue-${r}-$2"
+}
+
+lease_holder() { # repo num -> holder pod, empty if the issue has no lease
+  kubectl -n "${LEASE_NAMESPACE}" get lease "$(lease_name "$1" "$2")" -o jsonpath='{.spec.holderIdentity}' 2>/dev/null
+}
+
+# Succeeds if this worker holds the issue's lease afterwards: newly created, or already its own
+claim_lease() { # repo num
+  local name out
+  name=$(lease_name "$1" "$2")
+  out=$(kubectl -n "${LEASE_NAMESPACE}" create -f - 2>&1 <<EOF
+apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  name: ${name}
+  labels:
+    claude-workers/holder: ${WORKER}
+  annotations:
+    claude-workers/repo: "$1"
+    claude-workers/issue: "$2"
+spec:
+  holderIdentity: ${WORKER}
+  acquireTime: "$(date -u +%Y-%m-%dT%H:%M:%S.000000Z)"
+EOF
+  ) && return 0
+  if [[ "${out}" != *AlreadyExists* ]]; then
+    warn "Could not create lease ${name}: ${out}"
+    return 1
+  fi
+  [[ $(lease_holder "$1" "$2") == "${WORKER}" ]]
+}
+
+# Releases this worker's leases on issues it no longer has local state for. Only called between tasks.
+release_idle_leases() {
+  local name repo num
+  while IFS=$'\t' read -r name repo num; do
+    [[ -n "${name}" && -n "${repo}" && -n "${num}" ]] || continue
+    [[ -f "${STATE_ROOT}/$(key_for "${repo}" "${num}").json" ]] && continue
+    if kubectl -n "${LEASE_NAMESPACE}" delete lease "${name}" --ignore-not-found >/dev/null 2>&1; then
+      event lease_released "Released ${repo}#${num}"
+    else
+      warn "Could not release lease ${name}; retrying on the next poll"
+    fi
+  done < <(kubectl -n "${LEASE_NAMESPACE}" get lease -l "claude-workers/holder=${WORKER}" -o json 2>/dev/null \
+    | jq -r --arg me "${WORKER}" '.items[] | select(.spec.holderIdentity == $me)
+        | [.metadata.name, .metadata.annotations["claude-workers/repo"] // "", .metadata.annotations["claude-workers/issue"] // ""] | @tsv')
+}
+
+# Claims a queued issue: takes its lease, then checks it is still queued, since another worker may have
+# finished it (and released the lease) between this worker listing it and claiming it.
+claim_issue() { # repo num
+  claim_lease "$1" "$2" || return 1
+  gh issue view "$2" --repo "$1" --json state,labels \
+    --jq '.state == "OPEN" and any(.labels[]; .name == "'"${TRIGGER_LABEL}"'") and (any(.labels[]; .name == "claude-stop") | not)' \
+    2>/dev/null | grep -qx true
+}
+
+# Takes a lease for each issue this pod has local state for. Covers state saved before issue leases existed.
+adopt_local_state() {
+  local sf repo num holder
+  for sf in "${STATE_ROOT}"/*.json; do
+    [[ -e "${sf}" ]] || continue
+    repo=$(jq -r '.repo // empty' "${sf}"); num=$(jq -r '.num // empty' "${sf}")
+    [[ -n "${repo}" && -n "${num}" ]] || continue
+    if ! claim_lease "${repo}" "${num}"; then
+      holder=$(lease_holder "${repo}" "${num}")
+      warn "${repo}#${num} has local state here but its lease is held by ${holder:-nobody (kubectl failed)}; leaving it alone"
+    fi
+  done
+}
+
+# Owner check for a claude-wip issue at startup. An issue that was in flight before issue leases existed has no
+# lease yet: it belongs to the pod the old (issue number % WORKER_COUNT) split gave it to, which adopts it here.
+# Remove this fallback (and WORKER_COUNT) once no issue from before the switch to leases is still in flight.
+owns_wip() { # repo num
+  local holder
+  holder=$(lease_holder "$1" "$2")
+  [[ "${holder}" == "${WORKER}" ]] && return 0
+  [[ -z "${holder}" ]] && (( $2 % WORKER_COUNT == ORDINAL )) && claim_lease "$1" "$2"
+}
+
 update_state() { # state-file jq-args... (applies a jq filter to the state file in place)
   local sf=$1 tmp
   shift
@@ -561,7 +657,9 @@ stop_sweep() {
   local repo num
   for repo in ${REPOS}; do
     for num in $(gh issue list --repo "${repo}" --label claude-stop --assignee "${ASSIGNEE}" --state open --limit 100 --json number \
-        --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null); do
+        --jq ".[].number" 2>/dev/null); do
+      # Stopped by the worker holding it, or by whoever claims it first if no worker holds it yet
+      claim_lease "${repo}" "${num}" || continue
       CUR_REF="${repo}#${num}"
       stop_issue "${repo}" "${num}"
     done
@@ -1695,7 +1793,7 @@ ${RULES}" "${SID}" "${PROGRESS_ID}"
 # An issue with sub-issues (in the same repo) isn't run itself. It stays claude-wip while the worker queues its
 # sub-issues one at a time, in GitHub's sub-issue order: it adds TRIGGER_LABEL to the first open one (and assigns
 # it to ASSIGNEE), waits for it to be closed (normally by its PR being merged), then queues the next. Each
-# sub-issue is an ordinary task for whichever worker owns its shard, and branches from a default branch that
+# sub-issue is an ordinary task for the next free worker, and branches from a default branch that
 # already has the earlier sub-issues' work. A sub-issue with sub-issues of its own becomes a sequence too.
 
 SUB_ACTIVE='["'"${TRIGGER_LABEL}"'", "claude-wip", "claude-question", "claude-pr", "claude-stop"]'
@@ -1841,12 +1939,15 @@ rotate_logs
 clean_tmp
 clean_docker
 set_status starting
-event worker_start "Worker ${ORDINAL}/${WORKER_COUNT} started (claude $(claude --version 2>/dev/null | head -n1)), watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
+event worker_start "Worker ${WORKER} started (claude $(claude --version 2>/dev/null | head -n1)), watching issues assigned to ${ASSIGNEE} in: ${REPOS}"
 
-# Recover from a restart mid-task: anything still claude-wip in this shard is no longer running.
+adopt_local_state
+
+# Recover from a restart mid-task: anything still claude-wip that this worker holds is no longer running.
 for repo in ${REPOS}; do
   for num in $(gh issue list --repo "${repo}" --label claude-wip --assignee "${ASSIGNEE}" --state open --limit 100 --json number \
-      --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null); do
+      --jq ".[].number" 2>/dev/null); do
+    owns_wip "${repo}" "${num}" || continue
     sf="${STATE_ROOT}/$(key_for "${repo}" "${num}").json"
     CUR_REF="${repo}#${num}"
     # A sub-issue sequence's parent stays claude-wip while it waits; it was never running
@@ -1873,6 +1974,7 @@ while (( ! stopping )); do
   rotate_logs
   clean_tmp
   clean_docker
+  release_idle_leases
   stop_sweep
   # Watched PRs and answered questions first, so in-flight work is finished before new issues are started
   for sf in "${STATE_ROOT}"/*.json; do
@@ -1884,14 +1986,15 @@ while (( ! stopping )); do
     esac
   done
   if (( ! did_work )); then
+    # Oldest queued issue first, skipping any another worker has just claimed
     for repo in ${REPOS}; do
-      num=$(gh issue list --repo "${repo}" --label "${TRIGGER_LABEL}" --assignee "${ASSIGNEE}" --state open --limit 100 --json number \
-        --jq ".[] | select(.number % ${WORKER_COUNT} == ${ORDINAL}) | .number" 2>/dev/null | tail -n1)
-      if [[ -n "${num}" ]]; then
+      for num in $(gh issue list --repo "${repo}" --label "${TRIGGER_LABEL}" --assignee "${ASSIGNEE}" --state open \
+          --search "sort:created-asc" --limit 100 --json number,createdAt --jq 'sort_by(.createdAt) | .[].number' 2>/dev/null); do
+        claim_issue "${repo}" "${num}" || continue
         start_task "${repo}" "${num}"
         did_work=1
-        break
-      fi
+        break 2
+      done
     done
   fi
   (( stopping )) && break
