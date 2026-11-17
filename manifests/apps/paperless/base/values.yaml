@@ -32,6 +32,18 @@ resources:
     memory: 1.5Gi
 service:
   port: 8000
+# Paperless 3.5.0+ only allows PAPERLESS_URL's host plus localhost; the kubelet
+# probe sends the pod IP as Host, so pin it to localhost to avoid a 400.
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+    httpHeaders:
+    - name: Host
+      value: localhost
+  initialDelaySeconds: 15
+  periodSeconds: 60
+  timeoutSeconds: 5
 envFrom:
 - configMapRef:
     name: env-vars
