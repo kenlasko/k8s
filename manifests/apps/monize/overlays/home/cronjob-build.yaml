@@ -23,8 +23,8 @@ spec:
   schedule: "0 0 1 1 *"
   suspend: true
   concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 3
-  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       backoffLimit: 0                 # a failed build is not retried
