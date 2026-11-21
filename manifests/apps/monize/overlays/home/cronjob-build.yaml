@@ -59,7 +59,7 @@ spec:
             - name: REPO_URL
               value: https://github.com/kenlasko/monize.git
             - name: BRANCH
-              value: feat/ui-styles-classic-modern
+              value: main
             - name: HOME
               value: /build-info
             securityContext:
