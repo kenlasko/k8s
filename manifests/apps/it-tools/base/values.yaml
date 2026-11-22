@@ -1,6 +1,6 @@
 image:
   repository: sharevb/it-tools
-  tag: 2026.10.25
+  tag: 2026.11.22
   registry: ghcr.io
 priorityClassName: low-priority
 hostUsers: false
