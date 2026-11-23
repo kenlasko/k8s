@@ -146,6 +146,12 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: workspace
+      # Workspaces are disposable, so keep them out of the Longhorn "default" group (backups and daily snapshots).
+      # recurring-job-source makes Longhorn sync these labels to the volume, replacing the default group.
+      labels:
+        recurring-job-source.longhorn.io: enabled
+        recurring-job.longhorn.io/filesystem-trim: enabled
+        recurring-job.longhorn.io/snapshot-cleanup: enabled
     spec:
       accessModes: ["ReadWriteOnce"]
       storageClassName: longhorn
