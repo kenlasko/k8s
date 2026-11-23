@@ -12,7 +12,7 @@ data:
   ASSIGNEE: "kenlasko"
   # Must match the StatefulSet replica count. Workers claim issues with Leases; this is only used to hand out
   # issues that were already in flight before that, by the old (issue number % WORKER_COUNT) split.
-  WORKER_COUNT: "3"
+  WORKER_COUNT: "4"
   POLL_INTERVAL: "120"
   # Seconds between edits of the progress comment while Claude is working
   PROGRESS_INTERVAL: "60"
