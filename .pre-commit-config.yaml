@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/GitGuardian/ggshield
-    rev: v1.56.1
+    rev: v1.57.0
     hooks:
       - id: ggshield
   - repo: local
