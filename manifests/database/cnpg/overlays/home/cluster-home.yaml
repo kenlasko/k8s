@@ -22,7 +22,7 @@ spec:
   # Smart shutdown waits for every client to disconnect, which connection pools never do,
   # so the default 180s meant 3 minutes of refused connections before failover could start.
   # After 10s CNPG falls back to a fast shutdown, which drops clients and lets a replica be promoted.
-  smartShutdownTimeout: 10
+  smartShutdownTimeout: 0
   resources:
     requests:
       cpu: 10m
