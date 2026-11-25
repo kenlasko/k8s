@@ -21,7 +21,7 @@ data:
   # Automatic fix rounds on a PR (CI failures, merge conflicts) before waiting for ASSIGNEE to reply
   MAX_FIX_ROUNDS: "5"
   # Max agent turns (one think-then-act step, e.g. a command or file edit) per Claude run
-  MAX_TURNS: "300"
+  MAX_TURNS: "600"
   TASK_TIMEOUT: "3h"
   # Times to resume a run that stopped without a STATUS line before treating it as finished
   MAX_CONTINUES: "2"
@@ -42,8 +42,8 @@ data:
   LOG_RETENTION_DAYS: "14"
   # Model and effort when an issue doesn't pick one with a model:/effort: label or a "Model:"/"Effort:" line.
   # Empty = Claude Code's default for the subscription. Model: opus, sonnet, haiku, fable or a full model ID.
-  DEFAULT_MODEL: ""
-  DEFAULT_EFFORT: ""
+  DEFAULT_MODEL: "opus"
+  DEFAULT_EFFORT: "high"
   # Code review by a fresh Claude session before the PR is opened, when an issue has neither a
   # claude-review label nor a "Review: yes/no" line
   DEFAULT_REVIEW: "false"
@@ -64,7 +64,7 @@ data:
   # emptyDir is 30Gi)
   DOCKER_IMAGE_PRUNE_GB: "20"
   # Most GitHub Discussions linked from an issue that are fetched into Claude's prompt
-  MAX_DISCUSSIONS: "5"
+  MAX_DISCUSSIONS: "7"
   # Most Dependabot/code scanning alerts and advisories fetched into Claude's prompt
   MAX_ALERTS: "20"
   DISABLE_AUTOUPDATER: "1"
