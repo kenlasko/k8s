@@ -10,7 +10,9 @@ env:
 envVarsFromSecrets:
 - pgadmin-config
 serverDefinitions:
-  enabled: true
+  # Servers live in the external config DB. Importing on startup duplicated them
+  # whenever the entrypoint's "config DB exists" check failed transiently.
+  enabled: false
   servers:
     HomeCluster: 
       Name: "Home"
