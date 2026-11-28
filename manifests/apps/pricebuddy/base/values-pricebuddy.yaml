@@ -1,6 +1,6 @@
 image:
   repository: jez500/pricebuddy
-  tag: v1.0.57
+  tag: v1.0.58
   registry: docker.io
 # Image runs as root: supervisord starts Apache (binds :80, drops to www-data),
 # cron and the queue worker. start-app.sh also chmods /app/storage.
